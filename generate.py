@@ -669,7 +669,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     # ── Bangkok news HTML ──
     bkk_html = ""
-    for item in bangkok_news[:3]:
+    for item in bangkok_news[:1]:
         bkk_html += f'<div class="thai-news-item"><a href="{item["url"]}" style="color:var(--text);text-decoration:none" target="_blank">{item["title"]}</a></div>'
 
     # ── ZeroHedge HTML ──
@@ -753,6 +753,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:14px;line-height:1.5}}
     .container{{max-width:720px;margin:0 auto}}
 
+    .header-brand{{text-align:center;padding-bottom:20px}}
+
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
     .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}}
     .dateline .gen{{font-size:.6rem;color:var(--mute);margin-top:3px}}
@@ -761,11 +763,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .card-title{{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}}
     .card-title::after{{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}}
 
-    .quote{{margin-bottom:14px;padding-left:14px;border-left:2px solid var(--gold-mid)}}
+    .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
-    .quote-type{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:3px;font-weight:600}}
-    .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
-    .quote-author{{font-size:.72rem;color:var(--dim);margin-top:3px}}
+    .quote-type{{font-size:.55rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
+    .quote-text{{font-family:var(--serif);font-size:.87rem;font-style:italic;color:var(--text);line-height:1.42}}
+    .quote-author{{font-size:.62rem;color:var(--dim);margin-top:2px}}
+    #quotes-card{{padding:14px 16px}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}}
     .weather-item{{text-align:center;padding:12px 6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
@@ -919,7 +922,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 <body>
 <div class="container">
 
-  <!-- DATE STRIP (branding moved to footer) -->
+  <!-- HEADER BRANDING -->
+  <div class="header-brand">
+    <div class="footer-logo">Novaire <span>Signal</span></div>
+    <div class="footer-tagline">Daily brief for focused allocators</div>
+  </div>
+
+  <!-- DATE / GENERATION LINE -->
   <div class="dateline">
     <div class="date">{date_str}</div>
     <div class="gen">Generated {gen_time} · Live data</div>
@@ -1009,6 +1018,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }}
 
+    // Enforce display order: zerohedge(1), TheEconomist(2), KobeissiLetter(3), engagement(4,5)
+    function sortBySlot(posts) {{
+      return [...posts].sort((a, b) => (a.slot_order || 99) - (b.slot_order || 99));
+    }}
+
     function renderFeed(posts) {{
       const container = document.getElementById('signal-feed');
       if (!posts.length) {{
@@ -1059,9 +1073,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           if (cached) {{
             const {{ ts, data }} = JSON.parse(cached);
             if (now - ts < CACHE_TTL && data.length > 0) {{
-              allPosts = data;
+              allPosts = sortBySlot(data);
               renderFilter();
-              renderFeed(activeFilter ? data.filter(p=>p.handle===activeFilter) : data);
+              renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);
               status.textContent = data.length + ' posts · cached ' + timeAgo(new Date(ts).toISOString());
               return;
             }}
@@ -1075,7 +1089,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const json = await resp.json();
         if (!json.ok) throw new Error(json.error || 'API error');
-        allPosts = json.posts;
+        allPosts = sortBySlot(json.posts);
         try {{ localStorage.setItem(CACHE_KEY, JSON.stringify({{ ts: now, data: allPosts }})); }} catch(e) {{}}
         renderFilter();
         renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);

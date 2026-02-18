@@ -33,8 +33,8 @@ except ImportError:
 # ── Account lists ─────────────────────────────────────────────────────────────
 
 GUARANTEED_ACCOUNTS = [
-    'TheEconomist',
     'zerohedge',
+    'TheEconomist',
     'KobeissiLetter',
 ]
 
@@ -206,14 +206,15 @@ def main():
     feed: list[dict] = []
     seen_ids: set[str] = set()
 
-    for username in GUARANTEED_ACCOUNTS:
+    for i, username in enumerate(GUARANTEED_ACCOUNTS):
         tweet = most_recent(all_data.get(username, []))
         if tweet and tweet['id'] not in seen_ids:
             tweet['slot'] = 'guaranteed'
+            tweet['slot_order'] = i + 1  # 1=zerohedge, 2=TheEconomist, 3=KobeissiLetter
             feed.append(tweet)
             seen_ids.add(tweet['id'])
             print(
-                f'  ✓ @{username}: '
+                f'  ✓ @{username} [slot {i+1}]: '
                 f'"{tweet["text"][:60].strip()}…" '
                 f'({tweet["createdAt"][:19]} UTC)'
             )
@@ -232,13 +233,14 @@ def main():
         print('  ⚠️  No tweets in last 4h — widening window to 8h')
         top2 = top_engagement(eng_lists, seen_ids, EIGHT_H_MS, n=2)
 
-    for t in top2:
+    for i, t in enumerate(top2):
         score = t['likes'] + t['retweets']
         t['slot'] = 'engagement'
+        t['slot_order'] = 4 + i  # 4, 5
         feed.append(t)
         seen_ids.add(t['id'])
         print(
-            f'  ✓ @{t["handle"]}: score={score} '
+            f'  ✓ @{t["handle"]} [slot {4+i}]: score={score} '
             f'(♥{t["likes"]} ↺{t["retweets"]}) — '
             f'"{t["text"][:50].strip()}…"'
         )
@@ -246,8 +248,8 @@ def main():
     if len(top2) < 2:
         print(f'  ⚠️  Only {len(top2)}/2 engagement slots filled')
 
-    # ── Sort final feed newest-first ──────────────────────────────────────────
-    feed.sort(key=lambda t: t['createdAtMs'], reverse=True)
+    # ── Sort final feed by slot_order (enforced display order) ───────────────
+    feed.sort(key=lambda t: t.get('slot_order', 99))
 
     n_g = sum(1 for t in feed if t.get('slot') == 'guaranteed')
     n_e = sum(1 for t in feed if t.get('slot') == 'engagement')

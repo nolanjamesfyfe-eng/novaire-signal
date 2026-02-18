@@ -30,6 +30,9 @@
     body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:14px;line-height:1.5}
     .container{max-width:720px;margin:0 auto}
 
+    /* HEADER BRANDING */
+    .header-brand{text-align:center;padding-bottom:20px}
+
     /* DATE STRIP */
     .dateline{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}
     .dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
@@ -40,12 +43,13 @@
     .card-title{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
     .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}
 
-    /* QUOTES */
-    .quote{margin-bottom:14px;padding-left:14px;border-left:2px solid var(--gold-mid)}
+    /* QUOTES — compact */
+    .quote{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}
     .quote:last-child{margin-bottom:0}
-    .quote-type{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:3px;font-weight:600}
-    .quote-text{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}
-    .quote-author{font-size:.72rem;color:var(--dim);margin-top:3px}
+    .quote-type{font-size:.55rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}
+    .quote-text{font-family:var(--serif);font-size:.87rem;font-style:italic;color:var(--text);line-height:1.42}
+    .quote-author{font-size:.62rem;color:var(--dim);margin-top:2px}
+    #quotes-card{padding:14px 16px}
 
     /* WEATHER */
     .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -225,7 +229,13 @@
 <body>
 <div class="container">
 
-  <!-- DATE STRIP (no big header) -->
+  <!-- HEADER BRANDING -->
+  <div class="header-brand">
+    <div class="footer-logo">Novaire <span>Signal</span></div>
+    <div class="footer-tagline">Daily brief for focused allocators</div>
+  </div>
+
+  <!-- DATE / GENERATION LINE -->
   <div class="dateline">
     <div class="date">Wednesday, February 18, 2026</div>
     <div class="gen">Generated 02:29 UTC · Live data</div>
@@ -275,8 +285,6 @@
     <div class="thai-news-compact">
       <div class="thai-news-header">🇹🇭 Thailand News</div>
       <div class="thai-news-item"><a href="https://www.bangkokpost.com/business/general/3199538/phuket-up-in-arms-on-longstay-visa" style="color:var(--text);text-decoration:none" target="_blank">Phuket up in arms on long-stay visa</a></div>
-      <div class="thai-news-item"><a href="https://www.bangkokpost.com/thailand/general/3199558/zoo-clarifies-welfare-of-moo-deng" style="color:var(--text);text-decoration:none" target="_blank">Zoo clarifies welfare of 'Moo Deng'</a></div>
-      <div class="thai-news-item"><a href="https://www.bangkokpost.com/" style="color:var(--text);text-decoration:none" target="_blank">Bangkok Post — latest headlines</a></div>
     </div>
   </div>
 
@@ -365,6 +373,11 @@
         .replace(/"/g,'&quot;');
     }
 
+    // Enforce display order: zerohedge(1), TheEconomist(2), KobeissiLetter(3), engagement(4,5)
+    function sortBySlot(posts) {
+      return [...posts].sort((a, b) => (a.slot_order || 99) - (b.slot_order || 99));
+    }
+
     function renderFeed(posts) {
       const container = document.getElementById('signal-feed');
       if (!posts.length) {
@@ -417,9 +430,9 @@
           if (cached) {
             const { ts, data } = JSON.parse(cached);
             if (now - ts < CACHE_TTL && data.length > 0) {
-              allPosts = data;
+              allPosts = sortBySlot(data);
               renderFilter();
-              renderFeed(activeFilter ? data.filter(p=>p.handle===activeFilter) : data);
+              renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);
               status.textContent = `${data.length} posts · cached ${timeAgo(new Date(ts).toISOString())}`;
               return;
             }
@@ -436,7 +449,7 @@
         const json = await resp.json();
         if (!json.ok) throw new Error(json.error || 'API error');
 
-        allPosts = json.posts;
+        allPosts = sortBySlot(json.posts);
 
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now, data: allPosts }));
