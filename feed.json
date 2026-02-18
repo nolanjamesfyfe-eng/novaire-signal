@@ -1,53 +1,12 @@
 {
   "ok": true,
-  "count": 4,
-  "fetchedAt": "2026-02-18T03:27:41.071932+00:00",
-  "errors": [
-    "SantialyAuFund",
-    "White_Rabbit_OG",
-    "colonelhomsi",
-    "HydroGraphInc"
-  ],
+  "count": 3,
+  "accountsWithPosts": 3,
+  "fetchedAt": "2026-02-18T14:35:56.058282+00:00",
+  "windowHours": 4,
+  "curation": "guaranteed3_engagement2",
+  "errors": [],
   "posts": [
-    {
-      "id": "2023960708925297010",
-      "text": "Could you survive 72 hours without outside food, water or electricity?",
-      "author": "The Economist",
-      "handle": "TheEconomist",
-      "createdAt": "2026-02-18T03:20:11+00:00",
-      "createdAtMs": 1771384811000,
-      "likes": 4,
-      "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2023960708925297010",
-      "avatar": "https://pbs.twimg.com/profile_images/1847280770743750656/0DkLNOPG_normal.jpg",
-      "slot": "guaranteed"
-    },
-    {
-      "id": "2023935693290889428",
-      "text": "JUST IN: YouTube down worldwide.",
-      "author": "Watcher.Guru",
-      "handle": "WatcherGuru",
-      "createdAt": "2026-02-18T01:40:46+00:00",
-      "createdAtMs": 1771378846000,
-      "likes": 9855,
-      "retweets": 1102,
-      "url": "https://x.com/WatcherGuru/status/2023935693290889428",
-      "avatar": "https://pbs.twimg.com/profile_images/1641221212578754562/DfiC0KW2_normal.png",
-      "slot": "engagement"
-    },
-    {
-      "id": "2023916351924949346",
-      "text": "Investors own more Magnificent 7 stocks than ever:\n\nHedge funds' total US net exposure to Magnificent 7 stocks is up to a record 22%.\n\nThis percentage has risen +10 points since April 2025.\n\nNet exposure has nearly TRIPLED since the 2022 bear market low.\n\nFurthermore, net",
-      "author": "The Kobeissi Letter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-02-18T00:23:55+00:00",
-      "createdAtMs": 1771374235000,
-      "likes": 440,
-      "retweets": 62,
-      "url": "https://x.com/KobeissiLetter/status/2023916351924949346",
-      "avatar": "https://pbs.twimg.com/profile_images/1975243710846640128/fwYCe67Y_normal.jpg",
-      "slot": "guaranteed"
-    },
     {
       "id": "1965547154615009699",
       "text": "Holy shit\n\nTRUMP SIGNS MEMO REQUIRING PHARMA ADS TO DISCLOSE ALL RISKS\n\nRIP Cable TV",
@@ -55,11 +14,40 @@
       "handle": "zerohedge",
       "createdAt": "2025-09-09T22:45:34+00:00",
       "createdAtMs": 1757457934000,
-      "likes": 44626,
-      "retweets": 4460,
+      "likes": 44613,
+      "retweets": 4467,
       "url": "https://x.com/zerohedge/status/1965547154615009699",
       "avatar": "https://pbs.twimg.com/profile_images/72647502/tyler_normal.jpg",
-      "slot": "guaranteed"
+      "slot": "guaranteed",
+      "slot_order": 1
+    },
+    {
+      "id": "2024126788331331879",
+      "text": "“Temptation is sidelined until you physically return to the Brick,” says the co-founder of the viral app-blocking device. In a digital world, this bricks-and-mortar approach has merits",
+      "author": "The Economist",
+      "handle": "TheEconomist",
+      "createdAt": "2026-02-18T14:20:07+00:00",
+      "createdAtMs": 1771424407000,
+      "likes": 3,
+      "retweets": 2,
+      "url": "https://x.com/TheEconomist/status/2024126788331331879",
+      "avatar": "https://pbs.twimg.com/profile_images/1847280770743750656/0DkLNOPG_normal.jpg",
+      "slot": "guaranteed",
+      "slot_order": 2
+    },
+    {
+      "id": "2024121041979597115",
+      "text": "Institutional investors have rarely ever been this bearish on the US Dollar:\n\nUS Dollar net exposure by global fund managers is down to -35 points, the lowest in at least 14 years.\n\nThis is below the April 2025 bottom when President Trump surprised markets with \"Liberation Day.\"",
+      "author": "The Kobeissi Letter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-02-18T13:57:17+00:00",
+      "createdAtMs": 1771423037000,
+      "likes": 380,
+      "retweets": 67,
+      "url": "https://x.com/KobeissiLetter/status/2024121041979597115",
+      "avatar": "https://pbs.twimg.com/profile_images/1975243710846640128/fwYCe67Y_normal.jpg",
+      "slot": "guaranteed",
+      "slot_order": 3
     }
   ]
 }
