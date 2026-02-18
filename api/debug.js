@@ -1,27 +1,24 @@
-// Debug endpoint - check if syndication API works from Vercel
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  
-  const username = req.query.u || 'WatcherGuru';
+// Debug endpoint (Edge Runtime)
+export const config = { runtime: 'edge' };
+
+export default async function handler(req) {
+  const { searchParams } = new URL(req.url);
+  const username = searchParams.get('u') || 'WatcherGuru';
   const url = `https://syndication.twitter.com/srv/timeline-profile/screen-name/${username}?lang=en`;
-  
+
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 8000);
-    
     const resp = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml',
+        'Accept-Language': 'en-US,en;q=0.9',
       },
-      signal: controller.signal,
     });
-    clearTimeout(timer);
-    
+
     const text = await resp.text();
     const hasNextData = text.includes('__NEXT_DATA__');
     const match = text.match(/<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/);
-    
+
     let entryCount = 0;
     let firstTweet = null;
     if (match) {
@@ -35,8 +32,8 @@ export default async function handler(req, res) {
         firstTweet = { error: e.message };
       }
     }
-    
-    return res.status(200).json({
+
+    return new Response(JSON.stringify({
       ok: resp.ok,
       status: resp.status,
       htmlLength: text.length,
@@ -44,13 +41,13 @@ export default async function handler(req, res) {
       hasMatch: !!match,
       entryCount,
       firstTweet,
-      htmlStart: text.substring(0, 300),
+      htmlStart: text.substring(0, 200),
+    }, null, 2), {
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
   } catch (err) {
-    return res.status(200).json({
-      ok: false,
-      error: err.message,
-      errorType: err.name,
+    return new Response(JSON.stringify({ ok: false, error: err.message, errorType: err.name }, null, 2), {
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }
