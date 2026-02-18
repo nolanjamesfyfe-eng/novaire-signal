@@ -1,13 +1,11 @@
 {
   "ok": true,
-  "count": 4,
-  "accountsWithPosts": 4,
-  "fetchedAt": "2026-02-18T10:28:27.778447+00:00",
+  "count": 3,
+  "accountsWithPosts": 3,
+  "fetchedAt": "2026-02-18T14:35:56.058282+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement2",
-  "errors": [
-    "HydroGraphInc"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "1965547154615009699",
@@ -16,54 +14,40 @@
       "handle": "zerohedge",
       "createdAt": "2025-09-09T22:45:34+00:00",
       "createdAtMs": 1757457934000,
-      "likes": 44619,
-      "retweets": 4462,
+      "likes": 44613,
+      "retweets": 4467,
       "url": "https://x.com/zerohedge/status/1965547154615009699",
       "avatar": "https://pbs.twimg.com/profile_images/72647502/tyler_normal.jpg",
       "slot": "guaranteed",
       "slot_order": 1
     },
     {
-      "id": "2024066392778019090",
-      "text": "The bias in favour of boys is shrinking in developing countries even as a preference for girls emerges in the rich world",
+      "id": "2024126788331331879",
+      "text": "“Temptation is sidelined until you physically return to the Brick,” says the co-founder of the viral app-blocking device. In a digital world, this bricks-and-mortar approach has merits",
       "author": "The Economist",
       "handle": "TheEconomist",
-      "createdAt": "2026-02-18T10:20:08+00:00",
-      "createdAtMs": 1771410008000,
-      "likes": 4,
-      "retweets": 1,
-      "url": "https://x.com/TheEconomist/status/2024066392778019090",
+      "createdAt": "2026-02-18T14:20:07+00:00",
+      "createdAtMs": 1771424407000,
+      "likes": 3,
+      "retweets": 2,
+      "url": "https://x.com/TheEconomist/status/2024126788331331879",
       "avatar": "https://pbs.twimg.com/profile_images/1847280770743750656/0DkLNOPG_normal.jpg",
       "slot": "guaranteed",
       "slot_order": 2
     },
     {
-      "id": "2024019356586270775",
-      "text": "BREAKING: The President of the European Central Bank, Christine Lagarde, is expected to resign before the end of her 8-year term, per FT.",
+      "id": "2024121041979597115",
+      "text": "Institutional investors have rarely ever been this bearish on the US Dollar:\n\nUS Dollar net exposure by global fund managers is down to -35 points, the lowest in at least 14 years.\n\nThis is below the April 2025 bottom when President Trump surprised markets with \"Liberation Day.\"",
       "author": "The Kobeissi Letter",
       "handle": "KobeissiLetter",
-      "createdAt": "2026-02-18T07:13:13+00:00",
-      "createdAtMs": 1771398793000,
-      "likes": 2640,
-      "retweets": 466,
-      "url": "https://x.com/KobeissiLetter/status/2024019356586270775",
+      "createdAt": "2026-02-18T13:57:17+00:00",
+      "createdAtMs": 1771423037000,
+      "likes": 380,
+      "retweets": 67,
+      "url": "https://x.com/KobeissiLetter/status/2024121041979597115",
       "avatar": "https://pbs.twimg.com/profile_images/1975243710846640128/fwYCe67Y_normal.jpg",
       "slot": "guaranteed",
       "slot_order": 3
-    },
-    {
-      "id": "2024008185321820373",
-      "text": "JUST IN: Billionaire Peter Thiel fully exits Ethereum treasury firm ETHZilla, sells entire stake.",
-      "author": "Watcher.Guru",
-      "handle": "WatcherGuru",
-      "createdAt": "2026-02-18T06:28:50+00:00",
-      "createdAtMs": 1771396130000,
-      "likes": 4260,
-      "retweets": 484,
-      "url": "https://x.com/WatcherGuru/status/2024008185321820373",
-      "avatar": "https://pbs.twimg.com/profile_images/1641221212578754562/DfiC0KW2_normal.png",
-      "slot": "engagement",
-      "slot_order": 4
     }
   ]
 }
