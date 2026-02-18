@@ -4,221 +4,211 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Novaire Signal — Daily Brief</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #09090b;
-      --text: #e0dde8;
-      --dim: #807d8e;
-      --faint: #1e1c24;
-      --gold: #d4a843;
-      --gold-soft: rgba(212,168,67,.12);
-      --blue: #6b8fd4;
-      --blue-soft: rgba(107,143,212,.12);
-      --violet: #a07ed6;
+      --bg: #0a0a0c;
+      --surface: #111114;
+      --border: #1d1d22;
+      --text: #d8d5e0;
+      --dim: #6a677a;
+      --mute: #3a3840;
+      --gold: #c9a84c;
+      --gold-dim: rgba(201,168,76,.1);
+      --gold-mid: rgba(201,168,76,.2);
+      --blue: #5a7bc4;
+      --blue-dim: rgba(90,123,196,.1);
+      --violet: #9470c8;
       --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Instrument Sans', -apple-system, sans-serif;
-      --positive: #4caf80;
-      --negative: #e05c5c;
+      --sans: 'Inter', -apple-system, sans-serif;
+      --green: #3d9e6a;
+      --red: #cc4f4f;
+      --r: 2px;
     }
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:40px 20px}
-    .container{max-width:760px;margin:0 auto}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:14px;line-height:1.5}
+    .container{max-width:720px;margin:0 auto}
 
-    /* HEADER */
-    .header{text-align:center;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--faint)}
-    .header h1{
-      font-family:var(--serif);font-weight:300;font-size:clamp(2rem,6vw,3.2rem);
-      letter-spacing:.04em;color:var(--text);margin-bottom:10px
-    }
-    .header h1 span{color:var(--gold);font-style:italic}
-    .header .date{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-    .header .gen{font-size:.65rem;color:#3a3840;margin-top:4px}
+    /* DATE STRIP */
+    .dateline{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}
+    .dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+    .dateline .gen{font-size:.6rem;color:var(--mute);margin-top:3px}
 
     /* CARDS */
-    .card{
-      background:rgba(255,255,255,.02);border:1px solid var(--faint);
-      padding:24px;margin-bottom:20px;
-    }
-    .card-title{
-      font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-      color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px
-    }
-    .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
+    .card-title{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}
 
     /* QUOTES */
-    .quote{margin-bottom:16px;padding-left:16px;border-left:2px solid var(--gold-soft)}
+    .quote{margin-bottom:14px;padding-left:14px;border-left:2px solid var(--gold-mid)}
     .quote:last-child{margin-bottom:0}
-    .quote-type{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:4px;font-weight:600}
-    .quote-text{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--text);line-height:1.6}
-    .quote-author{font-size:.78rem;color:var(--dim);margin-top:4px}
+    .quote-type{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:3px;font-weight:600}
+    .quote-text{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}
+    .quote-author{font-size:.72rem;color:var(--dim);margin-top:3px}
 
     /* WEATHER */
-    .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .weather-item{text-align:center;padding:14px 8px;background:rgba(255,255,255,.02);border:1px solid var(--faint)}
-    .weather-item .city{font-size:.72rem;color:var(--dim);margin-bottom:6px;letter-spacing:.06em}
-    .weather-item .temp{font-size:1.3rem;font-weight:500;color:var(--gold);font-family:var(--serif)}
-    .weather-item .condition{font-size:.68rem;color:var(--dim);margin-top:4px;line-height:1.4}
+    .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .weather-item{text-align:center;padding:12px 6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}
+    .weather-item .city{font-size:.65rem;color:var(--dim);margin-bottom:5px;letter-spacing:.04em}
+    .weather-item .temp{font-size:1.25rem;font-weight:500;color:var(--gold);font-family:var(--serif)}
+    .weather-item .condition{font-size:.62rem;color:var(--dim);margin-top:3px;line-height:1.3}
 
     /* NEWS */
-    .thai-news-compact{margin-top:16px;padding:14px;background:rgba(212,168,67,.04);border:1px solid rgba(212,168,67,.12)}
-    .thai-news-header{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px;font-weight:600}
-    .thai-news-item{font-size:.88rem;color:var(--text);padding:6px 0;border-bottom:1px solid var(--faint);line-height:1.5}
+    .thai-news-compact{margin-top:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}
+    .thai-news-header{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:8px;font-weight:600}
+    .thai-news-item{font-size:.82rem;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.45}
     .thai-news-item:last-child{border-bottom:none}
 
-    /* STAR SIGN */
-    .star-sign{text-align:center;padding:8px}
-    .star-sign-symbol{font-size:2.5rem;margin-bottom:8px}
-    .star-sign-main{font-family:var(--serif);font-size:1.5rem;color:var(--gold);margin-bottom:8px}
-    .star-sign-range{font-size:.75rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
-    .star-sign-desc{font-size:.9rem;color:var(--dim);line-height:1.6;max-width:520px;margin:0 auto}
+    /* STAR SIGN — compact */
+    .star-sign{display:flex;align-items:center;gap:16px;padding:4px 0}
+    .star-sign-left{text-align:center;flex-shrink:0;width:60px}
+    .star-sign-symbol{font-size:1.6rem;line-height:1}
+    .star-sign-main{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-top:3px}
+    .star-sign-range{font-size:.58rem;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+    .star-sign-desc{font-size:.78rem;color:var(--dim);line-height:1.5;flex:1}
 
     /* HEADLINES */
-    .headline{padding:10px 0;border-bottom:1px solid var(--faint)}
+    .headline{padding:8px 0;border-bottom:1px solid var(--border)}
     .headline:last-child{border-bottom:none}
-    .headline-num{
-      display:inline-block;width:22px;height:22px;background:var(--gold-soft);
-      color:var(--gold);border-radius:2px;text-align:center;line-height:22px;
-      font-size:.72rem;font-weight:600;margin-right:10px
-    }
-    .headline-text{font-size:.92rem;color:var(--text)}
+    .headline-num{display:inline-block;width:18px;height:18px;background:var(--gold-dim);color:var(--gold);border-radius:2px;text-align:center;line-height:18px;font-size:.62rem;font-weight:600;margin-right:8px;flex-shrink:0}
+    .headline-text{font-size:.86rem;color:var(--text)}
 
-    /* PORTFOLIO TABLE */
-    .portfolio-table{width:100%;border-collapse:collapse;font-size:.82rem}
-    .portfolio-table th{
-      text-align:left;padding:8px 6px;font-size:.62rem;font-weight:600;
-      color:var(--dim);text-transform:uppercase;letter-spacing:.1em;
-      border-bottom:1px solid var(--faint)
-    }
-    .portfolio-table td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.03)}
-    .portfolio-table tr:hover{background:rgba(255,255,255,.02)}
-    .ticker{font-weight:600;color:var(--gold);font-size:.88rem}
-    .positive{color:var(--positive)}
-    .negative{color:var(--negative)}
+    /* PORTFOLIO */
+    .portfolio-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+    .psum-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}
+    .psum-label{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+    .psum-value{font-family:var(--serif);font-size:1.35rem;font-weight:400}
 
-    .totals-row{display:flex;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--faint)}
+    .expand-btn{width:100%;background:none;border:1px solid var(--border);color:var(--dim);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:8px;cursor:pointer;border-radius:var(--r);transition:all .15s;font-family:var(--sans);margin-bottom:12px}
+    .expand-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .expand-btn .arrow{display:inline-block;transition:transform .2s}
+    .expand-btn.open .arrow{transform:rotate(180deg)}
+
+    .holdings-table-wrap{display:none}
+    .holdings-table-wrap.open{display:block}
+    .portfolio-table{width:100%;border-collapse:collapse;font-size:.78rem}
+    .portfolio-table th{text-align:left;padding:7px 5px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}
+    .portfolio-table td{padding:7px 5px;border-bottom:1px solid rgba(255,255,255,.025)}
+    .portfolio-table tr:hover{background:rgba(255,255,255,.015)}
+    .ticker{font-weight:600;color:var(--gold);font-size:.82rem}
+    .positive{color:var(--green)}
+    .negative{color:var(--red)}
+    .fallback-badge{font-size:.55rem;color:var(--mute);vertical-align:middle;margin-left:3px}
+
+    .totals-row{display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
     .total-item{text-align:center}
-    .total-label{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
-    .total-value{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-top:4px}
-    .total-value.cad{color:var(--positive)}
+    .total-label{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+    .total-value{font-family:var(--serif);font-size:1.4rem;font-weight:400;margin-top:3px}
+    .total-value.cad{color:var(--green)}
     .total-value.usd{color:var(--gold)}
 
-    .allocation-section{display:flex;align-items:center;gap:28px;margin-top:24px;padding-top:20px;border-top:1px solid var(--faint)}
+    .allocation-section{display:flex;align-items:center;gap:24px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
     .pie-chart{flex-shrink:0}
-    .allocation-legend{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-    .legend-item{display:flex;align-items:center;gap:8px;font-size:.78rem}
-    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .allocation-legend{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+    .legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem}
+    .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
     .legend-pct{color:var(--dim);margin-left:auto}
 
     /* CATALYSTS */
-    .catalyst-item{padding:12px 0;border-bottom:1px solid var(--faint)}
+    .catalyst-item{padding:10px 0;border-bottom:1px solid var(--border)}
     .catalyst-item:last-child{border-bottom:none}
-    .catalyst-ticker{font-weight:600;color:var(--gold);font-size:.9rem}
-    .catalyst-badge{display:inline-block;background:var(--gold-soft);color:var(--gold);font-size:.65rem;padding:2px 8px;border-radius:2px;margin-left:8px}
-    .no-news{color:var(--dim);font-style:italic;font-size:.82rem;margin-left:8px}
+    .catalyst-ticker{font-weight:600;color:var(--gold);font-size:.85rem}
+    .catalyst-badge{display:inline-block;background:var(--gold-dim);color:var(--gold);font-size:.6rem;padding:2px 7px;border-radius:2px;margin-left:6px}
+    .catalyst-badge.stale{background:rgba(106,103,122,.1);color:var(--dim)}
+    .catalyst-headline{font-size:.8rem;color:var(--text);margin-top:5px;line-height:1.45}
+    .catalyst-source{font-size:.65rem;color:var(--dim);margin-top:2px}
+    .no-news{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}
 
     /* COMMODITIES */
-    .commodities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .commodity-item{background:rgba(255,255,255,.02);padding:14px;border:1px solid var(--faint);text-align:center}
-    .commodity-name{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;font-weight:600}
-    .commodity-price{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:2px}
-    .commodity-unit{font-size:.65rem;color:var(--dim)}
-    .commodity-change{font-size:.78rem;margin-top:4px}
-    .gold{color:#d4a843}.silver{color:#c0c0c0}.copper{color:#b87333}
-    .oil{color:#8b7355}.palladium{color:#cec8c6}.uranium{color:#7fff00}
+    .commodities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .commodity-item{background:var(--bg);padding:12px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
+    .commodity-name{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-weight:600}
+    .commodity-price{font-family:var(--serif);font-size:1.2rem;font-weight:400;margin-bottom:2px}
+    .commodity-unit{font-size:.6rem;color:var(--dim)}
+    .commodity-change{font-size:.72rem;margin-top:3px}
+    .c-gold{color:#c9a84c}.c-silver{color:#b8b8b8}.c-copper{color:#b87333}
+    .c-oil{color:#8b7355}.c-palladium{color:#ccc}.c-uranium{color:#7fc87f}
 
-    /* CRYPTO */
-    .crypto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .crypto-item{background:rgba(255,255,255,.02);padding:14px;border:1px solid var(--faint);text-align:center}
-    .crypto-symbol{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
-    .crypto-price{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:2px}
-    .crypto-change{font-size:.78rem;margin-top:4px}
+    /* CRYPTO — 30% smaller */
+    .crypto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .crypto-item{background:var(--bg);padding:10px 8px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
+    .crypto-symbol{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+    .crypto-price{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:2px}
+    .crypto-change{font-size:.68rem;margin-top:2px}
 
     /* FX / SALARY */
-    .btc-highlight{
-      background:linear-gradient(135deg,rgba(212,168,67,.08),rgba(212,168,67,.02));
-      border:1px solid rgba(212,168,67,.2);padding:18px;text-align:center;margin-bottom:16px
-    }
-    .btc-highlight .label{font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-    .btc-row{display:flex;align-items:baseline;justify-content:center;gap:12px}
-    .btc-row .usd{font-family:var(--serif);font-size:1.4rem;color:var(--text)}
-    .btc-row .eq{color:var(--dim)}
-    .btc-row .btc{font-family:var(--serif);font-size:1.4rem;color:var(--gold)}
-    .btc-row .rate{font-size:.75rem;color:var(--dim);margin-left:4px}
-    .fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .fx-item{background:rgba(255,255,255,.02);padding:14px;border:1px solid var(--faint);text-align:center}
-    .fx-label{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
-    .fx-value{font-family:var(--serif);font-size:1.3rem;color:var(--text);margin-top:4px}
-    .fx-sub{font-size:.72rem;color:var(--dim);margin-top:2px}
-    .countdown-item{border-color:rgba(107,143,212,.3);background:rgba(107,143,212,.04)}
+    .fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .fx-item{background:var(--bg);padding:12px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
+    .fx-label{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+    .fx-value{font-family:var(--serif);font-size:1.2rem;color:var(--text);margin-top:3px}
+    .fx-sub{font-size:.66rem;color:var(--dim);margin-top:2px}
+    .countdown-item{border-color:rgba(90,123,196,.25);background:rgba(90,123,196,.04)}
     .countdown-item .fx-value{color:var(--blue)}
 
     /* RADAR */
-    .radar-category{
-      font-size:.65rem;font-weight:600;color:var(--gold);text-transform:uppercase;
-      letter-spacing:.18em;margin:18px 0 10px;padding-bottom:6px;
-      border-bottom:1px solid var(--gold-soft)
-    }
+    .radar-category{font-size:.58rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.2em;margin:16px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--gold-mid)}
     .radar-category:first-child{margin-top:0}
-    .radar-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--faint)}
+    .radar-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
     .radar-item:last-child{border-bottom:none}
-    .radar-icon{font-size:.9rem;width:24px;text-align:center;padding-top:2px}
+    .radar-icon{font-size:.85rem;width:22px;text-align:center;padding-top:1px}
     .radar-content{flex:1}
-    .radar-name{font-size:.9rem;font-weight:600;color:var(--text)}
-    .radar-ticker{font-size:.75rem;color:var(--gold);margin-left:6px}
-    .radar-mcap{font-size:.72rem;color:var(--positive);margin-left:6px}
-    .radar-desc{font-size:.82rem;color:var(--dim);margin-top:4px;line-height:1.5}
-    .radar-thesis{font-size:.78rem;color:var(--blue);margin-top:4px;font-style:italic}
+    .radar-name{font-size:.85rem;font-weight:600;color:var(--text)}
+    .radar-ticker{font-size:.7rem;color:var(--gold);margin-left:5px}
+    .radar-mcap{font-size:.66rem;color:var(--green);margin-left:5px}
+    .radar-desc{font-size:.76rem;color:var(--dim);margin-top:3px;line-height:1.45}
+    .radar-thesis{font-size:.72rem;color:var(--blue);margin-top:3px;font-style:italic}
+    .freshness-badge{display:inline-block;font-size:.55rem;padding:2px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;font-weight:600;letter-spacing:.06em}
+    .fresh{background:rgba(61,158,106,.12);color:#3d9e6a;border:1px solid rgba(61,158,106,.2)}
+    .stale{background:rgba(106,103,122,.1);color:var(--dim);border:1px solid var(--border)}
 
     /* RECOMMENDATIONS */
-    .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .rec-item{background:rgba(255,255,255,.02);padding:18px;border:1px solid var(--faint)}
-    .rec-label{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px;font-weight:600}
-    .rec-title{font-family:var(--serif);font-size:1.1rem;color:var(--text);margin-bottom:4px}
-    .rec-meta{font-size:.72rem;color:var(--blue);margin-bottom:6px}
-    .rec-summary{font-size:.82rem;color:var(--dim);line-height:1.5}
+    .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .rec-item{background:var(--bg);padding:16px;border:1px solid var(--border);border-radius:var(--r)}
+    .rec-label{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:7px;font-weight:600}
+    .rec-title{font-family:var(--serif);font-size:1.05rem;color:var(--text);margin-bottom:3px}
+    .rec-meta{font-size:.68rem;color:var(--blue);margin-bottom:5px}
+    .rec-summary{font-size:.76rem;color:var(--dim);line-height:1.45}
 
     /* THAI WORD */
-    .thai-word-box{
-      display:flex;align-items:center;justify-content:center;gap:16px;
-      padding:14px;background:rgba(212,168,67,.04);border:1px solid rgba(212,168,67,.12)
-    }
-    .thai-word-box .word{font-family:var(--serif);font-size:1.15rem;color:var(--gold)}
-    .thai-word-box .dot{color:var(--faint)}
-    .thai-word-box .meaning{font-size:.85rem;color:var(--dim)}
+    .thai-word-box{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}
+    .thai-word-box .word{font-family:var(--serif);font-size:1.1rem;color:var(--gold)}
+    .thai-word-box .dot{color:var(--mute)}
+    .thai-word-box .meaning{font-size:.78rem;color:var(--dim)}
 
     /* SIGNAL FEED */
-    .feed-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-    .feed-refresh{font-size:.65rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:none;padding:4px 8px;border:1px solid var(--faint);color:var(--dim)}
+    .feed-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .feed-refresh{font-size:.6rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:4px 8px;border-radius:var(--r);font-family:var(--sans)}
     .feed-refresh:hover{border-color:var(--gold);color:var(--gold)}
-    .feed-status{font-size:.65rem;color:var(--dim);font-style:italic}
-    .feed-item{padding:14px 0;border-bottom:1px solid var(--faint)}
+    .feed-status{font-size:.62rem;color:var(--dim);font-style:italic}
+    .feed-item{padding:12px 0;border-bottom:1px solid var(--border)}
     .feed-item:last-child{border-bottom:none}
-    .feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-    .feed-author{display:flex;align-items:center;gap:8px}
-    .feed-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--faint)}
-    .feed-name{font-size:.82rem;font-weight:600;color:var(--text)}
-    .feed-handle{font-size:.72rem;color:var(--dim)}
-    .feed-time{font-size:.68rem;color:var(--dim)}
-    .feed-text{font-size:.88rem;color:var(--text);line-height:1.55;word-break:break-word}
-    .feed-stats{display:flex;gap:14px;margin-top:8px}
-    .feed-stat{font-size:.68rem;color:var(--dim)}
+    .feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+    .feed-author{display:flex;align-items:center;gap:7px}
+    .feed-avatar{width:26px;height:26px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--border)}
+    .feed-name{font-size:.78rem;font-weight:600;color:var(--text)}
+    .feed-handle{font-size:.68rem;color:var(--dim)}
+    .feed-time{font-size:.64rem;color:var(--dim)}
+    .feed-text{font-size:.84rem;color:var(--text);line-height:1.5;word-break:break-word}
+    .feed-stats{display:flex;gap:12px;margin-top:6px}
+    .feed-stat{font-size:.64rem;color:var(--dim)}
     .feed-stat span{color:var(--gold)}
-    .feed-link{display:inline-block;margin-top:6px;font-size:.68rem;color:var(--gold);text-decoration:none;opacity:.7}
+    .feed-link{display:inline-block;margin-top:5px;font-size:.64rem;color:var(--gold);text-decoration:none;opacity:.6}
     .feed-link:hover{opacity:1}
-    .feed-empty{text-align:center;padding:24px;color:var(--dim);font-size:.85rem}
-    .feed-loading{text-align:center;padding:24px;color:var(--dim);font-size:.85rem}
+    .feed-empty{text-align:center;padding:20px;color:var(--dim);font-size:.82rem}
+    .feed-loading{text-align:center;padding:20px;color:var(--dim);font-size:.82rem}
     .feed-loading::after{content:'...';animation:dots 1.2s steps(3,end) infinite}
     @keyframes dots{0%,100%{content:'.'}33%{content:'..'}66%{content:'...'}}
-    .feed-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-    .feed-tag{font-size:.62rem;padding:3px 8px;border:1px solid var(--faint);color:var(--dim);cursor:pointer;background:none;letter-spacing:.06em}
-    .feed-tag.active,.feed-tag:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
+    .feed-filter{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+    .feed-tag{font-size:.6rem;padding:3px 7px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.06em;border-radius:var(--r);font-family:var(--sans)}
+    .feed-tag.active,.feed-tag:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 
-    /* FOOTER */
-    .footer{text-align:center;padding:32px 0;border-top:1px solid var(--faint);margin-top:32px}
-    .footer span{font-size:.68rem;color:var(--faint);letter-spacing:.06em}
-    .footer .logo{font-family:var(--serif);font-size:1rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px}
+    /* FOOTER / BRANDING */
+    .footer{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}
+    .footer-logo{font-family:var(--serif);font-size:1.8rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}
+    .footer-logo span{color:var(--gold);font-style:italic}
+    .footer-tagline{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}
+    .footer-sub{font-size:.58rem;color:var(--mute);margin-top:6px}
 
     /* RESPONSIVE */
     @media(max-width:600px){
@@ -228,36 +218,31 @@
       .fx-grid{grid-template-columns:repeat(2,1fr)}
       .allocation-section{flex-direction:column}
       .rec-grid{grid-template-columns:1fr}
+      .portfolio-summary{grid-template-columns:repeat(3,1fr)}
     }
   </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>Novaire <span>Signal</span></h1>
+  <!-- DATE STRIP (no big header) -->
+  <div class="dateline">
     <div class="date">Wednesday, February 18, 2026</div>
     <div class="gen">Generated 02:29 UTC · Live data</div>
   </div>
 
-  <!-- QUOTES -->
-  <div class="card">
+  <!-- QUOTES (2 per day: investing + psychology, client-side dedup) -->
+  <div class="card" id="quotes-card">
     <div class="card-title">📜 Quotes</div>
-    <div class="quote">
+    <div id="quote-investing" class="quote">
       <div class="quote-type">Investing</div>
-      <div class="quote-text">"In the short run, the market is a voting machine. In the long run, it is a weighing machine."</div>
-      <div class="quote-author">— Benjamin Graham</div>
+      <div class="quote-text" id="qt-inv-text"></div>
+      <div class="quote-author" id="qt-inv-auth"></div>
     </div>
-    <div class="quote">
-      <div class="quote-type">Philosophy</div>
-      <div class="quote-text">"Waste no more time arguing about what a good man should be. Be one."</div>
-      <div class="quote-author">— Marcus Aurelius</div>
-    </div>
-    <div class="quote">
+    <div id="quote-psychology" class="quote">
       <div class="quote-type">Psychology</div>
-      <div class="quote-text">"What we resist persists."</div>
-      <div class="quote-author">— Carl Jung</div>
+      <div class="quote-text" id="qt-psy-text"></div>
+      <div class="quote-author" id="qt-psy-auth"></div>
     </div>
   </div>
 
@@ -289,17 +274,21 @@
     </div>
     <div class="thai-news-compact">
       <div class="thai-news-header">🇹🇭 Thailand News</div>
-      <div class="thai-news-item"><a href="https://www.bangkokpost.com/" style="color:var(--text);text-decoration:none" target="_blank">Bangkok Post - The world’s window on Thailand</a></div><div class="thai-news-item"><a href="https://www.bangkokpost.com/business/general/3199538/phuket-up-in-arms-on-longstay-visa" style="color:var(--text);text-decoration:none" target="_blank">Phuket up in arms on long‑stay visa</a></div><div class="thai-news-item"><a href="https://www.bangkokpost.com/thailand/general/3199558/zoo-clarifies-welfare-of-moo-deng" style="color:var(--text);text-decoration:none" target="_blank">Zoo clarifies welfare of 'Moo Deng'</a></div>
+      <div class="thai-news-item"><a href="https://www.bangkokpost.com/business/general/3199538/phuket-up-in-arms-on-longstay-visa" style="color:var(--text);text-decoration:none" target="_blank">Phuket up in arms on long-stay visa</a></div>
+      <div class="thai-news-item"><a href="https://www.bangkokpost.com/thailand/general/3199558/zoo-clarifies-welfare-of-moo-deng" style="color:var(--text);text-decoration:none" target="_blank">Zoo clarifies welfare of 'Moo Deng'</a></div>
+      <div class="thai-news-item"><a href="https://www.bangkokpost.com/" style="color:var(--text);text-decoration:none" target="_blank">Bangkok Post — latest headlines</a></div>
     </div>
   </div>
 
-  <!-- STAR SIGN -->
+  <!-- STAR SIGN — compact (~50% size) -->
   <div class="card">
     <div class="star-sign">
-      <div class="star-sign-symbol">♒</div>
-      <div class="star-sign-main">Aquarius</div>
-      <div class="star-sign-range">Jan 20 – Feb 18</div>
-      <div class="star-sign-desc">Innovative, independent, and humanitarian — forward-thinking visionaries who value freedom.</div>
+      <div class="star-sign-left">
+        <div class="star-sign-symbol">♒</div>
+        <div class="star-sign-main">Aquarius</div>
+        <div class="star-sign-range">Jan 20 – Feb 18</div>
+      </div>
+      <div class="star-sign-desc">Innovative, independent, and humanitarian — forward-thinking visionaries who value freedom. A day to trust intuition and act on unconventional ideas.</div>
     </div>
   </div>
 
@@ -309,7 +298,7 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/news/2026-02-17/silver-crash-shanghai-shock-triple-digit-target-david-morgan" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Silver Crash, Shanghai Shock & Triple Digit Target</a>
+          <a href="https://www.zerohedge.com/news/2026-02-17/silver-crash-shanghai-shock-triple-digit-target-david-morgan" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Silver Crash, Shanghai Shock &amp; Triple Digit Target</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
@@ -321,7 +310,7 @@
         </div>
         <div class="headline">
           <span class="headline-num">4</span>
-          <a href="https://www.zerohedge.com/markets/jpmorgan-desk-says-ai-selling-almost-over-goes-long-basket-most-mispriced-and-insulated-ai" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">JPMorgan Desk Says AI Selling Almost Over, Goes Long Basket Of "Most Mispriced And Insulated From AI Disruption" Stocks</a>
+          <a href="https://www.zerohedge.com/markets/jpmorgan-desk-says-ai-selling-almost-over-goes-long-basket-most-mispriced-and-insulated-ai" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">JPMorgan Desk: AI Selling Almost Over — Goes Long Basket Of Most Mispriced Stocks</a>
         </div>
   </div>
 
@@ -351,7 +340,7 @@
     let activeFilter = null;
     let lastFetch = 0;
     const CACHE_KEY = 'novaire_feed_v2';
-    const CACHE_TTL = 15 * 60 * 1000; // 15 min
+    const CACHE_TTL = 15 * 60 * 1000;
 
     function timeAgo(iso) {
       const d = new Date(iso);
@@ -422,7 +411,6 @@
       const status = document.getElementById('feed-status');
       const now = Date.now();
 
-      // Try cache first
       if (!force) {
         try {
           const cached = localStorage.getItem(CACHE_KEY);
@@ -439,13 +427,10 @@
         } catch(e) {}
       }
 
-      // Fetch fresh
       status.textContent = 'Fetching signals…';
       document.getElementById('signal-feed').innerHTML = '<div class="feed-loading">Fetching signals</div>';
 
       try {
-        // Try static feed.json first (updated by GitHub Actions every 2h),
-        // fall back to live API if available
         const resp = await fetch('/feed.json');
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const json = await resp.json();
@@ -453,7 +438,6 @@
 
         allPosts = json.posts;
 
-        // Cache it
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now, data: allPosts }));
         } catch(e) {}
@@ -471,7 +455,6 @@
       }
     }
 
-    // Load on page ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => loadFeed(false));
     } else {
@@ -480,235 +463,271 @@
   })();
   </script>
 
-  <!-- PORTFOLIO -->
+  <!-- PORTFOLIO (collapsed by default) -->
   <div class="card">
     <div class="card-title">📦 Portfolio</div>
-    <table class="portfolio-table">
-      <thead>
-        <tr>
-          <th>Ticker</th><th>Name</th>
-          <th style="text-align:right">Shares</th>
-          <th style="text-align:right">Price</th>
-          <th style="text-align:right">24h</th>
-          <th style="text-align:right">Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="ticker">HG</td>
-          <td style="color:var(--dim);font-size:.85em">Hydrograph</td>
-          <td style="text-align:right">10,000</td>
-          <td style="text-align:right">$3.64</td>
-          <td style="text-align:right"><span class="positive">+6.43%</span></td>
-          <td style="text-align:right;font-weight:600">$36,400</td>
-        </tr>
-        <tr>
-          <td class="ticker">GLO</td>
-          <td style="color:var(--dim);font-size:.85em">Global Atomic</td>
-          <td style="text-align:right">23,000</td>
-          <td style="text-align:right">$0.69</td>
-          <td style="text-align:right"><span class="positive">+2.99%</span></td>
-          <td style="text-align:right;font-weight:600">$15,870</td>
-        </tr>
-        <tr>
-          <td class="ticker">DML</td>
-          <td style="color:var(--dim);font-size:.85em">Denison</td>
-          <td style="text-align:right">1,000</td>
-          <td style="text-align:right">$5.19</td>
-          <td style="text-align:right"><span class="positive">+0.58%</span></td>
-          <td style="text-align:right;font-weight:600">$5,190</td>
-        </tr>
-        <tr>
-          <td class="ticker">BNNLF</td>
-          <td style="color:var(--dim);font-size:.85em">Bannerman Energy</td>
-          <td style="text-align:right">1,300</td>
-          <td style="text-align:right">$2.78</td>
-          <td style="text-align:right"><span class="positive">+4.51%</span></td>
-          <td style="text-align:right;font-weight:600">$3,614</td>
-        </tr>
-        <tr>
-          <td class="ticker">LOT</td>
-          <td style="color:var(--dim);font-size:.85em">Lotus Resources</td>
-          <td style="text-align:right">956</td>
-          <td style="text-align:right">$1.95</td>
-          <td style="text-align:right"><span class="positive">+1.14%</span></td>
-          <td style="text-align:right;font-weight:600">$1,866</td>
-        </tr>
-        <tr>
-          <td class="ticker">TOM</td>
-          <td style="color:var(--dim);font-size:.85em">Trinity One Metals</td>
-          <td style="text-align:right">5,000</td>
-          <td style="text-align:right">$0.28</td>
-          <td style="text-align:right"><span class="negative">-37.78%</span></td>
-          <td style="text-align:right;font-weight:600">$1,400</td>
-        </tr>
-        <tr>
-          <td class="ticker">NAM</td>
-          <td style="color:var(--dim);font-size:.85em">New Age Metals</td>
-          <td style="text-align:right">3,772</td>
-          <td style="text-align:right">$0.37</td>
-          <td style="text-align:right"><span class="negative">-11.90%</span></td>
-          <td style="text-align:right;font-weight:600">$1,396</td>
-        </tr>
-        <tr>
-          <td class="ticker">PNPN</td>
-          <td style="color:var(--dim);font-size:.85em">Power Nickel</td>
-          <td style="text-align:right">1,000</td>
-          <td style="text-align:right">$1.28</td>
-          <td style="text-align:right"><span class="negative">-0.78%</span></td>
-          <td style="text-align:right;font-weight:600">$1,280</td>
-        </tr>
-        <tr>
-          <td class="ticker">PEGA</td>
-          <td style="color:var(--dim);font-size:.85em">Pegasus Uranium</td>
-          <td style="text-align:right">20,000</td>
-          <td style="text-align:right">$0.06</td>
-          <td style="text-align:right"><span class="positive">+0.00%</span></td>
-          <td style="text-align:right;font-weight:600">$1,200</td>
-        </tr>
-        <tr>
-          <td class="ticker">SVE</td>
-          <td style="color:var(--dim);font-size:.85em">Silver One</td>
-          <td style="text-align:right">2,000</td>
-          <td style="text-align:right">$0.59</td>
-          <td style="text-align:right"><span class="negative">-1.67%</span></td>
-          <td style="text-align:right;font-weight:600">$1,180</td>
-        </tr>
-        <tr>
-          <td class="ticker">CAPT</td>
-          <td style="color:var(--dim);font-size:.85em">Capitan Silver</td>
-          <td style="text-align:right">500</td>
-          <td style="text-align:right">$2.07</td>
-          <td style="text-align:right"><span class="negative">-3.27%</span></td>
-          <td style="text-align:right;font-weight:600">$1,035</td>
-        </tr>
-        <tr>
-          <td class="ticker">AEU</td>
-          <td style="color:var(--dim);font-size:.85em">Atomic Eagle</td>
-          <td style="text-align:right">2,027</td>
-          <td style="text-align:right">$0.42</td>
-          <td style="text-align:right"><span class="negative">-5.62%</span></td>
-          <td style="text-align:right;font-weight:600">$851</td>
-        </tr>
-        <tr>
-          <td class="ticker">AAG</td>
-          <td style="color:var(--dim);font-size:.85em">Aftermath Silver</td>
-          <td style="text-align:right">1,000</td>
-          <td style="text-align:right">$0.85</td>
-          <td style="text-align:right"><span class="negative">-7.61%</span></td>
-          <td style="text-align:right;font-weight:600">$850</td>
-        </tr>
-        <tr>
-          <td class="ticker">BQSSF</td>
-          <td style="color:var(--dim);font-size:.85em">Boss Energy</td>
-          <td style="text-align:right">500</td>
-          <td style="text-align:right">$1.15</td>
-          <td style="text-align:right"><span class="negative">-2.13%</span></td>
-          <td style="text-align:right;font-weight:600">$575</td>
-        </tr>
-        <tr>
-          <td class="ticker">EU</td>
-          <td style="color:var(--dim);font-size:.85em">Encore Energy</td>
-          <td style="text-align:right">125</td>
-          <td style="text-align:right">$3.40</td>
-          <td style="text-align:right"><span class="negative">-6.08%</span></td>
-          <td style="text-align:right;font-weight:600">$425</td>
-        </tr>
-        <tr>
-          <td class="ticker">FVL</td>
-          <td style="color:var(--dim);font-size:.85em">FreeGold Ventures</td>
-          <td style="text-align:right">10,000</td>
-          <td style="text-align:right">—</td>
-          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-          <td style="text-align:right;font-weight:600">—</td>
-        </tr>
-        <tr>
-          <td class="ticker">MOLY</td>
-          <td style="color:var(--dim);font-size:.85em">GreenLand Resources</td>
-          <td style="text-align:right">5,000</td>
-          <td style="text-align:right">—</td>
-          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-          <td style="text-align:right;font-weight:600">—</td>
-        </tr>
-        <tr>
-          <td class="ticker">MAXX</td>
-          <td style="color:var(--dim);font-size:.85em">Power Mining Corp</td>
-          <td style="text-align:right">2,000</td>
-          <td style="text-align:right">—</td>
-          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-          <td style="text-align:right;font-weight:600">—</td>
-        </tr>
-        <tr>
-          <td class="ticker">VZLA</td>
-          <td style="color:var(--dim);font-size:.85em">Vizsla Silver</td>
-          <td style="text-align:right">200</td>
-          <td style="text-align:right">—</td>
-          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-          <td style="text-align:right;font-weight:600">—</td>
-        </tr></tbody>
-    </table>
-    <div class="totals-row">
-      <div class="total-item">
-        <div class="total-label">Live USD</div>
-        <div class="total-value usd">$73,132</div>
+    <!-- Summary always visible -->
+    <div class="portfolio-summary">
+      <div class="psum-item">
+        <div class="psum-label">Live USD</div>
+        <div class="psum-value usd" style="color:var(--gold)">$82,932</div>
       </div>
-      <div class="total-item">
-        <div class="total-label">Live CAD</div>
-        <div class="total-value cad">$99,801</div>
+      <div class="psum-item">
+        <div class="psum-label">Live CAD</div>
+        <div class="psum-value cad" style="color:var(--green)">$113,200</div>
       </div>
-      <div class="total-item">
-        <div class="total-label">Basis CAD</div>
-        <div class="total-value" style="color:var(--blue)">$99,234.14</div>
-      </div>
-      <div class="total-item">
-        <div class="total-label">ATH (w/ w/d)</div>
-        <div class="total-value" style="color:var(--violet)">$113,522</div>
-      </div>
-      <div class="total-item">
-        <div class="total-label">ROI</div>
-        <div class="total-value positive">+100.19%</div>
+      <div class="psum-item">
+        <div class="psum-label">ROI</div>
+        <div class="psum-value positive" style="color:var(--green)">+14.1%</div>
       </div>
     </div>
-    <div class="allocation-section">
-      <svg class="pie-chart" viewBox="0 0 100 100" style="width:140px;height:140px"><circle r="25" cx="50" cy="50" fill="transparent" stroke="#d4a843" stroke-width="50" stroke-dasharray="78.18 157.08" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#6b8fd4" stroke-width="50" stroke-dasharray="63.56 157.08" stroke-dashoffset="-78.18" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#a07ed6" stroke-width="50" stroke-dasharray="7.76 157.08" stroke-dashoffset="-141.74" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#2a9d8f" stroke-width="50" stroke-dasharray="7.57 157.08" stroke-dashoffset="-149.51" transform="rotate(-90 50 50)"/><circle r="15" cx="50" cy="50" fill="#09090b"/></svg>
-      <div class="allocation-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:#d4a843"></span>Graphene<span class="legend-pct">49.8%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#6b8fd4"></span>Uranium<span class="legend-pct">40.5%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#a07ed6"></span>Silver<span class="legend-pct">4.9%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#2a9d8f"></span>Copper<span class="legend-pct">4.8%</span></div>
+    <div class="portfolio-summary" style="margin-top:-4px">
+      <div class="psum-item">
+        <div class="psum-label">Basis CAD</div>
+        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">$99,234</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ATH (w/ w/d)</div>
+        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">$113,522</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ROI Abs.</div>
+        <div class="psum-value positive" style="color:var(--green);font-size:1.1rem">+$24,661</div>
+      </div>
+    </div>
+
+    <!-- Expand toggle -->
+    <button class="expand-btn" id="holdings-btn" onclick="toggleHoldings()">
+      <span class="arrow">▼</span>&nbsp; Expand Holdings
+    </button>
+
+    <!-- Holdings table (collapsed by default) -->
+    <div class="holdings-table-wrap" id="holdings-wrap">
+      <table class="portfolio-table">
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Name</th>
+            <th style="text-align:right">Shares</th>
+            <th style="text-align:right">Price</th>
+            <th style="text-align:right">24h</th>
+            <th style="text-align:right">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ticker">HG</td>
+            <td style="color:var(--dim);font-size:.8em">Hydrograph</td>
+            <td style="text-align:right">10,000</td>
+            <td style="text-align:right">$3.64</td>
+            <td style="text-align:right"><span class="positive">+6.43%</span></td>
+            <td style="text-align:right;font-weight:600">$36,400</td>
+          </tr>
+          <tr>
+            <td class="ticker">GLO</td>
+            <td style="color:var(--dim);font-size:.8em">Global Atomic</td>
+            <td style="text-align:right">23,000</td>
+            <td style="text-align:right">$0.69</td>
+            <td style="text-align:right"><span class="positive">+2.99%</span></td>
+            <td style="text-align:right;font-weight:600">$15,870</td>
+          </tr>
+          <tr>
+            <td class="ticker">FVL</td>
+            <td style="color:var(--dim);font-size:.8em">FreeGold Ventures</td>
+            <td style="text-align:right">10,000</td>
+            <td style="text-align:right">$0.98<span class="fallback-badge">est</span></td>
+            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+            <td style="text-align:right;font-weight:600">$9,800</td>
+          </tr>
+          <tr>
+            <td class="ticker">DML</td>
+            <td style="color:var(--dim);font-size:.8em">Denison</td>
+            <td style="text-align:right">1,000</td>
+            <td style="text-align:right">$5.19</td>
+            <td style="text-align:right"><span class="positive">+0.58%</span></td>
+            <td style="text-align:right;font-weight:600">$5,190</td>
+          </tr>
+          <tr>
+            <td class="ticker">BNNLF</td>
+            <td style="color:var(--dim);font-size:.8em">Bannerman Energy</td>
+            <td style="text-align:right">1,300</td>
+            <td style="text-align:right">$2.78</td>
+            <td style="text-align:right"><span class="positive">+4.51%</span></td>
+            <td style="text-align:right;font-weight:600">$3,614</td>
+          </tr>
+          <tr>
+            <td class="ticker">LOT</td>
+            <td style="color:var(--dim);font-size:.8em">Lotus Resources</td>
+            <td style="text-align:right">956</td>
+            <td style="text-align:right">$1.95</td>
+            <td style="text-align:right"><span class="positive">+1.14%</span></td>
+            <td style="text-align:right;font-weight:600">$1,866</td>
+          </tr>
+          <tr>
+            <td class="ticker">MAXX</td>
+            <td style="color:var(--dim);font-size:.8em">Power Mining Corp</td>
+            <td style="text-align:right">2,000</td>
+            <td style="text-align:right">$0.82<span class="fallback-badge">est</span></td>
+            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+            <td style="text-align:right;font-weight:600">$1,640</td>
+          </tr>
+          <tr>
+            <td class="ticker">TOM</td>
+            <td style="color:var(--dim);font-size:.8em">Trinity One Metals</td>
+            <td style="text-align:right">5,000</td>
+            <td style="text-align:right">$0.28</td>
+            <td style="text-align:right"><span class="negative">-37.78%</span></td>
+            <td style="text-align:right;font-weight:600">$1,400</td>
+          </tr>
+          <tr>
+            <td class="ticker">NAM</td>
+            <td style="color:var(--dim);font-size:.8em">New Age Metals</td>
+            <td style="text-align:right">3,772</td>
+            <td style="text-align:right">$0.37</td>
+            <td style="text-align:right"><span class="negative">-11.90%</span></td>
+            <td style="text-align:right;font-weight:600">$1,396</td>
+          </tr>
+          <tr>
+            <td class="ticker">PNPN</td>
+            <td style="color:var(--dim);font-size:.8em">Power Nickel</td>
+            <td style="text-align:right">1,000</td>
+            <td style="text-align:right">$1.28</td>
+            <td style="text-align:right"><span class="negative">-0.78%</span></td>
+            <td style="text-align:right;font-weight:600">$1,280</td>
+          </tr>
+          <tr>
+            <td class="ticker">PEGA</td>
+            <td style="color:var(--dim);font-size:.8em">Pegasus Uranium</td>
+            <td style="text-align:right">20,000</td>
+            <td style="text-align:right">$0.06</td>
+            <td style="text-align:right"><span style="color:var(--dim)">+0.00%</span></td>
+            <td style="text-align:right;font-weight:600">$1,200</td>
+          </tr>
+          <tr>
+            <td class="ticker">VZLA</td>
+            <td style="color:var(--dim);font-size:.8em">Vizsla Silver</td>
+            <td style="text-align:right">200</td>
+            <td style="text-align:right">$3.64</td>
+            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+            <td style="text-align:right;font-weight:600">$728</td>
+          </tr>
+          <tr>
+            <td class="ticker">SVE</td>
+            <td style="color:var(--dim);font-size:.8em">Silver One</td>
+            <td style="text-align:right">2,000</td>
+            <td style="text-align:right">$0.59</td>
+            <td style="text-align:right"><span class="negative">-1.67%</span></td>
+            <td style="text-align:right;font-weight:600">$1,180</td>
+          </tr>
+          <tr>
+            <td class="ticker">CAPT</td>
+            <td style="color:var(--dim);font-size:.8em">Capitan Silver</td>
+            <td style="text-align:right">500</td>
+            <td style="text-align:right">$2.07</td>
+            <td style="text-align:right"><span class="negative">-3.27%</span></td>
+            <td style="text-align:right;font-weight:600">$1,035</td>
+          </tr>
+          <tr>
+            <td class="ticker">AEU</td>
+            <td style="color:var(--dim);font-size:.8em">Atomic Eagle</td>
+            <td style="text-align:right">2,027</td>
+            <td style="text-align:right">$0.42</td>
+            <td style="text-align:right"><span class="negative">-5.62%</span></td>
+            <td style="text-align:right;font-weight:600">$851</td>
+          </tr>
+          <tr>
+            <td class="ticker">AAG</td>
+            <td style="color:var(--dim);font-size:.8em">Aftermath Silver</td>
+            <td style="text-align:right">1,000</td>
+            <td style="text-align:right">$0.85</td>
+            <td style="text-align:right"><span class="negative">-7.61%</span></td>
+            <td style="text-align:right;font-weight:600">$850</td>
+          </tr>
+          <tr>
+            <td class="ticker">MOLY</td>
+            <td style="color:var(--dim);font-size:.8em">GreenLand Resources</td>
+            <td style="text-align:right">5,000</td>
+            <td style="text-align:right">$0.05<span class="fallback-badge">est</span></td>
+            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+            <td style="text-align:right;font-weight:600">$250</td>
+          </tr>
+          <tr>
+            <td class="ticker">BQSSF</td>
+            <td style="color:var(--dim);font-size:.8em">Boss Energy</td>
+            <td style="text-align:right">500</td>
+            <td style="text-align:right">$1.15</td>
+            <td style="text-align:right"><span class="negative">-2.13%</span></td>
+            <td style="text-align:right;font-weight:600">$575</td>
+          </tr>
+          <tr>
+            <td class="ticker">EU</td>
+            <td style="color:var(--dim);font-size:.8em">Encore Energy</td>
+            <td style="text-align:right">125</td>
+            <td style="text-align:right">$3.40</td>
+            <td style="text-align:right"><span class="negative">-6.08%</span></td>
+            <td style="text-align:right;font-weight:600">$425</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="totals-row">
+        <div class="total-item">
+          <div class="total-label">Live USD</div>
+          <div class="total-value usd">$82,932</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">Live CAD</div>
+          <div class="total-value cad">$113,200</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">Basis CAD</div>
+          <div class="total-value" style="color:var(--blue)">$99,234</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">ATH</div>
+          <div class="total-value" style="color:var(--violet)">$113,522</div>
+        </div>
+        <div class="total-item">
+          <div class="total-label">ROI</div>
+          <div class="total-value positive">+14.1%</div>
+        </div>
+      </div>
+      <div class="allocation-section">
+        <svg class="pie-chart" viewBox="0 0 100 100" style="width:120px;height:120px"><circle r="25" cx="50" cy="50" fill="transparent" stroke="#c9a84c" stroke-width="50" stroke-dasharray="78.18 157.08" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#5a7bc4" stroke-width="50" stroke-dasharray="63.56 157.08" stroke-dashoffset="-78.18" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#9470c8" stroke-width="50" stroke-dasharray="7.76 157.08" stroke-dashoffset="-141.74" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#2a9d8f" stroke-width="50" stroke-dasharray="7.57 157.08" stroke-dashoffset="-149.51" transform="rotate(-90 50 50)"/><circle r="15" cx="50" cy="50" fill="#0a0a0c"/></svg>
+        <div class="allocation-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#c9a84c"></span>Graphene<span class="legend-pct">49.8%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#5a7bc4"></span>Uranium<span class="legend-pct">40.5%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#9470c8"></span>Silver<span class="legend-pct">4.9%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#2a9d8f"></span>Copper<span class="legend-pct">4.8%</span></div>
+        </div>
+      </div>
+      <div style="font-size:.6rem;color:var(--mute);margin-top:10px;text-align:center">
+        <span class="fallback-badge" style="font-size:.6rem">est</span> = estimated / last known price · FVL, MAXX, MOLY not on Yahoo Finance
       </div>
     </div>
   </div>
 
-  <!-- CATALYSTS -->
+  <!-- CATALYSTS — Top 3 Holdings Only, fresh news only -->
   <div class="card">
-    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
-    
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">HG</span>
-              <span class="catalyst-badge">Feb 10</span>
-              <div style="font-size:.9em;color:var(--dim);margin-top:6px">HydroGraph Adds UK's Hubron International to Fractal Graphene Compounding Partner Program</div>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">GLO</span>
-              <span class="catalyst-badge">Jan 16</span>
-              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Global Atomic (TSX:GLO) Valuation After C$50 Million Financing Plan And Amended Dasa Uranium Report</div>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">DML</span>
-              <span class="catalyst-badge">Feb 13</span>
-              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Where is Denison Mines Corp. (DNN) Headed According to the Street?</div>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">BNNLF</span>
-              <span class="catalyst-badge">Jan 30</span>
-              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Assessing Bannerman Energy (ASX:BMN) Valuation Ahead Of December 2025 Quarter Update And Investor Webinar</div>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">LOT</span>
-              <span class="catalyst-badge">Jan 25</span>
-              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Assessing Lotus Resources (ASX:LOT) Valuation After Share Consolidation And Technical Breakout</div>
-            </div>
+    <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
+    <!-- HG: top holding by value — check for news from Feb 14+ -->
+    <div class="catalyst-item">
+      <span class="catalyst-ticker">HG</span>
+      <span class="catalyst-badge">Feb 10</span>
+      <div class="catalyst-headline">HydroGraph Adds UK's Hubron International to Fractal Graphene Compounding Partner Program</div>
+      <div class="catalyst-source" style="color:var(--dim);font-size:.62rem;margin-top:2px">Newsfile · Feb 10, 2026 · <span style="color:var(--mute);font-style:italic">No fresh news (&lt; Feb 14)</span></div>
+    </div>
+    <!-- FVL: second by value (est $9,800) -->
+    <div class="catalyst-item">
+      <span class="catalyst-ticker">FVL</span>
+      <span class="catalyst-badge stale">No fresh news</span>
+      <div class="catalyst-headline" style="color:var(--dim);font-style:italic">No news from last 2 market days (Feb 14–18, 2026)</div>
+    </div>
+    <!-- GLO: third holding -->
+    <div class="catalyst-item">
+      <span class="catalyst-ticker">GLO</span>
+      <span class="catalyst-badge">Jan 16</span>
+      <div class="catalyst-headline">Global Atomic — C$50M Financing Plan &amp; Amended Dasa Uranium Report</div>
+      <div class="catalyst-source" style="color:var(--dim);font-size:.62rem;margin-top:2px">InvestorHub · Jan 16, 2026 · <span style="color:var(--mute);font-style:italic">No fresh news (&lt; Feb 14)</span></div>
+    </div>
   </div>
 
   <!-- COMMODITIES -->
@@ -717,45 +736,45 @@
     <div class="commodities-grid">
       
         <div class="commodity-item">
-          <div class="commodity-name gold">Gold</div>
-          <div class="commodity-price gold">$4,916</div>
+          <div class="commodity-name c-gold">Gold</div>
+          <div class="commodity-price c-gold">$4,916</div>
           <div class="commodity-unit">/oz</div>
           <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
-          <div class="commodity-name silver">Silver</div>
-          <div class="commodity-price silver">$73.42</div>
+          <div class="commodity-name c-silver">Silver</div>
+          <div class="commodity-price c-silver">$73.42</div>
           <div class="commodity-unit">/oz</div>
           <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
-          <div class="commodity-name copper">Copper</div>
-          <div class="commodity-price copper">$5.6770</div>
+          <div class="commodity-name c-copper">Copper</div>
+          <div class="commodity-price c-copper">$5.6770</div>
           <div class="commodity-unit">/lb</div>
           <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
-          <div class="commodity-name oil">Oil (WTI)</div>
-          <div class="commodity-price oil">$62.31</div>
+          <div class="commodity-name c-oil">Oil (WTI)</div>
+          <div class="commodity-price c-oil">$62.31</div>
           <div class="commodity-unit">/bbl</div>
           <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
-          <div class="commodity-name palladium">Palladium</div>
-          <div class="commodity-price palladium">$1,730</div>
+          <div class="commodity-name c-palladium">Palladium</div>
+          <div class="commodity-price c-palladium">$1,730</div>
           <div class="commodity-unit">/oz</div>
           <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
-          <div class="commodity-name uranium">Uranium</div>
-          <div class="commodity-price uranium">$51.32</div>
+          <div class="commodity-name c-uranium">Uranium</div>
+          <div class="commodity-price c-uranium">$51.32</div>
           <div class="commodity-unit">ETF</div>
           <div class="commodity-change"><span class="negative">-1.14%</span></div>
         </div>
     </div>
   </div>
 
-  <!-- CRYPTO -->
+  <!-- CRYPTO — 30% smaller -->
   <div class="card">
     <div class="card-title">🌐 Crypto</div>
     <div class="crypto-grid">
@@ -793,22 +812,32 @@
     </div>
   </div>
 
-  <!-- RADAR IDEAS -->
+  <!-- RADAR IDEAS — with freshness indicator -->
   <div class="card">
     <div class="card-title">🎯 Radar Ideas</div>
     <div class="radar-category">🪙 Micro-Cap Crypto</div>
     <div class="radar-item">
       <span class="radar-icon">⚡</span>
       <div class="radar-content">
-        <div><span class="radar-name">Penumbra</span><span class="radar-ticker">PENUMBRA</span><span class="radar-mcap">~$85M mcap</span></div>
-        <div class="radar-desc">Privacy-focused Cosmos chain with shielded swaps & staking. Native DEX with anonymous positions.</div>
+        <div>
+          <span class="radar-name">Penumbra</span>
+          <span class="radar-ticker">PENUMBRA</span>
+          <span class="radar-mcap">~$85M mcap</span>
+          <span class="freshness-badge stale">Added Jan 15</span>
+        </div>
+        <div class="radar-desc">Privacy-focused Cosmos chain with shielded swaps &amp; staking. Native DEX with anonymous positions.</div>
         <div class="radar-thesis">→ Privacy narrative + ZEC correlation + cross-chain DeFi = undervalued</div>
       </div>
     </div>
     <div class="radar-item">
       <span class="radar-icon">🔗</span>
       <div class="radar-content">
-        <div><span class="radar-name">Hyperlane</span><span class="radar-ticker">Pre-token</span><span class="radar-mcap">Watch list</span></div>
+        <div>
+          <span class="radar-name">Hyperlane</span>
+          <span class="radar-ticker">Pre-token</span>
+          <span class="radar-mcap">Watch list</span>
+          <span class="freshness-badge stale">Added Jan 22</span>
+        </div>
         <div class="radar-desc">Permissionless interoperability — any chain to any chain without centralized bridges.</div>
         <div class="radar-thesis">→ Bridge hacks create demand for trustless alternatives; token launch catalyst</div>
       </div>
@@ -817,40 +846,42 @@
     <div class="radar-item">
       <span class="radar-icon">☢️</span>
       <div class="radar-content">
-        <div><span class="radar-name">Forum Energy Metals</span><span class="radar-ticker">FMC.V</span><span class="radar-mcap">~$18M mcap</span></div>
-        <div class="radar-desc">Athabasca Basin uranium explorer adjacent to Cameco & Orano properties. Q1 drill results pending.</div>
+        <div>
+          <span class="radar-name">Forum Energy Metals</span>
+          <span class="radar-ticker">FMC.V</span>
+          <span class="radar-mcap">~$18M mcap</span>
+          <span class="freshness-badge stale">Added Feb 3</span>
+        </div>
+        <div class="radar-desc">Athabasca Basin uranium explorer adjacent to Cameco &amp; Orano properties. Q1 drill results pending.</div>
         <div class="radar-thesis">→ Basin-maker geology + cheap entry = asymmetric upside on drill results</div>
       </div>
     </div>
     <div class="radar-item">
       <span class="radar-icon">🔋</span>
       <div class="radar-content">
-        <div><span class="radar-name">American Lithium Energy</span><span class="radar-ticker">AMLI</span><span class="radar-mcap">~$45M mcap</span></div>
+        <div>
+          <span class="radar-name">American Lithium Energy</span>
+          <span class="radar-ticker">AMLI</span>
+          <span class="radar-mcap">~$45M mcap</span>
+          <span class="freshness-badge stale">Added Feb 10</span>
+        </div>
         <div class="radar-desc">Nevada lithium clay project with solid-state battery tech partnership. Domestic supply play.</div>
         <div class="radar-thesis">→ Domestic lithium + IRA incentives + battery tech = strategic value</div>
       </div>
     </div>
+    <div style="margin-top:10px;font-size:.62rem;color:var(--mute);text-align:center">
+      🟢 Fresh = added within last 2 market days · Grey = older idea, still on watch
+    </div>
   </div>
 
-  <!-- RECOMMENDATIONS -->
+  <!-- RECOMMENDATIONS — localStorage rotation -->
   <div class="card">
     <div class="card-title">🎬 Recommendations</div>
-    <div class="rec-grid">
-      <div class="rec-item">
-        <div class="rec-label">📺 Now Watching</div>
-        <div class="rec-title">The Rip</div>
-        <div class="rec-meta">Netflix · Matt Damon, Ben Affleck</div>
-        <div class="rec-summary">Miami cops discover millions in a stash house — trust frays as outside forces close in. Crime thriller from Joe Carnahan.</div>
-      </div>
-      <div class="rec-item">
-        <div class="rec-label">📖 Now Reading</div>
-        <div class="rec-title">The Psychology of Money</div>
-        <div class="rec-meta">Morgan Housel · 2020 · Finance/Psychology</div>
-        <div class="rec-summary">Timeless lessons on wealth, greed, and happiness. How behaviour — not intelligence — determines financial outcomes.</div>
-      </div>
+    <div class="rec-grid" id="rec-grid">
+      <!-- Filled by JS -->
     </div>
-    <div style="margin-top:14px;font-size:.75rem;color:var(--dim);text-align:center">
-      Updated quarterly · Last update: Q2 2025
+    <div style="margin-top:12px;font-size:.68rem;color:var(--dim);text-align:center" id="rec-note">
+      Rotating weekly · powered by localStorage
     </div>
   </div>
 
@@ -867,19 +898,225 @@
   <!-- DAILY MOTIVATION -->
   <div class="card">
     <div class="card-title">💪 Daily Motivation</div>
-    <div class="quote" style="border-left-color:rgba(107,143,212,.4)">
+    <div class="quote" style="border-left-color:rgba(90,123,196,.35)">
       <div class="quote-type" style="color:var(--blue)">Kaizen Mindset</div>
       <div class="quote-text">"The man who moves a mountain begins by carrying away small stones."</div>
       <div class="quote-author">— Confucius</div>
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- FOOTER BRANDING -->
   <div class="footer">
-    <span class="logo">Novaire Signal</span>
-    <span>Daily brief for focused allocators · novairesignal.com</span>
+    <div class="footer-logo">Novaire <span>Signal</span></div>
+    <div class="footer-tagline">Daily brief for focused allocators</div>
+    <div class="footer-sub">novairesignal.com · Generated daily · Live data from Yahoo Finance &amp; Binance</div>
   </div>
 
 </div>
+
+<!-- ================================================================
+  CLIENT-SIDE JS: Quotes dedup + Holdings toggle + Recommendations
+================================================================ -->
+<script>
+// ──────────────────────────────────────────
+// QUOTE ROTATION WITH localStorage DEDUP
+// ──────────────────────────────────────────
+
+const QUOTES_INVESTING = [
+  {text:"The stock market is a device for transferring money from the impatient to the patient.", author:"Warren Buffett"},
+  {text:"In the short run, the market is a voting machine. In the long run, it is a weighing machine.", author:"Benjamin Graham"},
+  {text:"It's not whether you're right or wrong, but how much money you make when you're right and how much you lose when you're wrong.", author:"George Soros"},
+  {text:"The four most dangerous words in investing are: 'this time it's different.'", author:"Sir John Templeton"},
+  {text:"Price is what you pay. Value is what you get.", author:"Warren Buffett"},
+  {text:"Know what you own, and know why you own it.", author:"Peter Lynch"},
+  {text:"Risk comes from not knowing what you're doing.", author:"Warren Buffett"},
+  {text:"An investment in knowledge pays the best interest.", author:"Benjamin Franklin"},
+  {text:"The most contrarian thing of all is not to oppose the crowd but to think for yourself.", author:"Peter Thiel"},
+  {text:"Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.", author:"Albert Einstein"},
+  {text:"The individual investor should act consistently as an investor and not as a speculator.", author:"Benjamin Graham"},
+  {text:"Wide diversification is only required when investors do not understand what they are doing.", author:"Warren Buffett"},
+  {text:"Our favourite holding period is forever.", author:"Warren Buffett"},
+  {text:"It takes 20 years to build a reputation and five minutes to ruin it.", author:"Warren Buffett"},
+  {text:"The time of maximum pessimism is the best time to buy.", author:"Sir John Templeton"},
+  {text:"Markets can remain irrational longer than you can remain solvent.", author:"John Maynard Keynes"},
+  {text:"Be fearful when others are greedy, and greedy when others are fearful.", author:"Warren Buffett"},
+  {text:"The biggest risk is not taking any risk.", author:"Mark Zuckerberg"},
+  {text:"Invest in yourself. Your career is the engine of your wealth.", author:"Paul Clitheroe"},
+  {text:"The goal of a successful trader is to make the best trades. Money is secondary.", author:"Alexander Elder"},
+  {text:"Do not save what is left after spending; instead spend what is left after saving.", author:"Warren Buffett"},
+  {text:"The way to get started is to quit talking and begin doing.", author:"Walt Disney"},
+  {text:"Financial freedom is available to those who learn about it and work for it.", author:"Robert Kiyosaki"},
+  {text:"Bottoms in the investment world don't end with four-year lows; they end with ten- or fifteen-year lows.", author:"Jim Rogers"},
+  {text:"I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful.", author:"Warren Buffett"},
+  {text:"The secret to investing is to figure out the value of something and then pay a lot less.", author:"Joel Greenblatt"},
+  {text:"The stock market is filled with individuals who know the price of everything, but the value of nothing.", author:"Philip Fisher"},
+  {text:"If you have trouble imagining a 20% loss in the stock market, you shouldn't be in stocks.", author:"John Bogle"},
+  {text:"The key to making money in stocks is not to get scared out of them.", author:"Peter Lynch"},
+  {text:"The intelligent investor is a realist who sells to optimists and buys from pessimists.", author:"Benjamin Graham"},
+  {text:"In investing, what is comfortable is rarely profitable.", author:"Robert Arnott"},
+  {text:"Successful investing is about managing risk, not avoiding it.", author:"Benjamin Graham"},
+];
+
+const QUOTES_PSYCHOLOGY = [
+  {text:"The cave you fear to enter holds the treasure you seek.", author:"Joseph Campbell"},
+  {text:"Until you make the unconscious conscious, it will direct your life and you will call it fate.", author:"Carl Jung"},
+  {text:"Between stimulus and response there is a space. In that space is our power to choose our response.", author:"Viktor Frankl"},
+  {text:"The curious paradox is that when I accept myself just as I am, then I can change.", author:"Carl Rogers"},
+  {text:"What we resist persists.", author:"Carl Jung"},
+  {text:"The first step toward change is awareness. The second step is acceptance.", author:"Nathaniel Branden"},
+  {text:"Comparison is the thief of joy.", author:"Theodore Roosevelt"},
+  {text:"The greatest discovery of any generation is that a human being can alter their life by altering their attitudes.", author:"William James"},
+  {text:"Inaction breeds doubt and fear. Action breeds confidence and courage.", author:"Dale Carnegie"},
+  {text:"Your task is not to seek for love, but merely to seek and find all the barriers within yourself that you have built against it.", author:"Rumi"},
+  {text:"The measure of intelligence is the ability to change.", author:"Albert Einstein"},
+  {text:"We cannot solve our problems with the same thinking we used when we created them.", author:"Albert Einstein"},
+  {text:"The mind is everything. What you think you become.", author:"Buddha"},
+  {text:"Knowing yourself is the beginning of all wisdom.", author:"Aristotle"},
+  {text:"You cannot swim for new horizons until you have courage to lose sight of the shore.", author:"William Faulkner"},
+  {text:"It is not death that a man should fear, but he should fear never beginning to live.", author:"Marcus Aurelius"},
+  {text:"Absorb what is useful, discard what is not, add what is uniquely your own.", author:"Bruce Lee"},
+  {text:"The only journey is the one within.", author:"Rainer Maria Rilke"},
+  {text:"He who knows others is wise; he who knows himself is enlightened.", author:"Lao Tzu"},
+  {text:"You are not a drop in the ocean. You are the entire ocean in a drop.", author:"Rumi"},
+  {text:"Everything can be taken from a man but one thing: the last of the human freedoms — to choose one's attitude.", author:"Viktor Frankl"},
+  {text:"The snake which cannot cast its skin has to die.", author:"Friedrich Nietzsche"},
+  {text:"Not all those who wander are lost.", author:"J.R.R. Tolkien"},
+  {text:"The impediment to action advances action. What stands in the way becomes the way.", author:"Marcus Aurelius"},
+  {text:"We suffer more in imagination than in reality.", author:"Seneca"},
+  {text:"Man is not worried by real problems so much as by his imagined anxieties about real problems.", author:"Epictetus"},
+  {text:"Act the way you'd like to be and soon you'll be the way you act.", author:"George W. Crane"},
+  {text:"The intuitive mind is a sacred gift and the rational mind is a faithful servant.", author:"Albert Einstein"},
+  {text:"Hardships often prepare ordinary people for an extraordinary destiny.", author:"C.S. Lewis"},
+  {text:"If you change the way you look at things, the things you look at change.", author:"Wayne Dyer"},
+  {text:"You don't have to control your thoughts. You just have to stop letting them control you.", author:"Dan Millman"},
+  {text:"Resilience is not about bouncing back — it's about bouncing forward.", author:"Sheryl Sandberg"},
+];
+
+function getQuoteForToday(storageKey, quotes) {
+  const today = new Date().toDateString();
+  const dayKey   = 'nv_' + storageKey + '_date';
+  const idxKey   = 'nv_' + storageKey + '_idx';
+  const seenKey  = 'nv_' + storageKey + '_seen';
+
+  try {
+    // Same day: return same quote
+    if (localStorage.getItem(dayKey) === today) {
+      const idx = parseInt(localStorage.getItem(idxKey) || '0');
+      return quotes[idx % quotes.length];
+    }
+
+    // New day: pick next unseen quote
+    let seen = [];
+    try { seen = JSON.parse(localStorage.getItem(seenKey) || '[]'); } catch(e) {}
+
+    let available = quotes.map((_,i) => i).filter(i => !seen.includes(i));
+    if (available.length === 0) {
+      // All seen — reset
+      seen = [];
+      available = quotes.map((_,i) => i);
+    }
+
+    // Deterministic pick based on date hash
+    const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+    const idx = available[seed % available.length];
+
+    seen.push(idx);
+    localStorage.setItem(seenKey, JSON.stringify(seen));
+    localStorage.setItem(dayKey, today);
+    localStorage.setItem(idxKey, String(idx));
+
+    return quotes[idx];
+  } catch(e) {
+    // localStorage unavailable — fall back to date-based pick
+    const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+    return quotes[seed % quotes.length];
+  }
+}
+
+(function renderQuotes() {
+  const qi = getQuoteForToday('investing', QUOTES_INVESTING);
+  const qp = getQuoteForToday('psychology', QUOTES_PSYCHOLOGY);
+
+  document.getElementById('qt-inv-text').textContent = '\u201c' + qi.text + '\u201d';
+  document.getElementById('qt-inv-auth').textContent = '\u2014 ' + qi.author;
+  document.getElementById('qt-psy-text').textContent = '\u201c' + qp.text + '\u201d';
+  document.getElementById('qt-psy-auth').textContent = '\u2014 ' + qp.author;
+})();
+
+// ──────────────────────────────────────────
+// HOLDINGS TABLE TOGGLE
+// ──────────────────────────────────────────
+function toggleHoldings() {
+  const wrap = document.getElementById('holdings-wrap');
+  const btn  = document.getElementById('holdings-btn');
+  const isOpen = wrap.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.innerHTML = isOpen
+    ? '<span class="arrow" style="transform:rotate(180deg)">▼</span>&nbsp; Collapse Holdings'
+    : '<span class="arrow">▼</span>&nbsp; Expand Holdings';
+}
+
+// ──────────────────────────────────────────
+// RECOMMENDATIONS ROTATION (dedup)
+// ──────────────────────────────────────────
+const MOVIES = [
+  {title:"The Big Short", meta:"Netflix · Ryan Gosling, Christian Bale", summary:"Wall Street insiders bet against the US mortgage market before the 2008 crash. Dark, funny, and uncomfortably accurate."},
+  {title:"Margin Call", meta:"Prime · Kevin Spacey, Jeremy Irons", summary:"24 hours inside a bank on the eve of financial collapse. Cold, precise, and brilliantly acted."},
+  {title:"Blow", meta:"Prime · Johnny Depp", summary:"Rise and fall of George Jung, the cocaine kingpin. A masterclass in compounding wins and catastrophic risk."},
+  {title:"Whiplash", meta:"Netflix · Miles Teller, J.K. Simmons", summary:"A young drummer's obsessive pursuit of greatness under a brutal instructor. The price of mastery laid bare."},
+  {title:"The Founder", meta:"Prime · Michael Keaton", summary:"Ray Kroc takes McDonald's from a burger stand to global empire. Raw ambition, ruthless execution."},
+  {title:"Moneyball", meta:"Netflix · Brad Pitt", summary:"Data over dogma — Oakland A's GM rebuilds a team on edge of bankruptcy using pure analytics."},
+  {title:"Succession (S1)", meta:"HBO · Brian Cox", summary:"Power, family, and the psychology of ultra-wealth. The most honest portrayal of billionaire dynamics on TV."},
+  {title:"Limitless", meta:"Prime · Bradley Cooper", summary:"What happens when you operate at 100% capacity. Brilliant meditation on cognitive edge and its cost."},
+  {title:"Wall Street", meta:"Prime · Michael Douglas", summary:"Gordon Gekko's 'Greed is Good' speech still resonates. The original anatomy of market manipulation."},
+  {title:"The Rip", meta:"Netflix · Matt Damon, Ben Affleck", summary:"Miami cops discover millions in a stash house — trust frays as outside forces close in. Crime thriller from Joe Carnahan."},
+  {title:"Inside Job", meta:"Documentary", summary:"Oscar-winning documentary about the 2008 financial crisis. Required viewing for anyone in markets."},
+  {title:"Glengarry Glen Ross", meta:"Prime · Al Pacino, Jack Lemmon", summary:"Sales pressure, desperation, ethics. The most quotable business film ever made."},
+  {title:"War Dogs", meta:"Prime · Jonah Hill, Miles Teller", summary:"Two Miami guys land a $300M US arms deal. Audacity meets naivety — a cautionary tale about luck."},
+  {title:"The Wolf of Wall Street", meta:"Netflix · Leonardo DiCaprio", summary:"Excess, fraud, and the intoxication of market manipulation. Scorsese at his most electric."},
+];
+
+const BOOKS = [
+  {title:"Poor Charlie's Almanack", meta:"Charlie Munger · Self-Improvement/Investing", summary:"Mental models from Berkshire's vice-chairman. The most practical philosophy book disguised as a business text."},
+  {title:"The Psychology of Money", meta:"Morgan Housel · 2020 · Finance/Psychology", summary:"Timeless lessons on wealth, greed, and happiness. Behaviour — not intelligence — determines financial outcomes."},
+  {title:"Thinking, Fast and Slow", meta:"Daniel Kahneman · 2011 · Psychology", summary:"The two-system model of human cognition. Essential reading for understanding your own biases in markets."},
+  {title:"The Intelligent Investor", meta:"Benjamin Graham · 1949 · Investing", summary:"The definitive guide to value investing. Buffett calls it 'the best book about investing ever written.'"},
+  {title:"Antifragile", meta:"Nassim Taleb · 2012 · Philosophy/Risk", summary:"Some things benefit from disorder. How to build systems — and portfolios — that get stronger under stress."},
+  {title:"Zero to One", meta:"Peter Thiel · 2014 · Business/Technology", summary:"Notes on startups and how to build the future. The most contrarian business book of the decade."},
+  {title:"The Black Swan", meta:"Nassim Taleb · 2007 · Philosophy/Risk", summary:"Why rare, unpredictable events drive history and markets. The book that should have predicted 2008."},
+  {title:"Principles", meta:"Ray Dalio · 2017 · Leadership/Investing", summary:"Dalio's life and work philosophy from the Bridgewater founder. Radical transparency at scale."},
+  {title:"Atomic Habits", meta:"James Clear · 2018 · Psychology/Productivity", summary:"Tiny changes, remarkable results. The definitive guide to habit formation and compound behavior."},
+  {title:"The Art of Thinking Clearly", meta:"Rolf Dobelli · 2013 · Psychology", summary:"99 cognitive biases and thinking errors. A field guide to cleaner, more rational decision-making."},
+  {title:"Shoe Dog", meta:"Phil Knight · 2016 · Memoir/Business", summary:"Nike's founder on building the brand from zero. Raw, honest, and deeply motivating."},
+  {title:"Man's Search for Meaning", meta:"Viktor Frankl · 1946 · Philosophy/Psychology", summary:"Survival in Nazi camps and the discovery that meaning — not pleasure — is the deepest human drive."},
+  {title:"The Almanack of Naval Ravikant", meta:"Eric Jorgenson · 2020 · Wealth/Philosophy", summary:"Curated wisdom from Naval on wealth, happiness, and clear thinking. Free online and worth every minute."},
+  {title:"Reminiscences of a Stock Operator", meta:"Edwin Lefèvre · 1923 · Trading/Biography", summary:"The fictionalized life of Jesse Livermore. Timeless market psychology from 100 years ago."},
+  {title:"Sapiens", meta:"Yuval Noah Harari · 2011 · History/Philosophy", summary:"A brief history of humankind. Context-setting for understanding civilizational trends and long-horizon investing."},
+];
+
+function getRecForToday(storageKey, items) {
+  return getQuoteForToday(storageKey, items); // same dedup logic
+}
+
+(function renderRecs() {
+  const movie = getRecForToday('movie', MOVIES);
+  const book  = getRecForToday('book',  BOOKS);
+
+  document.getElementById('rec-grid').innerHTML = `
+    <div class="rec-item">
+      <div class="rec-label">📺 Now Watching</div>
+      <div class="rec-title">${movie.title}</div>
+      <div class="rec-meta">${movie.meta}</div>
+      <div class="rec-summary">${movie.summary}</div>
+    </div>
+    <div class="rec-item">
+      <div class="rec-label">📖 Now Reading</div>
+      <div class="rec-title">${book.title}</div>
+      <div class="rec-meta">${book.meta}</div>
+      <div class="rec-summary">${book.summary}</div>
+    </div>
+  `;
+})();
+</script>
 </body>
 </html>
