@@ -24,30 +24,39 @@ CITIES = [
     {"name": "Montevideo", "flag": "🇺🇾", "lat": -34.9011, "lon": -56.1645},
 ]
 
-HOLDINGS = {
-    "HG.CN":  {"shares": 11000, "name": "Hydrograph"},
-    "GLO.TO": {"shares": 22000, "name": "Global Atomic"},
-    "FVL.V":  {"shares": 10000, "name": "FreeGold Ventures"},
-    "MOLY.V": {"shares": 3950,  "name": "Moly Mines"},
-    "DML.TO": {"shares": 1000,  "name": "Denison Mines"},
-    "BNNLF":  {"shares": 1300,  "name": "Bannerman Energy"},
-    "LOT.AX": {"shares": 11000, "name": "Lotus Resources"},
-    "MAXX.V": {"shares": 2000,  "name": "Power Mining"},
-    "PNPN.V": {"shares": 1000,  "name": "Power Nickel"},
-    "NAM.V":  {"shares": 3000,  "name": "New Age Metals"},
-    "PEGA.V": {"shares": 20000, "name": "Pegasus Resources"},
-    "VZLA.V": {"shares": 100,   "name": "Vizsla Silver"},
-    "CAPT.V": {"shares": 400,   "name": "Capitan Silver"},
-    "AEU.V":  {"shares": 2027,  "name": "Atomic Eagle"},
-    "BQSSF":  {"shares": 500,   "name": "Boss Energy"},
-    "SVE.V":  {"shares": 1000,  "name": "Silver One"},
-    "TOM.V":  {"shares": 3000,  "name": "Torchlight Energy"},
-    "EU.V":   {"shares": 125,   "name": "Encore Energy"},
-    "AAG.V":  {"shares": 438,   "name": "Aftermath Silver"},
-}
+HOLDINGS = [
+    {"ticker": "HG.CN",  "name": "Hydrograph",         "shares": 10000, "sector": "Graphene"},
+    {"ticker": "GLO.TO", "name": "Global Atomic",       "shares": 23000, "sector": "Uranium"},
+    {"ticker": "FVL.V",  "name": "FreeGold Ventures",   "shares": 10000, "sector": "Gold"},
+    {"ticker": "MOLY.V", "name": "GreenLand Resources", "shares": 5000,  "sector": "Molybdenum"},
+    {"ticker": "DML.TO", "name": "Denison",              "shares": 1000,  "sector": "Uranium"},
+    {"ticker": "BNNLF",  "name": "Bannerman Energy",     "shares": 1300,  "sector": "Uranium"},
+    {"ticker": "MAXX.V", "name": "Power Mining Corp",    "shares": 2000,  "sector": "Silver"},
+    {"ticker": "TOM.V",  "name": "Trinity One Metals",   "shares": 5000,  "sector": "Silver"},
+    {"ticker": "LOT.AX", "name": "Lotus Resources",      "shares": 956,   "sector": "Uranium"},
+    {"ticker": "NAM.V",  "name": "New Age Metals",       "shares": 3772,  "sector": "Copper"},
+    {"ticker": "PNPN.V", "name": "Power Nickel",         "shares": 1000,  "sector": "Copper"},
+    {"ticker": "SVE.V",  "name": "Silver One",           "shares": 2000,  "sector": "Silver"},
+    {"ticker": "PEGA.V", "name": "Pegasus Uranium",      "shares": 20000, "sector": "Uranium"},
+    {"ticker": "CAPT.V", "name": "Capitan Silver",       "shares": 500,   "sector": "Silver"},
+    {"ticker": "VZLA.V", "name": "Vizsla Silver",        "shares": 200,   "sector": "Silver"},
+    {"ticker": "AEU.AX", "name": "Atomic Eagle",         "shares": 2027,  "sector": "Uranium"},
+    {"ticker": "AAG.V",  "name": "Aftermath Silver",     "shares": 1000,  "sector": "Copper"},
+    {"ticker": "BQSSF",  "name": "Boss Energy",          "shares": 500,   "sector": "Uranium"},
+    {"ticker": "EU.V",   "name": "Encore Energy",        "shares": 125,   "sector": "Uranium"},
+]
 
-SALARY_USD = 4500
-BTC_INVEST_USD = 500
+# Backward-compat dict used throughout the code
+HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"]} for h in HOLDINGS}
+SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
+
+# Portfolio stats (from spreadsheet basis)
+PORT_TOTAL_CAD = 99_234.14
+PORT_TOTAL_USD = 72_697.14
+PORT_ATH       = 113_522
+PORT_ROI_PCT   = 100.19
+PORT_ROI_ABS   = 24_660.95
+
 
 QUOTES = {
     "investing": [
@@ -335,7 +344,7 @@ def fetch_portfolio():
         return {t: {"price": None, "change": None, "value": None} for t in HOLDINGS}
 
     results = {}
-    for ticker in HOLDINGS:
+    for ticker in HOLDINGS_MAP:
         try:
             t = yf.Ticker(ticker)
             hist = t.history(period="5d", auto_adjust=True)
@@ -352,7 +361,7 @@ def fetch_portfolio():
                 fi = t.fast_info
                 p = getattr(fi, "last_price", None)
                 chg = None
-            shares = HOLDINGS[ticker]["shares"]
+            shares = HOLDINGS_MAP[ticker]["shares"]
             if p and p > 0:
                 results[ticker] = {"price": p, "change": chg, "value": p * shares}
             else:
@@ -519,31 +528,7 @@ def build_legend(allocations, total_val):
                      f'{label}<span class="legend-pct">{pct:.1f}%</span></div>')
     return "\n".join(items)
 
-# ─────────────────────────────────────────────────────────────
-# SECTOR GROUPING
-# ─────────────────────────────────────────────────────────────
-
-SECTORS = {
-    "HG.CN":  "Graphene",
-    "GLO.TO": "Uranium",
-    "FVL.V":  "Gold",
-    "MOLY.V": "Molybdenum",
-    "DML.TO": "Uranium",
-    "BNNLF":  "Uranium",
-    "LOT.AX": "Uranium",
-    "MAXX.V": "Copper",
-    "PNPN.V": "Nickel",
-    "NAM.V":  "Metals",
-    "PEGA.V": "Uranium",
-    "VZLA.V": "Silver",
-    "CAPT.V": "Silver",
-    "AEU.V":  "Uranium",
-    "BQSSF":  "Uranium",
-    "SVE.V":  "Silver",
-    "TOM.V":  "Metals",
-    "EU.V":   "Uranium",
-    "AAG.V":  "Silver",
-}
+# SECTORS dict is now derived from HOLDINGS list above (see SECTORS = {...} near HOLDINGS)
 
 # ─────────────────────────────────────────────────────────────
 # HTML GENERATION
@@ -563,7 +548,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     # Sort by value descending
     port_sorted = []
-    for ticker, info in HOLDINGS.items():
+    for ticker, info in HOLDINGS_MAP.items():
         pdata = portfolio_data.get(ticker, {})
         price = pdata.get("price")
         value = pdata.get("value")
@@ -676,18 +661,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="crypto-change">{chg_html}</div>
         </div>"""
 
-    # ── FX / Salary HTML ──
-    btc_price = crypto.get("BTC", {}).get("price")
-    btc_amount = BTC_INVEST_USD / btc_price if btc_price else None
-    btc_str = f"{btc_amount:.6f} BTC" if btc_amount else "—"
-    btc_price_str = fmt_price(btc_price) if btc_price else "N/A"
-
-    usdcad = fx["usdcad"]
-    usdthb = fx["usdthb"]
-    salary_cad = SALARY_USD * usdcad
-    salary_thb = SALARY_USD * usdthb
-    days_pay, payday_str = days_to_payday()
-
+    
     # ── Quotes ──
     q_inv  = quotes_sel["investing"]
     q_phi  = quotes_sel["philosophy"]
@@ -990,12 +964,24 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </table>
     <div class="totals-row">
       <div class="total-item">
-        <div class="total-label">Total USD</div>
+        <div class="total-label">Live USD</div>
         <div class="total-value usd">${total_usd:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">Total CAD</div>
+        <div class="total-label">Live CAD</div>
         <div class="total-value cad">${total_cad:,.0f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">Basis CAD</div>
+        <div class="total-value" style="color:var(--blue)">${PORT_TOTAL_CAD:,.2f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">ATH (w/ w/d)</div>
+        <div class="total-value" style="color:var(--violet)">${PORT_ATH:,}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">ROI</div>
+        <div class="total-value positive">+{PORT_ROI_PCT:.2f}%</div>
       </div>
     </div>
     <div class="allocation-section">
@@ -1025,42 +1011,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">🌐 Crypto</div>
     <div class="crypto-grid">
       {crypto_html}
-    </div>
-  </div>
-
-  <!-- SALARY & FX -->
-  <div class="card">
-    <div class="card-title">💰 Salary & FX</div>
-    <div class="btc-highlight">
-      <div class="label">BTC Conversion</div>
-      <div class="btc-row">
-        <span class="usd">${BTC_INVEST_USD} USD</span>
-        <span class="eq">=</span>
-        <span class="btc">{btc_str}</span>
-        <span class="rate">@ {btc_price_str}</span>
-      </div>
-    </div>
-    <div class="fx-grid">
-      <div class="fx-item">
-        <div class="fx-label">Monthly Salary</div>
-        <div class="fx-value">${SALARY_USD:,}</div>
-        <div class="fx-sub">USD/month</div>
-      </div>
-      <div class="fx-item">
-        <div class="fx-label">In CAD</div>
-        <div class="fx-value">${salary_cad:,.0f}</div>
-        <div class="fx-sub">@ {usdcad:.4f}</div>
-      </div>
-      <div class="fx-item">
-        <div class="fx-label">In THB</div>
-        <div class="fx-value">฿{salary_thb:,.0f}</div>
-        <div class="fx-sub">@ {usdthb:.1f}</div>
-      </div>
-      <div class="fx-item countdown-item">
-        <div class="fx-label">Days to Payday</div>
-        <div class="fx-value">{days_pay}</div>
-        <div class="fx-sub">{payday_str}</div>
-      </div>
     </div>
   </div>
 
@@ -1189,7 +1139,7 @@ def main():
     try:
         portfolio_data = fetch_portfolio()
         loaded = sum(1 for v in portfolio_data.values() if v.get("price"))
-        print(f"    ✅ {loaded}/{len(HOLDINGS)} tickers loaded")
+        print(f"    ✅ {loaded}/{len(HOLDINGS_MAP)} tickers loaded")
     except Exception as e:
         print(f"    ❌ {e}")
         portfolio_data = {}
@@ -1197,7 +1147,7 @@ def main():
     print("  🔍 Fetching catalysts (yfinance news)...")
     # Top 5 by value
     sorted_holdings = sorted(
-        HOLDINGS.keys(),
+        HOLDINGS_MAP.keys(),
         key=lambda t: (portfolio_data.get(t, {}).get("value") or 0),
         reverse=True
     )
