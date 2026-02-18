@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """
-Fetch signal feed from X accounts via Twitter's syndication API.
-Runs in GitHub Actions every 4 hours.
+Novaire Signal — Signal Feed fetcher.
+Runs in GitHub Actions every 4 hours. Outputs feed.json to repo root.
 
-Feed logic (exactly 5 tweets per run):
-  Guaranteed slots (1 each):
-    - @TheEconomist  — most recent tweet
-    - @zerohedge     — most recent tweet
-    - @KobeissiLetter — most recent tweet
-  Engagement slots (2 total):
-    - From 14 remaining accounts: top 2 by engagement score (likes + retweets)
-      from tweets in the last 4 hours (falls back to 8h if none found)
+Feed spec (exactly 5 tweets per run):
+  Guaranteed slots (3):
+    1. Most recent tweet from @TheEconomist
+    2. Most recent tweet from @zerohedge
+    3. Most recent tweet from @KobeissiLetter
 
-Each tweet is marked with a 'slot' field: "guaranteed" or "engagement".
+  Engagement slots (2):
+    Top 2 tweets by (likes + retweets) from the 14 remaining accounts,
+    within the last 4 hours (falls back to 8h if the window is empty).
+
+Final output is sorted newest-first for display.
 """
 
 import json
@@ -29,15 +30,32 @@ except ImportError:
     subprocess.run([sys.executable, "-m", "pip", "install", "requests"], check=True)
     import requests
 
-# ── Slot definitions ──────────────────────────────────────────────────────────
+# ── Account lists ─────────────────────────────────────────────────────────────
 
-GUARANTEED_ACCOUNTS = ['TheEconomist', 'zerohedge', 'KobeissiLetter']
+GUARANTEED_ACCOUNTS = [
+    'TheEconomist',
+    'zerohedge',
+    'KobeissiLetter',
+]
 
 ENGAGEMENT_ACCOUNTS = [
-    'BambroughKevin', 'hkuppy', 'quakes99', 'WatcherGuru', 'nntaleb',
-    'tferriss', 'JohnPolomny', 'SantialyAuFund', 'BarbarianCap', 'JoshYoung',
-    'wmiddelkoop', 'White_Rabbit_OG', 'colonelhomsi', 'HydroGraphInc',
+    'BambroughKevin',
+    'hkuppy',
+    'quakes99',
+    'WatcherGuru',
+    'nntaleb',
+    'tferriss',
+    'JohnPolomny',
+    'SantiagoAuFund',
+    'BarbarianCap',
+    'JoshYoung',
+    'wmiddelkoop',
+    'White_Rabbit_OG',
+    'colonelhomsi',
+    'HydroGraphInc',
 ]
+
+ALL_ACCOUNTS = GUARANTEED_ACCOUNTS + ENGAGEMENT_ACCOUNTS  # 17 total
 
 # ── HTTP config ───────────────────────────────────────────────────────────────
 
@@ -52,10 +70,10 @@ HEADERS = {
 
 REPO_ROOT = Path(__file__).parent.parent
 
-# ── Fetch helpers ─────────────────────────────────────────────────────────────
+# ── Tweet fetcher ─────────────────────────────────────────────────────────────
 
 def fetch_user_timeline(username: str, session: requests.Session) -> list:
-    """Fetch recent tweets for a user via Twitter's syndication API."""
+    """Return a list of tweet dicts for the given username (up to 20)."""
     url = (
         f'https://syndication.twitter.com/srv/timeline-profile/'
         f'screen-name/{username}?lang=en'
@@ -63,19 +81,18 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
     try:
         resp = session.get(url, headers=HEADERS, timeout=12)
         if resp.status_code == 429:
-            print(f'  @{username}: rate limited (429), skipping')
+            print(f'  @{username}: rate limited (429) — skipping')
             return []
         if not resp.ok:
             print(f'  @{username}: HTTP {resp.status_code}')
             return []
 
-        html = resp.text
         match = re.search(
             r'<script id="__NEXT_DATA__" type="application/json">([\s\S]*?)</script>',
-            html,
+            resp.text,
         )
         if not match:
-            print(f'  @{username}: no __NEXT_DATA__ found')
+            print(f'  @{username}: __NEXT_DATA__ not found')
             return []
 
         data = json.loads(match.group(1))
@@ -105,20 +122,20 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
                     t.get('created_at', ''), '%a %b %d %H:%M:%S +0000 %Y'
                 ).replace(tzinfo=timezone.utc)
                 created_iso = created_at.isoformat()
-                created_ms = int(created_at.timestamp() * 1000)
+                created_ms  = int(created_at.timestamp() * 1000)
             except (ValueError, TypeError):
                 created_iso = datetime.now(timezone.utc).isoformat()
-                created_ms = 0
+                created_ms  = 0
 
             tweets.append({
-                'id': t['id_str'],
-                'text': text,
-                'author': user.get('name') or username,
-                'handle': user.get('screen_name') or username,
-                'createdAt': created_iso,
+                'id':         t['id_str'],
+                'text':       text,
+                'author':     user.get('name') or username,
+                'handle':     user.get('screen_name') or username,
+                'createdAt':  created_iso,
                 'createdAtMs': created_ms,
-                'likes': t.get('favorite_count', 0),
-                'retweets': t.get('retweet_count', 0),
+                'likes':      t.get('favorite_count', 0),
+                'retweets':   t.get('retweet_count', 0),
                 'url': (
                     f"https://x.com/{user.get('screen_name', username)}"
                     f"/status/{t['id_str']}"
@@ -126,137 +143,139 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
                 'avatar': user.get('profile_image_url_https'),
             })
 
-        print(f'  @{username}: {len(tweets)} tweets fetched')
+        print(f'  @{username}: {len(tweets)} tweets')
         return tweets
 
     except requests.exceptions.Timeout:
         print(f'  @{username}: timeout')
         return []
-    except Exception as e:
-        print(f'  @{username}: error — {e}')
+    except Exception as exc:
+        print(f'  @{username}: error — {exc}')
         return []
 
+# ── Selection helpers ─────────────────────────────────────────────────────────
 
 def most_recent(tweets: list) -> dict | None:
-    """Return the single most recent tweet from a list, or None."""
-    if not tweets:
-        return None
-    return max(tweets, key=lambda t: t['createdAtMs'])
+    """Return the tweet with the largest createdAtMs, or None."""
+    return max(tweets, key=lambda t: t['createdAtMs']) if tweets else None
 
+
+def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n: int) -> list:
+    """
+    From all tweets in tweet_lists that are within window_ms of now
+    and whose id is not in exclude_ids, return the top-n by likes+retweets.
+    """
+    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+    pool = [
+        t
+        for tweets in tweet_lists
+        for t in tweets
+        if t['id'] not in exclude_ids and (now_ms - t['createdAtMs']) <= window_ms
+    ]
+    pool.sort(key=lambda t: t['likes'] + t['retweets'], reverse=True)
+    return pool[:n]
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    print(
-        f'Fetching signal feed '
-        f'({len(GUARANTEED_ACCOUNTS)} guaranteed + '
-        f'{len(ENGAGEMENT_ACCOUNTS)} engagement accounts)...'
-    )
+    print(f'Signal Feed — fetching {len(ALL_ACCOUNTS)} accounts...\n')
 
-    guaranteed_data: dict[str, list] = {}
-    engagement_data: dict[str, list] = {}
+    # Fetch all timelines (guaranteed first, then engagement)
+    all_data: dict[str, list] = {}
     errors: list[str] = []
 
     with requests.Session() as session:
-        print('\n── Guaranteed accounts ──')
+        print('── Guaranteed accounts ──')
         for i, username in enumerate(GUARANTEED_ACCOUNTS):
-            tweets = fetch_user_timeline(username, session)
-            guaranteed_data[username] = tweets
-            if not tweets:
+            all_data[username] = fetch_user_timeline(username, session)
+            if not all_data[username]:
                 errors.append(username)
             if i < len(GUARANTEED_ACCOUNTS) - 1:
                 time.sleep(0.5)
 
         print('\n── Engagement accounts ──')
         for i, username in enumerate(ENGAGEMENT_ACCOUNTS):
-            tweets = fetch_user_timeline(username, session)
-            engagement_data[username] = tweets
-            if not tweets:
+            all_data[username] = fetch_user_timeline(username, session)
+            if not all_data[username]:
                 errors.append(username)
             if i < len(ENGAGEMENT_ACCOUNTS) - 1:
                 time.sleep(0.5)
 
-    # ── 1. Fill guaranteed slots ──────────────────────────────────────────────
+    # ── Slot 1-3: guaranteed (most recent per account) ────────────────────────
+    print('\n── Selecting guaranteed slots ──')
     feed: list[dict] = []
     seen_ids: set[str] = set()
 
-    print('\n── Selecting guaranteed slots ──')
     for username in GUARANTEED_ACCOUNTS:
-        tweet = most_recent(guaranteed_data.get(username, []))
+        tweet = most_recent(all_data.get(username, []))
         if tweet and tweet['id'] not in seen_ids:
             tweet['slot'] = 'guaranteed'
             feed.append(tweet)
             seen_ids.add(tweet['id'])
-            print(f'  ✓ @{username}: {tweet["id"]} ({tweet["createdAt"][:19]})')
+            print(
+                f'  ✓ @{username}: '
+                f'"{tweet["text"][:60].strip()}…" '
+                f'({tweet["createdAt"][:19]} UTC)'
+            )
         else:
-            # Graceful skip — do NOT backfill with an engagement pick
-            print(f'  ✗ @{username}: no data — slot left empty')
+            print(f'  ✗ @{username}: no tweet available — slot skipped')
 
-    # ── 2. Fill engagement slots (top 2 by likes+retweets, last 4h) ──────────
-    print('\n── Selecting engagement slots ──')
-    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
-    four_h_ms = 4 * 60 * 60 * 1000
-    eight_h_ms = 8 * 60 * 60 * 1000
+    # ── Slots 4-5: top 2 engagement from remaining 14 accounts ───────────────
+    print('\n── Selecting engagement slots (last 4h) ──')
+    FOUR_H_MS  = 4 * 60 * 60 * 1000
+    EIGHT_H_MS = 8 * 60 * 60 * 1000
 
-    def candidate_pool(window_ms: int) -> list[dict]:
-        pool = []
-        for tweets in engagement_data.values():
-            for t in tweets:
-                if t['id'] not in seen_ids and (now_ms - t['createdAtMs']) <= window_ms:
-                    pool.append(t)
-        return pool
+    eng_lists = [all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS]
+    top2 = top_engagement(eng_lists, seen_ids, FOUR_H_MS, n=2)
 
-    pool = candidate_pool(four_h_ms)
-    if not pool:
-        print('  ⚠️  No engagement tweets in last 4h — widening to 8h')
-        pool = candidate_pool(eight_h_ms)
+    if not top2:
+        print('  ⚠️  No tweets in last 4h — widening window to 8h')
+        top2 = top_engagement(eng_lists, seen_ids, EIGHT_H_MS, n=2)
 
-    pool.sort(key=lambda t: t['likes'] + t['retweets'], reverse=True)
-
-    picked = 0
-    for t in pool:
-        if t['id'] in seen_ids:
-            continue
-        if picked >= 2:
-            break
+    for t in top2:
+        score = t['likes'] + t['retweets']
         t['slot'] = 'engagement'
         feed.append(t)
         seen_ids.add(t['id'])
-        score = t['likes'] + t['retweets']
-        print(f'  ✓ @{t["handle"]}: {t["id"]} (score={score})')
-        picked += 1
+        print(
+            f'  ✓ @{t["handle"]}: score={score} '
+            f'(♥{t["likes"]} ↺{t["retweets"]}) — '
+            f'"{t["text"][:50].strip()}…"'
+        )
 
-    if picked < 2:
-        print(f'  ⚠️  Only {picked}/2 engagement slot(s) filled')
+    if len(top2) < 2:
+        print(f'  ⚠️  Only {len(top2)}/2 engagement slots filled')
 
-    # ── 3. Sort final feed newest-first ──────────────────────────────────────
+    # ── Sort final feed newest-first ──────────────────────────────────────────
     feed.sort(key=lambda t: t['createdAtMs'], reverse=True)
 
     n_g = sum(1 for t in feed if t.get('slot') == 'guaranteed')
     n_e = sum(1 for t in feed if t.get('slot') == 'engagement')
-    print(f'\n📊 Final feed: {len(feed)} tweets ({n_g} guaranteed, {n_e} engagement)')
+    print(f'\n📊 Final feed: {len(feed)} tweets — {n_g} guaranteed, {n_e} engagement')
 
-    # ── 4. Write output ───────────────────────────────────────────────────────
-    out_path = REPO_ROOT / 'feed.json'
-
+    # ── Write feed.json ───────────────────────────────────────────────────────
     if not feed:
-        print('\n⚠️  No posts fetched — keeping existing feed.json')
+        print('\n⚠️  Nothing to write — keeping existing feed.json')
         if errors:
             print(f'Failed accounts: {", ".join(errors)}')
         return
 
+    out_path = REPO_ROOT / 'feed.json'
     output = {
-        'ok': True,
-        'count': len(feed),
-        'fetchedAt': datetime.now(timezone.utc).isoformat(),
-        'errors': errors,
-        'posts': feed,
+        'ok':              True,
+        'count':           len(feed),
+        'accountsWithPosts': len({t['handle'] for t in feed}),
+        'fetchedAt':       datetime.now(timezone.utc).isoformat(),
+        'windowHours':     4,
+        'curation':        'guaranteed3_engagement2',
+        'errors':          errors,
+        'posts':           feed,
     }
 
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f'\n✅ Saved {len(feed)} posts to feed.json')
+    print(f'✅ Saved {len(feed)} posts to {out_path}')
     if errors:
         print(f'⚠️  Partial failures: {", ".join(errors)}')
 
