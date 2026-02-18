@@ -1,260 +1,743 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novaire Signal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #09090b;
-            --text: #e0dde8;
-            --dim: #807d8e;
-            --faint: #28262f;
-            --gold: #d4a843;
-            --gold-soft: rgba(212,168,67,.10);
-            --blue: #6b8fd4;
-            --violet: #a07ed6;
-            --red: #d46b6b;
-            --serif: 'Cormorant Garamond', Georgia, serif;
-            --sans: 'Instrument Sans', -apple-system, sans-serif;
-        }
-        *{margin:0;padding:0;box-sizing:border-box}
-        html{scroll-behavior:smooth}
-        body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-        .w{max-width:920px;margin:0 auto;padding:0 36px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novaire Signal — Daily Brief</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --text: #e0dde8;
+      --dim: #807d8e;
+      --faint: #1e1c24;
+      --gold: #d4a843;
+      --gold-soft: rgba(212,168,67,.12);
+      --blue: #6b8fd4;
+      --blue-soft: rgba(107,143,212,.12);
+      --violet: #a07ed6;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Instrument Sans', -apple-system, sans-serif;
+      --positive: #4caf80;
+      --negative: #e05c5c;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:40px 20px}
+    .container{max-width:760px;margin:0 auto}
 
-        /* NAV */
-        nav{padding:32px 0;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--faint)}
-        .logo{font-family:var(--serif);font-size:1rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);font-weight:400}
-        .logo span{color:var(--gold)}
-        .nav-right{display:flex;gap:24px;align-items:baseline}
-        nav a{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .3s;font-weight:500}
-        nav a:hover{color:var(--gold)}
+    /* HEADER */
+    .header{text-align:center;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid var(--faint)}
+    .header h1{
+      font-family:var(--serif);font-weight:300;font-size:clamp(2rem,6vw,3.2rem);
+      letter-spacing:.04em;color:var(--text);margin-bottom:10px
+    }
+    .header h1 span{color:var(--gold);font-style:italic}
+    .header .date{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+    .header .gen{font-size:.65rem;color:#3a3840;margin-top:4px}
 
-        /* HERO */
-        .hero{padding:88px 0 64px}
-        .hero-meta{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:600}
-        .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.8rem,6vw,5rem);line-height:1.06;letter-spacing:-.015em;margin-bottom:24px}
-        .hero h1 em{font-style:italic;background:linear-gradient(135deg,#8eaee0 0%,#b9a0d8 30%,#d8bf8a 65%,#d4a843 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .hero p{font-size:1.05rem;color:var(--dim);max-width:560px;line-height:1.8}
-        .line{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:56px 0 0}
+    /* CARDS */
+    .card{
+      background:rgba(255,255,255,.02);border:1px solid var(--faint);
+      padding:24px;margin-bottom:20px;
+    }
+    .card-title{
+      font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px
+    }
+    .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}
 
-        /* TODAY CARD */
-        .today{padding:64px 0 48px;border-top:1px solid var(--faint)}
-        .today-label{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;font-weight:600}
-        .today-card{border:1px solid rgba(212,168,67,.25);background:linear-gradient(135deg,rgba(212,168,67,.04) 0%,rgba(107,143,212,.03) 100%);padding:36px 40px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start}
-        .today-date{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:12px;font-weight:600}
-        .today-title{font-family:var(--serif);font-size:1.8rem;font-weight:400;line-height:1.2;margin-bottom:16px}
-        .today-signals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-        .sig{font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border:1px solid}
-        .sig.up{color:#6dba8a;border-color:rgba(109,186,138,.3)}
-        .sig.down{color:var(--red);border-color:rgba(212,107,107,.3)}
-        .sig.neutral{color:var(--dim);border-color:var(--faint)}
-        .today-read{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;padding:12px 32px;border:1px solid rgba(212,168,67,.35);font-weight:600;display:inline-block;transition:all .3s;white-space:nowrap;align-self:center}
-        .today-read:hover{background:var(--gold-soft);border-color:rgba(212,168,67,.6)}
-        .today-issue{font-family:var(--serif);font-size:4rem;font-weight:300;color:rgba(212,168,67,.12);line-height:1;text-align:right}
+    /* QUOTES */
+    .quote{margin-bottom:16px;padding-left:16px;border-left:2px solid var(--gold-soft)}
+    .quote:last-child{margin-bottom:0}
+    .quote-type{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:4px;font-weight:600}
+    .quote-text{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--text);line-height:1.6}
+    .quote-author{font-size:.78rem;color:var(--dim);margin-top:4px}
 
-        /* TICKERS */
-        .tickers{padding:0 0 48px}
-        .ticker-row{display:flex;gap:0;border:1px solid var(--faint);overflow:hidden}
-        .ticker-item{flex:1;padding:16px 20px;border-right:1px solid var(--faint);text-align:center}
-        .ticker-item:last-child{border-right:none}
-        .ticker-sym{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;font-weight:600}
-        .ticker-val{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--text);margin-bottom:4px}
-        .ticker-chg{font-size:.72rem;font-weight:500}
-        .ticker-chg.up{color:#6dba8a}
-        .ticker-chg.dn{color:var(--red)}
-        .ticker-chg.flat{color:var(--dim)}
+    /* WEATHER */
+    .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .weather-item{text-align:center;padding:14px 8px;background:rgba(255,255,255,.02);border:1px solid var(--faint)}
+    .weather-item .city{font-size:.72rem;color:var(--dim);margin-bottom:6px;letter-spacing:.06em}
+    .weather-item .temp{font-size:1.3rem;font-weight:500;color:var(--gold);font-family:var(--serif)}
+    .weather-item .condition{font-size:.68rem;color:var(--dim);margin-top:4px;line-height:1.4}
 
-        /* ARCHIVE */
-        .archive{padding:56px 0;border-top:1px solid var(--faint)}
-        .archive-label{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:32px;font-weight:600}
-        .issue-row{border-bottom:1px solid var(--faint);transition:background .2s}
-        .issue-row:hover{background:rgba(255,255,255,.02)}
-        .issue-inner{padding:22px 0;display:grid;grid-template-columns:80px 1fr auto;gap:24px;align-items:center}
-        .issue-num{font-family:var(--serif);font-size:2rem;font-weight:300;color:var(--faint);line-height:1}
-        .issue-date{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600}
-        .issue-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--text);margin-bottom:6px}
-        .issue-tags{display:flex;gap:6px;flex-wrap:wrap}
-        .tag{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
-        .tag::after{content:'·';margin-left:6px}
-        .tag:last-child::after{content:''}
-        .issue-link{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .3s;font-weight:500;flex-shrink:0}
-        .issue-link:hover{color:var(--gold)}
+    /* NEWS */
+    .thai-news-compact{margin-top:16px;padding:14px;background:rgba(212,168,67,.04);border:1px solid rgba(212,168,67,.12)}
+    .thai-news-header{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px;font-weight:600}
+    .thai-news-item{font-size:.88rem;color:var(--text);padding:6px 0;border-bottom:1px solid var(--faint);line-height:1.5}
+    .thai-news-item:last-child{border-bottom:none}
 
-        /* INTEL GRID */
-        .intel{padding:56px 0;border-top:1px solid var(--faint)}
-        .intel-label{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:32px;font-weight:600}
-        .intel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--faint)}
-        .intel-item{background:var(--bg);padding:24px 28px}
-        .intel-cat{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;font-weight:600}
-        .intel-cat.markets{color:var(--gold)}
-        .intel-cat.ai{color:var(--blue)}
-        .intel-cat.geo{color:#e07050}
-        .intel-item p{font-size:.88rem;color:var(--dim);line-height:1.65}
+    /* STAR SIGN */
+    .star-sign{text-align:center;padding:8px}
+    .star-sign-symbol{font-size:2.5rem;margin-bottom:8px}
+    .star-sign-main{font-family:var(--serif);font-size:1.5rem;color:var(--gold);margin-bottom:8px}
+    .star-sign-range{font-size:.75rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+    .star-sign-desc{font-size:.9rem;color:var(--dim);line-height:1.6;max-width:520px;margin:0 auto}
 
-        /* FOOTER */
-        footer{padding:28px 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center}
-        footer span{font-size:.68rem;color:var(--faint);letter-spacing:.04em}
-        .footer-links{display:flex;gap:20px}
-        footer a{font-size:.68rem;color:var(--dim);text-decoration:none;transition:color .3s}
-        footer a:hover{color:var(--gold)}
+    /* HEADLINES */
+    .headline{padding:10px 0;border-bottom:1px solid var(--faint)}
+    .headline:last-child{border-bottom:none}
+    .headline-num{
+      display:inline-block;width:22px;height:22px;background:var(--gold-soft);
+      color:var(--gold);border-radius:2px;text-align:center;line-height:22px;
+      font-size:.72rem;font-weight:600;margin-right:10px
+    }
+    .headline-text{font-size:.92rem;color:var(--text)}
 
-        /* FADE IN */
-        .fi{opacity:0;transform:translateY(12px);animation:fu .85s ease forwards}
-        @keyframes fu{to{opacity:1;transform:translateY(0)}}
-        .d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.36s}.d4{animation-delay:.5s}
+    /* PORTFOLIO TABLE */
+    .portfolio-table{width:100%;border-collapse:collapse;font-size:.82rem}
+    .portfolio-table th{
+      text-align:left;padding:8px 6px;font-size:.62rem;font-weight:600;
+      color:var(--dim);text-transform:uppercase;letter-spacing:.1em;
+      border-bottom:1px solid var(--faint)
+    }
+    .portfolio-table td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.03)}
+    .portfolio-table tr:hover{background:rgba(255,255,255,.02)}
+    .ticker{font-weight:600;color:var(--gold);font-size:.88rem}
+    .positive{color:var(--positive)}
+    .negative{color:var(--negative)}
 
-        @media(max-width:640px){
-            .w{padding:0 20px}
-            .hero{padding:64px 0 48px}
-            .today-card{grid-template-columns:1fr;padding:24px}
-            .today-issue{display:none}
-            .ticker-row{flex-wrap:wrap}
-            .ticker-item{flex:calc(33% - 1px);min-width:80px}
-            .issue-inner{grid-template-columns:48px 1fr auto}
-            .issue-num{font-size:1.4rem}
-            .intel-grid{grid-template-columns:1fr}
-            footer{flex-direction:column;gap:10px;text-align:center}
-        }
-    </style>
+    .totals-row{display:flex;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--faint)}
+    .total-item{text-align:center}
+    .total-label{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+    .total-value{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-top:4px}
+    .total-value.cad{color:var(--positive)}
+    .total-value.usd{color:var(--gold)}
+
+    .allocation-section{display:flex;align-items:center;gap:28px;margin-top:24px;padding-top:20px;border-top:1px solid var(--faint)}
+    .pie-chart{flex-shrink:0}
+    .allocation-legend{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .legend-item{display:flex;align-items:center;gap:8px;font-size:.78rem}
+    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .legend-pct{color:var(--dim);margin-left:auto}
+
+    /* CATALYSTS */
+    .catalyst-item{padding:12px 0;border-bottom:1px solid var(--faint)}
+    .catalyst-item:last-child{border-bottom:none}
+    .catalyst-ticker{font-weight:600;color:var(--gold);font-size:.9rem}
+    .catalyst-badge{display:inline-block;background:var(--gold-soft);color:var(--gold);font-size:.65rem;padding:2px 8px;border-radius:2px;margin-left:8px}
+    .no-news{color:var(--dim);font-style:italic;font-size:.82rem;margin-left:8px}
+
+    /* COMMODITIES */
+    .commodities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .commodity-item{background:rgba(255,255,255,.02);padding:14px;border:1px solid var(--faint);text-align:center}
+    .commodity-name{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;font-weight:600}
+    .commodity-price{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:2px}
+    .commodity-unit{font-size:.65rem;color:var(--dim)}
+    .commodity-change{font-size:.78rem;margin-top:4px}
+    .gold{color:#d4a843}.silver{color:#c0c0c0}.copper{color:#b87333}
+    .oil{color:#8b7355}.palladium{color:#cec8c6}.uranium{color:#7fff00}
+
+    /* CRYPTO */
+    .crypto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .crypto-item{background:rgba(255,255,255,.02);padding:14px;border:1px solid var(--faint);text-align:center}
+    .crypto-symbol{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+    .crypto-price{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:2px}
+    .crypto-change{font-size:.78rem;margin-top:4px}
+
+    /* FX / SALARY */
+    .btc-highlight{
+      background:linear-gradient(135deg,rgba(212,168,67,.08),rgba(212,168,67,.02));
+      border:1px solid rgba(212,168,67,.2);padding:18px;text-align:center;margin-bottom:16px
+    }
+    .btc-highlight .label{font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+    .btc-row{display:flex;align-items:baseline;justify-content:center;gap:12px}
+    .btc-row .usd{font-family:var(--serif);font-size:1.4rem;color:var(--text)}
+    .btc-row .eq{color:var(--dim)}
+    .btc-row .btc{font-family:var(--serif);font-size:1.4rem;color:var(--gold)}
+    .btc-row .rate{font-size:.75rem;color:var(--dim);margin-left:4px}
+    .fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .fx-item{background:rgba(255,255,255,.02);padding:14px;border:1px solid var(--faint);text-align:center}
+    .fx-label{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+    .fx-value{font-family:var(--serif);font-size:1.3rem;color:var(--text);margin-top:4px}
+    .fx-sub{font-size:.72rem;color:var(--dim);margin-top:2px}
+    .countdown-item{border-color:rgba(107,143,212,.3);background:rgba(107,143,212,.04)}
+    .countdown-item .fx-value{color:var(--blue)}
+
+    /* RADAR */
+    .radar-category{
+      font-size:.65rem;font-weight:600;color:var(--gold);text-transform:uppercase;
+      letter-spacing:.18em;margin:18px 0 10px;padding-bottom:6px;
+      border-bottom:1px solid var(--gold-soft)
+    }
+    .radar-category:first-child{margin-top:0}
+    .radar-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--faint)}
+    .radar-item:last-child{border-bottom:none}
+    .radar-icon{font-size:.9rem;width:24px;text-align:center;padding-top:2px}
+    .radar-content{flex:1}
+    .radar-name{font-size:.9rem;font-weight:600;color:var(--text)}
+    .radar-ticker{font-size:.75rem;color:var(--gold);margin-left:6px}
+    .radar-mcap{font-size:.72rem;color:var(--positive);margin-left:6px}
+    .radar-desc{font-size:.82rem;color:var(--dim);margin-top:4px;line-height:1.5}
+    .radar-thesis{font-size:.78rem;color:var(--blue);margin-top:4px;font-style:italic}
+
+    /* RECOMMENDATIONS */
+    .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .rec-item{background:rgba(255,255,255,.02);padding:18px;border:1px solid var(--faint)}
+    .rec-label{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px;font-weight:600}
+    .rec-title{font-family:var(--serif);font-size:1.1rem;color:var(--text);margin-bottom:4px}
+    .rec-meta{font-size:.72rem;color:var(--blue);margin-bottom:6px}
+    .rec-summary{font-size:.82rem;color:var(--dim);line-height:1.5}
+
+    /* THAI WORD */
+    .thai-word-box{
+      display:flex;align-items:center;justify-content:center;gap:16px;
+      padding:14px;background:rgba(212,168,67,.04);border:1px solid rgba(212,168,67,.12)
+    }
+    .thai-word-box .word{font-family:var(--serif);font-size:1.15rem;color:var(--gold)}
+    .thai-word-box .dot{color:var(--faint)}
+    .thai-word-box .meaning{font-size:.85rem;color:var(--dim)}
+
+    /* X PLACEHOLDER */
+    .x-placeholder{text-align:center;padding:20px;color:var(--dim);font-size:.88rem}
+    .x-placeholder a{color:var(--gold);text-decoration:none}
+
+    /* FOOTER */
+    .footer{text-align:center;padding:32px 0;border-top:1px solid var(--faint);margin-top:32px}
+    .footer span{font-size:.68rem;color:var(--faint);letter-spacing:.06em}
+    .footer .logo{font-family:var(--serif);font-size:1rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px}
+
+    /* RESPONSIVE */
+    @media(max-width:600px){
+      .weather-grid{grid-template-columns:repeat(2,1fr)}
+      .commodities-grid{grid-template-columns:repeat(2,1fr)}
+      .crypto-grid{grid-template-columns:repeat(2,1fr)}
+      .fx-grid{grid-template-columns:repeat(2,1fr)}
+      .allocation-section{flex-direction:column}
+      .rec-grid{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
-<div class="w">
-    <nav>
-        <div class="logo">Novaire <span>Signal</span></div>
-        <div class="nav-right">
-            <a href="#archive">Archive</a>
-            <a href="https://evolution.fund">Evolution Fund →</a>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Novaire <span>Signal</span></h1>
+    <div class="date">Wednesday, February 18, 2026</div>
+    <div class="gen">Generated 02:01 UTC · Live data</div>
+  </div>
+
+  <!-- QUOTES -->
+  <div class="card">
+    <div class="card-title">📜 Quotes</div>
+    <div class="quote">
+      <div class="quote-type">Investing</div>
+      <div class="quote-text">"In the short run, the market is a voting machine. In the long run, it is a weighing machine."</div>
+      <div class="quote-author">— Benjamin Graham</div>
+    </div>
+    <div class="quote">
+      <div class="quote-type">Philosophy</div>
+      <div class="quote-text">"Waste no more time arguing about what a good man should be. Be one."</div>
+      <div class="quote-author">— Marcus Aurelius</div>
+    </div>
+    <div class="quote">
+      <div class="quote-type">Psychology</div>
+      <div class="quote-text">"What we resist persists."</div>
+      <div class="quote-author">— Carl Jung</div>
+    </div>
+  </div>
+
+  <!-- WEATHER + THAILAND NEWS -->
+  <div class="card">
+    <div class="card-title">🌤 Weather</div>
+    <div class="weather-grid">
+      
+        <div class="weather-item">
+          <div class="city">🇹🇭 Bangkok</div>
+          <div class="temp">28°C</div>
+          <div class="condition">Partly Cloudy ⛅</div>
         </div>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-meta fi">Daily Intelligence Brief</div>
-        <h1 class="fi d1">The signal.<br><em>Every morning.</em></h1>
-        <p class="fi d2">Markets, macro, AI, and geopolitics — distilled daily for better investment decisions and sharper use of time.</p>
-        <div class="line fi d3"></div>
-    </section>
-
-    <section class="today fi d2">
-        <div class="today-label">Today's Brief</div>
-        <div class="today-card">
-            <div>
-                <div class="today-date">February 18, 2026 — Issue #002</div>
-                <div class="today-title">Buffett Sells, Hyperscalers Buy, Geneva Talks</div>
-                <div class="today-signals">
-                    <span class="sig up">HG.CN +6.43%</span>
-                    <span class="sig down">TOM.V −37.78%</span>
-                    <span class="sig up">BTC $67.3K</span>
-                    <span class="sig neutral">Gold $4,897</span>
-                    <span class="sig neutral">AI Capex ↑ 83% OCF</span>
-                </div>
-                <a href="https://files.catbox.moe/fpv80w.html" target="_blank" class="today-read">Read Today's Brief →</a>
-            </div>
-            <div class="today-issue">#002</div>
+        <div class="weather-item">
+          <div class="city">🇨🇴 Medellín</div>
+          <div class="temp">24°C</div>
+          <div class="condition">Showers 🌦</div>
         </div>
-    </section>
-
-    <section class="tickers fi d3">
-        <div class="ticker-row">
-            <div class="ticker-item">
-                <div class="ticker-sym">BTC</div>
-                <div class="ticker-val">$67,305</div>
-                <div class="ticker-chg dn">−2.20%</div>
-            </div>
-            <div class="ticker-item">
-                <div class="ticker-sym">Gold</div>
-                <div class="ticker-val">$4,897</div>
-                <div class="ticker-chg dn">−0.17%</div>
-            </div>
-            <div class="ticker-item">
-                <div class="ticker-sym">Copper</div>
-                <div class="ticker-val">$5.68</div>
-                <div class="ticker-chg up">+0.59%</div>
-            </div>
-            <div class="ticker-item">
-                <div class="ticker-sym">URA</div>
-                <div class="ticker-val">$51.32</div>
-                <div class="ticker-chg dn">−1.14%</div>
-            </div>
-            <div class="ticker-item">
-                <div class="ticker-sym">HG.CN</div>
-                <div class="ticker-val">C$3.64</div>
-                <div class="ticker-chg up">+6.43%</div>
-            </div>
-            <div class="ticker-item">
-                <div class="ticker-sym">S&P 500</div>
-                <div class="ticker-val">6,836</div>
-                <div class="ticker-chg up">+0.05%</div>
-            </div>
+        <div class="weather-item">
+          <div class="city">🇨🇦 Edmonton</div>
+          <div class="temp">-21°C</div>
+          <div class="condition">Slight Snow 🌨</div>
         </div>
-    </section>
-
-    <section class="intel fi d3">
-        <div class="intel-label">Key Signals This Week</div>
-        <div class="intel-grid">
-            <div class="intel-item">
-                <div class="intel-cat markets">Portfolio</div>
-                <p>HG.CN +6.43% — graphene ripping ahead of Q1. TOM.V −37.78% on thin volume. Critical materials thesis playing out in real time.</p>
-            </div>
-            <div class="intel-item">
-                <div class="intel-cat ai">AI & Compute</div>
-                <p>Hyperscaler AI capex now 83% of OCF. Pentagon may flag Anthropic as supply chain risk. Sonnet 4.6 launched — "approaches Opus-level."</p>
-            </div>
-            <div class="intel-item">
-                <div class="intel-cat geo">Geopolitics</div>
-                <p>US-Iran + Russia-Ukraine Geneva talks simultaneously. IRGC closes Strait of Hormuz for drills. Valar Atomics airlifts nuclear reactor by C-17.</p>
-            </div>
+        <div class="weather-item">
+          <div class="city">🇺🇾 Montevideo</div>
+          <div class="temp">21°C</div>
+          <div class="condition">Mainly Clear 🌤</div>
         </div>
-    </section>
+    </div>
+    <div class="thai-news-compact">
+      <div class="thai-news-header">🇹🇭 Thailand News</div>
+      <div class="thai-news-item"><a href="https://www.bangkokpost.com/" style="color:var(--text);text-decoration:none" target="_blank">Bangkok Post - The world’s window on Thailand</a></div><div class="thai-news-item"><a href="https://www.bangkokpost.com/business/general/3199538/phuket-up-in-arms-on-longstay-visa" style="color:var(--text);text-decoration:none" target="_blank">Phuket up in arms on long‑stay visa</a></div><div class="thai-news-item"><a href="https://www.bangkokpost.com/thailand/general/3199558/zoo-clarifies-welfare-of-moo-deng" style="color:var(--text);text-decoration:none" target="_blank">Zoo clarifies welfare of 'Moo Deng'</a></div>
+    </div>
+  </div>
 
-    <section class="archive fi d4" id="archive">
-        <div class="archive-label">Archive</div>
+  <!-- STAR SIGN -->
+  <div class="card">
+    <div class="star-sign">
+      <div class="star-sign-symbol">♒</div>
+      <div class="star-sign-main">Aquarius</div>
+      <div class="star-sign-range">Jan 20 – Feb 18</div>
+      <div class="star-sign-desc">Innovative, independent, and humanitarian — forward-thinking visionaries who value freedom.</div>
+    </div>
+  </div>
 
-        <div class="issue-row">
-            <div class="issue-inner">
-                <div class="issue-num">#002</div>
-                <div>
-                    <div class="issue-date">Feb 18, 2026</div>
-                    <div class="issue-title">Buffett Sells, Hyperscalers Buy, Geneva Talks</div>
-                    <div class="issue-tags">
-                        <span class="tag">Markets</span>
-                        <span class="tag">AI</span>
-                        <span class="tag">Geopolitics</span>
-                        <span class="tag">Portfolio +HG.CN</span>
-                    </div>
-                </div>
-                <a href="https://files.catbox.moe/fpv80w.html" target="_blank" class="issue-link">Read →</a>
+  <!-- ZEROHEDGE -->
+  <div class="card">
+    <div class="card-title">📰 ZeroHedge — Top Headlines</div>
+    
+        <div class="headline">
+          <span class="headline-num">1</span>
+          <a href="https://www.zerohedge.com/news/2026-02-17/goldman-gold-dealers-gamma-squeezed-january" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Goldman: Gold Dealers Gamma-Squeezed in January</a>
+        </div>
+        <div class="headline">
+          <span class="headline-num">2</span>
+          <a href="https://www.zerohedge.com/news/2026-02-17/nasdaq-momentum-less" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">The Nasdaq is "Momentum-less"</a>
+        </div>
+        <div class="headline">
+          <span class="headline-num">3</span>
+          <a href="https://www.zerohedge.com/news/2026-02-17/gold-ultimate-asset-or-party-pooper-part-i" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Gold: The Ultimate Asset or Party Pooper? – Part I</a>
+        </div>
+        <div class="headline">
+          <span class="headline-num">4</span>
+          <a href="https://www.zerohedge.com/markets/jpmorgan-desk-says-ai-selling-almost-over-goes-long-basket-most-mispriced-and-insulated-ai" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">JPMorgan Desk Says AI Selling Almost Over, Goes Long Basket Of "Most Mispriced And Insulated From AI Disruption" Stocks</a>
+        </div>
+  </div>
+
+  <!-- X / SOCIAL -->
+  <div class="card">
+    <div class="card-title">🐦 X / Social</div>
+    <div class="x-placeholder">
+      <p>Personalised feed from <strong>@nolanjamesfyfe</strong>'s following.</p>
+      <p style="margin-top:8px;font-size:.78rem">
+        <a href="https://twitter.com/login" target="_blank">Sign in to X to view personalised posts →</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="card">
+    <div class="card-title">📦 Portfolio</div>
+    <table class="portfolio-table">
+      <thead>
+        <tr>
+          <th>Ticker</th><th>Name</th>
+          <th style="text-align:right">Shares</th>
+          <th style="text-align:right">Price</th>
+          <th style="text-align:right">24h</th>
+          <th style="text-align:right">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ticker">HG</td>
+          <td style="color:var(--dim);font-size:.85em">Hydrograph</td>
+          <td style="text-align:right">11,000</td>
+          <td style="text-align:right">$3.64</td>
+          <td style="text-align:right"><span class="positive">+6.43%</span></td>
+          <td style="text-align:right;font-weight:600">$40,040</td>
+        </tr>
+        <tr>
+          <td class="ticker">LOT</td>
+          <td style="color:var(--dim);font-size:.85em">Lotus Resources</td>
+          <td style="text-align:right">11,000</td>
+          <td style="text-align:right">$1.95</td>
+          <td style="text-align:right"><span class="positive">+0.78%</span></td>
+          <td style="text-align:right;font-weight:600">$21,395</td>
+        </tr>
+        <tr>
+          <td class="ticker">GLO</td>
+          <td style="color:var(--dim);font-size:.85em">Global Atomic</td>
+          <td style="text-align:right">22,000</td>
+          <td style="text-align:right">$0.69</td>
+          <td style="text-align:right"><span class="positive">+2.99%</span></td>
+          <td style="text-align:right;font-weight:600">$15,180</td>
+        </tr>
+        <tr>
+          <td class="ticker">DML</td>
+          <td style="color:var(--dim);font-size:.85em">Denison Mines</td>
+          <td style="text-align:right">1,000</td>
+          <td style="text-align:right">$5.19</td>
+          <td style="text-align:right"><span class="positive">+0.58%</span></td>
+          <td style="text-align:right;font-weight:600">$5,190</td>
+        </tr>
+        <tr>
+          <td class="ticker">BNNLF</td>
+          <td style="color:var(--dim);font-size:.85em">Bannerman Energy</td>
+          <td style="text-align:right">1,300</td>
+          <td style="text-align:right">$2.78</td>
+          <td style="text-align:right"><span class="positive">+4.51%</span></td>
+          <td style="text-align:right;font-weight:600">$3,614</td>
+        </tr>
+        <tr>
+          <td class="ticker">PNPN</td>
+          <td style="color:var(--dim);font-size:.85em">Power Nickel</td>
+          <td style="text-align:right">1,000</td>
+          <td style="text-align:right">$1.28</td>
+          <td style="text-align:right"><span class="negative">-0.78%</span></td>
+          <td style="text-align:right;font-weight:600">$1,280</td>
+        </tr>
+        <tr>
+          <td class="ticker">PEGA</td>
+          <td style="color:var(--dim);font-size:.85em">Pegasus Resources</td>
+          <td style="text-align:right">20,000</td>
+          <td style="text-align:right">$0.06</td>
+          <td style="text-align:right"><span class="positive">+0.00%</span></td>
+          <td style="text-align:right;font-weight:600">$1,200</td>
+        </tr>
+        <tr>
+          <td class="ticker">NAM</td>
+          <td style="color:var(--dim);font-size:.85em">New Age Metals</td>
+          <td style="text-align:right">3,000</td>
+          <td style="text-align:right">$0.37</td>
+          <td style="text-align:right"><span class="negative">-11.90%</span></td>
+          <td style="text-align:right;font-weight:600">$1,110</td>
+        </tr>
+        <tr>
+          <td class="ticker">TOM</td>
+          <td style="color:var(--dim);font-size:.85em">Torchlight Energy</td>
+          <td style="text-align:right">3,000</td>
+          <td style="text-align:right">$0.28</td>
+          <td style="text-align:right"><span class="negative">-37.78%</span></td>
+          <td style="text-align:right;font-weight:600">$840</td>
+        </tr>
+        <tr>
+          <td class="ticker">CAPT</td>
+          <td style="color:var(--dim);font-size:.85em">Capitan Silver</td>
+          <td style="text-align:right">400</td>
+          <td style="text-align:right">$2.07</td>
+          <td style="text-align:right"><span class="negative">-3.27%</span></td>
+          <td style="text-align:right;font-weight:600">$828</td>
+        </tr>
+        <tr>
+          <td class="ticker">SVE</td>
+          <td style="color:var(--dim);font-size:.85em">Silver One</td>
+          <td style="text-align:right">1,000</td>
+          <td style="text-align:right">$0.59</td>
+          <td style="text-align:right"><span class="negative">-1.67%</span></td>
+          <td style="text-align:right;font-weight:600">$590</td>
+        </tr>
+        <tr>
+          <td class="ticker">BQSSF</td>
+          <td style="color:var(--dim);font-size:.85em">Boss Energy</td>
+          <td style="text-align:right">500</td>
+          <td style="text-align:right">$1.15</td>
+          <td style="text-align:right"><span class="negative">-2.13%</span></td>
+          <td style="text-align:right;font-weight:600">$575</td>
+        </tr>
+        <tr>
+          <td class="ticker">EU</td>
+          <td style="color:var(--dim);font-size:.85em">Encore Energy</td>
+          <td style="text-align:right">125</td>
+          <td style="text-align:right">$3.40</td>
+          <td style="text-align:right"><span class="negative">-6.08%</span></td>
+          <td style="text-align:right;font-weight:600">$425</td>
+        </tr>
+        <tr>
+          <td class="ticker">AAG</td>
+          <td style="color:var(--dim);font-size:.85em">Aftermath Silver</td>
+          <td style="text-align:right">438</td>
+          <td style="text-align:right">$0.85</td>
+          <td style="text-align:right"><span class="negative">-7.61%</span></td>
+          <td style="text-align:right;font-weight:600">$372</td>
+        </tr>
+        <tr>
+          <td class="ticker">FVL</td>
+          <td style="color:var(--dim);font-size:.85em">FreeGold Ventures</td>
+          <td style="text-align:right">10,000</td>
+          <td style="text-align:right">—</td>
+          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+          <td style="text-align:right;font-weight:600">—</td>
+        </tr>
+        <tr>
+          <td class="ticker">MOLY</td>
+          <td style="color:var(--dim);font-size:.85em">Moly Mines</td>
+          <td style="text-align:right">3,950</td>
+          <td style="text-align:right">—</td>
+          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+          <td style="text-align:right;font-weight:600">—</td>
+        </tr>
+        <tr>
+          <td class="ticker">MAXX</td>
+          <td style="color:var(--dim);font-size:.85em">Power Mining</td>
+          <td style="text-align:right">2,000</td>
+          <td style="text-align:right">—</td>
+          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+          <td style="text-align:right;font-weight:600">—</td>
+        </tr>
+        <tr>
+          <td class="ticker">VZLA</td>
+          <td style="color:var(--dim);font-size:.85em">Vizsla Silver</td>
+          <td style="text-align:right">100</td>
+          <td style="text-align:right">—</td>
+          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+          <td style="text-align:right;font-weight:600">—</td>
+        </tr>
+        <tr>
+          <td class="ticker">AEU</td>
+          <td style="color:var(--dim);font-size:.85em">Atomic Eagle</td>
+          <td style="text-align:right">2,027</td>
+          <td style="text-align:right">—</td>
+          <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
+          <td style="text-align:right;font-weight:600">—</td>
+        </tr></tbody>
+    </table>
+    <div class="totals-row">
+      <div class="total-item">
+        <div class="total-label">Total USD</div>
+        <div class="total-value usd">$92,639</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">Total CAD</div>
+        <div class="total-value cad">$126,421</div>
+      </div>
+    </div>
+    <div class="allocation-section">
+      <svg class="pie-chart" viewBox="0 0 100 100" style="width:140px;height:140px"><circle r="25" cx="50" cy="50" fill="transparent" stroke="#d4a843" stroke-width="50" stroke-dasharray="80.68 157.08" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#6b8fd4" stroke-width="50" stroke-dasharray="67.89 157.08" stroke-dashoffset="-80.68" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#a07ed6" stroke-width="50" stroke-dasharray="3.31 157.08" stroke-dashoffset="-148.57" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#2a9d8f" stroke-width="50" stroke-dasharray="3.04 157.08" stroke-dashoffset="-151.87" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#e63946" stroke-width="50" stroke-dasharray="2.17 157.08" stroke-dashoffset="-154.91" transform="rotate(-90 50 50)"/><circle r="15" cx="50" cy="50" fill="#09090b"/></svg>
+      <div class="allocation-legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#d4a843"></span>Uranium<span class="legend-pct">51.4%</span></div>
+<div class="legend-item"><span class="legend-dot" style="background:#6b8fd4"></span>Graphene<span class="legend-pct">43.2%</span></div>
+<div class="legend-item"><span class="legend-dot" style="background:#a07ed6"></span>Metals<span class="legend-pct">2.1%</span></div>
+<div class="legend-item"><span class="legend-dot" style="background:#2a9d8f"></span>Silver<span class="legend-pct">1.9%</span></div>
+<div class="legend-item"><span class="legend-dot" style="background:#e63946"></span>Nickel<span class="legend-pct">1.4%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATALYSTS -->
+  <div class="card">
+    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
+    
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">HG</span>
+              <span class="catalyst-badge">Feb 10</span>
+              <div style="font-size:.9em;color:var(--dim);margin-top:6px">HydroGraph Adds UK's Hubron International to Fractal Graphene Compounding Partner Program</div>
             </div>
-        </div>
-
-        <div class="issue-row">
-            <div class="issue-inner">
-                <div class="issue-num">#001</div>
-                <div>
-                    <div class="issue-date">Feb 17, 2026</div>
-                    <div class="issue-title">Hyperscaler Capex Cuts, EV Affordability, Hormuz Drills</div>
-                    <div class="issue-tags">
-                        <span class="tag">Energy</span>
-                        <span class="tag">Macro</span>
-                        <span class="tag">Geopolitics</span>
-                        <span class="tag">BTC $68K</span>
-                    </div>
-                </div>
-                <a href="https://files.catbox.moe/999wqr.html" target="_blank" class="issue-link">Read →</a>
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">LOT</span>
+              <span class="catalyst-badge">Jan 25</span>
+              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Assessing Lotus Resources (ASX:LOT) Valuation After Share Consolidation And Technical Breakout</div>
             </div>
-        </div>
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">GLO</span>
+              <span class="catalyst-badge">Jan 16</span>
+              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Global Atomic (TSX:GLO) Valuation After C$50 Million Financing Plan And Amended Dasa Uranium Report</div>
+            </div>
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">DML</span>
+              <span class="catalyst-badge">Feb 13</span>
+              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Where is Denison Mines Corp. (DNN) Headed According to the Street?</div>
+            </div>
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">BNNLF</span>
+              <span class="catalyst-badge">Jan 30</span>
+              <div style="font-size:.9em;color:var(--dim);margin-top:6px">Assessing Bannerman Energy (ASX:BMN) Valuation Ahead Of December 2025 Quarter Update And Investor Webinar</div>
+            </div>
+  </div>
 
-    </section>
-
-    <footer>
-        <span>&copy; 2026 Novaire Signal</span>
-        <div class="footer-links">
-            <a href="https://evolution.fund">Evolution Fund</a>
-            <a href="mailto:nolanjamesfyfe@gmail.com">Contact</a>
+  <!-- COMMODITIES -->
+  <div class="card">
+    <div class="card-title">🪙 Commodities</div>
+    <div class="commodities-grid">
+      
+        <div class="commodity-item">
+          <div class="commodity-name gold">Gold</div>
+          <div class="commodity-price gold">$4,902</div>
+          <div class="commodity-unit">/oz</div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
-    </footer>
+        <div class="commodity-item">
+          <div class="commodity-name silver">Silver</div>
+          <div class="commodity-price silver">$73.22</div>
+          <div class="commodity-unit">/oz</div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
+        </div>
+        <div class="commodity-item">
+          <div class="commodity-name copper">Copper</div>
+          <div class="commodity-price copper">$5.6785</div>
+          <div class="commodity-unit">/lb</div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
+        </div>
+        <div class="commodity-item">
+          <div class="commodity-name oil">Oil (WTI)</div>
+          <div class="commodity-price oil">$62.21</div>
+          <div class="commodity-unit">/bbl</div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
+        </div>
+        <div class="commodity-item">
+          <div class="commodity-name palladium">Palladium</div>
+          <div class="commodity-price palladium">$1,722</div>
+          <div class="commodity-unit">/oz</div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
+        </div>
+        <div class="commodity-item">
+          <div class="commodity-name uranium">Uranium</div>
+          <div class="commodity-price uranium">$51.32</div>
+          <div class="commodity-unit">ETF</div>
+          <div class="commodity-change"><span class="negative">-1.14%</span></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- CRYPTO -->
+  <div class="card">
+    <div class="card-title">🌐 Crypto</div>
+    <div class="crypto-grid">
+      
+        <div class="crypto-item">
+          <div class="crypto-symbol" style="color:#f7931a">BTC</div>
+          <div class="crypto-price" style="color:#f7931a">$67,221</div>
+          <div class="crypto-change"><span class="negative">-2.00%</span></div>
+        </div>
+        <div class="crypto-item">
+          <div class="crypto-symbol" style="color:#627eea">ETH</div>
+          <div class="crypto-price" style="color:#627eea">$1,982</div>
+          <div class="crypto-change"><span class="negative">-0.41%</span></div>
+        </div>
+        <div class="crypto-item">
+          <div class="crypto-symbol" style="color:#9945ff">SOL</div>
+          <div class="crypto-price" style="color:#9945ff">$84.43</div>
+          <div class="crypto-change"><span class="negative">-2.01%</span></div>
+        </div>
+        <div class="crypto-item">
+          <div class="crypto-symbol" style="color:#346aa9">XRP</div>
+          <div class="crypto-price" style="color:#346aa9">$1.4698</div>
+          <div class="crypto-change"><span class="negative">-0.59%</span></div>
+        </div>
+        <div class="crypto-item">
+          <div class="crypto-symbol" style="color:#0098ea">TON</div>
+          <div class="crypto-price" style="color:#0098ea">$1.4130</div>
+          <div class="crypto-change"><span class="negative">-1.81%</span></div>
+        </div>
+        <div class="crypto-item">
+          <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
+          <div class="crypto-price" style="color:#f4b728">$292.30</div>
+          <div class="crypto-change"><span class="negative">-0.37%</span></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- SALARY & FX -->
+  <div class="card">
+    <div class="card-title">💰 Salary & FX</div>
+    <div class="btc-highlight">
+      <div class="label">BTC Conversion</div>
+      <div class="btc-row">
+        <span class="usd">$500 USD</span>
+        <span class="eq">=</span>
+        <span class="btc">0.007438 BTC</span>
+        <span class="rate">@ $67,221</span>
+      </div>
+    </div>
+    <div class="fx-grid">
+      <div class="fx-item">
+        <div class="fx-label">Monthly Salary</div>
+        <div class="fx-value">$4,500</div>
+        <div class="fx-sub">USD/month</div>
+      </div>
+      <div class="fx-item">
+        <div class="fx-label">In CAD</div>
+        <div class="fx-value">$6,141</div>
+        <div class="fx-sub">@ 1.3647</div>
+      </div>
+      <div class="fx-item">
+        <div class="fx-label">In THB</div>
+        <div class="fx-value">฿140,715</div>
+        <div class="fx-sub">@ 31.3</div>
+      </div>
+      <div class="fx-item countdown-item">
+        <div class="fx-label">Days to Payday</div>
+        <div class="fx-value">11</div>
+        <div class="fx-sub">Mar 1, 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RADAR IDEAS -->
+  <div class="card">
+    <div class="card-title">🎯 Radar Ideas</div>
+    <div class="radar-category">🪙 Micro-Cap Crypto</div>
+    <div class="radar-item">
+      <span class="radar-icon">⚡</span>
+      <div class="radar-content">
+        <div><span class="radar-name">Penumbra</span><span class="radar-ticker">PENUMBRA</span><span class="radar-mcap">~$85M mcap</span></div>
+        <div class="radar-desc">Privacy-focused Cosmos chain with shielded swaps & staking. Native DEX with anonymous positions.</div>
+        <div class="radar-thesis">→ Privacy narrative + ZEC correlation + cross-chain DeFi = undervalued</div>
+      </div>
+    </div>
+    <div class="radar-item">
+      <span class="radar-icon">🔗</span>
+      <div class="radar-content">
+        <div><span class="radar-name">Hyperlane</span><span class="radar-ticker">Pre-token</span><span class="radar-mcap">Watch list</span></div>
+        <div class="radar-desc">Permissionless interoperability — any chain to any chain without centralized bridges.</div>
+        <div class="radar-thesis">→ Bridge hacks create demand for trustless alternatives; token launch catalyst</div>
+      </div>
+    </div>
+    <div class="radar-category">⛏️ Micro-Cap Resources</div>
+    <div class="radar-item">
+      <span class="radar-icon">☢️</span>
+      <div class="radar-content">
+        <div><span class="radar-name">Forum Energy Metals</span><span class="radar-ticker">FMC.V</span><span class="radar-mcap">~$18M mcap</span></div>
+        <div class="radar-desc">Athabasca Basin uranium explorer adjacent to Cameco & Orano properties. Q1 drill results pending.</div>
+        <div class="radar-thesis">→ Basin-maker geology + cheap entry = asymmetric upside on drill results</div>
+      </div>
+    </div>
+    <div class="radar-item">
+      <span class="radar-icon">🔋</span>
+      <div class="radar-content">
+        <div><span class="radar-name">American Lithium Energy</span><span class="radar-ticker">AMLI</span><span class="radar-mcap">~$45M mcap</span></div>
+        <div class="radar-desc">Nevada lithium clay project with solid-state battery tech partnership. Domestic supply play.</div>
+        <div class="radar-thesis">→ Domestic lithium + IRA incentives + battery tech = strategic value</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="card">
+    <div class="card-title">🎬 Recommendations</div>
+    <div class="rec-grid">
+      <div class="rec-item">
+        <div class="rec-label">📺 Now Watching</div>
+        <div class="rec-title">The Rip</div>
+        <div class="rec-meta">Netflix · Matt Damon, Ben Affleck</div>
+        <div class="rec-summary">Miami cops discover millions in a stash house — trust frays as outside forces close in. Crime thriller from Joe Carnahan.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-label">📖 Now Reading</div>
+        <div class="rec-title">The Psychology of Money</div>
+        <div class="rec-meta">Morgan Housel · 2020 · Finance/Psychology</div>
+        <div class="rec-summary">Timeless lessons on wealth, greed, and happiness. How behaviour — not intelligence — determines financial outcomes.</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:.75rem;color:var(--dim);text-align:center">
+      Updated quarterly · Last update: Q2 2025
+    </div>
+  </div>
+
+  <!-- THAI WORD OF THE DAY -->
+  <div class="card">
+    <div class="card-title">🇹🇭 Thai Word of the Day</div>
+    <div class="thai-word-box">
+      <span class="word">เรียนรู้ (rian-roo)</span>
+      <span class="dot">•</span>
+      <span class="meaning">to learn — the compounding asset of the mind</span>
+    </div>
+  </div>
+
+  <!-- DAILY MOTIVATION -->
+  <div class="card">
+    <div class="card-title">💪 Daily Motivation</div>
+    <div class="quote" style="border-left-color:rgba(107,143,212,.4)">
+      <div class="quote-type" style="color:var(--blue)">Kaizen Mindset</div>
+      <div class="quote-text">"The man who moves a mountain begins by carrying away small stones."</div>
+      <div class="quote-author">— Confucius</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="logo">Novaire Signal</span>
+    <span>Daily brief for focused allocators · novairesignal.com</span>
+  </div>
+
 </div>
 </body>
 </html>
