@@ -972,10 +972,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- SIGNAL FEED -->
   <div class="card">
-    <div class="card-title">📡 Signal Feed</div>
+    <div class="card-title">📡 Signal Feed — Top 5 by Engagement</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
-      <button class="feed-refresh" onclick="loadFeed(true)" title="Feed updates automatically every 2 hours">↻ Refresh</button>
+      <button class="feed-refresh" onclick="loadFeed(true)" title="Feed updates every 4 hours · filtered to last 4h · ranked by likes + retweets">↻ Refresh</button>
     </div>
     <div class="feed-filter" id="feed-filter"></div>
     <div id="signal-feed">
@@ -1082,7 +1082,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const fetchedAt = json.fetchedAt ? new Date(json.fetchedAt) : new Date();
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
-        status.textContent = allPosts.length + ' posts from ' + (json.accountsWithPosts || '?') + ' accounts · updated ' + ageStr;
+        const windowHours = json.windowHours || 4;
+        status.textContent = 'Top ' + allPosts.length + ' by engagement · last ' + windowHours + 'h · updated ' + ageStr;
       }} catch(err) {{
         status.textContent = 'Feed unavailable';
         document.getElementById('signal-feed').innerHTML = '<div class="feed-empty">Could not load feed: ' + err.message + '</div>';

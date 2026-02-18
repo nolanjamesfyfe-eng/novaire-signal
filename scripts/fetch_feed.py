@@ -132,33 +132,24 @@ def main():
             seen.add(t['id'])
             unique.append(t)
 
-    # Sort by recency
-    unique.sort(key=lambda t: t['createdAtMs'], reverse=True)
+    # ── Filter: last 4 hours only ──
+    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+    four_hours_ms = 4 * 60 * 60 * 1000
+    recent = [t for t in unique if (now_ms - t['createdAtMs']) <= four_hours_ms]
 
-    # Cap per-account to ensure distribution (max 5 per handle)
-    per_account = {}
-    balanced = []
-    for t in unique:
-        h = t['handle']
-        if per_account.get(h, 0) < 5:
-            per_account[h] = per_account.get(h, 0) + 1
-            balanced.append(t)
-        if len(balanced) >= 60:
-            break
+    # If nothing in the last 4h (e.g. all accounts quiet / weekend), widen to 8h as fallback
+    if not recent:
+        print('  ⚠️  No tweets in last 4h — widening window to 8h')
+        recent = [t for t in unique if (now_ms - t['createdAtMs']) <= 8 * 60 * 60 * 1000]
 
-    # If we still have slots, add more from any account
-    if len(balanced) < 60:
-        in_balanced = set(t['id'] for t in balanced)
-        for t in unique:
-            if t['id'] not in in_balanced:
-                balanced.append(t)
-                in_balanced.add(t['id'])
-            if len(balanced) >= 60:
-                break
+    # ── Sort by engagement score (likes + retweets), take top 5 ──
+    recent.sort(key=lambda t: t['likes'] + t['retweets'], reverse=True)
+    feed = recent[:5]
 
-    # Final sort by recency
-    balanced.sort(key=lambda t: t['createdAtMs'], reverse=True)
-    feed = balanced[:60]
+    # Re-sort top 5 by recency for display order
+    feed.sort(key=lambda t: t['createdAtMs'], reverse=True)
+
+    print(f'  📊 {len(unique)} total tweets → {len(recent)} in window → top 5 by engagement selected')
 
     out_path = REPO_ROOT / 'feed.json'
 
@@ -174,6 +165,8 @@ def main():
         'count': len(feed),
         'accountsWithPosts': len(set(t['handle'] for t in feed)),
         'fetchedAt': datetime.now(timezone.utc).isoformat(),
+        'windowHours': 4,
+        'curation': 'top5_by_engagement',
         'errors': errors,
         'posts': feed,
     }
