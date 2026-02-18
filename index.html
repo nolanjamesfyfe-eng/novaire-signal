@@ -330,7 +330,7 @@
     <div class="card-title">📡 Signal Feed</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
-      <button class="feed-refresh" onclick="loadFeed(true)">↻ Refresh</button>
+      <button class="feed-refresh" onclick="loadFeed(true)" title="Feed updates automatically every 2 hours">↻ Refresh</button>
     </div>
     <div class="feed-filter" id="feed-filter"></div>
     <div id="signal-feed">
@@ -444,7 +444,9 @@
       document.getElementById('signal-feed').innerHTML = '<div class="feed-loading">Fetching signals</div>';
 
       try {
-        const resp = await fetch('/api/signal-feed');
+        // Try static feed.json first (updated by GitHub Actions every 2h),
+        // fall back to live API if available
+        const resp = await fetch('/feed.json');
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const json = await resp.json();
         if (!json.ok) throw new Error(json.error || 'API error');
@@ -458,7 +460,10 @@
 
         renderFilter();
         renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);
-        status.textContent = `${allPosts.length} posts · updated just now`;
+        const fetchedAt = json.fetchedAt ? new Date(json.fetchedAt) : new Date();
+        const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
+        const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? `${ageMin}m ago` : `${Math.floor(ageMin/60)}h ago`;
+        status.textContent = `${allPosts.length} posts from ${json.accountsWithPosts || '?'} accounts · updated ${ageStr}`;
       } catch(err) {
         status.textContent = 'Feed unavailable';
         document.getElementById('signal-feed').innerHTML =
