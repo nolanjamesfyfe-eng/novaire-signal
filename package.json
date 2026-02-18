@@ -1,0 +1,13 @@
+{
+  "name": "novaire-signal",
+  "version": "1.0.0",
+  "description": "Novaire Signal — Daily Brief for Focused Allocators",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}

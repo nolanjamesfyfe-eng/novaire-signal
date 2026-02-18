@@ -188,9 +188,32 @@
     .thai-word-box .dot{color:var(--faint)}
     .thai-word-box .meaning{font-size:.85rem;color:var(--dim)}
 
-    /* X PLACEHOLDER */
-    .x-placeholder{text-align:center;padding:20px;color:var(--dim);font-size:.88rem}
-    .x-placeholder a{color:var(--gold);text-decoration:none}
+    /* SIGNAL FEED */
+    .feed-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .feed-refresh{font-size:.65rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:none;padding:4px 8px;border:1px solid var(--faint);color:var(--dim)}
+    .feed-refresh:hover{border-color:var(--gold);color:var(--gold)}
+    .feed-status{font-size:.65rem;color:var(--dim);font-style:italic}
+    .feed-item{padding:14px 0;border-bottom:1px solid var(--faint)}
+    .feed-item:last-child{border-bottom:none}
+    .feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .feed-author{display:flex;align-items:center;gap:8px}
+    .feed-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--faint)}
+    .feed-name{font-size:.82rem;font-weight:600;color:var(--text)}
+    .feed-handle{font-size:.72rem;color:var(--dim)}
+    .feed-time{font-size:.68rem;color:var(--dim)}
+    .feed-text{font-size:.88rem;color:var(--text);line-height:1.55;word-break:break-word}
+    .feed-stats{display:flex;gap:14px;margin-top:8px}
+    .feed-stat{font-size:.68rem;color:var(--dim)}
+    .feed-stat span{color:var(--gold)}
+    .feed-link{display:inline-block;margin-top:6px;font-size:.68rem;color:var(--gold);text-decoration:none;opacity:.7}
+    .feed-link:hover{opacity:1}
+    .feed-empty{text-align:center;padding:24px;color:var(--dim);font-size:.85rem}
+    .feed-loading{text-align:center;padding:24px;color:var(--dim);font-size:.85rem}
+    .feed-loading::after{content:'...';animation:dots 1.2s steps(3,end) infinite}
+    @keyframes dots{0%,100%{content:'.'}33%{content:'..'}66%{content:'...'}}
+    .feed-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+    .feed-tag{font-size:.62rem;padding:3px 8px;border:1px solid var(--faint);color:var(--dim);cursor:pointer;background:none;letter-spacing:.06em}
+    .feed-tag.active,.feed-tag:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
 
     /* FOOTER */
     .footer{text-align:center;padding:32px 0;border-top:1px solid var(--faint);margin-top:32px}
@@ -302,16 +325,155 @@
         </div>
   </div>
 
-  <!-- X / SOCIAL -->
+  <!-- SIGNAL FEED -->
   <div class="card">
-    <div class="card-title">🐦 X / Social</div>
-    <div class="x-placeholder">
-      <p>Personalised feed from <strong>@nolanjamesfyfe</strong>'s following.</p>
-      <p style="margin-top:8px;font-size:.78rem">
-        <a href="https://twitter.com/login" target="_blank">Sign in to X to view personalised posts →</a>
-      </p>
+    <div class="card-title">📡 Signal Feed</div>
+    <div class="feed-controls">
+      <div class="feed-status" id="feed-status">Loading…</div>
+      <button class="feed-refresh" onclick="loadFeed(true)">↻ Refresh</button>
+    </div>
+    <div class="feed-filter" id="feed-filter"></div>
+    <div id="signal-feed">
+      <div class="feed-loading">Fetching signals</div>
     </div>
   </div>
+
+  <script>
+  (function() {
+    const ACCOUNTS = [
+      'BambroughKevin','zerohedge','KobeissiLetter','hkuppy','quakes99',
+      'WatcherGuru','nntaleb','tferriss','TheEconomist','JohnPolomny',
+      'SantiagoAuFund','BarbarianCap','JoshYoung','wmiddelkoop',
+      'White_Rabbit_OG','colonelhomsi','HydroGraphInc'
+    ];
+
+    let allPosts = [];
+    let activeFilter = null;
+    let lastFetch = 0;
+    const CACHE_KEY = 'novaire_feed_v2';
+    const CACHE_TTL = 15 * 60 * 1000; // 15 min
+
+    function timeAgo(iso) {
+      const d = new Date(iso);
+      const diff = (Date.now() - d.getTime()) / 1000;
+      if (diff < 60) return `${Math.floor(diff)}s ago`;
+      if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+      return `${Math.floor(diff/86400)}d ago`;
+    }
+
+    function fmtNum(n) {
+      if (!n) return '0';
+      if (n >= 1000) return (n/1000).toFixed(1) + 'k';
+      return String(n);
+    }
+
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;');
+    }
+
+    function renderFeed(posts) {
+      const container = document.getElementById('signal-feed');
+      if (!posts.length) {
+        container.innerHTML = '<div class="feed-empty">No recent posts found. Try refreshing.</div>';
+        return;
+      }
+      container.innerHTML = posts.map(p => `
+        <div class="feed-item">
+          <div class="feed-header">
+            <div class="feed-author">
+              ${p.avatar ? `<img class="feed-avatar" src="${escHtml(p.avatar)}" alt="" loading="lazy" onerror="this.style.display='none'">` : '<div class="feed-avatar"></div>'}
+              <div>
+                <div class="feed-name">${escHtml(p.author)}</div>
+                <div class="feed-handle">@${escHtml(p.handle)}</div>
+              </div>
+            </div>
+            <div class="feed-time">${timeAgo(p.createdAt)}</div>
+          </div>
+          <div class="feed-text">${escHtml(p.text)}</div>
+          <div class="feed-stats">
+            <div class="feed-stat">♥ <span>${fmtNum(p.likes)}</span></div>
+            <div class="feed-stat">↺ <span>${fmtNum(p.retweets)}</span></div>
+          </div>
+          <a class="feed-link" href="${escHtml(p.url)}" target="_blank" rel="noopener">View on X →</a>
+        </div>
+      `).join('');
+    }
+
+    function renderFilter() {
+      const bar = document.getElementById('feed-filter');
+      const handles = [...new Set(allPosts.map(p => p.handle))].sort();
+      bar.innerHTML = `<button class="feed-tag${!activeFilter?' active':''}" onclick="window._feedFilter(null)">All</button>` +
+        handles.map(h => `<button class="feed-tag${activeFilter===h?' active':''}" onclick="window._feedFilter('${escHtml(h)}')">${escHtml('@'+h)}</button>`).join('');
+    }
+
+    window._feedFilter = function(handle) {
+      activeFilter = handle;
+      renderFilter();
+      const posts = handle ? allPosts.filter(p => p.handle === handle) : allPosts;
+      renderFeed(posts);
+    };
+
+    async function loadFeed(force) {
+      const status = document.getElementById('feed-status');
+      const now = Date.now();
+
+      // Try cache first
+      if (!force) {
+        try {
+          const cached = localStorage.getItem(CACHE_KEY);
+          if (cached) {
+            const { ts, data } = JSON.parse(cached);
+            if (now - ts < CACHE_TTL && data.length > 0) {
+              allPosts = data;
+              renderFilter();
+              renderFeed(activeFilter ? data.filter(p=>p.handle===activeFilter) : data);
+              status.textContent = `${data.length} posts · cached ${timeAgo(new Date(ts).toISOString())}`;
+              return;
+            }
+          }
+        } catch(e) {}
+      }
+
+      // Fetch fresh
+      status.textContent = 'Fetching signals…';
+      document.getElementById('signal-feed').innerHTML = '<div class="feed-loading">Fetching signals</div>';
+
+      try {
+        const resp = await fetch('/api/signal-feed');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const json = await resp.json();
+        if (!json.ok) throw new Error(json.error || 'API error');
+
+        allPosts = json.posts;
+
+        // Cache it
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now, data: allPosts }));
+        } catch(e) {}
+
+        renderFilter();
+        renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);
+        status.textContent = `${allPosts.length} posts · updated just now`;
+      } catch(err) {
+        status.textContent = 'Feed unavailable';
+        document.getElementById('signal-feed').innerHTML =
+          `<div class="feed-empty">Could not load feed: ${escHtml(err.message)}</div>`;
+      }
+    }
+
+    // Load on page ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => loadFeed(false));
+    } else {
+      loadFeed(false);
+    }
+  })();
+  </script>
 
   <!-- PORTFOLIO -->
   <div class="card">
