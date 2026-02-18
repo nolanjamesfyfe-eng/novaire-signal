@@ -1,53 +1,14 @@
 {
   "ok": true,
   "count": 4,
-  "fetchedAt": "2026-02-18T03:27:41.071932+00:00",
+  "accountsWithPosts": 4,
+  "fetchedAt": "2026-02-18T10:28:27.778447+00:00",
+  "windowHours": 4,
+  "curation": "guaranteed3_engagement2",
   "errors": [
-    "SantialyAuFund",
-    "White_Rabbit_OG",
-    "colonelhomsi",
     "HydroGraphInc"
   ],
   "posts": [
-    {
-      "id": "2023960708925297010",
-      "text": "Could you survive 72 hours without outside food, water or electricity?",
-      "author": "The Economist",
-      "handle": "TheEconomist",
-      "createdAt": "2026-02-18T03:20:11+00:00",
-      "createdAtMs": 1771384811000,
-      "likes": 4,
-      "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2023960708925297010",
-      "avatar": "https://pbs.twimg.com/profile_images/1847280770743750656/0DkLNOPG_normal.jpg",
-      "slot": "guaranteed"
-    },
-    {
-      "id": "2023935693290889428",
-      "text": "JUST IN: YouTube down worldwide.",
-      "author": "Watcher.Guru",
-      "handle": "WatcherGuru",
-      "createdAt": "2026-02-18T01:40:46+00:00",
-      "createdAtMs": 1771378846000,
-      "likes": 9855,
-      "retweets": 1102,
-      "url": "https://x.com/WatcherGuru/status/2023935693290889428",
-      "avatar": "https://pbs.twimg.com/profile_images/1641221212578754562/DfiC0KW2_normal.png",
-      "slot": "engagement"
-    },
-    {
-      "id": "2023916351924949346",
-      "text": "Investors own more Magnificent 7 stocks than ever:\n\nHedge funds' total US net exposure to Magnificent 7 stocks is up to a record 22%.\n\nThis percentage has risen +10 points since April 2025.\n\nNet exposure has nearly TRIPLED since the 2022 bear market low.\n\nFurthermore, net",
-      "author": "The Kobeissi Letter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-02-18T00:23:55+00:00",
-      "createdAtMs": 1771374235000,
-      "likes": 440,
-      "retweets": 62,
-      "url": "https://x.com/KobeissiLetter/status/2023916351924949346",
-      "avatar": "https://pbs.twimg.com/profile_images/1975243710846640128/fwYCe67Y_normal.jpg",
-      "slot": "guaranteed"
-    },
     {
       "id": "1965547154615009699",
       "text": "Holy shit\n\nTRUMP SIGNS MEMO REQUIRING PHARMA ADS TO DISCLOSE ALL RISKS\n\nRIP Cable TV",
@@ -55,11 +16,54 @@
       "handle": "zerohedge",
       "createdAt": "2025-09-09T22:45:34+00:00",
       "createdAtMs": 1757457934000,
-      "likes": 44626,
-      "retweets": 4460,
+      "likes": 44619,
+      "retweets": 4462,
       "url": "https://x.com/zerohedge/status/1965547154615009699",
       "avatar": "https://pbs.twimg.com/profile_images/72647502/tyler_normal.jpg",
-      "slot": "guaranteed"
+      "slot": "guaranteed",
+      "slot_order": 1
+    },
+    {
+      "id": "2024066392778019090",
+      "text": "The bias in favour of boys is shrinking in developing countries even as a preference for girls emerges in the rich world",
+      "author": "The Economist",
+      "handle": "TheEconomist",
+      "createdAt": "2026-02-18T10:20:08+00:00",
+      "createdAtMs": 1771410008000,
+      "likes": 4,
+      "retweets": 1,
+      "url": "https://x.com/TheEconomist/status/2024066392778019090",
+      "avatar": "https://pbs.twimg.com/profile_images/1847280770743750656/0DkLNOPG_normal.jpg",
+      "slot": "guaranteed",
+      "slot_order": 2
+    },
+    {
+      "id": "2024019356586270775",
+      "text": "BREAKING: The President of the European Central Bank, Christine Lagarde, is expected to resign before the end of her 8-year term, per FT.",
+      "author": "The Kobeissi Letter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-02-18T07:13:13+00:00",
+      "createdAtMs": 1771398793000,
+      "likes": 2640,
+      "retweets": 466,
+      "url": "https://x.com/KobeissiLetter/status/2024019356586270775",
+      "avatar": "https://pbs.twimg.com/profile_images/1975243710846640128/fwYCe67Y_normal.jpg",
+      "slot": "guaranteed",
+      "slot_order": 3
+    },
+    {
+      "id": "2024008185321820373",
+      "text": "JUST IN: Billionaire Peter Thiel fully exits Ethereum treasury firm ETHZilla, sells entire stake.",
+      "author": "Watcher.Guru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-02-18T06:28:50+00:00",
+      "createdAtMs": 1771396130000,
+      "likes": 4260,
+      "retweets": 484,
+      "url": "https://x.com/WatcherGuru/status/2024008185321820373",
+      "avatar": "https://pbs.twimg.com/profile_images/1641221212578754562/DfiC0KW2_normal.png",
+      "slot": "engagement",
+      "slot_order": 4
     }
   ]
 }
