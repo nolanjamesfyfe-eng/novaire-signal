@@ -69,81 +69,72 @@ HEADERS = {
 }
 
 REPO_ROOT = Path(__file__).parent.parent
+NITTER_BASE = 'https://nitter.net'  # Primary Nitter instance for RSS
 
-# ── Tweet fetcher ─────────────────────────────────────────────────────────────
+# ── Tweet fetcher via Nitter RSS ──────────────────────────────────────────────
 
 def fetch_user_timeline(username: str, session: requests.Session) -> list:
-    """Return a list of tweet dicts for the given username (up to 20)."""
-    url = (
-        f'https://syndication.twitter.com/srv/timeline-profile/'
-        f'screen-name/{username}?lang=en'
-    )
+    """Fetch tweets via Nitter RSS (reliable, no rate-limiting)."""
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime as parse_rfc822
+
+    url = f'{NITTER_BASE}/{username}/rss'
     try:
         resp = session.get(url, headers=HEADERS, timeout=12)
-        if resp.status_code == 429:
-            print(f'  @{username}: rate limited (429) — skipping')
-            return []
         if not resp.ok:
-            print(f'  @{username}: HTTP {resp.status_code}')
+            print(f'  @{username}: Nitter HTTP {resp.status_code}')
             return []
 
-        match = re.search(
-            r'<script id="__NEXT_DATA__" type="application/json">([\s\S]*?)</script>',
-            resp.text,
-        )
-        if not match:
-            print(f'  @{username}: __NEXT_DATA__ not found')
-            return []
-
-        data = json.loads(match.group(1))
-        entries = (
-            data.get('props', {})
-                .get('pageProps', {})
-                .get('timeline', {})
-                .get('entries', [])
-        )
-
+        root = ET.fromstring(resp.text)
+        items = root.findall('.//item')
         tweets = []
-        for entry in entries[:20]:
-            if entry.get('type') != 'tweet':
-                continue
-            t = entry.get('content', {}).get('tweet', {})
-            if not t.get('id_str'):
-                continue
-
-            user = t.get('user', {})
-            raw_text = t.get('full_text') or t.get('text') or ''
-            text = re.sub(r'https?://t\.co/\S+', '', raw_text).strip()
-            if not text:
+        for item in items[:20]:
+            title_el = item.find('title')
+            link_el  = item.find('link')
+            pub_el   = item.find('pubDate')
+            desc_el  = item.find('description')
+            if title_el is None:
                 continue
 
-            try:
-                created_at = datetime.strptime(
-                    t.get('created_at', ''), '%a %b %d %H:%M:%S +0000 %Y'
-                ).replace(tzinfo=timezone.utc)
-                created_iso = created_at.isoformat()
-                created_ms  = int(created_at.timestamp() * 1000)
-            except (ValueError, TypeError):
-                created_iso = datetime.now(timezone.utc).isoformat()
-                created_ms  = 0
+            raw_text = title_el.text or ''
+            # Strip "R to @handle:" and "RT by @handle:" prefixes
+            raw_text = re.sub(r'^R to @\S+:\s*', '', raw_text)
+            raw_text = re.sub(r'^RT by @\S+:\s*', '', raw_text)
+            text = raw_text.strip()
+            if not text or len(text) < 5:
+                continue
+
+            link = (link_el.text or '').strip() if link_el is not None else ''
+            # Normalise nitter link → x.com
+            link = re.sub(r'https?://nitter\.[^/]+/', 'https://x.com/', link)
+
+            # Parse timestamp
+            created_dt = None
+            if pub_el is not None and pub_el.text:
+                try:
+                    created_dt = parse_rfc822(pub_el.text)
+                except Exception:
+                    pass
+            if created_dt is None:
+                created_dt = datetime.now(timezone.utc)
+
+            tweet_id = re.search(r'/status/(\d+)', link)
+            tweet_id_str = tweet_id.group(1) if tweet_id else str(int(created_dt.timestamp()))
 
             tweets.append({
-                'id':         t['id_str'],
-                'text':       text,
-                'author':     user.get('name') or username,
-                'handle':     user.get('screen_name') or username,
-                'createdAt':  created_iso,
-                'createdAtMs': created_ms,
-                'likes':      t.get('favorite_count', 0),
-                'retweets':   t.get('retweet_count', 0),
-                'url': (
-                    f"https://x.com/{user.get('screen_name', username)}"
-                    f"/status/{t['id_str']}"
-                ),
-                'avatar': user.get('profile_image_url_https'),
+                'id':          tweet_id_str,
+                'text':        text,
+                'author':      username,
+                'handle':      username,
+                'createdAt':   created_dt.isoformat(),
+                'createdAtMs': int(created_dt.timestamp() * 1000),
+                'likes':       0,
+                'retweets':    0,
+                'url':         link or f'https://x.com/{username}',
+                'avatar':      None,
             })
 
-        print(f'  @{username}: {len(tweets)} tweets')
+        print(f'  @{username}: {len(tweets)} tweets via Nitter')
         return tweets
 
     except requests.exceptions.Timeout:
@@ -155,9 +146,14 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
 
 # ── Selection helpers ─────────────────────────────────────────────────────────
 
-def most_recent(tweets: list) -> dict | None:
-    """Return the tweet with the largest createdAtMs, or None."""
-    return max(tweets, key=lambda t: t['createdAtMs']) if tweets else None
+GUARANTEED_MAX_AGE_MS = 4 * 60 * 60 * 1000   # 4h — ZeroHedge/Kobeissi/Economist only
+ENGAGEMENT_MAX_AGE_MS = 24 * 60 * 60 * 1000  # 24h — engagement slots
+
+def most_recent(tweets: list, max_age_ms: int = GUARANTEED_MAX_AGE_MS) -> dict | None:
+    """Return the most recent tweet within max_age_ms, or None if nothing fresh."""
+    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+    fresh = [t for t in tweets if (now_ms - t['createdAtMs']) <= max_age_ms]
+    return max(fresh, key=lambda t: t['createdAtMs']) if fresh else None
 
 
 def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n: int) -> list:
@@ -223,15 +219,11 @@ def main():
 
     # ── Slots 4-5: top 2 engagement from remaining 14 accounts ───────────────
     print('\n── Selecting engagement slots (last 4h) ──')
-    FOUR_H_MS  = 4 * 60 * 60 * 1000
-    EIGHT_H_MS = 8 * 60 * 60 * 1000
-
     eng_lists = [all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS]
-    top2 = top_engagement(eng_lists, seen_ids, FOUR_H_MS, n=2)
+    top2 = top_engagement(eng_lists, seen_ids, ENGAGEMENT_MAX_AGE_MS, n=2)
 
     if not top2:
-        print('  ⚠️  No tweets in last 4h — widening window to 8h')
-        top2 = top_engagement(eng_lists, seen_ids, EIGHT_H_MS, n=2)
+        print('  ⚠️  No engagement tweets in last 24h — skipping slots 4-5')
 
     for i, t in enumerate(top2):
         score = t['likes'] + t['retweets']

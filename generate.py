@@ -25,33 +25,35 @@ CITIES = [
 ]
 
 # Tickers: use OTC/working variants where TSX.V tickers are unavailable on Yahoo
-# FVL.V → FGOVF (OTC); MAXX.V → MAXXF (OTC); VZLA.V → VZLA (OTC); MOLY.V → fallback
+# FVL.V → hardcoded fallback (not on Yahoo Finance); MAXX.V → hardcoded fallback; VZLA.TO = TSX CAD; MOLY.V → fallback
 HOLDINGS = [
-    {"ticker": "HG.CN",  "display": "HG",    "name": "Hydrograph",         "shares": 10000, "sector": "Graphene"},
-    {"ticker": "GLO.TO", "display": "GLO",   "name": "Global Atomic",       "shares": 23000, "sector": "Uranium"},
-    {"ticker": "FGOVF",  "display": "FVL",   "name": "FreeGold Ventures",   "shares": 10000, "sector": "Gold"},
-    {"ticker": "DML.TO", "display": "DML",   "name": "Denison",             "shares": 1000,  "sector": "Uranium"},
-    {"ticker": "BNNLF",  "display": "BNNLF", "name": "Bannerman Energy",    "shares": 1300,  "sector": "Uranium"},
-    {"ticker": "MAXXF",  "display": "MAXX",  "name": "Power Mining Corp",   "shares": 2000,  "sector": "Silver"},
-    {"ticker": "TOM.V",  "display": "TOM",   "name": "Trinity One Metals",  "shares": 5000,  "sector": "Silver"},
-    {"ticker": "LOT.AX", "display": "LOT",   "name": "Lotus Resources",     "shares": 956,   "sector": "Uranium"},
-    {"ticker": "NAM.V",  "display": "NAM",   "name": "New Age Metals",      "shares": 3772,  "sector": "Copper"},
-    {"ticker": "PNPN.V", "display": "PNPN",  "name": "Power Nickel",        "shares": 1000,  "sector": "Copper"},
-    {"ticker": "SVE.V",  "display": "SVE",   "name": "Silver One",          "shares": 2000,  "sector": "Silver"},
-    {"ticker": "PEGA.V", "display": "PEGA",  "name": "Pegasus Uranium",     "shares": 20000, "sector": "Uranium"},
-    {"ticker": "CAPT.V", "display": "CAPT",  "name": "Capitan Silver",      "shares": 500,   "sector": "Silver"},
-    {"ticker": "VZLA",   "display": "VZLA",  "name": "Vizsla Silver",       "shares": 200,   "sector": "Silver"},
-    {"ticker": "AEU.AX", "display": "AEU",   "name": "Atomic Eagle",        "shares": 2027,  "sector": "Uranium"},
-    {"ticker": "AAG.V",  "display": "AAG",   "name": "Aftermath Silver",    "shares": 1000,  "sector": "Copper"},
-    {"ticker": "BQSSF",  "display": "BQSSF", "name": "Boss Energy",         "shares": 500,   "sector": "Uranium"},
-    {"ticker": "EU.V",   "display": "EU",    "name": "Encore Energy",       "shares": 125,   "sector": "Uranium"},
-    # MOLY.V (GreenLand Resources) - not on Yahoo Finance; hardcoded fallback
-    {"ticker": "_MOLY_FALLBACK", "display": "MOLY", "name": "GreenLand Resources", "shares": 5000, "sector": "Molybdenum"},
+    {"ticker": "HG.CN",  "display": "HG",    "name": "Hydrograph",         "shares": 10000, "currency": "CAD", "sector": "Graphene"},
+    {"ticker": "GLO.TO", "display": "GLO",   "name": "Global Atomic",       "shares": 23000, "currency": "CAD", "sector": "Uranium"},
+    {"ticker": "_FVL_FALLBACK",  "display": "FVL",   "name": "FreeGold Ventures",   "shares": 10000, "currency": "CAD", "sector": "Gold"},
+    {"ticker": "DML.TO", "display": "DML",   "name": "Denison",             "shares": 1000,  "currency": "CAD", "sector": "Uranium"},
+    {"ticker": "BNNLF",  "display": "BNNLF", "name": "Bannerman Energy",    "shares": 1300,  "currency": "USD", "sector": "Uranium"},
+    {"ticker": "_MAXX_FALLBACK",  "display": "MAXX",  "name": "Power Mining Corp",   "shares": 2000,  "currency": "CAD", "sector": "Silver"},
+    {"ticker": "TOM.V",  "display": "TOM",   "name": "Trinity One Metals",  "shares": 5000,  "currency": "CAD", "sector": "Silver"},
+    {"ticker": "LOT.AX", "display": "LOT",   "name": "Lotus Resources",     "shares": 956,   "currency": "AUD", "sector": "Uranium"},
+    {"ticker": "NAM.V",  "display": "NAM",   "name": "New Age Metals",      "shares": 3772,  "currency": "CAD", "sector": "Copper"},
+    {"ticker": "PNPN.V", "display": "PNPN",  "name": "Power Nickel",        "shares": 1000,  "currency": "CAD", "sector": "Copper"},
+    {"ticker": "SVE.V",  "display": "SVE",   "name": "Silver One",          "shares": 2000,  "currency": "CAD", "sector": "Silver"},
+    {"ticker": "PEGA.V", "display": "PEGA",  "name": "Pegasus Uranium",     "shares": 20000, "currency": "CAD", "sector": "Uranium"},
+    {"ticker": "CAPT.V", "display": "CAPT",  "name": "Capitan Silver",      "shares": 500,   "currency": "CAD", "sector": "Silver"},
+    {"ticker": "VZLA.TO", "display": "VZLA",  "name": "Vizsla Silver",       "shares": 200,   "currency": "CAD", "sector": "Silver"},
+    {"ticker": "AEU.AX", "display": "AEU",   "name": "Atomic Eagle",        "shares": 2027,  "currency": "AUD", "sector": "Uranium"},
+    {"ticker": "AAG.V",  "display": "AAG",   "name": "Aftermath Silver",    "shares": 1000,  "currency": "CAD", "sector": "Copper"},
+    {"ticker": "BQSSF",  "display": "BQSSF", "name": "Boss Energy",         "shares": 500,   "currency": "USD", "sector": "Uranium"},
+    {"ticker": "EU.V",   "display": "EU",    "name": "Encore Energy",       "shares": 125,   "currency": "CAD", "sector": "Uranium"},
+    # MOLY.V (GreenLand Resources) - not on Yahoo Finance; hardcoded fallback (CAD)
+    {"ticker": "_MOLY_FALLBACK", "display": "MOLY", "name": "GreenLand Resources", "shares": 5000, "currency": "CAD", "sector": "Molybdenum"},
 ]
 
 # Hardcoded fallback prices (USD) for tickers unavailable on Yahoo Finance
 FALLBACK_PRICES = {
-    "_MOLY_FALLBACK": 0.05,   # GreenLand Resources - estimated
+    "_MOLY_FALLBACK":  1.65,  # GreenLand Resources (MOLY.V) - CAD, verified Feb 18 2026
+    "_FVL_FALLBACK":   1.32,  # FreeGold Ventures (FVL.V) - CAD, verified Feb 18 2026
+    "_MAXX_FALLBACK":  1.12,  # Power Mining Corp (MAXX.V) - CAD, verified Feb 18 2026
 }
 
 HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"], "display": h.get("display", h["ticker"].split(".")[0])} for h in HOLDINGS}
@@ -61,6 +63,69 @@ SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
 PORT_BASIS_CAD = 99_234.14
 PORT_ATH       = 113_522
 PORT_ROI_ABS   = 24_660.95
+
+# ── Radar Moonshots — discovery subreddits (max 5 lines, refreshes every build) ──
+RADAR_MOONSHOT_SUBS = [
+    # Crypto moonshots & new projects
+    ("CryptoMoonShots", "crypto"),
+    ("altcoins",        "crypto"),
+    ("defi",            "crypto"),
+    # Micro cap resource plays
+    ("uranium",         "resource"),
+    ("SilverSqueeze",   "resource"),
+    ("MiningStocks",    "resource"),
+    ("pennystocks",     "resource"),
+]
+
+RADAR_CRYPTO_KEYWORDS  = {"coin","token","crypto","blockchain","gem","defi","layer","launch","project","airdrop","protocol","nft","dao","yield","swap","staking","presale","altcoin","bull","pump"}
+RADAR_RESOURCE_KEYWORDS = {"stock","mining","uranium","silver","gold","exploration","drill","cap","copper","lithium","junior","ounce","resource","deposit","mineral","graphene","platinum","vanadium","zinc"}
+
+RADAR_STATIC_FALLBACK = [
+    {"title": "New AI crypto infrastructure projects launching weekly — scan r/CryptoMoonShots daily for sub-$50M cap gems.", "source": ""},
+    {"title": "Uranium junior with high-grade Athabasca drill results — discovery risk priced in, asymmetric upside.", "source": ""},
+    {"title": "Silver micro cap with Nevada exploration license — $500-1K starter position ahead of resource estimate.", "source": ""},
+    {"title": "Critical minerals ETF rotation incoming — scout early-stage graphene and lithium plays under $200M cap.", "source": ""},
+    {"title": "DeFi protocol with real yield and sub-$10M TVL — early entry before any major exchange listing.", "source": ""},
+]
+
+def fetch_radar_moonshots():
+    """Fetch top 5 moonshot ideas from Reddit — new crypto projects + micro cap resource plays under $1B."""
+    now    = datetime.now(timezone.utc)
+    cutoff = now - timedelta(hours=24)
+    posts  = {"crypto": [], "resource": []}
+
+    for sub, category in RADAR_MOONSHOT_SUBS:
+        try:
+            r = requests.get(
+                f"https://www.reddit.com/r/{sub}/hot.json?limit=15",
+                headers={"User-Agent": "NovaireSignal/1.0"},
+                timeout=8,
+            )
+            for post in r.json().get("data", {}).get("children", []):
+                d       = post.get("data", {})
+                created = datetime.fromtimestamp(d.get("created_utc", 0), tz=timezone.utc)
+                title   = (d.get("title") or "").strip()
+                score   = d.get("score", 0)
+                kws     = RADAR_CRYPTO_KEYWORDS if category == "crypto" else RADAR_RESOURCE_KEYWORDS
+                relevant = any(kw in title.lower() for kw in kws)
+                if (created >= cutoff and not d.get("stickied")
+                        and len(title) > 25 and score >= 5 and relevant):
+                    posts[category].append({
+                        "title":  title[:130] + ("\u2026" if len(title) > 130 else ""),
+                        "score":  score,
+                        "source": f"r/{sub}",
+                    })
+        except Exception:
+            pass
+
+    # Sort each bucket by score desc, pick top 2-3 per category
+    crypto_top   = sorted(posts["crypto"],   key=lambda x: x["score"], reverse=True)[:3]
+    resource_top = sorted(posts["resource"], key=lambda x: x["score"], reverse=True)[:3]
+
+    return {
+        "crypto":   crypto_top   if crypto_top   else RADAR_STATIC_FALLBACK[:3],
+        "resource": resource_top if resource_top else RADAR_STATIC_FALLBACK[3:6],
+    }
 
 WEATHER_CODES = {
     0: "Clear Sky ☀️", 1: "Mainly Clear 🌤", 2: "Partly Cloudy ⛅", 3: "Overcast ☁️",
@@ -356,69 +421,310 @@ def fetch_bangkok_post():
         headlines = [{"title": f"Bangkok Post unavailable", "url": "#"}]
     return headlines[:5] if headlines else [{"title": "No headlines fetched", "url": "#"}]
 
+def fetch_trending_recs():
+    """
+    Fetch daily trending recs:
+    - Movie/Show: FlixPatrol #1 Netflix movie + OMDB description
+    - Book: Amazon Business bestsellers #1 title + Open Library description
+    Fallback to hardcoded picks on any failure.
+    """
+    rec_movie = {"label": "📺 Now Watching", "title": "Margin Call", "meta": "Prime · Kevin Spacey, Jeremy Irons", "summary": "24 hours inside a bank on the eve of financial collapse. Cold, precise, and brilliantly acted."}
+    rec_book  = {"label": "📖 Now Reading",  "title": "The Black Swan", "meta": "Nassim Taleb · Philosophy/Risk", "summary": "Why rare, unpredictable events drive history and markets. The book that should have predicted 2008."}
+
+    # ── Movie: FlixPatrol trending → OMDB description ──
+    try:
+        hdrs = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"}
+        r = requests.get("https://flixpatrol.com/top10/netflix/world/today/", headers=hdrs, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
+        tables = soup.find_all("table")
+        candidates = []  # (title, platform, table_idx)
+        for i, table in enumerate(tables[:2]):
+            rows = table.find_all("tr")
+            for row in rows[:3]:
+                cells = [td.get_text(strip=True) for td in row.find_all("td")]
+                if cells and len(cells) >= 2:
+                    raw = cells[1] if len(cells) > 1 else cells[0]
+                    title = raw.strip()
+                    if title and len(title) > 2:
+                        label = "Netflix Movies" if i == 0 else "Netflix Shows"
+                        candidates.append((title, label))
+        # Pick #1 movie (table 0)
+        movie_title, movie_platform = candidates[0] if candidates else ("Margin Call", "Prime")
+        # Fetch OMDB description
+        omdb = requests.get(f"http://www.omdbapi.com/?t={requests.utils.quote(movie_title)}&apikey=trilogy", timeout=8).json()
+        if omdb.get("Response") == "True":
+            genre = omdb.get("Genre", "")
+            year  = omdb.get("Year", "")
+            plot  = omdb.get("Plot", "")[:130]
+            rec_movie = {"label": "📺 Trending Now", "title": movie_title,
+                         "meta": f"{movie_platform} · {year} · {genre}",
+                         "summary": plot}
+        else:
+            rec_movie = {"label": "📺 Trending Now", "title": movie_title,
+                         "meta": movie_platform, "summary": "Trending #1 on Netflix today."}
+    except Exception as e:
+        print(f"    ⚠️  Movie rec fallback ({e})")
+
+    # ── Book: Amazon Business Bestsellers → Open Library description ──
+    try:
+        hdrs2 = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36", "Accept-Language": "en-US,en;q=0.9"}
+        rb = requests.get("https://www.amazon.com/gp/bestsellers/books/2581/", headers=hdrs2, timeout=12)
+        soup2 = BeautifulSoup(rb.text, "html.parser")
+        book_title = None
+        seen_b = set()
+        for a in soup2.select("a.a-link-normal"):
+            href = a.get("href", "")
+            if "/dp/" in href or "/product/" in href:
+                t = a.get_text(strip=True)
+                if t and len(t) > 8 and t not in seen_b and "$" not in t and "out of 5" not in t:
+                    seen_b.add(t)
+                    book_title = t
+                    break
+        if book_title:
+            # Open Library search for description
+            ol = requests.get(f"https://openlibrary.org/search.json?q={requests.utils.quote(book_title)}&limit=1", timeout=8).json()
+            docs = ol.get("docs", [])
+            if docs:
+                doc = docs[0]
+                author = ", ".join(doc.get("author_name", [])[:2]) or "Unknown"
+                subject = ", ".join(doc.get("subject", [])[:3]) or ""
+                rec_book = {"label": "📖 Trending Book", "title": book_title[:60],
+                            "meta": f"{author} · Amazon Business #1",
+                            "summary": f"Currently topping Amazon Business charts. Subjects: {subject}." if subject else "Amazon Business Bestseller #1."}
+            else:
+                rec_book = {"label": "📖 Trending Book", "title": book_title[:60],
+                            "meta": "Amazon Business #1", "summary": "Currently topping Amazon Business charts."}
+    except Exception as e:
+        print(f"    ⚠️  Book rec fallback ({e})")
+
+    return rec_movie, rec_book
+
+
 def fetch_zerohedge():
+    """Fetch ZeroHedge headlines via RSS — timestamp-filtered to last 24h only."""
+    import xml.etree.ElementTree as ET
     headlines = []
     try:
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
-        r = requests.get("https://www.zerohedge.com", headers=headers, timeout=12)
-        soup = BeautifulSoup(r.text, "html.parser")
-        seen = set()
-        for sel in ["h2 a", "h3 a", ".article-summary h2 a", ".post-title a",
-                    "[class*='headline'] a", "[class*='title'] a", "article a"]:
-            for el in soup.select(sel):
-                txt = el.get_text(strip=True)
-                if len(txt) > 20 and txt not in seen:
-                    seen.add(txt)
-                    href = el.get("href", "")
-                    if href and not href.startswith("http"):
-                        href = "https://www.zerohedge.com" + href
-                    headlines.append({"title": txt, "url": href})
-                if len(headlines) >= 4: break
-            if len(headlines) >= 4: break
+        headers = {"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)"}
+        r = requests.get("https://feeds.feedburner.com/zerohedge/feed", headers=headers, timeout=12)
+        root = ET.fromstring(r.text)
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        for item in root.findall(".//item"):
+            title_el = item.find("title")
+            link_el  = item.find("link")
+            pub_el   = item.find("pubDate")
+            if title_el is None or link_el is None:
+                continue
+            title = title_el.text.strip()
+            link  = link_el.text.strip() if link_el.text else "#"
+            # Parse pubDate and filter
+            if pub_el is not None and pub_el.text:
+                try:
+                    from email.utils import parsedate_to_datetime
+                    pub_dt = parsedate_to_datetime(pub_el.text)
+                    if pub_dt < cutoff:
+                        continue  # skip anything older than 24h
+                except Exception:
+                    pass
+            if len(title) > 20:
+                headlines.append({"title": title, "url": link})
+            if len(headlines) >= 4:
+                break
     except Exception as e:
         headlines = [{"title": f"ZeroHedge unavailable", "url": "#"}]
-    return headlines[:4] if headlines else [{"title": "No headlines fetched", "url": "#"}]
+    return headlines[:4] if headlines else [{"title": "No headlines in last 24h", "url": "#"}]
 
-def fetch_portfolio():
+GSHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak/export?format=csv"
+
+# Map sheet exchange/ticker strings → Yahoo Finance tickers
+EXCHANGE_TO_TICKER = {
+    "CNSX:HG":  "HG.CN",
+    "TSE:GLO":  "GLO.TO",
+    "FVL":      "_FVL_FALLBACK",
+    "MOLY":     "_MOLY_FALLBACK",
+    "DML":      "DML.TO",
+    "BNNLF":    "BNNLF",
+    "MAXX":     "_MAXX_FALLBACK",
+    "CVE:TOM":  "TOM.V",
+    "ASX:LOT":  "LOT.AX",
+    "CVE:NAM":  "NAM.V",
+    "CVE:PNPN": "PNPN.V",
+    "CVE:SVE":  "SVE.V",
+    "CVE:PEGA": "PEGA.V",
+    "CVE:CAPT": "CAPT.V",
+    "TSE:VZLA": "VZLA.TO",
+    "ASX:AEU":  "AEU.AX",
+    "CVE:AAG":  "AAG.V",
+    "BQSSF":    "BQSSF",
+    "CVE:EU":   "EU.V",
+}
+
+DISPLAY_OVERRIDES = {
+    "_FVL_FALLBACK":  "FVL",
+    "_MOLY_FALLBACK": "MOLY",
+    "_MAXX_FALLBACK": "MAXX",
+}
+
+
+def fetch_holdings_from_gsheet():
+    """Fetch portfolio holdings directly from Google Sheet CSV.
+    Returns (holdings_list, meta_dict) or (None, {}) on failure.
+    """
+    import csv, io
+    try:
+        r = requests.get(GSHEET_CSV_URL, timeout=15)
+        r.raise_for_status()
+        reader = csv.reader(io.StringIO(r.text))
+        rows = list(reader)
+    except Exception as e:
+        print(f"    ⚠️  Google Sheet fetch failed: {e}")
+        return None, {}
+
+    def parse_price(s):
+        if not s: return None
+        try: return float(s.replace("$", "").replace(",", "").strip())
+        except: return None
+
+    def parse_shares(s):
+        if not s: return None
+        try: return float(s.replace(",", "").strip())
+        except: return None
+
+    holdings = []
+    meta     = {}
+    seen     = set()
+
+    for row in rows:
+        while len(row) < 16:
+            row.append("")
+        currency = row[1].strip()
+
+        # Portfolio meta: CAD total row
+        if not meta.get("basis_cad"):
+            for cell in row:
+                if "$99" in cell or "$100" in cell or "$98" in cell:
+                    v = parse_price(cell)
+                    if v and 50000 < v < 200000:
+                        meta["basis_cad"] = v
+                        break
+
+        # Data rows: currency must be CAD, USD, or AUD
+        if currency not in ("CAD", "USD", "AUD"):
+            continue
+
+        name        = row[2].strip()
+        ex_ticker   = row[3].strip()
+        price_str   = row[5].strip()
+        buy_str     = row[8].strip()
+        shares_str  = row[9].strip()
+        sector      = row[15].strip() if len(row) > 15 else "Other"
+
+        ticker = EXCHANGE_TO_TICKER.get(ex_ticker, ex_ticker)
+        if not ticker or not shares_str or ticker in seen:
+            continue
+        seen.add(ticker)
+
+        shares    = parse_shares(shares_str)
+        cur_price = parse_price(price_str)
+        buy_price = parse_price(buy_str)
+
+        if not shares:
+            continue
+
+        display = DISPLAY_OVERRIDES.get(ticker, ticker.split(".")[0])
+
+        h = {
+            "ticker":   ticker,
+            "display":  display,
+            "name":     name,
+            "shares":   shares,
+            "currency": currency,
+            "sector":   sector or "Other",
+        }
+        # For off-Yahoo tickers, use sheet's current price as fallback
+        if ticker.startswith("_") and cur_price:
+            h["fallback_price"] = cur_price
+        holdings.append(h)
+
+    return holdings, meta
+
+
+def fetch_portfolio(usdcad=1.365, audusd=0.63):
+    """Fetch portfolio prices. Reads holdings from Google Sheet, prices from yfinance."""
     try:
         import yfinance as yf
     except ImportError:
         return {}
 
-    results = {}
-    for h in HOLDINGS:
-        ticker = h["ticker"]
-        shares = h["shares"]
+    def to_usd(amount, currency):
+        if currency == "CAD": return amount / usdcad
+        if currency == "AUD": return amount * audusd
+        return amount  # USD
 
-        # Handle hardcoded fallback tickers
-        if ticker.startswith("_") and ticker in FALLBACK_PRICES:
-            p = FALLBACK_PRICES[ticker]
-            results[ticker] = {"price": p, "change": None, "value": p * shares, "fallback": True}
-            continue
+    # Load holdings from Google Sheet; fall back to hardcoded list
+    gs_holdings, gs_meta = fetch_holdings_from_gsheet()
+    if gs_holdings:
+        holdings_source = gs_holdings
+        # Update module-level SECTORS from sheet data
+        for h in gs_holdings:
+            SECTORS[h["ticker"]] = h.get("sector") or "Other"
+        # Build fallback prices from sheet data
+        sheet_fallbacks = {
+            h["ticker"]: h["fallback_price"]
+            for h in gs_holdings if h.get("fallback_price")
+        }
+    else:
+        holdings_source = HOLDINGS
+        sheet_fallbacks = {}
+
+    results = {}
+    for h in holdings_source:
+        ticker   = h["ticker"]
+        shares   = h["shares"]
+        currency = h.get("currency", "CAD")
+
+        # Off-Yahoo tickers: use sheet's live price
+        if ticker.startswith("_"):
+            p = sheet_fallbacks.get(ticker) or FALLBACK_PRICES.get(ticker)
+            if p:
+                value_usd = to_usd(p * shares, currency)
+                results[ticker] = {"price": p, "change": None, "value": value_usd, "currency": currency, "fallback": True}
+                continue
 
         try:
             t = yf.Ticker(ticker)
             hist = t.history(period="5d", auto_adjust=True)
             hist = hist[hist["Close"].notna()]
             if len(hist) >= 2:
-                p  = float(hist["Close"].iloc[-1])
-                pp = float(hist["Close"].iloc[-2])
+                p   = float(hist["Close"].iloc[-1])
+                pp  = float(hist["Close"].iloc[-2])
                 chg = (p - pp) / pp * 100
             elif len(hist) == 1:
                 p   = float(hist["Close"].iloc[-1])
                 chg = None
             else:
-                fi = t.fast_info
-                p = getattr(fi, "last_price", None)
-                chg = None
+                # Try fast_info, then fall back to t.info for OTC/delayed tickers (e.g. BNNLF)
+                p = None; chg = None
+                try:
+                    fi = t.fast_info
+                    p = getattr(fi, "last_price", None)
+                except Exception:
+                    pass
+                if not p:
+                    try:
+                        info = t.info
+                        p = info.get("regularMarketPrice") or info.get("currentPrice")
+                    except Exception:
+                        pass
 
             if p and p > 0:
-                results[ticker] = {"price": p, "change": chg, "value": p * shares, "fallback": False}
+                value_usd = to_usd(p * shares, currency)
+                results[ticker] = {"price": p, "change": chg, "value": value_usd, "currency": currency, "fallback": False}
             else:
-                results[ticker] = {"price": None, "change": None, "value": None, "fallback": False}
+                results[ticker] = {"price": None, "change": None, "value": None, "currency": currency, "fallback": False}
         except Exception:
-            results[ticker] = {"price": None, "change": None, "value": None, "fallback": False}
-    return results
+            results[ticker] = {"price": None, "change": None, "value": None, "currency": currency, "fallback": False}
+    return results, holdings_source
 
 def fetch_catalysts(top3_tickers):
     """Fetch news for top 3 tickers. Returns dict with freshness info."""
@@ -429,8 +735,7 @@ def fetch_catalysts(top3_tickers):
 
     cats = {}
     now = datetime.now(timezone.utc)
-    # "Fresh" = within last 4 calendar days (covers 2 market days + weekend)
-    fresh_cutoff = now - timedelta(days=4)
+    fresh_cutoff = now - timedelta(hours=48)  # 48h hard cutoff — no old fluff
 
     for ticker in top3_tickers:
         if ticker.startswith("_"):
@@ -483,7 +788,6 @@ def fetch_commodities():
         "HG=F": {"name": "Copper",   "unit": "/lb",  "cls": "c-copper"},
         "CL=F": {"name": "Oil (WTI)","unit": "/bbl", "cls": "c-oil"},
         "PA=F": {"name": "Palladium","unit": "/oz",  "cls": "c-palladium"},
-        "URA":  {"name": "Uranium",  "unit": "ETF",  "cls": "c-uranium"},
     }
     results = {}
     for sym, meta in symbols.items():
@@ -501,6 +805,23 @@ def fetch_commodities():
             results[sym] = {**meta, "price": p, "change": chg}
         except Exception:
             results[sym] = {**meta, "price": None, "change": None}
+
+    # Uranium spot price — scraped from tradingeconomics (U3O8 $/lb)
+    try:
+        r = requests.get("https://tradingeconomics.com/commodity/uranium",
+                         headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        import re
+        m = re.search(r'Uranium (?:fell|rose|remained)[^.]*?(\d+\.?\d*)\s*USD/Lbs', r.text)
+        if m:
+            spot = float(m.group(1))
+            results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
+                                       "price": spot, "change": None}
+        else:
+            results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
+                                       "price": 88.80, "change": None}
+    except Exception:
+        results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
+                                   "price": 88.80, "change": None}
     return results
 
 def fetch_crypto():
@@ -527,7 +848,68 @@ def fetch_fx():
         usdcad = 1.0 / float(r["Close"].iloc[-1]) if len(r) >= 1 else 1.365
     except Exception:
         usdcad = 1.365
-    return {"usdcad": usdcad}
+    try:
+        import yfinance as yf
+        r2 = yf.Ticker("AUDUSD=X").history(period="2d")
+        audusd = float(r2["Close"].iloc[-1]) if len(r2) >= 1 else 0.630
+    except Exception:
+        audusd = 0.630
+    return {"usdcad": usdcad, "audusd": audusd}
+
+
+def fetch_fx_rates():
+    """Fetch live FX rates for display — all pairs as 1 USD = X foreign currency"""
+    try:
+        import yfinance as yf
+    except ImportError:
+        return {}
+
+    pairs = {
+        "CAD": ("CADUSD=X", True,  1.365),    # invert CADUSD=X
+        "THB": ("THBUSD=X", True,  34.5),     # invert THBUSD=X
+        "AUD": ("AUDUSD=X", True,  1.580),    # invert AUDUSD=X
+        "COP": ("COPUSD=X", True,  4150.0),   # invert COPUSD=X
+        "EUR": ("EURUSD=X", True,  0.920),    # invert EURUSD=X
+        "RUB": ("RUBUSD=X", True,  90.0),     # invert RUBUSD=X
+        "KRW": ("KRWUSD=X", True,  1380.0),   # invert KRWUSD=X
+        "JPY": ("JPYUSD=X", True,  150.0),    # invert JPYUSD=X
+    }
+
+    ICONS = {
+        "CAD": "🇨🇦", "THB": "🇹🇭", "AUD": "🇦🇺",
+        "COP": "🇨🇴", "EUR": "🇪🇺", "RUB": "🇷🇺", "KRW": "🇰🇷", "JPY": "🇯🇵",
+    }
+    SYMBOLS = {
+        "CAD": "$", "THB": "฿", "AUD": "$",
+        "COP": "$", "EUR": "€", "RUB": "₽", "KRW": "₩", "JPY": "¥",
+    }
+
+    results = {}
+    for currency, (ticker, invert, fallback) in pairs.items():
+        try:
+            hist = yf.Ticker(ticker).history(period="2d")
+            if len(hist) >= 1:
+                raw = float(hist["Close"].iloc[-1])
+                rate = 1.0 / raw if invert else raw
+            else:
+                rate = fallback
+        except Exception:
+            rate = fallback
+
+        # Format rate
+        if currency in ("KRW", "COP", "JPY"):
+            fmt = f"{rate:,.3f}"
+        else:
+            fmt = f"{rate:.3f}"
+
+        results[currency] = {
+            "rate":   rate,
+            "fmt":    fmt,
+            "icon":   ICONS[currency],
+            "symbol": SYMBOLS[currency],
+        }
+
+    return results
 
 # ─────────────────────────────────────────────────────────────
 # SVG DONUT CHART
@@ -571,7 +953,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -632,29 +1014,63 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     # ── Top 3 by value ──
     top3 = [t for t, *_ in port_sorted[:3]]
 
-    # ── Catalysts HTML (top 3, fresh-only dates highlighted) ──
+    # ── Catalysts HTML (top 3, 48h fresh only) ──
+    # If ALL 3 have no news → one collapsed line. Otherwise show per-ticker lines.
+    fresh_cats  = [(t, catalysts.get(t)) for t in top3 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
+    no_news_tks = [t for t in top3 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
+
     cats_html = ""
-    for ticker in top3:
-        cat = catalysts.get(ticker)
-        display = HOLDINGS_MAP.get(ticker, {}).get("display", ticker.split(".")[0])
-        if cat:
-            badge_cls = "catalyst-badge" if cat["fresh"] else "catalyst-badge stale"
-            fresh_note = "" if cat["fresh"] else ' <span style="color:var(--mute);font-style:italic;font-size:.6rem">(older than 2 market days)</span>'
-            source_str = f' · {cat["source"]}' if cat["source"] else ""
-            cats_html += f"""
+    for ticker, cat in fresh_cats:
+        display    = HOLDINGS_MAP.get(ticker, {}).get("display", ticker.split(".")[0])
+        source_str = f' · {cat["source"]}' if cat["source"] else ""
+        cats_html += f"""
             <div class="catalyst-item">
               <span class="catalyst-ticker">{display}</span>
-              <span class="{badge_cls}">{cat['date']}</span>
-              <div class="catalyst-headline">{cat['title']}{fresh_note}</div>
-              <div class="catalyst-source">{cat['date']}{source_str}</div>
+              <span class="catalyst-sep"> · </span>
+              <span class="catalyst-badge">{cat['date']}{source_str}</span>
+              <span class="catalyst-sep"> — </span>
+              <span class="catalyst-headline">{cat['title']}</span>
             </div>"""
-        else:
-            cats_html += f"""
+
+    if no_news_tks:
+        no_news_displays = " · ".join(
+            HOLDINGS_MAP.get(t, {}).get("display", t.split(".")[0]) for t in no_news_tks
+        )
+        cats_html += f"""
             <div class="catalyst-item">
-              <span class="catalyst-ticker">{display}</span>
-              <span class="catalyst-badge stale">No fresh news</span>
-              <div class="catalyst-headline" style="color:var(--dim);font-style:italic">No news from last 2 market days</div>
+              <span class="catalyst-ticker">{no_news_displays}</span>
+              <span class="catalyst-sep"> — </span>
+              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No news within 48 hours.</span>
             </div>"""
+
+    # ── Radar Moonshots HTML (3 crypto + 3 resource, live Reddit) ──
+    print("  🎯 Fetching Radar Moonshots (Reddit)...")
+    moonshots = fetch_radar_moonshots()
+
+    def _radar_rows(items):
+        html = ""
+        for item in items:
+            src      = item.get("source", "")
+            src_html = f'<span class="radar-source">[{src}]</span> ' if src else ""
+            html    += f'<div class="radar-item">{src_html}<span class="radar-idea">{item["title"]}</span></div>'
+        return html
+
+    radar_crypto_html   = _radar_rows(moonshots.get("crypto", []))
+    radar_resource_html = _radar_rows(moonshots.get("resource", []))
+
+    # ── FX Rates HTML ──
+    FX_ORDER = ["CAD", "THB", "AUD", "COP", "EUR", "RUB", "KRW", "JPY"]
+    fx_rates_html = ""
+    if fx_rates:
+        for ccy in FX_ORDER:
+            d = fx_rates.get(ccy)
+            if not d:
+                continue
+            fx_rates_html += f"""
+        <div class="fx-item">
+          <div class="fx-ccy">{d['icon']} {ccy}</div>
+          <span class="fx-rate">{d['fmt']}</span>
+        </div>"""
 
     # ── Weather HTML ──
     weather_html = ""
@@ -712,14 +1128,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="crypto-change">{chg_html}</div>
         </div>"""
 
-    # ── Radar dates ──
-    radar_added = {
-        "Penumbra":               "Jan 15",
-        "Hyperlane":              "Jan 22",
-        "Forum Energy Metals":    "Feb 3",
-        "American Lithium Energy":"Feb 10",
-    }
-
     # Full HTML template
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -727,29 +1135,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Novaire Signal — Daily Brief</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Signal ⚡">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {{
-      --bg: #0a0a0c;
-      --surface: #111114;
-      --border: #1d1d22;
-      --text: #d8d5e0;
-      --dim: #6a677a;
-      --mute: #3a3840;
-      --gold: #c9a84c;
-      --gold-dim: rgba(201,168,76,.1);
-      --gold-mid: rgba(201,168,76,.2);
-      --blue: #5a7bc4;
-      --blue-dim: rgba(90,123,196,.1);
-      --violet: #9470c8;
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Inter', -apple-system, sans-serif;
-      --green: #3d9e6a;
-      --red: #cc4f4f;
-      --r: 2px;
+    :root{{
+      --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#e8e6f0;--dim:#8a8699;--mute:#4a4760;
+      --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-mid:rgba(201,168,76,.25);
+      --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
+      --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
-    *{{margin:0;padding:0;box-sizing:border-box}}
     html{{scroll-behavior:smooth}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:14px;line-height:1.5}}
     body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:14px;line-height:1.5}}
     .container{{max-width:720px;margin:0 auto}}
 
@@ -765,9 +1167,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
-    .quote-type{{font-size:.55rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
-    .quote-text{{font-family:var(--serif);font-size:.87rem;font-style:italic;color:var(--text);line-height:1.42}}
-    .quote-author{{font-size:.62rem;color:var(--dim);margin-top:2px}}
+    .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
+    .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
+    .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
     #quotes-card{{padding:14px 16px}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}}
@@ -781,12 +1183,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .thai-news-item{{font-size:.82rem;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.45}}
     .thai-news-item:last-child{{border-bottom:none}}
 
-    .star-sign{{display:flex;align-items:center;gap:16px;padding:4px 0}}
-    .star-sign-left{{text-align:center;flex-shrink:0;width:60px}}
-    .star-sign-symbol{{font-size:1.6rem;line-height:1}}
-    .star-sign-main{{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-top:3px}}
-    .star-sign-range{{font-size:.58rem;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}}
-    .star-sign-desc{{font-size:.78rem;color:var(--dim);line-height:1.5;flex:1}}
+    .star-sign{{padding:2px 0}}
+    .star-sign-symbol{{display:none}}
+    .star-sign-main{{font-family:var(--serif);font-size:.95rem;color:var(--gold);display:flex;align-items:center;gap:6px;margin-bottom:4px}}
+    .star-sign-main::before{{content:attr(data-symbol);font-size:.85rem}}
+    .star-sign-range{{display:inline;font-size:.65rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-left:4px;vertical-align:middle}}
+    .star-sign-desc{{font-size:.78rem;color:var(--dim);line-height:1.55;margin-top:6px}}
 
     .headline{{padding:8px 0;border-bottom:1px solid var(--border)}}
     .headline:last-child{{border-bottom:none}}
@@ -826,12 +1228,19 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .legend-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
     .legend-pct{{color:var(--dim);margin-left:auto}}
 
-    .catalyst-item{{padding:10px 0;border-bottom:1px solid var(--border)}}
+    .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
-    .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem}}
-    .catalyst-badge{{display:inline-block;background:var(--gold-dim);color:var(--gold);font-size:.6rem;padding:2px 7px;border-radius:2px;margin-left:6px}}
-    .catalyst-badge.stale{{background:rgba(106,103,122,.1);color:var(--dim)}}
-    .catalyst-headline{{font-size:.8rem;color:var(--text);margin-top:5px;line-height:1.45}}
+    .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
+    .catalyst-sep{{color:var(--dim);font-size:.8rem}}
+    .catalyst-badge{{color:var(--gold);font-size:.75rem;opacity:.8;white-space:nowrap}}
+    .catalyst-headline{{font-size:.8rem;color:var(--text);line-height:1.4}}
+    .radar-label{{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:6px;margin-top:2px}}
+    .radar-item{{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;padding:5px 0;border-bottom:1px solid var(--border);line-height:1.4}}
+    .radar-item:last-child{{border-bottom:none}}
+    .radar-ticker{{font-weight:600;color:var(--gold);font-size:.8rem;white-space:nowrap;min-width:42px}}
+    .radar-sep{{color:var(--dim);font-size:.75rem;white-space:nowrap}}
+    .radar-idea{{font-size:.78rem;color:var(--text);line-height:1.4}}
+    .radar-source{{font-size:.68rem;color:var(--gold);opacity:.65;font-style:italic;white-space:nowrap}}
     .catalyst-source{{font-size:.62rem;color:var(--dim);margin-top:2px}}
     .no-news{{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}}
 
@@ -850,18 +1259,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .crypto-price{{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:2px}}
     .crypto-change{{font-size:.68rem;margin-top:2px}}
 
-    .radar-category{{font-size:.58rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.2em;margin:16px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--gold-mid)}}
-    .radar-category:first-child{{margin-top:0}}
     .radar-item{{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}}
     .radar-item:last-child{{border-bottom:none}}
-    .radar-icon{{font-size:.85rem;width:22px;text-align:center;padding-top:1px}}
-    .radar-content{{flex:1}}
-    .radar-name{{font-size:.85rem;font-weight:600;color:var(--text)}}
     .radar-ticker{{font-size:.7rem;color:var(--gold);margin-left:5px}}
-    .radar-mcap{{font-size:.66rem;color:var(--green);margin-left:5px}}
-    .radar-desc{{font-size:.76rem;color:var(--dim);margin-top:3px;line-height:1.45}}
-    .radar-thesis{{font-size:.72rem;color:var(--blue);margin-top:3px;font-style:italic}}
-    .freshness-badge{{display:inline-block;font-size:.55rem;padding:2px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;font-weight:600;letter-spacing:.06em}}
     .fresh{{background:rgba(61,158,106,.12);color:#3d9e6a;border:1px solid rgba(61,158,106,.2)}}
     .stale{{background:rgba(106,103,122,.1);color:var(--dim);border:1px solid var(--border)}}
 
@@ -876,6 +1276,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .thai-word-box .word{{font-family:var(--serif);font-size:1.1rem;color:var(--gold)}}
     .thai-word-box .dot{{color:var(--mute)}}
     .thai-word-box .meaning{{font-size:.78rem;color:var(--dim)}}
+
+    .fx-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}}
+    .fx-item{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;font-size:.78rem;color:var(--dim)}}
+    .fx-item .fx-ccy{{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;color:var(--dim)}}
+    .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.95rem;font-weight:600;color:var(--gold);margin-top:2px}}
 
     .feed-controls{{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}}
     .feed-refresh{{font-size:.6rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:4px 8px;border-radius:var(--r);font-family:var(--sans)}}
@@ -913,6 +1318,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(2,1fr)}}
       .crypto-grid{{grid-template-columns:repeat(2,1fr)}}
+      .fx-grid{{grid-template-columns:repeat(2,1fr)}}
       .allocation-section{{flex-direction:column}}
       .rec-grid{{grid-template-columns:1fr}}
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
@@ -925,7 +1331,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- HEADER BRANDING -->
   <div class="header-brand">
     <div class="footer-logo">Novaire <span>Signal</span></div>
-    
+    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise together.</div>
   </div>
 
   <!-- DATE / GENERATION LINE -->
@@ -961,14 +1367,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- STAR SIGN — compact (~50% smaller) -->
+  <!-- FX RATES -->
+  <div class="card">
+    <div class="card-title">💱 FX Rates — 1 USD =</div>
+    <div class="fx-grid">
+      {fx_rates_html}
+    </div>
+  </div>
+
+  <!-- STAR SIGN — inline symbol + name, compact -->
   <div class="card">
     <div class="star-sign">
-      <div class="star-sign-left">
-        <div class="star-sign-symbol">{zodiac['symbol']}</div>
-        <div class="star-sign-main">{zodiac['name']}</div>
-        <div class="star-sign-range">{zodiac['range']}</div>
-      </div>
+      <div class="star-sign-main" data-symbol="{zodiac['symbol']}">{zodiac['name']}<span class="star-sign-range">{zodiac['range']}</span></div>
       <div class="star-sign-desc">{zodiac['desc']}</div>
     </div>
   </div>
@@ -996,8 +1406,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   (function() {{
     let allPosts = [];
     let activeFilter = null;
-    const CACHE_KEY = 'novaire_feed_v2';
-    const CACHE_TTL = 15 * 60 * 1000;
+    const CACHE_KEY = 'novaire_feed_v4';  // bumped — busts stale localStorage
+    const CACHE_TTL = 4 * 60 * 1000;    // 4min cache — matches refresh cadence
 
     function timeAgo(iso) {{
       const d = new Date(iso);
@@ -1198,6 +1608,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     {cats_html}
   </div>
 
+  <!-- RADAR IDEAS — 3 crypto + 3 resource, live from Reddit/News/4Chan -->
+  <div class="card">
+    <div class="card-title">🎯 Radar Ideas</div>
+    <div class="radar-label">🪙 Micro-Cap Crypto</div>
+    {radar_crypto_html}
+    <div class="radar-label" style="margin-top:12px">⛏️ Micro-Cap Resources</div>
+    {radar_resource_html}
+    <div style="margin-top:8px;font-size:.6rem;color:var(--mute)">Live · Reddit · News · 4Chan /biz/ · Barbell plays $500–$1K · Updates every build</div>
+  </div>
+
   <!-- COMMODITIES -->
   <div class="card">
     <div class="card-title">🪙 Commodities</div>
@@ -1214,76 +1634,26 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- RADAR IDEAS — with freshness badges -->
-  <div class="card">
-    <div class="card-title">🎯 Radar Ideas</div>
-    <div class="radar-category">🪙 Micro-Cap Crypto</div>
-    <div class="radar-item">
-      <span class="radar-icon">⚡</span>
-      <div class="radar-content">
-        <div>
-          <span class="radar-name">Penumbra</span>
-          <span class="radar-ticker">PENUMBRA</span>
-          <span class="radar-mcap">~$85M mcap</span>
-          <span class="freshness-badge stale">Added Jan 15</span>
-        </div>
-        <div class="radar-desc">Privacy-focused Cosmos chain with shielded swaps &amp; staking. Native DEX with anonymous positions.</div>
-        <div class="radar-thesis">→ Privacy narrative + ZEC correlation + cross-chain DeFi = undervalued</div>
-      </div>
-    </div>
-    <div class="radar-item">
-      <span class="radar-icon">🔗</span>
-      <div class="radar-content">
-        <div>
-          <span class="radar-name">Hyperlane</span>
-          <span class="radar-ticker">Pre-token</span>
-          <span class="radar-mcap">Watch list</span>
-          <span class="freshness-badge stale">Added Jan 22</span>
-        </div>
-        <div class="radar-desc">Permissionless interoperability — any chain to any chain without centralized bridges.</div>
-        <div class="radar-thesis">→ Bridge hacks create demand for trustless alternatives; token launch catalyst</div>
-      </div>
-    </div>
-    <div class="radar-category">⛏️ Micro-Cap Resources</div>
-    <div class="radar-item">
-      <span class="radar-icon">☢️</span>
-      <div class="radar-content">
-        <div>
-          <span class="radar-name">Forum Energy Metals</span>
-          <span class="radar-ticker">FMC.V</span>
-          <span class="radar-mcap">~$18M mcap</span>
-          <span class="freshness-badge stale">Added Feb 3</span>
-        </div>
-        <div class="radar-desc">Athabasca Basin uranium explorer adjacent to Cameco &amp; Orano properties. Q1 drill results pending.</div>
-        <div class="radar-thesis">→ Basin-maker geology + cheap entry = asymmetric upside on drill results</div>
-      </div>
-    </div>
-    <div class="radar-item">
-      <span class="radar-icon">🔋</span>
-      <div class="radar-content">
-        <div>
-          <span class="radar-name">American Lithium Energy</span>
-          <span class="radar-ticker">AMLI</span>
-          <span class="radar-mcap">~$45M mcap</span>
-          <span class="freshness-badge stale">Added Feb 10</span>
-        </div>
-        <div class="radar-desc">Nevada lithium clay project with solid-state battery tech partnership. Domestic supply play.</div>
-        <div class="radar-thesis">→ Domestic lithium + IRA incentives + battery tech = strategic value</div>
-      </div>
-    </div>
-    <div style="margin-top:10px;font-size:.62rem;color:var(--mute);text-align:center">
-      🟢 Fresh = added within last 2 market days · Grey = older idea, still on watch
-    </div>
-  </div>
 
-  <!-- RECOMMENDATIONS — client-side localStorage rotation -->
+    <!-- RECOMMENDATIONS — client-side localStorage rotation -->
   <div class="card">
     <div class="card-title">🎬 Recommendations</div>
-    <div class="rec-grid" id="rec-grid">
-      <!-- Filled by JS dedup rotation -->
+    <div class="rec-grid">
+      <div class="rec-item">
+        <div class="rec-label">{rec_movie['label'] if rec_movie else '📺 Now Watching'}</div>
+        <div class="rec-title">{rec_movie['title'] if rec_movie else '—'}</div>
+        <div class="rec-meta">{rec_movie['meta'] if rec_movie else ''}</div>
+        <div class="rec-summary">{rec_movie['summary'] if rec_movie else ''}</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-label">{rec_book['label'] if rec_book else '📖 Now Reading'}</div>
+        <div class="rec-title">{rec_book['title'] if rec_book else '—'}</div>
+        <div class="rec-meta">{rec_book['meta'] if rec_book else ''}</div>
+        <div class="rec-summary">{rec_book['summary'] if rec_book else ''}</div>
+      </div>
     </div>
     <div style="margin-top:12px;font-size:.68rem;color:var(--dim);text-align:center">
-      Rotating daily · deduped via localStorage
+      Updated daily · Netflix trending + Amazon Business #1
     </div>
   </div>
 
@@ -1367,28 +1737,7 @@ function toggleHoldings() {{
   btn.innerHTML = (isOpen ? '<span id="holdings-arrow" style="display:inline-block;transform:rotate(180deg)">▼</span>' : '<span id="holdings-arrow">▼</span>') + '&nbsp; ' + (isOpen ? 'Collapse Holdings' : 'Expand Holdings');
 }}
 
-// ── Recommendations rotation ──
-const MOVIES = {MOVIES_JS};
-const BOOKS = {BOOKS_JS};
-
-(function renderRecs() {{
-  const movie = getQuoteForToday('movie', MOVIES);
-  const book  = getQuoteForToday('book',  BOOKS);
-  document.getElementById('rec-grid').innerHTML = `
-    <div class="rec-item">
-      <div class="rec-label">📺 Now Watching</div>
-      <div class="rec-title">${{movie.title}}</div>
-      <div class="rec-meta">${{movie.meta}}</div>
-      <div class="rec-summary">${{movie.summary}}</div>
-    </div>
-    <div class="rec-item">
-      <div class="rec-label">📖 Now Reading</div>
-      <div class="rec-title">${{book.title}}</div>
-      <div class="rec-meta">${{book.meta}}</div>
-      <div class="rec-summary">${{book.summary}}</div>
-    </div>
-  `;
-}})();
+// Recommendations are now server-side rendered (live trending data)
 </script>
 </body>
 </html>"""
@@ -1420,11 +1769,29 @@ def main():
         print(f"    ❌ {e}")
         zh_news = [{"title": "ZeroHedge unavailable", "url": "#"}]
 
-    print("  📈 Fetching portfolio data (yfinance)...")
+    print("  💱 Fetching FX rates (needed for portfolio conversion)...")
     try:
-        portfolio_data = fetch_portfolio()
+        fx = fetch_fx()
+        print(f"    ✅ USD/CAD={fx['usdcad']:.4f}  AUD/USD={fx['audusd']:.4f}")
+    except Exception as e:
+        print(f"    ❌ {e}")
+        fx = {"usdcad": 1.365, "audusd": 0.630}
+
+    print("  💱 Fetching extended FX rates for display...")
+    try:
+        fx_rates = fetch_fx_rates()
+        loaded_fx = sum(1 for v in fx_rates.values() if v.get("rate"))
+        print(f"    ✅ {loaded_fx} FX pairs loaded")
+    except Exception as e:
+        print(f"    ❌ {e}")
+        fx_rates = {}
+
+    print("  📈 Fetching portfolio data (yfinance)...")
+    holdings_source = HOLDINGS
+    try:
+        portfolio_data, holdings_source = fetch_portfolio(usdcad=fx["usdcad"], audusd=fx["audusd"])
         loaded = sum(1 for v in portfolio_data.values() if v.get("price"))
-        print(f"    ✅ {loaded}/{len(HOLDINGS)} tickers loaded")
+        print(f"    ✅ {loaded}/{len(holdings_source)} tickers loaded")
     except Exception as e:
         print(f"    ❌ {e}")
         portfolio_data = {}
@@ -1461,23 +1828,44 @@ def main():
         print(f"    ❌ {e}")
         crypto = {}
 
-    print("  💱 Fetching FX rates...")
-    try:
-        fx = fetch_fx()
-        print(f"    ✅ USD/CAD={fx['usdcad']:.4f}")
-    except Exception as e:
-        print(f"    ❌ {e}")
-        fx = {"usdcad": 1.365}
+    # FX already fetched before portfolio; ensure fallback exists
+    if not fx:
+        fx = {"usdcad": 1.365, "audusd": 0.630}
 
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
     motivation = pick(MOTIVATION_QUOTES, 11)
 
+    print("  📡 Refreshing Signal Feed (Nitter RSS → feed.json)...")
+    try:
+        import subprocess, os as _os
+        result = subprocess.run(
+            ["python3", "scripts/fetch_feed.py"],
+            capture_output=True, text=True, timeout=90,
+            cwd=_os.path.dirname(_os.path.abspath(__file__))
+        )
+        if result.returncode == 0:
+            print("    ✅ feed.json updated")
+        else:
+            print(f"    ⚠️  fetch_feed.py: {result.stderr[-150:]}")
+    except Exception as e:
+        print(f"    ⚠️  Signal feed refresh failed: {e}")
+
+    print("  🎬 Fetching trending recs...")
+    try:
+        rec_movie, rec_book = fetch_trending_recs()
+        print(f"    ✅ Movie: {rec_movie['title'][:40]} | Book: {rec_book['title'][:40]}")
+    except Exception as e:
+        print(f"    ❌ {e}")
+        rec_movie, rec_book = None, None
+
     print("  🎨 Generating HTML...")
     html = render_html(
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
-        commodities, crypto, fx, zodiac, thai_word, motivation
+        commodities, crypto, fx, zodiac, thai_word, motivation,
+        rec_movie=rec_movie, rec_book=rec_book, fx_rates=fx_rates,
+        holdings_source=holdings_source
     )
 
     import os

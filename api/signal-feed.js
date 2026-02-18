@@ -1,7 +1,9 @@
 // api/signal-feed.js — Vercel Edge Function
-// Uses Edge Runtime (Cloudflare's network) to avoid IP rate-limiting on Twitter's syndication API
+// Fetches via Nitter RSS (reliable, no Twitter API rate-limits)
 
 export const config = { runtime: 'edge' };
+
+const NITTER_BASE = 'https://nitter.net';
 
 const ACCOUNTS = [
   'BambroughKevin','zerohedge','KobeissiLetter','hkuppy','quakes99',
@@ -12,47 +14,52 @@ const ACCOUNTS = [
 
 async function fetchUserTimeline(username) {
   try {
-    const url = `https://syndication.twitter.com/srv/timeline-profile/screen-name/${username}?lang=en`;
+    const url = `${NITTER_BASE}/${username}/rss`;
     const resp = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9',
-      },
-      // Edge runtime's fetch has built-in 30s timeout
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NovaireSig/1.0)' },
     });
-
     if (!resp.ok) return { username, tweets: [], error: `HTTP ${resp.status}` };
 
-    const html = await resp.text();
-    const match = html.match(/<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/);
-    if (!match) return { username, tweets: [], error: 'no_data' };
+    const xml = await resp.text();
+    // Parse RSS items
+    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+    const tweets = [];
 
-    const data = JSON.parse(match[1]);
-    const entries = data?.props?.pageProps?.timeline?.entries || [];
+    for (const [, itemXml] of items.slice(0, 20)) {
+      const titleMatch = itemXml.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) ||
+                         itemXml.match(/<title>([\s\S]*?)<\/title>/);
+      const linkMatch  = itemXml.match(/<link>([\s\S]*?)<\/link>/);
+      const pubMatch   = itemXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
 
-    const tweets = entries
-      .filter(e => e.type === 'tweet' && e.content?.tweet?.id_str)
-      .slice(0, 15)
-      .map(e => {
-        const t = e.content.tweet;
-        const u = t.user || {};
-        const createdAt = new Date(t.created_at || 0);
-        return {
-          id: t.id_str,
-          text: (t.full_text || t.text || '').replace(/https?:\/\/t\.co\/\S+/g, '').trim(),
-          author: u.name || username,
-          handle: u.screen_name || username,
-          createdAt: createdAt.toISOString(),
-          createdAtMs: createdAt.getTime(),
-          likes: t.favorite_count || 0,
-          retweets: t.retweet_count || 0,
-          url: `https://x.com/${u.screen_name || username}/status/${t.id_str}`,
-          avatar: u.profile_image_url_https || null,
-        };
-      })
-      .filter(t => t.text.length > 0);
+      let text = titleMatch ? titleMatch[1].trim() : '';
+      // Strip RT/reply prefixes
+      text = text.replace(/^R to @\S+:\s*/, '').replace(/^RT by @\S+:\s*/, '').trim();
+      if (!text || text.length < 5) continue;
 
+      let link = linkMatch ? linkMatch[1].trim() : '';
+      link = link.replace(/https?:\/\/nitter\.[^\/]+\//, 'https://x.com/');
+
+      let createdAtMs = 0;
+      let createdAt = new Date().toISOString();
+      if (pubMatch) {
+        const d = new Date(pubMatch[1].trim());
+        if (!isNaN(d)) { createdAtMs = d.getTime(); createdAt = d.toISOString(); }
+      }
+
+      const idMatch = link.match(/\/status\/(\d+)/);
+      tweets.push({
+        id:          idMatch ? idMatch[1] : String(createdAtMs),
+        text,
+        author:      username,
+        handle:      username,
+        createdAt,
+        createdAtMs,
+        likes:       0,
+        retweets:    0,
+        url:         link || `https://x.com/${username}`,
+        avatar:      null,
+      });
+    }
     return { username, tweets };
   } catch (err) {
     return { username, tweets: [], error: err.message };
@@ -88,10 +95,19 @@ export default async function handler(req) {
       return true;
     });
 
-    // Sort newest first
-    unique.sort((a, b) => b.createdAtMs - a.createdAtMs);
+    // Hard cutoff: guaranteed accounts (ZeroHedge, Kobeissi, Economist) = 4h max
+    // All others = 24h max
+    const GUARANTEED = new Set(['zerohedge', 'KobeissiLetter', 'TheEconomist']);
+    const now = Date.now();
+    const fresh = unique.filter(t => {
+      const maxAge = GUARANTEED.has(t.handle) ? 4 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+      return (now - t.createdAtMs) <= maxAge;
+    });
 
-    const posts = unique.slice(0, 60);
+    // Sort newest first
+    fresh.sort((a, b) => b.createdAtMs - a.createdAtMs);
+
+    const posts = fresh.slice(0, 60);
 
     const body = JSON.stringify({
       ok: true,
