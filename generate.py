@@ -925,7 +925,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- HEADER BRANDING -->
   <div class="header-brand">
     <div class="footer-logo">Novaire <span>Signal</span></div>
-    <div class="footer-tagline">Daily brief for focused allocators</div>
+    
   </div>
 
   <!-- DATE / GENERATION LINE -->
@@ -1310,7 +1310,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- FOOTER BRANDING -->
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span></div>
-    <div class="footer-tagline">Daily brief for focused allocators</div>
+    
     <div class="footer-sub">novairesignal.com · Generated daily · Live data from Yahoo Finance &amp; Binance</div>
   </div>
 
