@@ -32,16 +32,12 @@ async function fetchUserTimeline(username) {
 
     return entries
       .filter(e => e.type === 'tweet' && e.content?.tweet)
-      .slice(0, 5) // take top 5 per account
+      .slice(0, 20) // take up to 20 per account, sort by recency globally
       .map(e => {
         const t = e.content.tweet;
         const user = t.user || {};
         const createdAt = t.created_at ? new Date(t.created_at) : new Date(0);
         // Skip if tweet is older than 7 days
-        // Skip tweets older than 30 days
-        const ageMs = Date.now() - createdAt.getTime();
-        if (ageMs > 30 * 24 * 60 * 60 * 1000) return null;
-
         return {
           id: t.id_str,
           text: (t.full_text || t.text || '').replace(/https?:\/\/t\.co\/\S+/g, '').trim(),
@@ -95,8 +91,8 @@ export default async function handler(req, res) {
     // Sort by recency (newest first)
     unique.sort((a, b) => b.createdAtMs - a.createdAtMs);
 
-    // Return top 40
-    const feed = unique.slice(0, 40);
+    // Return top 60
+    const feed = unique.slice(0, 60);
 
     return res.status(200).json({
       ok: true,
