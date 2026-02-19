@@ -1331,7 +1331,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- HEADER BRANDING -->
   <div class="header-brand">
     <div class="footer-logo">Novaire <span>Signal</span></div>
-    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise together.</div>
+    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
   <!-- DATE / GENERATION LINE -->
