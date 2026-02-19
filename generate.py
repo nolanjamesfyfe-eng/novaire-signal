@@ -118,13 +118,13 @@ def fetch_radar_moonshots():
         except Exception:
             pass
 
-    # Sort each bucket by score desc, pick top 2-3 per category
-    crypto_top   = sorted(posts["crypto"],   key=lambda x: x["score"], reverse=True)[:3]
-    resource_top = sorted(posts["resource"], key=lambda x: x["score"], reverse=True)[:3]
+    # Sort each bucket by score desc, pick top 1 per category
+    crypto_top   = sorted(posts["crypto"],   key=lambda x: x["score"], reverse=True)[:1]
+    resource_top = sorted(posts["resource"], key=lambda x: x["score"], reverse=True)[:1]
 
     return {
-        "crypto":   crypto_top   if crypto_top   else RADAR_STATIC_FALLBACK[:3],
-        "resource": resource_top if resource_top else RADAR_STATIC_FALLBACK[3:6],
+        "crypto":   crypto_top   if crypto_top   else RADAR_STATIC_FALLBACK[:1],
+        "resource": resource_top if resource_top else RADAR_STATIC_FALLBACK[3:4],
     }
 
 WEATHER_CODES = {
