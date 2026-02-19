@@ -2,72 +2,83 @@
   <defs>
     <radialGradient id="globeGrad" cx="38%" cy="32%" r="65%">
       <stop offset="0%" stop-color="#f0d980"/>
-      <stop offset="40%" stop-color="#c9a84c"/>
-      <stop offset="100%" stop-color="#6b4a10"/>
+      <stop offset="45%" stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#8a6420"/>
     </radialGradient>
-    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#1a1208"/>
-      <stop offset="100%" stop-color="#0a0804"/>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffdf5"/>
+      <stop offset="60%" stop-color="#fdf8ea"/>
+      <stop offset="100%" stop-color="#f5edcf"/>
     </radialGradient>
-    <radialGradient id="sheen" cx="35%" cy="28%" r="40%">
-      <stop offset="0%" stop-color="white" stop-opacity="0.18"/>
+    <radialGradient id="sheen" cx="35%" cy="28%" r="42%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.3"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
     </radialGradient>
-    <clipPath id="globeClip">
-      <circle cx="256" cy="256" r="236"/>
+    <clipPath id="gc">
+      <circle cx="256" cy="256" r="175"/>
     </clipPath>
     <style>
       @keyframes pulse {
-        0%   { r: 242px; opacity: 0.7; }
-        100% { r: 340px; opacity: 0; }
+        0%   { r: 182px; opacity: 0.65; stroke-width: 2.5px; }
+        100% { r: 290px; opacity: 0;    stroke-width: 1px; }
       }
-      .p1 { animation: pulse 2.6s ease-out infinite 0s; }
-      .p2 { animation: pulse 2.6s ease-out infinite 0.86s; }
-      .p3 { animation: pulse 2.6s ease-out infinite 1.72s; }
+      .p1 { animation: pulse 2.8s ease-out infinite 0s; }
+      .p2 { animation: pulse 2.8s ease-out infinite 0.93s; }
+      .p3 { animation: pulse 2.8s ease-out infinite 1.86s; }
     </style>
   </defs>
 
-  <!-- Pulsing rings (behind globe) -->
-  <circle class="p1" cx="256" cy="256" r="242" fill="none" stroke="#c9a84c" stroke-width="3"/>
-  <circle class="p2" cx="256" cy="256" r="242" fill="none" stroke="#c9a84c" stroke-width="2.5"/>
-  <circle class="p3" cx="256" cy="256" r="242" fill="none" stroke="#c9a84c" stroke-width="2"/>
+  <!-- Light warm background -->
+  <circle cx="256" cy="256" r="256" fill="url(#bgGlow)"/>
 
-  <!-- Dark background -->
-  <circle cx="256" cy="256" r="256" fill="url(#bgGrad)"/>
+  <!-- Pulsing rings -->
+  <circle class="p1" cx="256" cy="256" r="182" fill="none" stroke="#c9a84c"/>
+  <circle class="p2" cx="256" cy="256" r="182" fill="none" stroke="#c9a84c"/>
+  <circle class="p3" cx="256" cy="256" r="182" fill="none" stroke="#c9a84c"/>
 
   <!-- Globe body -->
-  <circle cx="256" cy="256" r="236" fill="url(#globeGrad)"/>
+  <circle cx="256" cy="256" r="175" fill="url(#globeGrad)"/>
 
-  <!-- Continents -->
-  <g clip-path="url(#globeClip)" fill="white" opacity="0.88">
-    <path d="M80 130 Q95 105 120 108 Q140 110 150 125 Q165 140 158 160 Q150 178 138 182 Q125 188 115 178 Q100 168 90 155 Q75 140 80 130 Z"/>
-    <path d="M138 182 Q148 195 142 210 Q136 220 128 215 Q122 205 128 195 Z"/>
-    <path d="M185 80 Q200 70 218 78 Q228 88 220 100 Q210 110 196 105 Q182 96 185 80 Z"/>
-    <path d="M148 240 Q162 228 178 232 Q195 238 200 255 Q205 275 200 300 Q195 325 185 345 Q175 365 162 358 Q148 348 145 325 Q140 300 142 278 Q142 258 148 240 Z"/>
-    <path d="M250 118 Q262 108 278 112 Q290 118 286 132 Q280 142 268 140 Q254 136 250 125 Z"/>
-    <path d="M238 145 Q248 138 258 142 Q264 150 258 160 Q250 165 242 158 Z"/>
-    <path d="M272 88 Q280 80 292 84 Q300 92 295 104 Q286 110 276 105 Z"/>
-    <path d="M228 118 Q236 112 242 118 Q244 126 238 130 Q230 128 228 118 Z"/>
-    <path d="M256 158 Q278 150 295 158 Q312 168 315 190 Q318 215 310 240 Q302 265 292 285 Q278 305 265 310 Q250 312 240 298 Q228 280 228 255 Q226 228 234 205 Q240 180 256 158 Z"/>
-    <path d="M305 95 Q330 82 365 88 Q395 94 415 108 Q430 120 428 138 Q424 155 408 160 Q388 165 370 155 Q352 148 340 155 Q325 162 318 178 Q308 195 315 210 Q320 224 308 232 Q295 238 285 228 Q275 215 278 198 Q280 180 290 165 Q298 148 296 130 Q294 112 305 95 Z"/>
-    <path d="M335 200 Q348 192 360 198 Q368 208 364 228 Q358 248 348 262 Q340 270 334 260 Q326 245 328 225 Q328 210 335 200 Z"/>
-    <path d="M390 318 Q415 305 440 315 Q458 328 455 350 Q450 372 432 380 Q410 386 392 372 Q375 358 378 338 Q380 325 390 318 Z"/>
+  <!-- Continents (white, clipped) -->
+  <g clip-path="url(#gc)" fill="white" opacity="0.85">
+    <!-- North America -->
+    <path d="M95 148 Q108 126 130 129 Q148 132 157 146 Q170 162 163 180 Q155 197 143 201 Q130 207 120 197 Q105 186 97 172 Q84 158 95 148 Z"/>
+    <path d="M143 201 Q152 213 147 226 Q141 235 133 230 Q127 221 133 211 Z"/>
+    <!-- Greenland -->
+    <path d="M192 92 Q206 83 222 90 Q231 100 224 112 Q214 121 200 116 Q187 107 192 92 Z"/>
+    <!-- South America -->
+    <path d="M155 253 Q168 242 182 246 Q197 252 202 267 Q207 286 202 308 Q197 330 187 348 Q177 366 165 359 Q151 349 149 327 Q144 303 146 281 Q146 264 155 253 Z"/>
+    <!-- Europe -->
+    <path d="M253 131 Q264 122 279 126 Q290 132 286 145 Q280 154 268 152 Q255 148 253 137 Z"/>
+    <path d="M241 158 Q250 151 259 155 Q265 163 259 172 Q251 177 244 170 Z"/>
+    <path d="M275 102 Q283 95 294 99 Q302 107 297 118 Q288 124 278 119 Z"/>
+    <!-- Africa -->
+    <path d="M258 170 Q278 163 294 171 Q310 181 313 202 Q316 226 308 249 Q300 272 290 291 Q277 310 264 315 Q249 317 239 303 Q228 285 228 260 Q226 234 234 211 Q240 186 258 170 Z"/>
+    <!-- Asia -->
+    <path d="M308 108 Q332 96 365 102 Q392 108 410 122 Q424 134 422 151 Q418 167 403 172 Q383 177 366 167 Q349 160 338 167 Q323 174 316 189 Q307 205 313 219 Q318 232 307 239 Q294 245 285 235 Q275 222 278 206 Q280 188 290 173 Q298 156 296 139 Q294 121 308 108 Z"/>
+    <!-- India -->
+    <path d="M336 211 Q348 203 360 209 Q368 219 364 238 Q358 257 348 270 Q340 278 334 268 Q326 253 328 233 Q328 219 336 211 Z"/>
+    <!-- Australia -->
+    <path d="M385 325 Q408 313 431 323 Q448 335 445 356 Q440 377 423 384 Q402 390 385 376 Q369 362 372 343 Q374 331 385 325 Z"/>
   </g>
 
-  <!-- Latitude lines -->
-  <g clip-path="url(#globeClip)" fill="none" stroke="white" stroke-width="1.2" opacity="0.15">
-    <ellipse cx="256" cy="256" rx="236" ry="60"/>
-    <ellipse cx="256" cy="196" rx="228" ry="48"/>
-    <ellipse cx="256" cy="316" rx="228" ry="48"/>
+  <!-- Latitude lines (subtle) -->
+  <g clip-path="url(#gc)" fill="none" stroke="white" stroke-width="1" opacity="0.18">
+    <ellipse cx="256" cy="256" rx="175" ry="45"/>
+    <ellipse cx="256" cy="200" rx="168" ry="36"/>
+    <ellipse cx="256" cy="312" rx="168" ry="36"/>
   </g>
-  <g clip-path="url(#globeClip)" fill="none" stroke="white" stroke-width="1.2" opacity="0.12">
-    <ellipse cx="256" cy="256" rx="60" ry="236"/>
-    <ellipse cx="256" cy="256" rx="140" ry="236"/>
+  <g clip-path="url(#gc)" fill="none" stroke="white" stroke-width="1" opacity="0.14">
+    <ellipse cx="256" cy="256" rx="46" ry="175"/>
+    <ellipse cx="256" cy="256" rx="105" ry="175"/>
   </g>
 
-  <!-- Sheen -->
-  <circle cx="256" cy="256" r="236" fill="url(#sheen)"/>
+  <!-- Sheen highlight -->
+  <circle cx="256" cy="256" r="175" fill="url(#sheen)"/>
 
-  <!-- Border -->
-  <circle cx="256" cy="256" r="236" fill="none" stroke="#c9a84c" stroke-width="3"/>
+  <!-- Globe border -->
+  <circle cx="256" cy="256" r="175" fill="none" stroke="#c9a84c" stroke-width="2.5"/>
+
+  <!-- Subtle outer static ring -->
+  <circle cx="256" cy="256" r="183" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.35"/>
 </svg>
