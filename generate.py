@@ -1681,7 +1681,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span></div>
     
-    <div class="footer-sub">novairesignal.com · Generated daily · Live data from Yahoo Finance &amp; Binance</div>
+    <div class="footer-sub">Updated every 2 hours</div>
   </div>
 
 </div>
