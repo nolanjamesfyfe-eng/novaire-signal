@@ -1,6 +1,6 @@
 {
-  "name": "Novaire Signal",
-  "short_name": "Signal ⚡",
+  "name": "N Signal ⚡",
+  "short_name": "N Signal ⚡",
   "description": "Novaire's daily intelligence brief",
   "start_url": "/",
   "display": "standalone",
