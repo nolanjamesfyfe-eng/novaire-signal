@@ -1476,10 +1476,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="weather-grid">
       {weather_html}
     </div>
-    <div class="thai-news-compact">
-      <div class="thai-news-header">🇹🇭 Thailand News</div>
-      {bkk_html}
-    </div>
   </div>
 
   <!-- FX RATES -->
@@ -1779,6 +1775,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <span class="word">{thai_word['thai']}</span>
       <span class="dot">•</span>
       <span class="meaning">{thai_word['meaning']}</span>
+    </div>
+  </div>
+
+  <!-- THAILAND NEWS -->
+  <div class="card">
+    <div class="thai-news-compact">
+      <div class="thai-news-header">🇹🇭 Thailand News</div>
+      {bkk_html}
     </div>
   </div>
 
