@@ -1183,14 +1183,35 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         </div>"""
 
     # ── Weather HTML ──
+    import datetime as _dt
+    month = _dt.datetime.utcnow().month
+    def get_season(city_name, lat, month):
+        if city_name == "Medellín": return "Eternal Spring"
+        if city_name == "Bangkok":
+            if month in (11, 12, 1, 2): return "Cool Season"
+            if month in (3, 4, 5): return "Hot Season"
+            return "Rainy Season"
+        if lat < 0:  # Southern hemisphere
+            if month in (12, 1, 2): return "Summer"
+            if month in (3, 4, 5): return "Autumn"
+            if month in (6, 7, 8): return "Winter"
+            return "Spring"
+        else:  # Northern hemisphere
+            if month in (12, 1, 2): return "Winter"
+            if month in (3, 4, 5): return "Spring"
+            if month in (6, 7, 8): return "Summer"
+            return "Autumn"
+
     weather_html = ""
     for w in weather:
         temp_str = f"{w['temp']:.0f}°C" if w["temp"] is not None else "—"
+        season = get_season(w['name'], w.get('lat', 0), month)
         weather_html += f"""
         <div class="weather-item">
           <div class="city">{w['flag']} {w['name']}</div>
           <div class="temp">{temp_str}</div>
           <div class="condition">{w['condition']}</div>
+          <div class="condition" style="margin-top:2px;font-style:italic">{season}</div>
         </div>"""
 
     # ── Bangkok news HTML ──
@@ -1799,8 +1820,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- FOOTER BRANDING -->
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span></div>
-    
-    <div class="footer-sub">Updated every 2 hours</div>
+    <div class="footer-tagline">Deciphering through the noise.</div>
+    <div class="footer-sub">Live data · Updated every 2 hours · 24/7</div>
   </div>
 
 </div>
