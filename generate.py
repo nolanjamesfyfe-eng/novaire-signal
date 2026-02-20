@@ -151,6 +151,116 @@ ZODIAC_SIGNS = [
     {"cutoff": (12, 21), "name": "Sagittarius", "symbol": "♐", "range": "Nov 22 – Dec 21", "desc": "Adventurous, optimistic, and philosophical — Sagittarians seek truth beyond the horizon."},
 ]
 
+# SAT/GRE Word of the Day (rotates daily, not in Novaire's 2011 deck)
+SAT_WORDS = [
+    {"word": "acrimony", "def": "bitterness or ill feeling", "sentence": "The acrimony between the two factions made any compromise impossible."},
+    {"word": "alacrity", "def": "brisk and cheerful readiness", "sentence": "She accepted the challenge with alacrity, eager to prove her worth."},
+    {"word": "ameliorate", "def": "to make something bad better", "sentence": "The new policies were designed to ameliorate the housing crisis."},
+    {"word": "anachronism", "def": "something out of its proper time", "sentence": "His formal manners seemed an anachronism in the casual startup culture."},
+    {"word": "anathema", "def": "something intensely disliked or loathed", "sentence": "Passive investing was anathema to the active fund managers."},
+    {"word": "antithesis", "def": "the exact opposite", "sentence": "His reckless spending was the antithesis of prudent financial planning."},
+    {"word": "apocryphal", "def": "of doubtful authenticity", "sentence": "The apocryphal story of his early failures became part of corporate legend."},
+    {"word": "approbation", "def": "approval or praise", "sentence": "The strategy won the approbation of even the most skeptical board members."},
+    {"word": "ascetic", "def": "characterized by severe self-discipline", "sentence": "He lived an ascetic life, reinvesting every dollar into his portfolio."},
+    {"word": "bellicose", "def": "demonstrating aggression and willingness to fight", "sentence": "The bellicose rhetoric from both nations rattled global markets."},
+    {"word": "bombastic", "def": "high-sounding but with little meaning", "sentence": "His bombastic predictions rarely materialized into actual returns."},
+    {"word": "cacophony", "def": "a harsh, discordant mixture of sounds", "sentence": "The cacophony of conflicting analyst opinions left investors confused."},
+    {"word": "capricious", "def": "given to sudden changes of mood or behavior", "sentence": "The capricious nature of the market punished those without conviction."},
+    {"word": "castigate", "def": "to reprimand severely", "sentence": "The CEO was castigated by shareholders for the failed acquisition."},
+    {"word": "circumspect", "def": "wary and unwilling to take risks", "sentence": "A circumspect approach to leverage saved them during the crash."},
+    {"word": "clandestine", "def": "kept secret or done secretively", "sentence": "The clandestine meetings between executives raised suspicions."},
+    {"word": "cogent", "def": "clear, logical, and convincing", "sentence": "He presented a cogent argument for increasing exposure to uranium."},
+    {"word": "commensurate", "def": "corresponding in size or degree", "sentence": "The risk must be commensurate with the potential reward."},
+    {"word": "compendium", "def": "a collection of concise but detailed information", "sentence": "The annual report served as a compendium of market insights."},
+    {"word": "conflagration", "def": "an extensive fire; a conflict or war", "sentence": "The conflagration in the bond market spread to equities within hours."},
+    {"word": "conundrum", "def": "a confusing and difficult problem", "sentence": "The Fed faced a conundrum: raise rates and crash markets, or let inflation run."},
+    {"word": "corroborate", "def": "to confirm or give support to", "sentence": "The earnings report corroborated the thesis of accelerating growth."},
+    {"word": "deleterious", "def": "causing harm or damage", "sentence": "The deleterious effects of inflation eroded purchasing power silently."},
+    {"word": "diatribe", "def": "a forceful and bitter verbal attack", "sentence": "His diatribe against central bank policy went viral on financial Twitter."},
+    {"word": "dichotomy", "def": "a division into two contrasting things", "sentence": "The dichotomy between public optimism and private pessimism was striking."},
+    {"word": "diffident", "def": "modest or shy because of lack of self-confidence", "sentence": "Despite his success, he remained diffident about his market timing abilities."},
+    {"word": "ebullient", "def": "cheerful and full of energy", "sentence": "The ebullient mood on the trading floor suggested a strong close."},
+    {"word": "efficacious", "def": "successful in producing a desired result", "sentence": "The stimulus proved efficacious in averting a deeper recession."},
+    {"word": "egregious", "def": "outstandingly bad; shocking", "sentence": "The egregious accounting fraud destroyed decades of shareholder value."},
+    {"word": "enervate", "def": "to drain of energy or vitality", "sentence": "The prolonged bear market enervated even the most bullish investors."},
+    {"word": "ephemeral", "def": "lasting for a very short time", "sentence": "The rally proved ephemeral, fading by the afternoon session."},
+    {"word": "equanimity", "def": "mental calmness in difficult situations", "sentence": "He faced the market crash with remarkable equanimity."},
+    {"word": "esoteric", "def": "intended for only a small group with specialized knowledge", "sentence": "The esoteric derivatives strategy was understood by few on the desk."},
+    {"word": "exacerbate", "def": "to make a problem worse", "sentence": "The tariffs only exacerbated the supply chain disruptions."},
+    {"word": "exigent", "def": "pressing; demanding immediate attention", "sentence": "The exigent liquidity crisis required overnight intervention."},
+    {"word": "fastidious", "def": "very attentive to detail", "sentence": "His fastidious record-keeping saved him during the audit."},
+    {"word": "feckless", "def": "lacking initiative or strength of character", "sentence": "The feckless response to early warning signs proved costly."},
+    {"word": "frenetic", "def": "fast and energetic but disorganized", "sentence": "The frenetic trading during expiration week tested everyone's nerves."},
+    {"word": "garrulous", "def": "excessively talkative", "sentence": "The garrulous analyst buried the key insight in an hour of rambling."},
+    {"word": "gregarious", "def": "fond of company; sociable", "sentence": "His gregarious nature made him a natural at investor conferences."},
+    {"word": "harbinger", "def": "a person or thing that signals something to come", "sentence": "The inverted yield curve was a harbinger of the recession ahead."},
+    {"word": "hegemony", "def": "leadership or dominance over others", "sentence": "America's economic hegemony faces new challenges from the East."},
+    {"word": "hubris", "def": "excessive pride or self-confidence", "sentence": "His hubris blinded him to the risks accumulating in his portfolio."},
+    {"word": "iconoclast", "def": "a person who attacks cherished beliefs", "sentence": "The iconoclast fund manager shorted every market darling."},
+    {"word": "implacable", "def": "unable to be appeased or placated", "sentence": "The implacable march of inflation demanded a policy response."},
+    {"word": "inchoate", "def": "just begun and not fully formed", "sentence": "The inchoate recovery showed signs of fragility."},
+    {"word": "inexorable", "def": "impossible to stop or prevent", "sentence": "The inexorable rise of AI would reshape every sector."},
+    {"word": "insidious", "def": "proceeding harmfully in a gradual way", "sentence": "The insidious creep of fees compounded into massive losses over time."},
+    {"word": "intransigent", "def": "unwilling to change one's views", "sentence": "The intransigent stance of both parties prolonged the debt ceiling crisis."},
+    {"word": "invective", "def": "insulting or abusive language", "sentence": "The earnings call devolved into invective between the CEO and analysts."},
+    {"word": "laconic", "def": "using very few words", "sentence": "His laconic investment thesis fit on a single index card."},
+    {"word": "lassitude", "def": "a state of physical or mental weariness", "sentence": "A strange lassitude settled over markets during the summer doldrums."},
+    {"word": "magnanimous", "def": "generous or forgiving", "sentence": "The magnanimous offer to renegotiate terms surprised everyone."},
+    {"word": "mendacious", "def": "not telling the truth; lying", "sentence": "The mendacious earnings projections eventually caught up with them."},
+    {"word": "mercurial", "def": "subject to sudden changes of mood", "sentence": "The mercurial founder was brilliant but impossible to predict."},
+    {"word": "munificent", "def": "larger or more generous than usual", "sentence": "The munificent dividend attracted income-focused investors."},
+    {"word": "nascent", "def": "just beginning to develop", "sentence": "The nascent bull market showed increasing signs of strength."},
+    {"word": "nebulous", "def": "unclear, vague, or ill-defined", "sentence": "The company's growth strategy remained frustratingly nebulous."},
+    {"word": "nefarious", "def": "wicked or criminal", "sentence": "The nefarious scheme to manipulate prices was uncovered by regulators."},
+    {"word": "obfuscate", "def": "to make obscure or unclear", "sentence": "The complex footnotes seemed designed to obfuscate the true liabilities."},
+    {"word": "obstinate", "def": "stubbornly refusing to change", "sentence": "His obstinate faith in the thesis paid off after three painful years."},
+    {"word": "onerous", "def": "involving heavy obligations", "sentence": "The onerous debt covenants restricted the company's flexibility."},
+    {"word": "ostentatious", "def": "designed to impress or attract notice", "sentence": "The ostentatious headquarters stood in contrast to their frugal claims."},
+    {"word": "panacea", "def": "a solution for all problems", "sentence": "Rate cuts were not a panacea for structural economic issues."},
+    {"word": "parsimonious", "def": "excessively unwilling to spend money", "sentence": "The parsimonious allocation to growth stocks hurt returns."},
+    {"word": "paucity", "def": "the presence of something in small quantities", "sentence": "The paucity of quality assets drove investors into riskier bets."},
+    {"word": "perfidious", "def": "deceitful and untrustworthy", "sentence": "The perfidious partner had been skimming profits for years."},
+    {"word": "perspicacious", "def": "having a ready insight into things", "sentence": "The perspicacious analyst spotted the accounting irregularities early."},
+    {"word": "petulant", "def": "childishly sulky or bad-tempered", "sentence": "His petulant response to criticism damaged his credibility."},
+    {"word": "platitude", "def": "a remark used too often to be interesting", "sentence": "The CEO's letter was full of platitudes about stakeholder value."},
+    {"word": "plethora", "def": "an excess or overabundance", "sentence": "The plethora of new ETFs made selection increasingly difficult."},
+    {"word": "portentous", "def": "of great importance; ominous", "sentence": "The portentous decline in leading indicators worried strategists."},
+    {"word": "precipitous", "def": "dangerously high or steep; sudden", "sentence": "The precipitous drop in oil prices caught everyone off guard."},
+    {"word": "prescient", "def": "having knowledge of events before they happen", "sentence": "Her prescient call on the housing bubble made her reputation."},
+    {"word": "profligate", "def": "recklessly extravagant or wasteful", "sentence": "The profligate spending eventually bankrupted the enterprise."},
+    {"word": "propitious", "def": "favorable; giving a good chance of success", "sentence": "Conditions were propitious for a sector rotation into value."},
+    {"word": "prosaic", "def": "lacking imagination; dull", "sentence": "The prosaic quarterly update contained no surprises."},
+    {"word": "pugnacious", "def": "eager to fight or argue", "sentence": "The pugnacious hedge fund manager relished confrontation."},
+    {"word": "quagmire", "def": "a difficult or precarious situation", "sentence": "The regulatory quagmire delayed the merger by eighteen months."},
+    {"word": "quixotic", "def": "extremely idealistic; unrealistic", "sentence": "His quixotic goal of beating the market every year set him up for failure."},
+    {"word": "recalcitrant", "def": "having an obstinately uncooperative attitude", "sentence": "The recalcitrant board refused to consider any takeover offer."},
+    {"word": "redoubtable", "def": "formidable, especially as an opponent", "sentence": "The redoubtable competitor forced them to innovate or die."},
+    {"word": "refractory", "def": "resistant to a process or treatment", "sentence": "Inflation proved refractory to traditional monetary policy tools."},
+    {"word": "repudiate", "def": "to refuse to accept or be associated with", "sentence": "The new management repudiated the aggressive accounting of their predecessors."},
+    {"word": "sagacious", "def": "having keen mental discernment", "sentence": "The sagacious investor saw opportunity where others saw only risk."},
+    {"word": "salient", "def": "most noticeable or important", "sentence": "The salient point was buried on page forty-seven of the prospectus."},
+    {"word": "sardonic", "def": "grimly mocking or cynical", "sentence": "His sardonic commentary on market euphoria proved prophetic."},
+    {"word": "specious", "def": "superficially plausible but actually wrong", "sentence": "The specious argument for infinite valuations collapsed with rates."},
+    {"word": "spurious", "def": "not genuine; false", "sentence": "The spurious correlation led many astray in their analysis."},
+    {"word": "strident", "def": "loud and harsh; presenting a point forcefully", "sentence": "The strident warnings from bears were ignored until too late."},
+    {"word": "supercilious", "def": "behaving as if one is superior to others", "sentence": "The supercilious dismissal of retail investors backfired spectacularly."},
+    {"word": "surreptitious", "def": "kept secret because it would be disapproved of", "sentence": "The surreptitious stock sales by insiders preceded the crash."},
+    {"word": "taciturn", "def": "reserved or uncommunicative", "sentence": "The taciturn value investor let his returns speak for him."},
+    {"word": "temerity", "def": "excessive confidence or boldness", "sentence": "He had the temerity to short the most crowded trade in decades."},
+    {"word": "tenuous", "def": "very weak or slight", "sentence": "The tenuous connection between policy and outcomes frustrated everyone."},
+    {"word": "trenchant", "def": "vigorous or incisive in expression", "sentence": "Her trenchant analysis cut through the noise to the core issue."},
+    {"word": "truculent", "def": "eager to argue or fight; aggressively defiant", "sentence": "The truculent response to regulators only intensified scrutiny."},
+    {"word": "ubiquitous", "def": "present everywhere", "sentence": "The ubiquitous presence of passive funds reshaped market dynamics."},
+    {"word": "untenable", "def": "not able to be maintained or defended", "sentence": "The valuation became untenable once growth decelerated."},
+    {"word": "vacuous", "def": "having or showing a lack of thought or intelligence", "sentence": "The vacuous commentary offered nothing actionable."},
+    {"word": "venal", "def": "susceptible to bribery; corrupt", "sentence": "The venal officials were paid to look the other way."},
+    {"word": "vicissitude", "def": "a change of circumstances, typically unwelcome", "sentence": "The vicissitudes of the market humbled even the most confident."},
+    {"word": "vitriolic", "def": "filled with bitter criticism", "sentence": "The vitriolic short report wiped out a third of the market cap."},
+    {"word": "volatile", "def": "liable to change rapidly and unpredictably", "sentence": "The volatile price action shook out weak hands."},
+    {"word": "voracious", "def": "wanting great quantities of something", "sentence": "His voracious appetite for information gave him an edge."},
+    {"word": "zealous", "def": "showing great energy or enthusiasm", "sentence": "The zealous pursuit of alpha drove excessive risk-taking."},
+]
+
 THAI_WORDS = [
     {"thai": "กำลอม (kam-lom)",           "meaning": "speculate — taking calculated risks for potential gains"},
     {"thai": "สบาย (sa-baai)",            "meaning": "comfortable, easy, relaxed — the Thai ideal of wellbeing"},
@@ -953,7 +1063,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None):
+                commodities, crypto, fx, zodiac, thai_word, sat_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1276,6 +1386,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .thai-word-box .word{{font-family:var(--serif);font-size:1.1rem;color:var(--gold)}}
     .thai-word-box .dot{{color:var(--mute)}}
     .thai-word-box .meaning{{font-size:.78rem;color:var(--dim)}}
+    .sat-word-box{{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
+    .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}
+    .sat-def{{font-size:.82rem;color:var(--text);margin-bottom:10px;font-style:italic}}
+    .sat-sentence{{font-size:.78rem;color:var(--dim);line-height:1.5;border-left:2px solid var(--gold-mid);padding-left:10px}}
 
     .fx-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}}
     .fx-item{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;font-size:.78rem;color:var(--dim)}}
@@ -1667,6 +1781,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
+  <!-- NOVAIRE'S WORD OF THE DAY -->
+  <div class="card">
+    <div class="card-title">📖 Novaire's Word of the Day</div>
+    <div class="sat-word-box">
+      <div class="sat-word">{sat_word['word']}</div>
+      <div class="sat-def">{sat_word['def']}</div>
+      <div class="sat-sentence">"{sat_word['sentence']}"</div>
+    </div>
+  </div>
+
   <!-- DAILY MOTIVATION -->
   <div class="card">
     <div class="card-title">💪 Daily Motivation</div>
@@ -1835,6 +1959,7 @@ def main():
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
+    sat_word  = pick(SAT_WORDS, 7)  # Different offset than Thai word
     motivation = pick(MOTIVATION_QUOTES, 11)
 
     print("  📡 Refreshing Signal Feed (Nitter RSS → feed.json)...")
@@ -1863,7 +1988,7 @@ def main():
     print("  🎨 Generating HTML...")
     html = render_html(
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
-        commodities, crypto, fx, zodiac, thai_word, motivation,
+        commodities, crypto, fx, zodiac, thai_word, sat_word, motivation,
         rec_movie=rec_movie, rec_book=rec_book, fx_rates=fx_rates,
         holdings_source=holdings_source
     )
