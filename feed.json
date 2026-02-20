@@ -2,21 +2,23 @@
   "ok": true,
   "count": 5,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-02-20T18:00:25.904706+00:00",
+  "fetchedAt": "2026-02-20T18:04:10.374453+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement2",
-  "errors": [],
+  "errors": [
+    "tferriss"
+  ],
   "posts": [
     {
-      "id": "2024902818046325048",
-      "text": "*GOOGLE SUED OVER DATA SHARING WITH CHINA-BASED COMPANIES: BLAW",
+      "id": "2024906926694219791",
+      "text": "\"We Saw It. We Passed\": Blue Owl Fails To Secure Third Party Funding For $4 Billion Data Center https://www.zerohedge.com/markets/we-saw-it-we-passed-blue-owl-fails-secure-third-party-funding-4-billion-data-center",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-02-20T17:43:47+00:00",
-      "createdAtMs": 1771609427000,
+      "createdAt": "2026-02-20T18:00:06+00:00",
+      "createdAtMs": 1771610406000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2024902818046325048#m",
+      "url": "https://x.com/zerohedge/status/2024906926694219791#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 1
