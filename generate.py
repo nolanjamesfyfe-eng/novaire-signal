@@ -1452,7 +1452,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DATE / GENERATION LINE -->
   <div class="dateline">
     <div class="date">{date_str}</div>
-    <div class="gen">Generated {gen_time} · Live data</div>
+    <!-- removed generated timestamp -->
   </div>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
