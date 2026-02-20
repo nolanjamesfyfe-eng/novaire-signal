@@ -149,6 +149,7 @@
     .sat-word{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}
     .sat-def{font-size:.82rem;color:var(--text);margin-bottom:10px;font-style:italic}
     .sat-sentence{font-size:.78rem;color:var(--dim);line-height:1.5;border-left:2px solid var(--gold-mid);padding-left:10px}
+    .sat-source{font-size:.68rem;color:var(--mute);margin-top:8px;text-align:right}
 
     .fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
     .fx-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;font-size:.78rem;color:var(--dim)}
@@ -210,7 +211,7 @@
   <!-- DATE / GENERATION LINE -->
   <div class="dateline">
     <div class="date">Friday, February 20, 2026</div>
-    <div class="gen">Generated 03:02 UTC · Live data</div>
+    <div class="gen">Generated 03:10 UTC · Live data</div>
   </div>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
@@ -267,11 +268,11 @@
       
         <div class="fx-item">
           <div class="fx-ccy">🇨🇦 CAD</div>
-          <span class="fx-rate">1.370</span>
+          <span class="fx-rate">1.369</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇹🇭 THB</div>
-          <span class="fx-rate">31.140</span>
+          <span class="fx-rate">31.170</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇦🇺 AUD</div>
@@ -291,11 +292,11 @@
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇰🇷 KRW</div>
-          <span class="fx-rate">1,449.580</span>
+          <span class="fx-rate">1,448.890</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇯🇵 JPY</div>
-          <span class="fx-rate">155.185</span>
+          <span class="fx-rate">155.153</span>
         </div>
     </div>
   </div>
@@ -466,11 +467,11 @@
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Live USD</div>
-        <div class="psum-value" style="color:var(--gold)">$80,397</div>
+        <div class="psum-value" style="color:var(--gold)">$80,431</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">Live CAD</div>
-        <div class="psum-value" style="color:var(--green)">$110,123</div>
+        <div class="psum-value" style="color:var(--green)">$110,127</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ROI</div>
@@ -514,7 +515,7 @@
             <td style="text-align:right">10,000</td>
             <td style="text-align:right">$4.39</td>
             <td style="text-align:right"><span class="positive">+10.03%</span></td>
-            <td style="text-align:right;font-weight:600">$32,050</td>
+            <td style="text-align:right;font-weight:600">$32,063</td>
           </tr>
           <tr>
             <td class="ticker">GLO</td>
@@ -522,7 +523,7 @@
             <td style="text-align:right">23,000</td>
             <td style="text-align:right">$0.75</td>
             <td style="text-align:right"><span class="positive">+7.14%</span></td>
-            <td style="text-align:right;font-weight:600">$12,594</td>
+            <td style="text-align:right;font-weight:600">$12,599</td>
           </tr>
           <tr>
             <td class="ticker">FVL</td>
@@ -530,7 +531,7 @@
             <td style="text-align:right">10,000</td>
             <td style="text-align:right">$1.40<span class="fallback-badge">est</span></td>
             <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-            <td style="text-align:right;font-weight:600">$10,221</td>
+            <td style="text-align:right;font-weight:600">$10,225</td>
           </tr>
           <tr>
             <td class="ticker">MOLY</td>
@@ -538,7 +539,7 @@
             <td style="text-align:right">5,000</td>
             <td style="text-align:right">$1.61<span class="fallback-badge">est</span></td>
             <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-            <td style="text-align:right;font-weight:600">$5,877</td>
+            <td style="text-align:right;font-weight:600">$5,879</td>
           </tr>
           <tr>
             <td class="ticker">DML</td>
@@ -546,7 +547,7 @@
             <td style="text-align:right">1,000</td>
             <td style="text-align:right">$5.57</td>
             <td style="text-align:right"><span class="positive">+3.34%</span></td>
-            <td style="text-align:right;font-weight:600">$4,066</td>
+            <td style="text-align:right;font-weight:600">$4,068</td>
           </tr>
           <tr>
             <td class="ticker">BNNLF</td>
@@ -562,15 +563,15 @@
             <td style="text-align:right">2,000</td>
             <td style="text-align:right">$1.18<span class="fallback-badge">est</span></td>
             <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-            <td style="text-align:right;font-weight:600">$1,723</td>
+            <td style="text-align:right;font-weight:600">$1,724</td>
           </tr>
           <tr>
             <td class="ticker">LOT</td>
             <td style="color:var(--dim);font-size:.8em">Lotus Resources</td>
             <td style="text-align:right">956</td>
-            <td style="text-align:right">$2.12</td>
-            <td style="text-align:right"><span class="positive">+2.91%</span></td>
-            <td style="text-align:right;font-weight:600">$1,424</td>
+            <td style="text-align:right">$2.11</td>
+            <td style="text-align:right"><span class="positive">+2.43%</span></td>
+            <td style="text-align:right;font-weight:600">$1,418</td>
           </tr>
           <tr>
             <td class="ticker">NAM</td>
@@ -594,7 +595,7 @@
             <td style="text-align:right">5,000</td>
             <td style="text-align:right">$0.25</td>
             <td style="text-align:right"><span class="negative">-5.77%</span></td>
-            <td style="text-align:right;font-weight:600">$894</td>
+            <td style="text-align:right;font-weight:600">$895</td>
           </tr>
           <tr>
             <td class="ticker">SVE</td>
@@ -640,9 +641,9 @@
             <td class="ticker">AEU</td>
             <td style="color:var(--dim);font-size:.8em">Atomic Eagle</td>
             <td style="text-align:right">2,027</td>
-            <td style="text-align:right">$0.45</td>
-            <td style="text-align:right"><span class="positive">+7.62%</span></td>
-            <td style="text-align:right;font-weight:600">$644</td>
+            <td style="text-align:right">$0.46</td>
+            <td style="text-align:right"><span class="positive">+9.52%</span></td>
+            <td style="text-align:right;font-weight:600">$655</td>
           </tr>
           <tr>
             <td class="ticker">BQSSF</td>
@@ -658,17 +659,17 @@
             <td style="text-align:right">125</td>
             <td style="text-align:right">$3.61</td>
             <td style="text-align:right"><span class="positive">+4.64%</span></td>
-            <td style="text-align:right;font-weight:600">$329</td>
+            <td style="text-align:right;font-weight:600">$330</td>
           </tr></tbody>
       </table>
       <div class="totals-row">
         <div class="total-item">
           <div class="total-label">Live USD</div>
-          <div class="total-value usd">$80,397</div>
+          <div class="total-value usd">$80,431</div>
         </div>
         <div class="total-item">
           <div class="total-label">Live CAD</div>
-          <div class="total-value cad">$110,123</div>
+          <div class="total-value cad">$110,127</div>
         </div>
         <div class="total-item">
           <div class="total-label">Basis CAD</div>
@@ -684,7 +685,7 @@
         </div>
       </div>
       <div class="allocation-section">
-        <svg class="pie-chart" viewBox="0 0 100 100" style="width:120px;height:120px"><circle r="25" cx="50" cy="50" fill="transparent" stroke="#c9a84c" stroke-width="50" stroke-dasharray="62.62 157.08" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#5a7bc4" stroke-width="50" stroke-dasharray="47.85 157.08" stroke-dashoffset="-62.62" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#9470c8" stroke-width="50" stroke-dasharray="19.97 157.08" stroke-dashoffset="-110.47" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#2a9d8f" stroke-width="50" stroke-dasharray="11.48 157.08" stroke-dashoffset="-130.44" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#e63946" stroke-width="50" stroke-dasharray="9.98 157.08" stroke-dashoffset="-141.93" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#f4a261" stroke-width="50" stroke-dasharray="5.17 157.08" stroke-dashoffset="-151.91" transform="rotate(-90 50 50)"/><circle r="15" cx="50" cy="50" fill="#0a0a0c"/></svg>
+        <svg class="pie-chart" viewBox="0 0 100 100" style="width:120px;height:120px"><circle r="25" cx="50" cy="50" fill="transparent" stroke="#c9a84c" stroke-width="50" stroke-dasharray="62.62 157.08" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#5a7bc4" stroke-width="50" stroke-dasharray="47.86 157.08" stroke-dashoffset="-62.62" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#9470c8" stroke-width="50" stroke-dasharray="19.97 157.08" stroke-dashoffset="-110.48" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#2a9d8f" stroke-width="50" stroke-dasharray="11.48 157.08" stroke-dashoffset="-130.44" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#e63946" stroke-width="50" stroke-dasharray="9.98 157.08" stroke-dashoffset="-141.93" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#f4a261" stroke-width="50" stroke-dasharray="5.17 157.08" stroke-dashoffset="-151.91" transform="rotate(-90 50 50)"/><circle r="15" cx="50" cy="50" fill="#0a0a0c"/></svg>
         <div class="allocation-legend">
           <div class="legend-item"><span class="legend-dot" style="background:#c9a84c"></span>Graphene<span class="legend-pct">39.9%</span></div>
 <div class="legend-item"><span class="legend-dot" style="background:#5a7bc4"></span>Uranium<span class="legend-pct">30.5%</span></div>
@@ -717,7 +718,7 @@
     <div class="radar-label">🪙 Micro-Cap Crypto</div>
     <div class="radar-item"><span class="radar-source">[r/CryptoMoonShots]</span> <span class="radar-idea">QIELend: Bringing Efficient DeFi Lending to the QIE Blockchain</span></div>
     <div class="radar-label" style="margin-top:12px">⛏️ Micro-Cap Resources</div>
-    <div class="radar-item"><span class="radar-source">[r/SilverSqueeze]</span> <span class="radar-idea">IMHO Mexico Libertads are the premiere silver coin you can buy for these 5 reasons:</span></div>
+    <div class="radar-item"><span class="radar-idea">Critical minerals ETF rotation incoming — scout early-stage graphene and lithium plays under $200M cap.</span></div>
     <div style="margin-top:8px;font-size:.6rem;color:var(--mute)">Live · Reddit · News · 4Chan /biz/ · Barbell plays $500–$1K · Updates every build</div>
   </div>
 
@@ -728,33 +729,33 @@
       
         <div class="commodity-item">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold">$5,016</div>
+          <div class="commodity-price c-gold">$5,014</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change"><span class="positive">+0.58%</span></div>
+          <div class="commodity-change"><span class="positive">+0.77%</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver">$78.07</div>
+          <div class="commodity-price c-silver">$78.00</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change"><span class="positive">+0.73%</span></div>
+          <div class="commodity-change"><span class="positive">+0.63%</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper">$5.7535</div>
+          <div class="commodity-price c-copper">$5.7485</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change"><span class="negative">-0.69%</span></div>
+          <div class="commodity-change"><span class="positive">+0.32%</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil">$66.54</div>
+          <div class="commodity-price c-oil">$66.58</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change"><span class="positive">+2.07%</span></div>
+          <div class="commodity-change"><span class="positive">+2.13%</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium">$1,690</div>
+          <div class="commodity-price c-palladium">$1,688</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change"><span class="negative">-3.50%</span></div>
+          <div class="commodity-change"><span class="negative">-3.64%</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -772,33 +773,33 @@
       
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" style="color:#f7931a">$67,291</div>
-          <div class="crypto-change"><span class="positive">+0.73%</span></div>
+          <div class="crypto-price" style="color:#f7931a">$67,282</div>
+          <div class="crypto-change"><span class="positive">+0.74%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" style="color:#627eea">$1,952</div>
+          <div class="crypto-price" style="color:#627eea">$1,951</div>
           <div class="crypto-change"><span class="negative">-0.77%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" style="color:#9945ff">$83.02</div>
-          <div class="crypto-change"><span class="positive">+1.72%</span></div>
+          <div class="crypto-price" style="color:#9945ff">$82.96</div>
+          <div class="crypto-change"><span class="positive">+1.67%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" style="color:#346aa9">$1.4179</div>
-          <div class="crypto-change"><span class="negative">-0.52%</span></div>
+          <div class="crypto-price" style="color:#346aa9">$1.4182</div>
+          <div class="crypto-change"><span class="negative">-0.46%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" style="color:#0098ea">$1.3700</div>
-          <div class="crypto-change"><span class="negative">-3.11%</span></div>
+          <div class="crypto-price" style="color:#0098ea">$1.3680</div>
+          <div class="crypto-change"><span class="negative">-3.25%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" style="color:#f4b728">$263.40</div>
-          <div class="crypto-change"><span class="negative">-0.35%</span></div>
+          <div class="crypto-price" style="color:#f4b728">$263.33</div>
+          <div class="crypto-change"><span class="negative">-0.19%</span></div>
         </div>
     </div>
   </div>
@@ -840,9 +841,10 @@
   <div class="card">
     <div class="card-title">📖 Novaire's Word of the Day</div>
     <div class="sat-word-box">
-      <div class="sat-word">nefarious</div>
-      <div class="sat-def">wicked or criminal</div>
-      <div class="sat-sentence">"The nefarious scheme to manipulate prices was uncovered by regulators."</div>
+      <div class="sat-word">specious</div>
+      <div class="sat-def">Seemingly well-reasoned, plausible or true, but actually fallacious.</div>
+      <div class="sat-sentence">"Elon Musk’s $1.25 Trillion Mirage Feb 13, 2026 Yanis Varoufakis explains the mechanics of the spectacularly specious valuation of the recent SpaceX-xAI merger."</div>
+      <div class="sat-source">— Project Syndicate</div>
     </div>
   </div>
 

@@ -1390,6 +1390,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}
     .sat-def{{font-size:.82rem;color:var(--text);margin-bottom:10px;font-style:italic}}
     .sat-sentence{{font-size:.78rem;color:var(--dim);line-height:1.5;border-left:2px solid var(--gold-mid);padding-left:10px}}
+    .sat-source{{font-size:.68rem;color:var(--mute);margin-top:8px;text-align:right}}
 
     .fx-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}}
     .fx-item{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;font-size:.78rem;color:var(--dim)}}
@@ -1788,6 +1789,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <div class="sat-word">{sat_word['word']}</div>
       <div class="sat-def">{sat_word['def']}</div>
       <div class="sat-sentence">"{sat_word['sentence']}"</div>
+      {f'<div class="sat-source">— {sat_word["source"]}</div>' if sat_word.get("source") else ""}
     </div>
   </div>
 
@@ -1959,7 +1961,33 @@ def main():
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
-    sat_word  = pick(SAT_WORDS, 7)  # Different offset than Thai word
+    # Try to load word of day from vocab builder (found in articles)
+    sat_word = None
+    try:
+        import os as _os2
+        wod_file = _os2.path.join(_os2.path.dirname(__file__), "word_of_day.json")
+        if _os2.path.exists(wod_file):
+            with open(wod_file) as f:
+                wod = json.load(f)
+                # Get definition
+                def_url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{wod['word']}"
+                try:
+                    def_data = json.loads(requests.get(def_url, timeout=5).text)
+                    definition = def_data[0]["meanings"][0]["definitions"][0]["definition"]
+                except:
+                    definition = "sophisticated vocabulary"
+                sat_word = {
+                    "word": wod["word"],
+                    "def": definition,
+                    "sentence": wod["sentence"],
+                    "source": wod.get("source", "")
+                }
+    except Exception as e:
+        print(f"  Warning: Could not load word of day: {e}")
+    
+    # Fallback to static list
+    if not sat_word:
+        sat_word = pick(SAT_WORDS, 7)
     motivation = pick(MOTIVATION_QUOTES, 11)
 
     print("  📡 Refreshing Signal Feed (Nitter RSS → feed.json)...")
