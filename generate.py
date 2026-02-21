@@ -1651,8 +1651,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   }})();
   </script>
 
-  <!-- PORTFOLIO (collapsed by default) -->
-  <div class="card">
+  <!-- PORTFOLIO — linked to standalone page -->
+  <div class="card" style="text-align:center;padding:24px">
     <div class="card-title">📦 Portfolio</div>
     <div class="portfolio-summary">
       <div class="psum-item">
@@ -1668,70 +1668,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}" style="color:{'var(--green)' if roi_pct >= 0 else 'var(--red)'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
       </div>
     </div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Basis CAD</div>
-        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">${PORT_BASIS_CAD:,.0f}</div>
-      </div>
-      <div class="psum-item">
-        <div class="psum-label">ATH (w/ w/d)</div>
-        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">${PORT_ATH:,}</div>
-      </div>
-      <div class="psum-item">
-        <div class="psum-label">ROI Abs.</div>
-        <div class="psum-value" style="color:var(--green);font-size:1.1rem">${PORT_ROI_ABS:,.0f}</div>
-      </div>
-    </div>
-
-    <button class="expand-btn" id="holdings-btn" onclick="toggleHoldings()">
-      <span id="holdings-arrow">▼</span>&nbsp; Expand Holdings
-    </button>
-
-    <div class="holdings-table-wrap" id="holdings-wrap">
-      <table class="portfolio-table">
-        <thead>
-          <tr>
-            <th>Ticker</th><th>Name</th>
-            <th style="text-align:right">Shares</th>
-            <th style="text-align:right">Price</th>
-            <th style="text-align:right">24h</th>
-            <th style="text-align:right">Value</th>
-          </tr>
-        </thead>
-        <tbody>{rows_html}</tbody>
-      </table>
-      <div class="totals-row">
-        <div class="total-item">
-          <div class="total-label">Live USD</div>
-          <div class="total-value usd">${total_usd:,.0f}</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">Live CAD</div>
-          <div class="total-value cad">${total_cad:,.0f}</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">Basis CAD</div>
-          <div class="total-value" style="color:var(--blue)">${PORT_BASIS_CAD:,.0f}</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">ATH</div>
-          <div class="total-value" style="color:var(--violet)">${PORT_ATH:,}</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">ROI</div>
-          <div class="total-value positive">{'+' if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
-        </div>
-      </div>
-      <div class="allocation-section">
-        {donut_svg}
-        <div class="allocation-legend">
-          {legend_html}
-        </div>
-      </div>
-      <div style="font-size:.6rem;color:var(--mute);margin-top:10px;text-align:center">
-        <span class="fallback-badge">est</span> = estimated / last known price
-      </div>
-    </div>
+    <a href="/portfolio" style="display:inline-block;margin-top:14px;padding:10px 28px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;border-radius:var(--r);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-family:var(--sans);transition:all .15s">View Full Portfolio →</a>
   </div>
 
   <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
@@ -1867,16 +1804,6 @@ function getQuoteForToday(storageKey, quotes) {{
   document.getElementById('qt-psy-auth').textContent = '\u2014 ' + qp.author;
 }})();
 
-// ── Holdings toggle ──
-function toggleHoldings() {{
-  const wrap = document.getElementById('holdings-wrap');
-  const btn  = document.getElementById('holdings-btn');
-  const arrow = document.getElementById('holdings-arrow');
-  const isOpen = wrap.classList.toggle('open');
-  arrow.style.transform = isOpen ? 'rotate(180deg)' : '';
-  btn.innerHTML = (isOpen ? '<span id="holdings-arrow" style="display:inline-block;transform:rotate(180deg)">▼</span>' : '<span id="holdings-arrow">▼</span>') + '&nbsp; ' + (isOpen ? 'Collapse Holdings' : 'Expand Holdings');
-}}
-
 // Recommendations are now server-side rendered (live trending data)
 </script>
 </body>
@@ -1886,6 +1813,275 @@ function toggleHoldings() {{
 # ─────────────────────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────────────────────
+
+def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None):
+    """Render standalone portfolio page at /portfolio"""
+    now       = datetime.now(timezone.utc)
+    date_str  = now.strftime("%A, %B %-d, %Y")
+    gen_time  = now.strftime("%H:%M UTC")
+
+    # ── Portfolio calculations (same as main) ──
+    total_usd   = 0
+    sector_totals = {}
+    port_sorted = []
+
+    for h in (holdings_source or HOLDINGS):
+        ticker = h["ticker"]
+        pdata  = portfolio_data.get(ticker, {})
+        price  = pdata.get("price")
+        value  = pdata.get("value")
+        change = pdata.get("change")
+        is_fallback = pdata.get("fallback", False)
+        port_sorted.append((ticker, h, price, value, change, is_fallback))
+
+    port_sorted.sort(key=lambda x: (x[3] or 0), reverse=True)
+
+    for ticker, h, price, value, change, is_fallback in port_sorted:
+        if value:
+            total_usd += value
+            sector = SECTORS.get(ticker, "Other")
+            sector_totals[sector] = sector_totals.get(sector, 0) + value
+
+    total_cad  = total_usd * fx["usdcad"]
+    roi_pct    = ((total_cad - PORT_BASIS_CAD) / PORT_BASIS_CAD * 100) if PORT_BASIS_CAD else 0
+
+    # Build holdings rows HTML
+    rows_html = ""
+    for ticker, h, price, value, change, is_fallback in port_sorted:
+        display = h.get("display", ticker.split(".")[0])
+        name    = h["name"]
+        shares  = h["shares"]
+        chg_html    = fmt_pct(change)
+        fallback_note = '<span class="fallback-badge">est</span>' if is_fallback else ""
+        price_str   = (fmt_price(price, 2) + fallback_note) if price and price >= 0.01 else \
+                      ((fmt_price(price, 4) + fallback_note) if price else "—")
+        value_str   = f"${value:,.0f}" if value else "—"
+        rows_html += f"""
+          <tr>
+            <td class="ticker">{display}</td>
+            <td style="color:var(--dim);font-size:.8em">{name}</td>
+            <td style="text-align:right">{int(shares):,}</td>
+            <td style="text-align:right">{price_str}</td>
+            <td style="text-align:right">{chg_html}</td>
+            <td style="text-align:right;font-weight:600">{value_str}</td>
+          </tr>"""
+
+    # ── Allocation chart ──
+    alloc_sorted = sorted(sector_totals.items(), key=lambda x: x[1], reverse=True)
+    alloc_list   = [(s, v, "") for s, v in alloc_sorted]
+    donut_svg    = build_donut(alloc_list)
+    legend_html  = build_legend(alloc_list, total_usd)
+
+    # ── Top 3 catalysts ──
+    top3 = [t for t, *_ in port_sorted[:3]]
+    fresh_cats  = [(t, catalysts.get(t)) for t in top3 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
+    no_news_tks = [t for t in top3 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
+
+    cats_html = ""
+    for ticker, cat in fresh_cats:
+        display    = HOLDINGS_MAP.get(ticker, {}).get("display", ticker.split(".")[0])
+        source_str = f' · {cat["source"]}' if cat["source"] else ""
+        cats_html += f"""
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">{display}</span>
+              <span class="catalyst-sep"> · </span>
+              <span class="catalyst-badge">{cat['date']}{source_str}</span>
+              <span class="catalyst-sep"> — </span>
+              <span class="catalyst-headline">{cat['title']}</span>
+            </div>"""
+    if no_news_tks:
+        no_news_displays = " · ".join(
+            HOLDINGS_MAP.get(t, {}).get("display", t.split(".")[0]) for t in no_news_tks
+        )
+        cats_html += f"""
+            <div class="catalyst-item">
+              <span class="catalyst-ticker">{no_news_displays}</span>
+              <span class="catalyst-sep"> — </span>
+              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No news within 48 hours.</span>
+            </div>"""
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novaire Signal — Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a0a0c">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{{
+      --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#e8e6f0;--dim:#8a8699;--mute:#4a4760;
+      --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-mid:rgba(201,168,76,.25);
+      --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
+      --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
+    }}
+    html{{scroll-behavior:smooth}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:14px;line-height:1.5}}
+    .container{{max-width:720px;margin:0 auto}}
+    .header-brand{{text-align:center;padding-bottom:20px}}
+    .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
+    .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}}
+    .card{{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}}
+    .card-title{{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}}
+    .card-title::after{{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}}
+    .portfolio-summary{{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}}
+    .psum-item{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}}
+    .psum-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}}
+    .psum-value{{font-family:var(--serif);font-size:1.35rem;font-weight:400}}
+    .portfolio-table{{width:100%;border-collapse:collapse;font-size:.78rem}}
+    .portfolio-table th{{text-align:left;padding:7px 5px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
+    .portfolio-table td{{padding:7px 5px;border-bottom:1px solid rgba(255,255,255,.025)}}
+    .portfolio-table tr:hover{{background:rgba(255,255,255,.015)}}
+    .ticker{{font-weight:600;color:var(--gold);font-size:.82rem}}
+    .positive{{color:var(--green)}}.negative{{color:var(--red)}}
+    .fallback-badge{{font-size:.55rem;color:var(--mute);vertical-align:middle;margin-left:3px}}
+    .totals-row{{display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}}
+    .total-item{{text-align:center}}
+    .total-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}}
+    .total-value{{font-family:var(--serif);font-size:1.4rem;font-weight:400;margin-top:3px}}
+    .total-value.cad{{color:var(--green)}}.total-value.usd{{color:var(--gold)}}
+    .allocation-section{{display:flex;align-items:center;gap:24px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}}
+    .pie-chart{{flex-shrink:0}}
+    .allocation-legend{{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}}
+    .legend-item{{display:flex;align-items:center;gap:6px;font-size:.72rem}}
+    .legend-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
+    .legend-pct{{color:var(--dim);margin-left:auto}}
+    .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
+    .catalyst-item:last-child{{border-bottom:none}}
+    .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
+    .catalyst-sep{{color:var(--dim);font-size:.8rem}}
+    .catalyst-badge{{color:var(--gold);font-size:.75rem;opacity:.8;white-space:nowrap}}
+    .catalyst-headline{{font-size:.8rem;color:var(--text);line-height:1.4}}
+    .footer{{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}}
+    .footer-logo{{font-family:var(--serif);font-size:1.8rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
+    .footer-logo span{{color:var(--gold);font-style:italic}}
+    .footer-tagline{{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}}
+    .footer-sub{{font-size:.58rem;color:var(--mute);margin-top:6px}}
+    .eco-links{{display:flex;justify-content:center;gap:20px;margin-top:12px;flex-wrap:wrap}}
+    .eco-link{{font-size:.7rem;color:var(--gold);text-decoration:none;opacity:.7;transition:opacity .15s;letter-spacing:.06em}}
+    .eco-link:hover{{opacity:1}}
+    .back-link{{display:inline-block;margin-bottom:20px;font-size:.7rem;color:var(--dim);text-decoration:none;letter-spacing:.08em}}
+    .back-link:hover{{color:var(--gold)}}
+    @media(max-width:600px){{
+      .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
+      .allocation-section{{flex-direction:column}}
+    }}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <a href="/" class="back-link">← Back to Signal</a>
+
+  <div class="header-brand">
+    <div class="footer-logo">Novaire <span>Signal</span></div>
+    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
+  </div>
+
+  <div class="dateline">
+    <div class="date">{date_str}</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Portfolio</div>
+    <div class="portfolio-summary">
+      <div class="psum-item">
+        <div class="psum-label">Live USD</div>
+        <div class="psum-value" style="color:var(--gold)">${total_usd:,.0f}</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">Live CAD</div>
+        <div class="psum-value" style="color:var(--green)">${total_cad:,.0f}</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ROI</div>
+        <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}" style="color:{'var(--green)' if roi_pct >= 0 else 'var(--red)'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
+      </div>
+    </div>
+    <div class="portfolio-summary">
+      <div class="psum-item">
+        <div class="psum-label">Basis CAD</div>
+        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">${PORT_BASIS_CAD:,.0f}</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ATH (w/ w/d)</div>
+        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">${PORT_ATH:,}</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ROI Abs.</div>
+        <div class="psum-value" style="color:var(--green);font-size:1.1rem">${PORT_ROI_ABS:,.0f}</div>
+      </div>
+    </div>
+
+    <table class="portfolio-table">
+      <thead>
+        <tr>
+          <th>Ticker</th><th>Name</th>
+          <th style="text-align:right">Shares</th>
+          <th style="text-align:right">Price</th>
+          <th style="text-align:right">24h</th>
+          <th style="text-align:right">Value</th>
+        </tr>
+      </thead>
+      <tbody>{rows_html}</tbody>
+    </table>
+    <div class="totals-row">
+      <div class="total-item">
+        <div class="total-label">Live USD</div>
+        <div class="total-value usd">${total_usd:,.0f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">Live CAD</div>
+        <div class="total-value cad">${total_cad:,.0f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">Basis CAD</div>
+        <div class="total-value" style="color:var(--blue)">${PORT_BASIS_CAD:,.0f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">ATH</div>
+        <div class="total-value" style="color:var(--violet)">${PORT_ATH:,}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">ROI</div>
+        <div class="total-value positive">{'+' if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
+      </div>
+    </div>
+    <div class="allocation-section">
+      {donut_svg}
+      <div class="allocation-legend">
+        {legend_html}
+      </div>
+    </div>
+    <div style="font-size:.6rem;color:var(--mute);margin-top:10px;text-align:center">
+      <span class="fallback-badge">est</span> = estimated / last known price · Updated every 2 hours
+    </div>
+  </div>
+
+  <!-- CATALYSTS -->
+  <div class="card">
+    <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
+    {cats_html}
+  </div>
+
+  <!-- ECOSYSTEM LINKS -->
+  <div class="footer">
+    <div class="footer-logo">Novaire <span>Signal</span></div>
+    <div class="footer-tagline">Deciphering through the noise.</div>
+    <div class="eco-links">
+      <a href="https://novairesignal.com" class="eco-link">Novaire Signal</a>
+      <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
+      <a href="https://evolution-fund.vercel.app" class="eco-link">Evolution Fund</a>
+    </div>
+    <div class="footer-sub">Live data · Updated every 2 hours · 24/7</div>
+  </div>
+
+</div>
+</body>
+</html>"""
+
 
 def main():
     print("🚀 Novaire Signal — generating daily brief...")
@@ -2008,15 +2204,29 @@ def main():
         holdings_source=holdings_source
     )
 
+    print("  📦 Generating portfolio page...")
+    portfolio_html = render_portfolio_html(
+        portfolio_data, catalysts, fx, holdings_source=holdings_source
+    )
+
     import os
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(html)
     # Also copy to repo root for git push deploy
     import shutil
-    repo_index = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
+    repo_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_index = os.path.join(repo_dir, "index.html")
     shutil.copy2(OUTPUT, repo_index)
+
+    # Portfolio page → portfolio/index.html
+    portfolio_dir = os.path.join(repo_dir, "portfolio")
+    os.makedirs(portfolio_dir, exist_ok=True)
+    portfolio_path = os.path.join(portfolio_dir, "index.html")
+    with open(portfolio_path, "w", encoding="utf-8") as f:
+        f.write(portfolio_html)
     print(f"  ✅ HTML saved to {OUTPUT} + {repo_index} ({len(html):,} bytes)")
+    print(f"  ✅ Portfolio page saved to {portfolio_path} ({len(portfolio_html):,} bytes)")
 
 if __name__ == "__main__":
     main()

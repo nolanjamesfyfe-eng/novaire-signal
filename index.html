@@ -461,8 +461,8 @@
   })();
   </script>
 
-  <!-- PORTFOLIO (collapsed by default) -->
-  <div class="card">
+  <!-- PORTFOLIO — linked to standalone page -->
+  <div class="card" style="text-align:center;padding:24px">
     <div class="card-title">📦 Portfolio</div>
     <div class="portfolio-summary">
       <div class="psum-item">
@@ -478,227 +478,7 @@
         <div class="psum-value positive" style="color:var(--green)">+14.3%</div>
       </div>
     </div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Basis CAD</div>
-        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">$99,234</div>
-      </div>
-      <div class="psum-item">
-        <div class="psum-label">ATH (w/ w/d)</div>
-        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">$113,522</div>
-      </div>
-      <div class="psum-item">
-        <div class="psum-label">ROI Abs.</div>
-        <div class="psum-value" style="color:var(--green);font-size:1.1rem">$24,661</div>
-      </div>
-    </div>
-
-    <button class="expand-btn" id="holdings-btn" onclick="toggleHoldings()">
-      <span id="holdings-arrow">▼</span>&nbsp; Expand Holdings
-    </button>
-
-    <div class="holdings-table-wrap" id="holdings-wrap">
-      <table class="portfolio-table">
-        <thead>
-          <tr>
-            <th>Ticker</th><th>Name</th>
-            <th style="text-align:right">Shares</th>
-            <th style="text-align:right">Price</th>
-            <th style="text-align:right">24h</th>
-            <th style="text-align:right">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="ticker">HG</td>
-            <td style="color:var(--dim);font-size:.8em">Hydrograph</td>
-            <td style="text-align:right">9,000</td>
-            <td style="text-align:right">$4.53</td>
-            <td style="text-align:right"><span class="positive">+3.19%</span></td>
-            <td style="text-align:right;font-weight:600">$29,807</td>
-          </tr>
-          <tr>
-            <td class="ticker">GLO</td>
-            <td style="color:var(--dim);font-size:.8em">Global Atomic</td>
-            <td style="text-align:right">23,000</td>
-            <td style="text-align:right">$0.78</td>
-            <td style="text-align:right"><span class="positive">+4.00%</span></td>
-            <td style="text-align:right;font-weight:600">$13,116</td>
-          </tr>
-          <tr>
-            <td class="ticker">FVL</td>
-            <td style="color:var(--dim);font-size:.8em">FreeGold Ventures</td>
-            <td style="text-align:right">10,960</td>
-            <td style="text-align:right">$1.43<span class="fallback-badge">est</span></td>
-            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-            <td style="text-align:right;font-weight:600">$11,458</td>
-          </tr>
-          <tr>
-            <td class="ticker">MOLY</td>
-            <td style="color:var(--dim);font-size:.8em">GreenLand Resources</td>
-            <td style="text-align:right">5,000</td>
-            <td style="text-align:right">$1.62<span class="fallback-badge">est</span></td>
-            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-            <td style="text-align:right;font-weight:600">$5,922</td>
-          </tr>
-          <tr>
-            <td class="ticker">DML</td>
-            <td style="color:var(--dim);font-size:.8em">Denison</td>
-            <td style="text-align:right">1,000</td>
-            <td style="text-align:right">$5.57</td>
-            <td style="text-align:right"><span class="positive">+0.00%</span></td>
-            <td style="text-align:right;font-weight:600">$4,072</td>
-          </tr>
-          <tr>
-            <td class="ticker">BNNLF</td>
-            <td style="color:var(--dim);font-size:.8em">Bannerman UR ASX</td>
-            <td style="text-align:right">1,300</td>
-            <td style="text-align:right">$3.00</td>
-            <td style="text-align:right"><span class="negative">-1.32%</span></td>
-            <td style="text-align:right;font-weight:600">$3,900</td>
-          </tr>
-          <tr>
-            <td class="ticker">MAXX</td>
-            <td style="color:var(--dim);font-size:.8em">Power Mining Corp</td>
-            <td style="text-align:right">2,000</td>
-            <td style="text-align:right">$1.22<span class="fallback-badge">est</span></td>
-            <td style="text-align:right"><span style="color:var(--dim)">—</span></td>
-            <td style="text-align:right;font-weight:600">$1,784</td>
-          </tr>
-          <tr>
-            <td class="ticker">SVE</td>
-            <td style="color:var(--dim);font-size:.8em">Silver One</td>
-            <td style="text-align:right">3,000</td>
-            <td style="text-align:right">$0.66</td>
-            <td style="text-align:right"><span class="positive">+8.20%</span></td>
-            <td style="text-align:right;font-weight:600">$1,448</td>
-          </tr>
-          <tr>
-            <td class="ticker">LOT</td>
-            <td style="color:var(--dim);font-size:.8em">Lotus UR ASX</td>
-            <td style="text-align:right">956</td>
-            <td style="text-align:right">$2.11</td>
-            <td style="text-align:right"><span class="positive">+2.43%</span></td>
-            <td style="text-align:right;font-weight:600">$1,429</td>
-          </tr>
-          <tr>
-            <td class="ticker">TOM</td>
-            <td style="color:var(--dim);font-size:.8em">Trinity One Metals</td>
-            <td style="text-align:right">7,000</td>
-            <td style="text-align:right">$0.27</td>
-            <td style="text-align:right"><span class="positive">+10.20%</span></td>
-            <td style="text-align:right;font-weight:600">$1,382</td>
-          </tr>
-          <tr>
-            <td class="ticker">CAPT</td>
-            <td style="color:var(--dim);font-size:.8em">Capitan Silver Corp</td>
-            <td style="text-align:right">750</td>
-            <td style="text-align:right">$2.43</td>
-            <td style="text-align:right"><span class="positive">+8.97%</span></td>
-            <td style="text-align:right;font-weight:600">$1,332</td>
-          </tr>
-          <tr>
-            <td class="ticker">NAM</td>
-            <td style="color:var(--dim);font-size:.8em">New Age Metals</td>
-            <td style="text-align:right">4,272</td>
-            <td style="text-align:right">$0.40</td>
-            <td style="text-align:right"><span class="positive">+8.11%</span></td>
-            <td style="text-align:right;font-weight:600">$1,249</td>
-          </tr>
-          <tr>
-            <td class="ticker">AAG</td>
-            <td style="color:var(--dim);font-size:.8em">Aftermath Silver</td>
-            <td style="text-align:right">1,500</td>
-            <td style="text-align:right">$1.10</td>
-            <td style="text-align:right"><span class="positive">+22.22%</span></td>
-            <td style="text-align:right;font-weight:600">$1,206</td>
-          </tr>
-          <tr>
-            <td class="ticker">VZLA</td>
-            <td style="color:var(--dim);font-size:.8em">Vizsla Silver</td>
-            <td style="text-align:right">300</td>
-            <td style="text-align:right">$5.34</td>
-            <td style="text-align:right"><span class="negative">-0.93%</span></td>
-            <td style="text-align:right;font-weight:600">$1,171</td>
-          </tr>
-          <tr>
-            <td class="ticker">PNPN</td>
-            <td style="color:var(--dim);font-size:.8em">Power Nickel</td>
-            <td style="text-align:right">1,250</td>
-            <td style="text-align:right">$1.27</td>
-            <td style="text-align:right"><span class="negative">-4.51%</span></td>
-            <td style="text-align:right;font-weight:600">$1,161</td>
-          </tr>
-          <tr>
-            <td class="ticker">PEGA</td>
-            <td style="color:var(--dim);font-size:.8em">Pegasus Uranium</td>
-            <td style="text-align:right">20,000</td>
-            <td style="text-align:right">$0.06</td>
-            <td style="text-align:right"><span class="positive">+0.00%</span></td>
-            <td style="text-align:right;font-weight:600">$877</td>
-          </tr>
-          <tr>
-            <td class="ticker">AEU</td>
-            <td style="color:var(--dim);font-size:.8em">Atomic Eagle</td>
-            <td style="text-align:right">2,027</td>
-            <td style="text-align:right">$0.46</td>
-            <td style="text-align:right"><span class="positive">+9.52%</span></td>
-            <td style="text-align:right;font-weight:600">$661</td>
-          </tr>
-          <tr>
-            <td class="ticker">BQSSF</td>
-            <td style="color:var(--dim);font-size:.8em">BOSS ENERGY</td>
-            <td style="text-align:right">500</td>
-            <td style="text-align:right">$1.20</td>
-            <td style="text-align:right"><span class="negative">-1.23%</span></td>
-            <td style="text-align:right;font-weight:600">$600</td>
-          </tr>
-          <tr>
-            <td class="ticker">EU</td>
-            <td style="color:var(--dim);font-size:.8em">ENCORE energy</td>
-            <td style="text-align:right">125</td>
-            <td style="text-align:right">$3.61</td>
-            <td style="text-align:right"><span class="positive">+0.00%</span></td>
-            <td style="text-align:right;font-weight:600">$330</td>
-          </tr></tbody>
-      </table>
-      <div class="totals-row">
-        <div class="total-item">
-          <div class="total-label">Live USD</div>
-          <div class="total-value usd">$82,906</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">Live CAD</div>
-          <div class="total-value cad">$113,399</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">Basis CAD</div>
-          <div class="total-value" style="color:var(--blue)">$99,234</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">ATH</div>
-          <div class="total-value" style="color:var(--violet)">$113,522</div>
-        </div>
-        <div class="total-item">
-          <div class="total-label">ROI</div>
-          <div class="total-value positive">+14.3%</div>
-        </div>
-      </div>
-      <div class="allocation-section">
-        <svg class="pie-chart" viewBox="0 0 100 100" style="width:120px;height:120px"><circle r="25" cx="50" cy="50" fill="transparent" stroke="#c9a84c" stroke-width="50" stroke-dasharray="56.47 157.08" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#5a7bc4" stroke-width="50" stroke-dasharray="47.34 157.08" stroke-dashoffset="-56.47" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#9470c8" stroke-width="50" stroke-dasharray="21.71 157.08" stroke-dashoffset="-103.81" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#2a9d8f" stroke-width="50" stroke-dasharray="13.48 157.08" stroke-dashoffset="-125.52" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#e63946" stroke-width="50" stroke-dasharray="11.22 157.08" stroke-dashoffset="-139.01" transform="rotate(-90 50 50)"/><circle r="25" cx="50" cy="50" fill="transparent" stroke="#f4a261" stroke-width="50" stroke-dasharray="6.85 157.08" stroke-dashoffset="-150.23" transform="rotate(-90 50 50)"/><circle r="15" cx="50" cy="50" fill="#0a0a0c"/></svg>
-        <div class="allocation-legend">
-          <div class="legend-item"><span class="legend-dot" style="background:#c9a84c"></span>Graphene<span class="legend-pct">36.0%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#5a7bc4"></span>Uranium<span class="legend-pct">30.1%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#9470c8"></span>Gold<span class="legend-pct">13.8%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#2a9d8f"></span>Silver<span class="legend-pct">8.6%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#e63946"></span>Molybdenum<span class="legend-pct">7.1%</span></div>
-<div class="legend-item"><span class="legend-dot" style="background:#f4a261"></span>Copper<span class="legend-pct">4.4%</span></div>
-        </div>
-      </div>
-      <div style="font-size:.6rem;color:var(--mute);margin-top:10px;text-align:center">
-        <span class="fallback-badge">est</span> = estimated / last known price
-      </div>
-    </div>
+    <a href="/portfolio" style="display:inline-block;margin-top:14px;padding:10px 28px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;border-radius:var(--r);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-family:var(--sans);transition:all .15s">View Full Portfolio →</a>
   </div>
 
   <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
@@ -773,33 +553,33 @@
       
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" style="color:#f7931a">$68,243</div>
-          <div class="crypto-change"><span class="positive">+1.66%</span></div>
+          <div class="crypto-price" style="color:#f7931a">$68,179</div>
+          <div class="crypto-change"><span class="positive">+2.33%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" style="color:#627eea">$1,978</div>
-          <div class="crypto-change"><span class="positive">+1.79%</span></div>
+          <div class="crypto-price" style="color:#627eea">$1,977</div>
+          <div class="crypto-change"><span class="positive">+2.48%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" style="color:#9945ff">$85.45</div>
-          <div class="crypto-change"><span class="positive">+3.24%</span></div>
+          <div class="crypto-price" style="color:#9945ff">$85.35</div>
+          <div class="crypto-change"><span class="positive">+4.08%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" style="color:#346aa9">$1.4416</div>
-          <div class="crypto-change"><span class="positive">+3.11%</span></div>
+          <div class="crypto-price" style="color:#346aa9">$1.4385</div>
+          <div class="crypto-change"><span class="positive">+4.10%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" style="color:#0098ea">$1.3370</div>
-          <div class="crypto-change"><span class="positive">+0.45%</span></div>
+          <div class="crypto-price" style="color:#0098ea">$1.3340</div>
+          <div class="crypto-change"><span class="positive">+0.00%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" style="color:#f4b728">$259.50</div>
-          <div class="crypto-change"><span class="positive">+1.75%</span></div>
+          <div class="crypto-price" style="color:#f4b728">$258.88</div>
+          <div class="crypto-change"><span class="positive">+1.71%</span></div>
         </div>
     </div>
   </div>
@@ -970,16 +750,6 @@ function getQuoteForToday(storageKey, quotes) {
   document.getElementById('qt-psy-text').textContent = '“' + qp.text + '”';
   document.getElementById('qt-psy-auth').textContent = '— ' + qp.author;
 })();
-
-// ── Holdings toggle ──
-function toggleHoldings() {
-  const wrap = document.getElementById('holdings-wrap');
-  const btn  = document.getElementById('holdings-btn');
-  const arrow = document.getElementById('holdings-arrow');
-  const isOpen = wrap.classList.toggle('open');
-  arrow.style.transform = isOpen ? 'rotate(180deg)' : '';
-  btn.innerHTML = (isOpen ? '<span id="holdings-arrow" style="display:inline-block;transform:rotate(180deg)">▼</span>' : '<span id="holdings-arrow">▼</span>') + '&nbsp; ' + (isOpen ? 'Collapse Holdings' : 'Expand Holdings');
-}
 
 // Recommendations are now server-side rendered (live trending data)
 </script>

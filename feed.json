@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-02-21T13:31:38.293818+00:00",
+  "fetchedAt": "2026-02-21T13:43:28.223566+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement2",
-  "errors": [
-    "wmiddelkoop"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2025196335213769192",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2025197571656835313",
-      "text": "Under Andrew Jackson, America “chose coercion over law, executive force over constitutional checks and balances, and conquest over treaty obligations”, writes Christina Snyder in a guest essay https://www.economist.com/by-invitation/2026/02/02/the-indian-removal-act-unchecked-expansionism-and-disregard-for-the-rule-of-law",
+      "id": "2025203863976874090",
+      "text": "Conventional computers have separate memory and processor units. Neuromorphic computers would, instead, process data and store them in the same piece of hardware, as happens in a brain https://www.economist.com/science-and-technology/2026/02/18/brain-like-computers-could-be-built-out-of-perovskites",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-02-21T13:15:02+00:00",
-      "createdAtMs": 1771679702000,
+      "createdAt": "2026-02-21T13:40:02+00:00",
+      "createdAtMs": 1771681202000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2025197571656835313#m",
+      "url": "https://x.com/TheEconomist/status/2025203863976874090#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
