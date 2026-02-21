@@ -1074,7 +1074,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     sector_totals = {}
     port_sorted = []
 
-    for h in HOLDINGS:
+    for h in (holdings_source or HOLDINGS):
         ticker = h["ticker"]
         pdata  = portfolio_data.get(ticker, {})
         price  = pdata.get("price")
@@ -1109,7 +1109,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <tr>
             <td class="ticker">{display}</td>
             <td style="color:var(--dim);font-size:.8em">{name}</td>
-            <td style="text-align:right">{shares:,}</td>
+            <td style="text-align:right">{int(shares):,}</td>
             <td style="text-align:right">{price_str}</td>
             <td style="text-align:right">{chg_html}</td>
             <td style="text-align:right;font-weight:600">{value_str}</td>
