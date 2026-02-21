@@ -1763,7 +1763,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="footer-logo">Novaire <span>Signal</span></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
-      <a href="/portfolio" class="eco-link">Portfolio</a>
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
       <a href="https://evolution-fund.vercel.app" class="eco-link">Evolution Fund</a>
     </div>
