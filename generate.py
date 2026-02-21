@@ -2012,7 +2012,11 @@ def main():
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"  ✅ HTML saved to {OUTPUT} ({len(html):,} bytes)")
+    # Also copy to repo root for git push deploy
+    import shutil
+    repo_index = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
+    shutil.copy2(OUTPUT, repo_index)
+    print(f"  ✅ HTML saved to {OUTPUT} + {repo_index} ({len(html):,} bytes)")
 
 if __name__ == "__main__":
     main()
