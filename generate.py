@@ -1449,6 +1449,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .footer-logo span{{color:var(--gold);font-style:italic}}
     .footer-tagline{{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}}
     .footer-sub{{font-size:.58rem;color:var(--mute);margin-top:6px}}
+    .eco-links{{display:flex;justify-content:center;gap:20px;margin-top:12px;flex-wrap:wrap}}
+    .eco-link{{font-size:.7rem;color:var(--gold);text-decoration:none;opacity:.7;transition:opacity .15s;letter-spacing:.06em}}
+    .eco-link:hover{{opacity:1}}
 
     @media(max-width:600px){{
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
@@ -1740,6 +1743,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
+    <div class="eco-links">
+      <a href="/portfolio" class="eco-link">Portfolio</a>
+      <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
+      <a href="https://evolution-fund.vercel.app" class="eco-link">Evolution Fund</a>
+    </div>
     <div class="footer-sub">Live data · Updated every 2 hours · 24/7</div>
   </div>
 
