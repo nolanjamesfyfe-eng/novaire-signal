@@ -1651,25 +1651,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   }})();
   </script>
 
-  <!-- PORTFOLIO — linked to standalone page -->
-  <div class="card" style="text-align:center;padding:24px">
-    <div class="card-title">📦 Portfolio</div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Live USD</div>
-        <div class="psum-value" style="color:var(--gold)">${total_usd:,.0f}</div>
-      </div>
-      <div class="psum-item">
-        <div class="psum-label">Live CAD</div>
-        <div class="psum-value" style="color:var(--green)">${total_cad:,.0f}</div>
-      </div>
-      <div class="psum-item">
-        <div class="psum-label">ROI</div>
-        <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}" style="color:{'var(--green)' if roi_pct >= 0 else 'var(--red)'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
-      </div>
-    </div>
-    <a href="/portfolio" style="display:inline-block;margin-top:14px;padding:10px 28px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;border-radius:var(--r);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-family:var(--sans);transition:all .15s">View Full Portfolio →</a>
-  </div>
+  <!-- PORTFOLIO removed — now at /portfolio -->
 
   <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
   <div class="card">
