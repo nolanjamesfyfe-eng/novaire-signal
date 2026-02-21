@@ -709,14 +709,19 @@ def fetch_holdings_from_gsheet():
             row.append("")
         currency = row[1].strip()
 
-        # Portfolio meta: CAD total row
-        if not meta.get("basis_cad"):
-            for cell in row:
-                if "$99" in cell or "$100" in cell or "$98" in cell:
-                    v = parse_price(cell)
-                    if v and 50000 < v < 200000:
-                        meta["basis_cad"] = v
-                        break
+        # Portfolio meta: TOTAL row (has "TOTAL" in col 11)
+        if row[11].strip() == "TOTAL":
+            meta["total_cad"] = parse_price(row[10])
+            meta["roi_pct_str"] = row[12].strip()
+            meta["roi_abs"] = parse_price(row[13])
+        # USD total row (row after TOTAL, col 9 = "USD")
+        if row[9].strip() == "USD" and not meta.get("total_usd"):
+            v = parse_price(row[10])
+            if v and v > 10000:
+                meta["total_usd"] = v
+        # ATH row
+        if row[9].strip() == "ATH":
+            meta["ath"] = parse_price(row[10])
 
         # Data rows: currency must be CAD, USD, or AUD
         if currency not in ("CAD", "USD", "AUD"):
@@ -834,7 +839,7 @@ def fetch_portfolio(usdcad=1.365, audusd=0.63):
                 results[ticker] = {"price": None, "change": None, "value": None, "currency": currency, "fallback": False}
         except Exception:
             results[ticker] = {"price": None, "change": None, "value": None, "currency": currency, "fallback": False}
-    return results, holdings_source
+    return results, holdings_source, gs_meta
 
 def fetch_catalysts(top3_tickers):
     """Fetch news for top 3 tickers. Returns dict with freshness info."""
@@ -1063,7 +1068,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1093,6 +1098,20 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     total_cad  = total_usd * fx["usdcad"]
     roi_pct    = ((total_cad - PORT_BASIS_CAD) / PORT_BASIS_CAD * 100) if PORT_BASIS_CAD else 0
+
+    # Override with sheet totals if available (source of truth)
+    _meta = gs_meta or {}
+    if _meta.get("total_cad"):
+        total_cad = _meta["total_cad"]
+    if _meta.get("total_usd"):
+        total_usd = _meta["total_usd"]
+    if _meta.get("roi_pct_str"):
+        try:
+            roi_pct = float(_meta["roi_pct_str"].replace("%", "").strip())
+        except: pass
+    port_ath = _meta.get("ath") or PORT_ATH
+    port_roi_abs = _meta.get("roi_abs") or PORT_ROI_ABS
+    port_basis_cad = (total_cad - port_roi_abs) if _meta.get("roi_abs") else PORT_BASIS_CAD
 
     # Build holdings rows HTML
     rows_html = ""
@@ -1804,7 +1823,7 @@ function getQuoteForToday(storageKey, quotes) {{
 # MAIN
 # ─────────────────────────────────────────────────────────────
 
-def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None):
+def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None):
     """Render standalone portfolio page at /portfolio"""
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1834,6 +1853,20 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None):
 
     total_cad  = total_usd * fx["usdcad"]
     roi_pct    = ((total_cad - PORT_BASIS_CAD) / PORT_BASIS_CAD * 100) if PORT_BASIS_CAD else 0
+
+    # Override with sheet totals if available (source of truth)
+    _meta = gs_meta or {}
+    if _meta.get("total_cad"):
+        total_cad = _meta["total_cad"]
+    if _meta.get("total_usd"):
+        total_usd = _meta["total_usd"]
+    if _meta.get("roi_pct_str"):
+        try:
+            roi_pct = float(_meta["roi_pct_str"].replace("%", "").strip())
+        except: pass
+    port_ath = _meta.get("ath") or PORT_ATH
+    port_roi_abs = _meta.get("roi_abs") or PORT_ROI_ABS
+    port_basis_cad = (total_cad - port_roi_abs) if _meta.get("roi_abs") else PORT_BASIS_CAD
 
     # Build holdings rows HTML
     rows_html = ""
@@ -1993,15 +2026,15 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None):
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Basis CAD</div>
-        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">${PORT_BASIS_CAD:,.0f}</div>
+        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">${port_basis_cad:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ATH (w/ w/d)</div>
-        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">${PORT_ATH:,}</div>
+        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">${port_ath:,}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ROI Abs.</div>
-        <div class="psum-value" style="color:var(--green);font-size:1.1rem">${PORT_ROI_ABS:,.0f}</div>
+        <div class="psum-value" style="color:var(--green);font-size:1.1rem">${port_roi_abs:,.0f}</div>
       </div>
     </div>
 
@@ -2028,11 +2061,11 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None):
       </div>
       <div class="total-item">
         <div class="total-label">Basis CAD</div>
-        <div class="total-value" style="color:var(--blue)">${PORT_BASIS_CAD:,.0f}</div>
+        <div class="total-value" style="color:var(--blue)">${port_basis_cad:,.0f}</div>
       </div>
       <div class="total-item">
         <div class="total-label">ATH</div>
-        <div class="total-value" style="color:var(--violet)">${PORT_ATH:,}</div>
+        <div class="total-value" style="color:var(--violet)">${port_ath:,}</div>
       </div>
       <div class="total-item">
         <div class="total-label">ROI</div>
@@ -2115,12 +2148,15 @@ def main():
     print("  📈 Fetching portfolio data (yfinance)...")
     holdings_source = HOLDINGS
     try:
-        portfolio_data, holdings_source = fetch_portfolio(usdcad=fx["usdcad"], audusd=fx["audusd"])
+        portfolio_data, holdings_source, gs_meta = fetch_portfolio(usdcad=fx["usdcad"], audusd=fx["audusd"])
         loaded = sum(1 for v in portfolio_data.values() if v.get("price"))
         print(f"    ✅ {loaded}/{len(holdings_source)} tickers loaded")
+        if gs_meta:
+            print(f"    📊 Sheet: CAD=${gs_meta.get('total_cad','?'):,}  USD=${gs_meta.get('total_usd','?'):,}  ROI={gs_meta.get('roi_pct_str','?')}  ATH=${gs_meta.get('ath','?'):,}")
     except Exception as e:
         print(f"    ❌ {e}")
         portfolio_data = {}
+        gs_meta = {}
 
     print("  🔍 Fetching catalysts (yfinance news)...")
     sorted_holdings = sorted(
@@ -2191,12 +2227,12 @@ def main():
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
         commodities, crypto, fx, zodiac, thai_word, motivation,
         rec_movie=rec_movie, rec_book=rec_book, fx_rates=fx_rates,
-        holdings_source=holdings_source
+        holdings_source=holdings_source, gs_meta=gs_meta
     )
 
     print("  📦 Generating portfolio page...")
     portfolio_html = render_portfolio_html(
-        portfolio_data, catalysts, fx, holdings_source=holdings_source
+        portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta
     )
 
     import os
