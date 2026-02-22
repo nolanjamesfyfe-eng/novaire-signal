@@ -294,6 +294,39 @@ THAI_WORDS = [
     {"thai": "เริ่มต้น (rerm-ton)",       "meaning": "to begin, start — the hardest and most important step"},
 ]
 
+SPANISH_WORDS = [
+    {"spanish": "Negocio", "pron": "neh-GO-see-oh", "meaning": "business — from the Latin 'negotium' (denial of leisure). Hustle never changes."},
+    {"spanish": "Riesgo", "pron": "ree-ES-go", "meaning": "risk — no riesgo, no recompensa."},
+    {"spanish": "Ganancia", "pron": "gah-NAN-see-ah", "meaning": "profit, gain — the sweet taste of a thesis playing out."},
+    {"spanish": "Apalancamiento", "pron": "ah-pah-lan-kah-mee-EN-toh", "meaning": "leverage — a double-edged sword that builds empires or buries them."},
+    {"spanish": "Sabiduría", "pron": "sah-bee-doo-REE-ah", "meaning": "wisdom — the ultimate compounding asset."},
+    {"spanish": "Confianza", "pron": "con-fee-AN-sah", "meaning": "trust, confidence — the currency that makes everything else work."},
+    {"spanish": "Oportunidad", "pron": "oh-por-too-nee-DAHD", "meaning": "opportunity — they're everywhere if you're paying attention."},
+    {"spanish": "Voluntad", "pron": "vo-loon-TAHD", "meaning": "willpower — the force multiplier behind every great outcome."},
+    {"spanish": "Libertad", "pron": "lee-ber-TAHD", "meaning": "freedom — what all of this is ultimately about."},
+    {"spanish": "Patrimonio", "pron": "pah-tree-MO-nee-oh", "meaning": "wealth, heritage — what you build and what you leave behind."},
+    {"spanish": "Emprendedor", "pron": "em-pren-deh-DOR", "meaning": "entrepreneur — one who undertakes. The doer, not the talker."},
+    {"spanish": "Resiliencia", "pron": "reh-see-lee-EN-see-ah", "meaning": "resilience — antifragility's Spanish cousin."},
+    {"spanish": "Audaz", "pron": "ow-DAHZ", "meaning": "bold, audacious — fortune favors the audaz."},
+    {"spanish": "Abundancia", "pron": "ah-boon-DAN-see-ah", "meaning": "abundance — the mindset that creates more than it consumes."},
+    {"spanish": "Disciplina", "pron": "dees-see-PLEE-nah", "meaning": "discipline — the bridge between goals and accomplishments."},
+    {"spanish": "Poder", "pron": "po-DEHR", "meaning": "power — both ability and influence. Use wisely."},
+    {"spanish": "Inversión", "pron": "een-ver-see-OHN", "meaning": "investment — planting seeds today for tomorrow's harvest."},
+    {"spanish": "Contrario", "pron": "con-TRAH-ree-oh", "meaning": "contrarian — when everyone zigs, the contrario zags."},
+    {"spanish": "Evolución", "pron": "eh-vo-loo-see-OHN", "meaning": "evolution — adapt or die. The fund knows."},
+    {"spanish": "Tesón", "pron": "teh-SOHN", "meaning": "tenacity, grit — the relentless pursuit that separates dreamers from builders."},
+    {"spanish": "Soberanía", "pron": "so-beh-rah-NEE-ah", "meaning": "sovereignty — self-rule. The ultimate goal for individuals and nations."},
+    {"spanish": "Verdad", "pron": "ver-DAHD", "meaning": "truth — what survives when narratives collapse."},
+    {"spanish": "Coraje", "pron": "co-RAH-heh", "meaning": "courage — not the absence of fear, but action despite it."},
+    {"spanish": "Inflación", "pron": "een-flah-see-OHN", "meaning": "inflation — the silent thief. Your money's worst enemy."},
+    {"spanish": "Rendimiento", "pron": "ren-dee-mee-EN-toh", "meaning": "yield, performance — what the portfolio delivers."},
+    {"spanish": "Ventaja", "pron": "ven-TAH-hah", "meaning": "advantage, edge — the asymmetry you're always hunting for."},
+    {"spanish": "Convicción", "pron": "con-vik-see-OHN", "meaning": "conviction — buy with it or don't buy at all."},
+    {"spanish": "Despertar", "pron": "des-per-TAR", "meaning": "to awaken — the first step of every revolution."},
+    {"spanish": "Legado", "pron": "leh-GAH-doh", "meaning": "legacy — what endures after you're gone."},
+    {"spanish": "Imparable", "pron": "eem-pah-RAH-bleh", "meaning": "unstoppable — a man on the rise."},
+]
+
 MOTIVATION_QUOTES = [
     {"text": "The man who moves a mountain begins by carrying away small stones.", "author": "Confucius"},
     {"text": "Hard work beats talent when talent doesn't work hard.", "author": "Tim Notke"},
@@ -1068,7 +1101,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1740,6 +1773,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
+  <!-- SPANISH WORD OF THE DAY -->
+  <div class="card">
+    <div class="card-title">🇪🇸 Spanish Word of the Day</div>
+    <div class="thai-word-box">
+      <span class="word">{spanish_word['spanish']}</span>
+      <span class="dot" style="font-size:.7rem;color:var(--mute)">({spanish_word['pron']})</span>
+      <span class="dot">•</span>
+      <span class="meaning">{spanish_word['meaning']}</span>
+    </div>
+  </div>
+
   <!-- THAILAND NEWS -->
   <div class="card">
     <div class="thai-news-compact">
@@ -2196,6 +2240,7 @@ def main():
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
+    spanish_word = pick(SPANISH_WORDS, 7)
     motivation = pick(MOTIVATION_QUOTES, 11)
 
     print("  📡 Refreshing Signal Feed (Nitter RSS → feed.json)...")
@@ -2226,7 +2271,8 @@ def main():
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
         commodities, crypto, fx, zodiac, thai_word, motivation,
         rec_movie=rec_movie, rec_book=rec_book, fx_rates=fx_rates,
-        holdings_source=holdings_source, gs_meta=gs_meta
+        holdings_source=holdings_source, gs_meta=gs_meta,
+        spanish_word=spanish_word
     )
 
     print("  📦 Generating portfolio page...")
