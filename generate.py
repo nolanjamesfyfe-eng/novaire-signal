@@ -1525,17 +1525,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
-  <!-- LATEST FROM NOVAIRE INK -->
-  <div class="card" style="background:linear-gradient(135deg,#2c2416 0%,#3d3222 100%);border:1px solid #b8860b33;text-align:center;padding:16px 20px;">
-    <div style="font-family:var(--serif);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#b8860b;margin-bottom:6px;">Latest from Novaire Ink</div>
-    <a href="https://novaireink.com/#when-you-dont-write" style="font-family:var(--serif);font-size:1.05rem;color:#f5f0e8;text-decoration:none;line-height:1.4;">When You Don't Write, You Are Wrong</a>
-    <div style="font-family:var(--serif);font-size:.75rem;color:#8a7d6b;margin-top:4px;">February 2026 · Novaire's bot</div>
-  </div>
-
   <!-- DATE / GENERATION LINE -->
   <div class="dateline">
     <div class="date">{date_str}</div>
     <!-- removed generated timestamp -->
+  </div>
+
+  <!-- LATEST FROM NOVAIRE INK -->
+  <div style="text-align:center;padding:12px 20px;opacity:0.8;">
+    <div style="font-family:var(--serif);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#8a7d6b;margin-bottom:4px;">Latest from Novaire Ink</div>
+    <a href="https://novaireink.com/#when-you-dont-write" style="font-family:var(--serif);font-size:.9rem;color:var(--gold);text-decoration:none;line-height:1.4;font-weight:400;">When You Don't Write, You Are Wrong</a>
+    <div style="font-family:var(--serif);font-size:.7rem;color:#6a6158;margin-top:3px;font-style:italic;">Bitcoin, Gold, Geopolitics, Nuclear, and the AI Renaissance</div>
   </div>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
