@@ -1534,9 +1534,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- LATEST FROM NOVAIRE INK -->
   <a href="https://novaireink.com/#when-you-dont-write" class="card" style="display:block;text-decoration:none;cursor:pointer;">
     <div class="card-title">📝 Latest from Novaire Ink</div>
-    <div style="font-family:var(--serif);font-size:1.05rem;color:var(--gold);line-height:1.3;margin-bottom:8px;">When You Don't Write, You Are Wrong</div>
-    <div style="font-family:var(--serif);font-size:.8rem;color:var(--text);line-height:1.5;opacity:0.8;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
-    <div style="font-family:var(--sans);font-size:.6rem;color:var(--gold);margin-top:10px;letter-spacing:.1em;text-transform:uppercase;">Read the full essay →</div>
+    <div style="font-family:var(--serif);font-size:1.2rem;color:var(--gold);line-height:1.4;margin-bottom:10px;">When You Don't Write, You Are Wrong</div>
+    <div class="quote-text" style="font-style:normal;opacity:0.85;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
+    <div style="font-family:var(--sans);font-size:.65rem;color:var(--gold);margin-top:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;">Read the full essay →</div>
   </a>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
