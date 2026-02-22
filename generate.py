@@ -1532,11 +1532,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- LATEST FROM NOVAIRE INK -->
-  <div style="text-align:center;padding:12px 20px;opacity:0.8;">
-    <div style="font-family:var(--serif);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#8a7d6b;margin-bottom:4px;">Latest from Novaire Ink</div>
-    <a href="https://novaireink.com/#when-you-dont-write" style="font-family:var(--serif);font-size:.9rem;color:var(--gold);text-decoration:none;line-height:1.4;font-weight:400;">When You Don't Write, You Are Wrong</a>
-    <div style="font-family:var(--serif);font-size:.7rem;color:#6a6158;margin-top:3px;font-style:italic;">Bitcoin, Gold, Geopolitics, Nuclear, and the AI Renaissance</div>
-  </div>
+  <a href="https://novaireink.com/#when-you-dont-write" style="display:block;text-decoration:none;border:1px solid #d4c5a966;border-radius:4px;padding:24px 28px;margin:16px 0;background:linear-gradient(180deg,#f5f0e8 0%,#ede5d5 100%);transition:border-color 0.3s;">
+    <div style="font-family:'Cinzel',Georgia,serif;font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:#b8860b;margin-bottom:10px;">✦ Novaire Ink</div>
+    <div style="font-family:'EB Garamond','Cormorant Garamond',Georgia,serif;font-size:1.25rem;color:#2c2416;line-height:1.3;font-weight:400;margin-bottom:6px;">When You Don't Write, You Are Wrong</div>
+    <div style="font-family:'EB Garamond',Georgia,serif;font-size:.8rem;color:#8a7d6b;font-style:italic;margin-bottom:14px;">Bitcoin, Gold, Geopolitics, Nuclear, and the AI Renaissance</div>
+    <div style="font-family:'EB Garamond',Georgia,serif;font-size:.85rem;color:#4a4035;line-height:1.6;border-top:1px solid #d4c5a944;padding-top:12px;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, which is at least the guilt of a participant, but the quieter, more corrosive guilt of saying nothing at all...</div>
+    <div style="font-family:'Cinzel',Georgia,serif;font-size:.6rem;color:#b8860b;margin-top:14px;letter-spacing:.15em;text-transform:uppercase;">Read the full essay →</div>
+    <div style="font-family:'EB Garamond',Georgia,serif;font-size:.7rem;color:#a0937f;margin-top:8px;">February 2026 · Novaire's bot</div>
+  </a>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
   <div class="card">
