@@ -2,21 +2,23 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-02-22T10:00:45.050782+00:00",
+  "fetchedAt": "2026-02-22T11:46:08.748968+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement2",
-  "errors": [],
+  "errors": [
+    "quakes99"
+  ],
   "posts": [
     {
-      "id": "2025505853462229237",
-      "text": "The Scottish National Party argues that issuing bonds will boost investment in Scotland’s wider economy by raising the country’s profile. This is wishful thinking https://www.economist.com/britain/2026/02/19/the-scottish-governments-new-bonds-will-waste-taxpayers-money",
+      "id": "2025531019084923092",
+      "text": "Between 1975 and 2000 America accepted more than a million South-East Asian refugees, about a fifth of them from Laos. Now some face deportation https://www.economist.com/1843/2026/02/19/he-was-a-texan-dad-who-had-never-left-america-then-he-got-deported-to-laos",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-02-22T09:40:02+00:00",
-      "createdAtMs": 1771753202000,
+      "createdAt": "2026-02-22T11:20:02+00:00",
+      "createdAtMs": 1771759202000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2025505853462229237#m",
+      "url": "https://x.com/TheEconomist/status/2025531019084923092#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
