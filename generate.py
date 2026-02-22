@@ -1334,8 +1334,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:15.4px;line-height:1.5}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:15.4px;line-height:1.5}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:16.5px;line-height:1.5}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:16.5px;line-height:1.5}}
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
@@ -1534,9 +1534,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- LATEST FROM NOVAIRE INK -->
   <a href="https://novaireink.com/#when-you-dont-write" class="card" style="display:block;text-decoration:none;cursor:pointer;">
     <div class="card-title">📝 Latest from Novaire Ink</div>
-    <div style="font-family:var(--serif);font-size:1.2rem;color:var(--gold);line-height:1.4;margin-bottom:10px;">When You Don't Write, You Are Wrong</div>
-    <div class="quote-text" style="font-style:normal;opacity:0.85;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
-    <div style="font-family:var(--sans);font-size:.65rem;color:var(--gold);margin-top:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;">Read the full essay →</div>
+    <div style="font-family:var(--serif);font-size:1.35rem;color:var(--gold);line-height:1.4;margin-bottom:10px;">When You Don't Write, You Are Wrong</div>
+    <div class="quote-text" style="font-style:normal;opacity:0.9;font-size:1.15rem;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
+    <div style="font-family:var(--sans);font-size:.7rem;color:var(--gold);margin-top:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;">Read the full essay →</div>
   </a>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
@@ -1992,7 +1992,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:15.4px;line-height:1.5}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:16.5px;line-height:1.5}}
     .container{{max-width:720px;margin:0 auto}}
     .header-brand{{text-align:center;padding-bottom:20px}}
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
