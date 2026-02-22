@@ -1534,9 +1534,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- LATEST FROM NOVAIRE INK -->
   <a href="https://novaireink.com/#when-you-dont-write" class="card" style="display:block;text-decoration:none;cursor:pointer;">
     <div class="card-title">📝 Latest from Novaire Ink</div>
-    <div style="font-family:var(--serif);font-size:1.35rem;color:var(--gold);line-height:1.4;margin-bottom:10px;">When You Don't Write, You Are Wrong</div>
-    <div class="quote-text" style="font-style:normal;opacity:0.9;font-size:1.15rem;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
-    <div style="font-family:var(--sans);font-size:.7rem;color:var(--gold);margin-top:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;">Read the full essay →</div>
+    <div class="quote">
+      <div class="quote-type">New Essay</div>
+      <div class="quote-text">When You Don't Write, You Are Wrong</div>
+      <div class="quote-author" style="font-style:normal;margin-top:6px;opacity:0.7;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
+      <div class="quote-type" style="margin-top:10px;color:var(--gold);">Read the full essay →</div>
+    </div>
   </a>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
