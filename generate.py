@@ -1057,10 +1057,12 @@ def fetch_polymarket():
         return {"positions": [], "total_account": 0, "inception_roi": 0}
 
 def fetch_alpaca():
-    """Fetch Novaire's bot Alpaca positions with % P&L"""
-    INCEPTION_CAPITAL = 500.0
+    """Fetch Alpaca positions split into Tier 2 (bot) and Tier 1 (rule-based)"""
+    TIER2_INCEPTION = 250.0  # Bot — fully automated
+    TIER1_INCEPTION = 250.0  # Rule-based — Novaire's directives
+    TOTAL_INCEPTION = 500.0
     try:
-        import urllib.request, json
+        import urllib.request, json as _json
         KEY = "AKFWVZ32QFTQCU2NIGWFVGLTRL"
         SECRET = "56rpMGj18cepLQdkSiYvZoWjjQPrdJKHDbWBFzZ6gTk8"
         BASE = "https://api.alpaca.markets"
@@ -1069,7 +1071,7 @@ def fetch_alpaca():
         req = urllib.request.Request(f"{BASE}/v2/account", headers={
             "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
         with urllib.request.urlopen(req, timeout=10) as resp:
-            acct = json.loads(resp.read())
+            acct = _json.loads(resp.read())
 
         equity = float(acct.get("equity", 0))
         cash = float(acct.get("cash", 0))
@@ -1078,27 +1080,77 @@ def fetch_alpaca():
         req2 = urllib.request.Request(f"{BASE}/v2/positions", headers={
             "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
         with urllib.request.urlopen(req2, timeout=10) as resp2:
-            positions = json.loads(resp2.read())
+            positions = _json.loads(resp2.read())
 
-        live = []
+        # Load tier tags
+        tier2_syms = []
+        try:
+            import os as _os
+            tags_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "../alpaca/tier_tags.json")
+            with open(tags_path) as tf:
+                tags = _json.load(tf)
+            tier2_syms = tags.get("tier2_bot", {}).get("symbols", [])
+        except Exception:
+            pass  # No tags yet, default all to tier2
+
+        tier2_positions = []
+        tier1_positions = []
+
         for p in positions:
             symbol = p.get("symbol", "?")
             pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
             side = p.get("side", "long")
-            live.append({"symbol": symbol, "pct_pnl": pct_pnl, "side": side})
+            cost = float(p.get("cost_basis", 0))
+            mval = float(p.get("market_value", 0))
+            entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval}
+            # If tagged as tier2 OR not tagged (default to tier2 for bot entries)
+            if symbol in tier2_syms or not tier2_syms:
+                tier2_positions.append(entry)
+            else:
+                tier1_positions.append(entry)
 
-        live.sort(key=lambda x: -abs(x["pct_pnl"]))
+        tier2_positions.sort(key=lambda x: -abs(x["pct_pnl"]))
+        tier1_positions.sort(key=lambda x: -abs(x["pct_pnl"]))
 
-        inception_roi = ((equity / INCEPTION_CAPITAL) - 1) * 100 if INCEPTION_CAPITAL > 0 and equity > 0 else 0
+        # Estimate tier equity splits by cost basis
+        tier2_cost = sum(p["cost"] for p in tier2_positions)
+        tier1_cost = sum(p["cost"] for p in tier1_positions)
+        tier2_val = sum(p["market_value"] for p in tier2_positions)
+        tier1_val = sum(p["market_value"] for p in tier1_positions)
+        tier2_cash = max(0, TIER2_INCEPTION - tier2_cost)
+        tier1_cash = max(0, TIER1_INCEPTION - tier1_cost)
+        tier2_equity = tier2_cash + tier2_val
+        tier1_equity = tier1_cash + tier1_val
+        # Adjust if no positions — use actual cash proportionally
+        if not tier2_positions and not tier1_positions:
+            tier2_equity = cash / 2
+            tier1_equity = cash / 2
+
+        tier2_roi = ((tier2_equity / TIER2_INCEPTION) - 1) * 100 if TIER2_INCEPTION > 0 else 0
+        tier1_roi = ((tier1_equity / TIER1_INCEPTION) - 1) * 100 if TIER1_INCEPTION > 0 else 0
+        inception_roi = ((equity / TOTAL_INCEPTION) - 1) * 100 if TOTAL_INCEPTION > 0 and equity > 0 else 0
 
         return {
-            "positions": live,
+            "tier2_positions": tier2_positions,
+            "tier1_positions": tier1_positions,
+            "tier2_roi": tier2_roi,
+            "tier1_roi": tier1_roi,
+            "tier2_equity": tier2_equity,
+            "tier1_equity": tier1_equity,
+            "tier2_cash": tier2_cash,
+            "tier1_cash": tier1_cash,
             "inception_roi": inception_roi,
+            "equity": equity,
+            "cash": cash,
             "funded": equity > 0,
+            # Legacy compat
+            "positions": tier2_positions + tier1_positions,
         }
     except Exception as e:
         print(f"  ⚠ Alpaca fetch failed: {e}")
-        return {"positions": [], "inception_roi": 0, "funded": False}
+        return {"tier2_positions": [], "tier1_positions": [], "tier2_roi": 0, "tier1_roi": 0,
+                "tier2_equity": 0, "tier1_equity": 0, "tier2_cash": 0, "tier1_cash": 0,
+                "inception_roi": 0, "equity": 0, "cash": 0, "funded": False, "positions": []}
 
 def fetch_fx():
     try:
@@ -2394,23 +2446,40 @@ def main():
     alpaca = fetch_alpaca()
     alpaca_html = ""
     if alpaca["funded"]:
-        alp_rows = ""
-        for p in alpaca["positions"]:
-            pnl = p["pct_pnl"]
-            pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
-            pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
-            side_icon = "🟢" if p["side"] == "long" else "🔴"
-            alp_rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{side_icon} {p["symbol"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
-        if not alpaca["positions"]:
-            alp_rows = '<div style="font-size:.75rem;color:var(--mute);padding:3px 0">No open positions</div>'
-        roi = alpaca["inception_roi"]
-        roi_color = "#4ade80" if roi >= 0 else "#f87171"
-        roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
+        def _alp_rows(positions, label):
+            rows = ""
+            for p in positions:
+                pnl = p["pct_pnl"]
+                pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
+                pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
+                rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 {p["symbol"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
+            if not positions:
+                rows = f'<div style="font-size:.75rem;color:var(--mute);padding:3px 0">No open positions</div>'
+            return rows
+
+        # Tier 2 — Bot (fully automated)
+        t2_roi = alpaca["tier2_roi"]
+        t2_color = "#4ade80" if t2_roi >= 0 else "#f87171"
+        t2_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
+        t2_rows = _alp_rows(alpaca["tier2_positions"], "Tier 2")
+
+        # Tier 1 — Rule-based
+        t1_roi = alpaca["tier1_roi"]
+        t1_color = "#4ade80" if t1_roi >= 0 else "#f87171"
+        t1_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
+        t1_rows = _alp_rows(alpaca["tier1_positions"], "Tier 1")
+
         alpaca_html = f"""<div class="card">
-    <div class="card-title">📈 Alpaca — Novaire's bot</div>
-    {alp_rows}
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{roi_color}">{roi_str}</span></div>
-    <div style="margin-top:6px;font-size:.6rem;color:var(--mute)">Live positions · Scalp + Swing · Updated every build</div>
+    <div class="card-title">📈 Alpaca — Tier 2 · Bot</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Fully automated · $250 inception</div>
+    {t2_rows}
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Alpaca — Tier 1 · Rules</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Novaire rule-based · $250 inception</div>
+    {t1_rows}
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
   </div>"""
 
     zodiac    = get_zodiac()
@@ -2508,54 +2577,58 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${pm_total:.2f}</span><span style="color:{pm_roi_color}">Inception ROI: {pm_roi_str}</span></div>
   </div>"""
 
-    # Alpaca — Novaire's bot
+    # Alpaca — Two-tier structure
     alpaca_full = fetch_alpaca()
-    alp_inception = 500.0
     if alpaca_full.get("funded"):
-        try:
-            import urllib.request as _ur2
-            _akey = "AKFWVZ32QFTQCU2NIGWFVGLTRL"
-            _asec = "56rpMGj18cepLQdkSiYvZoWjjQPrdJKHDbWBFzZ6gTk8"
-            _areq = _ur2.Request("https://api.alpaca.markets/v2/account", headers={"APCA-API-KEY-ID": _akey, "APCA-API-SECRET-KEY": _asec})
-            with _ur2.urlopen(_areq, timeout=10) as _aresp:
-                _aacct = json.loads(_aresp.read())
-            _equity = float(_aacct.get("equity", 0))
-            _cash = float(_aacct.get("cash", 0))
-
-            _preq = _ur2.Request("https://api.alpaca.markets/v2/positions", headers={"APCA-API-KEY-ID": _akey, "APCA-API-SECRET-KEY": _asec})
-            with _ur2.urlopen(_preq, timeout=10) as _presp:
-                _apositions = json.loads(_presp.read())
-
-            alp_rows = ""
-            for _ap in _apositions:
+        def _alp_port_rows(positions):
+            rows = ""
+            for _ap in positions:
                 _sym = _ap.get("symbol", "?")
                 _side = "Long" if _ap.get("side") == "long" else "Short"
                 _mval = float(_ap.get("market_value", 0))
-                _cost = float(_ap.get("cost_basis", 0))
-                _pnl = float(_ap.get("unrealized_plpc", 0)) * 100
+                _cost = float(_ap.get("cost", _ap.get("cost_basis", 0)))
+                _pnl = float(_ap.get("pct_pnl", 0))
                 _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
                 _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
-                alp_rows += f'<tr><td style="font-size:.75rem">{_side} · {_sym}</td><td style="text-align:right;font-size:.75rem">${_cost:.2f}</td><td style="text-align:right;font-size:.75rem">${_mval:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
+                rows += f'<tr><td style="font-size:.75rem">{_side} · {_sym}</td><td style="text-align:right;font-size:.75rem">${_cost:.2f}</td><td style="text-align:right;font-size:.75rem">${_mval:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
+            if not positions:
+                rows = '<tr><td colspan="4" style="font-size:.75rem;color:var(--mute);padding:4px 0">No open positions</td></tr>'
+            return rows
 
-            if not _apositions:
-                alp_rows = '<tr><td colspan="4" style="font-size:.75rem;color:var(--mute);padding:4px 0">No open positions</td></tr>'
+        t2_rows = _alp_port_rows(alpaca_full["tier2_positions"])
+        t2_equity = alpaca_full["tier2_equity"]
+        t2_cash = alpaca_full["tier2_cash"]
+        t2_roi = alpaca_full["tier2_roi"]
+        t2_roi_color = "#4ade80" if t2_roi >= 0 else "#f87171"
+        t2_roi_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
 
-            alp_roi = ((_equity / alp_inception) - 1) * 100 if alp_inception > 0 and _equity > 0 else 0
-            alp_roi_color = "#4ade80" if alp_roi >= 0 else "#f87171"
-            alp_roi_str = f"+{alp_roi:.1f}%" if alp_roi >= 0 else f"{alp_roi:.1f}%"
+        t1_rows = _alp_port_rows(alpaca_full["tier1_positions"])
+        t1_equity = alpaca_full["tier1_equity"]
+        t1_cash = alpaca_full["tier1_cash"]
+        t1_roi = alpaca_full["tier1_roi"]
+        t1_roi_color = "#4ade80" if t1_roi >= 0 else "#f87171"
+        t1_roi_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
 
-            bot_accounts_html += f"""<div class="card">
-    <div class="card-title">📈 Alpaca — Novaire's bot</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception Capital: ${alp_inception:.2f}</span><span>Strategy: Scalp + Swing</span></div>
+        bot_accounts_html += f"""<div class="card">
+    <div class="card-title">📈 Alpaca — Tier 2 · Bot</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Fully automated</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
-      {alp_rows}
-      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${_cash:.2f}</td><td></td></tr>
+      {t2_rows}
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${t2_cash:.2f}</td><td></td></tr>
     </table>
-    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${_equity:.2f}</span><span style="color:{alp_roi_color}">Inception ROI: {alp_roi_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Alpaca — Tier 1 · Rules</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Novaire rule-based</span></div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
+      {t1_rows}
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${t1_cash:.2f}</td><td></td></tr>
+    </table>
+    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${t1_equity:.2f}</span><span style="color:{t1_roi_color}">Inception ROI: {t1_roi_str}</span></div>
   </div>"""
-        except Exception as _e:
-            print(f"  ⚠ Alpaca portfolio detail failed: {_e}")
 
     portfolio_html = render_portfolio_html(
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
