@@ -992,6 +992,7 @@ def fetch_crypto():
 def fetch_polymarket():
     """Fetch Barron147 live positions from Polymarket with % P&L"""
     INCEPTION_COST = 36.67  # starting capital
+    INCEPTION_TS = 1771906870  # epoch when new era started (Feb 24 2026 ~04:20 UTC)
     try:
         import urllib.request, json
         PROXY = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
@@ -1000,22 +1001,26 @@ def fetch_polymarket():
         with urllib.request.urlopen(req, timeout=10) as resp:
             positions = json.loads(resp.read())
 
-        # Also get recent activity to estimate cash from sells
-        cash_from_sells = 0
+        # Get activity ONLY from new era (post-liquidation)
+        new_buys = 0
+        new_sells = 0
         try:
-            act_url = f"https://data-api.polymarket.com/activity?user={PROXY}&limit=50"
+            act_url = f"https://data-api.polymarket.com/activity?user={PROXY}&limit=100"
             act_req = urllib.request.Request(act_url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(act_req, timeout=10) as resp2:
                 activity = json.loads(resp2.read())
             for a in activity:
-                if a.get("side") == "SELL":
-                    cash_from_sells += float(a.get("usdcSize", 0))
+                if a.get("timestamp", 0) >= INCEPTION_TS:
+                    usdc = float(a.get("usdcSize", 0))
+                    if a.get("side") == "BUY":
+                        new_buys += usdc
+                    elif a.get("side") == "SELL":
+                        new_sells += usdc
         except:
             pass
 
         live = []
         total_position_val = 0
-        total_cost = 0
         for p in positions:
             val = float(p.get("currentValue", p.get("value", 0)))
             if val < 0.01:
@@ -1023,18 +1028,15 @@ def fetch_polymarket():
             title = p.get("title", "?")
             outcome = p.get("outcome", "?")
             pct_pnl = float(p.get("percentPnl", 0))
-            initial = float(p.get("initialValue", 0))
             if len(title) > 50:
                 title = title[:47] + "..."
             total_position_val += val
-            total_cost += initial
             live.append({"title": title, "outcome": outcome, "pct_pnl": pct_pnl})
 
         live.sort(key=lambda x: -abs(x["pct_pnl"]))
 
-        # Inception ROI: (current total value / starting capital - 1)
-        # Total value = position value + estimated cash (starting - cost + sells)
-        est_cash = INCEPTION_COST - total_cost + cash_from_sells
+        # Inception ROI: cash + positions vs starting capital
+        est_cash = INCEPTION_COST - new_buys + new_sells
         total_account = total_position_val + max(est_cash, 0)
         inception_roi = ((total_account / INCEPTION_COST) - 1) * 100 if INCEPTION_COST > 0 else 0
 
