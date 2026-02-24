@@ -1049,6 +1049,50 @@ def fetch_polymarket():
         print(f"  ⚠ Polymarket fetch failed: {e}")
         return {"positions": [], "total_account": 0, "inception_roi": 0}
 
+def fetch_alpaca():
+    """Fetch Novaire's bot Alpaca positions with % P&L"""
+    INCEPTION_CAPITAL = 500.0
+    try:
+        import urllib.request, json
+        KEY = "AKFWVZ32QFTQCU2NIGWFVGLTRL"
+        SECRET = "56rpMGj18cepLQdkSiYvZoWjjQPrdJKHDbWBFzZ6gTk8"
+        BASE = "https://api.alpaca.markets"
+
+        # Account info
+        req = urllib.request.Request(f"{BASE}/v2/account", headers={
+            "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            acct = json.loads(resp.read())
+
+        equity = float(acct.get("equity", 0))
+        cash = float(acct.get("cash", 0))
+
+        # Positions
+        req2 = urllib.request.Request(f"{BASE}/v2/positions", headers={
+            "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
+        with urllib.request.urlopen(req2, timeout=10) as resp2:
+            positions = json.loads(resp2.read())
+
+        live = []
+        for p in positions:
+            symbol = p.get("symbol", "?")
+            pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
+            side = p.get("side", "long")
+            live.append({"symbol": symbol, "pct_pnl": pct_pnl, "side": side})
+
+        live.sort(key=lambda x: -abs(x["pct_pnl"]))
+
+        inception_roi = ((equity / INCEPTION_CAPITAL) - 1) * 100 if INCEPTION_CAPITAL > 0 and equity > 0 else 0
+
+        return {
+            "positions": live,
+            "inception_roi": inception_roi,
+            "funded": equity > 0,
+        }
+    except Exception as e:
+        print(f"  ⚠ Alpaca fetch failed: {e}")
+        return {"positions": [], "inception_roi": 0, "funded": False}
+
 def fetch_fx():
     try:
         import yfinance as yf
@@ -1161,7 +1205,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html=""):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html=""):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1781,6 +1825,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   {poly_html}
 
+  {alpaca_html}
+
   <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
   <div class="card">
     <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
@@ -2333,6 +2379,30 @@ def main():
     else:
         poly_html = ""
 
+    # ── Alpaca (Novaire's bot) ──
+    print("  📈 Fetching Alpaca positions...")
+    alpaca = fetch_alpaca()
+    alpaca_html = ""
+    if alpaca["funded"]:
+        alp_rows = ""
+        for p in alpaca["positions"]:
+            pnl = p["pct_pnl"]
+            pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
+            pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
+            side_icon = "🟢" if p["side"] == "long" else "🔴"
+            alp_rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{side_icon} {p["symbol"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
+        if not alpaca["positions"]:
+            alp_rows = '<div style="font-size:.75rem;color:var(--mute);padding:3px 0">No open positions</div>'
+        roi = alpaca["inception_roi"]
+        roi_color = "#4ade80" if roi >= 0 else "#f87171"
+        roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
+        alpaca_html = f"""<div class="card">
+    <div class="card-title">📈 Alpaca — Novaire's bot</div>
+    {alp_rows}
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{roi_color}">{roi_str}</span></div>
+    <div style="margin-top:6px;font-size:.6rem;color:var(--mute)">Live positions · Scalp + Swing · Updated every build</div>
+  </div>"""
+
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
@@ -2369,7 +2439,8 @@ def main():
         rec_movie=rec_movie, rec_book=rec_book, fx_rates=fx_rates,
         holdings_source=holdings_source, gs_meta=gs_meta,
         spanish_word=spanish_word,
-        poly_html=poly_html
+        poly_html=poly_html,
+        alpaca_html=alpaca_html
     )
 
     print("  📦 Generating portfolio page...")
