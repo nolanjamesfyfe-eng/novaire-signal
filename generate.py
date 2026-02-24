@@ -990,7 +990,8 @@ def fetch_crypto():
     return results
 
 def fetch_polymarket():
-    """Fetch Barron147 live positions from Polymarket"""
+    """Fetch Barron147 live positions from Polymarket with % P&L"""
+    INCEPTION_COST = 36.67  # starting capital
     try:
         import urllib.request, json
         PROXY = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
@@ -998,27 +999,53 @@ def fetch_polymarket():
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=10) as resp:
             positions = json.loads(resp.read())
-        
+
+        # Also get recent activity to estimate cash from sells
+        cash_from_sells = 0
+        try:
+            act_url = f"https://data-api.polymarket.com/activity?user={PROXY}&limit=50"
+            act_req = urllib.request.Request(act_url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(act_req, timeout=10) as resp2:
+                activity = json.loads(resp2.read())
+            for a in activity:
+                if a.get("side") == "SELL":
+                    cash_from_sells += float(a.get("usdcSize", 0))
+        except:
+            pass
+
         live = []
-        total_val = 0
+        total_position_val = 0
+        total_cost = 0
         for p in positions:
             val = float(p.get("currentValue", p.get("value", 0)))
             if val < 0.01:
                 continue
-            size = float(p.get("size", 0))
             title = p.get("title", "?")
             outcome = p.get("outcome", "?")
-            # Truncate long titles
+            pct_pnl = float(p.get("percentPnl", 0))
+            initial = float(p.get("initialValue", 0))
             if len(title) > 50:
                 title = title[:47] + "..."
-            total_val += val
-            live.append({"title": title, "outcome": outcome, "size": size, "value": val})
-        
-        live.sort(key=lambda x: -x["value"])
-        return {"positions": live[:6], "total_value": total_val}
+            total_position_val += val
+            total_cost += initial
+            live.append({"title": title, "outcome": outcome, "pct_pnl": pct_pnl})
+
+        live.sort(key=lambda x: -abs(x["pct_pnl"]))
+
+        # Inception ROI: (current total value / starting capital - 1)
+        # Total value = position value + estimated cash (starting - cost + sells)
+        est_cash = INCEPTION_COST - total_cost + cash_from_sells
+        total_account = total_position_val + max(est_cash, 0)
+        inception_roi = ((total_account / INCEPTION_COST) - 1) * 100 if INCEPTION_COST > 0 else 0
+
+        return {
+            "positions": live[:6],
+            "total_account": total_account,
+            "inception_roi": inception_roi,
+        }
     except Exception as e:
         print(f"  ⚠ Polymarket fetch failed: {e}")
-        return {"positions": [], "total_value": 0}
+        return {"positions": [], "total_account": 0, "inception_roi": 0}
 
 def fetch_fx():
     try:
@@ -2288,11 +2315,17 @@ def main():
     if poly["positions"]:
         poly_rows = ""
         for p in poly["positions"]:
-            poly_rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"]}</span><span style="font-weight:600;color:var(--accent)">${p["value"]:.2f}</span></div>'
+            pnl = p["pct_pnl"]
+            pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
+            pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
+            poly_rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
+        roi = poly["inception_roi"]
+        roi_color = "#4ade80" if roi >= 0 else "#f87171"
+        roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
         poly_html = f"""<div class="card">
     <div class="card-title">🎰 Polymarket — Barron147</div>
     {poly_rows}
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Total Value</span><span style="color:var(--accent)">${poly["total_value"]:.2f}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{roi_color}">{roi_str}</span></div>
     <div style="margin-top:6px;font-size:.6rem;color:var(--mute)">Live positions · Swing trades · Updated every build</div>
   </div>"""
     else:
