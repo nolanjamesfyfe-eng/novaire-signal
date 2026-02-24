@@ -1676,19 +1676,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
+  {poly_html}
+
+  {alpaca_html}
+
   <!-- FX RATES -->
   <div class="card">
     <div class="card-title">💱 FX Rates — 1 USD =</div>
     <div class="fx-grid">
       {fx_rates_html}
-    </div>
-  </div>
-
-  <!-- STAR SIGN — inline symbol + name, compact -->
-  <div class="card">
-    <div class="star-sign">
-      <div class="star-sign-main" data-symbol="{zodiac['symbol']}">{zodiac['name']}<span class="star-sign-range">{zodiac['range']}</span></div>
-      <div class="star-sign-desc">{zodiac['desc']}</div>
     </div>
   </div>
 
@@ -1830,10 +1826,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- PORTFOLIO removed — now at /portfolio -->
 
-  {poly_html}
-
-  {alpaca_html}
-
   <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
   <div class="card">
     <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
@@ -1907,6 +1899,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <span class="dot" style="font-size:.7rem;color:var(--mute)">({spanish_word['pron']})</span>
       <span class="dot">•</span>
       <span class="meaning">{spanish_word['meaning']}</span>
+    </div>
+  </div>
+
+  <!-- STAR SIGN -->
+  <div class="card">
+    <div class="star-sign">
+      <div class="star-sign-main" data-symbol="{zodiac['symbol']}">{zodiac['name']}<span class="star-sign-range">{zodiac['range']}</span></div>
+      <div class="star-sign-desc">{zodiac['desc']}</div>
     </div>
   </div>
 
