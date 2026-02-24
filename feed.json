@@ -2,7 +2,7 @@
   "ok": true,
   "count": 5,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-02-24T15:05:40.268042+00:00",
+  "fetchedAt": "2026-02-24T15:11:30.530343+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement2",
   "errors": [],
@@ -22,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2026306152070344817",
-      "text": "Studies suggest moderate consumption is harmless. It may even be beneficial https://www.economist.com/science-and-technology/2025/05/30/how-much-coffee-is-too-much?taid=699db84846d9d3000187734f&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2026311270517838070",
+      "text": "Carmaking is the heart of Slovakia’s economy. That makes the economy unusually vulnerable to the industry’s ups and downs https://www.economist.com/europe/2026/02/22/why-one-corner-of-europes-car-industry-is-still-booming",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-02-24T14:40:08+00:00",
-      "createdAtMs": 1771944008000,
+      "createdAt": "2026-02-24T15:00:28+00:00",
+      "createdAtMs": 1771945228000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2026306152070344817#m",
+      "url": "https://x.com/TheEconomist/status/2026311270517838070#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
@@ -50,6 +50,20 @@
       "slot_order": 3
     },
     {
+      "id": "2026310775837499537",
+      "text": "FYI. I expect the epa approval was a key step for getting fda approval for food grade plastics.  This will be another massive step.  It will also be a step that proves $hg $hgraf can do things other graphene companies can’t.  The purity is key for food grade plastics.  Don’t know when but it’s gonna happen",
+      "author": "BambroughKevin",
+      "handle": "BambroughKevin",
+      "createdAt": "2026-02-24T14:58:30+00:00",
+      "createdAtMs": 1771945110000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/BambroughKevin/status/2026310775837499537#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 4
+    },
+    {
       "id": "2026309869452533946",
       "text": "Just wait until the get the US military orders and partnership that Kjirstin believes will happen.   \n\nMy price target when that happens… ‘bonkers’",
       "author": "BambroughKevin",
@@ -59,20 +73,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/BambroughKevin/status/2026309869452533946#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4
-    },
-    {
-      "id": "2026309034211467418",
-      "text": "Another point…. We don’t even have any major institutions with large weightings yet.  We don’t have any main stream broker research.  \n\nWe are so damn early.  When the contracts are announced and the brokers on Bay Street and Wall Street start putting in writing what Grok and other Ai engines calculate… the price target will be nuts.   The mainstream ramp up will be insanely exciting.   Seen this movie a few times… \n\nThat why I think it’s gonna be $20-30 this summer.",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-02-24T14:51:35+00:00",
-      "createdAtMs": 1771944695000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/BambroughKevin/status/2026309034211467418#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5
