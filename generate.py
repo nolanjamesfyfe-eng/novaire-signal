@@ -989,6 +989,37 @@ def fetch_crypto():
             results[coin] = {"price": None, "change": None}
     return results
 
+def fetch_polymarket():
+    """Fetch Barron147 live positions from Polymarket"""
+    try:
+        import urllib.request, json
+        PROXY = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
+        url = f"https://data-api.polymarket.com/positions?user={PROXY}"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            positions = json.loads(resp.read())
+        
+        live = []
+        total_val = 0
+        for p in positions:
+            val = float(p.get("currentValue", p.get("value", 0)))
+            if val < 0.01:
+                continue
+            size = float(p.get("size", 0))
+            title = p.get("title", "?")
+            outcome = p.get("outcome", "?")
+            # Truncate long titles
+            if len(title) > 50:
+                title = title[:47] + "..."
+            total_val += val
+            live.append({"title": title, "outcome": outcome, "size": size, "value": val})
+        
+        live.sort(key=lambda x: -x["value"])
+        return {"positions": live[:6], "total_value": total_val}
+    except Exception as e:
+        print(f"  ⚠ Polymarket fetch failed: {e}")
+        return {"positions": [], "total_value": 0}
+
 def fetch_fx():
     try:
         import yfinance as yf
@@ -1101,7 +1132,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html=""):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1719,6 +1750,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- PORTFOLIO removed — now at /portfolio -->
 
+  {poly_html}
+
   <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
   <div class="card">
     <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
@@ -2248,6 +2281,23 @@ def main():
     if not fx:
         fx = {"usdcad": 1.365, "audusd": 0.630}
 
+    # ── Polymarket (Barron147) ──
+    print("  🎰 Fetching Polymarket positions...")
+    poly = fetch_polymarket()
+    poly_html = ""
+    if poly["positions"]:
+        poly_rows = ""
+        for p in poly["positions"]:
+            poly_rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"]}</span><span style="font-weight:600;color:var(--accent)">${p["value"]:.2f}</span></div>'
+        poly_html = f"""<div class="card">
+    <div class="card-title">🎰 Polymarket — Barron147</div>
+    {poly_rows}
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Total Value</span><span style="color:var(--accent)">${poly["total_value"]:.2f}</span></div>
+    <div style="margin-top:6px;font-size:.6rem;color:var(--mute)">Live positions · Swing trades · Updated every build</div>
+  </div>"""
+    else:
+        poly_html = ""
+
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
@@ -2283,7 +2333,8 @@ def main():
         commodities, crypto, fx, zodiac, thai_word, motivation,
         rec_movie=rec_movie, rec_book=rec_book, fx_rates=fx_rates,
         holdings_source=holdings_source, gs_meta=gs_meta,
-        spanish_word=spanish_word
+        spanish_word=spanish_word,
+        poly_html=poly_html
     )
 
     print("  📦 Generating portfolio page...")
