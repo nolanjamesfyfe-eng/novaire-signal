@@ -1985,7 +1985,7 @@ function getQuoteForToday(storageKey, quotes) {{
 # MAIN
 # ─────────────────────────────────────────────────────────────
 
-def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None):
+def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html=""):
     """Render standalone portfolio page at /portfolio"""
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -2251,6 +2251,9 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     {cats_html}
   </div>
 
+  <!-- BOT TRADING ACCOUNTS -->
+  {bot_accounts_html}
+
   <!-- ECOSYSTEM LINKS -->
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span></div>
@@ -2444,8 +2447,112 @@ def main():
     )
 
     print("  📦 Generating portfolio page...")
+
+    # ── Bot Accounts for Portfolio page (full $ detail) ──
+    bot_accounts_html = ""
+
+    # Polymarket — Barron147
+    poly_full = fetch_polymarket()
+    if poly_full["positions"] or poly_full.get("total_account", 0) > 0:
+        pm_inception = 36.67
+        pm_rows = ""
+        # Re-fetch with full data for portfolio page
+        try:
+            import urllib.request as _ur
+            _proxy = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
+            _req = _ur.Request(f"https://data-api.polymarket.com/positions?user={_proxy}", headers={"User-Agent": "Mozilla/5.0"})
+            with _ur.urlopen(_req, timeout=10) as _resp:
+                _positions = json.loads(_resp.read())
+            pm_pos_val = 0
+            for _p in _positions:
+                _val = float(_p.get("currentValue", 0))
+                if _val < 0.01:
+                    continue
+                _title = _p.get("title", "?")
+                if len(_title) > 55:
+                    _title = _title[:52] + "..."
+                _pnl = float(_p.get("percentPnl", 0))
+                _init = float(_p.get("initialValue", 0))
+                _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
+                _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
+                pm_pos_val += _val
+                pm_rows += f'<tr><td style="font-size:.75rem">{_p.get("outcome","")} · {_title}</td><td style="text-align:right;font-size:.75rem">${_init:.2f}</td><td style="text-align:right;font-size:.75rem">${_val:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
+            pm_total = poly_full.get("total_account", pm_pos_val)
+            pm_roi = poly_full.get("inception_roi", 0)
+            pm_cash = pm_total - pm_pos_val
+            pm_roi_color = "#4ade80" if pm_roi >= 0 else "#f87171"
+            pm_roi_str = f"+{pm_roi:.1f}%" if pm_roi >= 0 else f"{pm_roi:.1f}%"
+        except:
+            pm_rows = ""
+            pm_total = 0
+            pm_cash = 0
+            pm_roi_str = "N/A"
+            pm_roi_color = "var(--mute)"
+            pm_inception = 36.67
+
+        bot_accounts_html += f"""<div class="card">
+    <div class="card-title">🎰 Polymarket — Barron147</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception Capital: ${pm_inception:.2f}</span><span>Account: Barron147</span></div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Contract</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
+      {pm_rows}
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${pm_cash:.2f}</td><td></td></tr>
+    </table>
+    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${pm_total:.2f}</span><span style="color:{pm_roi_color}">Inception ROI: {pm_roi_str}</span></div>
+  </div>"""
+
+    # Alpaca — Novaire's bot
+    alpaca_full = fetch_alpaca()
+    alp_inception = 500.0
+    if alpaca_full.get("funded"):
+        try:
+            import urllib.request as _ur2
+            _akey = "AKFWVZ32QFTQCU2NIGWFVGLTRL"
+            _asec = "56rpMGj18cepLQdkSiYvZoWjjQPrdJKHDbWBFzZ6gTk8"
+            _areq = _ur2.Request("https://api.alpaca.markets/v2/account", headers={"APCA-API-KEY-ID": _akey, "APCA-API-SECRET-KEY": _asec})
+            with _ur2.urlopen(_areq, timeout=10) as _aresp:
+                _aacct = json.loads(_aresp.read())
+            _equity = float(_aacct.get("equity", 0))
+            _cash = float(_aacct.get("cash", 0))
+
+            _preq = _ur2.Request("https://api.alpaca.markets/v2/positions", headers={"APCA-API-KEY-ID": _akey, "APCA-API-SECRET-KEY": _asec})
+            with _ur2.urlopen(_preq, timeout=10) as _presp:
+                _apositions = json.loads(_presp.read())
+
+            alp_rows = ""
+            for _ap in _apositions:
+                _sym = _ap.get("symbol", "?")
+                _side = "Long" if _ap.get("side") == "long" else "Short"
+                _mval = float(_ap.get("market_value", 0))
+                _cost = float(_ap.get("cost_basis", 0))
+                _pnl = float(_ap.get("unrealized_plpc", 0)) * 100
+                _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
+                _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
+                alp_rows += f'<tr><td style="font-size:.75rem">{_side} · {_sym}</td><td style="text-align:right;font-size:.75rem">${_cost:.2f}</td><td style="text-align:right;font-size:.75rem">${_mval:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
+
+            if not _apositions:
+                alp_rows = '<tr><td colspan="4" style="font-size:.75rem;color:var(--mute);padding:4px 0">No open positions</td></tr>'
+
+            alp_roi = ((_equity / alp_inception) - 1) * 100 if alp_inception > 0 and _equity > 0 else 0
+            alp_roi_color = "#4ade80" if alp_roi >= 0 else "#f87171"
+            alp_roi_str = f"+{alp_roi:.1f}%" if alp_roi >= 0 else f"{alp_roi:.1f}%"
+
+            bot_accounts_html += f"""<div class="card">
+    <div class="card-title">📈 Alpaca — Novaire's bot</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception Capital: ${alp_inception:.2f}</span><span>Strategy: Scalp + Swing</span></div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
+      {alp_rows}
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${_cash:.2f}</td><td></td></tr>
+    </table>
+    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${_equity:.2f}</span><span style="color:{alp_roi_color}">Inception ROI: {alp_roi_str}</span></div>
+  </div>"""
+        except Exception as _e:
+            print(f"  ⚠ Alpaca portfolio detail failed: {_e}")
+
     portfolio_html = render_portfolio_html(
-        portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta
+        portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
+        bot_accounts_html=bot_accounts_html
     )
 
     import os
