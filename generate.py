@@ -885,12 +885,19 @@ def fetch_catalysts(top3_tickers):
     now = datetime.now(timezone.utc)
     fresh_cutoff = now - timedelta(hours=48)  # 48h hard cutoff — no old fluff
 
+    # Map fallback tickers to real Yahoo Finance tickers for news
+    FALLBACK_NEWS_MAP = {
+        "_FVL_FALLBACK": "FVL.V",
+        "_MOLY_FALLBACK": "MOY.V",
+    }
+
     for ticker in top3_tickers:
-        if ticker.startswith("_"):
+        lookup_ticker = FALLBACK_NEWS_MAP.get(ticker, ticker)
+        if lookup_ticker.startswith("_"):
             cats[ticker] = None
             continue
         try:
-            t = yf.Ticker(ticker)
+            t = yf.Ticker(lookup_ticker)
             news = t.news
             if news:
                 item = news[0]
