@@ -1057,7 +1057,7 @@ def fetch_polymarket():
         return {"positions": [], "total_account": 0, "inception_roi": 0}
 
 def fetch_alpaca():
-    """Fetch Alpaca positions split into Tier 2 (bot) and Tier 1 (rule-based)"""
+    """Fetch Alpaca positions split into Tier 2 (Novaire's bot) and Tier 1 (Livermore Darvas Microcap)"""
     TIER2_INCEPTION = 250.0  # Bot — fully automated
     TIER1_INCEPTION = 250.0  # Rule-based — Novaire's directives
     TOTAL_INCEPTION = 500.0
@@ -2463,7 +2463,7 @@ def main():
         t2_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
         t2_rows = _alp_rows(alpaca["tier2_positions"], "Tier 2")
 
-        # Tier 1 — Rule-based
+        # Tier 1 — Livermore Darvas Microcap
         t1_roi = alpaca["tier1_roi"]
         t1_color = "#4ade80" if t1_roi >= 0 else "#f87171"
         t1_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
@@ -2476,8 +2476,8 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
   </div>
   <div class="card">
-    <div class="card-title">📋 Alpaca — Tier 1 · Rules</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Novaire rule-based · $250 inception</div>
+    <div class="card-title">📋 Alpaca — Livermore Darvas · Microcap</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas breakout bot · $250 inception</div>
     {t1_rows}
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
   </div>"""
@@ -2620,8 +2620,8 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
   </div>
   <div class="card">
-    <div class="card-title">📋 Alpaca — Tier 1 · Rules</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Novaire rule-based</span></div>
+    <div class="card-title">📋 Alpaca — Livermore Darvas · Microcap</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Darvas breakout bot</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
       {t1_rows}
