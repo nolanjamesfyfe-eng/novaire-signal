@@ -2470,13 +2470,13 @@ def main():
         t2_rows = _alp_rows(alpaca["tier2_positions"], "Tier 2")
 
         alpaca_html = f"""<div class="card">
-    <div class="card-title">📈 Alpaca — Tier 1 · Volume Scalp</div>
+    <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
     <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Automated momentum scalper · $250 inception</div>
     {t1_rows}
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
   </div>
   <div class="card">
-    <div class="card-title">📋 Alpaca — Tier 2 · Livermore Darvas · Microcap</div>
+    <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
     <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas box breakout bot · $250 inception</div>
     {t2_rows}
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
@@ -2610,7 +2610,7 @@ def main():
         t1_roi_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
 
         bot_accounts_html += f"""<div class="card">
-    <div class="card-title">📈 Alpaca — Tier 1 · Volume Scalp</div>
+    <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Automated momentum scalper</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
@@ -2620,7 +2620,7 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${t1_equity:.2f}</span><span style="color:{t1_roi_color}">Inception ROI: {t1_roi_str}</span></div>
   </div>
   <div class="card">
-    <div class="card-title">📋 Alpaca — Tier 2 · Livermore Darvas · Microcap</div>
+    <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Darvas box breakout bot</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
