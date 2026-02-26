@@ -1057,7 +1057,7 @@ def fetch_polymarket():
         return {"positions": [], "total_account": 0, "inception_roi": 0}
 
 def fetch_alpaca():
-    """Fetch Alpaca positions split into Tier 2 (Novaire's bot) and Tier 1 (Livermore Darvas Microcap)"""
+    """Fetch Alpaca positions: Tier 1 = Volume Scalp (executor.py), Tier 2 = Livermore Darvas Microcap"""
     TIER1_INCEPTION = 250.0  # Tier 1 — Alpaca Volume Scalp (automated momentum)
     TIER2_INCEPTION = 250.0  # Tier 2 — Livermore Darvas Microcap (Darvas box breakout)
     TOTAL_INCEPTION = 500.0
@@ -1112,22 +1112,38 @@ def fetch_alpaca():
         tier2_positions.sort(key=lambda x: -abs(x["pct_pnl"]))
         tier1_positions.sort(key=lambda x: -abs(x["pct_pnl"]))
 
-        # Estimate tier equity splits by cost basis
-        tier2_cost = sum(p["cost"] for p in tier2_positions)
-        tier1_cost = sum(p["cost"] for p in tier1_positions)
-        tier2_val = sum(p["market_value"] for p in tier2_positions)
-        tier1_val = sum(p["market_value"] for p in tier1_positions)
-        tier2_cash = max(0, TIER2_INCEPTION - tier2_cost)
-        tier1_cash = max(0, TIER1_INCEPTION - tier1_cost)
-        tier2_equity = tier2_cash + tier2_val
-        tier1_equity = tier1_cash + tier1_val
-        # Adjust if no positions — use actual cash proportionally
-        if not tier2_positions and not tier1_positions:
-            tier2_equity = cash / 2
-            tier1_equity = cash / 2
+        # Load realized P&L by tier (tracked in tier_realized_pnl.json)
+        t1_realized = 0.0
+        t2_realized = 0.0
+        t1_trade_count = 0
+        t2_trade_count = 0
+        try:
+            import os as _os
+            rpnl_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "../alpaca/tier_realized_pnl.json")
+            with open(rpnl_path) as rf:
+                rpnl = _json.load(rf)
+            t1_realized = float(rpnl.get("tier1_scalp", {}).get("realized_pnl", 0))
+            t2_realized = float(rpnl.get("tier2_darvas", {}).get("realized_pnl", 0))
+            t1_trade_count = int(rpnl.get("tier1_scalp", {}).get("trade_count", 0))
+            t2_trade_count = int(rpnl.get("tier2_darvas", {}).get("trade_count", 0))
+        except Exception:
+            pass
 
-        tier2_roi = ((tier2_equity / TIER2_INCEPTION) - 1) * 100 if TIER2_INCEPTION > 0 else 0
+        # Tier equity = inception + realized P&L + open position unrealized P&L
+        tier1_cost = sum(p["cost"] for p in tier1_positions)
+        tier2_cost = sum(p["cost"] for p in tier2_positions)
+        tier1_val = sum(p["market_value"] for p in tier1_positions)
+        tier2_val = sum(p["market_value"] for p in tier2_positions)
+        tier1_open_pnl = tier1_val - tier1_cost
+        tier2_open_pnl = tier2_val - tier2_cost
+
+        tier1_equity = TIER1_INCEPTION + t1_realized + tier1_open_pnl
+        tier2_equity = TIER2_INCEPTION + t2_realized + tier2_open_pnl
+        tier1_cash = max(0, tier1_equity - tier1_val)
+        tier2_cash = max(0, tier2_equity - tier2_val)
+
         tier1_roi = ((tier1_equity / TIER1_INCEPTION) - 1) * 100 if TIER1_INCEPTION > 0 else 0
+        tier2_roi = ((tier2_equity / TIER2_INCEPTION) - 1) * 100 if TIER2_INCEPTION > 0 else 0
         inception_roi = ((equity / TOTAL_INCEPTION) - 1) * 100 if TOTAL_INCEPTION > 0 and equity > 0 else 0
 
         return {
@@ -1139,6 +1155,10 @@ def fetch_alpaca():
             "tier1_equity": tier1_equity,
             "tier2_cash": tier2_cash,
             "tier1_cash": tier1_cash,
+            "t1_realized": t1_realized,
+            "t2_realized": t2_realized,
+            "t1_trade_count": t1_trade_count,
+            "t2_trade_count": t2_trade_count,
             "inception_roi": inception_roi,
             "equity": equity,
             "cash": cash,
@@ -1150,6 +1170,7 @@ def fetch_alpaca():
         print(f"  ⚠ Alpaca fetch failed: {e}")
         return {"tier2_positions": [], "tier1_positions": [], "tier2_roi": 0, "tier1_roi": 0,
                 "tier2_equity": 0, "tier1_equity": 0, "tier2_cash": 0, "tier1_cash": 0,
+                "t1_realized": 0, "t2_realized": 0, "t1_trade_count": 0, "t2_trade_count": 0,
                 "inception_roi": 0, "equity": 0, "cash": 0, "funded": False, "positions": []}
 
 def fetch_fx():
@@ -2461,25 +2482,35 @@ def main():
         t1_roi = alpaca["tier1_roi"]
         t1_color = "#4ade80" if t1_roi >= 0 else "#f87171"
         t1_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
+        t1_realized = alpaca.get("t1_realized", 0)
+        t1_trade_count = alpaca.get("t1_trade_count", 0)
+        t1_rpnl_color = "#4ade80" if t1_realized >= 0 else "#f87171"
+        t1_rpnl_str = f"+${t1_realized:.2f}" if t1_realized >= 0 else f"-${abs(t1_realized):.2f}"
         t1_rows = _alp_rows(alpaca["tier1_positions"], "Tier 1")
 
         # Tier 2 — Livermore Darvas Microcap
         t2_roi = alpaca["tier2_roi"]
         t2_color = "#4ade80" if t2_roi >= 0 else "#f87171"
         t2_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
+        t2_realized = alpaca.get("t2_realized", 0)
+        t2_trade_count = alpaca.get("t2_trade_count", 0)
+        t2_rpnl_color = "#4ade80" if t2_realized >= 0 else "#f87171"
+        t2_rpnl_str = f"+${t2_realized:.2f}" if t2_realized >= 0 else f"-${abs(t2_realized):.2f}"
         t2_rows = _alp_rows(alpaca["tier2_positions"], "Tier 2")
 
         alpaca_html = f"""<div class="card">
     <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Automated momentum scalper · $250 inception</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Automated momentum scalper · $250 inception · {t1_trade_count} trades</div>
     {t1_rows}
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t1_rpnl_color};font-weight:600">{t1_rpnl_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
   </div>
   <div class="card">
     <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas box breakout bot · $250 inception</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas box breakout bot · $250 inception · {t2_trade_count} trades</div>
     {t2_rows}
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t2_rpnl_color};font-weight:600">{t2_rpnl_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
   </div>"""
 
     zodiac    = get_zodiac()
@@ -2601,6 +2632,10 @@ def main():
         t2_roi = alpaca_full["tier2_roi"]
         t2_roi_color = "#4ade80" if t2_roi >= 0 else "#f87171"
         t2_roi_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
+        t2_realized = alpaca_full.get("t2_realized", 0)
+        t2_trade_count = alpaca_full.get("t2_trade_count", 0)
+        t2_rpnl_color = "#4ade80" if t2_realized >= 0 else "#f87171"
+        t2_rpnl_str = f"+${t2_realized:.2f}" if t2_realized >= 0 else f"-${abs(t2_realized):.2f}"
 
         t1_rows = _alp_port_rows(alpaca_full["tier1_positions"])
         t1_equity = alpaca_full["tier1_equity"]
@@ -2608,26 +2643,32 @@ def main():
         t1_roi = alpaca_full["tier1_roi"]
         t1_roi_color = "#4ade80" if t1_roi >= 0 else "#f87171"
         t1_roi_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
+        t1_realized = alpaca_full.get("t1_realized", 0)
+        t1_trade_count = alpaca_full.get("t1_trade_count", 0)
+        t1_rpnl_color = "#4ade80" if t1_realized >= 0 else "#f87171"
+        t1_rpnl_str = f"+${t1_realized:.2f}" if t1_realized >= 0 else f"-${abs(t1_realized):.2f}"
 
         bot_accounts_html += f"""<div class="card">
     <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Automated momentum scalper</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00 · {t1_trade_count} trades</span><span>Automated momentum scalper</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
       {t1_rows}
       <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${t1_cash:.2f}</td><td></td></tr>
     </table>
-    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${t1_equity:.2f}</span><span style="color:{t1_roi_color}">Inception ROI: {t1_roi_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t1_rpnl_color};font-weight:600">{t1_rpnl_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t1_equity:.2f}</span><span style="color:{t1_roi_color}">Inception ROI: {t1_roi_str}</span></div>
   </div>
   <div class="card">
     <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00</span><span>Darvas box breakout bot</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00 · {t2_trade_count} trades</span><span>Darvas box breakout bot</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
       {t2_rows}
       <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${t2_cash:.2f}</td><td></td></tr>
     </table>
-    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t2_rpnl_color};font-weight:600">{t2_rpnl_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
   </div>"""
 
     portfolio_html = render_portfolio_html(
