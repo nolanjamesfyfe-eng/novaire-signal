@@ -998,7 +998,7 @@ def fetch_crypto():
 
 def fetch_polymarket():
     """Fetch Barron147 live positions from Polymarket with % P&L"""
-    INCEPTION_COST = 36.67  # starting capital
+    INCEPTION_COST = 26.13  # reset 2026-02-26 — new strategy baseline (volume spike scalping)  # starting capital
     INCEPTION_TS = 1771906870  # epoch when new era started (Feb 24 2026 ~04:20 UTC)
     try:
         import urllib.request, json
@@ -2561,7 +2561,7 @@ def main():
     # Polymarket — Barron147
     poly_full = fetch_polymarket()
     if poly_full["positions"] or poly_full.get("total_account", 0) > 0:
-        pm_inception = 36.67
+        pm_inception = 26.13  # reset 2026-02-26
         pm_rows = ""
         # Re-fetch with full data for portfolio page
         try:
@@ -2595,7 +2595,7 @@ def main():
             pm_cash = 0
             pm_roi_str = "N/A"
             pm_roi_color = "var(--mute)"
-            pm_inception = 36.67
+            pm_inception = 26.13  # reset 2026-02-26
 
         bot_accounts_html += f"""<div class="card">
     <div class="card-title">🎰 Polymarket — Barron147</div>
