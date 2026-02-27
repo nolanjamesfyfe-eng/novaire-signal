@@ -2471,19 +2471,18 @@ def main():
         t2_rpnl_str = f"+${t2_realized:.2f}" if t2_realized >= 0 else f"-${abs(t2_realized):.2f}"
         t2_rows = _alp_rows(alpaca["tier2_positions"], "Tier 2")
 
-        alpaca_html = f"""<div class="card">
-    <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Automated momentum scalper · $250 inception · {t1_trade_count} trades</div>
-    {t1_rows}
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t1_rpnl_color};font-weight:600">{t1_rpnl_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas box breakout bot · $250 inception · {t2_trade_count} trades</div>
-    {t2_rows}
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t2_rpnl_color};font-weight:600">{t2_rpnl_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
+        total_roi = alpaca["inception_roi"]
+        total_roi_color = "#4ade80" if total_roi >= 0 else "#f87171"
+        total_roi_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
+        total_trades = t1_trade_count + t2_trade_count
+        alpaca_html = f"""<div class="card" style="padding:14px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)">🦙 Alpaca Trading</span>
+        <span style="font-size:.65rem;color:var(--mute)">{total_trades} trades</span>
+      </div>
+      <span style="font-family:var(--serif);font-size:1.2rem;font-weight:600;color:{total_roi_color}">{total_roi_str}</span>
+    </div>
   </div>"""
 
     zodiac    = get_zodiac()
