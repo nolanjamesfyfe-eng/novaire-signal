@@ -2044,7 +2044,7 @@ function getQuoteForToday(storageKey, quotes) {{
 # MAIN
 # ─────────────────────────────────────────────────────────────
 
-def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html=""):
+def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html=""):
     """Render standalone portfolio page at /portfolio"""
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -2309,6 +2309,9 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
     {cats_html}
   </div>
+
+  <!-- EVOLUTION FUND -->
+  {evo_fund_html}
 
   <!-- BOT TRADING ACCOUNTS -->
   {bot_accounts_html}
@@ -2642,9 +2645,124 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
   </div>"""
 
+    # ── Evolution Fund ──
+    print("  🏛️ Fetching Evolution Fund positions...")
+    evo_fund_html = ""
+    try:
+        EVO_HOLDINGS = [
+            {"ticker": "PHYS",  "name": "Gold (Sprott)",         "shares": 16827, "avg_entry": 36.95},
+            {"ticker": "URNM",  "name": "Uranium",               "shares": 6000,  "avg_entry": 67.72},
+            {"ticker": "GRID",  "name": "Grid Infrastructure",   "shares": 2177,  "avg_entry": 176.81},
+            {"ticker": "PSLV",  "name": "Silver (Sprott)",       "shares": 8545,  "avg_entry": 29.02},
+            {"ticker": "COPX",  "name": "Copper Miners",         "shares": 2000,  "avg_entry": 83.96},
+            {"ticker": "COPP",  "name": "Copper",                "shares": 5047,  "avg_entry": 43.60},
+            {"ticker": "URNJ",  "name": "Jr Uranium",            "shares": 3151,  "avg_entry": 34.91},
+            {"ticker": "SGDJ",  "name": "Gold Miners",           "shares": 1002,  "avg_entry": 109.73},
+            {"ticker": "AAPL",  "name": "Apple",                 "shares": 31,    "avg_entry": 261.55},
+            {"ticker": "CEG",   "name": "Constellation Energy",  "shares": 177,   "avg_entry": 312.30},
+            {"ticker": "VST",   "name": "Vistra Energy",         "shares": 322,   "avg_entry": 170.54},
+        ]
+        EVO_BTC = {"shares": 6.72, "avg_entry": 65500.00, "name": "Bitcoin (8% alloc)"}
+
+        # Fetch live prices
+        evo_tickers = [h["ticker"] for h in EVO_HOLDINGS]
+        import yfinance as _yf
+        _evo_data = _yf.download(evo_tickers, period="2d", progress=False)
+        _evo_close = _evo_data.get("Close", _evo_data.get(("Close",), None))
+
+        # BTC price from crypto data already fetched
+        btc_price = None
+        try:
+            _btc = _yf.Ticker("BTC-USD")
+            btc_price = float(_btc.history(period="1d")["Close"].iloc[-1])
+        except:
+            btc_price = EVO_BTC["avg_entry"]  # fallback
+
+        evo_rows = ""
+        evo_total_value = 0
+        evo_total_cost = 0
+
+        for h in EVO_HOLDINGS:
+            sym = h["ticker"]
+            shares = h["shares"]
+            avg = h["avg_entry"]
+            cost = shares * avg
+            try:
+                if hasattr(_evo_close, 'columns') and sym in _evo_close.columns:
+                    price = float(_evo_close[sym].dropna().iloc[-1])
+                else:
+                    price = float(_evo_close[sym].dropna().iloc[-1]) if sym in str(_evo_close) else avg
+            except:
+                price = avg
+            value = shares * price
+            gl = value - cost
+            gl_pct = (gl / cost * 100) if cost > 0 else 0
+            evo_total_value += value
+            evo_total_cost += cost
+            gl_color = "#4ade80" if gl >= 0 else "#f87171"
+            gl_str = f"+${gl:,.0f}" if gl >= 0 else f"-${abs(gl):,.0f}"
+            pct_str = f"+{gl_pct:.1f}%" if gl_pct >= 0 else f"{gl_pct:.1f}%"
+            evo_rows += f'<tr><td class="ticker">{sym}</td><td style="font-size:.78rem">{h["name"]}</td><td style="text-align:right;font-size:.78rem">{shares:,}</td><td style="text-align:right;font-size:.78rem">${price:,.2f}</td><td style="text-align:right;font-size:.78rem">${value:,.0f}</td><td style="text-align:right;font-size:.78rem;color:{gl_color}">{gl_str}</td><td style="text-align:right;font-size:.78rem;color:{gl_color};font-weight:600">{pct_str}</td></tr>'
+
+        # BTC row
+        btc_cost = EVO_BTC["shares"] * EVO_BTC["avg_entry"]
+        btc_value = EVO_BTC["shares"] * btc_price
+        btc_gl = btc_value - btc_cost
+        btc_pct = (btc_gl / btc_cost * 100) if btc_cost > 0 else 0
+        evo_total_value += btc_value
+        evo_total_cost += btc_cost
+        btc_color = "#4ade80" if btc_gl >= 0 else "#f87171"
+        btc_gl_str = f"+${btc_gl:,.0f}" if btc_gl >= 0 else f"-${abs(btc_gl):,.0f}"
+        btc_pct_str = f"+{btc_pct:.1f}%" if btc_pct >= 0 else f"{btc_pct:.1f}%"
+        evo_rows += f'<tr><td class="ticker">BTC</td><td style="font-size:.78rem">{EVO_BTC["name"]}</td><td style="text-align:right;font-size:.78rem">{EVO_BTC["shares"]}</td><td style="text-align:right;font-size:.78rem">${btc_price:,.2f}</td><td style="text-align:right;font-size:.78rem">${btc_value:,.0f}</td><td style="text-align:right;font-size:.78rem;color:{btc_color}">{btc_gl_str}</td><td style="text-align:right;font-size:.78rem;color:{btc_color};font-weight:600">{btc_pct_str}</td></tr>'
+
+        evo_gl_total = evo_total_value - evo_total_cost
+        evo_roi = (evo_gl_total / evo_total_cost * 100) if evo_total_cost > 0 else 0
+        evo_roi_color = "#4ade80" if evo_roi >= 0 else "#f87171"
+        evo_roi_str = f"+{evo_roi:.2f}%" if evo_roi >= 0 else f"{evo_roi:.2f}%"
+        evo_gl_str = f"+${evo_gl_total:,.0f}" if evo_gl_total >= 0 else f"-${abs(evo_gl_total):,.0f}"
+
+        evo_fund_html = f"""<div class="card">
+    <div class="card-title">🏛️ Evolution Fund</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.68rem;color:var(--mute)"><span>Negentropy Evolution Fund · Live Positions</span><span><a href="https://evolution.fund" style="color:var(--gold);text-decoration:none">evolution.fund</a></span></div>
+    <table class="portfolio-table">
+      <thead><tr>
+        <th>Ticker</th><th>Position</th>
+        <th style="text-align:right">Shares</th>
+        <th style="text-align:right">Price</th>
+        <th style="text-align:right">Value</th>
+        <th style="text-align:right">G/L $</th>
+        <th style="text-align:right">G/L %</th>
+      </tr></thead>
+      <tbody>{evo_rows}</tbody>
+    </table>
+    <div class="totals-row">
+      <div class="total-item">
+        <div class="total-label">Total Value</div>
+        <div class="total-value usd">${evo_total_value:,.0f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">Total Cost</div>
+        <div class="total-value" style="color:var(--dim)">${evo_total_cost:,.0f}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">Gain/Loss</div>
+        <div class="total-value" style="color:{evo_roi_color}">{evo_gl_str}</div>
+      </div>
+      <div class="total-item">
+        <div class="total-label">ROI</div>
+        <div class="total-value" style="color:{evo_roi_color}">{evo_roi_str}</div>
+      </div>
+    </div>
+  </div>"""
+        print(f"    ✅ Evolution Fund: {len(EVO_HOLDINGS)+1} positions, ${evo_total_value:,.0f} total value")
+    except Exception as e:
+        print(f"    ❌ Evolution Fund error: {e}")
+        evo_fund_html = ""
+
     portfolio_html = render_portfolio_html(
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
-        bot_accounts_html=bot_accounts_html
+        bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html
     )
 
     import os
