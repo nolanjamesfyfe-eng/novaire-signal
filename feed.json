@@ -1,36 +1,36 @@
 {
   "ok": true,
-  "count": 5,
+  "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-02-27T05:06:13.172273+00:00",
+  "fetchedAt": "2026-02-27T05:19:43.020742+00:00",
   "windowHours": 4,
-  "curation": "guaranteed3_engagement2",
+  "curation": "guaranteed3_engagement1",
   "errors": [],
   "posts": [
     {
-      "id": "2027240522973057059",
-      "text": "Not what a \"billionaire who wants to stay under the radar\" wants to see.",
+      "id": "2027250364953592242",
+      "text": "Here We Go Again: Billions Vaporized In Spectacular Private Credit Collapse https://www.zerohedge.com/markets/here-we-go-again-billions-vaporized-spectacular-private-credit-collapse",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-02-27T04:32:59+00:00",
-      "createdAtMs": 1772166779000,
+      "createdAt": "2026-02-27T05:12:06+00:00",
+      "createdAtMs": 1772169126000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2027240522973057059#m",
+      "url": "https://x.com/zerohedge/status/2027250364953592242#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 1
     },
     {
-      "id": "2027242296635191481",
-      "text": "When China’s property sector boomed, everyone seemed to benefit. Since it crashed, it has led to a collective reckoning https://www.economist.com/china/2026/02/23/the-rotten-tail-of-chinas-property-bust",
+      "id": "2027247343670583453",
+      "text": "Yakutia has a population of just 1m. The region has reportedly lost over 2,500 dead in the war in Ukraine. That is more than St Petersburg, Russia’s second city, which has five times as many people https://www.economist.com/europe/2026/02/26/how-the-war-in-ukraine-affects-siberian-russia",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-02-27T04:40:02+00:00",
-      "createdAtMs": 1772167202000,
+      "createdAt": "2026-02-27T05:00:05+00:00",
+      "createdAtMs": 1772168405000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2027242296635191481#m",
+      "url": "https://x.com/TheEconomist/status/2027247343670583453#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
@@ -62,20 +62,6 @@
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4
-    },
-    {
-      "id": "2026938315904008309",
-      "text": "$hgraf \n\nThe GKN Aerospace work on Hyperconducting Motor Coil Design - on the future revolution of transportation efficiency and emission, adds context to the below revelation that Hydrograph Graphene achieves: \n\n\"increases in electrical conductivity 8 orders of magnitude\"",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-02-26T08:32:07+00:00",
-      "createdAtMs": 1772094727000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/Flex__J/status/2026938315904008309#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 5
     }
   ]
 }

@@ -3,14 +3,14 @@
 Novaire Signal — Signal Feed fetcher.
 Runs in GitHub Actions every 4 hours. Outputs feed.json to repo root.
 
-Feed spec (exactly 5 tweets per run):
+Feed spec (exactly 4 tweets per run):
   Guaranteed slots (3):
     1. Most recent tweet from @TheEconomist
     2. Most recent tweet from @zerohedge
     3. Most recent tweet from @KobeissiLetter
 
-  Engagement slots (2):
-    Top 2 tweets by (likes + retweets) from the 14 remaining accounts,
+  Engagement slots (1):
+    Top 1 tweet by (likes + retweets) from the 14 remaining accounts,
     within the last 4 hours (falls back to 8h if the window is empty).
 
 Final output is sorted newest-first for display.
@@ -217,13 +217,13 @@ def main():
         else:
             print(f'  ✗ @{username}: no tweet available — slot skipped')
 
-    # ── Slots 4-5: top 2 engagement from remaining 14 accounts ───────────────
+    # ── Slot 4: top 1 engagement from remaining 14 accounts ───────────────
     print('\n── Selecting engagement slots (last 4h) ──')
     eng_lists = [all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS]
-    top2 = top_engagement(eng_lists, seen_ids, ENGAGEMENT_MAX_AGE_MS, n=2)
+    top2 = top_engagement(eng_lists, seen_ids, ENGAGEMENT_MAX_AGE_MS, n=1)
 
     if not top2:
-        print('  ⚠️  No engagement tweets in last 24h — skipping slots 4-5')
+        print('  ⚠️  No engagement tweets in last 24h — skipping slot 4')
 
     for i, t in enumerate(top2):
         score = t['likes'] + t['retweets']
@@ -237,8 +237,8 @@ def main():
             f'"{t["text"][:50].strip()}…"'
         )
 
-    if len(top2) < 2:
-        print(f'  ⚠️  Only {len(top2)}/2 engagement slots filled')
+    if len(top2) < 1:
+        print(f'  ⚠️  No engagement slots filled')
 
     # ── Sort final feed by slot_order (enforced display order) ───────────────
     feed.sort(key=lambda t: t.get('slot_order', 99))
@@ -261,7 +261,7 @@ def main():
         'accountsWithPosts': len({t['handle'] for t in feed}),
         'fetchedAt':       datetime.now(timezone.utc).isoformat(),
         'windowHours':     4,
-        'curation':        'guaranteed3_engagement2',
+        'curation':        'guaranteed3_engagement1',
         'errors':          errors,
         'posts':           feed,
     }

@@ -1512,7 +1512,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{{
-      --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#e8e6f0;--dim:#8a8699;--mute:#4a4760;
+      --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-mid:rgba(201,168,76,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
@@ -1769,7 +1769,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- SIGNAL FEED -->
   <div class="card">
-    <div class="card-title">📡 Signal Feed — Top 5 by Engagement</div>
+    <div class="card-title">📡 Signal Feed — Top 4 by Engagement</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
       <button class="feed-refresh" onclick="loadFeed(true)" title="Feed updates every 4 hours · filtered to last 4h · ranked by likes + retweets">↻ Refresh</button>
@@ -1932,26 +1932,24 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
 
-    <!-- RECOMMENDATIONS — client-side localStorage rotation -->
+  <!-- CURRENTLY -->
   <div class="card">
-    <div class="card-title">🎬 Recommendations</div>
+    <div class="card-title">📚 Currently</div>
     <div class="rec-grid">
       <div class="rec-item">
-        <div class="rec-label">{rec_movie['label'] if rec_movie else '📺 Now Watching'}</div>
-        <div class="rec-title">{rec_movie['title'] if rec_movie else '—'}</div>
-        <div class="rec-meta">{rec_movie['meta'] if rec_movie else ''}</div>
-        <div class="rec-summary">{rec_movie['summary'] if rec_movie else ''}</div>
+        <div class="rec-label">📺 Watching</div>
+        <div class="rec-title">Red Oaks</div>
+        <div class="rec-meta">Prime · Comedy/Drama · 2014-2017</div>
+        <div class="rec-summary">Coming-of-age in the '80s at a New Jersey country club. Sharp writing, great soundtrack, quietly brilliant.</div>
       </div>
       <div class="rec-item">
-        <div class="rec-label">{rec_book['label'] if rec_book else '📖 Now Reading'}</div>
-        <div class="rec-title">{rec_book['title'] if rec_book else '—'}</div>
-        <div class="rec-meta">{rec_book['meta'] if rec_book else ''}</div>
-        <div class="rec-summary">{rec_book['summary'] if rec_book else ''}</div>
+        <div class="rec-label">📖 Reading</div>
+        <div class="rec-title">Rules for a Knight</div>
+        <div class="rec-meta">Ethan Hawke · Novel · 2015</div>
+        <div class="rec-summary">A medieval knight's letter to his children — timeless virtues dressed in armor. Hawke at his most surprising.</div>
       </div>
     </div>
-    <div style="margin-top:12px;font-size:.68rem;color:var(--dim);text-align:center">
-      Updated daily · Netflix trending + Amazon Business #1
-    </div>
+    <div style="margin-top:10px;font-size:.6rem;color:var(--mute);text-align:center">Updated monthly</div>
   </div>
 
   <!-- THAI WORD OF THE DAY -->
@@ -1961,25 +1959,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <span class="word">{thai_word['thai']}</span>
       <span class="dot">•</span>
       <span class="meaning">{thai_word['meaning']}</span>
-    </div>
-  </div>
-
-  <!-- SPANISH WORD OF THE DAY -->
-  <div class="card">
-    <div class="card-title">🇪🇸 Spanish Word of the Day</div>
-    <div class="thai-word-box">
-      <span class="word">{spanish_word['spanish']}</span>
-      <span class="dot" style="font-size:.7rem;color:var(--mute)">({spanish_word['pron']})</span>
-      <span class="dot">•</span>
-      <span class="meaning">{spanish_word['meaning']}</span>
-    </div>
-  </div>
-
-  <!-- STAR SIGN -->
-  <div class="card">
-    <div class="star-sign">
-      <div class="star-sign-main" data-symbol="{zodiac['symbol']}">{zodiac['name']}<span class="star-sign-range">{zodiac['range']}</span></div>
-      <div class="star-sign-desc">{zodiac['desc']}</div>
     </div>
   </div>
 
@@ -2177,7 +2156,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{{
-      --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#e8e6f0;--dim:#8a8699;--mute:#4a4760;
+      --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-mid:rgba(201,168,76,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
@@ -2442,25 +2421,19 @@ def main():
     # ── Polymarket (Barron147) ──
     print("  🎰 Fetching Polymarket positions...")
     poly = fetch_polymarket()
-    poly_html = ""
-    if poly["positions"]:
-        poly_rows = ""
-        for p in poly["positions"]:
-            pnl = p["pct_pnl"]
-            pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
-            pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
-            poly_rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
-        roi = poly["inception_roi"]
-        roi_color = "#4ade80" if roi >= 0 else "#f87171"
-        roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
-        poly_html = f"""<div class="card">
-    <div class="card-title">🎰 Polymarket — Barron147</div>
-    {poly_rows}
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{roi_color}">{roi_str}</span></div>
-    <div style="margin-top:6px;font-size:.6rem;color:var(--mute)">Live positions · Swing trades · Updated every build</div>
+    roi = poly.get("inception_roi", 0)
+    roi_color = "#4ade80" if roi >= 0 else "#f87171"
+    roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
+    n_bets = len(poly.get("positions", []))
+    poly_html = f"""<div class="card" style="padding:14px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)">🎰 Polymarket — Barron147</span>
+        <span style="font-size:.65rem;color:var(--mute)">{n_bets} active bet{'s' if n_bets != 1 else ''}</span>
+      </div>
+      <span style="font-family:var(--serif);font-size:1.2rem;font-weight:600;color:{roi_color}">{roi_str}</span>
+    </div>
   </div>"""
-    else:
-        poly_html = ""
 
     # ── Alpaca (Novaire's bot) ──
     print("  📈 Fetching Alpaca positions...")
