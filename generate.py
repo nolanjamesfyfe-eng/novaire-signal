@@ -998,8 +998,8 @@ def fetch_crypto():
 
 def fetch_polymarket():
     """Fetch Barron147 live positions from Polymarket with % P&L"""
-    INCEPTION_COST = 26.02  # reset 2026-02-26 — new strategy baseline (volume spike scalping)  # starting capital
-    INCEPTION_TS = 1771906870  # epoch when new era started (Feb 24 2026 ~04:20 UTC)
+    INCEPTION_COST = 26.02  # reset 2026-02-27 — clean slate, ROI starts from 0%
+    INCEPTION_TS = 1772168400  # epoch: 2026-02-27 05:00 UTC — ignore all activity before this
     try:
         import urllib.request, json
         PROXY = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
