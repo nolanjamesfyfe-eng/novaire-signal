@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-02-28T08:00:52.771640+00:00",
+  "fetchedAt": "2026-02-28T08:55:32.045252+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "SantiagoAuFund"
+  ],
   "posts": [
     {
       "id": "2027609717099635120",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2027649982665306229",
-      "text": "“Communism was never popular in China,” Frank Dikötter argues in his new book, “no more so than in Finland or in the United States” https://www.economist.com/culture/2026/02/26/how-chinas-communist-party-seized-power-in-1949",
+      "id": "2027665082621043122",
+      "text": "No one who is happy being dull should try to be a clown. That was Philippe Gaulier’s philosophy. It was fine to be bad even time after time. But tedium was unforgivable. Read our obituary https://www.economist.com/obituary/2026/02/26/philippe-gaulier-refused-to-tolerate-boring-people",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-02-28T07:40:02+00:00",
-      "createdAtMs": 1772264402000,
+      "createdAt": "2026-02-28T08:40:02+00:00",
+      "createdAtMs": 1772268002000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2027649982665306229#m",
+      "url": "https://x.com/TheEconomist/status/2027665082621043122#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
