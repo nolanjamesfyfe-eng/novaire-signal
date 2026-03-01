@@ -2421,22 +2421,9 @@ def main():
     if not fx:
         fx = {"usdcad": 1.365, "audusd": 0.630}
 
-    # ── Polymarket (Barron147) ──
-    print("  🎰 Fetching Polymarket positions...")
-    poly = fetch_polymarket()
-    roi = poly.get("inception_roi", 0)
-    roi_color = "#4ade80" if roi >= 0 else "#f87171"
-    roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
-    n_bets = len(poly.get("positions", []))
-    poly_html = f"""<div class="card" style="padding:14px 20px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)">🎰 Polymarket — Barron147</span>
-        <span style="font-size:.65rem;color:var(--mute)">{n_bets} active bet{'s' if n_bets != 1 else ''}</span>
-      </div>
-      <span style="font-family:var(--serif);font-size:1.2rem;font-weight:600;color:{roi_color}">{roi_str}</span>
-    </div>
-  </div>"""
+    # ── Polymarket (Barron147) — HIDDEN from front page until strategy is defined ──
+    # poly = fetch_polymarket()  # Still available on /portfolio page
+    poly_html = ""  # Empty — no Polymarket on main Signal page
 
     # ── Alpaca (Novaire's bot) ──
     print("  📈 Fetching Alpaca positions...")
