@@ -998,8 +998,8 @@ def fetch_crypto():
 
 def fetch_polymarket():
     """Fetch Barron147 live positions from Polymarket with % P&L"""
-    INCEPTION_COST = 26.02  # reset 2026-02-27 — clean slate, ROI starts from 0%
-    INCEPTION_TS = 1772168400  # epoch: 2026-02-27 05:00 UTC — ignore all activity before this
+    INCEPTION_COST = 220.88  # reset 2026-03-03 — fresh start with $220.88
+    INCEPTION_TS = 1772496000  # epoch: 2026-03-03 00:00 UTC — ignore all activity before this
     try:
         import urllib.request, json
         PROXY = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
@@ -2421,9 +2421,26 @@ def main():
     if not fx:
         fx = {"usdcad": 1.365, "audusd": 0.630}
 
-    # ── Polymarket (Barron147) — HIDDEN from front page until strategy is defined ──
-    # poly = fetch_polymarket()  # Still available on /portfolio page
-    poly_html = ""  # Empty — no Polymarket on main Signal page
+    # ── Polymarket (Barron147) — Restored, showing bets + ROI (no dollar amounts) ──
+    print("  🎰 Fetching Polymarket positions...")
+    poly = fetch_polymarket()
+    poly_html = ""
+    if poly["positions"]:
+        roi = poly["inception_roi"]
+        roi_color = "#4ade80" if roi >= 0 else "#f87171"
+        roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
+        bets_html = ""
+        for p in poly["positions"][:4]:  # Show top 4 bets
+            pnl = p["pct_pnl"]
+            pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
+            pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
+            bets_html += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"][:40]}...</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
+        poly_html = f'''<div class="card" style="margin-bottom:1rem">
+  <div class="card-title">🎰 Polymarket — Barron147</div>
+  <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
+  {bets_html}
+  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Inception ROI:</span><span style="color:{roi_color}">{roi_str}</span></div>
+</div>'''
 
     # ── Alpaca (Novaire's bot) ──
     print("  📈 Fetching Alpaca positions...")
@@ -2522,7 +2539,7 @@ def main():
     # Polymarket — Barron147
     poly_full = fetch_polymarket()
     if poly_full["positions"] or poly_full.get("total_account", 0) > 0:
-        pm_inception = 26.02  # reset 2026-02-26
+        pm_inception = 220.88  # reset 2026-03-03
         pm_rows = ""
         # Re-fetch with full data for portfolio page
         try:
@@ -2556,7 +2573,7 @@ def main():
             pm_cash = 0
             pm_roi_str = "N/A"
             pm_roi_color = "var(--mute)"
-            pm_inception = 26.02  # reset 2026-02-26
+            pm_inception = 220.88  # reset 2026-03-03
 
         bot_accounts_html += f"""<div class="card">
     <div class="card-title">🎰 Polymarket — Barron147</div>
