@@ -2788,5 +2788,26 @@ def main():
     print(f"  ✅ HTML saved to {OUTPUT} + {repo_index} ({len(html):,} bytes)")
     print(f"  ✅ Portfolio page saved to {portfolio_path} ({len(portfolio_html):,} bytes)")
 
+    # ── Write stats.json for cron Telegram summary ──
+    try:
+        stats = {
+            "generated_utc": datetime.now(timezone.utc).isoformat(),
+            "portfolio": {
+                "total_cad": gs_meta.get("total_cad") if gs_meta else None,
+                "total_usd": gs_meta.get("total_usd") if gs_meta else None,
+                "roi_pct_str": gs_meta.get("roi_pct_str") if gs_meta else None,
+            },
+            "polymarket": {
+                "inception_roi": poly.get("inception_roi", 0) if poly else 0,
+                "total_account": poly.get("total_account", 0) if poly else 0,
+            }
+        }
+        stats_path = os.path.join(repo_dir, "stats.json")
+        with open(stats_path, "w", encoding="utf-8") as f:
+            json.dump(stats, f)
+        print(f"  ✅ stats.json written")
+    except Exception as e:
+        print(f"  ⚠️  stats.json failed: {e}")
+
 if __name__ == "__main__":
     main()
