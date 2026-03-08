@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-03-08T08:02:03.269468+00:00",
+  "fetchedAt": "2026-03-08T08:59:37.209157+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "BambroughKevin"
+  ],
   "posts": [
     {
       "id": "2030509990146941184",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2030549109426311674",
-      "text": "As populists lure away voters with simple, phoney cures for Britain’s every ill, neither Labour nor the Conservatives seem to have the courage to deliver a sensible response https://www.economist.com/leaders/2026/03/05/nigel-farage-and-zack-polanski-best-of-frenemies?taid=69ad27d86de6e400019a83a8&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2030564207817601065",
+      "text": "The enthusiasm of Europeans in response to France’s new nuclear-deterrence arrangement is striking. In the past they have disregarded France’s offer of cooperation https://www.economist.com/europe/2026/03/03/what-frances-new-nuclear-arms-doctrine-means-for-europe?taid=69ad35e70a461e0001979af5&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-08T07:40:08+00:00",
-      "createdAtMs": 1772955608000,
+      "createdAt": "2026-03-08T08:40:07+00:00",
+      "createdAtMs": 1772959207000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2030549109426311674#m",
+      "url": "https://x.com/TheEconomist/status/2030564207817601065#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
@@ -50,15 +52,15 @@
       "slot_order": 3
     },
     {
-      "id": "2030351340044476809",
-      "text": "I’ve got some techniques for investing that are higher level.  I can pattern match to correctly predict new patterns are developing.\n\nBuilding an Ai engine to test my thesis.  It’s what I’ve been doing for 30+ years.  It’s a system of finding new patterns early, behavioural psychology meets finance.  \n\nWhat doesn’t change is the human biological supercomputers architecture.  \n\nThe information changes.  The hardware evolves very slowly.",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-03-07T18:34:16+00:00",
-      "createdAtMs": 1772908456000,
+      "id": "2030465729158422945",
+      "text": "This wins the internet today👇👇",
+      "author": "hkuppy",
+      "handle": "hkuppy",
+      "createdAt": "2026-03-08T02:08:48+00:00",
+      "createdAtMs": 1772935728000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/BambroughKevin/status/2030351340044476809#m",
+      "url": "https://x.com/hkuppy/status/2030465729158422945#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4
