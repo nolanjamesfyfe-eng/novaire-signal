@@ -700,6 +700,7 @@ EXCHANGE_TO_TICKER = {
     "CVE:AAG":  "AAG.V",
     "BQSSF":    "BQSSF",
     "CVE:EU":   "EU.V",
+    "TSE:YGR":  "YGR.TO",
 }
 
 DISPLAY_OVERRIDES = {
