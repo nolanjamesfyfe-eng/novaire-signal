@@ -1526,7 +1526,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .header-brand{{text-align:center;padding-bottom:20px}}
 
     .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:middle;transition:all .3s ease}}
-    .signal-bolt svg{{width:22px;height:22px;filter:drop-shadow(0 0 6px rgba(255,50,200,.5)) drop-shadow(0 0 12px rgba(0,200,255,.4));transition:all .3s ease}}
+    .signal-bolt svg{{width:18px;height:18px;filter:drop-shadow(0 0 6px rgba(255,50,200,.5)) drop-shadow(0 0 12px rgba(0,200,255,.4));transition:all .3s ease}}
     .signal-bolt:hover svg{{filter:drop-shadow(0 0 10px rgba(255,50,200,.8)) drop-shadow(0 0 20px rgba(0,200,255,.7)) drop-shadow(0 0 30px rgba(255,100,255,.4));transform:scale(1.15)}}
     .signal-bolt svg path{{fill:none;stroke:url(#neon-grad);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
@@ -1716,7 +1716,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="footer-logo">Novaire <span>Signal</span><a href="/portfolio" class="signal-bolt" title="⚡">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="neon-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff32c8"/><stop offset="50%" stop-color="#c850ff"/><stop offset="100%" stop-color="#00c8ff"/></linearGradient></defs>
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        <path d="M13 2L4 13h7l-1 9 9-11h-7l1-9z"/>
       </svg>
     </a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
