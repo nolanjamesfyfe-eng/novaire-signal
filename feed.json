@@ -2,12 +2,10 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-03-13T12:00:59.845688+00:00",
+  "fetchedAt": "2026-03-13T12:02:11.605091+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "wmiddelkoop"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2032422704377106642",
