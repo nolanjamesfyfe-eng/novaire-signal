@@ -2,21 +2,24 @@
   "ok": true,
   "count": 2,
   "accountsWithPosts": 2,
-  "fetchedAt": "2026-03-15T08:02:33.184041+00:00",
+  "fetchedAt": "2026-03-15T09:50:51.093279+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "tferriss",
+    "White_Rabbit_OG"
+  ],
   "posts": [
     {
-      "id": "2033085825173332158",
-      "text": "Britain is highly unlikely to rejoin the EU in the next few years. But it finds itself aligned with continental Europe in many ways—including in its citizens’ feelings about the bloc https://www.economist.com/britain/2026/03/08/a-landmark-anti-slavery-case-adds-suppliers-to-british-firms-risks?taid=69b6625814087e0001c8f975&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2033116025718288421",
+      "text": "“All of this is politically inconceivable, but energy shocks lead to some pretty surprising political outcomes.” On “Money Talks”, could the oil shock mean a return to Russian energy? https://www.economist.com/podcasts/2026/03/12/how-to-manage-an-oil-shock?taid=69b67e78e4ff750001002c5a&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-15T07:40:08+00:00",
-      "createdAtMs": 1773560408000,
+      "createdAt": "2026-03-15T09:40:08+00:00",
+      "createdAtMs": 1773567608000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2033085825173332158#m",
+      "url": "https://x.com/TheEconomist/status/2033116025718288421#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
