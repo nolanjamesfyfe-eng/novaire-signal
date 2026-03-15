@@ -18,10 +18,10 @@ from bs4 import BeautifulSoup
 OUTPUT = "/tmp/novaire-signal/index.html"
 
 CITIES = [
-    {"name": "Bangkok",    "flag": "🇹🇭", "lat": 13.7563,  "lon": 100.5018},
-    {"name": "Medellín",   "flag": "🇨🇴", "lat": 6.2442,   "lon": -75.5812},
-    {"name": "Edmonton",   "flag": "🇨🇦", "lat": 53.5461,  "lon": -113.4938},
-    {"name": "Montevideo", "flag": "🇺🇾", "lat": -34.9011, "lon": -56.1645},
+    {"name": "Bangkok",    "flag": "🇹🇭", "lat": 13.7563,  "lon": 100.5018, "tz_offset": 7},
+    {"name": "Medellín",   "flag": "🇨🇴", "lat": 6.2442,   "lon": -75.5812, "tz_offset": -5},
+    {"name": "Edmonton",   "flag": "🇨🇦", "lat": 53.5461,  "lon": -113.4938, "tz_offset": -6},
+    {"name": "Montevideo", "flag": "🇺🇾", "lat": -34.9011, "lon": -56.1645, "tz_offset": -3},
 ]
 
 # Tickers: use OTC/working variants where TSX.V tickers are unavailable on Yahoo
@@ -519,16 +519,36 @@ def fetch_weather():
         try:
             url = (f"https://api.open-meteo.com/v1/forecast"
                    f"?latitude={city['lat']}&longitude={city['lon']}"
-                   f"&current=temperature_2m,weathercode&timezone=auto")
+                   f"&current=temperature_2m,weathercode,relative_humidity_2m&timezone=auto")
             r = requests.get(url, timeout=10)
             data = r.json()
             cur = data.get("current", {})
             temp = cur.get("temperature_2m")
+            humidity = cur.get("relative_humidity_2m")
             code = cur.get("weathercode", 0)
             condition = WEATHER_CODES.get(code, "Unknown")
-            results.append({**city, "temp": temp, "condition": condition, "ok": True})
+            # Fetch air quality (AQI) from Open-Meteo
+            aqi = None
+            aqi_label = "—"
+            try:
+                aqi_url = (f"https://air-quality-api.open-meteo.com/v1/air-quality"
+                           f"?latitude={city['lat']}&longitude={city['lon']}"
+                           f"&current=us_aqi")
+                aq_r = requests.get(aqi_url, timeout=10)
+                aq_data = aq_r.json()
+                aqi = aq_data.get("current", {}).get("us_aqi")
+                if aqi is not None:
+                    if aqi <= 50: aqi_label = "Good"
+                    elif aqi <= 100: aqi_label = "Moderate"
+                    elif aqi <= 150: aqi_label = "Unhealthy (SG)"
+                    elif aqi <= 200: aqi_label = "Unhealthy"
+                    elif aqi <= 300: aqi_label = "Very Unhealthy"
+                    else: aqi_label = "Hazardous"
+            except:
+                pass
+            results.append({**city, "temp": temp, "humidity": humidity, "condition": condition, "aqi": aqi, "aqi_label": aqi_label, "ok": True})
         except Exception as e:
-            results.append({**city, "temp": None, "condition": "—", "ok": False})
+            results.append({**city, "temp": None, "humidity": None, "condition": "—", "aqi": None, "aqi_label": "—", "ok": False})
     return results
 
 def fetch_bangkok_post():
@@ -999,7 +1019,7 @@ def fetch_crypto():
 
 def fetch_polymarket():
     """Fetch Barron147 live positions from Polymarket with % P&L"""
-    INCEPTION_COST = 220.88  # reset 2026-03-03 — fresh start with $220.88
+    INCEPTION_COST = 222.00  # total funds deposited into Polymarket — confirmed by Novaire Mar 15
     INCEPTION_TS = 1772496000  # epoch: 2026-03-03 00:00 UTC — ignore all activity before this
     try:
         import urllib.request, json
@@ -1009,21 +1029,28 @@ def fetch_polymarket():
         with urllib.request.urlopen(req, timeout=10) as resp:
             positions = json.loads(resp.read())
 
-        # Get activity ONLY from new era (post-liquidation)
+        # Get ALL activity (paginated) from new era (post-liquidation)
         new_buys = 0
         new_sells = 0
         try:
-            act_url = f"https://data-api.polymarket.com/activity?user={PROXY}&limit=100"
-            act_req = urllib.request.Request(act_url, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(act_req, timeout=10) as resp2:
-                activity = json.loads(resp2.read())
-            for a in activity:
-                if a.get("timestamp", 0) >= INCEPTION_TS:
-                    usdc = float(a.get("usdcSize", 0))
-                    if a.get("side") == "BUY":
-                        new_buys += usdc
-                    elif a.get("side") == "SELL":
-                        new_sells += usdc
+            offset = 0
+            while True:
+                act_url = f"https://data-api.polymarket.com/activity?user={PROXY}&limit=100&offset={offset}"
+                act_req = urllib.request.Request(act_url, headers={"User-Agent": "Mozilla/5.0"})
+                with urllib.request.urlopen(act_req, timeout=10) as resp2:
+                    activity = json.loads(resp2.read())
+                if not activity:
+                    break
+                for a in activity:
+                    if a.get("timestamp", 0) >= INCEPTION_TS:
+                        usdc = float(a.get("usdcSize", 0))
+                        if a.get("side") == "BUY":
+                            new_buys += usdc
+                        elif a.get("side") == "SELL":
+                            new_sells += usdc
+                if len(activity) < 100:
+                    break
+                offset += 100
         except:
             pass
 
@@ -1443,12 +1470,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     for w in weather:
         temp_str = f"{w['temp']:.0f}°C" if w["temp"] is not None else "—"
         season = get_season(w['name'], w.get('lat', 0), month)
+        # Local time in 24h format
+        import datetime as _dtmod
+        local_time = _dtmod.datetime.now(_dtmod.timezone.utc) + _dtmod.timedelta(hours=w.get('tz_offset', 0))
+        local_time_str = local_time.strftime("%H:%M")
         weather_html += f"""
         <div class="weather-item">
+          <div class="condition" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">{local_time_str}</div>
           <div class="city">{w['flag']} {w['name']}</div>
           <div class="temp">{temp_str}</div>
           <div class="condition">{w['condition']}</div>
           <div class="condition" style="margin-top:2px;font-style:italic">{season}</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 {w.get('humidity', '—') or '—'}% · AQI {w.get('aqi', '—') or '—'} ({w.get('aqi_label', '—')})</div>
         </div>"""
 
     # ── Bangkok news HTML ──
@@ -2552,7 +2585,7 @@ def main():
     # Polymarket — Barron147
     poly_full = fetch_polymarket()
     if poly_full["positions"] or poly_full.get("total_account", 0) > 0:
-        pm_inception = 220.88  # reset 2026-03-03
+        pm_inception = 222.00  # confirmed by Novaire Mar 15  # reset 2026-03-03
         pm_rows = ""
         # Re-fetch with full data for portfolio page
         try:
@@ -2586,7 +2619,7 @@ def main():
             pm_cash = 0
             pm_roi_str = "N/A"
             pm_roi_color = "var(--mute)"
-            pm_inception = 220.88  # reset 2026-03-03
+            pm_inception = 222.00  # confirmed by Novaire Mar 15  # reset 2026-03-03
 
         bot_accounts_html += f"""<div class="card">
     <div class="card-title">🎰 Polymarket — Barron147</div>
