@@ -5,7 +5,10 @@
   "fetchedAt": "2026-03-15T12:00:46.910848+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "tferriss",
+    "White_Rabbit_OG"
+  ],
   "posts": [
     {
       "id": "2033144962590646515",
