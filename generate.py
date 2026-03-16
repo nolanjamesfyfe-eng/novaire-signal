@@ -969,7 +969,7 @@ def fetch_commodities():
     for sym, meta in symbols.items():
         try:
             t = yf.Ticker(sym)
-            hist = t.history(period="2d")
+            hist = t.history(period="5d")
             if len(hist) >= 2:
                 p  = float(hist["Close"].iloc[-1])
                 pp = float(hist["Close"].iloc[-2])
@@ -1029,30 +1029,19 @@ def fetch_polymarket():
         with urllib.request.urlopen(req, timeout=10) as resp:
             positions = json.loads(resp.read())
 
-        # Get ALL activity (paginated) from new era (post-liquidation)
-        new_buys = 0
-        new_sells = 0
+        # Get USDC balance directly from Polygon chain (most accurate)
+        est_cash = 0
         try:
-            offset = 0
-            while True:
-                act_url = f"https://data-api.polymarket.com/activity?user={PROXY}&limit=100&offset={offset}"
-                act_req = urllib.request.Request(act_url, headers={"User-Agent": "Mozilla/5.0"})
-                with urllib.request.urlopen(act_req, timeout=10) as resp2:
-                    activity = json.loads(resp2.read())
-                if not activity:
-                    break
-                for a in activity:
-                    if a.get("timestamp", 0) >= INCEPTION_TS:
-                        usdc = float(a.get("usdcSize", 0))
-                        if a.get("side") == "BUY":
-                            new_buys += usdc
-                        elif a.get("side") == "SELL":
-                            new_sells += usdc
-                if len(activity) < 100:
-                    break
-                offset += 100
+            import requests as _rq
+            addr_padded = PROXY[2:].lower().zfill(64)
+            call_data = '0x70a08231' + addr_padded
+            usdc_e = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
+            rpc_r = _rq.post('https://polygon-bor-rpc.publicnode.com',
+                json={'jsonrpc':'2.0','method':'eth_call','params':[{'to':usdc_e,'data':call_data},'latest'],'id':1},
+                timeout=10)
+            est_cash = int(rpc_r.json().get('result', '0x0'), 16) / 1e6
         except:
-            pass
+            est_cash = 0
 
         live = []
         total_position_val = 0
@@ -1071,7 +1060,6 @@ def fetch_polymarket():
         live.sort(key=lambda x: -abs(x["pct_pnl"]))
 
         # Inception ROI: cash + positions vs starting capital
-        est_cash = INCEPTION_COST - new_buys + new_sells
         total_account = total_position_val + max(est_cash, 0)
         inception_roi = ((total_account / INCEPTION_COST) - 1) * 100 if INCEPTION_COST > 0 else 0
 
@@ -1247,7 +1235,7 @@ def fetch_fx_rates():
     results = {}
     for currency, (ticker, invert, fallback) in pairs.items():
         try:
-            hist = yf.Ticker(ticker).history(period="2d")
+            hist = yf.Ticker(ticker).history(period="5d")
             if len(hist) >= 1:
                 raw = float(hist["Close"].iloc[-1])
                 rate = 1.0 / raw if invert else raw
@@ -1566,12 +1554,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .header-brand{{text-align:center;padding-bottom:20px}}
 
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-2px;transition:all .3s ease}}
-    .signal-bolt svg{{width:18px;height:18px;filter:drop-shadow(0 0 6px rgba(255,50,200,.5)) drop-shadow(0 0 12px rgba(0,200,255,.4));transition:all .3s ease}}
-    .signal-bolt:hover svg{{filter:drop-shadow(0 0 10px rgba(255,50,200,.8)) drop-shadow(0 0 20px rgba(0,200,255,.7)) drop-shadow(0 0 30px rgba(255,100,255,.4));transform:scale(1.15)}}
-    .signal-bolt svg path{{fill:none;stroke:url(#neon-grad);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}}
+    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem}}
+    .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
-    .signal-bolt svg{{animation:neon-flicker 4s infinite}}
 
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
     .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}}
@@ -1588,8 +1573,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
     #quotes-card{{padding:14px 16px}}
 
-    .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}}
-    .weather-item{{text-align:center;padding:12px 6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
+    .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
+    .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
     .weather-item .city{{font-size:.65rem;color:var(--dim);margin-bottom:5px;letter-spacing:.04em}}
     .weather-item .temp{{font-size:1.25rem;font-weight:500;color:var(--gold);font-family:var(--serif)}}
     .weather-item .condition{{font-size:.62rem;color:var(--dim);margin-top:3px;line-height:1.3}}
@@ -1660,7 +1645,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .catalyst-source{{font-size:.62rem;color:var(--dim);margin-top:2px}}
     .no-news{{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}}
 
-    .commodities-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}}
+    .commodities-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}}
     .commodity-item{{background:var(--bg);padding:12px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-weight:600}}
     .commodity-price{{font-family:var(--serif);font-size:1.2rem;font-weight:400;margin-bottom:2px}}
@@ -1669,7 +1654,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .c-gold{{color:#c9a84c}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-palladium{{color:#ccc}}.c-uranium{{color:#7fc87f}}
 
-    .crypto-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}}
+    .crypto-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}}
     .crypto-item{{background:var(--bg);padding:10px 8px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .crypto-symbol{{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}}
     .crypto-price{{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:2px}}
@@ -1740,8 +1725,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     @media(max-width:600px){{
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
-      .commodities-grid{{grid-template-columns:repeat(2,1fr)}}
-      .crypto-grid{{grid-template-columns:repeat(2,1fr)}}
+      .commodities-grid{{grid-template-columns:repeat(3,1fr)}}
+      .crypto-grid{{grid-template-columns:repeat(3,1fr)}}
       .fx-grid{{grid-template-columns:repeat(2,1fr)}}
       .allocation-section{{flex-direction:column}}
       .rec-grid{{grid-template-columns:1fr}}
@@ -1754,12 +1739,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span><a href="/portfolio" class="signal-bolt" title="⚡">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="neon-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff32c8"/><stop offset="50%" stop-color="#c850ff"/><stop offset="100%" stop-color="#00c8ff"/></linearGradient></defs>
-        <path d="M13 2L4 13h7l-1 9 9-11h-7l1-9z"/>
-      </svg>
-    </a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -1799,7 +1779,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- WALL STREET CLOCK -->
-  <div style="text-align:center;padding:8px 0;margin-bottom:14px">
+  <div class="card" style="text-align:center;padding:14px 20px">
     <div style="font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">🗽📊 Wall Street Time</div>
     <div class="live-clock" data-tz-offset="-4" style="font-family:var(--serif);font-size:1.4rem;color:var(--text);letter-spacing:.06em"></div>
     <div style="font-size:.52rem;color:var(--mute);margin-top:6px;line-height:1.5">
@@ -1807,11 +1787,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  {poly_html}
-
-  {alpaca_html}
-
-  <!-- FX RATES -->
   <div class="card">
     <div class="card-title">💱 FX Rates — 1 USD =</div>
     <div class="fx-grid">
@@ -1819,7 +1794,27 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- ZEROHEDGE -->
+  <!-- COMMODITIES -->
+  <div class="card">
+    <div class="card-title">🪙 Commodities</div>
+    <div class="commodities-grid">
+      {comm_html}
+    </div>
+  </div>
+
+  <!-- CRYPTO — 30% smaller -->
+  <div class="card">
+    <div class="card-title">🌐 Crypto</div>
+    <div class="crypto-grid">
+      {crypto_html}
+    </div>
+  </div>
+
+  {poly_html}
+
+  {alpaca_html}
+
+<!-- ZEROHEDGE -->
   <div class="card">
     <div class="card-title">📰 ZeroHedge — Top Headlines</div>
     {zh_html}
@@ -1887,7 +1882,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             </div>
             <div class="feed-time">${{timeAgo(p.createdAt)}}</div>
           </div>
-          <div class="feed-text">${{escHtml(p.text).split(' ').slice(0, 15).join(' ')}}${{escHtml(p.text).split(' ').length > 15 ? '…' : ''}}</div>
+          <div class="feed-text">${{escHtml(p.text).split(" ").slice(0, 15).join(" ")}}${{escHtml(p.text).split(" ").length > 15 ? "…" : ""}}</div>
           <div class="feed-stats">
             <div class="feed-stat">♥ <span>${{fmtNum(p.likes)}}</span></div>
             <div class="feed-stat">↺ <span>${{fmtNum(p.retweets)}}</span></div>
@@ -1973,22 +1968,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div style="margin-top:8px;font-size:.6rem;color:var(--mute)">Live · Reddit · News · 4Chan /biz/ · Barbell plays $500–$1K · Updates every build</div>
   </div>
 
-  <!-- COMMODITIES -->
-  <div class="card">
-    <div class="card-title">🪙 Commodities</div>
-    <div class="commodities-grid">
-      {comm_html}
-    </div>
-  </div>
-
-  <!-- CRYPTO — 30% smaller -->
-  <div class="card">
-    <div class="card-title">🌐 Crypto</div>
-    <div class="crypto-grid">
-      {crypto_html}
-    </div>
-  </div>
-
 
   <!-- CURRENTLY -->
   <div class="card">
@@ -2028,19 +2007,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- DAILY MOTIVATION -->
-  <div class="card">
-    <div class="card-title">💪 Daily Motivation</div>
-    <div class="quote" style="border-left-color:rgba(90,123,196,.35)">
-      <div class="quote-type" style="color:var(--blue)">Kaizen Mindset</div>
-      <div class="quote-text">"{motivation['text']}"</div>
-      <div class="quote-author">— {motivation['author']}</div>
-    </div>
-  </div>
+  <!-- Daily Motivation merged into single Quote of the Day -->
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
@@ -2085,8 +2056,7 @@ function getQuoteForToday(storageKey, quotes) {{
 
 (function renderQuotes() {{
   const day = new Date().getDate();
-  const isInv = day % 2 === 0;
-  const q = isInv ? getQuoteForToday('investing', QUOTES_INVESTING) : getQuoteForToday('psychology', QUOTES_PSYCHOLOGY);
+  const isInv = day % 2 === 0; const q = isInv ? getQuoteForToday("investing", QUOTES_INVESTING) : getQuoteForToday("psychology", QUOTES_PSYCHOLOGY);
   document.getElementById('qt-type').textContent = isInv ? 'Investing' : 'Psychology';
   document.getElementById('qt-text').textContent = '\u201c' + q.text + '\u201d';
   document.getElementById('qt-auth').textContent = '\u2014 ' + q.author;
@@ -2274,6 +2244,9 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
       .allocation-section{{flex-direction:column}}
     }}
+    .collapse-toggle{{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}}
+    .collapse-toggle:hover{{opacity:.7;background:rgba(201,168,76,0.05);border-radius:4px}}
+    .collapse-toggle::after{{content:' ▾';font-size:.65rem;color:var(--mute);margin-left:4px}}
   </style>
 </head>
 <body>
@@ -2321,7 +2294,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       </div>
     </div>
 
-    <table class="portfolio-table">
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings</div>
+    <div><table class="portfolio-table">
       <thead>
         <tr>
           <th>Ticker</th><th>Name</th>
@@ -2332,7 +2306,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         </tr>
       </thead>
       <tbody>{rows_html}</tbody>
-    </table>
+    </table></div>
     <div class="totals-row">
       <div class="total-item">
         <div class="total-label">Live USD</div>
@@ -2391,11 +2365,76 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   </div>
 
 </div>
+<script>
+document.querySelectorAll('.collapse-toggle').forEach(t => {{
+  const content = t.nextElementSibling;
+  if(content) content.style.display = 'none';
+  t.addEventListener('click', () => {{
+    if(!content) return;
+    const hidden = content.style.display === 'none';
+    content.style.display = hidden ? 'block' : 'none';
+    t.style.opacity = hidden ? '0.7' : '1';
+  }});
+}});
+</script>
 </body>
 </html>"""
 
 
+def fetch_polymarket_win_rate():
+    """Calculate win rate from all Polymarket trades — buy avg vs sell avg per position."""
+    try:
+        import requests
+        wallet = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
+        offset = 0
+        all_activity = []
+        while True:
+            r = requests.get(f"https://data-api.polymarket.com/activity?user={wallet.lower()}&limit=100&offset={offset}", timeout=15)
+            batch = r.json()
+            if not batch:
+                break
+            all_activity.extend(batch)
+            if len(batch) < 100:
+                break
+            offset += 100
+
+        from collections import defaultdict
+        positions = defaultdict(lambda: {"buys": [], "sells": []})
+        for a in all_activity:
+            token = a.get("asset", "?")
+            side = a.get("side", "")
+            price = float(a.get("price", 0))
+            size = float(a.get("size", 0))
+            usdc = float(a.get("usdcSize", 0))
+            if side == "BUY" and price > 0:
+                positions[token]["buys"].append({"price": price, "size": size, "usdc": usdc})
+            elif side == "SELL" and price > 0:
+                positions[token]["sells"].append({"price": price, "size": size, "usdc": usdc})
+
+        wins = 0
+        losses = 0
+        for token, data in positions.items():
+            if not data["buys"] or not data["sells"]:
+                continue
+            buy_total = sum(b["usdc"] for b in data["buys"])
+            buy_qty = sum(b["size"] for b in data["buys"])
+            avg_buy = buy_total / buy_qty if buy_qty > 0 else 0
+            sell_total = sum(s["usdc"] for s in data["sells"])
+            sell_qty = sum(s["size"] for s in data["sells"])
+            avg_sell = sell_total / sell_qty if sell_qty > 0 else 0
+            if avg_sell > avg_buy:
+                wins += 1
+            else:
+                losses += 1
+
+        total = wins + losses
+        win_rate = (wins / total * 100) if total > 0 else 0
+        return {"win_rate": win_rate, "wins": wins, "losses": losses, "total": total}
+    except Exception as e:
+        print(f"  ⚠ Win rate calc failed: {e}")
+        return {"win_rate": 0, "wins": 0, "losses": 0, "total": 0}
 def main():
+
     print("🚀 Novaire Signal — generating daily brief...")
 
     print("  📡 Fetching weather...")
@@ -2599,6 +2638,8 @@ def main():
     bot_accounts_html = ""
 
     # Polymarket — Barron147
+    print("  🎰 Calculating Polymarket win rate...")
+    pm_wr = fetch_polymarket_win_rate()
     poly_full = fetch_polymarket()
     if poly_full["positions"] or poly_full.get("total_account", 0) > 0:
         pm_inception = 222.00  # confirmed by Novaire Mar 15  # reset 2026-03-03
@@ -2640,12 +2681,14 @@ def main():
         bot_accounts_html += f"""<div class="card">
     <div class="card-title">🎰 Polymarket — Barron147</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception Capital: ${pm_inception:.2f}</span><span>Account: Barron147</span></div>
-    <table style="width:100%;border-collapse:collapse">
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.75rem"><span>Win Rate: {pm_wr['win_rate']:.0f}% ({pm_wr['wins']}W/{pm_wr['losses']}L · {pm_wr['total']} trades)</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0 4px;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${pm_total:.2f}</span><span style="color:{pm_roi_color}">Inception ROI: {pm_roi_str}</span></div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Open Positions</div>
+    <div><table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Contract</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
       {pm_rows}
       <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${pm_cash:.2f}</td><td></td></tr>
-    </table>
-    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${pm_total:.2f}</span><span style="color:{pm_roi_color}">Inception ROI: {pm_roi_str}</span></div>
+    </table></div>
   </div>"""
 
     # Alpaca — Two-tier structure
@@ -2709,6 +2752,22 @@ def main():
     </table>
     <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t2_rpnl_color};font-weight:600">{t2_rpnl_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $1,500.00 · Launching April 1, 2026</span><span>Leveraged crypto portfolio</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.68rem;color:var(--mute)"><span>70% BTC/ETH (3:1 margin) · 30% TON/ZEC/SOL (2:1 margin)</span></div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Planned Positions</div>
+    <div><table style="width:100%;border-collapse:collapse">
+      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Capital</th><th style="text-align:right">Leverage</th><th style="text-align:right">Exposure</th></tr>
+      <tr><td style="font-size:.75rem">BTC</td><td style="text-align:right;font-size:.75rem">$525</td><td style="text-align:right;font-size:.75rem">3:1</td><td style="text-align:right;font-size:.75rem">$1,575</td></tr>
+      <tr><td style="font-size:.75rem">ETH</td><td style="text-align:right;font-size:.75rem">$525</td><td style="text-align:right;font-size:.75rem">3:1</td><td style="text-align:right;font-size:.75rem">$1,575</td></tr>
+      <tr><td style="font-size:.75rem">TON</td><td style="text-align:right;font-size:.75rem">$150</td><td style="text-align:right;font-size:.75rem">2:1</td><td style="text-align:right;font-size:.75rem">$300</td></tr>
+      <tr><td style="font-size:.75rem">ZEC</td><td style="text-align:right;font-size:.75rem">$150</td><td style="text-align:right;font-size:.75rem">2:1</td><td style="text-align:right;font-size:.75rem">$300</td></tr>
+      <tr><td style="font-size:.75rem">SOL</td><td style="text-align:right;font-size:.75rem">$150</td><td style="text-align:right;font-size:.75rem">2:1</td><td style="text-align:right;font-size:.75rem">$300</td></tr>
+      <tr style="border-top:1px solid var(--border);font-weight:600"><td style="font-size:.75rem;padding-top:6px">Total</td><td style="text-align:right;font-size:.75rem;padding-top:6px">$1,500</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">$4,050</td></tr>
+    </table></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Pre-launch · Awaiting funding</span><span>Exchange: Kraken</span></div>
   </div>"""
 
     # ── Evolution Fund ──
@@ -2791,7 +2850,8 @@ def main():
         evo_fund_html = f"""<div class="card">
     <div class="card-title">🏛️ Evolution Fund</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.68rem;color:var(--mute)"><span>Negentropy Evolution Fund · Live Positions</span><span><a href="https://evolution.fund" style="color:var(--gold);text-decoration:none">evolution.fund</a></span></div>
-    <table class="portfolio-table">
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings ({len(EVO_HOLDINGS)+1} positions)</div>
+    <div><table class="portfolio-table">
       <thead><tr>
         <th>Ticker</th><th>Position</th>
         <th style="text-align:right">Shares</th>
@@ -2801,7 +2861,7 @@ def main():
         <th style="text-align:right">G/L %</th>
       </tr></thead>
       <tbody>{evo_rows}</tbody>
-    </table>
+    </table></div>
     <div class="totals-row">
       <div class="total-item">
         <div class="total-label">Total Value</div>
