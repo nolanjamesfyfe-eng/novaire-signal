@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-03-16T04:00:43.273749+00:00",
+  "fetchedAt": "2026-03-16T06:00:08.175214+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "hkuppy"
+  ],
   "posts": [
     {
       "id": "2033389071536427298",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2033387813169754623",
-      "text": "Squashed between two giants, India and China, Nepal is used to being a buffer state where the two vie for influence. Balendra Shah’s vision is to make it a “bridge” https://www.economist.com/asia/2026/03/12/nepals-new-prime-minister-is-a-35-year-old-former-rapper?taid=69b77b975670740001960a57&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2033418012343095691",
+      "text": "South Korea’s president calls Seoul’s white-hot property market “the fountainhead of all problems” for the country. Since taking office, he has rolled out measures to fix it  https://www.economist.com/asia/2026/03/12/seouls-housing-market-is-a-huge-political-and-economic-headache?taid=69b797b7f9dd4700017e1b66&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-16T03:40:07+00:00",
-      "createdAtMs": 1773632407000,
+      "createdAt": "2026-03-16T05:40:07+00:00",
+      "createdAtMs": 1773639607000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2033387813169754623#m",
+      "url": "https://x.com/TheEconomist/status/2033418012343095691#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
