@@ -26,8 +26,12 @@
 
     .header-brand{text-align:center;padding-bottom:20px}
 
-    .signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem}
-    .signal-bolt:hover{opacity:.7;transform:scale(1.1)}
+    .signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-2px;transition:all .3s ease}
+    .signal-bolt svg{width:18px;height:18px;filter:drop-shadow(0 0 6px rgba(255,50,200,.5)) drop-shadow(0 0 12px rgba(0,200,255,.4));transition:all .3s ease}
+    .signal-bolt:hover svg{filter:drop-shadow(0 0 10px rgba(255,50,200,.8)) drop-shadow(0 0 20px rgba(0,200,255,.7)) drop-shadow(0 0 30px rgba(255,100,255,.4));transform:scale(1.15)}
+    .signal-bolt svg path{fill:none;stroke:url(#neon-grad);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    @keyframes neon-flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.8}94%{opacity:1}96%{opacity:.9}97%{opacity:1}}
+    .signal-bolt svg{animation:neon-flicker 4s infinite}
 
     .dateline{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}
     .dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
@@ -210,13 +214,12 @@
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
-    <!-- bolt-legacy
+    <div class="footer-logo">Novaire <span>Signal</span><a href="/portfolio" class="signal-bolt" title="⚡">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="neon-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff32c8"/><stop offset="50%" stop-color="#c850ff"/><stop offset="100%" stop-color="#00c8ff"/></linearGradient></defs>
         <path d="M13 2L4 13h7l-1 9 9-11h-7l1-9z"/>
       </svg>
-    bolt-legacy -->
+    </a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -237,9 +240,9 @@
     </div>
   </a>
 
-  <!-- QUOTE (1 per day — alternates investing/psychology) -->
+  <!-- QUOTES (2 per day — client-side localStorage dedup) -->
   <div class="card">
-    <div class="card-title">📜 Quote of the Day</div>
+    <div class="card-title">📜 Quotes</div>
     <div id="quote-daily" class="quote">
       <div class="quote-type" id="qt-type"></div>
       <div class="quote-text" id="qt-text"></div>
@@ -253,58 +256,67 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:01</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:00</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">—</div>
-          <div class="condition">—</div>
+          <div class="temp">32°C</div>
+          <div class="condition">Showers 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Hot Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 —% · AQI — (—)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 58% · AQI 172 (Unhealthy)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:01</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:00</div>
           <div class="city">🇨🇴 Medellín</div>
-          <div class="temp">—</div>
-          <div class="condition">—</div>
+          <div class="temp">24°C</div>
+          <div class="condition">Partly Cloudy ⛅</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 —% · AQI — (—)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 84% · AQI 56 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:01</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:00</div>
           <div class="city">🇨🇦 Edmonton</div>
-          <div class="temp">-6°C</div>
+          <div class="temp">-7°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 68% · AQI 61 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 66% · AQI 62 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:01</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:00</div>
           <div class="city">🇺🇾 Montevideo</div>
-          <div class="temp">21°C</div>
+          <div class="temp">20°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Autumn</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 77% · AQI 30 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 83% · AQI 30 (Good)</div>
         </div>
+    </div>
+  </div>
+
+  <!-- WALL STREET CLOCK -->
+  <div style="text-align:center;padding:8px 0;margin-bottom:14px">
+    <div style="font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">🗽📊 Wall Street Time</div>
+    <div class="live-clock" data-tz-offset="-4" style="font-family:var(--serif);font-size:1.4rem;color:var(--text);letter-spacing:.06em"></div>
+    <div style="font-size:.52rem;color:var(--mute);margin-top:6px;line-height:1.5">
+      NYSE closed: Good Friday · Apr 03 · TSX closed: Good Friday · Apr 03
     </div>
   </div>
 
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · US x Iran ceasefire by March 31?...</span><span style="font-weight:600;color:#4ade80">+59.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Crude Oil (CL) settle at >$84 in Ju...</span><span style="font-weight:600;color:#4ade80">+41.2%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Bitcoin have the best performance i...</span><span style="font-weight:600;color:#4ade80">+36.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Crude Oil (CL) hit (HIGH) $120 by e...</span><span style="font-weight:600;color:#4ade80">+30.9%</span></div>
-  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Inception ROI:</span><span style="color:#4ade80">+7.8%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · US x Iran ceasefire by March 31?...</span><span style="font-weight:600;color:#4ade80">+61.1%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Crude Oil (CL) settle at >$84 in Ju...</span><span style="font-weight:600;color:#4ade80">+38.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Bitcoin have the best performance i...</span><span style="font-weight:600;color:#4ade80">+36.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Crude Oil (CL) hit (HIGH) $120 by e...</span><span style="font-weight:600;color:#4ade80">+34.2%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Inception ROI:</span><span style="color:#4ade80">+0.3%</span></div>
 </div>
 
   <div class="card">
     <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
     <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Automated momentum scalper · 3 trades</div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 LEU</span><span style="font-weight:600;color:#4ade80">+13.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-3.3%</span></div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#4ade80">+10.0%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 LEU</span><span style="font-weight:600;color:#4ade80">+12.0%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-4.9%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#4ade80">+8.1%</span></div>
   </div>
   <div class="card">
     <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
     <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas box breakout bot · 0 trades</div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 AAPD</span><span style="font-weight:600;color:#4ade80">+0.4%</span></div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#4ade80">+0.0%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 AAPD</span><span style="font-weight:600;color:#4ade80">+1.3%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#4ade80">+0.1%</span></div>
   </div>
 
   <!-- FX RATES -->
@@ -318,31 +330,31 @@
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇹🇭 THB</div>
-          <span class="fx-rate">32.460</span>
+          <span class="fx-rate">32.510</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇦🇺 AUD</div>
-          <span class="fx-rate">1.425</span>
+          <span class="fx-rate">1.426</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇨🇴 COP</div>
-          <span class="fx-rate">3,695.560</span>
+          <span class="fx-rate">3,698.610</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇪🇺 EUR</div>
-          <span class="fx-rate">0.874</span>
+          <span class="fx-rate">0.875</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇷🇺 RUB</div>
-          <span class="fx-rate">80.540</span>
+          <span class="fx-rate">80.990</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇰🇷 KRW</div>
-          <span class="fx-rate">1,495.880</span>
+          <span class="fx-rate">1,497.680</span>
         </div>
         <div class="fx-item">
           <div class="fx-ccy">🇯🇵 JPY</div>
-          <span class="fx-rate">159.206</span>
+          <span class="fx-rate">159.260</span>
         </div>
     </div>
   </div>
@@ -353,15 +365,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/geopolitical/echoes-iraq-mainstream-media-deja-vu-over-framing-war-iran" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Echoes Of Iraq: Mainstream Media 'Deja Vu' Over Framing Of The War On Iran</a>
+          <a href="https://www.zerohedge.com/personal-finance/nordic-nations-rank-among-happiest-wealthiest-world" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Nordic Nations Rank Among Happiest & Wealthiest In The World</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/personal-finance/alaskans-carry-most-lifetime-credit-card-debt-all-americans-iowans-least" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Alaskans Carry The Most Lifetime Credit-Card Debt Of All Americans, Iowans The Least</a>
+          <a href="https://www.zerohedge.com/geopolitical/berlin-youth-center-hid-girls-gang-rape-usual-suspects-avoid-typical-muslim-label" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Berlin Youth Center Hid Girl's Gang-Rape By The Usual Suspects To Avoid 'Typical Muslim' Label</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/political/tucker-carlson-claims-cia-trying-frame-him-fara-violation-loomer-celebrates" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">White House Denies Tucker Carlson CIA Spy-Op</a>
+          <a href="https://www.zerohedge.com/geopolitical/echoes-iraq-mainstream-media-deja-vu-over-framing-war-iran" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Echoes Of Iraq: Mainstream Media 'Deja Vu' Over Framing Of The War On Iran</a>
         </div>
   </div>
 
@@ -409,12 +421,6 @@
       return [...posts].sort((a, b) => (a.slot_order || 99) - (b.slot_order || 99));
     }
 
-    const AVATARS = {
-      'zerohedge': 'https://pbs.twimg.com/profile_images/1611028386511671296/6hGtN8Dn_normal.jpg',
-      'TheEconomist': 'https://pbs.twimg.com/profile_images/1220800632006463489/NC8m-INn_normal.jpg',
-      'KobeissiLetter': 'https://pbs.twimg.com/profile_images/1590487764109316098/TOFJaQ6X_normal.jpg',
-    };
-
     function renderFeed(posts) {
       const container = document.getElementById('signal-feed');
       if (!posts.length) {
@@ -425,7 +431,7 @@
         <div class="feed-item">
           <div class="feed-header">
             <div class="feed-author">
-              ${(p.avatar || AVATARS[p.handle]) ? `<img class="feed-avatar" src="${escHtml(p.avatar || AVATARS[p.handle] || '')}" alt="" loading="lazy" onerror="this.style.display='none'">` : '<div class="feed-avatar"></div>'}
+              ${p.avatar ? `<img class="feed-avatar" src="${escHtml(p.avatar)}" alt="" loading="lazy" onerror="this.style.display='none'">` : '<div class="feed-avatar"></div>'}
               <div>
                 <div class="feed-name">${escHtml(p.author)}</div>
                 <div class="feed-handle">@${escHtml(p.handle)}</div>
@@ -525,7 +531,7 @@
   <div class="card">
     <div class="card-title">🎯 Radar Ideas</div>
     <div class="radar-label">🪙 Micro-Cap Crypto</div>
-    <div class="radar-item"><span class="radar-source">[r/altcoins]</span> <span class="radar-idea">Memecoin Hunter Is An Early Find Most People Miss</span></div>
+    <div class="radar-item"><span class="radar-idea">New AI crypto infrastructure projects launching weekly — scan r/CryptoMoonShots daily for sub-$50M cap gems.</span></div>
     <div class="radar-label" style="margin-top:12px">⛏️ Micro-Cap Resources</div>
     <div class="radar-item"><span class="radar-idea">Critical minerals ETF rotation incoming — scout early-stage graphene and lithium plays under $200M cap.</span></div>
     <div style="margin-top:8px;font-size:.6rem;color:var(--mute)">Live · Reddit · News · 4Chan /biz/ · Barbell plays $500–$1K · Updates every build</div>
@@ -538,33 +544,33 @@
       
         <div class="commodity-item">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold">$5,021</div>
+          <div class="commodity-price c-gold">$5,001</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change"><span class="negative">-0.63%</span></div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver">$80.39</div>
+          <div class="commodity-price c-silver">$79.48</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change"><span class="negative">-0.64%</span></div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper">$5.7625</div>
+          <div class="commodity-price c-copper">$5.7400</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change"><span class="positive">+0.84%</span></div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil">$98.69</div>
+          <div class="commodity-price c-oil">$100.80</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change"><span class="negative">-0.02%</span></div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium">$1,578</div>
+          <div class="commodity-price c-palladium">$1,565</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change"><span class="positive">+1.51%</span></div>
+          <div class="commodity-change"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -582,33 +588,33 @@
       
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" style="color:#f7931a">$74,170</div>
-          <div class="crypto-change"><span class="positive">+3.72%</span></div>
+          <div class="crypto-price" style="color:#f7931a">$73,518</div>
+          <div class="crypto-change"><span class="positive">+2.81%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" style="color:#627eea">$2,280</div>
-          <div class="crypto-change"><span class="positive">+8.11%</span></div>
+          <div class="crypto-price" style="color:#627eea">$2,252</div>
+          <div class="crypto-change"><span class="positive">+6.82%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" style="color:#9945ff">$94.01</div>
-          <div class="crypto-change"><span class="positive">+6.39%</span></div>
+          <div class="crypto-price" style="color:#9945ff">$93.68</div>
+          <div class="crypto-change"><span class="positive">+6.09%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" style="color:#346aa9">$1.4805</div>
-          <div class="crypto-change"><span class="positive">+4.67%</span></div>
+          <div class="crypto-price" style="color:#346aa9">$1.4856</div>
+          <div class="crypto-change"><span class="positive">+5.49%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" style="color:#0098ea">$1.3250</div>
-          <div class="crypto-change"><span class="positive">+2.32%</span></div>
+          <div class="crypto-price" style="color:#0098ea">$1.3220</div>
+          <div class="crypto-change"><span class="positive">+2.56%</span></div>
         </div>
         <div class="crypto-item">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" style="color:#f4b728">$236.42</div>
-          <div class="crypto-change"><span class="positive">+3.96%</span></div>
+          <div class="crypto-price" style="color:#f4b728">$234.36</div>
+          <div class="crypto-change"><span class="positive">+3.92%</span></div>
         </div>
     </div>
   </div>
@@ -664,7 +670,7 @@
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
+    <div class="footer-logo">Novaire <span>Signal</span></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
@@ -775,9 +781,9 @@ function getQuoteForToday(storageKey, quotes) {
 
 (function renderQuotes() {
   const day = new Date().getDate();
-  const isInvesting = day % 2 === 0;
-  const q = isInvesting ? getQuoteForToday('investing', QUOTES_INVESTING) : getQuoteForToday('psychology', QUOTES_PSYCHOLOGY);
-  document.getElementById('qt-type').textContent = isInvesting ? 'Investing' : 'Psychology';
+  const isInv = day % 2 === 0;
+  const q = isInv ? getQuoteForToday('investing', QUOTES_INVESTING) : getQuoteForToday('psychology', QUOTES_PSYCHOLOGY);
+  document.getElementById('qt-type').textContent = isInv ? 'Investing' : 'Psychology';
   document.getElementById('qt-text').textContent = '“' + q.text + '”';
   document.getElementById('qt-auth').textContent = '— ' + q.author;
 })();

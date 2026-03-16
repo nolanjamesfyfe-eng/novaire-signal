@@ -1319,6 +1319,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     date_str  = now.strftime("%A, %B %-d, %Y")
     gen_time  = now.strftime("%H:%M UTC")
 
+    # ── Next market holidays ──
+    from datetime import date as _date
+    _today = now.date()
+    _nyse = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,25),"Memorial Day"),(_date(2026,6,19),"Juneteenth"),(_date(2026,7,3),"Independence Day"),(_date(2026,9,7),"Labor Day"),(_date(2026,11,26),"Thanksgiving"),(_date(2026,12,25),"Christmas")]
+    _tsx = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,18),"Victoria Day"),(_date(2026,7,1),"Canada Day"),(_date(2026,8,3),"Civic Holiday"),(_date(2026,9,7),"Labour Day"),(_date(2026,10,12),"Thanksgiving"),(_date(2026,12,25),"Christmas"),(_date(2026,12,28),"Boxing Day")]
+    next_nyse_str = next((f"{n} · {d.strftime('%b %d')}" for d, n in _nyse if d > _today), "None scheduled")
+    next_tsx_str = next((f"{n} · {d.strftime('%b %d')}" for d, n in _tsx if d > _today), "None scheduled")
+
     # ── Portfolio calculations ──
     total_usd   = 0
     sector_totals = {}
@@ -1491,7 +1499,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     # ── ZeroHedge HTML ──
     zh_html = ""
-    for i, item in enumerate(zh_news[:4], 1):
+    for i, item in enumerate(zh_news[:3], 1):
         zh_html += f"""
         <div class="headline">
           <span class="headline-num">{i}</span>
@@ -1775,15 +1783,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
   <div class="card">
     <div class="card-title">📜 Quotes</div>
-    <div id="quote-investing" class="quote">
-      <div class="quote-type">Investing</div>
-      <div class="quote-text" id="qt-inv-text"></div>
-      <div class="quote-author" id="qt-inv-auth"></div>
-    </div>
-    <div id="quote-psychology" class="quote">
-      <div class="quote-type">Psychology</div>
-      <div class="quote-text" id="qt-psy-text"></div>
-      <div class="quote-author" id="qt-psy-auth"></div>
+    <div id="quote-daily" class="quote">
+      <div class="quote-type" id="qt-type"></div>
+      <div class="quote-text" id="qt-text"></div>
+      <div class="quote-author" id="qt-auth"></div>
     </div>
   </div>
 
@@ -1792,6 +1795,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">🌤 Weather</div>
     <div class="weather-grid">
       {weather_html}
+    </div>
+  </div>
+
+  <!-- WALL STREET CLOCK -->
+  <div style="text-align:center;padding:8px 0;margin-bottom:14px">
+    <div style="font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">🗽📊 Wall Street Time</div>
+    <div class="live-clock" data-tz-offset="-4" style="font-family:var(--serif);font-size:1.4rem;color:var(--text);letter-spacing:.06em"></div>
+    <div style="font-size:.52rem;color:var(--mute);margin-top:6px;line-height:1.5">
+      NYSE closed: {next_nyse_str} · TSX closed: {next_tsx_str}
     </div>
   </div>
 
@@ -1875,7 +1887,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             </div>
             <div class="feed-time">${{timeAgo(p.createdAt)}}</div>
           </div>
-          <div class="feed-text">${{escHtml(p.text)}}</div>
+          <div class="feed-text">${{escHtml(p.text).split(' ').slice(0, 15).join(' ')}}${{escHtml(p.text).split(' ').length > 15 ? '…' : ''}}</div>
           <div class="feed-stats">
             <div class="feed-stat">♥ <span>${{fmtNum(p.likes)}}</span></div>
             <div class="feed-stat">↺ <span>${{fmtNum(p.retweets)}}</span></div>
@@ -2072,12 +2084,12 @@ function getQuoteForToday(storageKey, quotes) {{
 }}
 
 (function renderQuotes() {{
-  const qi = getQuoteForToday('investing', QUOTES_INVESTING);
-  const qp = getQuoteForToday('psychology', QUOTES_PSYCHOLOGY);
-  document.getElementById('qt-inv-text').textContent = '\u201c' + qi.text + '\u201d';
-  document.getElementById('qt-inv-auth').textContent = '\u2014 ' + qi.author;
-  document.getElementById('qt-psy-text').textContent = '\u201c' + qp.text + '\u201d';
-  document.getElementById('qt-psy-auth').textContent = '\u2014 ' + qp.author;
+  const day = new Date().getDate();
+  const isInv = day % 2 === 0;
+  const q = isInv ? getQuoteForToday('investing', QUOTES_INVESTING) : getQuoteForToday('psychology', QUOTES_PSYCHOLOGY);
+  document.getElementById('qt-type').textContent = isInv ? 'Investing' : 'Psychology';
+  document.getElementById('qt-text').textContent = '\u201c' + q.text + '\u201d';
+  document.getElementById('qt-auth').textContent = '\u2014 ' + q.author;
 }})();
 
 // Recommendations are now server-side rendered (live trending data)
