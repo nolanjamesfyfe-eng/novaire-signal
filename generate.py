@@ -1476,7 +1476,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         local_time_str = local_time.strftime("%H:%M")
         weather_html += f"""
         <div class="weather-item">
-          <div class="condition" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">{local_time_str}</div>
+          <div class="condition live-clock" data-tz-offset="{w.get('tz_offset', 0)}" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">{local_time_str}</div>
           <div class="city">{w['flag']} {w['name']}</div>
           <div class="temp">{temp_str}</div>
           <div class="condition">{w['condition']}</div>
@@ -2081,6 +2081,10 @@ function getQuoteForToday(storageKey, quotes) {{
 }})();
 
 // Recommendations are now server-side rendered (live trending data)
+</script>
+<script>
+// Live world clocks
+!function(){{var u=function(){{document.querySelectorAll(".live-clock").forEach(function(e){{var o=parseInt(e.getAttribute("data-tz-offset"))||0,n=new Date,t=n.getTime()+n.getTimezoneOffset()*6e4,l=new Date(t+o*36e5);e.textContent=String(l.getHours()).padStart(2,"0")+":"+String(l.getMinutes()).padStart(2,"0")+":"+String(l.getSeconds()).padStart(2,"0")}})}}; u(); setInterval(u,1e3)}}();
 </script>
 </body>
 </html>"""
