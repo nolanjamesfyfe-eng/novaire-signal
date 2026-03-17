@@ -1436,11 +1436,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             d = fx_rates.get(ccy)
             if not d:
                 continue
+            # Shorten large numbers for compact strip
+            val = d['fmt']
             fx_rates_html += f"""
-        <div class="fx-item">
-          <div class="fx-ccy">{d['icon']} {ccy}</div>
-          <span class="fx-rate">{d['fmt']}</span>
-        </div>"""
+      <div class="fx-chip"><div class="fx-ccy">{d['icon']} {ccy}</div><span class="fx-rate">{val}</span></div>"""
 
     # ── Weather HTML ──
     import datetime as _dt
@@ -1683,10 +1682,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .sat-sentence{{font-size:.78rem;color:var(--dim);line-height:1.5;border-left:2px solid var(--gold-mid);padding-left:10px}}
     .sat-source{{font-size:.68rem;color:var(--mute);margin-top:8px;text-align:right}}
 
-    .fx-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}}
-    .fx-item{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 8px;text-align:center;font-size:.78rem;color:var(--dim)}}
-    .fx-item .fx-ccy{{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;color:var(--dim)}}
-    .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.95rem;font-weight:600;color:var(--gold);margin-top:2px}}
+    .fx-row{{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:4px}}
+    .fx-chip{{text-align:center;min-width:0;flex:1 1 0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:6px 4px}}
+    .fx-chip .fx-ccy{{font-size:.54rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);white-space:nowrap}}
+    .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--gold);margin-top:1px}}
 
     .feed-controls{{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}}
     .feed-refresh{{font-size:.6rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:4px 8px;border-radius:var(--r);font-family:var(--sans)}}
@@ -1727,7 +1726,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(3,1fr)}}
       .crypto-grid{{grid-template-columns:repeat(3,1fr)}}
-      .fx-grid{{grid-template-columns:repeat(2,1fr)}}
+      .fx-row{{gap:4px}}
+      .fx-chip .fx-ccy{{font-size:.5rem}}
+      .fx-chip .fx-rate{{font-size:.7rem}}
       .allocation-section{{flex-direction:column}}
       .rec-grid{{grid-template-columns:1fr}}
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
@@ -1789,7 +1790,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <div class="card">
     <div class="card-title">💱 FX Rates — 1 USD =</div>
-    <div class="fx-grid">
+    <div class="fx-row">
       {fx_rates_html}
     </div>
   </div>
