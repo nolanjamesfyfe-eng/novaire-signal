@@ -1,16 +1,11 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-03-17T04:01:05.179027+00:00",
+  "count": 4,
+  "accountsWithPosts": 4,
+  "fetchedAt": "2026-03-17T06:00:53.770250+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "TheEconomist",
-    "nntaleb",
-    "JoshYoung",
-    "colonelhomsi"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2033747682993258521",
@@ -25,6 +20,20 @@
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 1
+    },
+    {
+      "id": "2033780385604116509",
+      "text": "Xi Jinping’s pet project, Xiongan, offers perks to its growing number of residents. But it is becoming an elite enclave, home to the government’s most privileged workers https://www.economist.com/finance-and-economics/2025/08/07/xi-jinpings-city-of-the-future-is-coming-to-life?taid=69b8e93420a7c80001903a57&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "author": "TheEconomist",
+      "handle": "TheEconomist",
+      "createdAt": "2026-03-17T05:40:04+00:00",
+      "createdAtMs": 1773726004000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/TheEconomist/status/2033780385604116509#m",
+      "avatar": null,
+      "slot": "guaranteed",
+      "slot_order": 2
     },
     {
       "id": "2033744259933765663",
