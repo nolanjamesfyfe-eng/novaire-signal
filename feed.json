@@ -1,14 +1,14 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-03-17T04:01:05.179027+00:00",
+  "count": 4,
+  "accountsWithPosts": 4,
+  "fetchedAt": "2026-03-17T05:13:37.929410+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
   "errors": [
-    "TheEconomist",
-    "nntaleb",
+    "BambroughKevin",
     "JoshYoung",
+    "White_Rabbit_OG",
     "colonelhomsi"
   ],
   "posts": [
@@ -27,6 +27,20 @@
       "slot_order": 1
     },
     {
+      "id": "2033770368796664305",
+      "text": "The management consultant’s guide to love and sex https://www.economist.com/1843/2020/02/20/between-the-spreadsheets?taid=69b8dfe020a7c80001903a33&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "author": "TheEconomist",
+      "handle": "TheEconomist",
+      "createdAt": "2026-03-17T05:00:16+00:00",
+      "createdAtMs": 1773723616000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/TheEconomist/status/2033770368796664305#m",
+      "avatar": null,
+      "slot": "guaranteed",
+      "slot_order": 2
+    },
+    {
       "id": "2033744259933765663",
       "text": "BREAKING: President Trump asks if Venezuela should be the 51st state.",
       "author": "KobeissiLetter",
@@ -41,15 +55,15 @@
       "slot_order": 3
     },
     {
-      "id": "2033624328676512140",
-      "text": "Warren Buffett doesn’t just want a moat around his businesses.\n\nHe wants crocodiles. Sharks. Piranhas. Gators.\n\nQuotes from Buffett & Munger that explain why the moat is everything:\n\n “What I love, of course, is a big castle and a big moat with piranhas and crocodiles.”\n\n“A truly great business must have an enduring ‘moat’ that protects excellent returns on invested capital.”\n\n “The key to investing is not assessing how much an industry is going to affect society… but determining the competitive advantage of any given company and, above all, the durability of that advantage.”\n\n“The products or services that have wide, sustainable moats around them are the ones that deliver rewards to investors.”\n\nHis message to every manager he’s ever hired:\n\n“Widen the moat. Throw crocodiles, sharks, and gators into it. Service. Quality. Cost. Patents. Location. Whatever it takes.”\n\nCharlie Munger said it plainly:\n\n“A moat is an intrinsic characteristic that gives the business a durable competitive advantage.”\n\nFor me, the best companies to invest in are the ones you can tell are busy building a moat.  \n\nCompanies on the forefront of new technologies that understand them better than anyone else.  \n\nThese businesses will quietly behind the scenes engineer new patents that will yield incredible ROI.\n\nThe patents the $hg $hgraf has and are developing are akin to engineering convex options on the future of tomorrow’s leading product innovations. \n\nIt’s incredibly difficult to value them.  Still, attempting to value them leads to a definite conclusion that you must own a piece of them.",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-03-16T19:19:57+00:00",
-      "createdAtMs": 1773688797000,
+      "id": "2033748069032898875",
+      "text": "The Iranians ramped the price of oil, forced OPEC to shut in a bunch of barrels, and are still shipping theirs with no issues… \n\nSeriously, tell me the boys at Vitol aren’t watching this move in awe…🤣",
+      "author": "hkuppy",
+      "handle": "hkuppy",
+      "createdAt": "2026-03-17T03:31:39+00:00",
+      "createdAtMs": 1773718299000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/BambroughKevin/status/2033624328676512140#m",
+      "url": "https://x.com/hkuppy/status/2033748069032898875#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4
