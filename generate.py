@@ -1245,10 +1245,12 @@ def fetch_fx_rates():
             rate = fallback
 
         # Format rate
-        if currency in ("KRW", "COP", "JPY"):
-            fmt = f"{rate:,.3f}"
+        if currency in ("KRW", "COP"):
+            fmt = f"{rate:,.0f}"
+        elif currency == "JPY":
+            fmt = f"{rate:.2f}"
         else:
-            fmt = f"{rate:.3f}"
+            fmt = f"{rate:.2f}"
 
         results[currency] = {
             "rate":   rate,
