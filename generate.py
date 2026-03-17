@@ -591,8 +591,8 @@ def fetch_trending_recs():
     - Book: Amazon Business bestsellers #1 title + Open Library description
     Fallback to hardcoded picks on any failure.
     """
-    rec_movie = {"label": "📺 Now Watching", "title": "Margin Call", "meta": "Prime · Kevin Spacey, Jeremy Irons", "summary": "24 hours inside a bank on the eve of financial collapse. Cold, precise, and brilliantly acted."}
-    rec_book  = {"label": "📖 Now Reading",  "title": "The Black Swan", "meta": "Nassim Taleb · Philosophy/Risk", "summary": "Why rare, unpredictable events drive history and markets. The book that should have predicted 2008."}
+    rec_movie = {"label": "📺 Now Watching", "title": "The Tank", "meta": "German · WWI Drama", "summary": "Brutal, immersive WWI tank warfare from the German side. Pervitin-fueled crew pushing through hell."}
+    rec_book  = {"label": "📖 Now Reading",  "title": "The Psychology of Money", "meta": "Morgan Housel · Finance/Behavior", "summary": "Timeless lessons on wealth, greed, and happiness. Why financial success is more about behavior than intelligence."}
 
     # ── Movie: FlixPatrol trending → OMDB description ──
     try:
@@ -1500,11 +1500,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         price_str = fmt_price(c["price"]) if c["price"] else "—"
         chg_html  = fmt_pct(c["change"]) if c["change"] is not None else '<span style="color:var(--dim)">—</span>'
         comm_html += f"""
-        <div class="commodity-item">
+        <div class="commodity-item" data-commodity="{sym}">
           <div class="commodity-name {c['cls']}">{c['name']}</div>
-          <div class="commodity-price {c['cls']}">{price_str}</div>
+          <div class="commodity-price {c['cls']}" data-comm-price="{sym}">{price_str}</div>
           <div class="commodity-unit">{c['unit']}</div>
-          <div class="commodity-change">{chg_html}</div>
+          <div class="commodity-change" data-comm-chg="{sym}">{chg_html}</div>
         </div>"""
 
     # ── Crypto HTML ──
@@ -1519,10 +1519,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         chg_html  = fmt_pct(chg) if chg is not None else '<span style="color:var(--dim)">—</span>'
         color     = crypto_colors.get(coin, "#e0dde8")
         crypto_html += f"""
-        <div class="crypto-item">
+        <div class="crypto-item" data-coin="{coin}">
           <div class="crypto-symbol" style="color:{color}">{coin}</div>
-          <div class="crypto-price" style="color:{color}">{price_str}</div>
-          <div class="crypto-change">{chg_html}</div>
+          <div class="crypto-price" data-crypto-price="{coin}" style="color:{color}">{price_str}</div>
+          <div class="crypto-change" data-crypto-chg="{coin}">{chg_html}</div>
         </div>"""
 
     # Full HTML template
@@ -1975,15 +1975,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="rec-grid">
       <div class="rec-item">
         <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">Red Oaks</div>
-        <div class="rec-meta">Prime · Comedy/Drama · 2014-2017</div>
-        <div class="rec-summary">Coming-of-age in the '80s at a New Jersey country club. Sharp writing, great soundtrack, quietly brilliant.</div>
+        <div class="rec-title">The Tank</div>
+        <div class="rec-meta">German · WWI Drama</div>
+        <div class="rec-summary">Brutal, immersive WWI tank warfare from the German side. Pervitin-fueled crew pushing through hell.</div>
       </div>
       <div class="rec-item">
         <div class="rec-label">📖 Reading</div>
-        <div class="rec-title">Rules for a Knight</div>
-        <div class="rec-meta">Ethan Hawke · Novel · 2015</div>
-        <div class="rec-summary">A medieval knight's letter to his children — timeless virtues dressed in armor. Hawke at his most surprising.</div>
+        <div class="rec-title">The Psychology of Money</div>
+        <div class="rec-meta">Morgan Housel · Finance/Behavior</div>
+        <div class="rec-summary">Timeless lessons on wealth, greed, and happiness. Why financial success is more about behavior than intelligence.</div>
       </div>
     </div>
     <div style="margin-top:10px;font-size:.6rem;color:var(--mute);text-align:center">Updated monthly</div>
@@ -2067,6 +2067,25 @@ function getQuoteForToday(storageKey, quotes) {{
 <script>
 // Live world clocks
 !function(){{var u=function(){{document.querySelectorAll(".live-clock").forEach(function(e){{var o=parseInt(e.getAttribute("data-tz-offset"))||0,n=new Date,t=n.getTime()+n.getTimezoneOffset()*6e4,l=new Date(t+o*36e5);e.textContent=String(l.getHours()).padStart(2,"0")+":"+String(l.getMinutes()).padStart(2,"0")+":"+String(l.getSeconds()).padStart(2,"0")}})}}; u(); setInterval(u,1e3)}}();
+
+// Live crypto prices (Binance, every 30s)
+!function(){{
+  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","XRP":"XRPUSDT","TON":"TONUSDT","ZEC":"ZECUSDT"}};
+  function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\B(?=(\d{{3}})+(?!\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
+  function updCrypto(){{
+    Object.keys(coins).forEach(function(c){{
+      fetch("https://api.binance.com/api/v3/ticker/24hr?symbol="+coins[c])
+        .then(function(r){{return r.json()}})
+        .then(function(d){{
+          var el=document.querySelector('[data-crypto-price="'+c+'"]');
+          var ce=document.querySelector('[data-crypto-chg="'+c+'"]');
+          if(el)el.textContent=fmt(parseFloat(d.lastPrice));
+          if(ce){{var ch=parseFloat(d.priceChangePercent);ce.innerHTML='<span class="'+(ch>=0?"positive":"negative")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>"}}
+        }}).catch(function(){{}})
+    }})
+  }}
+  updCrypto();setInterval(updCrypto,30000);
+}}();
 </script>
 </body>
 </html>"""
