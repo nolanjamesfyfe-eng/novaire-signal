@@ -2,12 +2,10 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-03-18T10:00:40.670968+00:00",
+  "fetchedAt": "2026-03-18T10:37:40.245762+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "colonelhomsi"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2034204438659821919",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2034203185858978285",
-      "text": "Symptoms include a flagging libido, tiredness, shrinking muscles and growing body fat https://www.economist.com/science-and-technology/2025/06/13/is-the-manopause-real?taid=69ba72f7fec6580001a7de6e&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2034213247960695232",
+      "text": "However it comes about, the opportunity to relax with a coffee or take a nap while your EV recharges may soon be a thing of the past https://www.economist.com/science-and-technology/2026/03/16/rapid-charging-ev-batteries-are-on-the-way?taid=69ba7c56227d84000121a70f&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-18T09:40:07+00:00",
-      "createdAtMs": 1773826807000,
+      "createdAt": "2026-03-18T10:20:06+00:00",
+      "createdAtMs": 1773829206000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2034203185858978285#m",
+      "url": "https://x.com/TheEconomist/status/2034213247960695232#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
