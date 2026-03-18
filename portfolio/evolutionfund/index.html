@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evolution Fund — Covered Call Strategy</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+  <meta name="theme-color" content="#0a0a0c">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080b; --surface: #0f0f14; --surface2: #141419; --border: #1c1c25; --border2: #2a2a38;
+      --text: #edeaf5; --dim: #a09bb5; --mute: #6b6680;
+      --gold: #d4a853; --gold-dim: rgba(212,168,83,.10); --gold-mid: rgba(212,168,83,.25); --gold-bright: #e8c06a;
+      --green: #34d399; --green-dim: rgba(52,211,153,.12); --green-mid: rgba(52,211,153,.30);
+      --red: #f87171; --red-dim: rgba(248,113,113,.10);
+      --blue: #60a5fa; --blue-dim: rgba(96,165,250,.10);
+      --violet: #a78bfa; --violet-dim: rgba(167,139,250,.10);
+      --cyan: #22d3ee; --orange: #fb923c; --amber: #fbbf24;
+      --sans: 'Inter', -apple-system, sans-serif;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --mono: 'JetBrains Mono', monospace;
+      --r: 8px; --r2: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans); background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    .hero {
+      text-align: center; padding: 60px 20px 40px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(212,168,83,.06) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .65rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(212,168,83,.18);
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: var(--serif); font-size: 2.6rem; font-weight: 400;
+      color: var(--gold-bright); letter-spacing: .02em; margin-bottom: 8px;
+    }
+    .hero-sub { font-size: .85rem; color: var(--dim); max-width: 500px; margin: 0 auto 20px; }
+    .hero-date { font-size: .65rem; color: var(--mute); letter-spacing: .15em; text-transform: uppercase; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 30px 16px; }
+
+    .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 32px; }
+    .sum-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      padding: 18px 14px; text-align: center;
+    }
+    .sum-card.highlight { border-color: var(--gold-mid); background: linear-gradient(135deg, var(--gold-dim), var(--surface)); }
+    .sum-card.mmf { border-color: rgba(34,211,238,.2); background: linear-gradient(135deg, rgba(34,211,238,.05), var(--surface)); }
+    .sum-label {
+      font-size: .55rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--mute); margin-bottom: 6px;
+    }
+    .sum-val { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; }
+    .sum-sub { font-size: .68rem; color: var(--dim); margin-top: 3px; }
+
+    .section-title {
+      font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 18px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--gold-mid), transparent);
+    }
+
+    .holdings-wrap {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      overflow: hidden; margin-bottom: 32px;
+    }
+    .holdings-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+    .holdings-table th {
+      text-align: left; padding: 12px 10px; font-size: .55rem; font-weight: 700;
+      color: var(--mute); text-transform: uppercase; letter-spacing: .1em;
+      background: var(--surface2); border-bottom: 1px solid var(--border2);
+    }
+    .holdings-table th:nth-child(n+3) { text-align: right; }
+    .holdings-table td { padding: 11px 10px; border-bottom: 1px solid rgba(255,255,255,.025); }
+    .holdings-table td:nth-child(n+3) { text-align: right; font-family: var(--mono); font-size: .72rem; }
+    .holdings-table tr:hover { background: rgba(255,255,255,.02); }
+    .holdings-table .ticker-cell { font-weight: 700; color: var(--gold); font-size: .82rem; }
+    .holdings-table .name-cell { color: var(--dim); font-size: .7rem; }
+    .pos { color: var(--green); } .neg { color: var(--red); }
+
+    .status-badge {
+      display: inline-block; font-size: .55rem; font-weight: 600; letter-spacing: .08em;
+      padding: 2px 7px; border-radius: 10px; text-transform: uppercase;
+    }
+    .status-badge.ready { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,.25); }
+    .status-badge.wait { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,113,113,.2); }
+    .status-badge.close { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(96,165,250,.2); }
+
+    .strike-bar-wrap { display: flex; align-items: center; gap: 8px; min-width: 100px; }
+    .strike-bar-track {
+      flex: 1; height: 5px; background: var(--border); border-radius: 3px;
+      overflow: hidden; position: relative;
+    }
+    .strike-bar-fill { height: 100%; border-radius: 3px; transition: width .5s ease; }
+    .strike-bar-pct { font-size: .62rem; font-family: var(--mono); color: var(--dim); min-width: 32px; text-align: right; }
+
+    /* Strategy Rules - more visual */
+    .rules-visual {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px;
+    }
+    .rule-tier {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      padding: 20px; position: relative; overflow: hidden;
+    }
+    .rule-tier::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .rule-tier.monthly::before { background: var(--blue); }
+    .rule-tier.quarterly::before { background: var(--violet); }
+    .rule-tier.leaps::before { background: var(--green); }
+    .tier-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .tier-name {
+      font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .rule-tier.monthly .tier-name { color: var(--blue); }
+    .rule-tier.quarterly .tier-name { color: var(--violet); }
+    .rule-tier.leaps .tier-name { color: var(--green); }
+    .tier-row {
+      display: flex; justify-content: space-between; padding: 6px 0;
+      border-bottom: 1px solid var(--border); font-size: .72rem;
+    }
+    .tier-row:last-child { border-bottom: none; }
+    .tier-row .label { color: var(--dim); }
+    .tier-row .val { font-family: var(--mono); color: var(--text); }
+
+    /* CC Cards */
+    .cc-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
+    .cc-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      overflow: hidden;
+    }
+    .cc-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; background: var(--surface2); border-bottom: 1px solid var(--border);
+    }
+    .cc-ticker { font-size: 1rem; font-weight: 700; color: var(--gold); }
+    .cc-name { font-size: .72rem; color: var(--dim); margin-left: 8px; }
+    .cc-contracts {
+      font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--cyan); background: rgba(34,211,238,.08); border: 1px solid rgba(34,211,238,.2);
+      padding: 3px 10px; border-radius: 12px;
+    }
+    .cc-status {
+      padding: 10px 18px; font-size: .72rem;
+      border-bottom: 1px solid rgba(255,255,255,.03);
+    }
+    .cc-status.underwater { background: var(--red-dim); color: var(--red); }
+    .cc-status.active { background: var(--green-dim); color: var(--green); }
+    .cc-status.approaching { background: var(--blue-dim); color: var(--blue); }
+    .cc-body { padding: 16px 18px; }
+    .cc-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    .cc-meta-item {}
+    .cc-meta-label { font-size: .52rem; color: var(--mute); text-transform: uppercase; letter-spacing: .1em; }
+    .cc-meta-val { font-family: var(--mono); font-size: .82rem; margin-top: 2px; }
+
+    /* Tier Timeline */
+    .tier-timeline {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .tier-box {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 12px; position: relative;
+    }
+    .tier-box.locked { opacity: .4; }
+    .tier-box.unlocked { border-color: var(--green-mid); }
+    .tier-box-header {
+      font-size: .55rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .tier-box.monthly .tier-box-header { color: var(--blue); }
+    .tier-box.quarterly .tier-box-header { color: var(--violet); }
+    .tier-box.leaps .tier-box-header { color: var(--green); }
+    .tier-box-row { font-size: .68rem; margin-bottom: 4px; display: flex; justify-content: space-between; }
+    .tier-box-row .lbl { color: var(--mute); }
+    .tier-box-row .vl { font-family: var(--mono); color: var(--text); }
+    .tier-lock-msg {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-size: .6rem; color: var(--red); font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; background: rgba(8,8,11,.9); padding: 4px 10px; border-radius: 4px;
+    }
+
+    /* Income Section */
+    .income-section {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      padding: 24px; margin-bottom: 32px;
+    }
+    .income-header {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .income-main {}
+    .income-main-label { font-size: .6rem; color: var(--mute); letter-spacing: .15em; text-transform: uppercase; }
+    .income-main-val { font-family: var(--serif); font-size: 2.4rem; color: var(--green); margin-top: 4px; }
+    .income-main-yield { font-size: .8rem; color: var(--dim); margin-top: 2px; }
+    .income-breakdown { display: flex; gap: 24px; }
+    .income-item { text-align: right; }
+    .income-item-label { font-size: .52rem; color: var(--mute); letter-spacing: .12em; text-transform: uppercase; }
+    .income-item-val { font-family: var(--mono); font-size: 1rem; margin-top: 2px; }
+    .income-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .income-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; text-align: center; }
+    .income-card-label { font-size: .52rem; color: var(--mute); letter-spacing: .1em; text-transform: uppercase; }
+    .income-card-val { font-family: var(--serif); font-size: 1.3rem; margin-top: 4px; }
+    .income-card-val.green { color: var(--green); }
+    .income-card-val.cyan { color: var(--cyan); }
+    .income-card-sub { font-size: .65rem; color: var(--dim); margin-top: 2px; }
+
+    /* Allocation */
+    .allocation-bar {
+      height: 12px; border-radius: 6px; overflow: hidden; display: flex;
+      margin-bottom: 8px; background: var(--border);
+    }
+    .allocation-bar .cc-portion { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+    .allocation-bar .long-portion { background: var(--blue); }
+    .allocation-legend { display: flex; gap: 20px; justify-content: center; font-size: .7rem; }
+    .allocation-legend span { display: flex; align-items: center; gap: 6px; }
+    .allocation-legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .allocation-legend .dot.cc { background: var(--gold); }
+    .allocation-legend .dot.long { background: var(--blue); }
+
+    .footer {
+      text-align: center; padding: 40px 20px; margin-top: 20px;
+      border-top: 1px solid var(--border); color: var(--mute); font-size: .7rem;
+    }
+    .footer a { color: var(--gold); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .rules-visual { grid-template-columns: 1fr; }
+      .cc-meta { grid-template-columns: repeat(2, 1fr); }
+      .tier-timeline { grid-template-columns: 1fr; }
+      .income-grid { grid-template-columns: repeat(2, 1fr); }
+      .income-header { flex-direction: column; gap: 16px; }
+      .income-breakdown { justify-content: flex-start; }
+      .hero h1 { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 500px) {
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .holdings-table td:nth-child(5),
+      .holdings-table th:nth-child(5),
+      .holdings-table td:nth-child(6),
+      .holdings-table th:nth-child(6) { display: none; }
+    }
+
+    .fade-in { opacity: 0; transform: translateY(12px); transition: opacity .5s, transform .5s; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<div style="max-width:1000px;margin:0 auto;padding:16px 16px 0">
+  <a href="/portfolio" style="font-size:.7rem;color:var(--dim);text-decoration:none;letter-spacing:.08em">← Back to Portfolio</a>
+</div>
+<div class="hero">
+  <div class="hero-badge">🧬 Private Strategy Document</div>
+  <h1>Evolution Fund</h1>
+  <p class="hero-sub">Covered Call Income Strategy — Tiered Strike Ladder</p>
+  <p class="hero-date">Updated March 18, 2026 • Confidential</p>
+</div>
+
+<div class="container">
+  <!-- Summary -->
+  <div class="summary-grid fade-in" id="summary-grid"></div>
+
+  <!-- Allocation Visual -->
+  <div class="section-title">📊 Strategy Allocation</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:32px" class="fade-in">
+    <div class="allocation-bar">
+      <div class="cc-portion" style="width:80%"></div>
+      <div class="long-portion" style="width:20%"></div>
+    </div>
+    <div class="allocation-legend">
+      <span><div class="dot cc"></div> 80% Covered Call Strategy</span>
+      <span><div class="dot long"></div> 20% Net Long (No CCs)</span>
+    </div>
+  </div>
+
+  <!-- Strategy Tiers -->
+  <div class="section-title">📐 Covered Call Tiers — Entry Requirements & Strike Ranges</div>
+  <div class="rules-visual fade-in">
+    <div class="rule-tier monthly">
+      <div class="tier-icon">📅</div>
+      <div class="tier-name">Monthly Options</div>
+      <div class="tier-row"><span class="label">Activation</span><span class="val">+2% profit</span></div>
+      <div class="tier-row"><span class="label">Strike Range</span><span class="val">7-15% OTM</span></div>
+      <div class="tier-row"><span class="label">Expiry</span><span class="val">1 month</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of position</span></div>
+    </div>
+    <div class="rule-tier quarterly">
+      <div class="tier-icon">📆</div>
+      <div class="tier-name">Quarterly Options</div>
+      <div class="tier-row"><span class="label">Activation</span><span class="val">+5% profit</span></div>
+      <div class="tier-row"><span class="label">Strike Range</span><span class="val">15-30% OTM</span></div>
+      <div class="tier-row"><span class="label">Expiry</span><span class="val">3 months</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of position</span></div>
+    </div>
+    <div class="rule-tier leaps">
+      <div class="tier-icon">📈</div>
+      <div class="tier-name">LEAPS</div>
+      <div class="tier-row"><span class="label">Activation</span><span class="val">+10% profit</span></div>
+      <div class="tier-row"><span class="label">Strike Range</span><span class="val">30-50% OTM</span></div>
+      <div class="tier-row"><span class="label">Expiry</span><span class="val">6-12 months</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of position</span></div>
+    </div>
+  </div>
+
+  <!-- Holdings Table -->
+  <div class="section-title">📋 Current Holdings & CC Eligibility</div>
+  <div class="holdings-wrap fade-in">
+    <table class="holdings-table">
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Name</th>
+          <th>Shares</th>
+          <th>Cost</th>
+          <th>Current</th>
+          <th>G/L</th>
+          <th>Value</th>
+          <th>CC Status</th>
+        </tr>
+      </thead>
+      <tbody id="holdings-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Income Projection -->
+  <div class="section-title">💰 Projected Annual Income</div>
+  <div class="income-section fade-in" id="income-section"></div>
+
+  <!-- Per-Position CC Strategy -->
+  <div class="section-title">🎯 Position Strike Ladders</div>
+  <div class="cc-grid" id="cc-grid"></div>
+
+  <div class="footer">
+    Evolution Fund — Negentropy Capital &bull; <a href="https://novairesignal.com">novairesignal.com</a> &bull; <a href="https://evolution.fund">evolution.fund</a>
+    <br><span style="margin-top:4px;display:inline-block">Strategy document. Not financial advice. Private & confidential.</span>
+  </div>
+</div>
+
+<script>
+// Configuration
+const CC_ALLOCATION = 0.80; // 80% of portfolio in CC strategy
+const MMF_YIELD = 0.035; // 3.5% Schwab SWVXX
+
+// Tier requirements
+const TIERS = {
+  monthly: { minProfit: 0.02, strikeMin: 0.07, strikeMax: 0.15, expiry: '1 Month' },
+  quarterly: { minProfit: 0.05, strikeMin: 0.15, strikeMax: 0.30, expiry: '3 Months' },
+  leaps: { minProfit: 0.10, strikeMin: 0.30, strikeMax: 0.50, expiry: '6-12 Months' },
+};
+
+const holdings = [
+  { ticker: "PHYS", name: "Sprott Physical Gold", sector: "Gold", shares: 16827, price: 37.96, gl: 2.7, color: "#d4a853" },
+  { ticker: "URNM", name: "Sprott Uranium Miners", sector: "Uranium", shares: 6000, price: 64.90, gl: -4.2, color: "#34d399" },
+  { ticker: "GRID", name: "First Trust Grid Infra", sector: "Grid", shares: 2177, price: 168.49, gl: -4.7, color: "#60a5fa" },
+  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 73717, gl: 13.8, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
+  { ticker: "PSLV", name: "Sprott Physical Silver", sector: "Silver", shares: 8545, price: 25.75, gl: -11.3, color: "#a0aec0" },
+  { ticker: "COPP", name: "Sprott Copper ETF", sector: "Copper", shares: 5047, price: 36.10, gl: -17.2, color: "#f97316" },
+  { ticker: "COPX", name: "Global X Copper Miners", sector: "Copper", shares: 2000, price: 78.14, gl: -6.9, color: "#ea580c" },
+  { ticker: "URNJ", name: "Sprott Jr Uranium", sector: "Uranium", shares: 3151, price: 30.34, gl: -13.1, color: "#22d3ee" },
+  { ticker: "SGDJ", name: "Sprott Jr Gold Miners", sector: "Gold", shares: 1002, price: 93.83, gl: -14.5, color: "#fbbf24" },
+  { ticker: "CEG",  name: "Constellation Energy", sector: "Nuclear", shares: 177, price: 307.34, gl: -1.6, color: "#a78bfa" },
+  { ticker: "VST",  name: "Vistra Energy", sector: "Nuclear", shares: 322, price: 164.67, gl: -3.4, color: "#c084fc" },
+  { ticker: "AAPL", name: "Apple Inc.", sector: "Tech", shares: 31, price: 254.46, gl: -2.7, color: "#94a3b8" },
+];
+
+function costBasis(h) { return h.price / (1 + h.gl / 100); }
+function fmt(n) { return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function fmtK(n) { return n >= 1e6 ? '$' + (n/1e6).toFixed(2) + 'M' : '$' + (n/1e3).toFixed(0) + 'K'; }
+function roundStrike(price, dir) {
+  let step = price < 5 ? 0.5 : price < 25 ? 1 : price < 50 ? 2.5 : price < 200 ? 5 : 10;
+  return dir === 'up' ? Math.ceil(price / step) * step : Math.floor(price / step) * step;
+}
+
+// Computed
+let totalVal = 0, totalCost = 0, totalContracts = 0;
+holdings.forEach(h => {
+  h.cost = costBasis(h);
+  if (h.isBTC) {
+    h.value = h.units * h.price; // BTC: units * price per BTC
+    h.shares = h.units; // Display units instead of shares
+    h.contracts = 0;
+  } else {
+    h.value = h.price * h.shares;
+    h.contracts = h.excludeCC ? 0 : Math.floor(h.shares / 100);
+  }
+  totalVal += h.value;
+  totalCost += h.cost * (h.isBTC ? h.units : h.shares);
+  totalContracts += h.contracts;
+  // Eligibility (excluded positions are never eligible)
+  h.monthlyEligible = !h.excludeCC && h.gl >= 2;
+  h.quarterlyEligible = !h.excludeCC && h.gl >= 5;
+  h.leapsEligible = !h.excludeCC && h.gl >= 10;
+});
+const totalGL = ((totalVal - totalCost) / totalCost * 100);
+const ccPortion = totalVal * CC_ALLOCATION;
+const longPortion = totalVal * (1 - CC_ALLOCATION);
+
+// Summary
+const sg = document.getElementById('summary-grid');
+const summaryItems = [
+  { label: 'Fund NAV', val: '$' + fmt(totalVal), sub: 'Total Value', hl: true },
+  { label: 'CC Portion', val: fmtK(ccPortion), sub: '80% of fund' },
+  { label: 'Net Long', val: fmtK(longPortion), sub: '20% of fund' },
+  { label: 'Total Contracts', val: totalContracts.toString(), sub: holdings.length + ' positions' },
+  { label: 'MMF Yield', val: '3.50%', sub: 'Schwab SWVXX', mmf: true },
+];
+summaryItems.forEach(s => {
+  let cls = s.hl ? ' highlight' : (s.mmf ? ' mmf' : '');
+  sg.innerHTML += `<div class="sum-card${cls}">
+    <div class="sum-label">${s.label}</div>
+    <div class="sum-val">${s.val}</div>
+    <div class="sum-sub">${s.sub}</div>
+  </div>`;
+});
+
+// Holdings table
+const tb = document.getElementById('holdings-body');
+holdings.sort((a,b) => b.value - a.value);
+holdings.forEach(h => {
+  const glCls = h.gl >= 0 ? 'pos' : 'neg';
+  const glSign = h.gl >= 0 ? '+' : '';
+  
+  let statusBadge = '';
+  if (h.fullLong) {
+    statusBadge = '<span class="status-badge ready" style="background:rgba(251,146,60,.12);color:#fb923c;border-color:rgba(251,146,60,.3)">₿ FULL LONG</span>';
+  } else if (h.contracts === 0) {
+    statusBadge = '<span class="status-badge wait">No Contracts</span>';
+  } else if (h.leapsEligible) {
+    statusBadge = '<span class="status-badge ready">ALL TIERS ✓</span>';
+  } else if (h.quarterlyEligible) {
+    statusBadge = '<span class="status-badge ready">MONTHLY + QTR</span>';
+  } else if (h.monthlyEligible) {
+    statusBadge = '<span class="status-badge close">MONTHLY ONLY</span>';
+  } else {
+    const toMonthly = (2 - h.gl).toFixed(1);
+    statusBadge = `<span class="status-badge wait">Need +${toMonthly}%</span>`;
+  }
+
+  const sharesDisplay = h.isBTC ? h.units.toFixed(2) + ' BTC' : h.shares.toLocaleString();
+  const priceDisplay = h.isBTC ? '$' + h.price.toLocaleString() : '$' + fmt(h.price);
+  tb.innerHTML += `<tr>
+    <td class="ticker-cell">${h.ticker}</td>
+    <td class="name-cell">${h.name}</td>
+    <td>${sharesDisplay}</td>
+    <td>$${fmt(h.cost)}</td>
+    <td>${priceDisplay}</td>
+    <td class="${glCls}">${glSign}${h.gl.toFixed(1)}%</td>
+    <td>$${h.value >= 1e5 ? (h.value/1e3).toFixed(0)+'K' : fmt(h.value)}</td>
+    <td>${statusBadge}</td>
+  </tr>`;
+});
+
+// Income Section
+const is = document.getElementById('income-section');
+// Calculate potential income: positions eligible for each tier
+let monthlyEligibleVal = 0, quarterlyEligibleVal = 0, leapsEligibleVal = 0;
+holdings.forEach(h => {
+  const eligVal = h.value * CC_ALLOCATION; // only 80% participates
+  if (h.monthlyEligible) monthlyEligibleVal += eligVal;
+  if (h.quarterlyEligible) quarterlyEligibleVal += eligVal;
+  if (h.leapsEligible) leapsEligibleVal += eligVal;
+});
+
+// Premium estimates (avg of strike range)
+const monthlyPremium = monthlyEligibleVal * 0.011 / 3; // ~1.1% for 7-15% OTM monthly, 1/3 deployed
+const quarterlyPremium = quarterlyEligibleVal * 0.025 / 3; // ~2.5% for 15-30% OTM quarterly
+const leapsPremium = leapsEligibleVal * 0.08 / 3; // ~8% for 30-50% OTM LEAPs (annualized)
+
+const monthlyAnnualized = monthlyPremium * 12;
+const quarterlyAnnualized = quarterlyPremium * 4;
+const totalCCIncome = monthlyAnnualized + quarterlyAnnualized + leapsPremium;
+
+// MMF income ONLY on collected CC premiums (avg hold time ~6 months before reinvestment)
+// Premiums sit in MMF earning yield until deployed to new positions or withdrawn
+const avgPremiumHoldTime = 0.5; // 6 months average
+const mmfIncome = totalCCIncome * avgPremiumHoldTime * MMF_YIELD;
+const totalIncome = totalCCIncome + mmfIncome;
+const totalYield = (totalIncome / totalVal * 100);
+
+is.innerHTML = `
+  <div class="income-header">
+    <div class="income-main">
+      <div class="income-main-label">Projected Annual Income</div>
+      <div class="income-main-val">${fmtK(totalIncome)}</div>
+      <div class="income-main-yield">${totalYield.toFixed(2)}% total yield on fund</div>
+    </div>
+    <div class="income-breakdown">
+      <div class="income-item">
+        <div class="income-item-label">CC Premium</div>
+        <div class="income-item-val" style="color:var(--gold)">${fmtK(totalCCIncome)}</div>
+      </div>
+      <div class="income-item">
+        <div class="income-item-label">MMF Yield</div>
+        <div class="income-item-val" style="color:var(--cyan)">${fmtK(mmfIncome)}</div>
+      </div>
+    </div>
+  </div>
+  <div class="income-grid">
+    <div class="income-card">
+      <div class="income-card-label">Monthly CC (Annualized)</div>
+      <div class="income-card-val green">${fmtK(monthlyAnnualized)}</div>
+      <div class="income-card-sub">${fmtK(monthlyEligibleVal)} eligible</div>
+    </div>
+    <div class="income-card">
+      <div class="income-card-label">Quarterly CC (Ann.)</div>
+      <div class="income-card-val green">${fmtK(quarterlyAnnualized)}</div>
+      <div class="income-card-sub">${fmtK(quarterlyEligibleVal)} eligible</div>
+    </div>
+    <div class="income-card">
+      <div class="income-card-label">LEAPs Premium</div>
+      <div class="income-card-val green">${fmtK(leapsPremium)}</div>
+      <div class="income-card-sub">${fmtK(leapsEligibleVal)} eligible</div>
+    </div>
+    <div class="income-card">
+      <div class="income-card-label">MMF on Premiums</div>
+      <div class="income-card-val cyan">${fmtK(mmfIncome)}</div>
+      <div class="income-card-sub">3.50% on collected cash</div>
+    </div>
+  </div>
+`;
+
+// CC Cards per position
+const cg = document.getElementById('cc-grid');
+holdings.forEach(h => {
+  if (h.contracts < 1 || h.excludeCC) return; // Skip IBIT and others excluded from CC
+
+  const c3 = Math.floor(h.contracts / 3);
+  const cRem = h.contracts - c3 * 2;
+
+  // Calculate strikes
+  const mStrikeLow = roundStrike(h.price * (1 + TIERS.monthly.strikeMin), 'up');
+  const mStrikeHigh = roundStrike(h.price * (1 + TIERS.monthly.strikeMax), 'up');
+  const qStrikeLow = roundStrike(h.price * (1 + TIERS.quarterly.strikeMin), 'up');
+  const qStrikeHigh = roundStrike(h.price * (1 + TIERS.quarterly.strikeMax), 'up');
+  const lStrikeLow = roundStrike(h.price * (1 + TIERS.leaps.strikeMin), 'up');
+  const lStrikeHigh = roundStrike(h.price * (1 + TIERS.leaps.strikeMax), 'up');
+
+  // Status message
+  let statusHtml = '';
+  if (h.gl < 0) {
+    const toBreakeven = (-h.gl).toFixed(1);
+    const toMonthly = (2 - h.gl).toFixed(1);
+    statusHtml = `<div class="cc-status underwater">
+      ⏳ Underwater ${h.gl.toFixed(1)}% — Need +${toBreakeven}% to breakeven, +${toMonthly}% for Monthly CCs
+    </div>`;
+  } else if (h.leapsEligible) {
+    statusHtml = `<div class="cc-status active">
+      ✅ ALL TIERS ACTIVE — Position +${h.gl.toFixed(1)}% profit. Monthly, Quarterly, and LEAPs available.
+    </div>`;
+  } else if (h.quarterlyEligible) {
+    const toLeaps = (10 - h.gl).toFixed(1);
+    statusHtml = `<div class="cc-status active">
+      ✅ MONTHLY + QUARTERLY — Position +${h.gl.toFixed(1)}%. Need +${toLeaps}% more for LEAPs.
+    </div>`;
+  } else if (h.monthlyEligible) {
+    const toQuarterly = (5 - h.gl).toFixed(1);
+    statusHtml = `<div class="cc-status approaching">
+      📍 MONTHLY ONLY — Position +${h.gl.toFixed(1)}%. Need +${toQuarterly}% more for Quarterly.
+    </div>`;
+  } else {
+    const toMonthly = (2 - h.gl).toFixed(1);
+    statusHtml = `<div class="cc-status approaching">
+      📍 Near activation — Position +${h.gl.toFixed(1)}%. Need +${toMonthly}% for Monthly CCs.
+    </div>`;
+  }
+
+  // Tier boxes
+  const monthlyLocked = !h.monthlyEligible;
+  const quarterlyLocked = !h.quarterlyEligible;
+  const leapsLocked = !h.leapsEligible;
+
+  cg.innerHTML += `<div class="cc-card fade-in">
+    <div class="cc-header">
+      <div><span class="cc-ticker">${h.ticker}</span><span class="cc-name">${h.name} · ${h.sector}</span></div>
+      <div class="cc-contracts">${h.contracts} contracts</div>
+    </div>
+    ${statusHtml}
+    <div class="cc-body">
+      <div class="cc-meta">
+        <div class="cc-meta-item">
+          <div class="cc-meta-label">Current Price</div>
+          <div class="cc-meta-val">$${fmt(h.price)}</div>
+        </div>
+        <div class="cc-meta-item">
+          <div class="cc-meta-label">Cost Basis</div>
+          <div class="cc-meta-val">$${fmt(h.cost)}</div>
+        </div>
+        <div class="cc-meta-item">
+          <div class="cc-meta-label">Profit/Loss</div>
+          <div class="cc-meta-val ${h.gl >= 0 ? 'pos' : 'neg'}">${h.gl >= 0 ? '+' : ''}${h.gl.toFixed(1)}%</div>
+        </div>
+        <div class="cc-meta-item">
+          <div class="cc-meta-label">Position Value</div>
+          <div class="cc-meta-val">${fmtK(h.value)}</div>
+        </div>
+      </div>
+      <div class="tier-timeline">
+        <div class="tier-box monthly ${monthlyLocked ? 'locked' : 'unlocked'}">
+          ${monthlyLocked ? '<div class="tier-lock-msg">🔒 Need +2%</div>' : ''}
+          <div class="tier-box-header">📅 Monthly</div>
+          <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${mStrikeLow}-${mStrikeHigh}</span></div>
+          <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">7-15%</span></div>
+          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${c3}x</span></div>
+        </div>
+        <div class="tier-box quarterly ${quarterlyLocked ? 'locked' : 'unlocked'}">
+          ${quarterlyLocked ? '<div class="tier-lock-msg">🔒 Need +5%</div>' : ''}
+          <div class="tier-box-header">📆 Quarterly</div>
+          <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${qStrikeLow}-${qStrikeHigh}</span></div>
+          <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">15-30%</span></div>
+          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${c3}x</span></div>
+        </div>
+        <div class="tier-box leaps ${leapsLocked ? 'locked' : 'unlocked'}">
+          ${leapsLocked ? '<div class="tier-lock-msg">🔒 Need +10%</div>' : ''}
+          <div class="tier-box-header">📈 LEAPs</div>
+          <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${lStrikeLow}-${lStrikeHigh}</span></div>
+          <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">30-50%</span></div>
+          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${cRem}x</span></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+});
+
+// Scroll animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
