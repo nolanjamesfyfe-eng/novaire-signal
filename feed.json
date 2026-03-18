@@ -1,13 +1,12 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-03-18T04:00:54.034482+00:00",
+  "count": 4,
+  "accountsWithPosts": 4,
+  "fetchedAt": "2026-03-18T05:20:27.956156+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
   "errors": [
-    "colonelhomsi",
-    "HydroGraphInc"
+    "colonelhomsi"
   ],
   "posts": [
     {
@@ -25,18 +24,32 @@
       "slot_order": 1
     },
     {
-      "id": "2034112589387513862",
-      "text": "Paying attention to nightmares may be a good idea. Recent research shows frequent nightmares are stronger predictors of early death than smoking, obesity, poor diet or sloth https://www.economist.com/science-and-technology/2025/08/08/are-nightmares-bad-for-your-health?taid=69ba1e97a072250001e995bc&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2034132758558064927",
+      "text": "If computing power brings about technological advances without human input, and enough of the pay-off is reinvested in building still more powerful machines, wealth could accumulate at unprecedented speed https://www.economist.com/leaders/2025/07/24/the-economics-of-superintelligence?taid=69ba31605e19590001dc31b3&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-18T03:40:07+00:00",
-      "createdAtMs": 1773805207000,
+      "createdAt": "2026-03-18T05:00:16+00:00",
+      "createdAtMs": 1773810016000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2034112589387513862#m",
+      "url": "https://x.com/TheEconomist/status/2034132758558064927#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
+    },
+    {
+      "id": "2034131265738150313",
+      "text": "BREAKING: X officially adds a \"dislike\" button.",
+      "author": "KobeissiLetter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-03-18T04:54:20+00:00",
+      "createdAtMs": 1773809660000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/KobeissiLetter/status/2034131265738150313#m",
+      "avatar": null,
+      "slot": "guaranteed",
+      "slot_order": 3
     },
     {
       "id": "2034022170788041031",
