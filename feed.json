@@ -1,38 +1,24 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-03-19T08:01:00.393431+00:00",
+  "count": 2,
+  "accountsWithPosts": 2,
+  "fetchedAt": "2026-03-19T10:00:50.154554+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
   "errors": [
-    "BarbarianCap"
+    "zerohedge"
   ],
   "posts": [
     {
-      "id": "2034532856236564529",
-      "text": "'Restore Britain' Vows To Execute Pedophiles, Deport Millions Of Migrants, Outlaw \"Incompatible Cultural And Religious Practices\" https://www.zerohedge.com/political/restore-britain-vows-execute-pedophiles-deport-millions-migrants-outlaw-incompatible",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-03-19T07:30:07+00:00",
-      "createdAtMs": 1773905407000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2034532856236564529#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
-    {
-      "id": "2034535371157950786",
-      "text": "“If we Africans don’t lead in the industrialisation of Africa, Africa will never industrialise,” says Aliko Dangote. But critics argue that he has engaged in deliberate strategies to scare off potential competitors https://www.economist.com/middle-east-and-africa/2026/03/17/africas-richest-man-has-ambitious-plans-for-the-continent?taid=69bba856363d3f00010680d4&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2034565575188402603",
+      "text": "Not since the 1960s has America held so much power over the island’s fate. Donald Trump and Marco Rubio are in a position to negotiate an opening-up that may, eventually, lead to the regime’s demise https://www.economist.com/leaders/2026/03/18/a-dirty-deal-with-cuba-would-be-better-than-the-alternatives?taid=69bbc478a072250001e9a3ce&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-19T07:40:06+00:00",
-      "createdAtMs": 1773906006000,
+      "createdAt": "2026-03-19T09:40:08+00:00",
+      "createdAtMs": 1773913208000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2034535371157950786#m",
+      "url": "https://x.com/TheEconomist/status/2034565575188402603#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
