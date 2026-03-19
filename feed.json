@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-03-19T18:00:36.794568+00:00",
+  "fetchedAt": "2026-03-19T18:09:40.231991+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "wmiddelkoop"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2034686843296362634",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2034688880151027824",
-      "text": "It is hard to imagine a crisis more precisely engineered to intercept the trajectory of Donald Trump’s presidency than his ill-judged, heedless war against Iran https://www.economist.com/leaders/2026/03/19/war-in-iran-is-making-donald-trump-weaker-and-angrier?taid=69bc374e9ac2060001303d71&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2034692688012800241",
+      "text": "That could wreck Lebanon’s chances of taking on Hizbullah itself https://www.economist.com/middle-east-and-africa/2026/03/19/israel-contemplates-a-ground-invasion-of-lebanon?taid=69bc3adaa072250001e9a8f1&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-19T17:50:06+00:00",
-      "createdAtMs": 1773942606000,
+      "createdAt": "2026-03-19T18:05:14+00:00",
+      "createdAtMs": 1773943514000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2034688880151027824#m",
+      "url": "https://x.com/TheEconomist/status/2034692688012800241#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
