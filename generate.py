@@ -2870,7 +2870,7 @@ def main():
         evo_gl_str = f"+${evo_gl_total:,.0f}" if evo_gl_total >= 0 else f"-${abs(evo_gl_total):,.0f}"
 
         evo_fund_html = f"""<div class="card">
-    <div class="card-title">🏛️ Evolution Fund</div>
+    <div class="card-title">🏛️ Evolution Fund <a href="/portfolio/evolutionfund" style="margin-left:8px;font-size:.5rem;font-weight:600;letter-spacing:.1em;color:#22d3ee;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);padding:2px 8px;border-radius:10px;text-decoration:none;vertical-align:middle">⚡ CC Strategy</a></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.68rem;color:var(--mute)"><span>Negentropy Evolution Fund · Live Positions</span><span><a href="https://evolution.fund" style="color:var(--gold);text-decoration:none">evolution.fund</a></span></div>
     <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings ({len(EVO_HOLDINGS)+1} positions)</div>
     <div><table class="portfolio-table">
