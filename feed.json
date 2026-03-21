@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-03-21T04:00:50.380873+00:00",
+  "fetchedAt": "2026-03-21T05:03:37.916974+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "JohnPolomny"
+  ],
   "posts": [
     {
       "id": "2035190943540740238",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2035199753093341357",
-      "text": "A wave of songs is taking aim at substandard men. We explain how it reflects a gulf between young men and women https://www.economist.com/culture/2025/09/08/why-female-pop-stars-are-lambasting-mediocre-men?taid=69be1317a072250001e9bae8&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2035214851627196716",
+      "text": "A study in France shows a striking gender gap within the first months of school  https://www.economist.com/graphic-detail/2025/06/11/why-are-girls-still-falling-behind-in-maths?taid=69be2127a072250001e9bb40&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-21T03:40:07+00:00",
-      "createdAtMs": 1774064407000,
+      "createdAt": "2026-03-21T04:40:07+00:00",
+      "createdAtMs": 1774068007000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2035199753093341357#m",
+      "url": "https://x.com/TheEconomist/status/2035214851627196716#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
