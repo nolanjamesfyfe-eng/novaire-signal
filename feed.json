@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-03-22T16:00:55.599349+00:00",
+  "fetchedAt": "2026-03-22T16:22:22.830042+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "JoshYoung"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2035743331171377396",
@@ -24,29 +22,29 @@
       "slot_order": 1
     },
     {
-      "id": "2035743330634461481",
-      "text": "A decade ago the reaction of boards when the hedge fund appeared on their shareholder register was pure terror. Today it is mere anxiety. We explain why https://www.economist.com/business/2026/03/19/elliott-management-and-the-art-of-telling-bosses-theyre-wrong?taid=69c00d56363d3f000106a042&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2035750973881147593",
+      "text": "Money and power belong together https://www.economist.com/united-states/2026/03/22/why-donald-trump-is-putting-his-face-on-a-coin?taid=69c014755e19590001b21186&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-03-22T15:40:06+00:00",
-      "createdAtMs": 1774194006000,
+      "createdAt": "2026-03-22T16:10:29+00:00",
+      "createdAtMs": 1774195829000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2035743330634461481#m",
+      "url": "https://x.com/TheEconomist/status/2035750973881147593#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
     },
     {
-      "id": "2035732984704213032",
-      "text": "BREAKING: Iran responds to President Trump's threat to \"obliterate\" Iranian power plants if the Strait of Hormuz is not opened \"within 48 hours.\"\n\nIran's response:\n\n1. Iran will \"completely close\" the Strait of Hormuz\n\n2. Iran will hit “vital” infrastructure in the Middle East\n\n3. This includes energy, IT, and water desalination facilities\n\n4. Iran’s senior military commander says the country’s military strategy has shifted from defensive to offensive\n\n5. Iranian officials say the country has enough reserves of essential goods to last for up to one year\n\nTrump's deadline has 33 hours remaining.",
+      "id": "2035750806641869171",
+      "text": "Investor sentiment has shifted to extreme bearishness:\n\n52.0% of individual investors expressed bearish sentiment over the next 6 months in the AAII survey for the week ending March 19th, the highest since May 2025.\n\nThe bearish sentiment has risen +23 percentage points since early February, the largest increase since February 2025, amid the trade war.\n\nMeanwhile, just 30.4% of retail investors were bullish over the last week, the 3rd-lowest reading since May 2025.\n\nOverall, bullish sentiment has declined for 8 consecutive weeks. \n\nAs a result, the bull-bear spread is down to -21.6 percentage points, the widest gap since Mat 2025, and in-line with the 2022 bear market levels.\n\nIs market sentiment becoming too bearish?",
       "author": "KobeissiLetter",
       "handle": "KobeissiLetter",
-      "createdAt": "2026-03-22T14:59:00+00:00",
-      "createdAtMs": 1774191540000,
+      "createdAt": "2026-03-22T16:09:49+00:00",
+      "createdAtMs": 1774195789000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2035732984704213032#m",
+      "url": "https://x.com/KobeissiLetter/status/2035750806641869171#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 3
