@@ -88,6 +88,33 @@ RADAR_STATIC_FALLBACK = [
     {"title": "DeFi protocol with real yield and sub-$10M TVL — early entry before any major exchange listing.", "source": ""},
 ]
 
+def fetch_fed_signal():
+    """Hardcoded Fed Signal data. Update when FOMC decisions change."""
+    from datetime import date as _date
+    today = datetime.now(timezone.utc).date()
+    fomc_date = _date(2026, 5, 7)
+    days_until = (fomc_date - today).days
+    return {
+        "next_decision": "May 7, 2026",
+        "days_until": days_until,
+        "fed_funds_rate": "4.25\u20134.50%",
+        "next_meeting": "May FOMC",
+        "hold_pct": 85,
+        "cut_25bps_pct": 15,
+    }
+
+
+def fetch_top5_economies():
+    """Top 5 economies by GDP nominal. Hardcoded — update quarterly."""
+    return [
+        {"country": "USA",     "flag": "\U0001f1fa\U0001f1f8", "gdp": "$28.8T", "per_capita": "$85,370", "inflation": "2.8%"},
+        {"country": "China",   "flag": "\U0001f1e8\U0001f1f3", "gdp": "$18.5T", "per_capita": "$13,140", "inflation": "0.7%"},
+        {"country": "Germany", "flag": "\U0001f1e9\U0001f1ea", "gdp": "$4.6T",  "per_capita": "$54,290", "inflation": "2.3%"},
+        {"country": "Japan",   "flag": "\U0001f1ef\U0001f1f5", "gdp": "$4.2T",  "per_capita": "$33,950", "inflation": "3.6%"},
+        {"country": "India",   "flag": "\U0001f1ee\U0001f1f3", "gdp": "$3.9T",  "per_capita": "$2,730",  "inflation": "4.3%"},
+    ]
+
+
 def fetch_radar_moonshots():
     """Fetch top 5 moonshot ideas from Reddit — new crypto projects + micro cap resource plays under $1B."""
     now    = datetime.now(timezone.utc)
@@ -1303,7 +1330,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html=""):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1480,6 +1507,57 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="condition" style="margin-top:2px;font-style:italic">{season}</div>
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 {w.get('humidity', '—') or '—'}% · AQI {w.get('aqi', '—') or '—'} ({w.get('aqi_label', '—')})</div>
         </div>"""
+
+    # ── Fed Signal HTML ──
+    fed = fed_signal or fetch_fed_signal()
+    days_label = f"{fed['days_until']} day{'s' if fed['days_until'] != 1 else ''}"
+    fed_html = f"""
+  <div class="card fed-card">
+    <div class="fed-title">🏛️ Fed Signal</div>
+    <div class="fed-detail">Next Decision: <span class="highlight">{fed['next_decision']}</span> ({days_label})</div>
+    <div class="fed-detail">Fed Funds Rate: <span class="highlight">{fed['fed_funds_rate']}</span></div>
+    <div class="fed-probs">
+      <div class="fed-prob-item">
+        <div class="fed-prob-val" style="color:var(--green)">{fed['hold_pct']}%</div>
+        <div class="fed-prob-label">Hold</div>
+      </div>
+      <div class="fed-prob-item" style="color:var(--dim);font-size:1.2rem;line-height:2">·</div>
+      <div class="fed-prob-item">
+        <div class="fed-prob-val" style="color:var(--blue)">{fed['cut_25bps_pct']}%</div>
+        <div class="fed-prob-label">Cut 25bps</div>
+      </div>
+    </div>
+    <div style="font-size:.58rem;color:var(--mute);margin-top:6px">{fed['next_meeting']} probabilities · CME FedWatch</div>
+  </div>"""
+
+    # ── Top 5 Economies HTML ──
+    eco_data = economies or fetch_top5_economies()
+    eco_rows = ""
+    for e in eco_data:
+        eco_rows += f"""
+      <tr>
+        <td><span class="eco-flag">{e['flag']}</span></td>
+        <td class="eco-country">{e['country']}</td>
+        <td class="eco-gdp">{e['gdp']}</td>
+        <td style="text-align:right;font-size:.72rem;color:var(--dim)">{e['per_capita']}</td>
+        <td class="eco-infl" style="text-align:right;color:var(--dim)">{e['inflation']}</td>
+      </tr>"""
+    eco_html = f"""
+  <div class="card">
+    <div class="card-title">🌍 Top 5 Economies</div>
+    <table class="eco-table">
+      <thead>
+        <tr>
+          <th colspan="2">Country</th>
+          <th>GDP Nom.</th>
+          <th style="text-align:right">Per Capita</th>
+          <th style="text-align:right">Inflation</th>
+        </tr>
+      </thead>
+      <tbody>{eco_rows}</tbody>
+    </table>
+    <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 estimates · Updated quarterly</div>
+  </div>"""
 
     # ── Bangkok news HTML ──
     bkk_html = ""
@@ -1693,7 +1771,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-refresh{{font-size:.6rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:4px 8px;border-radius:var(--r);font-family:var(--sans)}}
     .feed-refresh:hover{{border-color:var(--gold);color:var(--gold)}}
     .feed-status{{font-size:.62rem;color:var(--dim);font-style:italic}}
-    .feed-item{{padding:12px 0;border-bottom:1px solid var(--border)}}
+    .feed-item{{padding:8px 0;border-bottom:1px solid var(--border)}}
     .feed-item:last-child{{border-bottom:none}}
     .feed-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}}
     .feed-author{{display:flex;align-items:center;gap:7px}}
@@ -1701,8 +1779,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-name{{font-size:.78rem;font-weight:600;color:var(--text)}}
     .feed-handle{{font-size:.68rem;color:var(--dim)}}
     .feed-time{{font-size:.64rem;color:var(--dim)}}
-    .feed-text{{font-size:.84rem;color:var(--text);line-height:1.5;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
-    .feed-stats{{display:flex;gap:12px;margin-top:6px}}
+    .feed-text{{font-size:.8rem;color:var(--text);line-height:1.5;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+    .feed-stats{{display:flex;gap:12px;margin-top:4px}}
     .feed-stat{{font-size:.64rem;color:var(--dim)}}
     .feed-stat span{{color:var(--gold)}}
     .feed-link{{display:inline-block;margin-top:5px;font-size:.64rem;color:var(--gold);text-decoration:none;opacity:.6}}
@@ -1714,6 +1792,25 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-filter{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}}
     .feed-tag{{font-size:.6rem;padding:3px 7px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.06em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
+
+    .fed-card{{text-align:center;padding:14px 20px}}
+    .fed-title{{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600}}
+    .fed-detail{{font-size:.78rem;color:var(--text);margin:3px 0;line-height:1.5}}
+    .fed-detail .highlight{{color:var(--gold);font-weight:600}}
+    .fed-probs{{display:flex;justify-content:center;gap:16px;margin-top:8px}}
+    .fed-prob-item{{text-align:center}}
+    .fed-prob-val{{font-family:var(--serif);font-size:1.2rem;font-weight:400}}
+    .fed-prob-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}}
+
+    .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
+    .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
+    .eco-table td{{padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.025)}}
+    .eco-table tr:last-child td{{border-bottom:none}}
+    .eco-table tr:hover{{background:rgba(255,255,255,.015)}}
+    .eco-flag{{font-size:.9rem}}
+    .eco-country{{font-weight:600;color:var(--text)}}
+    .eco-gdp{{color:var(--gold);font-family:var(--serif);font-size:.88rem}}
+    .eco-infl{{font-size:.72rem}}
 
     .footer{{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}}
     .footer-logo{{font-family:var(--serif);font-size:1.8rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
@@ -1751,17 +1848,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="date">{date_str}</div>
     <!-- removed generated timestamp -->
   </div>
-
-  <!-- LATEST FROM NOVAIRE INK -->
-  <a href="https://novaireink.com/#when-you-dont-write" class="card" style="display:block;text-decoration:none;cursor:pointer;">
-    <div class="card-title">📝 Latest from Novaire Ink</div>
-    <div class="quote">
-      <div class="quote-type">New Essay</div>
-      <div class="quote-text">When You Don't Write, You Are Wrong</div>
-      <div class="quote-author" style="font-style:normal;margin-top:6px;opacity:0.7;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
-      <div class="quote-type" style="margin-top:10px;color:var(--gold);">Read the full essay →</div>
-    </div>
-  </a>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
   <div class="card">
@@ -1816,6 +1902,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   {poly_html}
 
   {alpaca_html}
+
+  <!-- FED SIGNAL -->
+  {fed_html}
+
+  <!-- TOP 5 ECONOMIES -->
+  {eco_html}
 
 <!-- ZEROHEDGE -->
   <div class="card">
@@ -2011,6 +2103,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- Daily Motivation merged into single Quote of the Day -->
+
+  <!-- LATEST FROM NOVAIRE INK -->
+  <a href="https://novaireink.com/#when-you-dont-write" class="card" style="display:block;text-decoration:none;cursor:pointer;">
+    <div class="card-title">📝 Latest from Novaire Ink</div>
+    <div class="quote">
+      <div class="quote-type">New Essay</div>
+      <div class="quote-text">When You Don't Write, You Are Wrong</div>
+      <div class="quote-author" style="font-style:normal;margin-top:6px;opacity:0.7;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
+      <div class="quote-type" style="margin-top:10px;color:var(--gold);">Read the full essay →</div>
+    </div>
+  </a>
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
@@ -2643,6 +2746,14 @@ def main():
         print(f"    ❌ {e}")
         rec_movie, rec_book = None, None
 
+    print("  🏛️ Building Fed Signal...")
+    fed_signal = fetch_fed_signal()
+    print(f"    ✅ Next FOMC: {fed_signal['next_decision']} ({fed_signal['days_until']} days)")
+
+    print("  🌍 Building Top 5 Economies...")
+    economies = fetch_top5_economies()
+    print(f"    ✅ {len(economies)} economies loaded")
+
     print("  🎨 Generating HTML...")
     html = render_html(
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
@@ -2651,7 +2762,9 @@ def main():
         holdings_source=holdings_source, gs_meta=gs_meta,
         spanish_word=spanish_word,
         poly_html=poly_html,
-        alpaca_html=alpaca_html
+        alpaca_html=alpaca_html,
+        fed_signal=fed_signal,
+        economies=economies
     )
 
     print("  📦 Generating portfolio page...")
