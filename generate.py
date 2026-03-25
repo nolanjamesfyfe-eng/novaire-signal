@@ -107,11 +107,11 @@ def fetch_fed_signal():
 def fetch_top5_economies():
     """Top 5 economies by GDP nominal. Hardcoded — update quarterly."""
     return [
-        {"country": "USA",     "flag": "\U0001f1fa\U0001f1f8", "gdp": "$28.8T", "per_capita": "$85,370", "inflation": "2.8%"},
-        {"country": "China",   "flag": "\U0001f1e8\U0001f1f3", "gdp": "$18.5T", "per_capita": "$13,140", "inflation": "0.7%"},
-        {"country": "Germany", "flag": "\U0001f1e9\U0001f1ea", "gdp": "$4.6T",  "per_capita": "$54,290", "inflation": "2.3%"},
-        {"country": "Japan",   "flag": "\U0001f1ef\U0001f1f5", "gdp": "$4.2T",  "per_capita": "$33,950", "inflation": "3.6%"},
-        {"country": "India",   "flag": "\U0001f1ee\U0001f1f3", "gdp": "$3.9T",  "per_capita": "$2,730",  "inflation": "4.3%"},
+        {"country": "USA",     "flag": "\U0001f1fa\U0001f1f8", "gdp": "$28.8T", "per_capita": "$85,370", "inflation": "2.8%", "gdp_qoq": "+0.7%", "gdp_yoy": "+2.1%"},
+        {"country": "China",   "flag": "\U0001f1e8\U0001f1f3", "gdp": "$18.5T", "per_capita": "$13,140", "inflation": "0.7%", "gdp_qoq": "+1.4%", "gdp_yoy": "+4.5%"},
+        {"country": "Germany", "flag": "\U0001f1e9\U0001f1ea", "gdp": "$4.6T",  "per_capita": "$54,290", "inflation": "2.3%", "gdp_qoq": "+0.3%", "gdp_yoy": "+0.2%"},
+        {"country": "Japan",   "flag": "\U0001f1ef\U0001f1f5", "gdp": "$4.2T",  "per_capita": "$33,950", "inflation": "3.6%", "gdp_qoq": "+0.3%", "gdp_yoy": "+0.1%"},
+        {"country": "India",   "flag": "\U0001f1ee\U0001f1f3", "gdp": "$3.9T",  "per_capita": "$2,730",  "inflation": "4.3%", "gdp_qoq": "+1.8%", "gdp_yoy": "+7.8%"},
     ]
 
 
@@ -1534,11 +1534,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     eco_data = economies or fetch_top5_economies()
     eco_rows = ""
     for e in eco_data:
+        yoy = e.get('gdp_yoy', '—')
+        yoy_color = "var(--green)" if yoy.startswith("+") and yoy != "+0.0%" else ("var(--red)" if yoy.startswith("-") else "var(--dim)")
         eco_rows += f"""
       <tr>
         <td><span class="eco-flag">{e['flag']}</span></td>
         <td class="eco-country">{e['country']}</td>
         <td class="eco-gdp">{e['gdp']}</td>
+        <td style="text-align:right;font-size:.72rem;color:{yoy_color}">{yoy}</td>
         <td style="text-align:right;font-size:.72rem;color:var(--dim)">{e['per_capita']}</td>
         <td class="eco-infl" style="text-align:right;color:var(--dim)">{e['inflation']}</td>
       </tr>"""
@@ -1550,13 +1553,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <tr>
           <th colspan="2">Country</th>
           <th>GDP Nom.</th>
+          <th style="text-align:right">YoY</th>
           <th style="text-align:right">Per Capita</th>
           <th style="text-align:right">Inflation</th>
         </tr>
       </thead>
       <tbody>{eco_rows}</tbody>
     </table>
-    <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 estimates · Updated quarterly</div>
+    <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 nom. · GDP YoY: Q4 2025 · Updated quarterly</div>
   </div>"""
 
     # ── Bangkok news HTML ──
