@@ -97,10 +97,10 @@ def fetch_fed_signal():
     return {
         "next_decision": "May 7, 2026",
         "days_until": days_until,
-        "fed_funds_rate": "4.25\u20134.50%",
+        "fed_funds_rate": "3.50\u20133.75%",
         "next_meeting": "May FOMC",
-        "hold_pct": 85,
-        "cut_25bps_pct": 15,
+        "hold_pct": 88,
+        "cut_25bps_pct": 12,
     }
 
 
@@ -1514,20 +1514,26 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     fed_html = f"""
   <div class="card fed-card">
     <div class="fed-title">🏛️ Fed Signal</div>
-    <div class="fed-detail">Next Decision: <span class="highlight">{fed['next_decision']}</span> ({days_label})</div>
-    <div class="fed-detail">Fed Funds Rate: <span class="highlight">{fed['fed_funds_rate']}</span></div>
-    <div class="fed-probs">
-      <div class="fed-prob-item">
-        <div class="fed-prob-val" style="color:var(--green)">{fed['hold_pct']}%</div>
-        <div class="fed-prob-label">Hold</div>
+    <div class="fed-grid">
+      <div class="fed-grid-item">
+        <div class="fed-grid-label">Rate</div>
+        <div class="fed-grid-val" style="color:var(--gold)">{fed['fed_funds_rate']}</div>
       </div>
-      <div class="fed-prob-item" style="color:var(--dim);font-size:1.2rem;line-height:2">·</div>
-      <div class="fed-prob-item">
-        <div class="fed-prob-val" style="color:var(--blue)">{fed['cut_25bps_pct']}%</div>
-        <div class="fed-prob-label">Cut 25bps</div>
+      <div class="fed-grid-item">
+        <div class="fed-grid-label">Next FOMC</div>
+        <div class="fed-grid-val" style="color:var(--text)">{fed['next_decision']}</div>
+        <div class="fed-grid-sub">{days_label}</div>
+      </div>
+      <div class="fed-grid-item">
+        <div class="fed-grid-label">Hold</div>
+        <div class="fed-grid-val" style="color:var(--green)">{fed['hold_pct']}%</div>
+      </div>
+      <div class="fed-grid-item">
+        <div class="fed-grid-label">Cut 25bp</div>
+        <div class="fed-grid-val" style="color:var(--blue)">{fed['cut_25bps_pct']}%</div>
       </div>
     </div>
-    <div style="font-size:.58rem;color:var(--mute);margin-top:6px">{fed['next_meeting']} probabilities · CME FedWatch</div>
+    <div style="font-size:.54rem;color:var(--mute);margin-top:8px;text-align:center">{fed['next_meeting']} probabilities · CME FedWatch</div>
   </div>"""
 
     # ── Top 5 Economies HTML ──
@@ -1797,14 +1803,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.6rem;padding:3px 7px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.06em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{text-align:center;padding:14px 20px}}
-    .fed-title{{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600}}
-    .fed-detail{{font-size:.78rem;color:var(--text);margin:3px 0;line-height:1.5}}
-    .fed-detail .highlight{{color:var(--gold);font-weight:600}}
-    .fed-probs{{display:flex;justify-content:center;gap:16px;margin-top:8px}}
-    .fed-prob-item{{text-align:center}}
-    .fed-prob-val{{font-family:var(--serif);font-size:1.2rem;font-weight:400}}
-    .fed-prob-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}}
+    .fed-card{{text-align:center;padding:14px 16px}}
+    .fed-title{{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600}}
+    .fed-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}}
+    .fed-grid-item{{padding:6px 4px}}
+    .fed-grid-label{{font-size:.54rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}}
+    .fed-grid-val{{font-family:var(--serif);font-size:1.05rem;font-weight:400;line-height:1.3}}
+    .fed-grid-sub{{font-size:.52rem;color:var(--mute);margin-top:2px}}
+    @media(max-width:400px){{.fed-grid{{grid-template-columns:repeat(2,1fr);gap:6px}}.fed-grid-val{{font-size:.95rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
@@ -1872,11 +1878,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- WALL STREET CLOCK -->
-  <div class="card" style="text-align:center;padding:14px 20px">
-    <div style="font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">🗽📊 Wall Street Time</div>
-    <div class="live-clock" data-tz-offset="-4" style="font-family:var(--serif);font-size:1.4rem;color:var(--text);letter-spacing:.06em"></div>
-    <div style="font-size:.52rem;color:var(--mute);margin-top:6px;line-height:1.5">
-      NYSE closed: {next_nyse_str} · TSX closed: {next_tsx_str}
+  <div class="card" style="text-align:center;padding:8px 16px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">
+      <span style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">🗽 Wall St</span>
+      <span class="live-clock" data-tz-offset="-4" style="font-family:var(--serif);font-size:1.15rem;color:var(--text);letter-spacing:.04em"></span>
+      <span style="font-size:.56rem;color:var(--mute)">NYSE {next_nyse_str} · TSX {next_tsx_str}</span>
     </div>
   </div>
 
@@ -2088,20 +2094,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div style="margin-top:10px;font-size:.6rem;color:var(--mute);text-align:center">Updated monthly</div>
   </div>
 
-  <!-- THAI WORD OF THE DAY -->
+  <!-- THAI WORD + THAILAND NEWS -->
   <div class="card">
-    <div class="card-title">🇹🇭 Thai Word of the Day</div>
+    <div class="card-title">🇹🇭 Thailand</div>
     <div class="thai-word-box">
       <span class="word">{thai_word['thai']}</span>
       <span class="dot">•</span>
       <span class="meaning">{thai_word['meaning']}</span>
     </div>
-  </div>
-
-  <!-- THAILAND NEWS -->
-  <div class="card">
-    <div class="thai-news-compact">
-      <div class="thai-news-header">🇹🇭 Thailand News</div>
+    <div class="thai-news-compact" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)">
       {bkk_html}
     </div>
   </div>
