@@ -936,7 +936,7 @@ def fetch_catalysts(top3_tickers):
     # Map fallback tickers to real Yahoo Finance tickers for news
     FALLBACK_NEWS_MAP = {
         "_FVL_FALLBACK": "FVL.V",
-        "_MOLY_FALLBACK": "MOY.V",
+        "_MOLY_FALLBACK": "MOLY.V",
     }
 
     for ticker in top3_tickers:
