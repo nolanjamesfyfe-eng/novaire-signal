@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-04-01T04:01:07.472662+00:00",
+  "fetchedAt": "2026-04-01T05:51:57.837757+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "BarbarianCap"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2039177208485335160",
@@ -24,29 +22,29 @@
       "slot_order": 1
     },
     {
-      "id": "2039186024211894644",
-      "text": "Gone are the days when fashionistas worth their Vogue subscription wore Lululemon leggings for the coffee run, school run or just to run. Hotter rivals are gaining ground https://www.economist.com/business/2025/09/04/how-lululemon-fell-out-of-fashion?taid=69cc939943cf4a0001a4df66&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2039211188383256735",
+      "text": "Many people worry about overpopulation. But an increasing number, especially in rich countries, fret about demographic shrinkage. There are several reasons to doubt the doomsayers https://www.economist.com/leaders/2025/09/11/dont-panic-about-the-global-fertility-crash?taid=69ccab081ba7940001f8ea5a&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-04-01T03:40:09+00:00",
-      "createdAtMs": 1775014809000,
+      "createdAt": "2026-04-01T05:20:08+00:00",
+      "createdAtMs": 1775020808000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2039186024211894644#m",
+      "url": "https://x.com/TheEconomist/status/2039211188383256735#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
     },
     {
-      "id": "2039160569857773687",
-      "text": "The risk of FX intervention is rising in Japan:\n\nThe Yen has briefly weakened past 160 per US Dollar for the first time since July 2024, the spot where Japan’s Ministry of Finance last intervened in the currency market.\n\nSince April 2025, the US Dollar has strengthened against the Yen +14%.\n\nJapan has already spent ~$150 billion on multiple interventions to support the Yen since 2022.\n\nThe largest round of interventions took place in April-July 2024, when the Ministry of Finance spent a combined ~$95 billion to support the Yen.\n\nMeanwhile, Japan's Vice Finance Minister for International Affairs, Atsushi Mimura, said on Tuesday that \"decisive action\" may soon be necessary if speculative activity in the market continues.\n\nPressure on the Yen is intensifying.",
+      "id": "2039212697758191878",
+      "text": "BREAKING: President Trump will deliver an address to the nation on Wednesday at 9 PM ET to give “an important update on Iran.\"",
       "author": "KobeissiLetter",
       "handle": "KobeissiLetter",
-      "createdAt": "2026-04-01T01:59:00+00:00",
-      "createdAtMs": 1775008740000,
+      "createdAt": "2026-04-01T05:26:08+00:00",
+      "createdAtMs": 1775021168000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2039160569857773687#m",
+      "url": "https://x.com/KobeissiLetter/status/2039212697758191878#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 3
