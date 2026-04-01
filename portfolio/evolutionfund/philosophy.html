@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evolution Fund — Philosophy & Mindset</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+  <meta name="theme-color" content="#0a0a0c">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080b; --surface: #0f0f14; --surface2: #141419; --border: #1c1c25; --border2: #2a2a38;
+      --text: #edeaf5; --dim: #a09bb5; --mute: #6b6680;
+      --gold: #d4a853; --gold-dim: rgba(212,168,83,.10); --gold-mid: rgba(212,168,83,.25); --gold-bright: #e8c06a;
+      --green: #34d399; --green-dim: rgba(52,211,153,.12);
+      --red: #f87171; --red-dim: rgba(248,113,113,.10);
+      --blue: #60a5fa; --blue-dim: rgba(96,165,250,.10);
+      --violet: #a78bfa; --violet-dim: rgba(167,139,250,.10);
+      --cyan: #22d3ee; --orange: #fb923c; --amber: #fbbf24;
+      --sans: 'Inter', -apple-system, sans-serif;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --mono: 'JetBrains Mono', monospace;
+      --r: 8px; --r2: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans); background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    .hero {
+      text-align: center; padding: 60px 20px 40px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(167,139,250,.06) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .65rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--violet); background: var(--violet-dim); border: 1px solid rgba(167,139,250,.18);
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: var(--serif); font-size: 2.8rem; font-weight: 400;
+      color: var(--gold-bright); letter-spacing: .02em; margin-bottom: 10px;
+    }
+    .hero-sub {
+      font-family: var(--serif); font-size: 1.15rem; color: var(--dim);
+      max-width: 600px; margin: 0 auto 14px; font-style: italic;
+    }
+    .hero-date { font-size: .65rem; color: var(--mute); letter-spacing: .15em; text-transform: uppercase; }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 40px 20px; }
+
+    .section-title {
+      font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold); margin: 48px 0 20px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+    }
+    .section-title:first-child { margin-top: 0; }
+    .section-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--gold-mid), transparent);
+    }
+
+    .thesis-card {
+      background: linear-gradient(135deg, rgba(167,139,250,.08), var(--surface));
+      border: 1px solid rgba(167,139,250,.2); border-radius: var(--r2);
+      padding: 28px 24px; margin-bottom: 32px;
+    }
+    .thesis-card p {
+      font-family: var(--serif); font-size: 1.2rem; line-height: 1.6;
+      color: var(--text); font-style: italic;
+    }
+
+    .study-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      padding: 24px; margin-bottom: 18px; position: relative; overflow: hidden;
+    }
+    .study-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .study-card.placebo::before { background: var(--green); }
+    .study-card.nocebo::before { background: var(--red); }
+    .study-card.neuro::before { background: var(--blue); }
+    .study-card.stoic::before { background: var(--gold); }
+    .study-card.growth::before { background: var(--violet); }
+    .study-card.application::before { background: var(--cyan); }
+
+    .study-card h3 {
+      font-family: var(--serif); font-size: 1.25rem; font-weight: 500;
+      color: var(--gold-bright); margin-bottom: 4px;
+    }
+    .study-source {
+      font-size: .68rem; color: var(--mute); letter-spacing: .05em; margin-bottom: 14px;
+    }
+    .study-card p, .study-card li {
+      font-size: .88rem; color: var(--dim); line-height: 1.7;
+    }
+    .study-card ul { list-style: none; padding: 0; }
+    .study-card li { padding: 6px 0; padding-left: 20px; position: relative; }
+    .study-card li::before {
+      content: '→'; position: absolute; left: 0; color: var(--gold); font-weight: 600;
+    }
+    .study-card .highlight-stat {
+      font-family: var(--mono); font-size: .82rem; color: var(--green);
+      background: var(--green-dim); padding: 2px 8px; border-radius: 4px;
+    }
+
+    .quote-block {
+      background: var(--surface); border-left: 3px solid var(--gold);
+      padding: 20px 24px; margin: 20px 0; border-radius: 0 var(--r) var(--r) 0;
+    }
+    .quote-block p {
+      font-family: var(--serif); font-size: 1.15rem; font-style: italic;
+      color: var(--text); line-height: 1.6;
+    }
+    .quote-block .attr {
+      font-family: var(--sans); font-size: .72rem; color: var(--mute);
+      margin-top: 8px; font-style: normal; letter-spacing: .05em;
+    }
+
+    .philosopher-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px;
+    }
+    .phil-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      padding: 20px; text-align: center;
+    }
+    .phil-card .emoji { font-size: 2rem; margin-bottom: 8px; }
+    .phil-card h4 {
+      font-family: var(--serif); font-size: 1.05rem; color: var(--gold-bright);
+      margin-bottom: 4px;
+    }
+    .phil-card .phil-era { font-size: .62rem; color: var(--mute); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+    .phil-card p { font-size: .78rem; color: var(--dim); line-height: 1.55; }
+
+    .reframe-grid {
+      display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 24px;
+    }
+    .reframe-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2);
+      padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start;
+    }
+    .reframe-num {
+      font-family: var(--serif); font-size: 1.8rem; color: var(--gold); line-height: 1;
+      min-width: 32px;
+    }
+    .reframe-card h4 { font-size: .85rem; color: var(--text); margin-bottom: 4px; }
+    .reframe-card p { font-size: .78rem; color: var(--dim); line-height: 1.55; }
+
+    .pod-quote {
+      background: linear-gradient(135deg, rgba(212,168,83,.06), var(--surface));
+      border: 1px solid rgba(212,168,83,.15); border-radius: var(--r2);
+      padding: 20px 24px; margin-bottom: 14px;
+    }
+    .pod-quote p {
+      font-family: var(--serif); font-size: 1.05rem; font-style: italic;
+      color: var(--text); line-height: 1.6;
+    }
+
+    .nav-links {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .nav-links a {
+      font-size: .72rem; color: var(--dim); text-decoration: none; letter-spacing: .05em;
+      padding: 6px 14px; border: 1px solid var(--border); border-radius: 20px;
+      transition: all .2s;
+    }
+    .nav-links a:hover { border-color: var(--gold-mid); color: var(--gold); }
+
+    .footer {
+      text-align: center; padding: 40px 20px; margin-top: 40px;
+      border-top: 1px solid var(--border); color: var(--mute); font-size: .7rem;
+    }
+    .footer a { color: var(--gold); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    .fade-in { opacity: 0; transform: translateY(12px); transition: opacity .5s, transform .5s; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      .philosopher-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div style="max-width:780px;margin:0 auto;padding:16px 20px 0">
+  <a href="/portfolio/evolutionfund/" style="font-size:.7rem;color:var(--dim);text-decoration:none;letter-spacing:.08em">← Back to Evolution Fund</a>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">🧠 Podcast Research Notes</div>
+  <h1>Placebo, Nocebo & the Architecture of Reality</h1>
+  <p class="hero-sub">How belief shapes biology, markets, and civilizations — and why rational optimism is the only sane strategy in chaos.</p>
+  <p class="hero-date">The Second Renaissance Podcast • April 2026 • Episode Notes</p>
+</div>
+
+<div class="container">
+
+  <div class="nav-links">
+    <a href="#thesis">Thesis</a>
+    <a href="#science">The Science</a>
+    <a href="#mechanism">The Mechanism</a>
+    <a href="#philosophers">The Philosophers</a>
+    <a href="#application">The Application</a>
+    <a href="#reframes">Positive Reframes</a>
+    <a href="#quotables">Pod-Ready Quotes</a>
+  </div>
+
+  <!-- THESIS -->
+  <div id="thesis" class="thesis-card fade-in">
+    <p>In a world of war, market chaos, and 24/7 fear cycles, your beliefs literally shape your biology, your portfolio, and your civilization. The placebo and nocebo effects aren't medical curiosities — they're the operating system of human reality. Choose your inputs wisely.</p>
+  </div>
+
+  <!-- PART 1: THE SCIENCE -->
+  <div class="section-title" id="science">🔬 Part I — The Science: Your Brain Doesn't Know the Difference</div>
+
+  <div class="study-card placebo fade-in">
+    <h3>The Placebo Effect</h3>
+    <p class="study-source">Journal of Neuroscience • PMC/Nature Reviews Neuroscience • Harvard</p>
+    <ul>
+      <li><strong>Core finding:</strong> "The study of the placebo effect is the study of how beliefs and values shape brain processes related to perception, emotion, and ultimately mental and physical health."</li>
+      <li><strong>Brain mechanism:</strong> Placebos trigger <span class="highlight-stat">real dopamine release</span>, endorphin production, and cortisol reduction. Your brain produces the same chemicals whether the drug is real or sugar.</li>
+      <li><strong>Self-reinforcing:</strong> Once placebo effects begin, they change symptoms in ways that prevent extinction — positive belief loops <em>compound</em>.</li>
+      <li><strong>Key insight:</strong> Conviction + evidence = biological transformation. "Meaningfully large placebo effects require a mixture of conceptual belief AND prior experiences of benefit."</li>
+    </ul>
+  </div>
+
+  <div class="study-card nocebo fade-in">
+    <h3>The Nocebo Effect</h3>
+    <p class="study-source">PMC (2011, 2024) • Clinical Psychology Reviews</p>
+    <ul>
+      <li><strong>The dark mirror:</strong> "Negative expectations deriving from clinical encounters can produce negative outcomes." Simply <em>telling</em> patients about side effects <span class="highlight-stat" style="color:var(--red);background:var(--red-dim)">increases the chance they experience them</span>.</li>
+      <li><strong>Scope of damage:</strong> Negative expectations can induce respiratory diseases, chronic pain, gastrointestinal symptoms, influenza-like illness — all from belief alone.</li>
+      <li><strong>The implication:</strong> The media is a nocebo machine. Every fear headline, every doom scroll, every panic broadcast is programming your biology to produce stress hormones, inflammation, and disease.</li>
+    </ul>
+  </div>
+
+  <div class="study-card placebo fade-in">
+    <h3>The Hotel Maid Study</h3>
+    <p class="study-source">Alia Crum & Ellen Langer • Harvard University • Psychological Science, 2007</p>
+    <ul>
+      <li><strong>Setup:</strong> 84 hotel maids across 7 hotels. Half were told their daily work (cleaning, scrubbing, lifting) met the Surgeon General's definition of an active lifestyle. The other half: no information.</li>
+      <li><strong>Results after 4 weeks:</strong> The informed group — doing <em>the exact same work</em> — <span class="highlight-stat">lost weight, lowered blood pressure, reduced body fat %, and improved BMI</span>. The uninformed group: zero change.</li>
+      <li><strong>Nothing changed except their belief about what they were already doing.</strong></li>
+      <li>Published in Psychological Science. Peer-reviewed. Harvard. This is real.</li>
+    </ul>
+    <div class="quote-block" style="margin-top:16px">
+      <p>"Your body is listening to your mind's interpretation of reality, not reality itself."</p>
+    </div>
+  </div>
+
+  <div class="study-card neuro fade-in">
+    <h3>The Pygmalion Effect</h3>
+    <p class="study-source">Rosenthal & Jacobson • 1968 • California Elementary School Study</p>
+    <ul>
+      <li>Teachers told certain students were "intellectual bloomers" about to surge in IQ — <em>randomly selected</em>.</li>
+      <li>Those students' IQ scores <span class="highlight-stat">actually increased significantly</span> over the school year.</li>
+      <li>The teachers' expectations changed their behavior unconsciously — more attention, encouragement, patience.</li>
+      <li><strong>Inverse (Golem Effect):</strong> Low expectations produce low performance. The nocebo of human relationships.</li>
+      <li><strong>Other people's beliefs about you can reshape your biological capabilities.</strong></li>
+    </ul>
+  </div>
+
+  <!-- PART 2: THE MECHANISM -->
+  <div class="section-title" id="mechanism">🧬 Part II — Thoughts Become Reality: The Mechanism</div>
+
+  <div class="study-card neuro fade-in">
+    <h3>Neuroplasticity</h3>
+    <p class="study-source">fMRI Research • Hebb's Rule • Epigenetics</p>
+    <ul>
+      <li>Deliberate thought patterns <strong>physically alter brain architecture</strong> — confirmed via fMRI in CBT, meditation, and visualization studies.</li>
+      <li><strong>Hebb's Rule:</strong> "Neurons that fire together wire together." Your repeated thoughts literally build highways in your brain.</li>
+      <li><strong>Epigenetic signals:</strong> "When we think our thoughts and feel our feelings, our bodies respond in a complex formula of biological shifts and alterations." Beliefs change which genes express. — Joe Dispenza</li>
+      <li>Intensive meditation has been shown to <span class="highlight-stat">lengthen telomeres</span> — biological markers of aging. You can think yourself younger.</li>
+    </ul>
+  </div>
+
+  <div class="study-card growth fade-in">
+    <h3>Self-Fulfilling Prophecy</h3>
+    <p class="study-source">Behavioral Psychology • Market Theory</p>
+    <ul>
+      <li>Positive visualization + goal-setting rewires the brain to align with aspirations. Repeatedly rehearsing positive scenarios fortifies neural pathways that support those outcomes.</li>
+      <li><strong>Markets are the ultimate self-fulfilling prophecy.</strong> If enough people believe the market will crash, they sell, and it crashes. If enough believe it will recover, they buy, and it recovers. Belief IS the market.</li>
+    </ul>
+  </div>
+
+  <div class="study-card growth fade-in">
+    <h3>Post-Traumatic Growth</h3>
+    <p class="study-source">Tedeschi & Calhoun, 2004 • Psychology Today • PMC</p>
+    <ul>
+      <li>"The positive psychological change that some individuals experience after a life crisis or traumatic event."</li>
+      <li>Not <em>despite</em> the crisis — <strong>because of it</strong>. The shattering of old assumptions forces a rebuild at a higher level.</li>
+      <li><strong>5 domains of PTG:</strong> New possibilities • Improved relationships • Greater personal strength • Spiritual change • Enhanced appreciation for life</li>
+      <li>Individuals who experience trauma show: <span class="highlight-stat">greater optimism, deeper relationships, personality transformation</span>.</li>
+    </ul>
+  </div>
+
+  <!-- PART 3: THE PHILOSOPHERS -->
+  <div class="section-title" id="philosophers">📜 Part III — The Philosophers Respond</div>
+
+  <div class="philosopher-grid fade-in">
+    <div class="phil-card">
+      <div class="emoji">⚔️</div>
+      <h4>Marcus Aurelius</h4>
+      <div class="phil-era">Meditations • 170 AD</div>
+      <p>"The impediment to action advances action. What stands in the way becomes the way." Every obstacle is raw material for virtue: courage, wisdom, moderation, justice.</p>
+    </div>
+    <div class="phil-card">
+      <div class="emoji">🔥</div>
+      <h4>Seneca</h4>
+      <div class="phil-era">Letters from a Stoic • 65 AD</div>
+      <p>"Not to give in to adversity, not to trust prosperity." The prizefighter can only enter the ring confidently after seeing his own blood. Difficulty is training, not punishment.</p>
+    </div>
+    <div class="phil-card">
+      <div class="emoji">🦢</div>
+      <h4>Nassim Taleb</h4>
+      <div class="phil-era">Antifragile • 2012</div>
+      <p>Antifragile = "needing chaos to survive and flourish." The Evolution Fund IS the barbell: 30% survives failure, 70% captures acceleration. The nocebo investor panics. The antifragile investor feeds.</p>
+    </div>
+    <div class="phil-card">
+      <div class="emoji">🌱</div>
+      <h4>Voltaire</h4>
+      <div class="phil-era">Candide • 1759</div>
+      <p>"We must cultivate our garden." Not blind optimism, not despair — rational optimism. Acknowledge the chaos, build something real in your own corner. The wizard path.</p>
+    </div>
+    <div class="phil-card">
+      <div class="emoji">⚡</div>
+      <h4>Benjamin Franklin</h4>
+      <div class="phil-era">Autobiography • 1791</div>
+      <p>"Out of adversity comes opportunity." The ultimate practitioner: designed his own 13 virtues, tracked them daily, and quite literally built himself into the person he wanted to become.</p>
+    </div>
+    <div class="phil-card">
+      <div class="emoji">🎪</div>
+      <h4>Warren Buffett</h4>
+      <div class="phil-era">Berkshire Letters • 1986</div>
+      <p>"Be fearful when others are greedy, and greedy when others are fearful." The financial expression of placebo vs nocebo: when the herd panics, the contrarian with conviction profits.</p>
+    </div>
+  </div>
+
+  <div class="quote-block fade-in">
+    <p>"A setback has often cleared the way for greater prosperity. Many things have fallen only to rise to more exalted heights."</p>
+    <div class="attr">— Seneca, Letters from a Stoic</div>
+  </div>
+
+  <!-- PART 4: THE APPLICATION -->
+  <div class="section-title" id="application">🎯 Part IV — The Application: Right Now, April 2026</div>
+
+  <div class="study-card nocebo fade-in">
+    <h3>The World's Nocebo Cycle</h3>
+    <p class="study-source">Current State • Day 33 of Iran War</p>
+    <ul>
+      <li>Oil at $118. Markets in correction. IRGC threatening tech companies. Hormuz closed. Gold above $4,500.</li>
+      <li>Media running 24/7 fear cycles. Every headline designed to trigger cortisol.</li>
+      <li><strong>This is the nocebo effect at civilizational scale.</strong> Fear → stress → bad decisions → worse outcomes → more fear.</li>
+    </ul>
+  </div>
+
+  <div class="study-card application fade-in">
+    <h3>The Placebo Antidote — Choose This</h3>
+    <p class="study-source">Rational Optimism in Action</p>
+    <ul>
+      <li><strong>Your body:</strong> The hotel maids study proves that reframing experience changes biology. Your gym session isn't just exercise — it's antifragile training. Believe it, and your body responds.</li>
+      <li><strong>Your portfolio:</strong> The Evolution Fund thesis is PRINTING. Energy over tech until war ends. $118 Brent isn't a crisis — it's thesis confirmation. Conviction IS the edge.</li>
+      <li><strong>Your mind:</strong> Every doom scroll is a nocebo dose. Every deep conversation, every podcast episode, every philosophical insight is a placebo dose. You are choosing which chemicals your brain produces.</li>
+      <li><strong>Your civilization:</strong> The first Renaissance emerged from plague, war, and the collapse of old certainties. This chaos is the soil. The question is: what do you plant?</li>
+    </ul>
+  </div>
+
+  <div class="study-card stoic fade-in">
+    <h3>The Clown Connection</h3>
+    <p class="study-source">From "Clown Rules for Life" by J. Novaire</p>
+    <ul>
+      <li>Humor breaks the fear loop. Laughter produces endorphins — it's a biological circuit-breaker for cortisol.</li>
+      <li>The court jester was the only one allowed to tell the king the truth. In a world of nocebo narratives, the clown speaks reality.</li>
+      <li><strong>"Serious-ganso"</strong> = taking things seriously through levity. The clown doesn't deny the chaos — he dances with it.</li>
+      <li>The Clown is the antidote to the nocebo trance.</li>
+    </ul>
+  </div>
+
+  <!-- POSITIVE REFRAMES -->
+  <div class="section-title" id="reframes">✨ Part V — Positive Reframes: Hope in Chaos</div>
+
+  <div class="reframe-grid fade-in">
+    <div class="reframe-card">
+      <div class="reframe-num">1</div>
+      <div>
+        <h4>Energy independence thesis validated</h4>
+        <p>Countries that invested in nuclear + domestic energy are weathering this crisis. The Evolution Fund is positioned exactly here. Thesis confirmed, not threatened.</p>
+      </div>
+    </div>
+    <div class="reframe-card">
+      <div class="reframe-num">2</div>
+      <div>
+        <h4>Gold doing what gold does</h4>
+        <p>$4,500+ is Armstrong's thesis in motion. Monetary stores of value perform in exactly this environment. This isn't a surprise — it's the plan working.</p>
+      </div>
+    </div>
+    <div class="reframe-card">
+      <div class="reframe-num">3</div>
+      <div>
+        <h4>Post-traumatic growth is real and measurable</h4>
+        <p>Civilizations that survive crises emerge stronger, more creative, more interconnected. The research is unambiguous. What shatters rebuilds higher.</p>
+      </div>
+    </div>
+    <div class="reframe-card">
+      <div class="reframe-num">4</div>
+      <div>
+        <h4>AI acceleration hasn't slowed</h4>
+        <p>The compounding entropy reduction continues regardless of geopolitics. The second derivative is still positive. The thesis behind the fund — negentropy — is physics, not politics.</p>
+      </div>
+    </div>
+    <div class="reframe-card">
+      <div class="reframe-num">5</div>
+      <div>
+        <h4>Community and conviction compound</h4>
+        <p>Every conversation on The Second Renaissance, every subscriber to Novaire Signal, is another node in a network of rational optimists who refuse the nocebo.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block fade-in">
+    <p>14th century: Black Death kills 30–60% of Europe. Wars everywhere. Church monopoly crumbling. What emerged? The greatest explosion of art, science, philosophy, and human potential in history. The Renaissance wasn't born from comfort — it was born from crisis that shattered old certainties and forced new thinking.</p>
+    <p style="margin-top:12px;color:var(--gold)"><strong>We are in the shattering phase. The question is whether you see the plague or the printing press.</strong></p>
+  </div>
+
+  <!-- POD-READY QUOTES -->
+  <div class="section-title" id="quotables">🎙️ Pod-Ready Quotables</div>
+
+  <div class="pod-quote fade-in">
+    <p>"The placebo effect isn't a medical curiosity — it's proof that your brain manufactures reality. The only question is: who's writing the prescription? You, or the 24-hour news cycle?"</p>
+  </div>
+  <div class="pod-quote fade-in">
+    <p>"The nocebo effect means fear is literally carcinogenic. Every doom headline you internalize is a sugar pill of cortisol."</p>
+  </div>
+  <div class="pod-quote fade-in">
+    <p>"Hotel maids lost weight by BELIEVING they were exercising. Nothing changed except the story they told themselves. Now ask yourself: what story are you telling yourself about this market?"</p>
+  </div>
+  <div class="pod-quote fade-in">
+    <p>"Voltaire would mock both the doomers and the hopium addicts. Rational optimism is the wizard path: acknowledge the fire, but bring marshmallows."</p>
+  </div>
+  <div class="pod-quote fade-in">
+    <p>"The Evolution Fund is a placebo portfolio — not because it's fake, but because it's built on the conviction that energy, gold, and technology will compound through chaos. And that conviction IS the edge."</p>
+  </div>
+  <div class="pod-quote fade-in">
+    <p>"Antifragile isn't a metaphor. Taleb proved it mathematically. Some things NEED disorder to thrive. Your bones, your portfolio, your civilization — same principle."</p>
+  </div>
+  <div class="pod-quote fade-in">
+    <p>"The first Renaissance was born from the Black Death. The Second Renaissance is being born from this. The only question is: are you a builder or a spectator?"</p>
+  </div>
+
+  <!-- EPISODE STRUCTURE -->
+  <div class="section-title">📋 Suggested Episode Structure</div>
+  <div class="study-card application fade-in">
+    <h3>Episode Flow</h3>
+    <ul>
+      <li><strong>Cold Open:</strong> The hotel maid study — pure story, no setup. Hook them.</li>
+      <li><strong>Act 1 (15 min):</strong> Placebo & Nocebo — the hard science. Blow their minds with what belief actually does to biology.</li>
+      <li><strong>Act 2 (10 min):</strong> Thoughts become reality — neuroplasticity, Pygmalion effect, self-fulfilling prophecy. The mechanism.</li>
+      <li><strong>Act 3 (10 min):</strong> The philosophers respond — Aurelius, Seneca, Taleb, Voltaire, Franklin, Buffett. How the great minds applied this.</li>
+      <li><strong>Act 4 (10 min):</strong> The application — this moment, this war, this market, this podcast. Why it matters right now.</li>
+      <li><strong>Close:</strong> The Second Renaissance isn't coming. It's here. You're either building or spectating.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    The Second Renaissance Podcast — Evolution Fund Philosophy Notes<br>
+    <a href="https://novairesignal.com">novairesignal.com</a> &bull; <a href="https://evolution.fund">evolution.fund</a> &bull; <a href="https://novaireink.com">novaireink.com</a>
+    <br><span style="margin-top:4px;display:inline-block">Research notes. Private & confidential.</span>
+  </div>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
