@@ -5,7 +5,9 @@
   "fetchedAt": "2026-04-01T04:01:07.472662+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "BarbarianCap"
+  ],
   "posts": [
     {
       "id": "2039177208485335160",
