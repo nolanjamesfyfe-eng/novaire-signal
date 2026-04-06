@@ -1330,7 +1330,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, kraken_html=""):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1912,8 +1912,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   {poly_html}
 
   {alpaca_html}
-
-  {kraken_html}
 
   <!-- FED SIGNAL -->
   {fed_html}
@@ -2859,8 +2857,7 @@ def main():
         poly_html=poly_html,
         alpaca_html=alpaca_html,
         fed_signal=fed_signal,
-        economies=economies,
-        kraken_html=kraken_html
+        economies=economies
     )
 
     print("  📦 Generating portfolio page...")
