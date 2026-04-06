@@ -2724,62 +2724,91 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
   </div>"""
 
-    # ── Kraken Crypto Strategy (LIVE positions) ──
+    # ── Kraken Crypto Strategy (LIVE positions from Kraken margin) ──
+    # Positions from Novaire's Kraken account — DO NOT REVERT without asking.
+    # These are real margin positions. Prices fetched live; entries/quantities/liq locked from account.
     print("  🪙 Fetching Kraken crypto positions...")
     KRAKEN_POSITIONS = [
-        {"coin": "BTC", "capital": 525, "leverage": 3, "symbol": "BTC-USD"},
-        {"coin": "ETH", "capital": 525, "leverage": 3, "symbol": "ETH-USD"},
-        {"coin": "TON", "capital": 150, "leverage": 2, "symbol": "TON-USD"},
-        {"coin": "ZEC", "capital": 150, "leverage": 2, "symbol": "ZEC-USD"},
-        {"coin": "SOL", "capital": 150, "leverage": 2, "symbol": "SOL-USD"},
+        {"coin": "ETH", "lev": "10x", "qty": 0.76460520, "unit": "ETH", "entry": 2059.85, "margin": 157.49, "liq": 249.44, "symbol": "ETH-USD"},
+        {"coin": "BTC", "lev": "10x", "qty": 0.02339996, "unit": "BTC", "entry": 67307.70, "margin": 157.49, "liq": 37564.30, "symbol": "BTC-USD"},
+        {"coin": "SOL", "lev": "10x", "qty": 3.76057662, "unit": "SOL", "entry": 79.77, "margin": 29.99, "liq": None, "symbol": "SOL-USD"},
+        {"coin": "TON", "lev": "3x",  "qty": 241.54589, "unit": "TON", "entry": 1.242, "margin": 99.99, "liq": None, "symbol": "TON11419-USD"},
+        {"coin": "ZEC", "lev": "5x",  "qty": 1.17688595, "unit": "ZEC", "entry": 254.91, "margin": 60.00, "liq": None, "symbol": "ZEC-USD"},
     ]
+    KRAKEN_DEPOSIT = 1652.88  # current deposit balance shown on Kraken
     KRAKEN_INCEPTION = 1500.00
-    # Entry prices (locked at April 1, 2026 open)
-    KRAKEN_ENTRIES = {"BTC": 69500, "ETH": 2150, "SOL": 135, "TON": 3.80, "ZEC": 48}
     kraken_rows = ""
     kraken_total_value = 0
-    kraken_total_cost = 0
+    kraken_total_margin = 0
     try:
-        import yfinance as _yf_k
         for kp in KRAKEN_POSITIONS:
             coin = kp["coin"]
-            capital = kp["capital"]
-            leverage = kp["leverage"]
-            exposure = capital * leverage
-            entry = KRAKEN_ENTRIES.get(coin, 1)
-            units = exposure / entry
+            qty = kp["qty"]
+            entry = kp["entry"]
+            margin = kp["margin"]
+            lev = kp["lev"]
+            liq = kp["liq"]
+            liq_str = f"${liq:,.2f}" if liq else "—"
+            # Fetch live price
             try:
-                _tk = _yf_k.Ticker(kp["symbol"])
-                price = float(_tk.history(period="1d")["Close"].iloc[-1])
+                import urllib.request as _ur_k
+                _sym = kp["symbol"].replace("-", "")
+                if coin == "TON":
+                    _sym = "TONUSD"
+                _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else f"https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
+                _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
+                import json as _jk
+                _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
+                price = float(_rd["price"])
             except:
-                price = entry
-            current_val = units * price
-            cost = exposure
-            pnl_pct = ((current_val - cost) / cost) * 100
-            pnl_color = "#4ade80" if pnl_pct >= 0 else "#f87171"
-            pnl_str = f"+{pnl_pct:.1f}%" if pnl_pct >= 0 else f"{pnl_pct:.1f}%"
+                try:
+                    import yfinance as _yf_k
+                    _tk = _yf_k.Ticker(kp["symbol"])
+                    price = float(_tk.history(period="1d")["Close"].iloc[-1])
+                except:
+                    price = entry  # fallback to entry
+            current_val = qty * price
+            cost_basis = qty * entry
+            upnl = current_val - cost_basis
+            margin_pct = ((price - entry) / entry) * 100
+            margin_color = "#4ade80" if upnl >= 0 else "#f87171"
+            upnl_str = f"+${upnl:.2f}" if upnl >= 0 else f"-${abs(upnl):.2f}"
+            margin_pct_str = f"+{margin_pct:.1f}%" if margin_pct >= 0 else f"{margin_pct:.1f}%"
             kraken_total_value += current_val
-            kraken_total_cost += cost
-            kraken_rows += f'<tr><td style="font-size:.75rem">{coin}</td><td style="text-align:right;font-size:.75rem">${capital:.0f}</td><td style="text-align:right;font-size:.75rem">{leverage}:1</td><td style="text-align:right;font-size:.75rem">${current_val:.0f}</td><td style="text-align:right;font-size:.75rem;color:{pnl_color};font-weight:600">{pnl_str}</td></tr>'
-        kraken_equity = kraken_total_value - kraken_total_cost + KRAKEN_INCEPTION
+            kraken_total_margin += margin
+            kraken_rows += f"""<tr>
+        <td style="font-size:.75rem">{coin} <span style="font-size:.6rem;color:var(--mute)">{lev}</span></td>
+        <td style="text-align:right;font-size:.7rem">${entry:,.2f}</td>
+        <td style="text-align:right;font-size:.7rem">{liq_str}</td>
+        <td style="text-align:right;font-size:.7rem">${current_val:,.2f}</td>
+        <td style="text-align:right;font-size:.7rem;color:{margin_color}">{margin_pct_str}</td>
+        <td style="text-align:right;font-size:.7rem;color:{margin_color};font-weight:600">{upnl_str}</td>
+      </tr>"""
+        kraken_total_upnl = kraken_total_value - sum(kp["qty"] * kp["entry"] for kp in KRAKEN_POSITIONS)
+        kraken_equity = KRAKEN_DEPOSIT + kraken_total_upnl
         kraken_roi = ((kraken_equity - KRAKEN_INCEPTION) / KRAKEN_INCEPTION) * 100
         kraken_roi_color = "#4ade80" if kraken_roi >= 0 else "#f87171"
         kraken_roi_str = f"+{kraken_roi:.1f}%" if kraken_roi >= 0 else f"{kraken_roi:.1f}%"
+        kraken_upnl_color = "#4ade80" if kraken_total_upnl >= 0 else "#f87171"
+        kraken_upnl_str = f"+${kraken_total_upnl:.2f}" if kraken_total_upnl >= 0 else f"-${abs(kraken_total_upnl):.2f}"
+        print(f"    ✅ Kraken: 5 positions, equity ${kraken_equity:.2f}, uPnL {kraken_upnl_str}")
     except Exception as _ke:
         print(f"    ⚠ Kraken fetch error: {_ke}")
-        kraken_equity = KRAKEN_INCEPTION
+        kraken_equity = KRAKEN_DEPOSIT
         kraken_roi_str = "N/A"
         kraken_roi_color = "var(--mute)"
+        kraken_upnl_str = "N/A"
+        kraken_upnl_color = "var(--mute)"
 
     kraken_html = f"""<div class="card">
     <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: ${KRAKEN_INCEPTION:.2f} · Live since April 1, 2026</span><span>Leveraged crypto portfolio</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.68rem;color:var(--mute)"><span>70% BTC/ETH (3:1 margin) · 30% TON/ZEC/SOL (2:1 margin)</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Deposit: ${KRAKEN_DEPOSIT:,.2f} · Inception: ${KRAKEN_INCEPTION:,.2f}</span><span>5 positions · Live</span></div>
     <table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Capital</th><th style="text-align:right">Leverage</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
+      <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Entry</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
       {kraken_rows}
     </table>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Equity: ${kraken_equity:.2f}</span><span style="color:{kraken_roi_color}">Inception ROI: {kraken_roi_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Unrealized P&amp;L</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Equity: ${kraken_equity:,.2f}</span><span style="color:{kraken_roi_color}">Inception ROI: {kraken_roi_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Exchange: Kraken</span></div>
   </div>"""
 
