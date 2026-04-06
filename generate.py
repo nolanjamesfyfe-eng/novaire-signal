@@ -618,8 +618,8 @@ def fetch_trending_recs():
     - Book: Amazon Business bestsellers #1 title + Open Library description
     Fallback to hardcoded picks on any failure.
     """
-    rec_movie = {"label": "📺 Now Watching", "title": "The Tank", "meta": "German · WWI Drama", "summary": "Brutal, immersive WWI tank warfare from the German side. Pervitin-fueled crew pushing through hell."}
-    rec_book  = {"label": "📖 Now Reading",  "title": "The Psychology of Money", "meta": "Morgan Housel · Finance/Behavior", "summary": "Timeless lessons on wealth, greed, and happiness. Why financial success is more about behavior than intelligence."}
+    rec_movie = {"label": "📺 Now Watching", "title": "Crime 101", "meta": "Prime · Heist/Crime", "summary": "Slick heist film — the art of the plan, the thrill of execution, and what happens when entropy meets ambition."}
+    rec_book  = {"label": "📖 Now Reading",  "title": "Memories, Dreams, Reflections", "meta": "C.G. Jung · Autobiography/Psychology", "summary": "Jung's own account of his inner life — visions, the unconscious, and the making of analytical psychology. The autobiography he never wanted to write."}
 
     # ── Movie: FlixPatrol trending → OMDB description ──
     try:
@@ -1330,7 +1330,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, kraken_html=""):
 
     now       = datetime.now(timezone.utc)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1913,6 +1913,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   {alpaca_html}
 
+  {kraken_html}
+
   <!-- FED SIGNAL -->
   {fed_html}
 
@@ -2080,15 +2082,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="rec-grid">
       <div class="rec-item">
         <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">The Tank</div>
-        <div class="rec-meta">German · WWI Drama</div>
-        <div class="rec-summary">Brutal, immersive WWI tank warfare from the German side. Pervitin-fueled crew pushing through hell.</div>
+        <div class="rec-title">Crime 101</div>
+        <div class="rec-meta">Prime · Heist/Crime</div>
+        <div class="rec-summary">Slick heist film — the art of the plan, the thrill of execution, and what happens when entropy meets ambition.</div>
       </div>
       <div class="rec-item">
         <div class="rec-label">📖 Reading</div>
-        <div class="rec-title">The Psychology of Money</div>
-        <div class="rec-meta">Morgan Housel · Finance/Behavior</div>
-        <div class="rec-summary">Timeless lessons on wealth, greed, and happiness. Why financial success is more about behavior than intelligence.</div>
+        <div class="rec-title">Memories, Dreams, Reflections</div>
+        <div class="rec-meta">C.G. Jung · Autobiography/Psychology</div>
+        <div class="rec-summary">Jung's own account of his inner life — visions, the unconscious, and the making of analytical psychology. The autobiography he never wanted to write.</div>
       </div>
     </div>
     <div style="margin-top:10px;font-size:.6rem;color:var(--mute);text-align:center">Updated monthly</div>
@@ -2722,6 +2724,65 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
   </div>"""
 
+    # ── Kraken Crypto Strategy (LIVE positions) ──
+    print("  🪙 Fetching Kraken crypto positions...")
+    KRAKEN_POSITIONS = [
+        {"coin": "BTC", "capital": 525, "leverage": 3, "symbol": "BTC-USD"},
+        {"coin": "ETH", "capital": 525, "leverage": 3, "symbol": "ETH-USD"},
+        {"coin": "TON", "capital": 150, "leverage": 2, "symbol": "TON-USD"},
+        {"coin": "ZEC", "capital": 150, "leverage": 2, "symbol": "ZEC-USD"},
+        {"coin": "SOL", "capital": 150, "leverage": 2, "symbol": "SOL-USD"},
+    ]
+    KRAKEN_INCEPTION = 1500.00
+    # Entry prices (locked at April 1, 2026 open)
+    KRAKEN_ENTRIES = {"BTC": 69500, "ETH": 2150, "SOL": 135, "TON": 3.80, "ZEC": 48}
+    kraken_rows = ""
+    kraken_total_value = 0
+    kraken_total_cost = 0
+    try:
+        import yfinance as _yf_k
+        for kp in KRAKEN_POSITIONS:
+            coin = kp["coin"]
+            capital = kp["capital"]
+            leverage = kp["leverage"]
+            exposure = capital * leverage
+            entry = KRAKEN_ENTRIES.get(coin, 1)
+            units = exposure / entry
+            try:
+                _tk = _yf_k.Ticker(kp["symbol"])
+                price = float(_tk.history(period="1d")["Close"].iloc[-1])
+            except:
+                price = entry
+            current_val = units * price
+            cost = exposure
+            pnl_pct = ((current_val - cost) / cost) * 100
+            pnl_color = "#4ade80" if pnl_pct >= 0 else "#f87171"
+            pnl_str = f"+{pnl_pct:.1f}%" if pnl_pct >= 0 else f"{pnl_pct:.1f}%"
+            kraken_total_value += current_val
+            kraken_total_cost += cost
+            kraken_rows += f'<tr><td style="font-size:.75rem">{coin}</td><td style="text-align:right;font-size:.75rem">${capital:.0f}</td><td style="text-align:right;font-size:.75rem">{leverage}:1</td><td style="text-align:right;font-size:.75rem">${current_val:.0f}</td><td style="text-align:right;font-size:.75rem;color:{pnl_color};font-weight:600">{pnl_str}</td></tr>'
+        kraken_equity = kraken_total_value - kraken_total_cost + KRAKEN_INCEPTION
+        kraken_roi = ((kraken_equity - KRAKEN_INCEPTION) / KRAKEN_INCEPTION) * 100
+        kraken_roi_color = "#4ade80" if kraken_roi >= 0 else "#f87171"
+        kraken_roi_str = f"+{kraken_roi:.1f}%" if kraken_roi >= 0 else f"{kraken_roi:.1f}%"
+    except Exception as _ke:
+        print(f"    ⚠ Kraken fetch error: {_ke}")
+        kraken_equity = KRAKEN_INCEPTION
+        kraken_roi_str = "N/A"
+        kraken_roi_color = "var(--mute)"
+
+    kraken_html = f"""<div class="card">
+    <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: ${KRAKEN_INCEPTION:.2f} · Live since April 1, 2026</span><span>Leveraged crypto portfolio</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.68rem;color:var(--mute)"><span>70% BTC/ETH (3:1 margin) · 30% TON/ZEC/SOL (2:1 margin)</span></div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Capital</th><th style="text-align:right">Leverage</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
+      {kraken_rows}
+    </table>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Equity: ${kraken_equity:.2f}</span><span style="color:{kraken_roi_color}">Inception ROI: {kraken_roi_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Exchange: Kraken</span></div>
+  </div>"""
+
     zodiac    = get_zodiac()
     doy       = day_of_year()
     thai_word = pick(THAI_WORDS, 5)
@@ -2769,7 +2830,8 @@ def main():
         poly_html=poly_html,
         alpaca_html=alpaca_html,
         fed_signal=fed_signal,
-        economies=economies
+        economies=economies,
+        kraken_html=kraken_html
     )
 
     print("  📦 Generating portfolio page...")
@@ -2893,22 +2955,7 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t2_rpnl_color};font-weight:600">{t2_rpnl_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
   </div>
-  <div class="card">
-    <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $1,500.00 · Launching April 1, 2026</span><span>Leveraged crypto portfolio</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.68rem;color:var(--mute)"><span>70% BTC/ETH (3:1 margin) · 30% TON/ZEC/SOL (2:1 margin)</span></div>
-    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Planned Positions</div>
-    <div><table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Capital</th><th style="text-align:right">Leverage</th><th style="text-align:right">Exposure</th></tr>
-      <tr><td style="font-size:.75rem">BTC</td><td style="text-align:right;font-size:.75rem">$525</td><td style="text-align:right;font-size:.75rem">3:1</td><td style="text-align:right;font-size:.75rem">$1,575</td></tr>
-      <tr><td style="font-size:.75rem">ETH</td><td style="text-align:right;font-size:.75rem">$525</td><td style="text-align:right;font-size:.75rem">3:1</td><td style="text-align:right;font-size:.75rem">$1,575</td></tr>
-      <tr><td style="font-size:.75rem">TON</td><td style="text-align:right;font-size:.75rem">$150</td><td style="text-align:right;font-size:.75rem">2:1</td><td style="text-align:right;font-size:.75rem">$300</td></tr>
-      <tr><td style="font-size:.75rem">ZEC</td><td style="text-align:right;font-size:.75rem">$150</td><td style="text-align:right;font-size:.75rem">2:1</td><td style="text-align:right;font-size:.75rem">$300</td></tr>
-      <tr><td style="font-size:.75rem">SOL</td><td style="text-align:right;font-size:.75rem">$150</td><td style="text-align:right;font-size:.75rem">2:1</td><td style="text-align:right;font-size:.75rem">$300</td></tr>
-      <tr style="border-top:1px solid var(--border);font-weight:600"><td style="font-size:.75rem;padding-top:6px">Total</td><td style="text-align:right;font-size:.75rem;padding-top:6px">$1,500</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">$4,050</td></tr>
-    </table></div>
-    <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Pre-launch · Awaiting funding</span><span>Exchange: Kraken</span></div>
-  </div>"""
+  {kraken_html}"""
 
     # ── Evolution Fund ──
     print("  🏛️ Fetching Evolution Fund positions...")
