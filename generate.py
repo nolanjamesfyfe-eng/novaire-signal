@@ -2784,7 +2784,9 @@ def main():
             kraken_total_margin += margin
             kraken_rows += f"""<tr>
         <td style="font-size:.75rem">{coin} <span style="font-size:.6rem;color:var(--mute)">{lev}</span></td>
+        <td style="text-align:right;font-size:.7rem">{qty:,.6f}</td>
         <td style="text-align:right;font-size:.7rem">${entry:,.2f}</td>
+        <td style="text-align:right;font-size:.7rem">${cost_basis:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">{liq_str}</td>
         <td style="text-align:right;font-size:.7rem">${current_val:,.2f}</td>
         <td style="text-align:right;font-size:.7rem;color:{margin_color}">{margin_pct_str}</td>
@@ -2810,7 +2812,7 @@ def main():
     <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Deposit: ${KRAKEN_DEPOSIT:,.2f} · Inception: ${KRAKEN_INCEPTION:,.2f}</span><span>5 positions · Live</span></div>
     <table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Entry</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
+      <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Qty</th><th style="text-align:right">Entry</th><th style="text-align:right">Notional</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
       {kraken_rows}
     </table>
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Unrealized P&amp;L</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
