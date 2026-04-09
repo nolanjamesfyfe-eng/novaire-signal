@@ -2727,14 +2727,19 @@ def main():
     # These are real margin positions. Prices fetched live; entries/quantities/liq locked from account.
     print("  🪙 Fetching Kraken crypto positions...")
     KRAKEN_POSITIONS = [
-        {"coin": "ETH", "lev": "10x", "qty": 0.76460520, "unit": "ETH", "entry": 2059.85, "margin": 157.49, "liq": 249.44, "symbol": "ETH-USD"},
-        {"coin": "BTC", "lev": "10x", "qty": 0.02339996, "unit": "BTC", "entry": 67307.70, "margin": 157.49, "liq": 37564.30, "symbol": "BTC-USD"},
-        {"coin": "SOL", "lev": "10x", "qty": 3.76057662, "unit": "SOL", "entry": 79.77, "margin": 29.99, "liq": None, "symbol": "SOL-USD"},
-        {"coin": "TON", "lev": "3x",  "qty": 241.54589, "unit": "TON", "entry": 1.242, "margin": 99.99, "liq": None, "symbol": "TON11419-USD"},
-        {"coin": "ZEC", "lev": "5x",  "qty": 1.17688595, "unit": "ZEC", "entry": 254.91, "margin": 60.00, "liq": None, "symbol": "ZEC-USD"},
+        # Snapshot updated from Kraken screenshots (2026-04-09 02:44 UTC)
+        {"coin": "BTC", "lev": "10x", "qty": 0.0504,   "unit": "BTC", "entry": 67923.88, "margin": 315.00, "liq": None, "symbol": "BTC-USD", "current": 70983.50},
+        {"coin": "SOL", "lev": "10x", "qty": 4.00058,  "unit": "SOL", "entry": 79.91,    "margin": 55.00,  "liq": None, "symbol": "SOL-USD", "current": 82.17},
+        {"coin": "ETH", "lev": "10x", "qty": 1.00461,  "unit": "ETH", "entry": 2078.92,  "margin": 220.00, "liq": None, "symbol": "ETH-USD", "current": 2179.06},
+        {"coin": "ZEC", "lev": "5x",  "qty": 1.17689,  "unit": "ZEC", "entry": 254.92,   "margin": 95.00,  "liq": None, "symbol": "ZEC-USD", "current": 318.15},
+        {"coin": "TON", "lev": "3x",  "qty": 241.5459, "unit": "TON", "entry": 1.242,    "margin": 58.16,  "liq": None, "symbol": "TON11419-USD", "current": 1.223},
     ]
-    KRAKEN_DEPOSIT = 1652.88  # current deposit balance shown on Kraken
+    # Account-level snapshot from Kraken app screenshot
+    KRAKEN_DEPOSIT = 1545.86
     KRAKEN_INCEPTION = 1500.00
+    KRAKEN_USED_MARGIN = 743.16
+    KRAKEN_AVAILABLE_MARGIN = 1136.98
+    KRAKEN_MARGIN_STATE = 252.99
     kraken_rows = ""
     kraken_total_value = 0
     kraken_total_margin = 0
@@ -2747,24 +2752,27 @@ def main():
             lev = kp["lev"]
             liq = kp["liq"]
             liq_str = f"${liq:,.2f}" if liq else "—"
-            # Fetch live price
-            try:
-                import urllib.request as _ur_k
-                _sym = kp["symbol"].replace("-", "")
-                if coin == "TON":
-                    _sym = "TONUSD"
-                _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else f"https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
-                _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
-                import json as _jk
-                _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
-                price = float(_rd["price"])
-            except:
+            # Prefer screenshot snapshot price when provided; otherwise fetch live
+            if kp.get("current") is not None:
+                price = float(kp["current"])
+            else:
                 try:
-                    import yfinance as _yf_k
-                    _tk = _yf_k.Ticker(kp["symbol"])
-                    price = float(_tk.history(period="1d")["Close"].iloc[-1])
+                    import urllib.request as _ur_k
+                    _sym = kp["symbol"].replace("-", "")
+                    if coin == "TON":
+                        _sym = "TONUSD"
+                    _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else f"https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
+                    _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
+                    import json as _jk
+                    _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
+                    price = float(_rd["price"])
                 except:
-                    price = entry  # fallback to entry
+                    try:
+                        import yfinance as _yf_k
+                        _tk = _yf_k.Ticker(kp["symbol"])
+                        price = float(_tk.history(period="1d")["Close"].iloc[-1])
+                    except:
+                        price = entry  # fallback to entry
             current_val = qty * price
             cost_basis = qty * entry
             upnl = current_val - cost_basis
@@ -2807,7 +2815,8 @@ def main():
     </table>
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Unrealized P&amp;L</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Equity: ${kraken_equity:,.2f}</span><span style="color:{kraken_roi_color}">Inception ROI: {kraken_roi_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Exchange: Kraken</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.72rem;color:var(--mute)"><span>Used Margin: ${KRAKEN_USED_MARGIN:,.2f}</span><span>Available: ${KRAKEN_AVAILABLE_MARGIN:,.2f}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Margin State: {KRAKEN_MARGIN_STATE:.2f}% · Kraken</span></div>
   </div>"""
 
     zodiac    = get_zodiac()
