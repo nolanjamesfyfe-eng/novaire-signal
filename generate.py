@@ -2727,19 +2727,17 @@ def main():
     # These are real margin positions. Prices fetched live; entries/quantities/liq locked from account.
     print("  🪙 Fetching Kraken crypto positions...")
     KRAKEN_POSITIONS = [
-        # Snapshot updated from Kraken screenshots (2026-04-09 02:44 UTC)
-        {"coin": "BTC", "lev": "10x", "qty": 0.0504,   "unit": "BTC", "entry": 67923.88, "margin": 315.00, "liq": None, "symbol": "BTC-USD", "current": 70983.50},
-        {"coin": "SOL", "lev": "10x", "qty": 4.00058,  "unit": "SOL", "entry": 79.91,    "margin": 55.00,  "liq": None, "symbol": "SOL-USD", "current": 82.17},
-        {"coin": "ETH", "lev": "10x", "qty": 1.00461,  "unit": "ETH", "entry": 2078.92,  "margin": 220.00, "liq": None, "symbol": "ETH-USD", "current": 2179.06},
-        {"coin": "ZEC", "lev": "5x",  "qty": 1.17689,  "unit": "ZEC", "entry": 254.92,   "margin": 95.00,  "liq": None, "symbol": "ZEC-USD", "current": 318.15},
-        {"coin": "TON", "lev": "3x",  "qty": 241.5459, "unit": "TON", "entry": 1.242,    "margin": 58.16,  "liq": None, "symbol": "TON11419-USD", "current": 1.223},
+        # Position sizing from Kraken account; prices fetched live each generation run.
+        {"coin": "BTC", "lev": "10x", "qty": 0.0504,   "unit": "BTC", "entry": 67923.88, "margin": 315.00, "liq": None, "symbol": "BTC-USD"},
+        {"coin": "SOL", "lev": "10x", "qty": 4.00058,  "unit": "SOL", "entry": 79.91,    "margin": 55.00,  "liq": None, "symbol": "SOL-USD"},
+        {"coin": "ETH", "lev": "10x", "qty": 1.00461,  "unit": "ETH", "entry": 2078.92,  "margin": 220.00, "liq": None, "symbol": "ETH-USD"},
+        {"coin": "ZEC", "lev": "5x",  "qty": 1.17689,  "unit": "ZEC", "entry": 254.92,   "margin": 95.00,  "liq": None, "symbol": "ZEC-USD"},
+        {"coin": "TON", "lev": "3x",  "qty": 241.5459, "unit": "TON", "entry": 1.242,    "margin": 58.16,  "liq": None, "symbol": "TON11419-USD"},
     ]
     # Account-level snapshot from Kraken app screenshot
     KRAKEN_DEPOSIT = 1545.86
     KRAKEN_INCEPTION = 1500.00
-    KRAKEN_USED_MARGIN = 743.16
-    KRAKEN_AVAILABLE_MARGIN = 1136.98
-    KRAKEN_MARGIN_STATE = 252.99
+    KRAKEN_USED_MARGIN = sum(kp["margin"] for kp in KRAKEN_POSITIONS)
     kraken_rows = ""
     kraken_total_value = 0
     kraken_total_margin = 0
@@ -2752,27 +2750,24 @@ def main():
             lev = kp["lev"]
             liq = kp["liq"]
             liq_str = f"${liq:,.2f}" if liq else "—"
-            # Prefer screenshot snapshot price when provided; otherwise fetch live
-            if kp.get("current") is not None:
-                price = float(kp["current"])
-            else:
+            # Fetch live price for each token (Binance first, yfinance fallback)
+            try:
+                import urllib.request as _ur_k
+                _sym = kp["symbol"].replace("-", "")
+                if coin == "TON":
+                    _sym = "TONUSD"
+                _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else f"https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
+                _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
+                import json as _jk
+                _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
+                price = float(_rd["price"])
+            except:
                 try:
-                    import urllib.request as _ur_k
-                    _sym = kp["symbol"].replace("-", "")
-                    if coin == "TON":
-                        _sym = "TONUSD"
-                    _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else f"https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
-                    _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
-                    import json as _jk
-                    _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
-                    price = float(_rd["price"])
+                    import yfinance as _yf_k
+                    _tk = _yf_k.Ticker(kp["symbol"])
+                    price = float(_tk.history(period="1d")["Close"].iloc[-1])
                 except:
-                    try:
-                        import yfinance as _yf_k
-                        _tk = _yf_k.Ticker(kp["symbol"])
-                        price = float(_tk.history(period="1d")["Close"].iloc[-1])
-                    except:
-                        price = entry  # fallback to entry
+                    price = entry  # fallback to entry
             current_val = qty * price
             cost_basis = qty * entry
             upnl = current_val - cost_basis
@@ -2786,6 +2781,7 @@ def main():
         <td style="font-size:.75rem">{coin} <span style="font-size:.6rem;color:var(--mute)">{lev}</span></td>
         <td style="text-align:right;font-size:.7rem">{qty:,.6f}</td>
         <td style="text-align:right;font-size:.7rem">${entry:,.2f}</td>
+        <td style="text-align:right;font-size:.7rem">${price:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">${cost_basis:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">{liq_str}</td>
         <td style="text-align:right;font-size:.7rem">${current_val:,.2f}</td>
@@ -2799,6 +2795,8 @@ def main():
         kraken_roi_str = f"+{kraken_roi:.1f}%" if kraken_roi >= 0 else f"{kraken_roi:.1f}%"
         kraken_upnl_color = "#4ade80" if kraken_total_upnl >= 0 else "#f87171"
         kraken_upnl_str = f"+${kraken_total_upnl:.2f}" if kraken_total_upnl >= 0 else f"-${abs(kraken_total_upnl):.2f}"
+        kraken_available_margin = max(0.0, kraken_equity - KRAKEN_USED_MARGIN)
+        kraken_margin_state = (kraken_equity / KRAKEN_USED_MARGIN * 100) if KRAKEN_USED_MARGIN > 0 else 0.0
         print(f"    ✅ Kraken: 5 positions, equity ${kraken_equity:.2f}, uPnL {kraken_upnl_str}")
     except Exception as _ke:
         print(f"    ⚠ Kraken fetch error: {_ke}")
@@ -2807,18 +2805,20 @@ def main():
         kraken_roi_color = "var(--mute)"
         kraken_upnl_str = "N/A"
         kraken_upnl_color = "var(--mute)"
+        kraken_available_margin = max(0.0, kraken_equity - KRAKEN_USED_MARGIN)
+        kraken_margin_state = (kraken_equity / KRAKEN_USED_MARGIN * 100) if KRAKEN_USED_MARGIN > 0 else 0.0
 
     kraken_html = f"""<div class="card">
     <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Deposit: ${KRAKEN_DEPOSIT:,.2f} · Inception: ${KRAKEN_INCEPTION:,.2f}</span><span>5 positions · Live</span></div>
     <table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Qty</th><th style="text-align:right">Entry</th><th style="text-align:right">Notional</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
+      <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Qty</th><th style="text-align:right">Entry</th><th style="text-align:right">Live Px</th><th style="text-align:right">Notional</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
       {kraken_rows}
     </table>
     <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Unrealized P&amp;L</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Equity: ${kraken_equity:,.2f}</span><span style="color:{kraken_roi_color}">Inception ROI: {kraken_roi_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.72rem;color:var(--mute)"><span>Used Margin: ${KRAKEN_USED_MARGIN:,.2f}</span><span>Available: ${KRAKEN_AVAILABLE_MARGIN:,.2f}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Margin State: {KRAKEN_MARGIN_STATE:.2f}% · Kraken</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.72rem;color:var(--mute)"><span>Used Margin: ${KRAKEN_USED_MARGIN:,.2f}</span><span>Available: ${kraken_available_margin:,.2f}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Margin State: {kraken_margin_state:.2f}% · Kraken</span></div>
   </div>"""
 
     zodiac    = get_zodiac()
