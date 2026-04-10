@@ -12,6 +12,12 @@ import traceback
 from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 
+try:
+    from zoneinfo import ZoneInfo
+    BKK_TZ = ZoneInfo("Asia/Bangkok")
+except Exception:
+    BKK_TZ = timezone(timedelta(hours=7))
+
 # ─────────────────────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────────────────────
@@ -763,7 +769,14 @@ def fetch_holdings_from_gsheet():
     """
     import csv, io
     try:
-        r = requests.get(GSHEET_CSV_URL, timeout=15)
+        cache_bust = int(datetime.now(timezone.utc).timestamp())
+        sep = "&" if "?" in GSHEET_CSV_URL else "?"
+        gsheet_url = f"{GSHEET_CSV_URL}{sep}_t={cache_bust}"
+        r = requests.get(
+            gsheet_url,
+            headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
+            timeout=20,
+        )
         r.raise_for_status()
         reader = csv.reader(io.StringIO(r.text))
         rows = list(reader)
@@ -1051,8 +1064,13 @@ def fetch_polymarket():
     try:
         import urllib.request, json
         PROXY = "0xC1541b2af765e4d1013337084D889d0DB302Aa0e"
-        url = f"https://data-api.polymarket.com/positions?user={PROXY}"
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        cache_bust = int(datetime.now(timezone.utc).timestamp())
+        url = f"https://data-api.polymarket.com/positions?user={PROXY}&_t={cache_bust}"
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
+        })
         with urllib.request.urlopen(req, timeout=10) as resp:
             positions = json.loads(resp.read())
 
@@ -1332,9 +1350,9 @@ def build_legend(allocations, total_val):
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None):
 
-    now       = datetime.now(timezone.utc)
+    now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
-    gen_time  = now.strftime("%H:%M UTC")
+    gen_time  = now.strftime("%H:%M ICT")
 
     # ── Next market holidays ──
     from datetime import date as _date
@@ -2208,9 +2226,9 @@ function getQuoteForToday(storageKey, quotes) {{
 
 def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html=""):
     """Render standalone portfolio page at /portfolio"""
-    now       = datetime.now(timezone.utc)
+    now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
-    gen_time  = now.strftime("%H:%M UTC")
+    gen_time  = now.strftime("%H:%M ICT")
 
     # ── Portfolio calculations (same as main) ──
     total_usd   = 0
