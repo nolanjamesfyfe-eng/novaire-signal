@@ -37,10 +37,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Only stage files that actually exist to avoid pathspec failures.
-          for f in index.html portfolio/index.html stats.json feed.json; do
-            [ -f "$f" ] && git add "$f"
-          done
+          # Stage generated outputs (stats.json is gitignored, so force-add when present).
+          [ -f index.html ] && git add index.html
+          [ -f portfolio/index.html ] && git add portfolio/index.html
+          [ -f feed.json ] && git add feed.json
+          [ -f stats.json ] && git add -f stats.json
 
           if git diff --staged --quiet; then
             echo "No generated changes to commit"
