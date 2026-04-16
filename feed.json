@@ -2,23 +2,21 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-04-16T01:28:43.281978+00:00",
+  "fetchedAt": "2026-04-16T01:33:03.334654+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "hkuppy"
-  ],
+  "errors": [],
   "posts": [
     {
-      "id": "2044585233127739710",
-      "text": "\"Estimated oil flows from the Persian Gulf (including pipeline redirections) increased to 10.4mb/d or 45% of normal on higher Yanbu exports as Saudi East-West pipeline full pumping capacity was restored within 4 days after the damage.\" - Goldman",
+      "id": "2044586611187310747",
+      "text": "Bessent Keeps Running Tally Of China As \"Unreliable Global Partner\" - Count Now Stands At Three https://www.zerohedge.com/energy/bessent-keeps-running-tally-china-unreliable-global-partner-count-now-stands-three",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-04-16T01:14:40+00:00",
-      "createdAtMs": 1776302080000,
+      "createdAt": "2026-04-16T01:20:09+00:00",
+      "createdAtMs": 1776302409000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2044585233127739710#m",
+      "url": "https://x.com/zerohedge/status/2044586611187310747#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 1
