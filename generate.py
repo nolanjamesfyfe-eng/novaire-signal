@@ -1685,6 +1685,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .card-title{{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}}
     .card-title::after{{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}}
 
+    .trip-countdown{{padding:14px 16px}}
+    .trip-row{{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}}
+    .trip-days{{font-family:var(--serif);font-size:1.35rem;color:var(--text);line-height:1.2}}
+    .trip-sub{{font-size:.65rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}}
+
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
     .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
@@ -1891,9 +1896,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- TRANS-SIBERIAN COUNTDOWN -->
   <div class="card trip-countdown">
-    <div class="trip-label">Trans-Siberian Adventure 🚂</div>
-    <div class="trip-days">{trip_countdown_text}</div>
-    <div class="trip-sub">Departure: Aug 25, 2026</div>
+    <div class="card-title">🚂 Trans-Siberian Adventure</div>
+    <div class="trip-row">
+      <div class="trip-days">{trip_countdown_text}</div>
+      <div class="trip-sub">Departure Aug 25, 2026</div>
+    </div>
   </div>
 
   <!-- QUOTES (2 per day — client-side localStorage dedup) -->
