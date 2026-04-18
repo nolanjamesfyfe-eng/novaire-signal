@@ -1,38 +1,22 @@
 {
   "ok": true,
-  "count": 4,
-  "accountsWithPosts": 4,
-  "fetchedAt": "2026-04-18T05:38:58.420900+00:00",
+  "count": 3,
+  "accountsWithPosts": 3,
+  "fetchedAt": "2026-04-18T08:40:49.931363+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "colonelhomsi"
-  ],
+  "errors": [],
   "posts": [
     {
-      "id": "2045342834564190477",
-      "text": "Kuwait Holds American Journalist After Reporting On 'Friendly Fire' Shootdown Incident https://www.zerohedge.com/geopolitical/kuwait-holds-american-journalist-after-reporting-friendly-fire-shootdown-incident",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-04-18T03:25:07+00:00",
-      "createdAtMs": 1776482707000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2045342834564190477#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
-    {
-      "id": "2045371758044193271",
-      "text": "Exclusivity is a powerful marketing tool. When Anthropic announced that the preview version of its latest model, called “Mythos”, would be available only to a limited group of companies, the envy quickly spread https://www.economist.com/business/2026/04/15/why-anthropic-and-openai-are-locking-up-their-latest-models?taid=69e31482bd318b0001db4186&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2045417053813670103",
+      "text": "In her new book, Mary Beard argues that if you want to understand the similarities and differences between the past and the present, the classical world provides an ideal arena https://www.economist.com/culture/2026/04/16/mary-beard-offers-a-spirited-defence-of-studying-classics?taid=69e33eb27d0c9b0001419d86&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-04-18T05:20:02+00:00",
-      "createdAtMs": 1776489602000,
+      "createdAt": "2026-04-18T08:20:02+00:00",
+      "createdAtMs": 1776500402000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2045371758044193271#m",
+      "url": "https://x.com/TheEconomist/status/2045417053813670103#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
