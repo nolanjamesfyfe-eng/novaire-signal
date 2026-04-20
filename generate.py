@@ -7,6 +7,7 @@ Generates index.html with premium dark + gold aesthetic + live data
 import requests
 import json
 import math
+import os
 import sys
 import traceback
 from datetime import datetime, timezone, timedelta
@@ -3041,6 +3042,7 @@ def main():
     # ── Evolution Fund ──
     print("  🏛️ Fetching Evolution Fund positions...")
     evo_fund_html = ""
+    evo_snapshot = {}
     try:
         EVO_HOLDINGS = [
             {"ticker": "PHYS",  "name": "Gold (Sprott)",         "shares": 16827, "avg_entry": 36.95},
@@ -3092,6 +3094,7 @@ def main():
             gl_pct = (gl / cost * 100) if cost > 0 else 0
             evo_total_value += value
             evo_total_cost += cost
+            evo_snapshot[sym] = {"price": round(price, 2), "gl": round(gl_pct, 1)}
             gl_color = "#4ade80" if gl >= 0 else "#f87171"
             gl_str = f"+${gl:,.0f}" if gl >= 0 else f"-${abs(gl):,.0f}"
             pct_str = f"+{gl_pct:.1f}%" if gl_pct >= 0 else f"{gl_pct:.1f}%"
@@ -3104,6 +3107,7 @@ def main():
         btc_pct = (btc_gl / btc_cost * 100) if btc_cost > 0 else 0
         evo_total_value += btc_value
         evo_total_cost += btc_cost
+        evo_snapshot["BTC"] = {"price": round(btc_price, 2), "gl": round(btc_pct, 1)}
         btc_color = "#4ade80" if btc_gl >= 0 else "#f87171"
         btc_gl_str = f"+${btc_gl:,.0f}" if btc_gl >= 0 else f"-${abs(btc_gl):,.0f}"
         btc_pct_str = f"+{btc_pct:.1f}%" if btc_pct >= 0 else f"{btc_pct:.1f}%"
@@ -3154,12 +3158,37 @@ def main():
         print(f"    ❌ Evolution Fund error: {e}")
         evo_fund_html = ""
 
+    # Keep /portfolio/evolutionfund hardcoded strategy page in sync with daily prices/G-L
+    try:
+        evo_strategy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "portfolio", "evolutionfund", "index.html")
+        if evo_snapshot and os.path.exists(evo_strategy_path):
+            import re
+            with open(evo_strategy_path, "r", encoding="utf-8") as f:
+                evo_html = f.read()
+
+            updated_count = 0
+            for ticker, vals in evo_snapshot.items():
+                pattern = rf'(\{{\s*ticker:\s*"{re.escape(ticker)}"[^\}}]*?price:\s*)([-0-9.]+)(,\s*gl:\s*)([-0-9.]+)'
+                repl = lambda m, p=vals["price"], g=vals["gl"]: f'{m.group(1)}{p:.2f}{m.group(3)}{g:.1f}'
+                evo_html, n = re.subn(pattern, repl, evo_html, count=1)
+                updated_count += n
+
+            if updated_count:
+                with open(evo_strategy_path, "w", encoding="utf-8") as f:
+                    f.write(evo_html)
+                print(f"    ✅ Evolution CC strategy page refreshed ({updated_count} tickers)")
+            else:
+                print("    ⚠️  Evolution CC strategy page: no ticker matches found")
+        else:
+            print("    ⚠️  Evolution CC strategy page: skipped (no snapshot or file missing)")
+    except Exception as e:
+        print(f"    ⚠️  Evolution CC strategy page update failed: {e}")
+
     portfolio_html = render_portfolio_html(
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
         bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html
     )
 
-    import os
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(html)

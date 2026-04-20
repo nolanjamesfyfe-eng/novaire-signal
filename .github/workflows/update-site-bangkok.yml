@@ -40,6 +40,7 @@ jobs:
           # Stage generated outputs (stats.json is gitignored, so force-add when present).
           [ -f index.html ] && git add index.html
           [ -f portfolio/index.html ] && git add portfolio/index.html
+          [ -f portfolio/evolutionfund/index.html ] && git add portfolio/evolutionfund/index.html
           [ -f feed.json ] && git add feed.json
           [ -f stats.json ] && git add -f stats.json
 
