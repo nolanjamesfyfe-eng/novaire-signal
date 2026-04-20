@@ -294,7 +294,7 @@
   </div>
 
   <!-- Strategy Tiers -->
-  <div class="section-title">📐 Covered Call Tiers — Entry Requirements & Strike Ranges</div>
+  <div class="section-title">📐 Covered Call Tiers — Dynamic 3-Bucket Ladder</div>
   <div class="rules-visual fade-in">
     <div class="rule-tier monthly">
       <div class="tier-icon">📅</div>
@@ -302,25 +302,25 @@
       <div class="tier-row"><span class="label">Activation</span><span class="val">+2% profit</span></div>
       <div class="tier-row"><span class="label">Strike Range</span><span class="val">10-20% OTM</span></div>
       <div class="tier-row"><span class="label">Expiry</span><span class="val">1 month</span></div>
-      <div class="tier-row"><span class="label">Contracts</span><span class="val">20 contracts (example)</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">Dynamic (30-70%)</span></div>
       <div class="tier-row"><span class="label">Position Weight</span><span class="val" id="monthly-weight">—</span></div>
     </div>
     <div class="rule-tier quarterly">
       <div class="tier-icon">📆</div>
       <div class="tier-name">Quarterly Options</div>
-      <div class="tier-row"><span class="label">Activation</span><span class="val">+5% profit</span></div>
+      <div class="tier-row"><span class="label">Activation</span><span class="val">+2% profit</span></div>
       <div class="tier-row"><span class="label">Strike Range</span><span class="val">15-30% OTM</span></div>
       <div class="tier-row"><span class="label">Expiry</span><span class="val">3 months</span></div>
-      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of sleeve</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">Dynamic (20-30%)</span></div>
       <div class="tier-row"><span class="label">Position Weight</span><span class="val" id="quarterly-weight">—</span></div>
     </div>
     <div class="rule-tier leaps">
       <div class="tier-icon">📈</div>
       <div class="tier-name">LEAPS</div>
-      <div class="tier-row"><span class="label">Activation</span><span class="val">+10% profit</span></div>
+      <div class="tier-row"><span class="label">Activation</span><span class="val">+2% profit</span></div>
       <div class="tier-row"><span class="label">Strike Range</span><span class="val">30-50% OTM</span></div>
       <div class="tier-row"><span class="label">Expiry</span><span class="val">6-12 months</span></div>
-      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of sleeve</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">Dynamic (10-40%)</span></div>
       <div class="tier-row"><span class="label">Position Weight</span><span class="val" id="leaps-weight">—</span></div>
     </div>
   </div>
@@ -363,13 +363,12 @@
 // Configuration
 const CC_ALLOCATION = 0.80; // 80% of portfolio in CC strategy
 const MMF_YIELD = 0.035; // 3.5% Schwab SWVXX
-const MONTHLY_EXAMPLE_CONTRACTS = 20; // user example sizing
 
 // Tier requirements
 const TIERS = {
   monthly: { minProfit: 0.02, strikeMin: 0.10, strikeMax: 0.20, expiry: '1 Month' },
-  quarterly: { minProfit: 0.05, strikeMin: 0.15, strikeMax: 0.30, expiry: '3 Months' },
-  leaps: { minProfit: 0.10, strikeMin: 0.30, strikeMax: 0.50, expiry: '6-12 Months' },
+  quarterly: { minProfit: 0.02, strikeMin: 0.15, strikeMax: 0.30, expiry: '3 Months' },
+  leaps: { minProfit: 0.02, strikeMin: 0.30, strikeMax: 0.50, expiry: '6-12 Months' },
 };
 
 const holdings = [
@@ -395,6 +394,22 @@ function roundStrike(price, dir) {
   return dir === 'up' ? Math.ceil(price / step) * step : Math.floor(price / step) * step;
 }
 
+function getBucketWeights(gl) {
+  // 3-bucket subtle ladder: skew short-term at low gains, skew LEAPs as gains increase
+  if (gl < 2) return { monthly: 0, quarterly: 0, leaps: 0, band: 'Inactive (< +2%)' };
+  if (gl < 5) return { monthly: 0.70, quarterly: 0.20, leaps: 0.10, band: 'Low Gain (+2% to <+5%)' };
+  if (gl < 10) return { monthly: 0.50, quarterly: 0.30, leaps: 0.20, band: 'Mid Gain (+5% to <+10%)' };
+  return { monthly: 0.30, quarterly: 0.30, leaps: 0.40, band: 'High Gain (+10%+)' };
+}
+
+function allocateContracts(totalContracts, weights) {
+  if (totalContracts <= 0) return { monthly: 0, quarterly: 0, leaps: 0 };
+  const monthly = Math.floor(totalContracts * weights.monthly);
+  const quarterly = Math.floor(totalContracts * weights.quarterly);
+  const leaps = Math.max(0, totalContracts - monthly - quarterly);
+  return { monthly, quarterly, leaps };
+}
+
 // Computed
 let totalVal = 0, totalCost = 0, totalContracts = 0;
 holdings.forEach(h => {
@@ -412,17 +427,27 @@ holdings.forEach(h => {
   totalContracts += h.contracts;
   // Eligibility (excluded positions are never eligible)
   h.monthlyEligible = !h.excludeCC && h.gl >= 2;
-  h.quarterlyEligible = !h.excludeCC && h.gl >= 5;
-  h.leapsEligible = !h.excludeCC && h.gl >= 10;
+  h.quarterlyEligible = !h.excludeCC && h.gl >= 2;
+  h.leapsEligible = !h.excludeCC && h.gl >= 2;
+  h.bucketWeights = getBucketWeights(h.gl);
 });
 const totalGL = ((totalVal - totalCost) / totalCost * 100);
 const ccPortion = totalVal * CC_ALLOCATION;
 const longPortion = totalVal * (1 - CC_ALLOCATION);
 
-// Tier weighting labels (contracts as % of current total contract capacity)
-const monthlyPct = totalContracts > 0 ? (MONTHLY_EXAMPLE_CONTRACTS / totalContracts) * 100 : 0;
-const quarterlyPct = totalContracts > 0 ? (1/3) * 100 : 0;
-const leapsPct = totalContracts > 0 ? (1/3) * 100 : 0;
+// Dynamic sleeve mix from current holdings (value-weighted)
+let weightedMonthly = 0, weightedQuarterly = 0, weightedLeaps = 0, weightedBase = 0;
+holdings.forEach(h => {
+  if (h.excludeCC || h.contracts < 1 || h.gl < 2) return;
+  const base = h.value * CC_ALLOCATION;
+  weightedBase += base;
+  weightedMonthly += base * h.bucketWeights.monthly;
+  weightedQuarterly += base * h.bucketWeights.quarterly;
+  weightedLeaps += base * h.bucketWeights.leaps;
+});
+const monthlyPct = weightedBase > 0 ? (weightedMonthly / weightedBase) * 100 : 0;
+const quarterlyPct = weightedBase > 0 ? (weightedQuarterly / weightedBase) * 100 : 0;
+const leapsPct = weightedBase > 0 ? (weightedLeaps / weightedBase) * 100 : 0;
 const monthlyEl = document.getElementById('monthly-weight');
 const quarterlyEl = document.getElementById('quarterly-weight');
 const leapsEl = document.getElementById('leaps-weight');
@@ -460,12 +485,8 @@ holdings.forEach(h => {
     statusBadge = '<span class="status-badge ready" style="background:rgba(251,146,60,.12);color:#fb923c;border-color:rgba(251,146,60,.3)">₿ FULL LONG</span>';
   } else if (h.contracts === 0) {
     statusBadge = '<span class="status-badge wait">No Contracts</span>';
-  } else if (h.leapsEligible) {
-    statusBadge = '<span class="status-badge ready">ALL TIERS ✓</span>';
-  } else if (h.quarterlyEligible) {
-    statusBadge = '<span class="status-badge ready">MONTHLY + QTR</span>';
-  } else if (h.monthlyEligible) {
-    statusBadge = '<span class="status-badge close">MONTHLY ONLY</span>';
+  } else if (h.gl >= 2) {
+    statusBadge = '<span class="status-badge ready">3-BUCKET ACTIVE</span>';
   } else {
     const toMonthly = (2 - h.gl).toFixed(1);
     statusBadge = `<span class="status-badge wait">Need +${toMonthly}%</span>`;
@@ -487,19 +508,20 @@ holdings.forEach(h => {
 
 // Income Section
 const is = document.getElementById('income-section');
-// Calculate potential income: positions eligible for each tier
+// Calculate potential income using dynamic 3-bucket weights
 let monthlyEligibleVal = 0, quarterlyEligibleVal = 0, leapsEligibleVal = 0;
 holdings.forEach(h => {
+  if (h.excludeCC || h.contracts < 1 || h.gl < 2) return;
   const eligVal = h.value * CC_ALLOCATION; // only 80% participates
-  if (h.monthlyEligible) monthlyEligibleVal += eligVal;
-  if (h.quarterlyEligible) quarterlyEligibleVal += eligVal;
-  if (h.leapsEligible) leapsEligibleVal += eligVal;
+  monthlyEligibleVal += eligVal * h.bucketWeights.monthly;
+  quarterlyEligibleVal += eligVal * h.bucketWeights.quarterly;
+  leapsEligibleVal += eligVal * h.bucketWeights.leaps;
 });
 
 // Premium estimates (avg of strike range)
-const monthlyPremium = monthlyEligibleVal * 0.011 / 3; // ~1.1% for 7-15% OTM monthly, 1/3 deployed
-const quarterlyPremium = quarterlyEligibleVal * 0.025 / 3; // ~2.5% for 15-30% OTM quarterly
-const leapsPremium = leapsEligibleVal * 0.08 / 3; // ~8% for 30-50% OTM LEAPs (annualized)
+const monthlyPremium = monthlyEligibleVal * 0.011; // ~1.1% monthly for 10-20% OTM
+const quarterlyPremium = quarterlyEligibleVal * 0.025; // ~2.5% quarterly for 15-30% OTM
+const leapsPremium = leapsEligibleVal * 0.08; // ~8% for 30-50% OTM LEAPs (annualized)
 
 const monthlyAnnualized = monthlyPremium * 12;
 const quarterlyAnnualized = quarterlyPremium * 4;
@@ -559,8 +581,10 @@ const cg = document.getElementById('cc-grid');
 holdings.forEach(h => {
   if (h.contracts < 1 || h.excludeCC) return; // Skip IBIT and others excluded from CC
 
-  const c3 = Math.floor(h.contracts / 3);
-  const cRem = h.contracts - c3 * 2;
+  const splits = allocateContracts(h.contracts, h.bucketWeights);
+  const cMonthly = splits.monthly;
+  const cQuarterly = splits.quarterly;
+  const cLeaps = splits.leaps;
   const exercisedPct = (contracts) => h.shares > 0 ? ((contracts * 100 / h.shares) * 100).toFixed(1) : '0.0';
 
   // Calculate strikes
@@ -579,19 +603,9 @@ holdings.forEach(h => {
     statusHtml = `<div class="cc-status underwater">
       ⏳ Underwater ${h.gl.toFixed(1)}% — Need +${toBreakeven}% to breakeven, +${toMonthly}% for Monthly CCs
     </div>`;
-  } else if (h.leapsEligible) {
+  } else if (h.gl >= 2) {
     statusHtml = `<div class="cc-status active">
-      ✅ ALL TIERS ACTIVE — Position +${h.gl.toFixed(1)}% profit. Monthly, Quarterly, and LEAPs available.
-    </div>`;
-  } else if (h.quarterlyEligible) {
-    const toLeaps = (10 - h.gl).toFixed(1);
-    statusHtml = `<div class="cc-status active">
-      ✅ MONTHLY + QUARTERLY — Position +${h.gl.toFixed(1)}%. Need +${toLeaps}% more for LEAPs.
-    </div>`;
-  } else if (h.monthlyEligible) {
-    const toQuarterly = (5 - h.gl).toFixed(1);
-    statusHtml = `<div class="cc-status approaching">
-      📍 MONTHLY ONLY — Position +${h.gl.toFixed(1)}%. Need +${toQuarterly}% more for Quarterly.
+      ✅ 3-BUCKET LADDER ACTIVE — ${h.bucketWeights.band}. Current split: ${Math.round(h.bucketWeights.monthly*100)}% Monthly / ${Math.round(h.bucketWeights.quarterly*100)}% Quarterly / ${Math.round(h.bucketWeights.leaps*100)}% LEAPs.
     </div>`;
   } else {
     const toMonthly = (2 - h.gl).toFixed(1);
@@ -601,9 +615,9 @@ holdings.forEach(h => {
   }
 
   // Tier boxes
-  const monthlyLocked = !h.monthlyEligible;
-  const quarterlyLocked = !h.quarterlyEligible;
-  const leapsLocked = !h.leapsEligible;
+  const monthlyLocked = h.gl < 2;
+  const quarterlyLocked = h.gl < 2;
+  const leapsLocked = h.gl < 2;
 
   cg.innerHTML += `<div class="cc-card fade-in">
     <div class="cc-header">
@@ -636,24 +650,24 @@ holdings.forEach(h => {
           <div class="tier-box-header">📅 Monthly</div>
           <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${mStrikeLow}-${mStrikeHigh}</span></div>
           <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">10-20%</span></div>
-          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${c3}x</span></div>
-          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(c3)}%</span></div>
+          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${cMonthly}x</span></div>
+          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(cMonthly)}%</span></div>
         </div>
         <div class="tier-box quarterly ${quarterlyLocked ? 'locked' : 'unlocked'}">
-          ${quarterlyLocked ? '<div class="tier-lock-msg">🔒 Need +5%</div>' : ''}
+          ${quarterlyLocked ? '<div class="tier-lock-msg">🔒 Need +2%</div>' : ''}
           <div class="tier-box-header">📆 Quarterly</div>
           <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${qStrikeLow}-${qStrikeHigh}</span></div>
           <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">15-30%</span></div>
-          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${c3}x</span></div>
-          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(c3)}%</span></div>
+          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${cQuarterly}x</span></div>
+          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(cQuarterly)}%</span></div>
         </div>
         <div class="tier-box leaps ${leapsLocked ? 'locked' : 'unlocked'}">
-          ${leapsLocked ? '<div class="tier-lock-msg">🔒 Need +10%</div>' : ''}
+          ${leapsLocked ? '<div class="tier-lock-msg">🔒 Need +2%</div>' : ''}
           <div class="tier-box-header">📈 LEAPs</div>
           <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${lStrikeLow}-${lStrikeHigh}</span></div>
           <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">30-50%</span></div>
-          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${cRem}x</span></div>
-          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(cRem)}%</span></div>
+          <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${cLeaps}x</span></div>
+          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(cLeaps)}%</span></div>
         </div>
       </div>
     </div>
