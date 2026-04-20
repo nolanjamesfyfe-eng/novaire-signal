@@ -376,7 +376,7 @@ const holdings = [
   { ticker: "PHYS", name: "Sprott Physical Gold", sector: "Gold", shares: 16827, price: 36.81, gl: -0.4, color: "#d4a853" },
   { ticker: "URNM", name: "Sprott Uranium Miners", sector: "Uranium", shares: 6000, price: 69.43, gl: 2.5, color: "#34d399" },
   { ticker: "GRID", name: "First Trust Grid Infra", sector: "Grid", shares: 2177, price: 183.31, gl: 3.7, color: "#60a5fa" },
-  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 74231.87, gl: 13.3, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
+  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 74240.47, gl: 13.3, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
   { ticker: "PSLV", name: "Sprott Physical Silver", sector: "Silver", shares: 8545, price: 26.39, gl: -9.1, color: "#a0aec0" },
   { ticker: "COPP", name: "Sprott Copper ETF", sector: "Copper", shares: 5047, price: 41.89, gl: -3.9, color: "#f97316" },
   { ticker: "COPX", name: "Global X Copper Miners", sector: "Copper", shares: 2000, price: 87.19, gl: 3.8, color: "#ea580c" },
@@ -561,6 +561,7 @@ holdings.forEach(h => {
 
   const c3 = Math.floor(h.contracts / 3);
   const cRem = h.contracts - c3 * 2;
+  const exercisedPct = (contracts) => h.shares > 0 ? ((contracts * 100 / h.shares) * 100).toFixed(1) : '0.0';
 
   // Calculate strikes
   const mStrikeLow = roundStrike(h.price * (1 + TIERS.monthly.strikeMin), 'up');
@@ -634,8 +635,9 @@ holdings.forEach(h => {
           ${monthlyLocked ? '<div class="tier-lock-msg">🔒 Need +2%</div>' : ''}
           <div class="tier-box-header">📅 Monthly</div>
           <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${mStrikeLow}-${mStrikeHigh}</span></div>
-          <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">7-15%</span></div>
+          <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">10-20%</span></div>
           <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${c3}x</span></div>
+          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(c3)}%</span></div>
         </div>
         <div class="tier-box quarterly ${quarterlyLocked ? 'locked' : 'unlocked'}">
           ${quarterlyLocked ? '<div class="tier-lock-msg">🔒 Need +5%</div>' : ''}
@@ -643,6 +645,7 @@ holdings.forEach(h => {
           <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${qStrikeLow}-${qStrikeHigh}</span></div>
           <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">15-30%</span></div>
           <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${c3}x</span></div>
+          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(c3)}%</span></div>
         </div>
         <div class="tier-box leaps ${leapsLocked ? 'locked' : 'unlocked'}">
           ${leapsLocked ? '<div class="tier-lock-msg">🔒 Need +10%</div>' : ''}
@@ -650,6 +653,7 @@ holdings.forEach(h => {
           <div class="tier-box-row"><span class="lbl">Strike</span><span class="vl">$${lStrikeLow}-${lStrikeHigh}</span></div>
           <div class="tier-box-row"><span class="lbl">OTM</span><span class="vl">30-50%</span></div>
           <div class="tier-box-row"><span class="lbl">Contracts</span><span class="vl">${cRem}x</span></div>
+          <div class="tier-box-row"><span class="lbl">If Exercised</span><span class="vl">${exercisedPct(cRem)}%</span></div>
         </div>
       </div>
     </div>
