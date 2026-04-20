@@ -300,9 +300,10 @@
       <div class="tier-icon">📅</div>
       <div class="tier-name">Monthly Options</div>
       <div class="tier-row"><span class="label">Activation</span><span class="val">+2% profit</span></div>
-      <div class="tier-row"><span class="label">Strike Range</span><span class="val">7-15% OTM</span></div>
+      <div class="tier-row"><span class="label">Strike Range</span><span class="val">10-20% OTM</span></div>
       <div class="tier-row"><span class="label">Expiry</span><span class="val">1 month</span></div>
-      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of position</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">20 contracts (example)</span></div>
+      <div class="tier-row"><span class="label">Position Weight</span><span class="val" id="monthly-weight">—</span></div>
     </div>
     <div class="rule-tier quarterly">
       <div class="tier-icon">📆</div>
@@ -310,7 +311,8 @@
       <div class="tier-row"><span class="label">Activation</span><span class="val">+5% profit</span></div>
       <div class="tier-row"><span class="label">Strike Range</span><span class="val">15-30% OTM</span></div>
       <div class="tier-row"><span class="label">Expiry</span><span class="val">3 months</span></div>
-      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of position</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of sleeve</span></div>
+      <div class="tier-row"><span class="label">Position Weight</span><span class="val" id="quarterly-weight">—</span></div>
     </div>
     <div class="rule-tier leaps">
       <div class="tier-icon">📈</div>
@@ -318,7 +320,8 @@
       <div class="tier-row"><span class="label">Activation</span><span class="val">+10% profit</span></div>
       <div class="tier-row"><span class="label">Strike Range</span><span class="val">30-50% OTM</span></div>
       <div class="tier-row"><span class="label">Expiry</span><span class="val">6-12 months</span></div>
-      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of position</span></div>
+      <div class="tier-row"><span class="label">Contracts</span><span class="val">1/3 of sleeve</span></div>
+      <div class="tier-row"><span class="label">Position Weight</span><span class="val" id="leaps-weight">—</span></div>
     </div>
   </div>
 
@@ -360,10 +363,11 @@
 // Configuration
 const CC_ALLOCATION = 0.80; // 80% of portfolio in CC strategy
 const MMF_YIELD = 0.035; // 3.5% Schwab SWVXX
+const MONTHLY_EXAMPLE_CONTRACTS = 20; // user example sizing
 
 // Tier requirements
 const TIERS = {
-  monthly: { minProfit: 0.02, strikeMin: 0.07, strikeMax: 0.15, expiry: '1 Month' },
+  monthly: { minProfit: 0.02, strikeMin: 0.10, strikeMax: 0.20, expiry: '1 Month' },
   quarterly: { minProfit: 0.05, strikeMin: 0.15, strikeMax: 0.30, expiry: '3 Months' },
   leaps: { minProfit: 0.10, strikeMin: 0.30, strikeMax: 0.50, expiry: '6-12 Months' },
 };
@@ -372,7 +376,7 @@ const holdings = [
   { ticker: "PHYS", name: "Sprott Physical Gold", sector: "Gold", shares: 16827, price: 36.81, gl: -0.4, color: "#d4a853" },
   { ticker: "URNM", name: "Sprott Uranium Miners", sector: "Uranium", shares: 6000, price: 69.43, gl: 2.5, color: "#34d399" },
   { ticker: "GRID", name: "First Trust Grid Infra", sector: "Grid", shares: 2177, price: 183.31, gl: 3.7, color: "#60a5fa" },
-  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 74209.24, gl: 13.3, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
+  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 74231.87, gl: 13.3, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
   { ticker: "PSLV", name: "Sprott Physical Silver", sector: "Silver", shares: 8545, price: 26.39, gl: -9.1, color: "#a0aec0" },
   { ticker: "COPP", name: "Sprott Copper ETF", sector: "Copper", shares: 5047, price: 41.89, gl: -3.9, color: "#f97316" },
   { ticker: "COPX", name: "Global X Copper Miners", sector: "Copper", shares: 2000, price: 87.19, gl: 3.8, color: "#ea580c" },
@@ -414,6 +418,17 @@ holdings.forEach(h => {
 const totalGL = ((totalVal - totalCost) / totalCost * 100);
 const ccPortion = totalVal * CC_ALLOCATION;
 const longPortion = totalVal * (1 - CC_ALLOCATION);
+
+// Tier weighting labels (contracts as % of current total contract capacity)
+const monthlyPct = totalContracts > 0 ? (MONTHLY_EXAMPLE_CONTRACTS / totalContracts) * 100 : 0;
+const quarterlyPct = totalContracts > 0 ? (1/3) * 100 : 0;
+const leapsPct = totalContracts > 0 ? (1/3) * 100 : 0;
+const monthlyEl = document.getElementById('monthly-weight');
+const quarterlyEl = document.getElementById('quarterly-weight');
+const leapsEl = document.getElementById('leaps-weight');
+if (monthlyEl) monthlyEl.textContent = `${monthlyPct.toFixed(1)}% of CC sleeve`;
+if (quarterlyEl) quarterlyEl.textContent = `${quarterlyPct.toFixed(1)}% of CC sleeve`;
+if (leapsEl) leapsEl.textContent = `${leapsPct.toFixed(1)}% of CC sleeve`;
 
 // Summary
 const sg = document.getElementById('summary-grid');
