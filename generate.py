@@ -625,7 +625,7 @@ def fetch_trending_recs():
     - Book: Amazon Business bestsellers #1 title + Open Library description
     Fallback to hardcoded picks on any failure.
     """
-    rec_movie = {"label": "📺 Now Watching", "title": "Crime 101", "meta": "Prime · Heist/Crime", "summary": "Slick heist film — the art of the plan, the thrill of execution, and what happens when entropy meets ambition."}
+    rec_movie = {"label": "📺 Now Watching", "title": "Landman", "meta": "Prime · Drama/West Texas Oil", "summary": "Oil, grit, and dealmaking in the Permian — energy politics meets wildcat capitalism."}
     rec_book  = {"label": "📖 Now Reading",  "title": "Memories, Dreams, Reflections", "meta": "C.G. Jung · Autobiography/Psychology", "summary": "Jung's own account of his inner life — visions, the unconscious, and the making of analytical psychology. The autobiography he never wanted to write."}
 
     # ── Movie: FlixPatrol trending → OMDB description ──
@@ -1043,8 +1043,8 @@ def fetch_commodities():
 
 def fetch_crypto():
     all_syms = {
-        "BTC": "BTCUSDT", "ETH": "ETHUSDT", "SOL": "SOLUSDT",
-        "XRP": "XRPUSDT", "ZEC": "ZECUSDT", "TON": "TONUSDT",
+        "BTC": "BTCUSDT", "ETH": "ETHUSDT", "SOL": "SOLUSDT", "SUI": "SUIUSDT",
+        "XRP": "XRPUSDT", "ADA": "ADAUSDT", "TON": "TONUSDT", "ZEC": "ZECUSDT",
     }
     results = {}
     for coin, sym in all_syms.items():
@@ -1101,9 +1101,10 @@ def fetch_polymarket():
             if len(title) > 50:
                 title = title[:47] + "..."
             total_position_val += val
-            live.append({"title": title, "outcome": outcome, "pct_pnl": pct_pnl})
+            live.append({"title": title, "outcome": outcome, "pct_pnl": pct_pnl, "value": val})
 
-        live.sort(key=lambda x: -abs(x["pct_pnl"]))
+        # Largest weighted position first (by current position value)
+        live.sort(key=lambda x: x.get("value", 0), reverse=True)
 
         # Inception ROI: cash + positions vs starting capital
         total_account = total_position_val + max(est_cash, 0)
@@ -1441,13 +1442,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     donut_svg    = build_donut(alloc_list)
     legend_html  = build_legend(alloc_list, total_usd)
 
-    # ── Top 3 by value ──
-    top3 = [t for t, *_ in port_sorted[:3]]
+    # ── Top 5 by value ──
+    top5 = [t for t, *_ in port_sorted[:5]]
 
-    # ── Catalysts HTML (top 3, 48h fresh only) ──
-    # If ALL 3 have no news → one collapsed line. Otherwise show per-ticker lines.
-    fresh_cats  = [(t, catalysts.get(t)) for t in top3 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
-    no_news_tks = [t for t in top3 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
+    # ── Catalysts HTML (top 5, 48h fresh only) ──
+    # If ALL 5 have no news → one collapsed line. Otherwise show per-ticker lines.
+    fresh_cats  = [(t, catalysts.get(t)) for t in top5 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
+    no_news_tks = [t for t in top5 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
 
     cats_html = ""
     for ticker, cat in fresh_cats:
@@ -1628,10 +1629,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         </div>"""
 
     # ── Crypto HTML ──
-    crypto_colors = {"BTC": "#f7931a","ETH": "#627eea","SOL": "#9945ff",
-                     "XRP": "#346aa9","TON": "#0098ea","ZEC": "#f4b728"}
+    crypto_colors = {"BTC": "#f7931a","ETH": "#627eea","SOL": "#9945ff","SUI": "#6fd7ff",
+                     "XRP": "#346aa9","ADA": "#2a6df4","TON": "#0098ea","ZEC": "#f4b728"}
     crypto_html = ""
-    for coin in ["BTC","ETH","SOL","XRP","TON","ZEC"]:
+    for coin in ["BTC","ETH","SOL","SUI","XRP","ADA","TON","ZEC"]:
         c     = crypto.get(coin, {})
         price = c.get("price")
         chg   = c.get("change")
@@ -1779,10 +1780,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .c-gold{{color:#c9a84c}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-palladium{{color:#ccc}}.c-uranium{{color:#7fc87f}}
 
-    .crypto-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}}
-    .crypto-item{{background:var(--bg);padding:10px 8px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
-    .crypto-symbol{{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}}
-    .crypto-price{{font-family:var(--serif);font-size:1.05rem;font-weight:400;margin-bottom:2px}}
+    .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
+    .crypto-item{{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
+    .crypto-symbol{{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}}
+    .crypto-price{{font-family:var(--serif);font-size:.95rem;font-weight:400;margin-bottom:2px}}
     .crypto-change{{font-size:.68rem;margin-top:2px}}
 
     .radar-item{{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}}
@@ -1870,7 +1871,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     @media(max-width:600px){{
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(3,1fr)}}
-      .crypto-grid{{grid-template-columns:repeat(3,1fr)}}
+      .crypto-grid{{grid-template-columns:repeat(4,1fr)}}
       .fx-row{{gap:4px}}
       .fx-chip .fx-ccy{{font-size:.5rem}}
       .fx-chip .fx-rate{{font-size:.7rem}}
@@ -1957,12 +1958,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   {poly_html}
 
   {alpaca_html}
-
-  <!-- FED SIGNAL -->
-  {fed_html}
-
-  <!-- TOP 5 ECONOMIES -->
-  {eco_html}
 
 <!-- ZEROHEDGE -->
   <div class="card">
@@ -2102,20 +2097,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- PORTFOLIO removed — now at /portfolio -->
 
-  <!-- CATALYSTS — Top 3 only, fresh news highlighted -->
+  <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
   <div class="card">
-    <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
+    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
     {cats_html}
-  </div>
-
-  <!-- RADAR IDEAS — 3 crypto + 3 resource, live from Reddit/News/4Chan -->
-  <div class="card">
-    <div class="card-title">🎯 Radar Ideas</div>
-    <div class="radar-label">🪙 Micro-Cap Crypto</div>
-    {radar_crypto_html}
-    <div class="radar-label" style="margin-top:12px">⛏️ Micro-Cap Resources</div>
-    {radar_resource_html}
-    <div style="margin-top:8px;font-size:.6rem;color:var(--mute)">Live · Reddit · News · 4Chan /biz/ · Barbell plays $500–$1K · Updates every build</div>
   </div>
 
 
@@ -2125,9 +2110,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="rec-grid">
       <div class="rec-item">
         <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">Crime 101</div>
-        <div class="rec-meta">Prime · Heist/Crime</div>
-        <div class="rec-summary">Slick heist film — the art of the plan, the thrill of execution, and what happens when entropy meets ambition.</div>
+        <div class="rec-title">Landman</div>
+        <div class="rec-meta">Prime · Drama/West Texas Oil</div>
+        <div class="rec-summary">Oil, grit, and dealmaking in the Permian — energy politics meets wildcat capitalism.</div>
       </div>
       <div class="rec-item">
         <div class="rec-label">📖 Reading</div>
@@ -2164,6 +2149,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <div class="quote-type" style="margin-top:10px;color:var(--gold);">Read the full essay →</div>
     </div>
   </a>
+
+  <!-- FED SIGNAL -->
+  {fed_html}
+
+  <!-- TOP 5 ECONOMIES -->
+  {eco_html}
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
@@ -2226,7 +2217,7 @@ function getQuoteForToday(storageKey, quotes) {{
 
 // Live crypto prices (Binance, every 30s)
 !function(){{
-  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","XRP":"XRPUSDT","TON":"TONUSDT","ZEC":"ZECUSDT"}};
+  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","XRP":"XRPUSDT","ADA":"ADAUSDT","TON":"TONUSDT","ZEC":"ZECUSDT"}};
   function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\B(?=(\d{{3}})+(?!\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
   function updCrypto(){{
     Object.keys(coins).forEach(function(c){{
@@ -2323,10 +2314,10 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     donut_svg    = build_donut(alloc_list)
     legend_html  = build_legend(alloc_list, total_usd)
 
-    # ── Top 3 catalysts ──
-    top3 = [t for t, *_ in port_sorted[:3]]
-    fresh_cats  = [(t, catalysts.get(t)) for t in top3 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
-    no_news_tks = [t for t in top3 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
+    # ── Top 5 catalysts ──
+    top5 = [t for t, *_ in port_sorted[:5]]
+    fresh_cats  = [(t, catalysts.get(t)) for t in top5 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
+    no_news_tks = [t for t in top5 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
 
     cats_html = ""
     for ticker, cat in fresh_cats:
@@ -2517,7 +2508,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <!-- CATALYSTS -->
   <div class="card">
-    <div class="card-title">🔍 Catalysts — Top 3 Holdings</div>
+    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
     {cats_html}
   </div>
 
@@ -2734,37 +2725,20 @@ def main():
                 rows = f'<div style="font-size:.75rem;color:var(--mute);padding:3px 0">No open positions</div>'
             return rows
 
-        # Tier 1 — Alpaca Volume Scalp (executor.py momentum bot)
-        t1_roi = alpaca["tier1_roi"]
-        t1_color = "#4ade80" if t1_roi >= 0 else "#f87171"
-        t1_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
-        t1_realized = alpaca.get("t1_realized", 0)
-        t1_trade_count = alpaca.get("t1_trade_count", 0)
-        t1_rpnl_color = "#4ade80" if t1_realized >= 0 else "#f87171"
-        t1_rpnl_str = f"+${t1_realized:.2f}" if t1_realized >= 0 else f"-${abs(t1_realized):.2f}"
-        t1_rows = _alp_rows(alpaca["tier1_positions"], "Tier 1")
-
-        # Tier 2 — Livermore Darvas Microcap
-        t2_roi = alpaca["tier2_roi"]
-        t2_color = "#4ade80" if t2_roi >= 0 else "#f87171"
-        t2_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
-        t2_realized = alpaca.get("t2_realized", 0)
-        t2_trade_count = alpaca.get("t2_trade_count", 0)
-        t2_rpnl_color = "#4ade80" if t2_realized >= 0 else "#f87171"
-        t2_rpnl_str = f"+${t2_realized:.2f}" if t2_realized >= 0 else f"-${abs(t2_realized):.2f}"
-        t2_rows = _alp_rows(alpaca["tier2_positions"], "Tier 2")
+        all_positions = alpaca.get("tier2_positions", []) + alpaca.get("tier1_positions", [])
+        all_positions.sort(key=lambda x: float(x.get("market_value", 0)), reverse=True)
+        total_trades = int(alpaca.get("t1_trade_count", 0)) + int(alpaca.get("t2_trade_count", 0))
+        total_equity = float(alpaca.get("equity", 0))
+        total_roi = float(alpaca.get("inception_roi", 0))
+        total_color = "#4ade80" if total_roi >= 0 else "#f87171"
+        total_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
+        all_rows = _alp_rows(all_positions, "All")
 
         alpaca_html = f"""<div class="card">
-    <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Automated momentum scalper · {t1_trade_count} trades</div>
-    {t1_rows}
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t1_color}">{t1_str}</span></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Darvas box breakout bot · {t2_trade_count} trades</div>
-    {t2_rows}
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{t2_color}">{t2_str}</span></div>
+    <div class="card-title">🦙 Livermore Darvis</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · {total_trades} trades</div>
+    {all_rows}
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{total_color}">{total_str}</span></div>
   </div>"""
 
     # ── Kraken Crypto Strategy (LIVE positions from Kraken margin) ──
@@ -2772,36 +2746,46 @@ def main():
     # These are real margin positions. Prices fetched live; entries/quantities/liq locked from account.
     print("  🪙 Fetching Kraken crypto positions...")
     KRAKEN_POSITIONS = [
-        # Position sizing from Kraken account; prices fetched live each generation run.
-        {"coin": "BTC", "lev": "10x", "qty": 0.0504,   "unit": "BTC", "entry": 67923.88, "margin": 315.00, "liq": None, "symbol": "BTC-USD"},
-        {"coin": "SOL", "lev": "10x", "qty": 4.00058,  "unit": "SOL", "entry": 79.91,    "margin": 55.00,  "liq": None, "symbol": "SOL-USD"},
-        {"coin": "ETH", "lev": "10x", "qty": 1.00461,  "unit": "ETH", "entry": 2078.92,  "margin": 220.00, "liq": None, "symbol": "ETH-USD"},
-        {"coin": "ZEC", "lev": "5x",  "qty": 1.17689,  "unit": "ZEC", "entry": 254.92,   "margin": 95.00,  "liq": None, "symbol": "ZEC-USD"},
-        {"coin": "TON", "lev": "3x",  "qty": 241.5459, "unit": "TON", "entry": 1.242,    "margin": 58.16,  "liq": None, "symbol": "TON11419-USD"},
+        # Exact snapshot from Novaire screenshot (Apr 22, 2026): buy/entry + current price + liq.
+        {"coin": "SUI", "lev": "3x",  "qty": 5000.0,  "unit": "SUI", "entry": 0.9462,  "price": 0.9740,   "liq": 15.8,    "roi_dollar": 140.00, "roi_pct": 2.96,  "symbol": "SUI-USD"},
+        {"coin": "ADA", "lev": "3x",  "qty": 10000.0, "unit": "ADA", "entry": 0.2481,  "price": 0.2540,   "liq": 15.8,    "roi_dollar": 54.33,  "roi_pct": 2.19,  "symbol": "ADA-USD"},
+        {"coin": "BTC", "lev": "10x", "qty": 0.03,    "unit": "BTC", "entry": 68329.0, "price": 78154.6, "liq": 49486.0, "roi_dollar": 294.77, "roi_pct": 14.38, "symbol": "BTC-USD"},
+        {"coin": "ETH", "lev": "10x", "qty": 1.0,     "unit": "ETH", "entry": 2078.0,  "price": 2391.1,  "liq": 1388.0,  "roi_dollar": 313.11, "roi_pct": 15.07, "symbol": "ETH-USD"},
+        {"coin": "ZEC", "lev": "3x",  "qty": 1.0,     "unit": "ZEC", "entry": 255.0,   "price": 378.5,   "liq": 15.8,    "roi_dollar": 123.49, "roi_pct": 48.43, "symbol": "ZEC-USD"},
+        {"coin": "SOL", "lev": "10x", "qty": 4.0,     "unit": "SOL", "entry": 79.91,   "price": 87.9,    "liq": 95.5,    "roi_dollar": 32.05,  "roi_pct": 10.03, "symbol": "SOL-USD"},
+        {"coin": "TON", "lev": "3x",  "qty": 200.0,   "unit": "TON", "entry": 1.24,    "price": 1.376,   "liq": 15.8,    "roi_dollar": 26.82,  "roi_pct": 10.80, "symbol": "TON11419-USD"},
     ]
     # Account-level snapshot from Kraken app screenshot
     KRAKEN_DEPOSIT = 1545.86
     KRAKEN_INCEPTION = 1500.00
-    KRAKEN_USED_MARGIN = sum(kp["margin"] for kp in KRAKEN_POSITIONS)
+    KRAKEN_LEVERAGE_RATIO = 5.37
+    KRAKEN_TOTAL_NOTIONAL = 13147.5
+    KRAKEN_USED_MARGIN = 0.0  # computed from notional/leverage below
     kraken_rows = ""
     kraken_total_value = 0
     kraken_total_margin = 0
+    def _fmt_compact(n, max_dec=6):
+        try:
+            return f"{float(n):,.{max_dec}f}".rstrip("0").rstrip(".")
+        except Exception:
+            return str(n)
     try:
         for kp in KRAKEN_POSITIONS:
             coin = kp["coin"]
             qty = kp["qty"]
             entry = kp["entry"]
-            margin = kp["margin"]
             lev = kp["lev"]
+            lev_mult = float(str(lev).lower().replace("x", "") or 1)
+            margin = (qty * entry) / lev_mult if lev_mult > 0 else 0.0
             liq = kp["liq"]
-            liq_str = f"${liq:,.2f}" if liq else "—"
-            # Fetch live price for each token (Binance first, yfinance fallback)
+            liq_str = f"${_fmt_compact(liq, 6)}" if liq else "—"
+            # Live price updates (Binance first, yfinance fallback)
             try:
                 import urllib.request as _ur_k
                 _sym = kp["symbol"].replace("-", "")
                 if coin == "TON":
                     _sym = "TONUSD"
-                _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else f"https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
+                _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else "https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
                 _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
                 import json as _jk
                 _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
@@ -2812,14 +2796,14 @@ def main():
                     _tk = _yf_k.Ticker(kp["symbol"])
                     price = float(_tk.history(period="1d")["Close"].iloc[-1])
                 except:
-                    price = entry  # fallback to entry
+                    price = float(kp.get("price", entry))
             current_val = qty * price
             cost_basis = qty * entry
             upnl = current_val - cost_basis
-            margin_pct = ((price - entry) / entry) * 100
+            margin_pct = ((price - entry) / entry) * 100 if entry else 0
             margin_color = "#4ade80" if upnl >= 0 else "#f87171"
-            upnl_str = f"+${upnl:.2f}" if upnl >= 0 else f"-${abs(upnl):.2f}"
-            margin_pct_str = f"+{margin_pct:.1f}%" if margin_pct >= 0 else f"{margin_pct:.1f}%"
+            upnl_str = f"+${_fmt_compact(upnl, 6)}" if upnl >= 0 else f"-${_fmt_compact(abs(upnl), 6)}"
+            margin_pct_str = f"+{margin_pct:.2f}%" if margin_pct >= 0 else f"{margin_pct:.2f}%"
             kraken_total_value += current_val
             kraken_total_margin += margin
             kraken_rows += f"""<tr>
@@ -2827,9 +2811,9 @@ def main():
         <td style="text-align:right;font-size:.7rem">{qty:,.6f}</td>
         <td style="text-align:right;font-size:.7rem">${entry:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">${price:,.2f}</td>
-        <td style="text-align:right;font-size:.7rem">${cost_basis:,.2f}</td>
+        <td style="text-align:right;font-size:.7rem">${_fmt_compact(cost_basis, 6)}</td>
         <td style="text-align:right;font-size:.7rem">{liq_str}</td>
-        <td style="text-align:right;font-size:.7rem">${current_val:,.2f}</td>
+        <td style="text-align:right;font-size:.7rem">${_fmt_compact(current_val, 6)}</td>
         <td style="text-align:right;font-size:.7rem;color:{margin_color}">{margin_pct_str}</td>
         <td style="text-align:right;font-size:.7rem;color:{margin_color};font-weight:600">{upnl_str}</td>
       </tr>"""
@@ -2839,10 +2823,11 @@ def main():
         kraken_roi_color = "#4ade80" if kraken_roi >= 0 else "#f87171"
         kraken_roi_str = f"+{kraken_roi:.1f}%" if kraken_roi >= 0 else f"{kraken_roi:.1f}%"
         kraken_upnl_color = "#4ade80" if kraken_total_upnl >= 0 else "#f87171"
-        kraken_upnl_str = f"+${kraken_total_upnl:.2f}" if kraken_total_upnl >= 0 else f"-${abs(kraken_total_upnl):.2f}"
+        kraken_upnl_str = f"+${_fmt_compact(kraken_total_upnl, 6)}" if kraken_total_upnl >= 0 else f"-${_fmt_compact(abs(kraken_total_upnl), 6)}"
+        KRAKEN_USED_MARGIN = kraken_total_margin
         kraken_available_margin = max(0.0, kraken_equity - KRAKEN_USED_MARGIN)
         kraken_margin_state = (kraken_equity / KRAKEN_USED_MARGIN * 100) if KRAKEN_USED_MARGIN > 0 else 0.0
-        print(f"    ✅ Kraken: 5 positions, equity ${kraken_equity:.2f}, uPnL {kraken_upnl_str}")
+        print(f"    ✅ Kraken: {len(KRAKEN_POSITIONS)} positions, equity ${kraken_equity:.2f}, uPnL {kraken_upnl_str}")
     except Exception as _ke:
         print(f"    ⚠ Kraken fetch error: {_ke}")
         kraken_equity = KRAKEN_DEPOSIT
@@ -2855,15 +2840,14 @@ def main():
 
     kraken_html = f"""<div class="card">
     <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Deposit: ${KRAKEN_DEPOSIT:,.2f} · Inception: ${KRAKEN_INCEPTION:,.2f}</span><span>5 positions · Live</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>{len(KRAKEN_POSITIONS)} positions · Live price feed</span><span>Leverage ratio: {_fmt_compact(KRAKEN_LEVERAGE_RATIO, 6)}x</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Qty</th><th style="text-align:right">Entry</th><th style="text-align:right">Live Px</th><th style="text-align:right">Notional</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
       {kraken_rows}
     </table>
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Unrealized P&amp;L</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Equity: ${kraken_equity:,.2f}</span><span style="color:{kraken_roi_color}">Inception ROI: {kraken_roi_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.72rem;color:var(--mute)"><span>Used Margin: ${KRAKEN_USED_MARGIN:,.2f}</span><span>Available: ${kraken_available_margin:,.2f}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live · Margin Active</span><span>Margin State: {kraken_margin_state:.2f}% · Kraken</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">$ ROI (commiss.)</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.75rem;color:var(--mute)"><span>Total Notional</span><span>${_fmt_compact(KRAKEN_TOTAL_NOTIONAL, 6)}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live Prices</span><span>Kraken Margin</span></div>
   </div>"""
 
     zodiac    = get_zodiac()
@@ -2936,6 +2920,7 @@ def main():
             with _ur.urlopen(_req, timeout=10) as _resp:
                 _positions = json.loads(_resp.read())
             pm_pos_val = 0
+            open_positions = []
             for _p in _positions:
                 _val = float(_p.get("currentValue", 0))
                 if _val < 0.01:
@@ -2945,10 +2930,20 @@ def main():
                     _title = _title[:52] + "..."
                 _pnl = float(_p.get("percentPnl", 0))
                 _init = float(_p.get("initialValue", 0))
+                pm_pos_val += _val
+                open_positions.append({
+                    "title": _title,
+                    "outcome": _p.get("outcome", ""),
+                    "value": _val,
+                    "init": _init,
+                    "pnl": _pnl,
+                })
+            open_positions.sort(key=lambda x: x["value"], reverse=True)
+            for _p in open_positions[:5]:
+                _pnl = _p["pnl"]
                 _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
                 _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
-                pm_pos_val += _val
-                pm_rows += f'<tr><td style="font-size:.75rem">{_p.get("outcome","")} · {_title}</td><td style="text-align:right;font-size:.75rem">${_init:.2f}</td><td style="text-align:right;font-size:.75rem">${_val:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
+                pm_rows += f'<tr><td style="font-size:.75rem">{_p["outcome"]} · {_p["title"]}</td><td style="text-align:right;font-size:.75rem">${_p["init"]:.2f}</td><td style="text-align:right;font-size:.75rem">${_p["value"]:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>' 
             pm_total = poly_full.get("total_account", pm_pos_val)
             pm_roi = poly_full.get("inception_roi", 0)
             pm_cash = pm_total - pm_pos_val
@@ -2967,7 +2962,7 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception Capital: ${pm_inception:.2f}</span><span>Account: Barron147</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.75rem"><span>Win Rate: {pm_wr['win_rate']:.0f}% ({pm_wr['wins']}W/{pm_wr['losses']}L · {pm_wr['total']} trades)</span></div>
     <div style="display:flex;justify-content:space-between;padding:8px 0 4px;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${pm_total:.2f}</span><span style="color:{pm_roi_color}">Inception ROI: {pm_roi_str}</span></div>
-    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Open Positions</div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Top 5 Weighted Positions</div>
     <div><table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Contract</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
       {pm_rows}
@@ -2975,67 +2970,45 @@ def main():
     </table></div>
   </div>"""
 
-    # Alpaca — Two-tier structure
+    # Alpaca — unified Livermore Darvis view
     alpaca_full = fetch_alpaca()
     if alpaca_full.get("funded"):
-        def _alp_port_rows(positions):
-            rows = ""
-            for _ap in positions:
-                _sym = _ap.get("symbol", "?")
-                _side = "Long" if _ap.get("side") == "long" else "Short"
-                _mval = float(_ap.get("market_value", 0))
-                _cost = float(_ap.get("cost", _ap.get("cost_basis", 0)))
-                _pnl = float(_ap.get("pct_pnl", 0))
-                _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
-                _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
-                rows += f'<tr><td style="font-size:.75rem">{_side} · {_sym}</td><td style="text-align:right;font-size:.75rem">${_cost:.2f}</td><td style="text-align:right;font-size:.75rem">${_mval:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
-            if not positions:
-                rows = '<tr><td colspan="4" style="font-size:.75rem;color:var(--mute);padding:4px 0">No open positions</td></tr>'
-            return rows
+        all_positions = (alpaca_full.get("tier2_positions", []) + alpaca_full.get("tier1_positions", []))
+        all_positions.sort(key=lambda p: float(p.get("market_value", 0)), reverse=True)
 
-        t2_rows = _alp_port_rows(alpaca_full["tier2_positions"])
-        t2_equity = alpaca_full["tier2_equity"]
-        t2_cash = alpaca_full["tier2_cash"]
-        t2_roi = alpaca_full["tier2_roi"]
-        t2_roi_color = "#4ade80" if t2_roi >= 0 else "#f87171"
-        t2_roi_str = f"+{t2_roi:.1f}%" if t2_roi >= 0 else f"{t2_roi:.1f}%"
-        t2_realized = alpaca_full.get("t2_realized", 0)
-        t2_trade_count = alpaca_full.get("t2_trade_count", 0)
-        t2_rpnl_color = "#4ade80" if t2_realized >= 0 else "#f87171"
-        t2_rpnl_str = f"+${t2_realized:.2f}" if t2_realized >= 0 else f"-${abs(t2_realized):.2f}"
+        rows = ""
+        for _ap in all_positions:
+            _sym = _ap.get("symbol", "?")
+            _side = "Long" if _ap.get("side") == "long" else "Short"
+            _mval = float(_ap.get("market_value", 0))
+            _cost = float(_ap.get("cost", _ap.get("cost_basis", 0)))
+            _pnl = float(_ap.get("pct_pnl", 0))
+            _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
+            _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
+            rows += f'<tr><td style="font-size:.75rem">{_side} · {_sym}</td><td style="text-align:right;font-size:.75rem">${_cost:.2f}</td><td style="text-align:right;font-size:.75rem">${_mval:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
+        if not rows:
+            rows = '<tr><td colspan="4" style="font-size:.75rem;color:var(--mute);padding:4px 0">No open positions</td></tr>'
 
-        t1_rows = _alp_port_rows(alpaca_full["tier1_positions"])
-        t1_equity = alpaca_full["tier1_equity"]
-        t1_cash = alpaca_full["tier1_cash"]
-        t1_roi = alpaca_full["tier1_roi"]
-        t1_roi_color = "#4ade80" if t1_roi >= 0 else "#f87171"
-        t1_roi_str = f"+{t1_roi:.1f}%" if t1_roi >= 0 else f"{t1_roi:.1f}%"
-        t1_realized = alpaca_full.get("t1_realized", 0)
-        t1_trade_count = alpaca_full.get("t1_trade_count", 0)
-        t1_rpnl_color = "#4ade80" if t1_realized >= 0 else "#f87171"
-        t1_rpnl_str = f"+${t1_realized:.2f}" if t1_realized >= 0 else f"-${abs(t1_realized):.2f}"
+        cash_total = float(alpaca_full.get("cash", 0))
+        total_equity = float(alpaca_full.get("equity", 0))
+        total_roi = float(alpaca_full.get("inception_roi", 0))
+        total_roi_color = "#4ade80" if total_roi >= 0 else "#f87171"
+        total_roi_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
+        total_realized = float(alpaca_full.get("t1_realized", 0)) + float(alpaca_full.get("t2_realized", 0))
+        total_trades = int(alpaca_full.get("t1_trade_count", 0)) + int(alpaca_full.get("t2_trade_count", 0))
+        total_realized_color = "#4ade80" if total_realized >= 0 else "#f87171"
+        total_realized_str = f"+${total_realized:.2f}" if total_realized >= 0 else f"-${abs(total_realized):.2f}"
 
         bot_accounts_html += f"""<div class="card">
-    <div class="card-title">🦙 Tier 1 · Volume Scalp</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00 · {t1_trade_count} trades</span><span>Automated momentum scalper</span></div>
+    <div class="card-title">🦙 Livermore Darvis</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $500.00 · {total_trades} trades</span><span>Unified Alpaca book</span></div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
-      {t1_rows}
-      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${t1_cash:.2f}</td><td></td></tr>
+      {rows}
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${cash_total:.2f}</td><td></td></tr>
     </table>
-    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t1_rpnl_color};font-weight:600">{t1_rpnl_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t1_equity:.2f}</span><span style="color:{t1_roi_color}">Inception ROI: {t1_roi_str}</span></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🦙 Tier 2 · Livermore Darvas · Microcap</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $250.00 · {t2_trade_count} trades</span><span>Darvas box breakout bot</span></div>
-    <table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
-      {t2_rows}
-      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${t2_cash:.2f}</td><td></td></tr>
-    </table>
-    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{t2_rpnl_color};font-weight:600">{t2_rpnl_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${t2_equity:.2f}</span><span style="color:{t2_roi_color}">Inception ROI: {t2_roi_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{total_realized_color};font-weight:600">{total_realized_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${total_equity:.2f}</span><span style="color:{total_roi_color}">Inception ROI: {total_roi_str}</span></div>
   </div>
   {kraken_html}"""
 
