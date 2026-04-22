@@ -2808,7 +2808,7 @@ def main():
             kraken_total_margin += margin
             kraken_rows += f"""<tr>
         <td style="font-size:.75rem">{coin} <span style="font-size:.6rem;color:var(--mute)">{lev}</span></td>
-        <td style="text-align:right;font-size:.7rem">{qty:,.6f}</td>
+        <td style="text-align:right;font-size:.7rem">{qty:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">${entry:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">${price:,.2f}</td>
         <td style="text-align:right;font-size:.7rem">${_fmt_compact(cost_basis, 6)}</td>
