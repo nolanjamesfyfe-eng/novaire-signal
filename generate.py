@@ -1125,25 +1125,45 @@ def fetch_alpaca():
     TIER2_INCEPTION = 250.0  # Tier 2 — Livermore Darvas Microcap (Darvas box breakout)
     TOTAL_INCEPTION = 500.0
     try:
-        import urllib.request, json as _json
-        KEY = "AKFWVZ32QFTQCU2NIGWFVGLTRL"
-        SECRET = "56rpMGj18cepLQdkSiYvZoWjjQPrdJKHDbWBFzZ6gTk8"
-        BASE = "https://api.alpaca.markets"
+        import urllib.request, json as _json, os as _os
+        KEY = _os.getenv("ALPACA_API_KEY") or _os.getenv("APCA_API_KEY_ID")
+        SECRET = _os.getenv("ALPACA_SECRET_KEY") or _os.getenv("APCA_API_SECRET_KEY")
+        BASE = (_os.getenv("ALPACA_BASE_URL") or "https://api.alpaca.markets").rstrip("/")
+        DATA_BASE = "https://data.alpaca.markets"
+        if not KEY or not SECRET:
+            raise RuntimeError("Missing Alpaca API credentials in environment")
+
+        def alpaca_get(url, timeout=10):
+            req = urllib.request.Request(url, headers={
+                "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return _json.loads(resp.read())
+
+        def close_based_price(symbol, fallback):
+            """Alpaca positions can show stale marks after-hours; prefer daily close/latest trade."""
+            candidates = []
+            try:
+                bars = alpaca_get(f"{DATA_BASE}/v2/stocks/{symbol}/bars?timeframe=1Day&limit=1&adjustment=raw", timeout=6)
+                for bar in bars.get("bars", []):
+                    if bar.get("c"):
+                        candidates.append(float(bar["c"]))
+            except Exception:
+                pass
+            try:
+                trade = alpaca_get(f"{DATA_BASE}/v2/stocks/{symbol}/trades/latest", timeout=6).get("trade", {})
+                if trade.get("p"):
+                    candidates.append(float(trade["p"]))
+            except Exception:
+                pass
+            return candidates[0] if candidates else fallback
 
         # Account info
-        req = urllib.request.Request(f"{BASE}/v2/account", headers={
-            "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            acct = _json.loads(resp.read())
+        acct = alpaca_get(f"{BASE}/v2/account")
 
-        equity = float(acct.get("equity", 0))
         cash = float(acct.get("cash", 0))
 
         # Positions
-        req2 = urllib.request.Request(f"{BASE}/v2/positions", headers={
-            "APCA-API-KEY-ID": KEY, "APCA-API-SECRET-KEY": SECRET})
-        with urllib.request.urlopen(req2, timeout=10) as resp2:
-            positions = _json.loads(resp2.read())
+        positions = alpaca_get(f"{BASE}/v2/positions")
 
         # Load tier tags
         tier1_syms = []
@@ -1164,7 +1184,12 @@ def fetch_alpaca():
             pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
             side = p.get("side", "long")
             cost = float(p.get("cost_basis", 0))
-            mval = float(p.get("market_value", 0))
+            broker_mval = float(p.get("market_value", 0))
+            qty = abs(float(p.get("qty", 0) or 0))
+            fallback_price = (broker_mval / qty) if qty else float(p.get("current_price", 0) or 0)
+            price = close_based_price(symbol, fallback_price)
+            mval = price * qty
+            pct_pnl = ((mval / cost) - 1) * 100 if cost else 0
             entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval}
             # Tier 1 = Volume Scalp (executor.py); Tier 2 = Livermore Darvas
             if symbol in tier1_syms or not tier1_syms:
@@ -1207,6 +1232,7 @@ def fetch_alpaca():
 
         tier1_roi = ((tier1_equity / TIER1_INCEPTION) - 1) * 100 if TIER1_INCEPTION > 0 else 0
         tier2_roi = ((tier2_equity / TIER2_INCEPTION) - 1) * 100 if TIER2_INCEPTION > 0 else 0
+        equity = cash + tier1_val + tier2_val
         inception_roi = ((equity / TOTAL_INCEPTION) - 1) * 100 if TOTAL_INCEPTION > 0 and equity > 0 else 0
 
         return {
