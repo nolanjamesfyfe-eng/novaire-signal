@@ -99,15 +99,15 @@ def fetch_fed_signal():
     """Hardcoded Fed Signal data. Update when FOMC decisions change."""
     from datetime import date as _date
     today = datetime.now(timezone.utc).date()
-    fomc_date = _date(2026, 5, 7)
+    fomc_date = _date(2026, 6, 17)
     days_until = (fomc_date - today).days
     return {
-        "next_decision": "May 7, 2026",
+        "next_decision": "June 17, 2026",
         "days_until": days_until,
         "fed_funds_rate": "3.50\u20133.75%",
-        "next_meeting": "May FOMC",
-        "hold_pct": 88,
-        "cut_25bps_pct": 12,
+        "next_meeting": "June FOMC",
+        "hold_pct": 70,
+        "cut_25bps_pct": 28,
     }
 
 
