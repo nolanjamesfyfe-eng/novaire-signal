@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "node scripts/verify-build.js",
   "functions": {
     "api/signal-feed.js": {
       "maxDuration": 30
