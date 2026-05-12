@@ -2318,7 +2318,7 @@ function getQuoteForToday(storageKey, quotes) {{
 // Live crypto prices (Binance, every 30s)
 !function(){{
   var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","XRP":"XRPUSDT","ADA":"ADAUSDT","TON":"TONUSDT","ZEC":"ZECUSDT"}};
-  function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\B(?=(\d{{3}})+(?!\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
+  function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
   function updCrypto(){{
     Object.keys(coins).forEach(function(c){{
       fetch("https://api.binance.com/api/v3/ticker/24hr?symbol="+coins[c])
