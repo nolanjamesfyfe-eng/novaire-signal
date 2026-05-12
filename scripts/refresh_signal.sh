@@ -18,6 +18,6 @@ set +a
 if ! /usr/bin/git diff --quiet -- index.html portfolio/index.html portfolio/evolutionfund/index.html stats.json feed.json; then
   /usr/bin/git add index.html portfolio/index.html portfolio/evolutionfund/index.html feed.json
   [ -f stats.json ] && /usr/bin/git add -f stats.json
-  /usr/bin/git commit -m "chore: scheduled 7am BKK refresh $(date -u '+%Y-%m-%d %H:%M UTC')" || true
+  /usr/bin/git commit -m "chore: scheduled Signal refresh $(date -u '+%Y-%m-%d %H:%M UTC')" || true
   /usr/bin/git push origin main || true
 fi
