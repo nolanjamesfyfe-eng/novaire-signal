@@ -1075,19 +1075,35 @@ def fetch_polymarket():
         with urllib.request.urlopen(req, timeout=10) as resp:
             positions = json.loads(resp.read())
 
-        # Get USDC balance directly from Polygon chain (most accurate)
+        # Get cash balance. Polymarket trading cash can sit in CLOB collateral
+        # rather than plain wallet USDC.e, so check the authenticated CLOB balance
+        # first and fall back to on-chain USDC.e on the proxy wallet.
         est_cash = 0
         try:
-            import requests as _rq
-            addr_padded = PROXY[2:].lower().zfill(64)
-            call_data = '0x70a08231' + addr_padded
-            usdc_e = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
-            rpc_r = _rq.post('https://polygon-bor-rpc.publicnode.com',
-                json={'jsonrpc':'2.0','method':'eth_call','params':[{'to':usdc_e,'data':call_data},'latest'],'id':1},
-                timeout=10)
-            est_cash = int(rpc_r.json().get('result', '0x0'), 16) / 1e6
-        except:
+            import os as _os
+            from py_clob_client.client import ClobClient as _ClobClient
+            from py_clob_client.clob_types import BalanceAllowanceParams as _BalanceAllowanceParams, AssetType as _AssetType
+            _key = _os.getenv("POLYMARKET_PRIVATE_KEY")
+            if _key:
+                _client = _ClobClient("https://clob.polymarket.com", key=_key, chain_id=137, signature_type=1, funder=PROXY)
+                _client.set_api_creds(_client.create_or_derive_api_creds())
+                _bal = _client.get_balance_allowance(_BalanceAllowanceParams(asset_type=_AssetType.COLLATERAL))
+                est_cash = int(_bal.get("balance", 0)) / 1e6
+        except Exception as _e:
             est_cash = 0
+
+        if est_cash <= 0:
+            try:
+                import requests as _rq
+                addr_padded = PROXY[2:].lower().zfill(64)
+                call_data = '0x70a08231' + addr_padded
+                usdc_e = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
+                rpc_r = _rq.post('https://polygon-bor-rpc.publicnode.com',
+                    json={'jsonrpc':'2.0','method':'eth_call','params':[{'to':usdc_e,'data':call_data},'latest'],'id':1},
+                    timeout=10)
+                est_cash = int(rpc_r.json().get('result', '0x0'), 16) / 1e6
+            except:
+                est_cash = 0
 
         live = []
         total_position_val = 0
@@ -1113,6 +1129,7 @@ def fetch_polymarket():
         return {
             "positions": live[:6],
             "total_account": total_account,
+            "cash": max(est_cash, 0),
             "inception_roi": inception_roi,
         }
     except Exception as e:
