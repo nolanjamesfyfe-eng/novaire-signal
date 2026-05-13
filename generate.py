@@ -71,6 +71,7 @@ SECOND_RENAISSANCE = {
     "episode_title": "The Second Renaissance Podcast",
     "episode_url": "https://www.youtube.com/watch?v=y4KWujX4OlI",
     "thumbnail_url": "https://img.youtube.com/vi/y4KWujX4OlI/hqdefault.jpg",
+    "episode_blurb": "Are we being manipulated? Nolan and James explore algorithms, media incentives, epistemic sovereignty, and how to protect your attention in an age designed to rent your own thoughts back to you.",
 }
 
 # Portfolio basis stats (from spreadsheet)
@@ -1707,6 +1708,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <em>Watch on YouTube →</em>
       </span>
     </a>
+    <p class="podcast-mini-copy">{SECOND_RENAISSANCE['episode_blurb']}</p>
   </div>"""
 
     # Full HTML template
@@ -1869,6 +1871,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .podcast-mini span{{display:flex;flex-direction:column;gap:3px;min-width:0}}
     .podcast-mini strong{{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--text);line-height:1.2}}
     .podcast-mini em{{font-style:normal;font-size:.6rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
+    .podcast-mini-copy{{font-size:.72rem;color:var(--dim);line-height:1.45;margin:8px 2px 0}}
 
     .thai-word-box{{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .thai-word-box .word{{font-family:var(--serif);font-size:1.1rem;color:var(--gold)}}
