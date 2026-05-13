@@ -68,10 +68,10 @@ SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
 
 SECOND_RENAISSANCE = {
     "channel_url": "https://www.youtube.com/channel/UC0-4nIbz6OCjUa08WO0-vFw",
-    "episode_title": "The Second Renaissance Podcast",
+    "episode_title": "Episode 4: Are we being manipulated — by media, algorithms, institutions, and even our own need for certainty?",
     "episode_url": "https://www.youtube.com/watch?v=y4KWujX4OlI",
     "thumbnail_url": "https://img.youtube.com/vi/y4KWujX4OlI/hqdefault.jpg",
-    "episode_blurb": "Are we being manipulated? Nolan and James explore algorithms, media incentives, epistemic sovereignty, and how to protect your attention in an age designed to rent your own thoughts back to you.",
+    "episode_blurb": "In this episode of The Second Renaissance Podcast, co-hosts DeFleur and Novaire dive into the sovereign mind: how to think for yourself in an age of information overload, emotional manipulation, and collapsing trust in institutions.",
 }
 
 # Portfolio basis stats (from spreadsheet)
