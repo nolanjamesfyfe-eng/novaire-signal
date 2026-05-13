@@ -68,18 +68,9 @@ SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
 
 SECOND_RENAISSANCE = {
     "channel_url": "https://www.youtube.com/channel/UC0-4nIbz6OCjUa08WO0-vFw",
-    "episode_title": "Are We Being Manipulated?",
+    "episode_title": "The Second Renaissance Podcast",
     "episode_url": "https://www.youtube.com/watch?v=y4KWujX4OlI",
-    "episode_embed": "https://www.youtube.com/embed/y4KWujX4OlI",
-    "episode_summary": "Nolan and James cut into the machinery of modern opinion formation: algorithms, media incentives, epistemic sovereignty, and the quiet art of thinking your own thoughts in an age designed to rent them back to you.",
-    "episode_points": [
-        "Algorithmic conditioning versus genuine conviction",
-        "Why outrage is cheaper than wisdom",
-        "How to protect attention, judgment, and sovereignty",
-    ],
-    "clip_title": "Are You Thinking — Or Being Thought For?",
-    "clip_url": "https://www.youtube.com/watch?v=y4KWujX4OlI&t=60s",
-    "clip_summary": "A sharp opener on downloaded opinions and the first principle of modern sanity: notice when the feed is thinking on your behalf.",
+    "thumbnail_url": "https://img.youtube.com/vi/y4KWujX4OlI/hqdefault.jpg",
 }
 
 # Portfolio basis stats (from spreadsheet)
@@ -1705,27 +1696,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="crypto-change" data-crypto-chg="{coin}">{chg_html}</div>
         </div>"""
 
-    sr_points_html = "".join(f"<li>{p}</li>" for p in SECOND_RENAISSANCE["episode_points"])
     second_renaissance_html = f"""
   <!-- THE SECOND RENAISSANCE PODCAST -->
-  <div class="card podcast-card">
-    <div class="card-title">🎙 The Second Renaissance Podcast</div>
-    <div class="podcast-embed">
-      <iframe src="{SECOND_RENAISSANCE['episode_embed']}" title="The Second Renaissance Podcast" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-    <div class="podcast-kicker">Latest Episode</div>
-    <a class="podcast-title" href="{SECOND_RENAISSANCE['episode_url']}" target="_blank" rel="noopener">{SECOND_RENAISSANCE['episode_title']} →</a>
-    <p class="podcast-summary">{SECOND_RENAISSANCE['episode_summary']}</p>
-    <ul class="podcast-points">{sr_points_html}</ul>
-    <div class="podcast-actions">
-      <a href="{SECOND_RENAISSANCE['episode_url']}" target="_blank" rel="noopener">Watch on YouTube</a>
-      <a href="{SECOND_RENAISSANCE['channel_url']}" target="_blank" rel="noopener">Channel</a>
-    </div>
-    <div class="clip-week">
-      <div class="clip-label">Clip of the Week</div>
-      <a class="clip-title" href="{SECOND_RENAISSANCE['clip_url']}" target="_blank" rel="noopener">{SECOND_RENAISSANCE['clip_title']} →</a>
-      <div class="clip-summary">{SECOND_RENAISSANCE['clip_summary']}</div>
-    </div>
+  <div class="card podcast-card compact-podcast-card">
+    <div class="card-title">🎙 The Second Renaissance</div>
+    <a class="podcast-mini" href="{SECOND_RENAISSANCE['episode_url']}" target="_blank" rel="noopener">
+      <img src="{SECOND_RENAISSANCE['thumbnail_url']}" alt="The Second Renaissance Podcast" loading="lazy">
+      <span>
+        <strong>{SECOND_RENAISSANCE['episode_title']}</strong>
+        <em>Watch on YouTube →</em>
+      </span>
+    </a>
   </div>"""
 
     # Full HTML template
@@ -1881,21 +1862,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .rec-meta{{font-size:.68rem;color:var(--blue);margin-bottom:5px}}
     .rec-summary{{font-size:.76rem;color:var(--dim);line-height:1.45}}
 
-    .podcast-card{{padding:18px}}
-    .podcast-embed{{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}}
-    .podcast-embed iframe{{position:absolute;inset:0;width:100%;height:100%;border:0}}
-    .podcast-kicker,.clip-label{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;font-weight:600;margin-bottom:5px}}
-    .podcast-title,.clip-title{{font-family:var(--serif);font-size:1.18rem;color:var(--text);text-decoration:none;line-height:1.25}}
-    .podcast-title:hover,.clip-title:hover{{color:var(--gold)}}
-    .podcast-summary{{font-size:.8rem;color:var(--dim);line-height:1.55;margin:8px 0 10px}}
-    .podcast-points{{margin:0 0 12px 18px;padding:0;color:var(--text);font-size:.76rem;line-height:1.5}}
-    .podcast-points li{{margin:3px 0}}
-    .podcast-actions{{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}}
-    .podcast-actions a{{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--border);border-radius:var(--r);padding:6px 9px;background:var(--bg)}}
-    .podcast-actions a:hover{{border-color:var(--gold)}}
-    .clip-week{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-top:10px}}
-    .clip-title{{font-size:1rem}}
-    .clip-summary{{font-size:.74rem;color:var(--dim);line-height:1.45;margin-top:5px}}
+    .podcast-card{{padding:14px 16px}}
+    .podcast-mini{{display:flex;align-items:center;gap:12px;text-decoration:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:8px;transition:border-color .15s}}
+    .podcast-mini:hover{{border-color:var(--gold)}}
+    .podcast-mini img{{width:92px;aspect-ratio:16/9;object-fit:cover;border-radius:4px;filter:saturate(.85) brightness(.9);flex-shrink:0}}
+    .podcast-mini span{{display:flex;flex-direction:column;gap:3px;min-width:0}}
+    .podcast-mini strong{{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--text);line-height:1.2}}
+    .podcast-mini em{{font-style:normal;font-size:.6rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
 
     .thai-word-box{{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .thai-word-box .word{{font-family:var(--serif);font-size:1.1rem;color:var(--gold)}}
