@@ -2722,7 +2722,9 @@ def main():
         loaded = sum(1 for v in portfolio_data.values() if v.get("price"))
         print(f"    ✅ {loaded}/{len(holdings_source)} tickers loaded")
         if gs_meta:
-            print(f"    📊 Sheet: CAD=${gs_meta.get('total_cad','?'):,}  USD=${gs_meta.get('total_usd','?'):,}  ROI={gs_meta.get('roi_pct_str','?')}  ATH=${gs_meta.get('ath','?'):,}")
+            def _fmt_sheet_value(value):
+                return f"{value:,}" if isinstance(value, (int, float)) else "?"
+            print(f"    📊 Sheet: CAD=${_fmt_sheet_value(gs_meta.get('total_cad'))}  USD=${_fmt_sheet_value(gs_meta.get('total_usd'))}  ROI={gs_meta.get('roi_pct_str') or '?'}  ATH=${_fmt_sheet_value(gs_meta.get('ath'))}")
     except Exception as e:
         print(f"    ❌ {e}")
         portfolio_data = {}
