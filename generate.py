@@ -560,6 +560,12 @@ def fetch_weather():
     results = []
     session = requests.Session()
     headers = {"User-Agent": "NovaireSignal/1.0 (+https://novairesignal.com)"}
+    cache_path = os.path.join(os.path.dirname(__file__), "weather_cache.json")
+    try:
+        with open(cache_path, "r", encoding="utf-8") as f:
+            weather_cache = json.load(f)
+    except Exception:
+        weather_cache = {}
 
     def _get_json(url, timeout=12, attempts=3):
         last_err = None
@@ -605,10 +611,28 @@ def fetch_weather():
                     else: aqi_label = "Hazardous"
             except Exception as e:
                 print(f"    ⚠️  AQI unavailable for {city['name']}: {e}")
-            results.append({**city, "temp": temp, "humidity": humidity, "condition": condition, "aqi": aqi, "aqi_label": aqi_label, "ok": True})
+            result = {**city, "temp": temp, "humidity": humidity, "condition": condition, "aqi": aqi, "aqi_label": aqi_label, "ok": True}
+            results.append(result)
+            weather_cache[city["name"]] = {**result, "cached_at": datetime.now(timezone.utc).isoformat()}
         except Exception as e:
             print(f"    ⚠️  Weather unavailable for {city['name']}: {e}")
+            cached = weather_cache.get(city["name"])
+            if cached:
+                try:
+                    cached_at = datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
+                    cache_age = datetime.now(timezone.utc) - cached_at
+                except Exception:
+                    cache_age = timedelta.max
+                if cache_age <= timedelta(hours=12) and cached.get("temp") is not None:
+                    print(f"    ↳ using cached {city['name']} weather from {cached.get('cached_at')}")
+                    results.append({**city, "temp": cached.get("temp"), "humidity": cached.get("humidity"), "condition": cached.get("condition", "—"), "aqi": cached.get("aqi"), "aqi_label": cached.get("aqi_label", "—"), "ok": True, "cached": True})
+                    continue
             results.append({**city, "temp": None, "humidity": None, "condition": "—", "aqi": None, "aqi_label": "—", "ok": False})
+    try:
+        with open(cache_path, "w", encoding="utf-8") as f:
+            json.dump(weather_cache, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"    ⚠️  Weather cache write failed: {e}")
     return results
 
 def fetch_bangkok_post():
