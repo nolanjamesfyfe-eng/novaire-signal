@@ -9,6 +9,7 @@ import json
 import math
 import os
 import sys
+import time
 import traceback
 from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
@@ -557,17 +558,34 @@ def is_fresh_news(pub_str, market_days=2):
 
 def fetch_weather():
     results = []
+    session = requests.Session()
+    headers = {"User-Agent": "NovaireSignal/1.0 (+https://novairesignal.com)"}
+
+    def _get_json(url, timeout=12, attempts=3):
+        last_err = None
+        for attempt in range(attempts):
+            try:
+                r = session.get(url, headers=headers, timeout=timeout)
+                r.raise_for_status()
+                return r.json()
+            except Exception as e:
+                last_err = e
+                if attempt < attempts - 1:
+                    time.sleep(0.5 * (attempt + 1))
+        raise last_err
+
     for city in CITIES:
         try:
             url = (f"https://api.open-meteo.com/v1/forecast"
                    f"?latitude={city['lat']}&longitude={city['lon']}"
-                   f"&current=temperature_2m,weathercode,relative_humidity_2m&timezone=auto")
-            r = requests.get(url, timeout=10)
-            data = r.json()
+                   f"&current=temperature_2m,weathercode,weather_code,relative_humidity_2m&timezone=auto")
+            data = _get_json(url)
             cur = data.get("current", {})
             temp = cur.get("temperature_2m")
             humidity = cur.get("relative_humidity_2m")
-            code = cur.get("weathercode", 0)
+            code = cur.get("weathercode", cur.get("weather_code", 0))
+            if temp is None:
+                raise ValueError(f"missing temperature for {city['name']}: {data}")
             condition = WEATHER_CODES.get(code, "Unknown")
             # Fetch air quality (AQI) from Open-Meteo
             aqi = None
@@ -576,8 +594,7 @@ def fetch_weather():
                 aqi_url = (f"https://air-quality-api.open-meteo.com/v1/air-quality"
                            f"?latitude={city['lat']}&longitude={city['lon']}"
                            f"&current=us_aqi")
-                aq_r = requests.get(aqi_url, timeout=10)
-                aq_data = aq_r.json()
+                aq_data = _get_json(aqi_url, timeout=12, attempts=2)
                 aqi = aq_data.get("current", {}).get("us_aqi")
                 if aqi is not None:
                     if aqi <= 50: aqi_label = "Good"
@@ -586,10 +603,11 @@ def fetch_weather():
                     elif aqi <= 200: aqi_label = "Unhealthy"
                     elif aqi <= 300: aqi_label = "Very Unhealthy"
                     else: aqi_label = "Hazardous"
-            except:
-                pass
+            except Exception as e:
+                print(f"    ⚠️  AQI unavailable for {city['name']}: {e}")
             results.append({**city, "temp": temp, "humidity": humidity, "condition": condition, "aqi": aqi, "aqi_label": aqi_label, "ok": True})
         except Exception as e:
+            print(f"    ⚠️  Weather unavailable for {city['name']}: {e}")
             results.append({**city, "temp": None, "humidity": None, "condition": "—", "aqi": None, "aqi_label": "—", "ok": False})
     return results
 
@@ -1865,12 +1883,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .rec-summary{{font-size:.76rem;color:var(--dim);line-height:1.45}}
 
     .podcast-card{{padding:14px 16px}}
-    .podcast-mini{{display:flex;align-items:center;gap:12px;text-decoration:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:8px;transition:border-color .15s}}
+    .podcast-mini{{display:flex;align-items:stretch;gap:12px;text-decoration:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:8px;transition:border-color .15s}}
     .podcast-mini:hover{{border-color:var(--gold)}}
-    .podcast-mini img{{width:92px;aspect-ratio:16/9;object-fit:cover;border-radius:4px;filter:saturate(.85) brightness(.9);flex-shrink:0}}
-    .podcast-mini span{{display:flex;flex-direction:column;gap:3px;min-width:0}}
-    .podcast-mini strong{{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--text);line-height:1.2}}
-    .podcast-mini em{{font-style:normal;font-size:.6rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
+    .podcast-mini img{{width:20%;min-width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:4px;filter:saturate(.85) brightness(.9);flex-shrink:0}}
+    .podcast-mini span{{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}}
+    .podcast-mini strong{{font-family:var(--serif);font-size:1.18rem;font-weight:500;color:var(--text);line-height:1.12}}
+    .podcast-mini em{{font-style:normal;font-size:.64rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
     .podcast-mini-copy{{font-size:.72rem;color:var(--dim);line-height:1.45;margin:8px 2px 0}}
 
     .thai-word-box{{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
@@ -2186,9 +2204,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="rec-grid">
       <div class="rec-item">
         <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">Landman</div>
-        <div class="rec-meta">Prime · Drama/West Texas Oil</div>
-        <div class="rec-summary">Oil, grit, and dealmaking in the Permian — energy politics meets wildcat capitalism.</div>
+        <div class="rec-title">The Count of Monte-Cristo</div>
+        <div class="rec-meta">2024 · French historical adventure · Pierre Niney</div>
+        <div class="rec-summary">Dumas with a sharper blade: the 2024 French adaptation of Edmond Dantès, revenge, betrayal, and civilization wearing a velvet mask.</div>
       </div>
       <div class="rec-item">
         <div class="rec-label">📖 Reading</div>
