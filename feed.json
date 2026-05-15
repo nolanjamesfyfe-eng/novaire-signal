@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-05-15T05:22:32.977888+00:00",
+  "fetchedAt": "2026-05-15T06:01:17.212188+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "BarbarianCap"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2055133448184942849",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2055151241810825637",
-      "text": "Tooth-brushing reigns supreme. But fluoride in tap water is a good safety net  https://www.economist.com/science-and-technology/2025/03/14/what-is-the-best-way-to-keep-your-teeth-healthy?taid=6a06a85d2096e10001ccfb70&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2055161258597290436",
+      "text": "Sir Keir Starmer won a stonking majority in the 2024 general election. Now the prime ministership that was supposed to show Europe how to save centrism looks unsaveable. \n\nOn the latest episode of The Insider our panel considers what went so wrong https://www.economist.com/insider/the-insider/is-britain-ungovernable?taid=6a06b1b1717bd400015f2251&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-15T05:00:13+00:00",
-      "createdAtMs": 1778821213000,
+      "createdAt": "2026-05-15T05:40:01+00:00",
+      "createdAtMs": 1778823601000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2055151241810825637#m",
+      "url": "https://x.com/TheEconomist/status/2055161258597290436#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
