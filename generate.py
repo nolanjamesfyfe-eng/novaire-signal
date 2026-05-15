@@ -2808,16 +2808,14 @@ def main():
     if not fx:
         fx = {"usdcad": 1.365, "audusd": 0.630}
 
-    # ── Polymarket (Barron147) — Restored, showing bets + ROI (no dollar amounts) ──
+    # ── Polymarket (Barron147) — top open bets + wins/losses only ──
     print("  🎰 Fetching Polymarket positions...")
     poly = fetch_polymarket()
     poly_html = ""
     if poly["positions"]:
-        roi = poly["inception_roi"]
-        roi_color = "#4ade80" if roi >= 0 else "#f87171"
-        roi_str = f"+{roi:.1f}%" if roi >= 0 else f"{roi:.1f}%"
+        pm_wr_summary = fetch_polymarket_win_rate()
         bets_html = ""
-        for p in poly["positions"][:4]:  # Show top 4 bets
+        for p in poly["positions"][:4]:  # Show top 4 open bets by weight
             pnl = p["pct_pnl"]
             pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
             pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
@@ -2826,7 +2824,7 @@ def main():
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
   {bets_html}
-  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Inception ROI:</span><span style="color:{roi_color}">{roi_str}</span></div>
+  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</span></div>
 </div>'''
 
     # ── Alpaca (Novaire's bot) ──
@@ -3059,34 +3057,28 @@ def main():
                     "pnl": _pnl,
                 })
             open_positions.sort(key=lambda x: x["value"], reverse=True)
-            for _p in open_positions[:5]:
+            for _p in open_positions[:4]:
                 _pnl = _p["pnl"]
                 _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
                 _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
-                pm_rows += f'<tr><td style="font-size:.75rem">{_p["outcome"]} · {_p["title"]}</td><td style="text-align:right;font-size:.75rem">${_p["init"]:.2f}</td><td style="text-align:right;font-size:.75rem">${_p["value"]:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>' 
+                pm_rows += f'<tr><td style="font-size:.75rem">{_p["outcome"]} · {_p["title"]}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>' 
             pm_total = poly_full.get("total_account", pm_pos_val)
-            pm_roi = poly_full.get("inception_roi", 0)
             pm_cash = pm_total - pm_pos_val
-            pm_roi_color = "#4ade80" if pm_roi >= 0 else "#f87171"
-            pm_roi_str = f"+{pm_roi:.1f}%" if pm_roi >= 0 else f"{pm_roi:.1f}%"
         except:
             pm_rows = ""
             pm_total = 0
             pm_cash = 0
-            pm_roi_str = "N/A"
-            pm_roi_color = "var(--mute)"
             pm_inception = 222.00  # confirmed by Novaire Mar 15  # reset 2026-03-03
 
         bot_accounts_html += f"""<div class="card">
     <div class="card-title">🎰 Polymarket — Barron147</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception Capital: ${pm_inception:.2f}</span><span>Account: Barron147</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.75rem"><span>Win Rate: {pm_wr['win_rate']:.0f}% ({pm_wr['wins']}W/{pm_wr['losses']}L · {pm_wr['total']} trades)</span></div>
-    <div style="display:flex;justify-content:space-between;padding:8px 0 4px;border-top:1px solid var(--border);font-size:.85rem;font-weight:700"><span>Total: ${pm_total:.2f}</span><span style="color:{pm_roi_color}">Inception ROI: {pm_roi_str}</span></div>
-    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Top 5 Weighted Positions</div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Account: Barron147</span><span>Total: ${pm_total:.2f}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.75rem;border-bottom:1px solid var(--border)"><span>Wins vs Losses</span><span>{pm_wr['wins']}W / {pm_wr['losses']}L · {pm_wr['total']} trades</span></div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Top 4 Open Bets</div>
     <div><table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Contract</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
+      <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Contract</th><th style="text-align:right">Open ROI</th></tr>
       {pm_rows}
-      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">${pm_cash:.2f}</td><td></td></tr>
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td style="text-align:right;font-size:.75rem;padding-top:6px">${pm_cash:.2f}</td></tr>
     </table></div>
   </div>"""
 
@@ -3310,7 +3302,6 @@ def main():
                 "roi_pct_str": gs_meta.get("roi_pct_str") if gs_meta else None,
             },
             "polymarket": {
-                "inception_roi": poly.get("inception_roi", 0) if poly else 0,
                 "total_account": poly.get("total_account", 0) if poly else 0,
             }
         }
