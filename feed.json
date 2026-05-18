@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-05-18T02:01:12.076491+00:00",
+  "fetchedAt": "2026-05-18T02:11:10.411164+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "WatcherGuru"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2056186788968862139",
@@ -52,15 +50,15 @@
       "slot_order": 3
     },
     {
-      "id": "2056170284869169180",
-      "text": "A thermometer is the \"major reason\" doctors form a view that you are ill.",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-05-18T00:29:32+00:00",
-      "createdAtMs": 1779064172000,
+      "id": "2056160753166524783",
+      "text": "BREAKING: $600,000,000 liquidated from the crypto market in the past 60 minutes.",
+      "author": "WatcherGuru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-05-17T23:51:39+00:00",
+      "createdAtMs": 1779061899000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/nntaleb/status/2056170284869169180#m",
+      "url": "https://x.com/WatcherGuru/status/2056160753166524783#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4
