@@ -30,6 +30,10 @@ jobs:
           pip install requests beautifulsoup4 yfinance
 
       - name: Generate Novaire Signal + Portfolio
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+          ALPACA_BASE_URL: ${{ secrets.ALPACA_BASE_URL }}
         run: python3 generate.py
 
       - name: Commit and push generated pages
