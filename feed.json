@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-05-22T04:01:20.967668+00:00",
+  "fetchedAt": "2026-05-22T06:01:33.933079+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "BambroughKevin"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2057664025219981496",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2057667801658110279",
-      "text": "Looking for something new to read as the season turns? We’ve got you covered https://www.economist.com/culture/2026/03/08/the-best-new-novels-to-read-this-spring?taid=6a0fd018acead50001bf4b8b&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2057697997530574926",
+      "text": "Many people worry about overpopulation. But an increasing number, especially in rich countries, fret about demographic shrinkage. There are several reasons to doubt the doomsayers https://www.economist.com/leaders/2025/09/11/dont-panic-about-the-global-fertility-crash?taid=6a0fec375d59c20001405fc4&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-22T03:40:08+00:00",
-      "createdAtMs": 1779421208000,
+      "createdAt": "2026-05-22T05:40:07+00:00",
+      "createdAtMs": 1779428407000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2057667801658110279#m",
+      "url": "https://x.com/TheEconomist/status/2057697997530574926#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
