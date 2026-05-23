@@ -2,23 +2,21 @@
   "ok": true,
   "count": 2,
   "accountsWithPosts": 2,
-  "fetchedAt": "2026-05-23T09:45:39.770046+00:00",
+  "fetchedAt": "2026-05-23T10:01:27.892495+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "HydroGraphInc"
-  ],
+  "errors": [],
   "posts": [
     {
-      "id": "2058115744286527748",
-      "text": "Euro-zone imports of intellectual property services from America have ballooned to $200bn a year and counting. Can the bloc escape its dependence on the tech giants? https://www.economist.com/europe/2026/05/21/how-europe-is-fighting-for-digital-sovereignty?taid=6a117145acead50001d7eec0&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2058120777006780746",
+      "text": "Marine insurers may do well from the war. But the longer it lasts, the more uncertain their prospects become. To discover why, register to read the full story (it’s free) https://www.economist.com/finance-and-economics/2026/05/21/the-insurers-on-the-hook-for-war-in-iran?taid=6a1175f5acead50001d7eeeb&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-23T09:20:06+00:00",
-      "createdAtMs": 1779528006000,
+      "createdAt": "2026-05-23T09:40:05+00:00",
+      "createdAtMs": 1779529205000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2058115744286527748#m",
+      "url": "https://x.com/TheEconomist/status/2058120777006780746#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
