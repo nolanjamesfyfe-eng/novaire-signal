@@ -1,36 +1,24 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-05-23T06:30:07.279766+00:00",
+  "count": 2,
+  "accountsWithPosts": 2,
+  "fetchedAt": "2026-05-23T08:01:17.295916+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "BambroughKevin"
+  ],
   "posts": [
     {
-      "id": "2058026409352675715",
-      "text": "Escobar: The Russia-China Spaceship Rushes Towards Planet Multipolar https://www.zerohedge.com/geopolitical/escobar-russia-china-spaceship-rushes-towards-planet-multipolar",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-05-23T03:25:06+00:00",
-      "createdAtMs": 1779506706000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2058026409352675715#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
-    {
-      "id": "2058070449200709974",
-      "text": "Prolonged AI use may make it harder to think critically and creatively, recent research suggests. But there are ways to keep the brain fit https://www.economist.com/science-and-technology/2025/07/16/will-ai-make-you-stupid?taid=6a114716a88c290001713022&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2058095627007926471",
+      "text": "The world’s richest man has lit the blue touch paper on the biggest initial public offering ever. The scale of his ambition is extraordinary https://www.economist.com/briefing/2026/05/21/elon-musk-is-going-all-in-on-an-unproven-technology?taid=6a115e89a88c2900017130dc&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-23T06:20:06+00:00",
-      "createdAtMs": 1779517206000,
+      "createdAt": "2026-05-23T08:00:09+00:00",
+      "createdAtMs": 1779523209000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2058070449200709974#m",
+      "url": "https://x.com/TheEconomist/status/2058095627007926471#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
