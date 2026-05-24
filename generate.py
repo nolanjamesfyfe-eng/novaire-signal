@@ -3294,12 +3294,27 @@ def main():
 
     # ── Write stats.json for cron Telegram summary ──
     try:
+        stats_total_usd = (gs_meta.get("total_usd") if gs_meta else None)
+        stats_total_cad = (gs_meta.get("total_cad") if gs_meta else None)
+        stats_roi_pct_str = (gs_meta.get("roi_pct_str") if gs_meta else None)
+
+        # Google Sheet layout occasionally shifts and drops summary cells while
+        # holdings still load. Keep heartbeat/cron summaries useful by falling
+        # back to the computed portfolio values already used to render the page.
+        if not stats_total_usd:
+            computed_usd = sum((v.get("value") or 0) for v in (portfolio_data or {}).values())
+            stats_total_usd = round(computed_usd, 2) if computed_usd else None
+        if not stats_total_cad and stats_total_usd:
+            stats_total_cad = round(stats_total_usd * fx.get("usdcad", 1), 2)
+        if not stats_roi_pct_str and stats_total_cad and PORT_BASIS_CAD:
+            stats_roi_pct_str = f"{((stats_total_cad - PORT_BASIS_CAD) / PORT_BASIS_CAD * 100):.2f}%"
+
         stats = {
             "generated_utc": datetime.now(timezone.utc).isoformat(),
             "portfolio": {
-                "total_cad": gs_meta.get("total_cad") if gs_meta else None,
-                "total_usd": gs_meta.get("total_usd") if gs_meta else None,
-                "roi_pct_str": gs_meta.get("roi_pct_str") if gs_meta else None,
+                "total_cad": stats_total_cad,
+                "total_usd": stats_total_usd,
+                "roi_pct_str": stats_roi_pct_str,
             },
             "polymarket": {
                 "total_account": poly.get("total_account", 0) if poly else 0,
