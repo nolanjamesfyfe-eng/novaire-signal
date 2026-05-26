@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-05-26T04:01:19.557991+00:00",
+  "fetchedAt": "2026-05-26T06:01:32.800931+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "SantiagoAuFund"
+  ],
   "posts": [
     {
       "id": "2059115947181347220",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2059117348158595343",
-      "text": "This what a giant precarious workforce reveals about the future of jobs https://www.economist.com/leaders/2025/09/18/chinas-200m-gig-workers-are-a-warning-for-the-world?taid=6a151616804c350001605f1f&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2059147543238345041",
+      "text": "The war in Iran has dulled Dubai’s lustre, but not that of offshore finance more broadly. To get the full picture, register to read the article for free https://www.economist.com/finance-and-economics/2026/05/25/offshore-finance-is-thriving-despite-crackdowns?taid=6a153235804c350001605f8c&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-26T03:40:07+00:00",
-      "createdAtMs": 1779766807000,
+      "createdAt": "2026-05-26T05:40:06+00:00",
+      "createdAtMs": 1779774006000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2059117348158595343#m",
+      "url": "https://x.com/TheEconomist/status/2059147543238345041#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
