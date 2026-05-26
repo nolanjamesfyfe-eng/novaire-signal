@@ -33,13 +33,13 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 12.9,
-    "humidity": 69,
-    "condition": "Clear Sky ☀️",
-    "aqi": 28,
+    "temp": 18.0,
+    "humidity": 62,
+    "condition": "Heavy Drizzle 🌧",
+    "aqi": 23,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-05-26T12:00:36.500567+00:00"
+    "cached_at": "2026-05-26T16:00:14.612506+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
