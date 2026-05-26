@@ -3306,6 +3306,11 @@ def main():
             stats_total_usd = round(computed_usd, 2) if computed_usd else None
         if not stats_total_cad and stats_total_usd:
             stats_total_cad = round(stats_total_usd * fx.get("usdcad", 1), 2)
+        if stats_roi_pct_str:
+            try:
+                float(str(stats_roi_pct_str).replace("%", "").strip())
+            except Exception:
+                stats_roi_pct_str = None
         if not stats_roi_pct_str and stats_total_cad and PORT_BASIS_CAD:
             stats_roi_pct_str = f"{((stats_total_cad - PORT_BASIS_CAD) / PORT_BASIS_CAD * 100):.2f}%"
 
