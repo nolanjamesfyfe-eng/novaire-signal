@@ -799,6 +799,7 @@ EXCHANGE_TO_TICKER = {
     "CVE:SVE":  "SVE.V",
     "CVE:PEGA": "PEGA.V",
     "CVE:CAPT": "CAPT.V",
+    "CVE:MANU": "MANU.V",
     "TSE:VZLA": "VZLA.TO",
     "ASX:AEU":  "AEU.AX",
     "CVE:AAG":  "AAG.V",
