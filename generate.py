@@ -69,10 +69,10 @@ SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
 
 SECOND_RENAISSANCE = {
     "channel_url": "https://www.youtube.com/channel/UC0-4nIbz6OCjUa08WO0-vFw",
-    "episode_title": "Episode 4: Are we being manipulated — by media, algorithms, institutions, and even our own need for certainty?",
-    "episode_url": "https://www.youtube.com/watch?v=y4KWujX4OlI",
-    "thumbnail_url": "https://img.youtube.com/vi/y4KWujX4OlI/hqdefault.jpg",
-    "episode_blurb": "In this episode of The Second Renaissance Podcast, co-hosts DeFleur and Novaire dive into the sovereign mind: how to think for yourself in an age of information overload, emotional manipulation, and collapsing trust in institutions.",
+    "episode_title": "How Stress Makes You Stronger (Hormesis Explained)",
+    "episode_url": "https://www.youtube.com/watch?v=TUgELHZm6ZU",
+    "thumbnail_url": "https://img.youtube.com/vi/TUgELHZm6ZU/hqdefault.jpg",
+    "episode_blurb": "DeFleur and Novaire explore hormesis: why controlled stress — from exercise, fasting, sauna, cold exposure, Stoicism, psychedelics, and debate — can make biological, psychological, and civic systems stronger.",
 }
 
 # Portfolio basis stats (from spreadsheet)
