@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-05-29T21:48:43.375183+00:00",
+  "fetchedAt": "2026-05-29T22:01:00.738407+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "WatcherGuru"
+  ],
   "posts": [
     {
       "id": "2060476305536102713",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2060471282357973260",
-      "text": "Havana’s beach-front hotels are empty. Food and medicine are increasingly scarce. Most areas get power for just a few hours a day. American officials say this is temporary. They are strangling Cuba’s economy, they claim, in order to save it https://www.economist.com/the-americas/2026/05/27/could-donald-trump-save-cubas-economy?taid=6a1a030a4b8aea00012d7741&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2060476316558786683",
+      "text": "Who will be the next governor of California? Our “Checks and Balance” podcast assesses the candidates https://www.economist.com/podcasts/2026/05/29/californias-chaotic-race-for-governor?taid=6a1a07bab77dd200015eed35&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-29T21:20:10+00:00",
-      "createdAtMs": 1780089610000,
+      "createdAt": "2026-05-29T21:40:10+00:00",
+      "createdAtMs": 1780090810000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2060471282357973260#m",
+      "url": "https://x.com/TheEconomist/status/2060476316558786683#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
