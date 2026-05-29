@@ -2860,114 +2860,10 @@ def main():
     <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{total_color}">{total_str}</span></div>
   </div>"""
 
-    # ── Kraken Crypto Strategy (LIVE positions from Kraken margin) ──
-    # Positions from Novaire's Kraken account — DO NOT REVERT without asking.
-    # These are real margin positions. Prices fetched live; entries/quantities/liq locked from account.
-    print("  🪙 Fetching Kraken crypto positions...")
-    KRAKEN_POSITIONS = [
-        # Exact snapshot from Novaire screenshot (Apr 22, 2026): buy/entry + current price + liq.
-        {"coin": "SUI", "lev": "3x",  "qty": 5000.0,  "unit": "SUI", "entry": 0.9462,  "price": 0.9740,   "liq": 15.8,    "roi_dollar": 140.00, "roi_pct": 2.96,  "symbol": "SUI-USD"},
-        {"coin": "ADA", "lev": "3x",  "qty": 10000.0, "unit": "ADA", "entry": 0.2481,  "price": 0.2540,   "liq": 15.8,    "roi_dollar": 54.33,  "roi_pct": 2.19,  "symbol": "ADA-USD"},
-        {"coin": "BTC", "lev": "10x", "qty": 0.03,    "unit": "BTC", "entry": 68329.0, "price": 78154.6, "liq": 49486.0, "roi_dollar": 294.77, "roi_pct": 14.38, "symbol": "BTC-USD"},
-        {"coin": "ETH", "lev": "10x", "qty": 1.0,     "unit": "ETH", "entry": 2078.0,  "price": 2391.1,  "liq": 1388.0,  "roi_dollar": 313.11, "roi_pct": 15.07, "symbol": "ETH-USD"},
-        {"coin": "ZEC", "lev": "3x",  "qty": 1.0,     "unit": "ZEC", "entry": 255.0,   "price": 378.5,   "liq": 15.8,    "roi_dollar": 123.49, "roi_pct": 48.43, "symbol": "ZEC-USD"},
-        {"coin": "SOL", "lev": "10x", "qty": 4.0,     "unit": "SOL", "entry": 79.91,   "price": 87.9,    "liq": 95.5,    "roi_dollar": 32.05,  "roi_pct": 10.03, "symbol": "SOL-USD"},
-        {"coin": "TON", "lev": "3x",  "qty": 200.0,   "unit": "TON", "entry": 1.24,    "price": 1.376,   "liq": 15.8,    "roi_dollar": 26.82,  "roi_pct": 10.80, "symbol": "TON11419-USD"},
-    ]
-    # Account-level snapshot from Kraken app screenshot
-    KRAKEN_DEPOSIT = 1545.86
-    KRAKEN_INCEPTION = 1500.00
-    KRAKEN_LEVERAGE_RATIO = 5.37
-    KRAKEN_TOTAL_NOTIONAL = 13147.5
-    KRAKEN_USED_MARGIN = 0.0  # computed from notional/leverage below
-    kraken_rows = ""
-    kraken_total_value = 0
-    kraken_total_margin = 0
-    def _fmt_compact(n, max_dec=6):
-        try:
-            return f"{float(n):,.{max_dec}f}".rstrip("0").rstrip(".")
-        except Exception:
-            return str(n)
-    try:
-        for kp in KRAKEN_POSITIONS:
-            coin = kp["coin"]
-            qty = kp["qty"]
-            entry = kp["entry"]
-            lev = kp["lev"]
-            lev_mult = float(str(lev).lower().replace("x", "") or 1)
-            margin = (qty * entry) / lev_mult if lev_mult > 0 else 0.0
-            liq = kp["liq"]
-            liq_str = f"${_fmt_compact(liq, 6)}" if liq else "—"
-            # Live price updates (Binance first, yfinance fallback)
-            try:
-                import urllib.request as _ur_k
-                _sym = kp["symbol"].replace("-", "")
-                if coin == "TON":
-                    _sym = "TONUSD"
-                _api = f"https://api.binance.com/api/v3/ticker/price?symbol={_sym}T" if coin != "TON" else "https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT"
-                _rq = _ur_k.Request(_api, headers={"User-Agent": "Mozilla/5.0"})
-                import json as _jk
-                _rd = _jk.loads(_ur_k.urlopen(_rq, timeout=5).read())
-                price = float(_rd["price"])
-            except:
-                try:
-                    import yfinance as _yf_k
-                    _tk = _yf_k.Ticker(kp["symbol"])
-                    price = float(_tk.history(period="1d")["Close"].iloc[-1])
-                except:
-                    price = float(kp.get("price", entry))
-            current_val = qty * price
-            cost_basis = qty * entry
-            upnl = current_val - cost_basis
-            margin_pct = ((price - entry) / entry) * 100 if entry else 0
-            margin_color = "#4ade80" if upnl >= 0 else "#f87171"
-            upnl_str = f"+${_fmt_compact(upnl, 6)}" if upnl >= 0 else f"-${_fmt_compact(abs(upnl), 6)}"
-            margin_pct_str = f"+{margin_pct:.2f}%" if margin_pct >= 0 else f"{margin_pct:.2f}%"
-            kraken_total_value += current_val
-            kraken_total_margin += margin
-            kraken_rows += f"""<tr>
-        <td style="font-size:.75rem">{coin} <span style="font-size:.6rem;color:var(--mute)">{lev}</span></td>
-        <td style="text-align:right;font-size:.7rem">{qty:,.2f}</td>
-        <td style="text-align:right;font-size:.7rem">${entry:,.2f}</td>
-        <td style="text-align:right;font-size:.7rem">${price:,.2f}</td>
-        <td style="text-align:right;font-size:.7rem">${_fmt_compact(cost_basis, 6)}</td>
-        <td style="text-align:right;font-size:.7rem">{liq_str}</td>
-        <td style="text-align:right;font-size:.7rem">${_fmt_compact(current_val, 6)}</td>
-        <td style="text-align:right;font-size:.7rem;color:{margin_color}">{margin_pct_str}</td>
-        <td style="text-align:right;font-size:.7rem;color:{margin_color};font-weight:600">{upnl_str}</td>
-      </tr>"""
-        kraken_total_upnl = kraken_total_value - sum(kp["qty"] * kp["entry"] for kp in KRAKEN_POSITIONS)
-        kraken_equity = KRAKEN_DEPOSIT + kraken_total_upnl
-        kraken_roi = ((kraken_equity - KRAKEN_INCEPTION) / KRAKEN_INCEPTION) * 100
-        kraken_roi_color = "#4ade80" if kraken_roi >= 0 else "#f87171"
-        kraken_roi_str = f"+{kraken_roi:.1f}%" if kraken_roi >= 0 else f"{kraken_roi:.1f}%"
-        kraken_upnl_color = "#4ade80" if kraken_total_upnl >= 0 else "#f87171"
-        kraken_upnl_str = f"+${_fmt_compact(kraken_total_upnl, 6)}" if kraken_total_upnl >= 0 else f"-${_fmt_compact(abs(kraken_total_upnl), 6)}"
-        KRAKEN_USED_MARGIN = kraken_total_margin
-        kraken_available_margin = max(0.0, kraken_equity - KRAKEN_USED_MARGIN)
-        kraken_margin_state = (kraken_equity / KRAKEN_USED_MARGIN * 100) if KRAKEN_USED_MARGIN > 0 else 0.0
-        print(f"    ✅ Kraken: {len(KRAKEN_POSITIONS)} positions, equity ${kraken_equity:.2f}, uPnL {kraken_upnl_str}")
-    except Exception as _ke:
-        print(f"    ⚠ Kraken fetch error: {_ke}")
-        kraken_equity = KRAKEN_DEPOSIT
-        kraken_roi_str = "N/A"
-        kraken_roi_color = "var(--mute)"
-        kraken_upnl_str = "N/A"
-        kraken_upnl_color = "var(--mute)"
-        kraken_available_margin = max(0.0, kraken_equity - KRAKEN_USED_MARGIN)
-        kraken_margin_state = (kraken_equity / KRAKEN_USED_MARGIN * 100) if KRAKEN_USED_MARGIN > 0 else 0.0
-
-    kraken_html = f"""<div class="card">
-    <div class="card-title">🪙 Crypto Strategy · Kraken Margin</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>{len(KRAKEN_POSITIONS)} positions · Live price feed</span><span>Leverage ratio: {_fmt_compact(KRAKEN_LEVERAGE_RATIO, 6)}x</span></div>
-    <table style="width:100%;border-collapse:collapse">
-      <tr style="font-size:.6rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Qty</th><th style="text-align:right">Entry</th><th style="text-align:right">Live Px</th><th style="text-align:right">Notional</th><th style="text-align:right">Liq.</th><th style="text-align:right">Value</th><th style="text-align:right">Margin%</th><th style="text-align:right">uP&L</th></tr>
-      {kraken_rows}
-    </table>
-    <div style="display:flex;justify-content:space-between;padding:6px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">$ ROI (commiss.)</span><span style="color:{kraken_upnl_color};font-weight:600">{kraken_upnl_str}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.75rem;color:var(--mute)"><span>Total Notional</span><span>${_fmt_compact(KRAKEN_TOTAL_NOTIONAL, 6)}</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);font-size:.75rem;color:var(--mute)"><span>Status: Live Prices</span><span>Kraken Margin</span></div>
-  </div>"""
+    # ── Crypto Strategy / Kraken Margin ──
+    # Removed May 29, 2026: Novaire is not holding crypto for now, so the
+    # portfolio page should not show Kraken margin or crypto strategy blocks.
+    kraken_html = ""
 
     zodiac    = get_zodiac()
     doy       = day_of_year()
@@ -3122,8 +3018,7 @@ def main():
     </table>
     <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{total_realized_color};font-weight:600">{total_realized_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${total_equity:.2f}</span><span style="color:{total_roi_color}">Inception ROI: {total_roi_str}</span></div>
-  </div>
-  {kraken_html}"""
+  </div>"""
 
     # ── Evolution Fund ──
     print("  🏛️ Fetching Evolution Fund positions...")
@@ -3143,21 +3038,11 @@ def main():
             {"ticker": "CEG",   "name": "Constellation Energy",  "shares": 177,   "avg_entry": 312.30},
             {"ticker": "VST",   "name": "Vistra Energy",         "shares": 322,   "avg_entry": 170.54},
         ]
-        EVO_BTC = {"shares": 6.72, "avg_entry": 65500.00, "name": "Bitcoin (8% alloc)"}
-
         # Fetch live prices
         evo_tickers = [h["ticker"] for h in EVO_HOLDINGS]
         import yfinance as _yf
         _evo_data = _yf.download(evo_tickers, period="2d", progress=False)
         _evo_close = _evo_data.get("Close", _evo_data.get(("Close",), None))
-
-        # BTC price from crypto data already fetched
-        btc_price = None
-        try:
-            _btc = _yf.Ticker("BTC-USD")
-            btc_price = float(_btc.history(period="1d")["Close"].iloc[-1])
-        except:
-            btc_price = EVO_BTC["avg_entry"]  # fallback
 
         evo_rows = ""
         evo_total_value = 0
@@ -3186,19 +3071,6 @@ def main():
             pct_str = f"+{gl_pct:.1f}%" if gl_pct >= 0 else f"{gl_pct:.1f}%"
             evo_rows += f'<tr><td class="ticker">{sym}</td><td style="font-size:.78rem">{h["name"]}</td><td style="text-align:right;font-size:.78rem">{shares:,}</td><td style="text-align:right;font-size:.78rem">${price:,.2f}</td><td style="text-align:right;font-size:.78rem">${value:,.0f}</td><td style="text-align:right;font-size:.78rem;color:{gl_color}">{gl_str}</td><td style="text-align:right;font-size:.78rem;color:{gl_color};font-weight:600">{pct_str}</td></tr>'
 
-        # BTC row
-        btc_cost = EVO_BTC["shares"] * EVO_BTC["avg_entry"]
-        btc_value = EVO_BTC["shares"] * btc_price
-        btc_gl = btc_value - btc_cost
-        btc_pct = (btc_gl / btc_cost * 100) if btc_cost > 0 else 0
-        evo_total_value += btc_value
-        evo_total_cost += btc_cost
-        evo_snapshot["BTC"] = {"price": round(btc_price, 2), "gl": round(btc_pct, 1)}
-        btc_color = "#4ade80" if btc_gl >= 0 else "#f87171"
-        btc_gl_str = f"+${btc_gl:,.0f}" if btc_gl >= 0 else f"-${abs(btc_gl):,.0f}"
-        btc_pct_str = f"+{btc_pct:.1f}%" if btc_pct >= 0 else f"{btc_pct:.1f}%"
-        evo_rows += f'<tr><td class="ticker">BTC</td><td style="font-size:.78rem">{EVO_BTC["name"]}</td><td style="text-align:right;font-size:.78rem">{EVO_BTC["shares"]}</td><td style="text-align:right;font-size:.78rem">${btc_price:,.2f}</td><td style="text-align:right;font-size:.78rem">${btc_value:,.0f}</td><td style="text-align:right;font-size:.78rem;color:{btc_color}">{btc_gl_str}</td><td style="text-align:right;font-size:.78rem;color:{btc_color};font-weight:600">{btc_pct_str}</td></tr>'
-
         evo_gl_total = evo_total_value - evo_total_cost
         evo_roi = (evo_gl_total / evo_total_cost * 100) if evo_total_cost > 0 else 0
         evo_roi_color = "#4ade80" if evo_roi >= 0 else "#f87171"
@@ -3208,7 +3080,7 @@ def main():
         evo_fund_html = f"""<div class="card">
     <div class="card-title">🏛️ Evolution Fund <a href="/portfolio/evolutionfund" style="margin-left:8px;font-size:.5rem;font-weight:600;letter-spacing:.1em;color:#22d3ee;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);padding:2px 8px;border-radius:10px;text-decoration:none;vertical-align:middle">⚡ CC Strategy</a></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.68rem;color:var(--mute)"><span>Negentropy Evolution Fund · Live Positions</span><span><a href="https://evolution.fund" style="color:var(--gold);text-decoration:none">evolution.fund</a></span></div>
-    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings ({len(EVO_HOLDINGS)+1} positions)</div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings ({len(EVO_HOLDINGS)} positions)</div>
     <div><table class="portfolio-table">
       <thead><tr>
         <th>Ticker</th><th>Position</th>
@@ -3239,7 +3111,7 @@ def main():
       </div>
     </div>
   </div>"""
-        print(f"    ✅ Evolution Fund: {len(EVO_HOLDINGS)+1} positions, ${evo_total_value:,.0f} total value")
+        print(f"    ✅ Evolution Fund: {len(EVO_HOLDINGS)} positions, ${evo_total_value:,.0f} total value")
     except Exception as e:
         print(f"    ❌ Evolution Fund error: {e}")
         evo_fund_html = ""
