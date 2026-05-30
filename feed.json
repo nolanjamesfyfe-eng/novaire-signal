@@ -2,12 +2,10 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-05-30T06:01:13.753271+00:00",
+  "fetchedAt": "2026-05-30T06:41:44.442363+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "WatcherGuru"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2060563129612788111",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2060597110249025912",
-      "text": "Britons are unlikely to notice a dramatic decline in immigration overnight. But register for free to learn why but they will be discussing the sudden shock inflow of recent years for some time to come https://www.economist.com/britain/2026/05/28/immigration-remains-at-the-forefront-of-british-voters-minds?taid=6a1a7839b77dd20001b7d917&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2060607175425188219",
+      "text": "Britons have high expectations of a country that is far poorer than they think. But register for free to learn why the politics of small treats will not fade https://www.economist.com/britain/2026/05/28/how-the-treat-conquered-politics?taid=6a1a81994b8aea00017f976d&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-30T05:40:09+00:00",
-      "createdAtMs": 1780119609000,
+      "createdAt": "2026-05-30T06:20:09+00:00",
+      "createdAtMs": 1780122009000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2060597110249025912#m",
+      "url": "https://x.com/TheEconomist/status/2060607175425188219#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
