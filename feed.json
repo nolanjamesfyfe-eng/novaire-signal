@@ -1,36 +1,24 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-05-30T06:41:44.442363+00:00",
+  "count": 2,
+  "accountsWithPosts": 2,
+  "fetchedAt": "2026-05-30T08:01:12.337747+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "WatcherGuru"
+  ],
   "posts": [
     {
-      "id": "2060563129612788111",
-      "text": "When The Grid Dies: How A Single Blackout Could Unravel A Modern World https://www.zerohedge.com/geopolitical/when-grid-dies-how-single-blackout-could-unravel-modern-world",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-05-30T03:25:08+00:00",
-      "createdAtMs": 1780111508000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2060563129612788111#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
-    {
-      "id": "2060607175425188219",
-      "text": "Britons have high expectations of a country that is far poorer than they think. But register for free to learn why the politics of small treats will not fade https://www.economist.com/britain/2026/05/28/how-the-treat-conquered-politics?taid=6a1a81994b8aea00017f976d&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2060627309241958681",
+      "text": "If humans are treated as something to be “perfected or surpassed”, it becomes easier to believe some lives are “less worthy”, warned the Pope in a letter cautioning against posthumanism https://www.economist.com/europe/2026/05/28/leos-first-encyclical-attacks-technological-messianism?taid=6a1a945916ca9c0001d5a897&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-30T06:20:09+00:00",
-      "createdAtMs": 1780122009000,
+      "createdAt": "2026-05-30T07:40:09+00:00",
+      "createdAtMs": 1780126809000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2060607175425188219#m",
+      "url": "https://x.com/TheEconomist/status/2060627309241958681#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
