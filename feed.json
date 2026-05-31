@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-05-31T02:28:07.519819+00:00",
+  "fetchedAt": "2026-05-31T02:48:30.389996+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "WatcherGuru"
+  ],
   "posts": [
     {
       "id": "2060906637171273792",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2060904160527101979",
-      "text": "Gautam Adani recently overtook his arch-rival to become India’s richest man. Yet register for free to learn why some of the forces propelling the industrialist could reverse https://www.economist.com/business/2026/05/28/everything-is-going-right-for-indias-richest-man?taid=6a1b963086566d0001e08023&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2060909165325766711",
+      "text": "To varying degrees, changes to various South-East Asian countries’ regimes are putting their rule on a firmer footing after years of challenge https://www.economist.com/asia/2026/05/28/llliberal-leaders-in-mainland-south-east-asia-revamp-their-regimes?taid=6a1b9ad9b2348a0001b5d475&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-05-31T02:00:16+00:00",
-      "createdAtMs": 1780192816000,
+      "createdAt": "2026-05-31T02:20:09+00:00",
+      "createdAtMs": 1780194009000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2060904160527101979#m",
+      "url": "https://x.com/TheEconomist/status/2060909165325766711#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
