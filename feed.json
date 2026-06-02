@@ -2,13 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-02T16:01:16.214865+00:00",
+  "fetchedAt": "2026-06-02T16:08:35.960893+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "JohnPolomny",
-    "JoshYoung"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2061835259822411792",
@@ -25,29 +22,29 @@
       "slot_order": 1
     },
     {
-      "id": "2061837922400080136",
-      "text": "Growing numbers of people are country counting https://www.economist.com/culture/2026/06/02/travel-is-becoming-a-competitive-sport?taid=6a1efbd2ba61b20001693c6d&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2061840318069104648",
+      "text": "While fighting with other academics about the accuracy of his voluminous data on inequality, he has relentlessly campaigned for taxes on wealth.\n\nTune in to our interview with the controversial economist at 6pm London time on Tuesday https://www.economist.com/insider/inside-economics/gabriel-zucman-makes-the-case-for-a-billionaire-tax?taid=6a1efe0dabb4210001d092da&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-02T15:50:42+00:00",
-      "createdAtMs": 1780415442000,
+      "createdAt": "2026-06-02T16:00:13+00:00",
+      "createdAtMs": 1780416013000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2061837922400080136#m",
+      "url": "https://x.com/TheEconomist/status/2061840318069104648#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
     },
     {
-      "id": "2061827583474290981",
-      "text": "BREAKING: The S&P 500 erases losses and surges to its highest level on record, now worth $69 trillion.",
+      "id": "2061839362090762442",
+      "text": "BREAKING: The US technology sector has rallied +42% over the last 2 months, the largest 2-month gain in 24 years.\n\nThis also marks the 2nd-strongest rally this century, surpassing even the +40% gain seen during the 2000 Dot-Com Bubble.\n\nThe surge has been largely fueled by chip stocks, with the Semiconductor Index, $SOX, rising +66% over the same period.\n\nBy comparison, the S&P 500 is up +16% while the Dow is up +10% over the same time period.\n\nMeanwhile, the S&P 500 is up +20% since the March 30th low, with the top 10 stocks contributing ~65% of the index's gains.\n\nHalf of the top 10 contributors were semiconductor stocks.\n\nThe AI trade is hotter than ever.",
       "author": "KobeissiLetter",
       "handle": "KobeissiLetter",
-      "createdAt": "2026-06-02T15:09:37+00:00",
-      "createdAtMs": 1780412977000,
+      "createdAt": "2026-06-02T15:56:25+00:00",
+      "createdAtMs": 1780415785000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2061827583474290981#m",
+      "url": "https://x.com/KobeissiLetter/status/2061839362090762442#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 3
