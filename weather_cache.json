@@ -19,13 +19,13 @@
     "lat": 6.2442,
     "lon": -75.5812,
     "tz_offset": -5,
-    "temp": 27.1,
-    "humidity": 56,
-    "condition": "Overcast ☁️",
-    "aqi": 34,
+    "temp": 22.5,
+    "humidity": 86,
+    "condition": "Showers 🌦",
+    "aqi": 33,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-06-03T16:01:20.150211+00:00"
+    "cached_at": "2026-06-03T18:00:14.506768+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -33,13 +33,13 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 11.6,
-    "humidity": 80,
+    "temp": 13.9,
+    "humidity": 75,
     "condition": "Overcast ☁️",
-    "aqi": 25,
+    "aqi": 29,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-06-03T16:01:21.191744+00:00"
+    "cached_at": "2026-06-03T18:00:21.351460+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -48,11 +48,11 @@
     "lon": -56.1645,
     "tz_offset": -3,
     "temp": 15.1,
-    "humidity": 83,
-    "condition": "Overcast ☁️",
-    "aqi": 28,
+    "humidity": 86,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 29,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-06-03T16:01:22.209964+00:00"
+    "cached_at": "2026-06-03T18:00:25.132556+00:00"
   }
 }
