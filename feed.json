@@ -1,36 +1,24 @@
 {
   "ok": true,
-  "count": 4,
-  "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-06T06:48:31.918440+00:00",
+  "count": 3,
+  "accountsWithPosts": 3,
+  "fetchedAt": "2026-06-06T08:01:05.907546+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "WatcherGuru"
+  ],
   "posts": [
     {
-      "id": "2063099839764709556",
-      "text": "Has Trump Opened Pandora's Box? https://www.zerohedge.com/geopolitical/has-trump-opened-pandoras-box",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-06-06T03:25:06+00:00",
-      "createdAtMs": 1780716306000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2063099839764709556#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
-    {
-      "id": "2063148895174005204",
-      "text": "Europe must act quickly to defend itself in an increasingly hostile world. Register for free to learn why the priority must be to speed up the accession process for Ukraine https://www.economist.com/leaders/2026/06/04/ukraine-is-not-a-charity-case?taid=6a23c0c2eb9d5100012d9d42&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2063163993506611286",
+      "text": "It is true that the Green Party’s CEO pay cap policy would reduce executive pay. But the picture for Britain’s lower earners is less rosy https://www.economist.com/britain/2026/06/04/the-green-partys-ill-considered-policy-to-cap-ceos-pay?taid=6a23ced2a7e6970001214176&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-06T06:40:02+00:00",
-      "createdAtMs": 1780728002000,
+      "createdAt": "2026-06-06T07:40:02+00:00",
+      "createdAtMs": 1780731602000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2063148895174005204#m",
+      "url": "https://x.com/TheEconomist/status/2063163993506611286#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
