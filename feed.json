@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-06T14:01:10.037029+00:00",
+  "fetchedAt": "2026-06-06T14:05:21.995442+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "WatcherGuru"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2063249576190996606",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2063254591752274275",
-      "text": "Existing air-defence sensors have been mostly designed to spot bigger threats like manned aircraft and missiles. A couple firms may have found a way to hunt for small drones that slip through the net https://www.economist.com/science-and-technology/2026/06/01/how-to-bring-down-cheap-low-flying-drones?taid=6a242332a7e69700012143d0&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2063259643975958554",
+      "text": "Following the explosion of one of its rockets, Blue Origin’s boss has set an ambitious goal to be flying again by the end of the year. It is not the only firm that will suffer in the meantime http://econ.st/4voJ6NC\n\nPhoto: Getty Images",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-06T13:40:02+00:00",
-      "createdAtMs": 1780753202000,
+      "createdAt": "2026-06-06T14:00:07+00:00",
+      "createdAtMs": 1780754407000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2063254591752274275#m",
+      "url": "https://x.com/TheEconomist/status/2063259643975958554#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
