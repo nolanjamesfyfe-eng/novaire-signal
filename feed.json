@@ -2,23 +2,21 @@
   "ok": true,
   "count": 2,
   "accountsWithPosts": 2,
-  "fetchedAt": "2026-06-07T07:49:29.587046+00:00",
+  "fetchedAt": "2026-06-07T08:00:57.719314+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "HydroGraphInc"
-  ],
+  "errors": [],
   "posts": [
     {
-      "id": "2063521347431510114",
-      "text": "Gulf states face an unsettling strategic landscape. Now their leaders are driving their people away, just as they need them most. But register for free to learn why one country stands apart  https://www.economist.com/middle-east-and-africa/2026/06/04/gulf-rulers-are-desperate-to-prove-they-are-in-fact-strongmen?taid=6a251ba295609a00012e41cd&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2063526381569384645",
+      "text": "The design of Zack Polanski’s proposal for the British political party means that it is his disproportionately young and precarious voters who would lose the most https://www.economist.com/britain/2026/06/04/the-green-partys-ill-considered-policy-to-cap-ceos-pay?taid=6a252052173822000148a4c7&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-07T07:20:02+00:00",
-      "createdAtMs": 1780816802000,
+      "createdAt": "2026-06-07T07:40:02+00:00",
+      "createdAtMs": 1780818002000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2063521347431510114#m",
+      "url": "https://x.com/TheEconomist/status/2063526381569384645#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
