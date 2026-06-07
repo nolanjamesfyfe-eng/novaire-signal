@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-07T16:01:12.404826+00:00",
+  "fetchedAt": "2026-06-07T16:02:22.515585+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "quakes99"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2063650436662358415",
