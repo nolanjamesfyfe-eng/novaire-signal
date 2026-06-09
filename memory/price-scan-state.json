@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-06-09T12:00:56.194498+00:00",
+  "errors": [],
+  "prices": {
+    "BTC-USD": {
+      "currency": "USD",
+      "market_time": 1781006451,
+      "price": 62665.46
+    },
+    "GC=F": {
+      "currency": "USD",
+      "market_time": 1781005854,
+      "price": 4365.9
+    },
+    "SPY": {
+      "currency": "USD",
+      "market_time": 1780948800,
+      "price": 739.22
+    }
+  }
+}
