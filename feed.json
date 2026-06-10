@@ -2,11 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-10T21:53:10.750318+00:00",
+  "fetchedAt": "2026-06-10T22:01:10.808286+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
   "errors": [
-    "quakes99",
     "nntaleb",
     "tferriss",
     "JohnPolomny",
