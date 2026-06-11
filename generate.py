@@ -1454,17 +1454,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     from datetime import date as _date
     _today = now.date()
 
-    # ── Trans-Siberian countdown ──
+    def countdown_label(target_date, past_label="since"):
+        days = (target_date - _today).days
+        if days > 1:
+            return f"{days} days"
+        if days == 1:
+            return "1 day"
+        if days == 0:
+            return "Today"
+        return f"{abs(days)} days {past_label}"
+
+    # ── Personal countdowns ──
     trip_date = _date(2026, 8, 25)
-    days_to_trip = (trip_date - _today).days
-    if days_to_trip > 1:
-        trip_countdown_text = f"{days_to_trip} days"
-    elif days_to_trip == 1:
-        trip_countdown_text = "1 day"
-    elif days_to_trip == 0:
-        trip_countdown_text = "Today"
-    else:
-        trip_countdown_text = f"{abs(days_to_trip)} days since departure"
+    edc_thailand_date = _date(2026, 12, 18)
+    mastermind_retreat_date = _date(2027, 1, 19)
+    trip_countdown_text = countdown_label(trip_date, "since departure")
+    edc_countdown_text = countdown_label(edc_thailand_date, "since EDC")
+    retreat_countdown_text = countdown_label(mastermind_retreat_date, "since kickoff")
     _nyse = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,25),"Memorial Day"),(_date(2026,6,19),"Juneteenth"),(_date(2026,7,3),"Independence Day"),(_date(2026,9,7),"Labor Day"),(_date(2026,11,26),"Thanksgiving"),(_date(2026,12,25),"Christmas")]
     _tsx = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,18),"Victoria Day"),(_date(2026,7,1),"Canada Day"),(_date(2026,8,3),"Civic Holiday"),(_date(2026,9,7),"Labour Day"),(_date(2026,10,12),"Thanksgiving"),(_date(2026,12,25),"Christmas"),(_date(2026,12,28),"Boxing Day")]
     next_nyse_str = next((f"{n} · {d.strftime('%b %d')}" for d, n in _nyse if d > _today), "None scheduled")
@@ -2013,12 +2019,26 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <!-- removed generated timestamp -->
   </div>
 
-  <!-- TRANS-SIBERIAN COUNTDOWN -->
+  <!-- PERSONAL COUNTDOWNS -->
   <div class="card trip-countdown">
     <div class="card-title">🚂 Trans-Siberian Adventure</div>
     <div class="trip-row">
       <div class="trip-days">{trip_countdown_text}</div>
       <div class="trip-sub">Departure Aug 25, 2026</div>
+    </div>
+  </div>
+  <div class="card trip-countdown">
+    <div class="card-title">🎡 EDC Thailand</div>
+    <div class="trip-row">
+      <div class="trip-days">{edc_countdown_text}</div>
+      <div class="trip-sub">Phuket Dec 18, 2026</div>
+    </div>
+  </div>
+  <div class="card trip-countdown">
+    <div class="card-title">🏝 January Men's Mastermind Retreat</div>
+    <div class="trip-row">
+      <div class="trip-days">{retreat_countdown_text}</div>
+      <div class="trip-sub">Phuket Jan 19, 2027</div>
     </div>
   </div>
 
