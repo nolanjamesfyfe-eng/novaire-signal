@@ -1805,6 +1805,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .trip-row{{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}}
     .trip-days{{font-family:var(--serif);font-size:1.35rem;color:var(--text);line-height:1.2}}
     .trip-sub{{font-size:.65rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}}
+    .countdown-strip{{padding:13px 16px}}
+    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}}
+    .countdown-item{{text-align:center;padding:4px 10px;border-right:1px solid var(--border)}}
+    .countdown-item:last-child{{border-right:none}}
+    .countdown-label{{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}}
+    .countdown-days{{font-family:var(--serif);font-size:1.18rem;color:var(--text);line-height:1.15}}
+    .countdown-date{{font-size:.58rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}}
+    @media(max-width:620px){{.countdown-strip-grid{{grid-template-columns:1fr;gap:12px}}.countdown-item{{border-right:none;border-bottom:1px solid var(--border);padding-bottom:12px}}.countdown-item:last-child{{border-bottom:none;padding-bottom:4px}}}}
 
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
@@ -2020,25 +2028,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- PERSONAL COUNTDOWNS -->
-  <div class="card trip-countdown">
-    <div class="card-title">🚂 Trans-Siberian Adventure</div>
-    <div class="trip-row">
-      <div class="trip-days">{trip_countdown_text}</div>
-      <div class="trip-sub">Departure Aug 25, 2026</div>
-    </div>
-  </div>
-  <div class="card trip-countdown">
-    <div class="card-title">🎡 EDC Thailand</div>
-    <div class="trip-row">
-      <div class="trip-days">{edc_countdown_text}</div>
-      <div class="trip-sub">Phuket Dec 18, 2026</div>
-    </div>
-  </div>
-  <div class="card trip-countdown">
-    <div class="card-title">🏝 January Men's Mastermind Retreat</div>
-    <div class="trip-row">
-      <div class="trip-days">{retreat_countdown_text}</div>
-      <div class="trip-sub">Phuket Jan 19, 2027</div>
+  <div class="card countdown-strip">
+    <div class="countdown-strip-grid">
+      <div class="countdown-item">
+        <div class="countdown-label">🚂 Trans-Siberian</div>
+        <div class="countdown-days">{trip_countdown_text}</div>
+        <div class="countdown-date">Aug 25</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-label">🎡 EDC Thailand</div>
+        <div class="countdown-days">{edc_countdown_text}</div>
+        <div class="countdown-date">Dec 18</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-label">🏝 Mastermind Retreat</div>
+        <div class="countdown-days">{retreat_countdown_text}</div>
+        <div class="countdown-date">Jan 19</div>
+      </div>
     </div>
   </div>
 
