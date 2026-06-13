@@ -1,26 +1,12 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-06-13T08:00:51.247788+00:00",
+  "count": 2,
+  "accountsWithPosts": 2,
+  "fetchedAt": "2026-06-13T08:01:55.958845+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
   "errors": [],
   "posts": [
-    {
-      "id": "2065645689582006333",
-      "text": "M3 would never 🙂‍↔️\n\nAs a matter of fact, the weights are now open, too.\n\nhttps://huggingface.co/MiniMaxAI/MiniMax-M3",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-06-13T04:01:24+00:00",
-      "createdAtMs": 1781323284000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/MiniMax_AI/status/2065645689582006333#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
     {
       "id": "2065700719185801246",
       "text": "We have a rare opportunity for an intern to join our Culture desk in London for three months. Previous journalistic experience is not necessary, but candidates should have excellent writing and analytical skills https://www.economist.com/culture/2026/06/08/the-economists-culture-internship?taid=6a2d09543ef24f000189433c&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
