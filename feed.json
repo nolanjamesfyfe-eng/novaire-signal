@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-15T16:00:58.970632+00:00",
+  "fetchedAt": "2026-06-15T16:01:34.733732+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "WatcherGuru"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2066548075766685812",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2066546296391872671",
-      "text": "“The idea loses steam when you think through the full implications of it.” On “The Intelligence” @asdomash examines a growing push to part-nationalise AI companies http://bit.ly/4eql3a8",
+      "id": "2066551357490757853",
+      "text": "The first round of Colombia’s presidential election “exposed a country divided by fear, inflamed by rhetoric and dangerously close to mistaking aggression for leadership”, argues @JuanManSantos https://www.economist.com/by-invitation/2026/06/14/colombia-is-dangerously-close-to-mistaking-aggression-for-leadership?taid=6a30218c2f0e7a00014116fe&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-15T15:40:06+00:00",
-      "createdAtMs": 1781538006000,
+      "createdAt": "2026-06-15T16:00:12+00:00",
+      "createdAtMs": 1781539212000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2066546296391872671#m",
+      "url": "https://x.com/TheEconomist/status/2066551357490757853#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
