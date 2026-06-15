@@ -2,10 +2,12 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-06-15T09:54:25.472003+00:00",
+  "fetchedAt": "2026-06-15T10:00:47.757245+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "WatcherGuru"
+  ],
   "posts": [
     {
       "id": "2066456962682826996",
