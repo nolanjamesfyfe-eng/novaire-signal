@@ -2,10 +2,12 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-20T13:46:27.007143+00:00",
+  "fetchedAt": "2026-06-20T14:00:47.098746+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "tferriss"
+  ],
   "posts": [
     {
       "id": "2068327476271403146",
@@ -22,15 +24,15 @@
       "slot_order": 1
     },
     {
-      "id": "2068323007580307819",
-      "text": "The best world for patients is one in which both China and America develop cheap and effective drugs. Diseases cross borders. So should their cures https://www.economist.com/leaders/2026/06/18/dont-restrict-chinese-biotech?taid=6a369387bdc78100018abf5f&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2068328040539496862",
+      "text": "Questions about the deal between America and Iran remain, but a few things have become clear. The war has come at a cost to American treasure and prestige https://www.economist.com/united-states/2026/06/18/republicans-are-desperate-to-move-on-from-the-iran-war?taid=6a3698370a5bfc0001a3d2b2&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-20T13:20:07+00:00",
-      "createdAtMs": 1781961607000,
+      "createdAt": "2026-06-20T13:40:07+00:00",
+      "createdAtMs": 1781962807000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2068323007580307819#m",
+      "url": "https://x.com/TheEconomist/status/2068328040539496862#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
