@@ -1,13 +1,11 @@
 {
   "ok": true,
-  "count": 4,
-  "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-21T04:02:08.925810+00:00",
+  "count": 3,
+  "accountsWithPosts": 3,
+  "fetchedAt": "2026-06-21T06:00:52.789483+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "JoshYoung"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2068534397792403721",
@@ -24,32 +22,18 @@
       "slot_order": 1
     },
     {
-      "id": "2068544472489603308",
-      "text": "A swift reopening of the Strait of Hormuz may limit the damage of food inflation on the continent, but bottlenecks and logistical issues will keep fertiliser costs above pre-war levels for a while longer https://www.economist.com/middle-east-and-africa/2026/06/18/the-iran-war-meant-an-economic-crisis-for-africa?taid=6a3761c8fbb36b00014b2253&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
+      "id": "2068569633397870615",
+      "text": "Our senior economics writer picks five books for those starting to study the subject  https://www.economist.com/the-economist-reads/2022/08/09/what-to-read-to-understand-how-economists-think?taid=6a3779370a5bfc0001a3d70d&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-21T04:00:08+00:00",
-      "createdAtMs": 1782014408000,
+      "createdAt": "2026-06-21T05:40:07+00:00",
+      "createdAtMs": 1782020407000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2068544472489603308#m",
+      "url": "https://x.com/TheEconomist/status/2068569633397870615#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
-    },
-    {
-      "id": "2068485683526713552",
-      "text": "US small businesses worried about the economy:\n\nThe NFIB Small Business Optimism Index fell -0.6 points in May, to 95.3, the lowest since October 2024.\n\nYear-to-date, this figure has declined -4.2 points, already surpassing the 2025 full-year decrease of -3.3 points.\n\nThe % of small business owners expecting better business conditions has declined -21 percentage points this year, to 3%, the lowest since October 2024.\n\nFurthermore, just 7% of small firms believe it is a good time to expand, also the lowest since October 2024.\n\nAll while taxes, inflation, and labor costs remain the most cited problems among small business owners.\n\nOutlook among US small businesses is bleak.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-06-21T00:06:32+00:00",
-      "createdAtMs": 1782000392000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2068485683526713552#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 3
     },
     {
       "id": "2068539875557556265",
