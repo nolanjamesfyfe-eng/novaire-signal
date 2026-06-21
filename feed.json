@@ -1,26 +1,12 @@
 {
   "ok": true,
-  "count": 3,
-  "accountsWithPosts": 3,
-  "fetchedAt": "2026-06-21T10:00:51.376724+00:00",
+  "count": 2,
+  "accountsWithPosts": 2,
+  "fetchedAt": "2026-06-21T10:01:31.802626+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
   "errors": [],
   "posts": [
-    {
-      "id": "2068574913393234079",
-      "text": "UK Prime Minister Keir Starmer Expected To Resign On Monday: Report https://www.zerohedge.com/markets/uk-prime-minister-keir-starmer-expected-resign-monday-report",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-06-21T06:01:06+00:00",
-      "createdAtMs": 1782021666000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2068574913393234079#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
     {
       "id": "2068630030305939668",
       "text": "Workers’ hours tend to be shorter in China’s richer provinces. But there is one notable exception https://www.economist.com/china/2026/06/18/how-china-still-outworks-the-west?taid=6a37b177117eb200019d3213&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
