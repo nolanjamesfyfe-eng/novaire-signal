@@ -1465,9 +1465,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         return f"{abs(days)} days {past_label}"
 
     # ── Personal countdowns ──
+    canada_departure_date = _date(2026, 7, 13)
     trip_date = _date(2026, 8, 25)
     edc_thailand_date = _date(2026, 12, 18)
     mastermind_retreat_date = _date(2027, 1, 19)
+    canada_countdown_text = countdown_label(canada_departure_date, "since Canada flight")
     trip_countdown_text = countdown_label(trip_date, "since departure")
     edc_countdown_text = countdown_label(edc_thailand_date, "since EDC")
     retreat_countdown_text = countdown_label(mastermind_retreat_date, "since kickoff")
@@ -1806,7 +1808,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .trip-days{{font-family:var(--serif);font-size:1.35rem;color:var(--text);line-height:1.2}}
     .trip-sub{{font-size:.65rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}}
     .countdown-strip{{padding:13px 16px}}
-    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}}
+    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
     .countdown-item{{text-align:center;padding:4px 10px;border-right:1px solid var(--border)}}
     .countdown-item:last-child{{border-right:none}}
     .countdown-label{{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}}
@@ -2030,6 +2032,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- PERSONAL COUNTDOWNS -->
   <div class="card countdown-strip">
     <div class="countdown-strip-grid">
+      <div class="countdown-item">
+        <div class="countdown-label">🇨🇦 Canada</div>
+        <div class="countdown-days">{canada_countdown_text}</div>
+        <div class="countdown-date">Jul 13 · Passport 09:00 · BKK 15:55</div>
+      </div>
       <div class="countdown-item">
         <div class="countdown-label">🚂 Trans-Siberian</div>
         <div class="countdown-days">{trip_countdown_text}</div>
