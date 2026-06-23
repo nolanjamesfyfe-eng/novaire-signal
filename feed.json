@@ -2,12 +2,10 @@
   "ok": true,
   "count": 4,
   "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-23T04:00:57.353751+00:00",
+  "fetchedAt": "2026-06-23T06:00:54.331532+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [
-    "WatcherGuru"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2069261404373205305",
@@ -24,15 +22,15 @@
       "slot_order": 1
     },
     {
-      "id": "2069264190070534210",
-      "text": "The management consultant’s guide to love and sex https://www.economist.com/1843/2020/02/20/between-the-spreadsheets?taid=6a3a00128f908f0001e28386&utm_campaign=editorial-social&utm_content=discovery.content&utm_medium=social-media.content.np&utm_source=twitter",
+      "id": "2069294381903790351",
+      "text": "“The ban of Anthropic’s cutting-edge models will be litigated, amended and perhaps withdrawn,” argues Judith Dada in response to Donald Trump’s decree. “Europe can decide to build a better future on this technology” https://www.economist.com/by-invitation/2026/06/18/how-europe-must-respond-to-americas-ai-warning-shot?taid=6a3a1c3085e6a70001a8bcab&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
       "author": "TheEconomist",
       "handle": "TheEconomist",
-      "createdAt": "2026-06-23T03:40:02+00:00",
-      "createdAtMs": 1782186002000,
+      "createdAt": "2026-06-23T05:40:00+00:00",
+      "createdAtMs": 1782193200000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/TheEconomist/status/2069264190070534210#m",
+      "url": "https://x.com/TheEconomist/status/2069294381903790351#m",
       "avatar": null,
       "slot": "guaranteed",
       "slot_order": 2
