@@ -1,26 +1,14 @@
 {
   "ok": true,
-  "count": 4,
-  "accountsWithPosts": 4,
-  "fetchedAt": "2026-06-26T16:01:00.849007+00:00",
+  "count": 3,
+  "accountsWithPosts": 3,
+  "fetchedAt": "2026-06-26T16:01:43.107741+00:00",
   "windowHours": 4,
   "curation": "guaranteed3_engagement1",
-  "errors": [],
+  "errors": [
+    "zerohedge"
+  ],
   "posts": [
-    {
-      "id": "2070536062426857857",
-      "text": "TRUMP SAYS IRAN VIOLATED CEASEFIRE WITH HORMUZ DRONE ATTACK",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-06-26T15:54:00+00:00",
-      "createdAtMs": 1782489240000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2070536062426857857#m",
-      "avatar": null,
-      "slot": "guaranteed",
-      "slot_order": 1
-    },
     {
       "id": "2070532570291249655",
       "text": "3D printing has already been used to make biological tissues for transplant without the need for human or animal donors. Adding circuits could allow them to monitor a patient in real time https://www.economist.com/science-and-technology/2026/06/24/electronics-can-now-be-printed-onto-living-tissues?taid=6a3e9d57205767000100c089&utm_campaign=trueanthem&utm_medium=social&utm_source=twitter",
