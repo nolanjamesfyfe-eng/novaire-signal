@@ -56,6 +56,10 @@
     .quote-type{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}
     .quote-text{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}
     .quote-author{font-size:.68rem;color:var(--dim);margin-top:3px}
+    .meditation{margin-bottom:14px;padding:12px 14px;border:1px solid rgba(201,161,91,.22);border-radius:14px;background:linear-gradient(135deg,rgba(201,161,91,.08),rgba(255,255,255,.02))}
+    .meditation-title{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-bottom:3px}
+    .meditation-meta{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+    .meditation-excerpt{font-size:.86rem;line-height:1.62;color:var(--muted)}
     #quotes-card{padding:14px 16px}
 
     .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}
@@ -290,9 +294,15 @@
     </div>
   </div>
 
-  <!-- QUOTES (2 per day — client-side localStorage dedup) -->
-  <div class="card">
-    <div class="card-title">📜 Quotes</div>
+  <!-- DAILY MEDITATION + QUOTES (client-side localStorage dedup) -->
+  <div class="card" id="quotes-card">
+    <div class="card-title">📜 Daily Meditation</div>
+    <div id="meditation-daily" class="meditation">
+      <div class="meditation-title" id="med-title"></div>
+      <div class="meditation-meta" id="med-meta"></div>
+      <div class="meditation-excerpt" id="med-excerpt"></div>
+    </div>
+    <div class="card-title">Quotes</div>
     <div id="quote-daily" class="quote">
       <div class="quote-type" id="qt-type"></div>
       <div class="quote-text" id="qt-text"></div>
@@ -320,36 +330,36 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">17:01</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">18:52</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">30°C</div>
-          <div class="condition">Light Drizzle 🌦</div>
+          <div class="temp">29°C</div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 76% · AQI 46 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 79% · AQI 35 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:01</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">06:52</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">17°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 56 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 62 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">04:01</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:52</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">15°C</div>
-          <div class="condition">Light Drizzle 🌦</div>
+          <div class="condition">Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 96% · AQI 29 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 97% · AQI 25 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">07:01</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:52</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">8°C</div>
           <div class="condition">Mainly Clear 🌤</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 92% · AQI 42 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 92% · AQI 33 (Good)</div>
         </div>
     </div>
   </div>
@@ -429,43 +439,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,427</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+1.18%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,337</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+1.55%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
           <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,583</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+2.00%</span></div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+2.60%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.89</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+4.14%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.80</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+4.71%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7027</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+4.38%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6999</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+3.60%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0591</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="positive">+2.69%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0589</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="positive">+3.53%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1472</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+2.44%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1470</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+2.58%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5780</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.41%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5740</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.55%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$407.91</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+1.67%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$408.56</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+3.05%</span></div>
         </div>
     </div>
   </div>
@@ -473,7 +483,7 @@
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-12.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-60.2%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+148.1%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-12.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-59.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+147.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
   <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>41W / 34L</span></div>
 </div>
 
@@ -490,15 +500,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/geopolitical/russias-lavrov-admits-anchorage-only-bought-time-ukraine-rearm" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Russia's Lavrov Admits That Anchorage Only Bought Time For Ukraine To Rearm</a>
+          <a href="https://www.zerohedge.com/political/when-extremists-run-government" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">When Extremists Run The Government</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/personal-finance/average-asian-american-household-makes-more-double-blacks" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">The Average Asian American Household Makes More Than Double That Of Blacks</a>
+          <a href="https://www.zerohedge.com/geopolitical/russias-lavrov-admits-anchorage-only-bought-time-ukraine-rearm" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Russia's Lavrov Admits That Anchorage Only Bought Time For Ukraine To Rearm</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/political/other-problem-socialism" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">The Other Problem With Socialism</a>
+          <a href="https://www.zerohedge.com/personal-finance/average-asian-american-household-makes-more-double-blacks" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">The Average Asian American Household Makes More Than Double That Of Blacks</a>
         </div>
   </div>
 
@@ -861,6 +871,16 @@ const QUOTES_PSYCHOLOGY = [
   {text:"Act the way you'd like to be and soon you'll be the way you act.", author:"George W. Crane"},
   {text:"Not all those who wander are lost.", author:"J.R.R. Tolkien"},
 ];
+const MEDITATIONS = [
+  {title:"Meditations", meta:"Marcus Aurelius · Stoic practice", excerpt:"Begin the day by remembering that people will be hurried, vain, ungrateful, distracted, and wrong. Do not be shocked by this; it is not a scandal, it is the weather. Your task is to keep your ruling mind clean, useful, and impossible to cheaply purchase."},
+  {title:"A Guide to the Good Life", meta:"William B. Irvine · Stoic joy", excerpt:"A good life is not built by getting everything you want; that is a child's treaty with chaos. It is built by wanting fewer foolish things, rehearsing loss before it arrives, and treating tranquility as a skill rather than a mood. The sovereign man trains desire before desire trains him."},
+  {title:"Letters from a Stoic", meta:"Seneca · attention and time", excerpt:"Guard your time like capital, because it is the one currency no empire can mint again. Men are careful with property and careless with hours, then wonder why their lives feel stolen. Spend the morning as if you had to answer for it at sunset."},
+  {title:"Discourses", meta:"Epictetus · control and character", excerpt:"Some things are yours: judgment, intention, action, restraint. Most things are not: reputation, weather, markets, other people's moods. Confusing the two is how a free man volunteers for slavery and calls it realism."},
+  {title:"The Enchiridion", meta:"Epictetus · field manual", excerpt:"Do not ask events to happen as you prefer; train yourself to prefer responding well to events as they happen. This is not passivity, it is command. The world keeps moving; your dignity is whether you move badly with it or wisely through it."},
+  {title:"Man's Search for Meaning", meta:"Viktor Frankl · meaning under pressure", excerpt:"A man can endure astonishing hardship when he has a reason that remains larger than his discomfort. Meaning is not decoration for easy days; it is the frame that keeps suffering from becoming merely absurd. Ask what life requires from you, not only what you require from life."},
+  {title:"The Daily Stoic", meta:"Ryan Holiday · daily discipline", excerpt:"Philosophy is not a bookshelf performance. It is what remains when traffic, temptation, insult, hunger, and ambition all make their case. The daily question is simple and merciless: did your principles govern anything today, or did they merely dress well?"},
+  {title:"The Art of Living", meta:"Epictetus/Sharon Lebell · practical wisdom", excerpt:"Freedom begins when you stop treating every impulse as an order. Desire knocks, fear shouts, vanity sends a memo; none of them are kings unless you crown them. Practice the pause, and suddenly the empire inside you has a government."},
+];
 
 function getQuoteForToday(storageKey, quotes) {
   const today = new Date().toDateString();
@@ -887,6 +907,13 @@ function getQuoteForToday(storageKey, quotes) {
     return quotes[seed % quotes.length];
   }
 }
+
+(function renderDailyMeditation() {
+  const m = getQuoteForToday("meditation", MEDITATIONS);
+  document.getElementById('med-title').textContent = m.title;
+  document.getElementById('med-meta').textContent = m.meta;
+  document.getElementById('med-excerpt').textContent = m.excerpt;
+})();
 
 (function renderQuotes() {
   const day = new Date().getDate();

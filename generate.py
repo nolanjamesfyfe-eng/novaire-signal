@@ -478,6 +478,17 @@ MOVIES_JS = """[
   {title:"Too Big to Fail", meta:"HBO · William Hurt", summary:"Inside the 2008 financial crisis from the perspective of Treasury Secretary Hank Paulson."},
 ]"""
 
+MEDITATIONS_JS = """[
+  {title:"Meditations", meta:"Marcus Aurelius · Stoic practice", excerpt:"Begin the day by remembering that people will be hurried, vain, ungrateful, distracted, and wrong. Do not be shocked by this; it is not a scandal, it is the weather. Your task is to keep your ruling mind clean, useful, and impossible to cheaply purchase."},
+  {title:"A Guide to the Good Life", meta:"William B. Irvine · Stoic joy", excerpt:"A good life is not built by getting everything you want; that is a child's treaty with chaos. It is built by wanting fewer foolish things, rehearsing loss before it arrives, and treating tranquility as a skill rather than a mood. The sovereign man trains desire before desire trains him."},
+  {title:"Letters from a Stoic", meta:"Seneca · attention and time", excerpt:"Guard your time like capital, because it is the one currency no empire can mint again. Men are careful with property and careless with hours, then wonder why their lives feel stolen. Spend the morning as if you had to answer for it at sunset."},
+  {title:"Discourses", meta:"Epictetus · control and character", excerpt:"Some things are yours: judgment, intention, action, restraint. Most things are not: reputation, weather, markets, other people's moods. Confusing the two is how a free man volunteers for slavery and calls it realism."},
+  {title:"The Enchiridion", meta:"Epictetus · field manual", excerpt:"Do not ask events to happen as you prefer; train yourself to prefer responding well to events as they happen. This is not passivity, it is command. The world keeps moving; your dignity is whether you move badly with it or wisely through it."},
+  {title:"Man's Search for Meaning", meta:"Viktor Frankl · meaning under pressure", excerpt:"A man can endure astonishing hardship when he has a reason that remains larger than his discomfort. Meaning is not decoration for easy days; it is the frame that keeps suffering from becoming merely absurd. Ask what life requires from you, not only what you require from life."},
+  {title:"The Daily Stoic", meta:"Ryan Holiday · daily discipline", excerpt:"Philosophy is not a bookshelf performance. It is what remains when traffic, temptation, insult, hunger, and ambition all make their case. The daily question is simple and merciless: did your principles govern anything today, or did they merely dress well?"},
+  {title:"The Art of Living", meta:"Epictetus/Sharon Lebell · practical wisdom", excerpt:"Freedom begins when you stop treating every impulse as an order. Desire knocks, fear shouts, vanity sends a memo; none of them are kings unless you crown them. Practice the pause, and suddenly the empire inside you has a government."},
+]"""
+
 BOOKS_JS = """[
   {title:"Poor Charlie's Almanack", meta:"Charlie Munger · Self-Improvement/Investing", summary:"Mental models from Berkshire's vice-chairman. The most practical philosophy book disguised as a business text."},
   {title:"The Psychology of Money", meta:"Morgan Housel · 2020 · Finance/Psychology", summary:"Timeless lessons on wealth, greed, and happiness. Behaviour — not intelligence — determines financial outcomes."},
@@ -1821,6 +1832,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
     .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
     .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
+    .meditation{{margin-bottom:14px;padding:12px 14px;border:1px solid rgba(201,161,91,.22);border-radius:14px;background:linear-gradient(135deg,rgba(201,161,91,.08),rgba(255,255,255,.02))}}
+    .meditation-title{{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-bottom:3px}}
+    .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}}
+    .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
     #quotes-card{{padding:14px 16px}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
@@ -2055,9 +2070,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- QUOTES (2 per day — client-side localStorage dedup) -->
-  <div class="card">
-    <div class="card-title">📜 Quotes</div>
+  <!-- DAILY MEDITATION + QUOTES (client-side localStorage dedup) -->
+  <div class="card" id="quotes-card">
+    <div class="card-title">📜 Daily Meditation</div>
+    <div id="meditation-daily" class="meditation">
+      <div class="meditation-title" id="med-title"></div>
+      <div class="meditation-meta" id="med-meta"></div>
+      <div class="meditation-excerpt" id="med-excerpt"></div>
+    </div>
+    <div class="card-title">Quotes</div>
     <div id="quote-daily" class="quote">
       <div class="quote-type" id="qt-type"></div>
       <div class="quote-text" id="qt-text"></div>
@@ -2326,6 +2347,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 // ── Quote arrays (30+ per category) ──
 const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
+const MEDITATIONS = {MEDITATIONS_JS};
 
 function getQuoteForToday(storageKey, quotes) {{
   const today = new Date().toDateString();
@@ -2352,6 +2374,13 @@ function getQuoteForToday(storageKey, quotes) {{
     return quotes[seed % quotes.length];
   }}
 }}
+
+(function renderDailyMeditation() {{
+  const m = getQuoteForToday("meditation", MEDITATIONS);
+  document.getElementById('med-title').textContent = m.title;
+  document.getElementById('med-meta').textContent = m.meta;
+  document.getElementById('med-excerpt').textContent = m.excerpt;
+}})();
 
 (function renderQuotes() {{
   const day = new Date().getDate();
