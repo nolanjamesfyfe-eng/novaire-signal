@@ -11,7 +11,7 @@
     "aqi": 31,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-06-27T16:00:08.371123+00:00"
+    "cached_at": "2026-06-27T16:01:49.328769+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -25,7 +25,7 @@
     "aqi": 65,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-06-27T16:00:11.635474+00:00"
+    "cached_at": "2026-06-27T16:01:49.672732+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -39,7 +39,7 @@
     "aqi": 23,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-06-27T16:00:13.745100+00:00"
+    "cached_at": "2026-06-27T16:01:50.015940+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -53,6 +53,6 @@
     "aqi": 27,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-06-27T16:00:15.005046+00:00"
+    "cached_at": "2026-06-27T16:01:50.359702+00:00"
   }
 }
