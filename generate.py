@@ -1865,18 +1865,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
     #quotes-card{{padding:14px 16px}}
     .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
-    .updog-grid{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}}
-    .updog-item{{border:1px solid rgba(201,161,91,.18);border-radius:12px;padding:9px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.035));min-width:0}}
-    .updog-kicker{{font-size:.48rem;color:var(--gold);letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .updog-title{{font-family:var(--serif);font-size:.82rem;color:var(--text);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .updog-idea{{font-size:.66rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .updog-actions{{display:flex;gap:6px;margin-top:8px}}
-    .updog-btn{{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:5px 7px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap}}
+    .updog-grid{{display:flex;flex-direction:column;gap:7px}}
+    .updog-item{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}}
+    .updog-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
+    .updog-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-title{{font-family:var(--serif);font-size:.86rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-idea{{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-actions{{display:flex;gap:6px;margin-left:auto}}
+    .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap}}
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16)}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    @media(max-width:980px){{.updog-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}}}
-    @media(max-width:620px){{.updog-grid{{grid-template-columns:1fr}}}}
+    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-title,.updog-idea{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
@@ -2448,9 +2448,9 @@ function getQuoteForToday(storageKey, quotes) {{
     const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
     return `
       <div class="updog-item" title="${{item.idea}}">
+        <div class="updog-num">${{categoryIndex + 1}}</div>
         <div class="updog-kicker">${{label}}</div>
-        <div class="updog-title">${{item.title}}</div>
-        <div class="updog-idea">${{item.idea}}</div>
+        <div class="updog-idea"><span class="updog-title">${{item.title}}</span> — ${{item.idea}}</div>
         <div class="updog-actions">
           <a class="updog-btn updog-approve" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${{approveText}}">Approve</a>
           <a class="updog-btn updog-retry" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${{retryText}}">Try Again</a>
