@@ -489,6 +489,33 @@ MEDITATIONS_JS = """[
   {title:"The Art of Living", meta:"Epictetus/Sharon Lebell · practical wisdom", excerpt:"Freedom begins when you stop treating every impulse as an order. Desire knocks, fear shouts, vanity sends a memo; none of them are kings unless you crown them. Practice the pause, and suddenly the empire inside you has a government."},
 ]"""
 
+UPDOG_SUGGESTIONS_JS = """{
+  motr:[
+    {title:"Relationship stage filter", idea:"Add under-1-year, 1–2, 2–5, and 5+ year filters to the MOTR relationship game so couples get questions matched to their actual season.", action:"Implement MOTR relationship-stage filtering and tailor the card pool by stage."},
+    {title:"Mastermind icebreaker pack", idea:"Add questions that make younger men discuss reading, discipline, money, health, relationships, family, and purpose without turning the room into a therapy swamp.", action:"Build a MOTR Mastermind question category for integrated self-improvement."},
+    {title:"Love languages into actions", idea:"Turn love-language answers into weekly actions: words, time, touch, service, and gifts translated into concrete relationship behaviors.", action:"Add actionable love-language prompts and follow-up commitments to the relationship game."},
+    {title:"Score report after each round", idea:"After a game session, generate a short relationship or mastermind signal report: strengths, friction, one next conversation, and one tiny practice.", action:"Add end-of-round MOTR signal reports."}
+  ],
+  retreat:[
+    {title:"Retreat readiness quiz", idea:"Add a short quiz that tells a visitor whether they are ready for the Bangkok/Thailand MOTR retreat, then routes them to apply, waitlist, or warm-up content.", action:"Build a MOTR retreat readiness quiz and CTA flow."},
+    {title:"Founder-style retreat itinerary", idea:"Show a sample day: training, deep work, mastermind, Thai food, nightlife optionality, recovery. Make the offer feel real, not brochure vapor.", action:"Add a sample MOTR retreat itinerary section."},
+    {title:"Retreat objection killer", idea:"Add a tight FAQ for price, location, safety, fitness level, dating/social anxiety, and what kind of man should not come.", action:"Add a conversion-focused MOTR retreat FAQ."},
+    {title:"Application signal score", idea:"Let applicants self-rate ambition, health, discipline, social courage, and coachability so the retreat attracts builders, not spiritual tourists with linen pants.", action:"Add a retreat application signal score."}
+  ],
+  energy:[
+    {title:"Battery icon daily check-in", idea:"Make the Energy Maxxing app start with a battery score and one question: sleep, food, training, sunlight, stress, libido, or mood — what is draining the system today?", action:"Add a battery-score check-in to the Energy Maxxing app."},
+    {title:"Energy leak detector", idea:"Have the app identify the top energy leak of the day: alcohol, doomscrolling, poor food, no sunlight, bad sleep, overwork, or unresolved conflict.", action:"Build an Energy Maxxing leak detector."},
+    {title:"30-day prime experiment", idea:"Turn energy maxxing into a monthly experiment with one metric, one habit, and one visible proof of progress.", action:"Add a 30-day Energy Maxxing experiment mode."},
+    {title:"Sleep debt warning", idea:"If sleep is poor, the app should stop giving heroic productivity advice and prescribe a recovery day like a civilized tyrant.", action:"Add sleep-aware recommendations to the Energy Maxxing app."}
+  ],
+  signal:[
+    {title:"Daily meditation source pool", idea:"Expand the Daily Meditation block with more Stoic, practical philosophy, psychology, and investing wisdom — Marcus, Seneca, Epictetus, Frankl, Munger, Taleb.", action:"Expand Novaire Signal's Daily Meditation source pool."},
+    {title:"One-tap product vote", idea:"Keep this Updog section as a daily yes/no product senate: four ideas, one click, less scattered ambition, more compounding execution.", action:"Improve the Novaire Signal Updog voting workflow."},
+    {title:"Marketing channel nudge", idea:"Add one daily distribution suggestion: newsletter, X thread, short clip, retreat lead magnet, relationship-game teaser, or BOTR install pitch.", action:"Add daily marketing-channel suggestions to Novaire Signal."},
+    {title:"Personal cockpit priority", idea:"Add a single daily keystone: the one action that moves health, wealth, product, or relationships furthest today.", action:"Add a daily keystone priority block to Novaire Signal."}
+  ]
+}"""
+
 BOOKS_JS = """[
   {title:"Poor Charlie's Almanack", meta:"Charlie Munger · Self-Improvement/Investing", summary:"Mental models from Berkshire's vice-chairman. The most practical philosophy book disguised as a business text."},
   {title:"The Psychology of Money", meta:"Morgan Housel · 2020 · Finance/Psychology", summary:"Timeless lessons on wealth, greed, and happiness. Behaviour — not intelligence — determines financial outcomes."},
@@ -1837,6 +1864,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}}
     .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
     #quotes-card{{padding:14px 16px}}
+    .updog-intro{{font-size:.78rem;color:var(--dim);line-height:1.55;margin:-2px 0 12px}}
+    .updog-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+    .updog-item{{border:1px solid rgba(201,161,91,.22);border-radius:16px;padding:12px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(201,161,91,.045))}}
+    .updog-kicker{{font-size:.55rem;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px}}
+    .updog-title{{font-family:var(--serif);font-size:1rem;color:var(--text);margin-bottom:6px}}
+    .updog-idea{{font-size:.78rem;color:var(--muted);line-height:1.5;min-height:58px}}
+    .updog-actions{{display:flex;gap:8px;margin-top:10px}}
+    .updog-btn{{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:7px 9px;font-size:.62rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.12em;transition:.18s ease}}
+    .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
+    .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16)}}
+    .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
+    @media(max-width:720px){{.updog-grid{{grid-template-columns:1fr}}}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
@@ -2329,6 +2368,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- TOP 5 ECONOMIES -->
   {eco_html}
 
+  <!-- DAILY UPDOG PRODUCT VOTE -->
+  <div class="card" id="updog-card">
+    <div class="card-title">🗳️ Daily Updog Vote</div>
+    <div class="updog-intro">Four upgrade candidates for the empire: MOTR Game, Retreat, Energy Maxxing, and Novaire Signal. Approve one to send Novairecito the implementation brief, or hit Try Again to ask for a sharper suggestion.</div>
+    <div class="updog-grid" id="updog-grid"></div>
+  </div>
+
   <!-- FOOTER BRANDING -->
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
@@ -2348,6 +2394,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const MEDITATIONS = {MEDITATIONS_JS};
+const UPDOG_SUGGESTIONS = {UPDOG_SUGGESTIONS_JS};
 
 function getQuoteForToday(storageKey, quotes) {{
   const today = new Date().toDateString();
@@ -2380,6 +2427,35 @@ function getQuoteForToday(storageKey, quotes) {{
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
   document.getElementById('med-excerpt').textContent = m.excerpt;
+}})();
+
+(function renderUpdogVotes() {{
+  const grid = document.getElementById('updog-grid');
+  if (!grid) return;
+  const today = new Date().toDateString();
+  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+  const categories = [
+    ['motr', 'Man On The Rise Game'],
+    ['retreat', 'Retreat'],
+    ['energy', 'Energy Maxxing App'],
+    ['signal', 'Novaire Signal']
+  ];
+  grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
+    const pool = UPDOG_SUGGESTIONS[key] || [];
+    const item = pool[(seed + categoryIndex) % pool.length];
+    const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
+    const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
+    return `
+      <div class="updog-item">
+        <div class="updog-kicker">${{label}}</div>
+        <div class="updog-title">${{item.title}}</div>
+        <div class="updog-idea">${{item.idea}}</div>
+        <div class="updog-actions">
+          <a class="updog-btn updog-approve" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${{approveText}}">Approve</a>
+          <a class="updog-btn updog-retry" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${{retryText}}">Try Again</a>
+        </div>
+      </div>`;
+  }}).join('');
 }})();
 
 (function renderQuotes() {{

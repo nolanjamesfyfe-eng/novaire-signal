@@ -61,6 +61,18 @@
     .meditation-meta{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
     .meditation-excerpt{font-size:.86rem;line-height:1.62;color:var(--muted)}
     #quotes-card{padding:14px 16px}
+    .updog-intro{font-size:.78rem;color:var(--dim);line-height:1.55;margin:-2px 0 12px}
+    .updog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .updog-item{border:1px solid rgba(201,161,91,.22);border-radius:16px;padding:12px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(201,161,91,.045))}
+    .updog-kicker{font-size:.55rem;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px}
+    .updog-title{font-family:var(--serif);font-size:1rem;color:var(--text);margin-bottom:6px}
+    .updog-idea{font-size:.78rem;color:var(--muted);line-height:1.5;min-height:58px}
+    .updog-actions{display:flex;gap:8px;margin-top:10px}
+    .updog-btn{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:7px 9px;font-size:.62rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.12em;transition:.18s ease}
+    .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
+    .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16)}
+    .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
+    @media(max-width:720px){.updog-grid{grid-template-columns:1fr}}
 
     .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}
     .weather-item{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -330,15 +342,15 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:02</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:20</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">31°C</div>
           <div class="condition">Thunderstorm ⛈</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 70% · AQI 34 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 72% · AQI 34 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:02</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:20</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">17°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -346,20 +358,20 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 53 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:02</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:20</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">15°C</div>
-          <div class="condition">Light Drizzle 🌦</div>
+          <div class="condition">Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 97% · AQI 22 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 96% · AQI 22 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:02</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:20</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">9°C</div>
-          <div class="condition">Partly Cloudy ⛅</div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 92% · AQI 48 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 95% · AQI 48 (Good)</div>
         </div>
     </div>
   </div>
@@ -439,43 +451,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,235</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.41%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,170</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.46%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,577</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.48%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,574</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.58%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.26</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-1.37%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.16</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-1.36%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6861</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-3.30%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6845</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-3.31%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0519</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.69%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0505</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.61%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1455</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.42%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1451</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.56%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5620</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-1.14%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5480</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-2.09%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$385.94</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-6.06%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$384.55</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-6.02%</span></div>
         </div>
     </div>
   </div>
@@ -483,8 +495,8 @@
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-11.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-61.0%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+147.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
-  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>41W / 34L</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-11.2%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-61.0%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+147.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>40W / 35L</span></div>
 </div>
 
   
@@ -782,6 +794,13 @@
     <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 nom. · GDP YoY: Q4 2025 · Updated quarterly</div>
   </div>
 
+  <!-- DAILY UPDOG PRODUCT VOTE -->
+  <div class="card" id="updog-card">
+    <div class="card-title">🗳️ Daily Updog Vote</div>
+    <div class="updog-intro">Four upgrade candidates for the empire: MOTR Game, Retreat, Energy Maxxing, and Novaire Signal. Approve one to send Novairecito the implementation brief, or hit Try Again to ask for a sharper suggestion.</div>
+    <div class="updog-grid" id="updog-grid"></div>
+  </div>
+
   <!-- FOOTER BRANDING -->
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
@@ -876,6 +895,32 @@ const MEDITATIONS = [
   {title:"The Daily Stoic", meta:"Ryan Holiday · daily discipline", excerpt:"Philosophy is not a bookshelf performance. It is what remains when traffic, temptation, insult, hunger, and ambition all make their case. The daily question is simple and merciless: did your principles govern anything today, or did they merely dress well?"},
   {title:"The Art of Living", meta:"Epictetus/Sharon Lebell · practical wisdom", excerpt:"Freedom begins when you stop treating every impulse as an order. Desire knocks, fear shouts, vanity sends a memo; none of them are kings unless you crown them. Practice the pause, and suddenly the empire inside you has a government."},
 ];
+const UPDOG_SUGGESTIONS = {
+  motr:[
+    {title:"Relationship stage filter", idea:"Add under-1-year, 1–2, 2–5, and 5+ year filters to the MOTR relationship game so couples get questions matched to their actual season.", action:"Implement MOTR relationship-stage filtering and tailor the card pool by stage."},
+    {title:"Mastermind icebreaker pack", idea:"Add questions that make younger men discuss reading, discipline, money, health, relationships, family, and purpose without turning the room into a therapy swamp.", action:"Build a MOTR Mastermind question category for integrated self-improvement."},
+    {title:"Love languages into actions", idea:"Turn love-language answers into weekly actions: words, time, touch, service, and gifts translated into concrete relationship behaviors.", action:"Add actionable love-language prompts and follow-up commitments to the relationship game."},
+    {title:"Score report after each round", idea:"After a game session, generate a short relationship or mastermind signal report: strengths, friction, one next conversation, and one tiny practice.", action:"Add end-of-round MOTR signal reports."}
+  ],
+  retreat:[
+    {title:"Retreat readiness quiz", idea:"Add a short quiz that tells a visitor whether they are ready for the Bangkok/Thailand MOTR retreat, then routes them to apply, waitlist, or warm-up content.", action:"Build a MOTR retreat readiness quiz and CTA flow."},
+    {title:"Founder-style retreat itinerary", idea:"Show a sample day: training, deep work, mastermind, Thai food, nightlife optionality, recovery. Make the offer feel real, not brochure vapor.", action:"Add a sample MOTR retreat itinerary section."},
+    {title:"Retreat objection killer", idea:"Add a tight FAQ for price, location, safety, fitness level, dating/social anxiety, and what kind of man should not come.", action:"Add a conversion-focused MOTR retreat FAQ."},
+    {title:"Application signal score", idea:"Let applicants self-rate ambition, health, discipline, social courage, and coachability so the retreat attracts builders, not spiritual tourists with linen pants.", action:"Add a retreat application signal score."}
+  ],
+  energy:[
+    {title:"Battery icon daily check-in", idea:"Make the Energy Maxxing app start with a battery score and one question: sleep, food, training, sunlight, stress, libido, or mood — what is draining the system today?", action:"Add a battery-score check-in to the Energy Maxxing app."},
+    {title:"Energy leak detector", idea:"Have the app identify the top energy leak of the day: alcohol, doomscrolling, poor food, no sunlight, bad sleep, overwork, or unresolved conflict.", action:"Build an Energy Maxxing leak detector."},
+    {title:"30-day prime experiment", idea:"Turn energy maxxing into a monthly experiment with one metric, one habit, and one visible proof of progress.", action:"Add a 30-day Energy Maxxing experiment mode."},
+    {title:"Sleep debt warning", idea:"If sleep is poor, the app should stop giving heroic productivity advice and prescribe a recovery day like a civilized tyrant.", action:"Add sleep-aware recommendations to the Energy Maxxing app."}
+  ],
+  signal:[
+    {title:"Daily meditation source pool", idea:"Expand the Daily Meditation block with more Stoic, practical philosophy, psychology, and investing wisdom — Marcus, Seneca, Epictetus, Frankl, Munger, Taleb.", action:"Expand Novaire Signal's Daily Meditation source pool."},
+    {title:"One-tap product vote", idea:"Keep this Updog section as a daily yes/no product senate: four ideas, one click, less scattered ambition, more compounding execution.", action:"Improve the Novaire Signal Updog voting workflow."},
+    {title:"Marketing channel nudge", idea:"Add one daily distribution suggestion: newsletter, X thread, short clip, retreat lead magnet, relationship-game teaser, or BOTR install pitch.", action:"Add daily marketing-channel suggestions to Novaire Signal."},
+    {title:"Personal cockpit priority", idea:"Add a single daily keystone: the one action that moves health, wealth, product, or relationships furthest today.", action:"Add a daily keystone priority block to Novaire Signal."}
+  ]
+};
 
 function getQuoteForToday(storageKey, quotes) {
   const today = new Date().toDateString();
@@ -908,6 +953,35 @@ function getQuoteForToday(storageKey, quotes) {
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
   document.getElementById('med-excerpt').textContent = m.excerpt;
+})();
+
+(function renderUpdogVotes() {
+  const grid = document.getElementById('updog-grid');
+  if (!grid) return;
+  const today = new Date().toDateString();
+  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+  const categories = [
+    ['motr', 'Man On The Rise Game'],
+    ['retreat', 'Retreat'],
+    ['energy', 'Energy Maxxing App'],
+    ['signal', 'Novaire Signal']
+  ];
+  grid.innerHTML = categories.map(([key, label], categoryIndex) => {
+    const pool = UPDOG_SUGGESTIONS[key] || [];
+    const item = pool[(seed + categoryIndex) % pool.length];
+    const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
+    const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
+    return `
+      <div class="updog-item">
+        <div class="updog-kicker">${label}</div>
+        <div class="updog-title">${item.title}</div>
+        <div class="updog-idea">${item.idea}</div>
+        <div class="updog-actions">
+          <a class="updog-btn updog-approve" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${approveText}">Approve</a>
+          <a class="updog-btn updog-retry" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${retryText}">Try Again</a>
+        </div>
+      </div>`;
+  }).join('');
 })();
 
 (function renderQuotes() {
