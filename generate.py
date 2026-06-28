@@ -1864,18 +1864,19 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}}
     .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
     #quotes-card{{padding:14px 16px}}
-    .updog-intro{{font-size:.78rem;color:var(--dim);line-height:1.55;margin:-2px 0 12px}}
-    .updog-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
-    .updog-item{{border:1px solid rgba(201,161,91,.22);border-radius:16px;padding:12px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(201,161,91,.045))}}
-    .updog-kicker{{font-size:.55rem;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px}}
-    .updog-title{{font-family:var(--serif);font-size:1rem;color:var(--text);margin-bottom:6px}}
-    .updog-idea{{font-size:.78rem;color:var(--muted);line-height:1.5;min-height:58px}}
-    .updog-actions{{display:flex;gap:8px;margin-top:10px}}
-    .updog-btn{{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:7px 9px;font-size:.62rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.12em;transition:.18s ease}}
+    .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
+    .updog-grid{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}}
+    .updog-item{{border:1px solid rgba(201,161,91,.18);border-radius:12px;padding:9px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.035));min-width:0}}
+    .updog-kicker{{font-size:.48rem;color:var(--gold);letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-title{{font-family:var(--serif);font-size:.82rem;color:var(--text);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-idea{{font-size:.66rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-actions{{display:flex;gap:6px;margin-top:8px}}
+    .updog-btn{{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:5px 7px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap}}
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16)}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    @media(max-width:720px){{.updog-grid{{grid-template-columns:1fr}}}}
+    @media(max-width:980px){{.updog-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}}}
+    @media(max-width:620px){{.updog-grid{{grid-template-columns:1fr}}}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
@@ -2371,7 +2372,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Four upgrade candidates for the empire: MOTR Game, Retreat, Energy Maxxing, and Novaire Signal. Approve one to send Novairecito the implementation brief, or hit Try Again to ask for a sharper suggestion.</div>
+    <div class="updog-intro">Four daily upgrade votes. Approve sends the implementation brief; Try Again asks for a sharper iteration.</div>
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
@@ -2446,7 +2447,7 @@ function getQuoteForToday(storageKey, quotes) {{
     const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
     const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
     return `
-      <div class="updog-item">
+      <div class="updog-item" title="${{item.idea}}">
         <div class="updog-kicker">${{label}}</div>
         <div class="updog-title">${{item.title}}</div>
         <div class="updog-idea">${{item.idea}}</div>

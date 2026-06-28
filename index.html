@@ -61,18 +61,19 @@
     .meditation-meta{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
     .meditation-excerpt{font-size:.86rem;line-height:1.62;color:var(--muted)}
     #quotes-card{padding:14px 16px}
-    .updog-intro{font-size:.78rem;color:var(--dim);line-height:1.55;margin:-2px 0 12px}
-    .updog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .updog-item{border:1px solid rgba(201,161,91,.22);border-radius:16px;padding:12px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(201,161,91,.045))}
-    .updog-kicker{font-size:.55rem;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px}
-    .updog-title{font-family:var(--serif);font-size:1rem;color:var(--text);margin-bottom:6px}
-    .updog-idea{font-size:.78rem;color:var(--muted);line-height:1.5;min-height:58px}
-    .updog-actions{display:flex;gap:8px;margin-top:10px}
-    .updog-btn{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:7px 9px;font-size:.62rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.12em;transition:.18s ease}
+    .updog-intro{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}
+    .updog-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .updog-item{border:1px solid rgba(201,161,91,.18);border-radius:12px;padding:9px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.035));min-width:0}
+    .updog-kicker{font-size:.48rem;color:var(--gold);letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .updog-title{font-family:var(--serif);font-size:.82rem;color:var(--text);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .updog-idea{font-size:.66rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .updog-actions{display:flex;gap:6px;margin-top:8px}
+    .updog-btn{flex:1;border:1px solid var(--gold-mid);border-radius:999px;padding:5px 7px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap}
     .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
     .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16)}
     .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
-    @media(max-width:720px){.updog-grid{grid-template-columns:1fr}}
+    @media(max-width:980px){.updog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:620px){.updog-grid{grid-template-columns:1fr}}
 
     .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}
     .weather-item{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -342,15 +343,15 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:20</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:30</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">31°C</div>
+          <div class="temp">30°C</div>
           <div class="condition">Thunderstorm ⛈</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 72% · AQI 34 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 73% · AQI 34 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:20</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:30</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">17°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -358,20 +359,20 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 53 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:20</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:30</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">15°C</div>
           <div class="condition">Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 96% · AQI 22 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 97% · AQI 22 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:20</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:30</div>
           <div class="city">🇺🇾 Montevideo</div>
-          <div class="temp">9°C</div>
+          <div class="temp">10°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 95% · AQI 48 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 90% · AQI 48 (Good)</div>
         </div>
     </div>
   </div>
@@ -451,43 +452,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,170</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.46%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,225</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.37%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,574</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.58%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,575</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.55%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.16</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-1.36%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.24</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-1.32%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
           <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6845</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-3.31%</span></div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-3.21%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0505</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.61%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0512</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.56%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
           <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1451</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.56%</span></div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.76%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5480</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-2.09%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5470</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-1.97%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$384.55</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-6.02%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$384.53</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-6.09%</span></div>
         </div>
     </div>
   </div>
@@ -495,11 +496,16 @@
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-11.2%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-61.0%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+147.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
-  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>40W / 35L</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-11.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-61.0%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+147.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>41W / 34L</span></div>
 </div>
 
-  
+  <div class="card">
+    <div class="card-title">🦙 Livermore Darvis</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · 3 trades</div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ</span><span style="font-weight:600;color:#f87171">-22.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK</span><span style="font-weight:600;color:#f87171">-2.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ</span><span style="font-weight:600;color:#f87171">-8.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-18.7%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#f87171">-6.5%</span></div>
+  </div>
 
 <!-- ZEROHEDGE -->
   <div class="card">
@@ -797,7 +803,7 @@
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Four upgrade candidates for the empire: MOTR Game, Retreat, Energy Maxxing, and Novaire Signal. Approve one to send Novairecito the implementation brief, or hit Try Again to ask for a sharper suggestion.</div>
+    <div class="updog-intro">Four daily upgrade votes. Approve sends the implementation brief; Try Again asks for a sharper iteration.</div>
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
@@ -972,7 +978,7 @@ function getQuoteForToday(storageKey, quotes) {
     const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
     const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
     return `
-      <div class="updog-item">
+      <div class="updog-item" title="${item.idea}">
         <div class="updog-kicker">${label}</div>
         <div class="updog-title">${item.title}</div>
         <div class="updog-idea">${item.idea}</div>
