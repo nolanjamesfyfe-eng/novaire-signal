@@ -64,16 +64,22 @@
     .updog-intro{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}
     .updog-grid{display:flex;flex-direction:column;gap:7px}
     .updog-item{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}
+    .updog-item.open{align-items:start}
     .updog-num{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}
     .updog-kicker{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .updog-copy{min-width:0;cursor:pointer}
     .updog-title{font-family:var(--serif);font-size:.86rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .updog-idea{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .updog-expand{display:none;margin-top:6px;font-size:.7rem;line-height:1.48;color:var(--dim);white-space:normal}
+    .updog-item.open .updog-title,.updog-item.open .updog-idea{white-space:normal;overflow:visible;text-overflow:clip}
+    .updog-item.open .updog-expand{display:block}
     .updog-actions{display:flex;gap:6px;margin-left:auto}
     .updog-btn{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap}
+    .updog-details{color:var(--gold);border-color:rgba(201,161,91,.25);background:transparent}
     .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
     .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16)}
     .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
-    @media(max-width:760px){.updog-item{grid-template-columns:22px 1fr;align-items:start}.updog-kicker,.updog-title,.updog-idea{grid-column:2}.updog-actions{grid-column:2;margin-left:0;margin-top:4px}}
+    @media(max-width:760px){.updog-item{grid-template-columns:22px 1fr;align-items:start}.updog-kicker,.updog-copy{grid-column:2}.updog-actions{grid-column:2;margin-left:0;margin-top:4px}}
 
     .weather-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}
     .weather-item{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -343,7 +349,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:34</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:37</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">30°C</div>
           <div class="condition">Thunderstorm ⛈</div>
@@ -351,7 +357,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 73% · AQI 34 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:34</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:37</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">17°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -359,7 +365,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 53 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:34</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:37</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">15°C</div>
           <div class="condition">Drizzle 🌦</div>
@@ -367,7 +373,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 97% · AQI 22 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:34</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:37</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">10°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -452,43 +458,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,234</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.36%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$60,267</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.24%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,576</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.50%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,578</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.32%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.34</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-1.15%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$71.41</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.92%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6842</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-3.24%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6850</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-3.00%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0521</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.46%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0530</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.28%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1452</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.63%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1455</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.36%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5500</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-2.39%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.5510</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-2.27%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$385.29</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-5.89%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$385.98</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-5.79%</span></div>
         </div>
     </div>
   </div>
@@ -981,8 +987,12 @@ function getQuoteForToday(storageKey, quotes) {
       <div class="updog-item" title="${item.idea}">
         <div class="updog-num">${categoryIndex + 1}</div>
         <div class="updog-kicker">${label}</div>
-        <div class="updog-idea"><span class="updog-title">${item.title}</span> — ${item.idea}</div>
+        <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
+          <div class="updog-idea"><span class="updog-title">${item.title}</span> — ${item.idea}</div>
+          <div class="updog-expand">Implementation brief: ${item.action} Click Approve to send this as the build instruction, or Try Again for a sharper iteration.</div>
+        </div>
         <div class="updog-actions">
+          <button class="updog-btn updog-details" type="button" onclick="this.closest('.updog-item').classList.toggle('open')">Details</button>
           <a class="updog-btn updog-approve" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${approveText}">Approve</a>
           <a class="updog-btn updog-retry" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${retryText}">Try Again</a>
         </div>

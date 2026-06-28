@@ -1867,16 +1867,22 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
     .updog-grid{{display:flex;flex-direction:column;gap:7px}}
     .updog-item{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}}
+    .updog-item.open{{align-items:start}}
     .updog-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
     .updog-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-copy{{min-width:0;cursor:pointer}}
     .updog-title{{font-family:var(--serif);font-size:.86rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
     .updog-idea{{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .updog-expand{{display:none;margin-top:6px;font-size:.7rem;line-height:1.48;color:var(--dim);white-space:normal}}
+    .updog-item.open .updog-title,.updog-item.open .updog-idea{{white-space:normal;overflow:visible;text-overflow:clip}}
+    .updog-item.open .updog-expand{{display:block}}
     .updog-actions{{display:flex;gap:6px;margin-left:auto}}
     .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap}}
+    .updog-details{{color:var(--gold);border-color:rgba(201,161,91,.25);background:transparent}}
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16)}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-title,.updog-idea{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}}}
+    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
@@ -2450,8 +2456,12 @@ function getQuoteForToday(storageKey, quotes) {{
       <div class="updog-item" title="${{item.idea}}">
         <div class="updog-num">${{categoryIndex + 1}}</div>
         <div class="updog-kicker">${{label}}</div>
-        <div class="updog-idea"><span class="updog-title">${{item.title}}</span> — ${{item.idea}}</div>
+        <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
+          <div class="updog-idea"><span class="updog-title">${{item.title}}</span> — ${{item.idea}}</div>
+          <div class="updog-expand">Implementation brief: ${{item.action}} Click Approve to send this as the build instruction, or Try Again for a sharper iteration.</div>
+        </div>
         <div class="updog-actions">
+          <button class="updog-btn updog-details" type="button" onclick="this.closest('.updog-item').classList.toggle('open')">Details</button>
           <a class="updog-btn updog-approve" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${{approveText}}">Approve</a>
           <a class="updog-btn updog-retry" target="_blank" rel="noopener" href="https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=${{retryText}}">Try Again</a>
         </div>
