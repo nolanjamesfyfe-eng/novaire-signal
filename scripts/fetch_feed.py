@@ -150,8 +150,18 @@ def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n:
         for t in tweets
         if t['id'] not in exclude_ids and (now_ms - t['createdAtMs']) <= window_ms
     ]
-    pool.sort(key=lambda t: t['likes'] + t['retweets'], reverse=True)
-    return pool[:n]
+    pool.sort(key=lambda t: (t['likes'] + t['retweets'], t['createdAtMs']), reverse=True)
+    picked = []
+    seen_handles = set()
+    for tweet in pool:
+        handle = tweet.get('handle')
+        if handle in seen_handles:
+            continue
+        picked.append(tweet)
+        seen_handles.add(handle)
+        if len(picked) >= n:
+            break
+    return picked
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 

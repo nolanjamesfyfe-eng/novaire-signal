@@ -2377,7 +2377,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const fetchedAt = json.fetchedAt ? new Date(json.fetchedAt) : new Date();
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
-        const windowHours = json.windowHours || 4;
+        const windowHours = json.windowHours || 24;
         status.textContent = 'Top 4 by engagement · no Economist · last ' + windowHours + 'h · updated ' + ageStr;
       }} catch(err) {{
         status.textContent = 'Feed unavailable';

@@ -7,7 +7,7 @@ const NITTER_BASE = 'https://nitter.net';
 
 const ACCOUNTS = [
   'BambroughKevin','zerohedge','KobeissiLetter','hkuppy','quakes99',
-  'WatcherGuru','nntaleb','tferriss','TheEconomist','JohnPolomny',
+  'WatcherGuru','nntaleb','tferriss','JohnPolomny',
   'SantiagoAuFund','BarbarianCap','JoshYoung','wmiddelkoop',
   'White_Rabbit_OG','colonelhomsi','HydroGraphInc'
 ];
@@ -95,25 +95,31 @@ export default async function handler(req) {
       return true;
     });
 
-    // Hard cutoff: guaranteed accounts (ZeroHedge, Kobeissi, Economist) = 4h max
-    // All others = 24h max
-    const GUARANTEED = new Set(['zerohedge', 'KobeissiLetter', 'TheEconomist']);
+    // Top four by engagement, with recency as the tie-breaker when RSS lacks metrics.
+    // Keep one post per handle so one noisy account does not eat the whole compact scanner.
     const now = Date.now();
-    const fresh = unique.filter(t => {
-      const maxAge = GUARANTEED.has(t.handle) ? 4 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
-      return (now - t.createdAtMs) <= maxAge;
-    });
+    const fresh = unique.filter(t => (now - t.createdAtMs) <= 24 * 60 * 60 * 1000);
+    fresh.sort((a, b) => ((b.likes + b.retweets) - (a.likes + a.retweets)) || (b.createdAtMs - a.createdAtMs));
 
-    // Sort newest first
-    fresh.sort((a, b) => b.createdAtMs - a.createdAtMs);
-
-    const posts = fresh.slice(0, 60);
+    const seenHandles = new Set();
+    const posts = [];
+    for (const post of fresh) {
+      if (seenHandles.has(post.handle)) continue;
+      post.slot = 'engagement';
+      post.slot_order = posts.length + 1;
+      post.engagementScore = post.likes + post.retweets;
+      posts.push(post);
+      seenHandles.add(post.handle);
+      if (posts.length >= 4) break;
+    }
 
     const body = JSON.stringify({
       ok: true,
       count: posts.length,
       accountsWithPosts: new Set(posts.map(p => p.handle)).size,
       fetchedAt: new Date().toISOString(),
+      windowHours: 24,
+      curation: 'top4_engagement_no_economist',
       errors,
       posts,
     });
