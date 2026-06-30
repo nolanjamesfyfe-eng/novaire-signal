@@ -593,6 +593,11 @@ BOOKS_JS = """[
 def day_of_year():
     return datetime.now(timezone.utc).timetuple().tm_yday
 
+def show_biweekly_monday_section():
+    """Show low-frequency strategic sections only every two weeks on Monday, Bangkok time."""
+    bkk = datetime.now(timezone(timedelta(hours=7)))
+    return bkk.weekday() == 0 and (bkk.isocalendar().week % 2 == 0)
+
 def pick(lst, offset=0):
     return lst[(day_of_year() + offset) % len(lst)]
 
@@ -764,8 +769,9 @@ def fetch_trending_recs():
     - Book: Amazon Business bestsellers #1 title + Open Library description
     Fallback to hardcoded picks on any failure.
     """
-    rec_movie = {"label": "📺 Now Watching", "title": "Landman", "meta": "Prime · Drama/West Texas Oil", "summary": "Oil, grit, and dealmaking in the Permian — energy politics meets wildcat capitalism."}
-    rec_book  = {"label": "📖 Now Reading",  "title": "Memories, Dreams, Reflections", "meta": "C.G. Jung · Autobiography/Psychology", "summary": "Jung's own account of his inner life — visions, the unconscious, and the making of analytical psychology. The autobiography he never wanted to write."}
+    rec_movie = {"label": "📺 Now Watching", "title": "Diamond League Track & Field", "meta": "World Athletics · Sprinting, distance, jumps, throws", "summary": "Elite track and field as a weekly performance study: speed, pressure, tactics, recovery, and the psychology of peak humans under the clock."}
+    rec_book  = {"label": "📖 Now Reading",  "title": "The Trickster Archetype", "meta": "James' pick · Psychology/Myth", "summary": "A study of the trickster pattern: mischief, boundary crossing, disruption, transformation, and the strange wisdom that enters through chaos."}
+    return rec_movie, rec_book
 
     # ── Movie: FlixPatrol trending → OMDB description ──
     try:
@@ -1759,13 +1765,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div style="font-size:.54rem;color:var(--mute);margin-top:8px;text-align:center">{fed['next_meeting']} probabilities · CME FedWatch</div>
   </div>"""
 
-    # ── Top 5 Economies HTML ──
-    eco_data = economies or fetch_top5_economies()
-    eco_rows = ""
-    for e in eco_data:
-        yoy = e.get('gdp_yoy', '—')
-        yoy_color = "var(--green)" if yoy.startswith("+") and yoy != "+0.0%" else ("var(--red)" if yoy.startswith("-") else "var(--dim)")
-        eco_rows += f"""
+    # ── Top 5 Economies HTML: show only every two weeks on Monday ──
+    eco_html = ""
+    if show_biweekly_monday_section():
+        eco_data = economies or fetch_top5_economies()
+        eco_rows = ""
+        for e in eco_data:
+            yoy = e.get('gdp_yoy', '—')
+            yoy_color = "var(--green)" if yoy.startswith("+") and yoy != "+0.0%" else ("var(--red)" if yoy.startswith("-") else "var(--dim)")
+            eco_rows += f"""
       <tr>
         <td><span class="eco-flag">{e['flag']}</span></td>
         <td class="eco-country">{e['country']}</td>
@@ -1774,9 +1782,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <td style="text-align:right;font-size:.72rem;color:var(--dim)">{e['per_capita']}</td>
         <td class="eco-infl" style="text-align:right;color:var(--dim)">{e['inflation']}</td>
       </tr>"""
-    eco_html = f"""
+        eco_html = f"""
   <div class="card">
-    <div class="card-title">🌍 Top 5 Economies</div>
+    <div class="card-title">🌍 Top 5 Economies · Biweekly Monday</div>
     <table class="eco-table">
       <thead>
         <tr>
@@ -1789,7 +1797,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       </thead>
       <tbody>{eco_rows}</tbody>
     </table>
-    <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 nom. · GDP YoY: Q4 2025 · Updated quarterly</div>
+    <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 nom. · GDP YoY: Q4 2025 · Shows every two weeks on Monday</div>
   </div>"""
 
     # ── Bangkok news HTML ──
@@ -2397,18 +2405,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="rec-grid">
       <div class="rec-item">
         <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">The Count of Monte-Cristo</div>
-        <div class="rec-meta">2024 · French historical adventure · Pierre Niney</div>
-        <div class="rec-summary">Dumas with a sharper blade: the 2024 French adaptation of Edmond Dantès, revenge, betrayal, and civilization wearing a velvet mask.</div>
+        <div class="rec-title">Diamond League Track & Field</div>
+        <div class="rec-meta">World Athletics · Sprinting, distance, jumps, throws</div>
+        <div class="rec-summary">Elite track and field as a weekly performance study: speed, pressure, tactics, recovery, and the psychology of peak humans under the clock.</div>
       </div>
       <div class="rec-item">
         <div class="rec-label">📖 Reading</div>
-        <div class="rec-title">Memories, Dreams, Reflections</div>
-        <div class="rec-meta">C.G. Jung · Autobiography/Psychology</div>
-        <div class="rec-summary">Jung's own account of his inner life — visions, the unconscious, and the making of analytical psychology. The autobiography he never wanted to write.</div>
+        <div class="rec-title">The Trickster Archetype</div>
+        <div class="rec-meta">James' pick · Psychology/Myth</div>
+        <div class="rec-summary">A study of the trickster pattern: mischief, boundary crossing, disruption, transformation, and the strange wisdom that enters through chaos.</div>
       </div>
     </div>
-    <div style="margin-top:10px;font-size:.6rem;color:var(--mute);text-align:center">Updated monthly</div>
   </div>
 
   <!-- THAI WORD + THAILAND NEWS -->
@@ -3168,9 +3175,13 @@ def main():
     fed_signal = fetch_fed_signal()
     print(f"    ✅ Next FOMC: {fed_signal['next_decision']} ({fed_signal['days_until']} days)")
 
-    print("  🌍 Building Top 5 Economies...")
-    economies = fetch_top5_economies()
-    print(f"    ✅ {len(economies)} economies loaded")
+    if show_biweekly_monday_section():
+        print("  🌍 Building Top 5 Economies...")
+        economies = fetch_top5_economies()
+        print(f"    ✅ {len(economies)} economies loaded")
+    else:
+        print("  🌍 Top 5 Economies hidden until next biweekly Monday")
+        economies = []
 
     print("  🎨 Generating HTML...")
     html = render_html(
