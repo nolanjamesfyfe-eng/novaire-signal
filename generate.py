@@ -525,6 +525,12 @@ UPDOG_SUGGESTIONS_JS = """{
     {title:"One-tap product vote", idea:"Keep this Updog section as a daily yes/no product senate: four ideas, one click, less scattered ambition, more compounding execution.", action:"Improve the Novaire Signal Updog voting workflow."},
     {title:"Marketing channel nudge", idea:"Add one daily distribution suggestion: newsletter, X thread, short clip, retreat lead magnet, relationship-game teaser, or BOTR install pitch.", action:"Add daily marketing-channel suggestions to Novaire Signal."},
     {title:"Personal cockpit priority", idea:"Add a single daily keystone: the one action that moves health, wealth, product, or relationships furthest today.", action:"Add a daily keystone priority block to Novaire Signal."}
+  ],
+  podcast:[
+    {title:"Past-idea clip miner", idea:"Use Novaire's MD files plus today's news to turn a recurring thesis into one podcast topic and three short-clip hooks.", action:"Generate a podcast topic from Novaire's notes and current news."},
+    {title:"Influencer response clip", idea:"Find a trending influencer, founder, investor, or culture-war claim that intersects with MOTR, Evolution Fund, or Thailand builder life.", action:"Draft a response clip angle tied to a current influencer or event."},
+    {title:"Mastermind story prompt", idea:"Turn retreat/mastermind lessons into a clip: who belongs in the room, who should not come, and what transformation the room forces.", action:"Create a mastermind-focused podcast and short-clip prompt."},
+    {title:"News through telos", idea:"Take one trending event and filter it through Seeking Wisdom, negentropy, men's work, AI, energy, or geopolitical realism.", action:"Create a news-reactive podcast angle with one sharp thesis."}
   ]
 }"""
 
@@ -552,6 +558,12 @@ UPDOG_ACTION_STEPS_JS = """{
     {title:"Add one signal", ask:"What one thing should Novaire Signal add: product telos question, user test reminder, retreat deposit scoreboard, or personal cockpit action?", action:"Add or draft one block that compounds the product instead of decorating the dashboard."},
     {title:"Sharper Updog", ask:"Which Updog category felt dumb today, and what would a smarter version understand about the product?", action:"Rewrite one suggestion with more context about the actual user, business model, or next bottleneck."},
     {title:"Signal versus noise", ask:"What did Novaire Signal show today that did not change a decision?", action:"Cut, shrink, or demote one non-decision item."}
+  ],
+  podcast:[
+    {title:"Mine the notes", ask:"Which old MD-file thesis should become today's podcast topic or short clip?", action:"Pick one saved idea and pair it with a current headline, influencer claim, or event."},
+    {title:"Clip the mastermind", ask:"What retreat or mastermind idea would make a strong 60-second clip today?", action:"Write one hook about who belongs in the room, who should not come, or what the room forces."},
+    {title:"React with a thesis", ask:"Which trending news item deserves Novaire's angle instead of generic commentary?", action:"State the contrarian thesis in one sentence and record or outline the clip."},
+    {title:"Influencer bridge", ask:"Which influencer or founder conversation can you enter with signal instead of clout chasing?", action:"Draft one response clip that connects their point to MOTR, energy, AI, or the fund."}
   ]
 }"""
 
@@ -1925,16 +1937,20 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
     @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}}}
     .updog-action-card{{margin-top:-6px}}
-    .action-steps-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
-    .action-step{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.025)}}
+    .action-step{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr);gap:10px;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.025);cursor:pointer;min-width:0}}
+    .action-step.open{{align-items:start}}
     .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
     .action-step-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .action-step-title{{font-family:var(--serif);font-size:.84rem;color:var(--text);margin-bottom:2px}}
-    .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.38}}
-    .action-step-do{{font-size:.68rem;color:var(--dim);line-height:1.38;margin-top:4px}}
+    .action-step-copy{{min-width:0}}
+    .action-step-title{{font-family:var(--serif);font-size:.84rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .action-step-do{{display:none;font-size:.68rem;color:var(--dim);line-height:1.38;margin-top:4px;white-space:normal}}
+    .action-step.open .action-step-title,.action-step.open .action-step-ask{{white-space:normal;overflow:visible;text-overflow:clip}}
+    .action-step.open .action-step-do{{display:block}}
     .action-step-do strong{{color:var(--gold);font-weight:600}}
-    @media(max-width:760px){{.action-step{{grid-template-columns:22px 1fr}}.action-step-kicker,.action-step-copy{{grid-column:2}}}}
+    @media(max-width:760px){{.action-step{{grid-template-columns:22px 1fr;align-items:start}}.action-step-kicker,.action-step-copy{{grid-column:2}}}}
+
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
@@ -2437,7 +2453,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
     <div class="card-title">⚔️ Daily Action Steps</div>
-    <div class="action-steps-intro">One practical next move per product. Test the game, close the retreat, use Energy Maxxing, and sharpen Novaire Signal by removing noise or adding signal.</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -2507,7 +2522,8 @@ function getQuoteForToday(storageKey, quotes) {{
     ['motr', 'Man On The Rise Game'],
     ['retreat', 'Retreat'],
     ['energy', 'Energy Maxxing App'],
-    ['signal', 'Novaire Signal']
+    ['signal', 'Novaire Signal'],
+    ['podcast', 'Podcast / Clips']
   ];
   window.handleUpdogVote = function(key, kind, url) {{
     votes[key] = kind;
@@ -2555,13 +2571,14 @@ function getQuoteForToday(storageKey, quotes) {{
     ['motr', 'MOTR Game'],
     ['retreat', 'Retreat'],
     ['energy', 'Energy Maxxing'],
-    ['signal', 'Novaire Signal']
+    ['signal', 'Novaire Signal'],
+    ['podcast', 'Podcast / Clips']
   ];
   grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
     const pool = UPDOG_ACTION_STEPS[key] || [];
     const item = pool[(seed + categoryIndex) % pool.length];
     return `
-      <div class="action-step" title="${{item.action}}">
+      <div class="action-step" title="${{item.action}}" onclick="this.classList.toggle('open')">
         <div class="action-step-num">${{categoryIndex + 1}}</div>
         <div class="action-step-kicker">${{label}}</div>
         <div class="action-step-copy">
