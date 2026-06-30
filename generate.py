@@ -527,10 +527,10 @@ UPDOG_SUGGESTIONS_JS = """{
     {title:"Personal cockpit priority", idea:"Add a single daily keystone: the one action that moves health, wealth, product, or relationships furthest today.", action:"Add a daily keystone priority block to Novaire Signal."}
   ],
   podcast:[
-    {title:"Past-idea clip miner", idea:"Use Novaire's MD files plus today's news to turn a recurring thesis into one podcast topic and three short-clip hooks.", action:"Generate a podcast topic from Novaire's notes and current news."},
-    {title:"Influencer response clip", idea:"Find a trending influencer, founder, investor, or culture-war claim that intersects with MOTR, Evolution Fund, or Thailand builder life.", action:"Draft a response clip angle tied to a current influencer or event."},
-    {title:"Mastermind story prompt", idea:"Turn retreat/mastermind lessons into a clip: who belongs in the room, who should not come, and what transformation the room forces.", action:"Create a mastermind-focused podcast and short-clip prompt."},
-    {title:"News through telos", idea:"Take one trending event and filter it through Seeking Wisdom, negentropy, men's work, AI, energy, or geopolitical realism.", action:"Create a news-reactive podcast angle with one sharp thesis."}
+    {title:"Three-topic wisdom slate", idea:"Suggest three podcast or clip topics from the zeitgeist, X discourse, and Novaire's core telos: wisdom, better mental models, deeper conversations, and stronger relationships.", action:"Generate three topic candidates for Novaire to rank today."},
+    {title:"Relationship mental model clip", idea:"Turn a trending dating, marriage, friendship, or loneliness debate into a deeper clip about incentives, attachment, agency, status, and honest conversation.", action:"Draft one relationship-focused clip topic with a sharp mental model."},
+    {title:"Zeitgeist through telos", idea:"Take one trending event or claim and filter it through Seeking Wisdom: what does it reveal about human nature, institutions, incentives, or courage?", action:"Create a podcast topic that turns the current thing into a durable lesson."},
+    {title:"Conversation depth prompt", idea:"Find a trending idea that could become a dinner-table or mastermind conversation rather than a hot take: AI, money, masculinity, health, geopolitics, or meaning.", action:"Draft one deep-conversation prompt and two short-clip hooks."}
   ]
 }"""
 
@@ -560,10 +560,10 @@ UPDOG_ACTION_STEPS_JS = """{
     {title:"Signal versus noise", ask:"What did Novaire Signal show today that did not change a decision?", action:"Cut, shrink, or demote one non-decision item."}
   ],
   podcast:[
-    {title:"Mine the notes", ask:"Which old MD-file thesis should become today's podcast topic or short clip?", action:"Pick one saved idea and pair it with a current headline, influencer claim, or event."},
-    {title:"Clip the mastermind", ask:"What retreat or mastermind idea would make a strong 60-second clip today?", action:"Write one hook about who belongs in the room, who should not come, or what the room forces."},
-    {title:"React with a thesis", ask:"Which trending news item deserves Novaire's angle instead of generic commentary?", action:"State the contrarian thesis in one sentence and record or outline the clip."},
-    {title:"Influencer bridge", ask:"Which influencer or founder conversation can you enter with signal instead of clout chasing?", action:"Draft one response clip that connects their point to MOTR, energy, AI, or the fund."}
+    {title:"Rank three topics", ask:"Which three podcast or clip topics would create wisdom, better mental models, deeper conversation, or a stronger relationship today?", action:"Write down three topic candidates from X or the zeitgeist, then rank them 1 to 3 by depth, not virality."},
+    {title:"Mental model hunt", ask:"What current debate reveals a reusable mental model instead of just another opinion?", action:"Pick one trend and name the model: incentives, identity threat, status games, optionality, attachment, entropy, or courage."},
+    {title:"Relationship conversation", ask:"What topic would help a couple, friend group, or mastermind room speak more honestly?", action:"Draft one question that would make people reveal values, fear, desire, or standards without turning it into therapy slop."},
+    {title:"X scanner to clip", ask:"Which X signal at the top of the feed deserves Novaire's interpretation?", action:"Choose one top-engagement post and turn it into a clip thesis plus two hooks."}
   ]
 }"""
 
@@ -2299,7 +2299,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }}
 
-    // Enforce display order: zerohedge(1), TheEconomist(2), KobeissiLetter(3), engagement(4,5)
+    // Enforce display order: top four by engagement. The Economist intentionally excluded upstream.
     function sortBySlot(posts) {{
       return [...posts].sort((a, b) => (a.slot_order || 99) - (b.slot_order || 99));
     }}
@@ -2378,7 +2378,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
         const windowHours = json.windowHours || 4;
-        status.textContent = 'Top ' + allPosts.length + ' by engagement · last ' + windowHours + 'h · updated ' + ageStr;
+        status.textContent = 'Top 4 by engagement · no Economist · last ' + windowHours + 'h · updated ' + ageStr;
       }} catch(err) {{
         status.textContent = 'Feed unavailable';
         document.getElementById('signal-feed').innerHTML = '<div class="feed-empty">Could not load feed: ' + err.message + '</div>';
@@ -2453,7 +2453,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily yes/no product senate: four ideas, one click, less scattered ambition, more compounding execution.</div>
+    <div class="updog-intro">Daily product senate: five ideas, one click, less scattered ambition, more compounding execution.</div>
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 

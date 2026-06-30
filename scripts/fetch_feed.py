@@ -4,16 +4,10 @@ Novaire Signal — Signal Feed fetcher.
 Runs in GitHub Actions every 4 hours. Outputs feed.json to repo root.
 
 Feed spec (exactly 4 tweets per run):
-  Guaranteed slots (3):
-    1. Most recent tweet from @TheEconomist
-    2. Most recent tweet from @zerohedge
-    3. Most recent tweet from @KobeissiLetter
+  Top 4 posts by engagement across the scanner accounts.
+  The Economist is intentionally excluded: too broad for this compact section.
 
-  Engagement slots (1):
-    Top 1 tweet by (likes + retweets) from the 14 remaining accounts,
-    within the last 4 hours (falls back to 8h if the window is empty).
-
-Final output is sorted newest-first for display.
+Final output is sorted by engagement score, then recency.
 """
 
 import json
@@ -32,13 +26,9 @@ except ImportError:
 
 # ── Account lists ─────────────────────────────────────────────────────────────
 
-GUARANTEED_ACCOUNTS = [
-    'zerohedge',
-    'TheEconomist',
-    'KobeissiLetter',
-]
-
 ENGAGEMENT_ACCOUNTS = [
+    'zerohedge',
+    'KobeissiLetter',
     'BambroughKevin',
     'hkuppy',
     'quakes99',
@@ -55,7 +45,7 @@ ENGAGEMENT_ACCOUNTS = [
     'HydroGraphInc',
 ]
 
-ALL_ACCOUNTS = GUARANTEED_ACCOUNTS + ENGAGEMENT_ACCOUNTS  # 17 total
+ALL_ACCOUNTS = ENGAGEMENT_ACCOUNTS  # TheEconomist intentionally excluded
 
 # ── HTTP config ───────────────────────────────────────────────────────────────
 
@@ -146,15 +136,7 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
 
 # ── Selection helpers ─────────────────────────────────────────────────────────
 
-GUARANTEED_MAX_AGE_MS = 4 * 60 * 60 * 1000   # 4h — ZeroHedge/Kobeissi/Economist only
 ENGAGEMENT_MAX_AGE_MS = 24 * 60 * 60 * 1000  # 24h — engagement slots
-
-def most_recent(tweets: list, max_age_ms: int = GUARANTEED_MAX_AGE_MS) -> dict | None:
-    """Return the most recent tweet within max_age_ms, or None if nothing fresh."""
-    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
-    fresh = [t for t in tweets if (now_ms - t['createdAtMs']) <= max_age_ms]
-    return max(fresh, key=lambda t: t['createdAtMs']) if fresh else None
-
 
 def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n: int) -> list:
     """
@@ -176,20 +158,12 @@ def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n:
 def main():
     print(f'Signal Feed — fetching {len(ALL_ACCOUNTS)} accounts...\n')
 
-    # Fetch all timelines (guaranteed first, then engagement)
+    # Fetch all timelines, then take the top four by engagement.
     all_data: dict[str, list] = {}
     errors: list[str] = []
 
     with requests.Session() as session:
-        print('── Guaranteed accounts ──')
-        for i, username in enumerate(GUARANTEED_ACCOUNTS):
-            all_data[username] = fetch_user_timeline(username, session)
-            if not all_data[username]:
-                errors.append(username)
-            if i < len(GUARANTEED_ACCOUNTS) - 1:
-                time.sleep(0.5)
-
-        print('\n── Engagement accounts ──')
+        print('── Engagement scanner accounts ──')
         for i, username in enumerate(ENGAGEMENT_ACCOUNTS):
             all_data[username] = fetch_user_timeline(username, session)
             if not all_data[username]:
@@ -197,55 +171,29 @@ def main():
             if i < len(ENGAGEMENT_ACCOUNTS) - 1:
                 time.sleep(0.5)
 
-    # ── Slot 1-3: guaranteed (most recent per account) ────────────────────────
-    print('\n── Selecting guaranteed slots ──')
+    print('\n── Selecting top four by engagement (last 24h) ──')
     feed: list[dict] = []
-    seen_ids: set[str] = set()
+    top4 = top_engagement([all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS], set(), ENGAGEMENT_MAX_AGE_MS, n=4)
 
-    for i, username in enumerate(GUARANTEED_ACCOUNTS):
-        tweet = most_recent(all_data.get(username, []))
-        if tweet and tweet['id'] not in seen_ids:
-            tweet['slot'] = 'guaranteed'
-            tweet['slot_order'] = i + 1  # 1=zerohedge, 2=TheEconomist, 3=KobeissiLetter
-            feed.append(tweet)
-            seen_ids.add(tweet['id'])
-            print(
-                f'  ✓ @{username} [slot {i+1}]: '
-                f'"{tweet["text"][:60].strip()}…" '
-                f'({tweet["createdAt"][:19]} UTC)'
-            )
-        else:
-            print(f'  ✗ @{username}: no tweet available — slot skipped')
+    if not top4:
+        print('  ⚠️  No engagement tweets in last 24h — keeping existing feed.json')
 
-    # ── Slot 4: top 1 engagement from remaining 14 accounts ───────────────
-    print('\n── Selecting engagement slots (last 4h) ──')
-    eng_lists = [all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS]
-    top2 = top_engagement(eng_lists, seen_ids, ENGAGEMENT_MAX_AGE_MS, n=1)
-
-    if not top2:
-        print('  ⚠️  No engagement tweets in last 24h — skipping slot 4')
-
-    for i, t in enumerate(top2):
+    for i, t in enumerate(top4):
         score = t['likes'] + t['retweets']
         t['slot'] = 'engagement'
-        t['slot_order'] = 4 + i  # 4, 5
+        t['slot_order'] = i + 1
+        t['engagementScore'] = score
         feed.append(t)
-        seen_ids.add(t['id'])
         print(
-            f'  ✓ @{t["handle"]} [slot {4+i}]: score={score} '
+            f'  ✓ @{t["handle"]} [#{i+1}]: score={score} '
             f'(♥{t["likes"]} ↺{t["retweets"]}) — '
             f'"{t["text"][:50].strip()}…"'
         )
 
-    if len(top2) < 1:
-        print(f'  ⚠️  No engagement slots filled')
-
-    # ── Sort final feed by slot_order (enforced display order) ───────────────
+    # ── Sort final feed by slot_order (engagement rank) ────────────────────────
     feed.sort(key=lambda t: t.get('slot_order', 99))
 
-    n_g = sum(1 for t in feed if t.get('slot') == 'guaranteed')
-    n_e = sum(1 for t in feed if t.get('slot') == 'engagement')
-    print(f'\n📊 Final feed: {len(feed)} tweets — {n_g} guaranteed, {n_e} engagement')
+    print(f'\n📊 Final feed: {len(feed)} tweets — top engagement only')
 
     # ── Write feed.json ───────────────────────────────────────────────────────
     if not feed:
@@ -260,8 +208,8 @@ def main():
         'count':           len(feed),
         'accountsWithPosts': len({t['handle'] for t in feed}),
         'fetchedAt':       datetime.now(timezone.utc).isoformat(),
-        'windowHours':     4,
-        'curation':        'guaranteed3_engagement1',
+        'windowHours':     24,
+        'curation':        'top4_engagement_no_economist',
         'errors':          errors,
         'posts':           feed,
     }
