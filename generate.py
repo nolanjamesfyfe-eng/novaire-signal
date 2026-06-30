@@ -528,6 +528,33 @@ UPDOG_SUGGESTIONS_JS = """{
   ]
 }"""
 
+UPDOG_ACTION_STEPS_JS = """{
+  motr:[
+    {title:"Define the player", ask:"Who is this game for first: girlfriend, date, retreat guest, mastermind brother, or a man testing himself alone?", action:"Run one 5-minute relationship-game session today and write down where the card felt sharp, soft, or confusing."},
+    {title:"Test the room", ask:"Who can play one round this week so the game stops being theory and starts bleeding real data?", action:"Send one test link and ask for the three cards that created the most honest conversation."},
+    {title:"Retreat fit", ask:"Which retreat applicant or shortlist man should play this before arrival?", action:"Pick one retreat candidate and use the game as a social-depth filter before the next call."},
+    {title:"Category truth", ask:"Which category reveals the most value fastest: love languages, conflict, money, health, desire, or family scripts?", action:"Play only that category for five minutes and mark one card to improve."}
+  ],
+  retreat:[
+    {title:"Deposit scoreboard", ask:"How many $500 retreat deposits are in, how many verbal yeses, and who needs a direct close?", action:"Update the deposit count and name the next one man who should receive a personal nudge today."},
+    {title:"Shortlist pressure", ask:"What is the current retreat shortlist: A-list, maybe, and not-yet?", action:"Move one person into a clearer bucket and decide the next message or disqualifier."},
+    {title:"Fast proof", ask:"What proof would make the retreat feel inevitable instead of conceptual: itinerary, room photos, training day, testimonials, or founder video?", action:"Ship one proof asset or outline the exact missing asset."},
+    {title:"Deadline reality", ask:"What decision is coming up fast: venue, pricing, deposit deadline, application cutoff, or first attendee call?", action:"Choose the one decision that removes the most ambiguity today."}
+  ],
+  energy:[
+    {title:"Use it yourself", ask:"Did you open Energy Maxxing today and log the battery drain honestly?", action:"Use the app for five minutes, select today’s drain, then write one fixable leak."},
+    {title:"One personal metric", ask:"Which metric would make the app more useful tomorrow: sleep, sunlight, training, food, stress, libido, or mood?", action:"Track that one metric once today instead of pretending seven metrics is discipline."},
+    {title:"Friction audit", ask:"Where did the app feel slow, vague, ugly, or unnecessary when you used it?", action:"Remove or rewrite one piece of friction before adding another shiny widget."},
+    {title:"Recovery command", ask:"If the battery score is low, should the app prescribe recovery, training, sunlight, food, or stress reduction first?", action:"Write one if-low-then-do rule that would actually help you today."}
+  ],
+  signal:[
+    {title:"Remove one thing", ask:"What can come out of Novairecito today: duplicate block, weak feed, stale metric, noisy widget, or vanity data?", action:"Name one thing to remove so Signal gets sharper instead of fatter."},
+    {title:"Add one signal", ask:"What one thing should Novaire Signal add: product telos question, user test reminder, retreat deposit scoreboard, or personal cockpit action?", action:"Add or draft one block that compounds the product instead of decorating the dashboard."},
+    {title:"Sharper Updog", ask:"Which Updog category felt dumb today, and what would a smarter version understand about the product?", action:"Rewrite one suggestion with more context about the actual user, business model, or next bottleneck."},
+    {title:"Signal versus noise", ask:"What did Novaire Signal show today that did not change a decision?", action:"Cut, shrink, or demote one non-decision item."}
+  ]
+}"""
+
 BOOKS_JS = """[
   {title:"Poor Charlie's Almanack", meta:"Charlie Munger · Self-Improvement/Investing", summary:"Mental models from Berkshire's vice-chairman. The most practical philosophy book disguised as a business text."},
   {title:"The Psychology of Money", meta:"Morgan Housel · 2020 · Finance/Psychology", summary:"Timeless lessons on wealth, greed, and happiness. Behaviour — not intelligence — determines financial outcomes."},
@@ -1897,6 +1924,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
     @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}}}
+    .updog-action-card{{margin-top:-6px}}
+    .action-steps-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
+    .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
+    .action-step{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.025)}}
+    .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
+    .action-step-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .action-step-title{{font-family:var(--serif);font-size:.84rem;color:var(--text);margin-bottom:2px}}
+    .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.38}}
+    .action-step-do{{font-size:.68rem;color:var(--dim);line-height:1.38;margin-top:4px}}
+    .action-step-do strong{{color:var(--gold);font-weight:600}}
+    @media(max-width:760px){{.action-step{{grid-template-columns:22px 1fr}}.action-step-kicker,.action-step-copy{{grid-column:2}}}}
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
@@ -2396,6 +2434,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
+  <!-- DAILY ACTION STEPS -->
+  <div class="card updog-action-card" id="updog-action-card">
+    <div class="card-title">⚔️ Daily Action Steps</div>
+    <div class="action-steps-intro">One practical next move per product. Test the game, close the retreat, use Energy Maxxing, and sharpen Novaire Signal by removing noise or adding signal.</div>
+    <div class="action-steps-grid" id="action-steps-grid"></div>
+  </div>
+
   <!-- FOOTER BRANDING -->
   <div class="footer">
     <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
@@ -2416,6 +2461,7 @@ const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const MEDITATIONS = {MEDITATIONS_JS};
 const UPDOG_SUGGESTIONS = {UPDOG_SUGGESTIONS_JS};
+const UPDOG_ACTION_STEPS = {UPDOG_ACTION_STEPS_JS};
 
 function getQuoteForToday(storageKey, quotes) {{
   const today = new Date().toDateString();
@@ -2495,6 +2541,33 @@ function getQuoteForToday(storageKey, quotes) {{
           <span class="updog-status">${{voteStatus}}</span>
           <button class="updog-btn updog-approve" type="button" onclick="handleUpdogVote('${{key}}','approve','${{approveUrl}}')">Approve</button>
           <button class="updog-btn updog-retry" type="button" onclick="handleUpdogVote('${{key}}','retry','${{retryUrl}}')">Try Again</button>
+        </div>
+      </div>`;
+  }}).join('');
+}})();
+
+(function renderActionSteps() {{
+  const grid = document.getElementById('action-steps-grid');
+  if (!grid) return;
+  const today = new Date().toDateString();
+  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+  const categories = [
+    ['motr', 'MOTR Game'],
+    ['retreat', 'Retreat'],
+    ['energy', 'Energy Maxxing'],
+    ['signal', 'Novaire Signal']
+  ];
+  grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
+    const pool = UPDOG_ACTION_STEPS[key] || [];
+    const item = pool[(seed + categoryIndex) % pool.length];
+    return `
+      <div class="action-step" title="${{item.action}}">
+        <div class="action-step-num">${{categoryIndex + 1}}</div>
+        <div class="action-step-kicker">${{label}}</div>
+        <div class="action-step-copy">
+          <div class="action-step-title">${{item.title}}</div>
+          <div class="action-step-ask">${{item.ask}}</div>
+          <div class="action-step-do"><strong>Do:</strong> ${{item.action}}</div>
         </div>
       </div>`;
   }}).join('');
