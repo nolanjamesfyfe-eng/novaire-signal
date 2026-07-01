@@ -1950,18 +1950,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-row{{grid-template-columns:1fr}}.keystone-done{{min-height:42px}}}}
     .updog-action-card{{margin-top:-6px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
-    .action-step{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr);gap:10px;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.025);cursor:pointer;min-width:0}}
-    .action-step.open{{align-items:start}}
-    .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
-    .action-step-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}
+    .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9;line-height:1.2}}
     .action-step-copy{{min-width:0}}
-    .action-step-title{{font-family:var(--serif);font-size:.84rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .action-step-do{{display:none;font-size:.68rem;color:var(--dim);line-height:1.38;margin-top:4px;white-space:normal}}
-    .action-step.open .action-step-title,.action-step.open .action-step-ask{{white-space:normal;overflow:visible;text-overflow:clip}}
-    .action-step.open .action-step-do{{display:block}}
-    .action-step-do strong{{color:var(--gold);font-weight:600}}
-    @media(max-width:760px){{.action-step{{grid-template-columns:22px 1fr;align-items:start}}.action-step-kicker,.action-step-copy{{grid-column:2}}}}
+    .action-step-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}}
+    .action-step-title{{font-family:var(--serif);font-size:.9rem;color:var(--text);line-height:1.25}}
+    .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.35;margin-top:2px}}
+    .action-step-empty{{font-size:.76rem;color:var(--muted);line-height:1.45;border:1px dashed rgba(255,255,255,.14);border-radius:12px;padding:12px;background:rgba(255,255,255,.018)}}
+    @media(max-width:760px){{.action-step{{grid-template-columns:22px 1fr}}}}
 
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
@@ -2560,6 +2556,7 @@ function getQuoteForToday(storageKey, quotes) {{
     data.date = today;
     localStorage.setItem(key, JSON.stringify(data));
     status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' days' + (data.lastDone === today ? ' · completed today.' : '.');
+    if (typeof renderActionSteps === 'function') renderActionSteps();
   }}
   input.addEventListener('input', save);
   button.addEventListener('click', function() {{
@@ -2626,33 +2623,52 @@ function getQuoteForToday(storageKey, quotes) {{
   }}).join('');
 }})();
 
-(function renderActionSteps() {{
+function escapeActionHtml(value) {{
+  return String(value || '').replace(/[&<>"']/g, function(ch) {{
+    return ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}})[ch];
+  }});
+}}
+
+function renderActionSteps() {{
   const grid = document.getElementById('action-steps-grid');
   if (!grid) return;
   const today = new Date().toDateString();
-  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
-  const categories = [
-    ['motr', 'MOTR Game'],
-    ['retreat', 'Retreat'],
-    ['energy', 'Energy Maxxing'],
-    ['signal', 'Novaire Signal'],
-    ['podcast', 'Podcast / Clips']
+  const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":""}}');
+  const task = data.date === today ? String(data.text || '').trim() : '';
+  if (!task) {{
+    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will turn that single keystone into five possible next steps.</div>';
+    return;
+  }}
+  const safeTask = escapeActionHtml(task);
+  const steps = [
+    ['Define the win', 'Write the exact finished state for: ' + task + '.'],
+    ['Pick the smallest start', 'Do the first visible 10-minute move that makes ' + task + ' real.'],
+    ['Remove one blocker', 'Kill, delegate, or schedule the one thing most likely to stall ' + task + '.'],
+    ['Run one focused block', 'Set a timer and work only on ' + task + '. No dashboard wandering.'],
+    ['Send proof', 'Capture the result, note the next decision, or send the update that closes the loop.']
   ];
-  grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
-    const pool = UPDOG_ACTION_STEPS[key] || [];
-    const item = pool[(seed + categoryIndex) % pool.length];
-    return `
-      <div class="action-step" title="${{item.action}}" onclick="this.classList.toggle('open')">
-        <div class="action-step-num">${{categoryIndex + 1}}</div>
-        <div class="action-step-kicker">${{label}}</div>
-        <div class="action-step-copy">
-          <div class="action-step-title">${{item.title}}</div>
-          <div class="action-step-ask">${{item.ask}}</div>
-          <div class="action-step-do"><strong>Do:</strong> ${{item.action}}</div>
-        </div>
-      </div>`;
-  }}).join('');
-}})();
+  grid.innerHTML = `
+    <div class="action-step main-action-step">
+      <div class="action-step-num">1</div>
+      <div class="action-step-copy">
+        <div class="action-step-kicker">Main Task</div>
+        <div class="action-step-title">${{safeTask}}</div>
+        <div class="action-step-ask">Five possible next steps. Pick the one that creates motion now.</div>
+      </div>
+    </div>
+    ${{steps.map(function(step, idx) {{
+      return `
+        <div class="action-step">
+          <div class="action-step-num">${{idx + 1}}</div>
+          <div class="action-step-copy">
+            <div class="action-step-kicker">Potential Next Step</div>
+            <div class="action-step-title">${{escapeActionHtml(step[0])}}</div>
+            <div class="action-step-ask">${{escapeActionHtml(step[1])}}</div>
+          </div>
+        </div>`;
+    }}).join('')}}`;
+}}
+renderActionSteps();
 
 (function renderQuotes() {{
   const day = new Date().getDate();
