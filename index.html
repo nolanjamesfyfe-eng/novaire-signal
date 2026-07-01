@@ -81,11 +81,12 @@
     .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
     .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}
     .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
-    .keystone-row{display:grid;grid-template-columns:minmax(0,1fr) 76px;gap:0;align-items:stretch}
-    .keystone-input{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);border-right:0;background:rgba(0,0,0,.22);color:var(--text);border-radius:12px 0 0 12px;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}
+    .keystone-row{position:relative;display:block}
+    .keystone-input{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:10px 62px 10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}
     .keystone-input:focus{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}
-    .keystone-done{display:flex;align-items:center;justify-content:center;border-radius:0 12px 12px 0;padding:0 10px;font-size:.5rem;min-height:42px;border-color:rgba(201,168,76,.42)}
-    @media(max-width:760px){.updog-item{grid-template-columns:22px 1fr;align-items:start}.updog-kicker,.updog-copy{grid-column:2}.updog-actions{grid-column:2;margin-left:0;margin-top:4px}.keystone-row{grid-template-columns:minmax(0,1fr) 68px}.keystone-done{min-height:40px;font-size:.48rem}}
+    .keystone-done{position:absolute;right:7px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:46px;height:26px;min-height:0;border-radius:8px;padding:0;font-size:.44rem;letter-spacing:.08em;border-color:rgba(201,168,76,.38);background:rgba(201,161,91,.11)}
+    .keystone-done:hover{transform:translateY(-50%);filter:brightness(1.15)}
+    @media(max-width:760px){.updog-item{grid-template-columns:22px 1fr;align-items:start}.updog-kicker,.updog-copy{grid-column:2}.updog-actions{grid-column:2;margin-left:0;margin-top:4px}.keystone-input{padding-right:56px}.keystone-done{right:6px;width:42px;height:24px;font-size:.42rem}}
     .updog-action-card{margin-top:-6px}
     .action-steps-grid{display:flex;flex-direction:column;gap:7px}
     .action-step{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}
@@ -377,7 +378,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:45</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:57</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">30°C</div>
           <div class="condition">Drizzle 🌦</div>
@@ -385,7 +386,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 68% · AQI 24 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:45</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:57</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">19°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -393,7 +394,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 37 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:45</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:57</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">16°C</div>
           <div class="condition">Clear Sky ☀️</div>
@@ -401,7 +402,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 93% · AQI 97 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:45</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:57</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">7°C</div>
           <div class="condition">Clear Sky ☀️</div>
@@ -431,7 +432,7 @@
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.88</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">78.59</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,557</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">162.83</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">162.81</span></div>
     </div>
   </div>
 
@@ -442,33 +443,33 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$3,990</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$3,991</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="negative">-0.80%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="negative">-0.77%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$58.23</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$58.24</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+0.09%</span></div>
+          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+0.10%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.1425</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.1490</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.74%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.84%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$69.82</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$69.78</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">-1.31%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">-1.37%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,204</div>
+          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,202</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="PA=F"><span class="negative">-0.53%</span></div>
+          <div class="commodity-change" data-comm-chg="PA=F"><span class="negative">-0.65%</span></div>
         </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -486,33 +487,33 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$58,956</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-1.28%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$59,196</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.70%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,590</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.04%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,595</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.48%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$74.86</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.55%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.50</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+1.75%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7031</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+1.12%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7078</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+1.84%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0493</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.09%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0515</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="positive">+0.56%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1492</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+3.11%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1497</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+3.74%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -521,8 +522,8 @@
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$401.16</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.15%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$402.17</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.77%</span></div>
         </div>
     </div>
   </div>
@@ -531,7 +532,7 @@
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
   <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-14.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-62.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+143.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+84.7%</span></div>
-  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>41W / 34L</span></div>
+  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>41W / 33L</span></div>
 </div>
 
   <div class="card">
@@ -796,9 +797,9 @@
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
-  <!-- DAILY ACTION STEPS -->
+  <!-- DAILY ACTION STEP -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Daily Action Steps</div>
+    <div class="card-title">⚔️ Daily Action Step</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -1101,37 +1102,19 @@ function renderActionSteps() {
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{"text":"","date":""}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {
-    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will turn that single keystone into five possible next steps.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will show one clean next action.</div>';
     return;
   }
   const safeTask = escapeActionHtml(task);
-  const steps = [
-    ['Define the win', 'Write the exact finished state for: ' + task + '.'],
-    ['Pick the smallest start', 'Do the first visible 10-minute move that makes ' + task + ' real.'],
-    ['Remove one blocker', 'Kill, delegate, or schedule the one thing most likely to stall ' + task + '.'],
-    ['Run one focused block', 'Set a timer and work only on ' + task + '. No dashboard wandering.'],
-    ['Send proof', 'Capture the result, note the next decision, or send the update that closes the loop.']
-  ];
   grid.innerHTML = `
     <div class="action-step main-action-step">
       <div class="action-step-num">1</div>
       <div class="action-step-copy">
-        <div class="action-step-kicker">Main Task</div>
-        <div class="action-step-title">${safeTask}</div>
-        <div class="action-step-ask">Five possible next steps. Pick the one that creates motion now.</div>
+        <div class="action-step-kicker">Next Action</div>
+        <div class="action-step-title">Start the smallest visible move for: ${safeTask}</div>
+        <div class="action-step-ask">Set a 10-minute timer. Create one piece of proof that this moved forward.</div>
       </div>
-    </div>
-    ${steps.map(function(step, idx) {
-      return `
-        <div class="action-step">
-          <div class="action-step-num">${idx + 1}</div>
-          <div class="action-step-copy">
-            <div class="action-step-kicker">Potential Next Step</div>
-            <div class="action-step-title">${escapeActionHtml(step[0])}</div>
-            <div class="action-step-ask">${escapeActionHtml(step[1])}</div>
-          </div>
-        </div>`;
-    }).join('')}`;
+    </div>`;
 }
 renderActionSteps();
 

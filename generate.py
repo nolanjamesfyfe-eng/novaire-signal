@@ -1943,11 +1943,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    .keystone-row{{display:grid;grid-template-columns:minmax(0,1fr) 76px;gap:0;align-items:stretch}}
-    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);border-right:0;background:rgba(0,0,0,.22);color:var(--text);border-radius:12px 0 0 12px;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
+    .keystone-row{{position:relative;display:block}}
+    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:10px 62px 10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
     .keystone-input:focus{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}}
-    .keystone-done{{display:flex;align-items:center;justify-content:center;border-radius:0 12px 12px 0;padding:0 10px;font-size:.5rem;min-height:42px;border-color:rgba(201,168,76,.42)}}
-    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-row{{grid-template-columns:minmax(0,1fr) 68px}}.keystone-done{{min-height:40px;font-size:.48rem}}}}
+    .keystone-done{{position:absolute;right:7px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:46px;height:26px;min-height:0;border-radius:8px;padding:0;font-size:.44rem;letter-spacing:.08em;border-color:rgba(201,168,76,.38);background:rgba(201,161,91,.11)}}
+    .keystone-done:hover{{transform:translateY(-50%);filter:brightness(1.15)}}
+    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-input{{padding-right:56px}}.keystone-done{{right:6px;width:42px;height:24px;font-size:.42rem}}}}
     .updog-action-card{{margin-top:-6px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
     .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}
@@ -2480,9 +2481,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
-  <!-- DAILY ACTION STEPS -->
+  <!-- DAILY ACTION STEP -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Daily Action Steps</div>
+    <div class="card-title">⚔️ Daily Action Step</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -2636,37 +2637,19 @@ function renderActionSteps() {{
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":""}}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {{
-    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will turn that single keystone into five possible next steps.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will show one clean next action.</div>';
     return;
   }}
   const safeTask = escapeActionHtml(task);
-  const steps = [
-    ['Define the win', 'Write the exact finished state for: ' + task + '.'],
-    ['Pick the smallest start', 'Do the first visible 10-minute move that makes ' + task + ' real.'],
-    ['Remove one blocker', 'Kill, delegate, or schedule the one thing most likely to stall ' + task + '.'],
-    ['Run one focused block', 'Set a timer and work only on ' + task + '. No dashboard wandering.'],
-    ['Send proof', 'Capture the result, note the next decision, or send the update that closes the loop.']
-  ];
   grid.innerHTML = `
     <div class="action-step main-action-step">
       <div class="action-step-num">1</div>
       <div class="action-step-copy">
-        <div class="action-step-kicker">Main Task</div>
-        <div class="action-step-title">${{safeTask}}</div>
-        <div class="action-step-ask">Five possible next steps. Pick the one that creates motion now.</div>
+        <div class="action-step-kicker">Next Action</div>
+        <div class="action-step-title">Start the smallest visible move for: ${{safeTask}}</div>
+        <div class="action-step-ask">Set a 10-minute timer. Create one piece of proof that this moved forward.</div>
       </div>
-    </div>
-    ${{steps.map(function(step, idx) {{
-      return `
-        <div class="action-step">
-          <div class="action-step-num">${{idx + 1}}</div>
-          <div class="action-step-copy">
-            <div class="action-step-kicker">Potential Next Step</div>
-            <div class="action-step-title">${{escapeActionHtml(step[0])}}</div>
-            <div class="action-step-ask">${{escapeActionHtml(step[1])}}</div>
-          </div>
-        </div>`;
-    }}).join('')}}`;
+    </div>`;
 }}
 renderActionSteps();
 
