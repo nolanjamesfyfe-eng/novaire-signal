@@ -2450,6 +2450,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- TOP 5 ECONOMIES -->
   {eco_html}
 
+
+  <!-- DAILY KEYSTONE PRIORITY -->
+  <div class="card" id="keystone-card">
+    <div class="card-title">🎯 Daily Keystone</div>
+    <div class="updog-intro">What is the one thing you'll feel good about if it gets done today?</div>
+    <div style="display:grid;gap:10px;grid-template-columns:1fr auto;align-items:center">
+      <input id="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships..." style="width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--fg);border-radius:12px;padding:12px 14px;font-size:.95rem">
+      <button id="keystone-done" class="updog-btn updog-approve" type="button">Done</button>
+    </div>
+    <div id="keystone-status" style="margin-top:10px;color:var(--muted);font-size:.82rem">Keystone streak: 0 days.</div>
+  </div>
+
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
@@ -2516,6 +2528,36 @@ function getQuoteForToday(storageKey, quotes) {{
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
   document.getElementById('med-excerpt').textContent = m.excerpt;
+}})();
+
+
+(function renderKeystonePriority() {{
+  const input = document.getElementById('keystone-input');
+  const button = document.getElementById('keystone-done');
+  const status = document.getElementById('keystone-status');
+  if (!input || !button || !status) return;
+  const today = new Date().toDateString();
+  const key = 'novaire-keystone-priority';
+  const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":""}}');
+  input.value = data.date === today ? (data.text || '') : '';
+  function save() {{
+    data.text = input.value;
+    data.date = today;
+    localStorage.setItem(key, JSON.stringify(data));
+    status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' days' + (data.lastDone === today ? ' · completed today.' : '.');
+  }}
+  input.addEventListener('input', save);
+  button.addEventListener('click', function() {{
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toDateString();
+    if (data.lastDone !== today) {{
+      data.streak = data.lastDone === yesterdayStr ? (data.streak || 0) + 1 : 1;
+      data.lastDone = today;
+    }}
+    save();
+  }});
+  save();
 }})();
 
 (function renderUpdogVotes() {{
