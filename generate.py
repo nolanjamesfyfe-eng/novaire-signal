@@ -2138,6 +2138,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .eco-link{{font-size:.7rem;color:var(--gold);text-decoration:none;opacity:.7;transition:opacity .15s;letter-spacing:.06em}}
     .eco-link:hover{{opacity:1}}
 
+    @media(min-width:761px){{
+      html{{font-size:110%}}
+      body{{font-size:18.15px;padding:35px 18px}}
+      .container{{max-width:792px}}
+      .card{{padding:22px;margin-bottom:15px}}
+      .podcast-mini img{{min-width:141px}}
+      .feed-avatar{{width:29px;height:29px}}
+      .commodity-item,.weather-item,.rec-item,.psum-item{{padding:13px}}
+      .crypto-item{{padding:10px 7px}}
+    }}
+
     @media(max-width:600px){{
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(3,1fr)}}
