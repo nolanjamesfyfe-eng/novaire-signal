@@ -1943,7 +1943,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}}}
+    .keystone-row{{display:grid;grid-template-columns:minmax(0,1fr) 104px;gap:12px;align-items:stretch}}
+    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:12px 14px;font-size:.95rem;outline:none}}
+    .keystone-input:focus{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}}
+    .keystone-done{{display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0 14px;font-size:.58rem;min-height:48px}}
+    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-row{{grid-template-columns:1fr}}.keystone-done{{min-height:42px}}}}
     .updog-action-card{{margin-top:-6px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
     .action-step{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr);gap:10px;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.025);cursor:pointer;min-width:0}}
@@ -2466,9 +2470,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <div class="card" id="keystone-card">
     <div class="card-title">🎯 Daily Keystone</div>
     <div class="updog-intro">What is the one thing you'll feel good about if it gets done today?</div>
-    <div style="display:grid;gap:10px;grid-template-columns:1fr auto;align-items:center">
-      <input id="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships..." style="width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--fg);border-radius:12px;padding:12px 14px;font-size:.95rem">
-      <button id="keystone-done" class="updog-btn updog-approve" type="button">Done</button>
+    <div class="keystone-row">
+      <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
+      <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Done</button>
     </div>
     <div id="keystone-status" style="margin-top:10px;color:var(--muted);font-size:.82rem">Keystone streak: 0 days.</div>
   </div>
