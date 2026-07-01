@@ -2070,10 +2070,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .podcast-mini em{{font-style:normal;font-size:.64rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
     .podcast-mini-copy{{font-size:.72rem;color:var(--dim);line-height:1.45;margin:8px 2px 0}}
 
-    .thai-word-box{{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
-    .thai-word-box .word{{font-family:var(--serif);font-size:1.1rem;color:var(--gold)}}
-    .thai-word-box .dot{{color:var(--mute)}}
-    .thai-word-box .meaning{{font-size:.78rem;color:var(--dim)}}
     .sat-word-box{{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}
     .sat-def{{font-size:.82rem;color:var(--text);margin-bottom:10px;font-style:italic}}
@@ -2430,15 +2426,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- THAI WORD + THAILAND NEWS -->
+  <!-- THAILAND NEWS -->
   <div class="card">
     <div class="card-title">🇹🇭 Thailand</div>
-    <div class="thai-word-box">
-      <span class="word">{thai_word['thai']}</span>
-      <span class="dot">•</span>
-      <span class="meaning">{thai_word['meaning']}</span>
-    </div>
-    <div class="thai-news-compact" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)">
+    <div class="thai-news-header">Top Thai News Article Today</div>
+    <div class="thai-news-compact" style="margin-top:10px">
       {bkk_html}
     </div>
   </div>
