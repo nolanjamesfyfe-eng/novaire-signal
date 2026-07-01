@@ -1944,11 +1944,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
     .keystone-row{{position:relative;display:block}}
-    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:10px 62px 10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
+    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:10px 60px 10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
     .keystone-input:focus{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}}
-    .keystone-done{{position:absolute;right:7px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:46px;height:26px;min-height:0;border-radius:8px;padding:0;font-size:.44rem;letter-spacing:.08em;border-color:rgba(201,168,76,.38);background:rgba(201,161,91,.11)}}
-    .keystone-done:hover{{transform:translateY(-50%);filter:brightness(1.15)}}
-    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-input{{padding-right:56px}}.keystone-done{{right:6px;width:42px;height:24px;font-size:.42rem}}}}
+    .keystone-done{{position:absolute;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;width:52px;height:auto;min-height:0;border-radius:0 12px 12px 0;padding:0;font-size:.43rem;letter-spacing:.08em;border-color:rgba(201,168,76,.38);background:rgba(201,161,91,.12)}}
+    .keystone-done:hover{{transform:none;filter:brightness(1.15)}}
+    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-input{{padding-right:54px}}.keystone-done{{width:48px;font-size:.4rem}}}}
     .updog-action-card{{margin-top:-6px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
     .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+  <defs>
+    <radialGradient id="goldGlow" cx="50%" cy="48%" r="50%">
+      <stop offset="0%" stop-color="#d6b25e" stop-opacity="0.34"/>
+      <stop offset="38%" stop-color="#946b24" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#050506" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07080a"/>
+      <stop offset="45%" stop-color="#111111"/>
+      <stop offset="100%" stop-color="#020202"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f7df9d"/>
+      <stop offset="42%" stop-color="#b98b38"/>
+      <stop offset="100%" stop-color="#fff2bd"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.62"/>
+    </filter>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="2560" height="1440" fill="url(#bg)"/>
+  <rect width="2560" height="1440" fill="url(#grid)"/>
+  <circle cx="1280" cy="640" r="640" fill="url(#goldGlow)"/>
+  <g opacity="0.16" stroke="#d3aa54" stroke-width="2" fill="none">
+    <circle cx="1280" cy="650" r="440"/>
+    <circle cx="1280" cy="650" r="310"/>
+    <circle cx="1280" cy="650" r="180"/>
+  </g>
+  <g transform="translate(1280 600)" filter="url(#shadow)">
+    <path d="M -360 -240 C -265 -110 -165 -12 -54 80 L -22 272 L 22 272 L 54 80 C 165 -12 265 -110 360 -240 Z" fill="none" stroke="url(#gold)" stroke-width="22" stroke-linejoin="round"/>
+    <path d="M -250 -116 C -155 -20 -74 42 0 92 C 74 42 155 -20 250 -116" fill="none" stroke="#f5dd9c" stroke-opacity="0.62" stroke-width="6"/>
+    <path d="M -22 270 L -74 390 L 0 354 L 74 390 L 22 270 Z" fill="url(#gold)" opacity="0.92"/>
+    <circle cx="0" cy="92" r="22" fill="#f5d179"/>
+  </g>
+  <g text-anchor="middle" filter="url(#shadow)">
+    <text x="1280" y="245" font-family="Nimbus Roman, Georgia, serif" font-size="96" fill="#f2e3bd">NOVAIRE'S SIGNAL</text>
+    <text x="1280" y="1035" font-family="DejaVu Sans, Arial, sans-serif" font-size="56" fill="#b7b7b7">THE LIFE FUNNEL</text>
+    <text x="1280" y="1114" font-family="DejaVu Sans, Arial, sans-serif" font-size="34" fill="#d2aa55">HEALTH • WEALTH • WISDOM • AESTHETICS</text>
+  </g>
+  <g opacity="0.50">
+    <line x1="430" y1="720" x2="830" y2="720" stroke="url(#gold)" stroke-width="3"/>
+    <line x1="1730" y1="720" x2="2130" y2="720" stroke="url(#gold)" stroke-width="3"/>
+  </g>
+  <rect x="0" y="0" width="2560" height="1440" fill="none" stroke="#d6b25e" stroke-opacity="0.16" stroke-width="18"/>
+</svg>
