@@ -81,11 +81,11 @@
     .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
     .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}
     .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
-    .keystone-row{display:grid;grid-template-columns:minmax(0,1fr) 104px;gap:12px;align-items:stretch}
-    .keystone-input{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:12px 14px;font-size:.95rem;outline:none}
+    .keystone-row{display:grid;grid-template-columns:minmax(0,1fr) 76px;gap:0;align-items:stretch}
+    .keystone-input{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);border-right:0;background:rgba(0,0,0,.22);color:var(--text);border-radius:12px 0 0 12px;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}
     .keystone-input:focus{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}
-    .keystone-done{display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0 14px;font-size:.58rem;min-height:48px}
-    @media(max-width:760px){.updog-item{grid-template-columns:22px 1fr;align-items:start}.updog-kicker,.updog-copy{grid-column:2}.updog-actions{grid-column:2;margin-left:0;margin-top:4px}.keystone-row{grid-template-columns:1fr}.keystone-done{min-height:42px}}
+    .keystone-done{display:flex;align-items:center;justify-content:center;border-radius:0 12px 12px 0;padding:0 10px;font-size:.5rem;min-height:42px;border-color:rgba(201,168,76,.42)}
+    @media(max-width:760px){.updog-item{grid-template-columns:22px 1fr;align-items:start}.updog-kicker,.updog-copy{grid-column:2}.updog-actions{grid-column:2;margin-left:0;margin-top:4px}.keystone-row{grid-template-columns:minmax(0,1fr) 68px}.keystone-done{min-height:40px;font-size:.48rem}}
     .updog-action-card{margin-top:-6px}
     .action-steps-grid{display:flex;flex-direction:column;gap:7px}
     .action-step{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}
@@ -377,36 +377,36 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:42</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:45</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">30°C</div>
           <div class="condition">Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 66% · AQI 24 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 68% · AQI 24 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:42</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:45</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">19°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 98% · AQI 37 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 37 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:42</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:45</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">16°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 91% · AQI 97 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 93% · AQI 97 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:42</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:45</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">7°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 89% · AQI 55 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 90% · AQI 55 (Moderate)</div>
         </div>
     </div>
   </div>
@@ -425,13 +425,13 @@
     <div class="fx-row">
       
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate">1.42</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">33.30</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">33.29</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.45</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,392</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.88</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">78.59</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,557</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">162.79</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">162.83</span></div>
     </div>
   </div>
 
@@ -442,27 +442,27 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$3,992</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$3,990</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="negative">-0.74%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="negative">-0.80%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$58.22</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$58.23</div>
           <div class="commodity-unit">/oz</div>
           <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+0.09%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.1445</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.1425</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.77%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.74%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$69.83</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$69.82</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">-1.30%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">-1.31%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
@@ -486,33 +486,33 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$58,993</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-1.27%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$58,956</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-1.28%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,591</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.01%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,590</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.04%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$74.94</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.66%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$74.86</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.55%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7025</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+1.14%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7031</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+1.12%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0491</div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0493</div>
           <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.09%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1487</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+2.91%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1492</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+3.11%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -521,8 +521,8 @@
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$401.83</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.56%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$401.16</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.15%</span></div>
         </div>
     </div>
   </div>
@@ -547,15 +547,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/ai/xai-rolls-out-data-center-dividend-residents-around-memphis-colossus" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">xAI Rolls Out Data Center Dividend For Residents Around Memphis Colossus</a>
+          <a href="https://www.zerohedge.com/political/empire-250-can-principles-1776-survive-american-police-state" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Empire At 250: Can The Principles Of 1776 Survive The American Police State?</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/personal-finance/san-francisco-archdiocese-agrees-395-million-abuse-settlement" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">San Francisco Archdiocese Agrees To $395 Million Abuse Settlement</a>
+          <a href="https://www.zerohedge.com/political/trump-reports-over-14-billion-income-2025-crypto-earnings" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Trump Reports Over $1.4 Billion In Income From 2025 Crypto Earnings</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/markets/el-nino-heat-wave-fuels-hvac-boom-goldman-maps-trade" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">El Nino Heat Wave Fuels HVAC Boom: Goldman Maps The Trade</a>
+          <a href="https://www.zerohedge.com/geopolitical/israel-tests-upgraded-laser-guided-iron-dome-system-after-harsh-lessons-iran-war" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Israel Tests Upgraded Laser-Guided Iron Dome System After Harsh 'Lessons' Of Iran War</a>
         </div>
   </div>
 

@@ -1943,11 +1943,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    .keystone-row{{display:grid;grid-template-columns:minmax(0,1fr) 104px;gap:12px;align-items:stretch}}
-    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:var(--text);border-radius:12px;padding:12px 14px;font-size:.95rem;outline:none}}
+    .keystone-row{{display:grid;grid-template-columns:minmax(0,1fr) 76px;gap:0;align-items:stretch}}
+    .keystone-input{{width:100%;min-width:0;border:1px solid rgba(255,255,255,.12);border-right:0;background:rgba(0,0,0,.22);color:var(--text);border-radius:12px 0 0 12px;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
     .keystone-input:focus{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}}
-    .keystone-done{{display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0 14px;font-size:.58rem;min-height:48px}}
-    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-row{{grid-template-columns:1fr}}.keystone-done{{min-height:42px}}}}
+    .keystone-done{{display:flex;align-items:center;justify-content:center;border-radius:0 12px 12px 0;padding:0 10px;font-size:.5rem;min-height:42px;border-color:rgba(201,168,76,.42)}}
+    @media(max-width:760px){{.updog-item{{grid-template-columns:22px 1fr;align-items:start}}.updog-kicker,.updog-copy{{grid-column:2}}.updog-actions{{grid-column:2;margin-left:0;margin-top:4px}}.keystone-row{{grid-template-columns:minmax(0,1fr) 68px}}.keystone-done{{min-height:40px;font-size:.48rem}}}}
     .updog-action-card{{margin-top:-6px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
     .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}
