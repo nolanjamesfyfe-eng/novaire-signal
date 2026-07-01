@@ -110,7 +110,7 @@ export default async function handler(req) {
       post.engagementScore = post.likes + post.retweets;
       posts.push(post);
       seenHandles.add(post.handle);
-      if (posts.length >= 4) break;
+      if (posts.length >= 3) break;
     }
 
     const body = JSON.stringify({
@@ -119,7 +119,7 @@ export default async function handler(req) {
       accountsWithPosts: new Set(posts.map(p => p.handle)).size,
       fetchedAt: new Date().toISOString(),
       windowHours: 24,
-      curation: 'top4_engagement_no_economist',
+      curation: 'top3_engagement_no_economist',
       errors,
       posts,
     });

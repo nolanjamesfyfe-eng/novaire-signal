@@ -2262,7 +2262,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- SIGNAL FEED -->
   <div class="card">
-    <div class="card-title">📡 Signal Feed — Top 4 by Engagement</div>
+    <div class="card-title">📡 Signal Feed — Top 3 by Engagement</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
       <button class="feed-refresh" onclick="loadFeed(true)" title="Feed updates every 4 hours · filtered to last 4h · ranked by likes + retweets">↻ Refresh</button>
@@ -2378,7 +2378,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
         const windowHours = json.windowHours || 24;
-        status.textContent = 'Top 4 by engagement · no Economist · last ' + windowHours + 'h · updated ' + ageStr;
+        status.textContent = 'Top 3 by engagement · no Economist · last ' + windowHours + 'h · updated ' + ageStr;
       }} catch(err) {{
         status.textContent = 'Feed unavailable';
         document.getElementById('signal-feed').innerHTML = '<div class="feed-empty">Could not load feed: ' + err.message + '</div>';

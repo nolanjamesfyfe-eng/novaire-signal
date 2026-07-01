@@ -4,7 +4,7 @@ Novaire Signal — Signal Feed fetcher.
 Runs in GitHub Actions every 4 hours. Outputs feed.json to repo root.
 
 Feed spec (exactly 4 tweets per run):
-  Top 4 posts by engagement across the scanner accounts.
+  Top 3 posts by engagement across the scanner accounts.
   The Economist is intentionally excluded: too broad for this compact section.
 
 Final output is sorted by engagement score, then recency.
@@ -181,14 +181,14 @@ def main():
             if i < len(ENGAGEMENT_ACCOUNTS) - 1:
                 time.sleep(0.5)
 
-    print('\n── Selecting top four by engagement (last 24h) ──')
+    print('\n── Selecting top three by engagement (last 24h) ──')
     feed: list[dict] = []
-    top4 = top_engagement([all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS], set(), ENGAGEMENT_MAX_AGE_MS, n=4)
+    top3 = top_engagement([all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS], set(), ENGAGEMENT_MAX_AGE_MS, n=3)
 
-    if not top4:
+    if not top3:
         print('  ⚠️  No engagement tweets in last 24h — keeping existing feed.json')
 
-    for i, t in enumerate(top4):
+    for i, t in enumerate(top3):
         score = t['likes'] + t['retweets']
         t['slot'] = 'engagement'
         t['slot_order'] = i + 1
@@ -219,7 +219,7 @@ def main():
         'accountsWithPosts': len({t['handle'] for t in feed}),
         'fetchedAt':       datetime.now(timezone.utc).isoformat(),
         'windowHours':     24,
-        'curation':        'top4_engagement_no_economist',
+        'curation':        'top3_engagement_no_economist',
         'errors':          errors,
         'posts':           feed,
     }
