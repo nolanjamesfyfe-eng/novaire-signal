@@ -11,8 +11,11 @@ import os
 import sys
 import time
 import traceback
+from html import escape
 from datetime import datetime, timezone, timedelta
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+import warnings
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 try:
     from zoneinfo import ZoneInfo
@@ -730,37 +733,106 @@ def fetch_weather():
     return results
 
 def fetch_bangkok_post():
+    """Return expat-relevant Thailand headlines, not random local filler."""
     headlines = []
-    try:
-        headers = {"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)"}
-        r = requests.get("https://www.bangkokpost.com", headers=headers, timeout=12)
-        soup = BeautifulSoup(r.text, "html.parser")
-        seen = set()
-        for sel in ["h2.headline a", "h3.headline a", ".article-headline a",
-                    "article h2 a", "article h3 a", ".story-title a"]:
-            for el in soup.select(sel):
-                txt = el.get_text(strip=True)
-                if len(txt) > 20 and txt not in seen:
-                    seen.add(txt)
-                    href = el.get("href", "")
-                    if href and not href.startswith("http"):
-                        href = "https://www.bangkokpost.com" + href
-                    headlines.append({"title": txt, "url": href})
-                if len(headlines) >= 5: break
-            if len(headlines) >= 5: break
-        if not headlines:
+    seen = set()
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)"}
+    relevant_terms = [
+        "visa", "immigration", "expat", "foreigner", "foreign", "tourist", "bangkok",
+        "phuket", "pattaya", "chiang mai", "arrest", "scam", "police", "crime",
+        "crackdown", "overstay", "tax", "condo", "rent", "baht", "airport", "safety",
+        "nightlife", "cannabis", "alcohol", "digital wallet", "health insurance"
+    ]
+    reject_terms = [
+        "lottery", "football", "volleyball", "monk", "temple fair", "rice", "durian",
+        "school sports", "village chief"
+    ]
+    sources = [
+        ("The Thaiger", "https://thethaiger.com/feed"),
+        ("Thai Examiner", "https://www.thaiexaminer.com/feed/"),
+        ("Bangkok Post", "https://www.bangkokpost.com/rss/data/thailand.xml"),
+        ("Bangkok Post", "https://www.bangkokpost.com/rss/data/topstories.xml"),
+    ]
+
+    def score(title, summary=""):
+        text = (title + " " + summary).lower()
+        points = sum(3 for term in relevant_terms if term in text)
+        points -= sum(4 for term in reject_terms if term in text)
+        if any(term in text for term in ["visa", "immigration", "overstay", "foreigner", "expat"]):
+            points += 8
+        if any(term in text for term in ["arrest", "scam", "police", "crime", "crackdown"]):
+            points += 5
+        if any(term in text for term in ["bangkok", "phuket", "pattaya", "chiang mai"]):
+            points += 2
+        return points
+
+    def add_item(title, url, source, summary=""):
+        title = " ".join((title or "").split())
+        if len(title) < 28:
+            return
+        key = title.lower()
+        if key in seen:
+            return
+        seen.add(key)
+        headlines.append({
+            "title": title,
+            "url": url or "#",
+            "source": source,
+            "summary": " ".join((summary or "").split())[:180],
+            "score": score(title, summary),
+        })
+
+    for source, url in sources:
+        try:
+            r = requests.get(url, headers=headers, timeout=12)
+            r.raise_for_status()
+            soup = BeautifulSoup(r.text, "html.parser")
+            items = soup.find_all("item") or soup.find_all("entry")
+            for item in items[:20]:
+                title_el = item.find("title")
+                link_el = item.find("link")
+                desc_el = item.find("description") or item.find("summary")
+                guid_el = item.find("guid")
+                title = title_el.get_text(" ", strip=True) if title_el else ""
+                href = ""
+                if link_el:
+                    href = link_el.get("href") or link_el.get_text(" ", strip=True)
+                if (not href or href == "#") and guid_el:
+                    href = guid_el.get_text(" ", strip=True)
+                raw_summary = desc_el.get_text(" ", strip=True) if desc_el else ""
+                summary = BeautifulSoup(raw_summary, "html.parser").get_text(" ", strip=True)
+                add_item(title, href, source, summary)
+        except Exception as e:
+            print(f"    ⚠️  {source} expat feed unavailable: {e}")
+
+    # Fallback scrape if RSS feeds are thin or blocked.
+    if len(headlines) < 3:
+        try:
+            r = requests.get("https://www.bangkokpost.com/thailand", headers=headers, timeout=12)
+            soup = BeautifulSoup(r.text, "html.parser")
             for a in soup.find_all("a", href=True):
-                txt = a.get_text(strip=True)
-                if len(txt) > 30 and txt not in seen:
-                    href = a["href"]
-                    if "bangkokpost.com" in href or href.startswith("/"):
-                        if href.startswith("/"): href = "https://www.bangkokpost.com" + href
-                        seen.add(txt)
-                        headlines.append({"title": txt, "url": href})
-                if len(headlines) >= 5: break
-    except Exception as e:
-        headlines = [{"title": f"Bangkok Post unavailable", "url": "#"}]
-    return headlines[:5] if headlines else [{"title": "No headlines fetched", "url": "#"}]
+                txt = a.get_text(" ", strip=True)
+                href = str(a.get("href", ""))
+                if href.startswith("/"):
+                    href = "https://www.bangkokpost.com" + href
+                if "bangkokpost.com" in href or href.startswith("http"):
+                    add_item(txt, href, "Bangkok Post")
+                if len(headlines) >= 8:
+                    break
+        except Exception as e:
+            print(f"    ⚠️  Bangkok Post fallback unavailable: {e}")
+
+    ranked = sorted(headlines, key=lambda x: x.get("score", 0), reverse=True)
+    relevant = [h for h in ranked if h.get("score", 0) > 0]
+    if relevant:
+        return relevant[:3]
+    return ranked[:3] if ranked else [{
+        "title": "Thailand expat news feed temporarily unavailable",
+        "url": "https://thethaiger.com/",
+        "source": "The Thaiger",
+        "summary": "Check visa, immigration, safety, and Bangkok lifestyle updates manually.",
+        "score": 0,
+    }]
 
 def fetch_trending_recs():
     """
@@ -1800,10 +1872,21 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 nom. · GDP YoY: Q4 2025 · Shows every two weeks on Monday</div>
   </div>"""
 
-    # ── Bangkok news HTML ──
+    # ── Thailand expat news HTML ──
     bkk_html = ""
     for item in bangkok_news[:1]:
-        bkk_html += f'<div class="thai-news-item"><a href="{item["url"]}" style="color:var(--text);text-decoration:none" target="_blank">{item["title"]}</a></div>'
+        title = escape(item.get("title", "Thailand expat news feed temporarily unavailable"))
+        url = escape(item.get("url", "https://thethaiger.com/"), quote=True)
+        source = escape(item.get("source", "Thailand Expat Brief"))
+        summary = escape(item.get("summary", ""))
+        summary_html = f'<div class="thai-news-summary">{summary}</div>' if summary else ''
+        bkk_html += f'''<div class="thai-news-item thai-news-feature">
+          <div class="thai-news-source">{source} · Expat-relevant</div>
+          <a href="{url}" style="color:var(--text);text-decoration:none" target="_blank">{title}</a>
+          {summary_html}
+        </div>'''
+    if not bkk_html:
+        bkk_html = '<div class="thai-news-item">Thailand expat news feed temporarily unavailable.</div>'
 
     # ── ZeroHedge HTML ──
     zh_html = ""
@@ -1970,7 +2053,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .thai-news-compact{{margin-top:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .thai-news-header{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:8px;font-weight:600}}
-    .thai-news-item{{font-size:.82rem;color:var(--text);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.45}}
+    .thai-news-item{{font-size:.86rem;color:var(--text);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.45}}
+    .thai-news-feature{{padding:10px 0}}
+    .thai-news-source{{font-size:.55rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;opacity:.85}}
+    .thai-news-summary{{font-size:.72rem;color:var(--dim);line-height:1.45;margin-top:5px}}
     .thai-news-item:last-child{{border-bottom:none}}
 
     .star-sign{{padding:2px 0}}
@@ -2430,7 +2516,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- THAILAND NEWS -->
   <div class="card">
     <div class="card-title">🇹🇭 Thailand</div>
-    <div class="thai-news-header">Top Thai News Article Today</div>
+    <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       {bkk_html}
     </div>
