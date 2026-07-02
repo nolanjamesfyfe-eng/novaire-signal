@@ -2659,6 +2659,7 @@ function getQuoteForToday(storageKey, quotes) {{
   const voteKey = 'novaire-updog-votes-' + today;
   const votes = JSON.parse(localStorage.getItem(voteKey) || '{{}}');
   const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+  const dayIndex = Math.floor((new Date().setHours(0,0,0,0) - new Date(new Date().getFullYear(),0,0)) / 86400000);
   const categories = [
     ['motr', 'Man On The Rise Game'],
     ['retreat', 'Retreat'],
@@ -2666,6 +2667,48 @@ function getQuoteForToday(storageKey, quotes) {{
     ['signal', 'Novaire Signal'],
     ['podcast', 'Podcast / Clips']
   ];
+  const iterationBank = {{
+    motr: {{
+      surfaces:['relationship game onboarding','date-night mode','mastermind room mode','couples score report','question-category selector','post-game commitment screen'],
+      verbs:['tighten','ship','test','instrument','personalize','simplify'],
+      bottlenecks:['first-session friction','weak follow-through','generic questions','unclear target user','no replay reason','missing shareable proof']
+    }},
+    retreat: {{
+      surfaces:['application funnel','deposit close flow','Bangkok itinerary proof','candidate qualification screen','venue/room proof block','follow-up message sequence'],
+      verbs:['clarify','pressure-test','de-risk','sell','validate','package'],
+      bottlenecks:['too much concept, not enough proof','unclear buyer urgency','soft qualification','no deadline pressure','weak trust signals','missing next close']
+    }},
+    energy: {{
+      surfaces:['daily battery check-in','sleep recovery logic','energy leak detector','30-day experiment mode','habit proof screen','recommendation engine'],
+      verbs:['make','test','score','compress','personalize','enforce'],
+      bottlenecks:['too many questions','vague advice','no proof loop','ignoring sleep debt','low daily retention','no obvious first action']
+    }},
+    signal: {{
+      surfaces:['daily cockpit layout','Updog approval workflow','Thailand expat brief','keystone action step','signal/noise pruning','implementation handoff copy'],
+      verbs:['sharpen','automate','trim','rank','connect','verify'],
+      bottlenecks:['stale suggestions','dashboard clutter','unclear next action','manual handoff friction','weak live verification','too many passive widgets']
+    }},
+    podcast: {{
+      surfaces:['clip topic queue','X-to-thesis scanner','relationship mental model series','wisdom monologue outline','hook/title generator','guest/conversation prompt'],
+      verbs:['draft','rank','extract','package','test','angle'],
+      bottlenecks:['generic topics','no durable thesis','weak hook','too much news, not enough wisdom','no recording prompt','unclear audience']
+    }}
+  }};
+  function pickFrom(list, salt) {{ return list[(seed + dayIndex * 7 + salt) % list.length]; }}
+  function synthesizeUpdogSuggestion(key, label, categoryIndex) {{
+    const bank = iterationBank[key];
+    const fallback = (UPDOG_SUGGESTIONS[key] || [])[0] || {{title:'Ship one iteration', idea:'Pick the next bottleneck and turn it into a concrete implementation task.', action:'Implement one focused product iteration.'}};
+    if (!bank) return fallback;
+    const surface = pickFrom(bank.surfaces, categoryIndex * 3);
+    const verb = pickFrom(bank.verbs, categoryIndex * 5 + 1);
+    const bottleneck = pickFrom(bank.bottlenecks, categoryIndex * 7 + 2);
+    const title = verb.charAt(0).toUpperCase() + verb.slice(1) + ' ' + surface;
+    return {{
+      title: title,
+      idea: 'Daily iteration #' + dayIndex + ': ' + verb + ' the ' + surface + ' to attack ' + bottleneck + ' in ' + label + '.',
+      action: 'Implement one concrete change to the ' + surface + ' that reduces ' + bottleneck + ', then push and verify it live.'
+    }};
+  }}
   window.handleUpdogVote = function(key, kind, url) {{
     votes[key] = kind;
     localStorage.setItem(voteKey, JSON.stringify(votes));
@@ -2678,8 +2721,7 @@ function getQuoteForToday(storageKey, quotes) {{
     window.open(url, '_blank', 'noopener');
   }};
   grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
-    const pool = UPDOG_SUGGESTIONS[key] || [];
-    const item = pool[(seed + categoryIndex) % pool.length];
+    const item = synthesizeUpdogSuggestion(key, label, categoryIndex);
     const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
     const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
     const approveUrl = 'https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=' + approveText.replace(/'/g, '%27');
