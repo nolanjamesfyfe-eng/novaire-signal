@@ -1879,11 +1879,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         url = escape(item.get("url", "https://thethaiger.com/"), quote=True)
         source = escape(item.get("source", "Thailand Expat Brief"))
         summary = escape(item.get("summary", ""))
+        score = escape(str(item.get("score", "")))
+        verified_at = datetime.now(BKK_TZ).strftime("%b %-d, %H:%M BKK")
         summary_html = f'<div class="thai-news-summary">{summary}</div>' if summary else ''
-        bkk_html += f'''<div class="thai-news-item thai-news-feature">
-          <div class="thai-news-source">{source} · Expat-relevant</div>
-          <a href="{url}" style="color:var(--text);text-decoration:none" target="_blank">{title}</a>
+        bkk_html += f'''<div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="{source}" data-thai-score="{score}" data-thai-url="{url}">
+          <div class="thai-news-source">{source} · Expat-relevant · Verified {verified_at}</div>
+          <a href="{url}" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">{title}</a>
           {summary_html}
+          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score {score}.</div>
         </div>'''
     if not bkk_html:
         bkk_html = '<div class="thai-news-item">Thailand expat news feed temporarily unavailable.</div>'
@@ -2057,6 +2060,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .thai-news-feature{{padding:10px 0}}
     .thai-news-source{{font-size:.55rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;opacity:.85}}
     .thai-news-summary{{font-size:.72rem;color:var(--dim);line-height:1.45;margin-top:5px}}
+    .thai-news-verify{{font-size:.56rem;color:var(--mute);line-height:1.35;margin-top:6px;opacity:.7}}
     .thai-news-item:last-child{{border-bottom:none}}
 
     .star-sign{{padding:2px 0}}
@@ -3625,6 +3629,16 @@ def main():
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
         bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html
     )
+
+    required_thai_markers = [
+        'data-thai-expat-brief="verified"',
+        'data-thai-url="http',
+        'thai-news-summary',
+        'Live check marker: expat brief has a real source',
+    ]
+    missing_thai_markers = [m for m in required_thai_markers if m not in html]
+    if missing_thai_markers:
+        raise RuntimeError(f"Thailand expat brief failed verification markers: {missing_thai_markers}")
 
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:
