@@ -2556,7 +2556,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five ideas, one click, less scattered ambition, more compounding execution.</div>
+    <div class="updog-intro">Daily product senate: five concise build tasks, one click to approve the next implementation.</div>
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
@@ -2700,13 +2700,12 @@ function getQuoteForToday(storageKey, quotes) {{
     const fallback = (UPDOG_SUGGESTIONS[key] || [])[0] || {{title:'Ship one iteration', idea:'Pick the next bottleneck and turn it into a concrete implementation task.', action:'Implement one focused product iteration.'}};
     if (!bank) return fallback;
     const surface = pickFrom(bank.surfaces, categoryIndex * 3);
-    const verb = pickFrom(bank.verbs, categoryIndex * 5 + 1);
     const bottleneck = pickFrom(bank.bottlenecks, categoryIndex * 7 + 2);
-    const title = verb.charAt(0).toUpperCase() + verb.slice(1) + ' ' + surface;
+    const title = surface.charAt(0).toUpperCase() + surface.slice(1);
     return {{
       title: title,
-      idea: 'Daily iteration #' + dayIndex + ': ' + verb + ' the ' + surface + ' to attack ' + bottleneck + ' in ' + label + '.',
-      action: 'Implement one concrete change to the ' + surface + ' that reduces ' + bottleneck + ', then push and verify it live.'
+      idea: 'Fix ' + bottleneck + ' in ' + label + '.',
+      action: 'Update the ' + surface + ' to fix ' + bottleneck + '.'
     }};
   }}
   window.handleUpdogVote = function(key, kind, url) {{
@@ -2733,8 +2732,8 @@ function getQuoteForToday(storageKey, quotes) {{
         <div class="updog-num">${{categoryIndex + 1}}</div>
         <div class="updog-kicker">${{label}}</div>
         <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
-          <div class="updog-idea"><span class="updog-title">${{item.title}}</span> — ${{item.idea}}</div>
-          <div class="updog-expand">Implementation brief: ${{item.action}} Vote yes to build it, or Try Again to request a sharper replacement.</div>
+          <div class="updog-idea">${{item.action}}</div>
+          <div class="updog-expand">Target: ${{item.title}}. Why: ${{item.idea}} Vote yes to build it, or Try Again for a sharper task.</div>
         </div>
         <div class="updog-actions">
           <span class="updog-status">${{voteStatus}}</span>
