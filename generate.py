@@ -2564,9 +2564,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
-  <!-- DAILY ACTION STEP -->
+  <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Daily Action Step</div>
+    <div class="card-title">⚔️ Daily Action Steps</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
