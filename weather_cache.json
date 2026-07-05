@@ -47,12 +47,12 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 7.5,
-    "humidity": 90,
+    "temp": 7.9,
+    "humidity": 89,
     "condition": "Overcast ☁️",
-    "aqi": 45,
+    "aqi": 47,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-07-05T14:42:14.362859+00:00"
+    "cached_at": "2026-07-05T16:00:11.028614+00:00"
   }
 }
