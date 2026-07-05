@@ -6,12 +6,12 @@
     "lon": 100.5018,
     "tz_offset": 7,
     "temp": 27.5,
-    "humidity": 89,
+    "humidity": 86,
     "condition": "Overcast ☁️",
-    "aqi": 29,
+    "aqi": 32,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-07-05T16:01:45.961702+00:00"
+    "cached_at": "2026-07-05T18:01:11.580052+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -25,7 +25,7 @@
     "aqi": 43,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-07-05T18:00:09.105130+00:00"
+    "cached_at": "2026-07-05T18:01:11.919300+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -39,7 +39,7 @@
     "aqi": 24,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-07-05T18:00:09.906306+00:00"
+    "cached_at": "2026-07-05T18:01:12.257182+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -53,6 +53,6 @@
     "aqi": 47,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-07-05T18:00:10.553601+00:00"
+    "cached_at": "2026-07-05T18:01:12.600839+00:00"
   }
 }
