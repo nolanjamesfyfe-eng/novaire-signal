@@ -81,6 +81,13 @@
     .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
     .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}
     .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
+    .tweet-card{border-color:rgba(201,161,91,.22);background:linear-gradient(145deg,rgba(201,161,91,.07),rgba(255,255,255,.025))}
+    .tweet-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+    .tweet-chip{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(201,161,91,.08)}
+    .tweet-source{font-size:.58rem;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+    .tweet-text{font-family:var(--serif);font-size:1.02rem;line-height:1.48;color:var(--text);margin:0 0 12px}
+    .tweet-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .tweet-count{font-size:.58rem;color:var(--mute)}
     .keystone-row{display:flex;width:100%;box-sizing:border-box;align-items:stretch;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;background:rgba(0,0,0,.22)}
     .keystone-row:focus-within{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}
     .keystone-input{flex:1 1 auto;width:auto;min-width:0;box-sizing:border-box;border:0;background:transparent;color:var(--text);border-radius:0;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}
@@ -379,36 +386,36 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:01</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:42</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">29°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 84% · AQI 28 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 83% · AQI 28 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">09:01</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">09:42</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">23°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 72% · AQI 45 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 65% · AQI 45 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:01</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:42</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">14°C</div>
-          <div class="condition">Clear Sky ☀️</div>
+          <div class="condition">Mainly Clear 🌤</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 77% · AQI 21 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 72% · AQI 21 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:01</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:42</div>
           <div class="city">🇺🇾 Montevideo</div>
-          <div class="temp">7°C</div>
+          <div class="temp">8°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 91% · AQI 45 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 90% · AQI 45 (Good)</div>
         </div>
     </div>
   </div>
@@ -429,7 +436,7 @@
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate">1.42</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">33.12</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.44</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,332</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,333</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.87</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">77.29</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,529</span></div>
@@ -488,33 +495,33 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$62,818</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.33%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$62,740</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.12%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
           <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,768</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.07%</span></div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.11%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$81.33</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.44%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$81.31</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.60%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7531</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-0.88%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.7524</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-1.48%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.1365</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-1.62%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.1360</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-3.07%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1892</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+5.70%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1898</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+4.51%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -523,8 +530,8 @@
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$464.40</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.24%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$462.10</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-0.65%</span></div>
         </div>
     </div>
   </div>
@@ -532,7 +539,7 @@
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-1.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-40.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+144.2%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $45,000 by December ...</span><span style="font-weight:600;color:#f87171">-1.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-40.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+144.4%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div>
   <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>42W / 34L</span></div>
 </div>
 
@@ -549,15 +556,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/markets/wage-growth-leading-inflation-indicator" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Wage Growth As A Leading Inflation Indicator</a>
+          <a href="https://www.zerohedge.com/political/uk-governments-shocking-bid-rig-youtube-algorithm-force-feed-bbc-propaganda" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">UK Government's Shocking Bid To Rig YouTube Algorithm To Force-Feed BBC Propaganda</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/political/uks-latest-debanking-scandal-should-give-everyone-pause" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">The UK's Latest "Debanking" Scandal Should Give Everyone Pause</a>
+          <a href="https://www.zerohedge.com/geopolitical/red-sea-blockage-fears-cargo-ship-attacked-southwest-yemen" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Red Sea Blockage Fears: Cargo Ship Attacked Off Southwest Yemen</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/political/germanys-afd-tricks-thousands-antifa-revolutionaries" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Germany's AfD Tricks Thousands Of Antifa Revolutionaries</a>
+          <a href="https://www.zerohedge.com/markets/wage-growth-leading-inflation-indicator" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Wage Growth As A Leading Inflation Indicator</a>
         </div>
   </div>
 
@@ -730,7 +737,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="28" data-thai-url="https://thethaiger.com/?p=1012714">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Jul 5, 21:01 BKK</div>
+          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Jul 5, 21:42 BKK</div>
           <a href="https://thethaiger.com/?p=1012714" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Israeli, Romanian arrested in Koh Pha Ngan childcare centre raid</a>
           <div class="thai-news-summary">Police searched an unlicensed childcare centre on Koh Pha Ngan yesterday, July 4, after receiving a tip-off that it was being operated by foreign nationals, finding 42 foreign chil</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 28.</div>
@@ -795,8 +802,25 @@
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks, one click to approve the next implementation.</div>
+    <div class="updog-intro">Daily product senate: seven concise build tasks across MOTR, BOTR, Evolution Fund, Signal, energy, retreat, and clips.</div>
     <div class="updog-grid" id="updog-grid"></div>
+  </div>
+
+  <!-- SUGGESTED TWEET -->
+  <div class="card tweet-card" id="suggested-tweet-card" data-suggested-tweet="verified">
+    <div class="card-title">🪶 Suggested Tweet</div>
+    <div class="tweet-top">
+      <div class="tweet-chip" id="tweet-project">Energy Maxxing</div>
+      <div class="tweet-source" id="tweet-source">X feed · KobeissiLetter</div>
+    </div>
+    <p class="tweet-text" id="tweet-text">Productivity advice after bad sleep is civilization pretending the battery icon is decorative. Recover first, conquer second. Zeitgeist: The AI spending boom is redefining the US economy: AI CapEx across Alphabet, $GOOG.</p>
+    <div class="tweet-actions">
+      <span class="tweet-count" id="tweet-count">220 / 280</span>
+      <div class="updog-actions">
+        <button class="updog-btn updog-retry" type="button" onclick="copySuggestedTweet()">Copy</button>
+        <a class="updog-btn updog-approve" id="tweet-intent" href="https://x.com/intent/tweet?text=Productivity%20advice%20after%20bad%20sleep%20is%20civilization%20pretending%20the%20battery%20icon%20is%20decorative.%20Recover%20first%2C%20conquer%20second.%20Zeitgeist%3A%20The%20AI%20spending%20boom%20is%20redefining%20the%20US%20economy%3A%20AI%20CapEx%20across%20Alphabet%2C%20%24GOOG." target="_blank" rel="noopener">Open X</a>
+      </div>
+    </div>
   </div>
 
   <!-- DAILY ACTION STEPS -->
@@ -962,6 +986,18 @@ const UPDOG_ACTION_STEPS = {
     {title:"Friction audit", ask:"Where did the app feel slow, vague, ugly, or unnecessary when you used it?", action:"Remove or rewrite one piece of friction before adding another shiny widget."},
     {title:"Recovery command", ask:"If the battery score is low, should the app prescribe recovery, training, sunlight, food, or stress reduction first?", action:"Write one if-low-then-do rule that would actually help you today."}
   ],
+  evofund:[
+    {title:"Entropy audit", ask:"Which holding, market, or bot position reduces entropy most clearly today?", action:"Write one clean Evolution Fund thesis line tying price, catalyst, and entropy reduction together."},
+    {title:"Debt-paydown trigger", ask:"Is HG.CN or another position near a sell/risk-management threshold that should become cash discipline?", action:"Check the highest-interest debt/paydown trigger and name the next staged move."},
+    {title:"Bot book inspection", ask:"Which bot position is thesis, which is drift, and which is just a tiny gremlin in a tuxedo?", action:"Review one Polymarket or bot position and decide hold, trim, or leave untouched."},
+    {title:"Macro to allocation", ask:"What current macro headline changes actual allocation rather than just cortisol?", action:"Translate one world headline into a portfolio action: buy, wait, hedge, or ignore."}
+  ],
+  botr:[
+    {title:"One install path", ask:"What is the fastest Bot on the Rise install pitch Miguel, Joseph, or James could test today?", action:"Draft one BOTR pitch that sells a concrete bot outcome, not AI incense."},
+    {title:"Bot proof loop", ask:"What proof would make BOTR feel inevitable: screenshot, demo video, before/after workflow, or customer quote?", action:"Create one tiny proof asset for a bot workflow today."},
+    {title:"Customer bottleneck", ask:"Which business owner pain is urgent enough to pay for: missed leads, slow follow-up, admin sludge, or content bottlenecks?", action:"Pick one BOTR customer pain and map the bot from trigger to result."},
+    {title:"Offer knife", ask:"What can BOTR cut from the offer so the first sale is obvious?", action:"Rewrite the offer as one bot, one buyer, one measurable win."}
+  ],
   signal:[
     {title:"Remove one thing", ask:"What can come out of Novairecito today: duplicate block, weak feed, stale metric, noisy widget, or vanity data?", action:"Name one thing to remove so Signal gets sharper instead of fatter."},
     {title:"Add one signal", ask:"What one thing should Novaire Signal add: product telos question, user test reminder, retreat deposit scoreboard, or personal cockpit action?", action:"Add or draft one block that compounds the product instead of decorating the dashboard."},
@@ -975,6 +1011,15 @@ const UPDOG_ACTION_STEPS = {
     {title:"X scanner to clip", ask:"Which X signal at the top of the feed deserves Novaire's interpretation?", action:"Choose one top-engagement post and turn it into a clip thesis plus two hooks."}
   ]
 };
+const TWEET_TEMPLATES = [
+  {project:"Evolution Fund", text:"Value flows to whoever reduces entropy. The market calls it alpha when it works and heresy right before it works. Today’s job: separate signal from expensive theatre."},
+  {project:"Novaire Signal", text:"A dashboard should not be a Christmas tree. If a widget does not change a decision, it is just anxiety with CSS."},
+  {project:"MOTR", text:"Modern masculinity does not need another slogan. It needs sleep, strength, courage, honest conversation, and fewer linen-pants gurus selling fog."},
+  {project:"BOTR", text:"Most businesses do not need 'AI transformation.' They need one bot that replies faster than their hungover receptionist and never forgets the follow-up."},
+  {project:"Energy Maxxing", text:"Productivity advice after bad sleep is civilization pretending the battery icon is decorative. Recover first, conquer second."},
+  {project:"Retreat", text:"The best retreat is not an escape from real life. It is a pressure chamber where weak habits confess and stronger standards walk out with a passport stamp."},
+  {project:"Podcast", text:"The current thing is rarely the point. The point is what it reveals about incentives, status, fear, courage, and the tiny monarchies people run inside their heads."}
+];
 
 function getQuoteForToday(storageKey, quotes) {
   const today = new Date().toDateString();
@@ -1052,6 +1097,8 @@ function getQuoteForToday(storageKey, quotes) {
     ['motr', 'Man On The Rise Game'],
     ['retreat', 'Retreat'],
     ['energy', 'Energy Maxxing App'],
+    ['evofund', 'Evolution Fund'],
+    ['botr', 'Bot On The Rise'],
     ['signal', 'Novaire Signal'],
     ['podcast', 'Podcast / Clips']
   ];
@@ -1071,6 +1118,16 @@ function getQuoteForToday(storageKey, quotes) {
       verbs:['make','test','score','compress','personalize','enforce'],
       bottlenecks:['too many questions','vague advice','no proof loop','ignoring sleep debt','low daily retention','no obvious first action']
     },
+    evofund: {
+      surfaces:['portfolio thesis row','debt-paydown trigger','Polymarket manual book','uranium and AI watchlist','risk ledger','macro catalyst note'],
+      verbs:['rank','hedge','trim','press','audit','wait'],
+      bottlenecks:['headline addiction','unclear action threshold','stale thesis','position drift','no cash discipline','overweight vibes']
+    },
+    botr: {
+      surfaces:['first install offer','demo proof asset','lead follow-up bot','customer pain map','pricing line','Miguel-Joseph-James handoff'],
+      verbs:['sell','demo','compress','prove','install','package'],
+      bottlenecks:['AI fog instead of concrete ROI','unclear buyer','no demo proof','too many bot ideas','weak follow-up','offer too abstract']
+    },
     signal: {
       surfaces:['daily cockpit layout','Updog approval workflow','Thailand expat brief','keystone action step','signal/noise pruning','implementation handoff copy'],
       verbs:['sharpen','automate','trim','rank','connect','verify'],
@@ -1083,23 +1140,36 @@ function getQuoteForToday(storageKey, quotes) {
     }
   };
   function pickFrom(list, salt) { return list[(seed + dayIndex * 7 + salt) % list.length]; }
+  function recentUpdogHistory() {
+    try { return JSON.parse(localStorage.getItem('novaire-updog-history') || '[]').slice(-12); } catch(e) { return []; }
+  }
   function synthesizeUpdogSuggestion(key, label, categoryIndex) {
     const bank = iterationBank[key];
     const fallback = (UPDOG_SUGGESTIONS[key] || [])[0] || {title:'Ship one iteration', idea:'Pick the next bottleneck and turn it into a concrete implementation task.', action:'Implement one focused product iteration.'};
     if (!bank) return fallback;
-    const surface = pickFrom(bank.surfaces, categoryIndex * 3);
+    const history = recentUpdogHistory().filter(h => h.key === key).map(h => h.surface);
+    let surface = pickFrom(bank.surfaces, categoryIndex * 3);
+    for (let i = 0; i < bank.surfaces.length && history.includes(surface); i++) surface = pickFrom(bank.surfaces, categoryIndex * 3 + i + 1);
     const bottleneck = pickFrom(bank.bottlenecks, categoryIndex * 7 + 2);
+    const verb = pickFrom(bank.verbs || ['ship'], categoryIndex * 11 + 4);
     const title = surface.charAt(0).toUpperCase() + surface.slice(1);
     return {
       title: title,
-      idea: 'Fix ' + bottleneck + ' in ' + label + '.',
-      action: 'Update the ' + surface + ' to fix ' + bottleneck + '.'
+      surface: surface,
+      idea: verb.charAt(0).toUpperCase() + verb.slice(1) + ' ' + bottleneck + ' in ' + label + '.',
+      action: verb.charAt(0).toUpperCase() + verb.slice(1) + ' the ' + surface + ' to fix ' + bottleneck + '.'
     };
   }
   window.handleUpdogVote = function(key, kind, url) {
     votes[key] = kind;
     localStorage.setItem(voteKey, JSON.stringify(votes));
     const row = document.querySelector('[data-updog="' + key + '"]');
+    try {
+      const hist = recentUpdogHistory();
+      const rowTitle = row ? (row.getAttribute('data-surface') || key) : key;
+      hist.push({date: today, key: key, vote: kind, surface: rowTitle});
+      localStorage.setItem('novaire-updog-history', JSON.stringify(hist.slice(-40)));
+    } catch(e) {}
     if (row) {
       row.classList.add('voted');
       const status = row.querySelector('.updog-status');
@@ -1116,7 +1186,7 @@ function getQuoteForToday(storageKey, quotes) {
     const voteClass = votes[key] ? ' voted' : '';
     const voteStatus = votes[key] === 'approve' ? 'Approved' : (votes[key] === 'retry' ? 'Retry requested' : '');
     return `
-      <div class="updog-item${voteClass}" data-updog="${key}" title="${item.idea}">
+      <div class="updog-item${voteClass}" data-updog="${key}" data-surface="${item.surface || item.title}" title="${item.idea}">
         <div class="updog-num">${categoryIndex + 1}</div>
         <div class="updog-kicker">${label}</div>
         <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
@@ -1131,6 +1201,13 @@ function getQuoteForToday(storageKey, quotes) {
       </div>`;
   }).join('');
 })();
+
+function copySuggestedTweet() {
+  const text = document.getElementById('tweet-text')?.textContent || '';
+  if (navigator.clipboard && text) navigator.clipboard.writeText(text);
+  const count = document.getElementById('tweet-count');
+  if (count) count.textContent = 'Copied · ' + text.length + ' / 280';
+}
 
 function escapeActionHtml(value) {
   return String(value || '').replace(/[&<>"']/g, function(ch) {

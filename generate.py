@@ -556,6 +556,18 @@ UPDOG_ACTION_STEPS_JS = """{
     {title:"Friction audit", ask:"Where did the app feel slow, vague, ugly, or unnecessary when you used it?", action:"Remove or rewrite one piece of friction before adding another shiny widget."},
     {title:"Recovery command", ask:"If the battery score is low, should the app prescribe recovery, training, sunlight, food, or stress reduction first?", action:"Write one if-low-then-do rule that would actually help you today."}
   ],
+  evofund:[
+    {title:"Entropy audit", ask:"Which holding, market, or bot position reduces entropy most clearly today?", action:"Write one clean Evolution Fund thesis line tying price, catalyst, and entropy reduction together."},
+    {title:"Debt-paydown trigger", ask:"Is HG.CN or another position near a sell/risk-management threshold that should become cash discipline?", action:"Check the highest-interest debt/paydown trigger and name the next staged move."},
+    {title:"Bot book inspection", ask:"Which bot position is thesis, which is drift, and which is just a tiny gremlin in a tuxedo?", action:"Review one Polymarket or bot position and decide hold, trim, or leave untouched."},
+    {title:"Macro to allocation", ask:"What current macro headline changes actual allocation rather than just cortisol?", action:"Translate one world headline into a portfolio action: buy, wait, hedge, or ignore."}
+  ],
+  botr:[
+    {title:"One install path", ask:"What is the fastest Bot on the Rise install pitch Miguel, Joseph, or James could test today?", action:"Draft one BOTR pitch that sells a concrete bot outcome, not AI incense."},
+    {title:"Bot proof loop", ask:"What proof would make BOTR feel inevitable: screenshot, demo video, before/after workflow, or customer quote?", action:"Create one tiny proof asset for a bot workflow today."},
+    {title:"Customer bottleneck", ask:"Which business owner pain is urgent enough to pay for: missed leads, slow follow-up, admin sludge, or content bottlenecks?", action:"Pick one BOTR customer pain and map the bot from trigger to result."},
+    {title:"Offer knife", ask:"What can BOTR cut from the offer so the first sale is obvious?", action:"Rewrite the offer as one bot, one buyer, one measurable win."}
+  ],
   signal:[
     {title:"Remove one thing", ask:"What can come out of Novairecito today: duplicate block, weak feed, stale metric, noisy widget, or vanity data?", action:"Name one thing to remove so Signal gets sharper instead of fatter."},
     {title:"Add one signal", ask:"What one thing should Novaire Signal add: product telos question, user test reminder, retreat deposit scoreboard, or personal cockpit action?", action:"Add or draft one block that compounds the product instead of decorating the dashboard."},
@@ -569,6 +581,16 @@ UPDOG_ACTION_STEPS_JS = """{
     {title:"X scanner to clip", ask:"Which X signal at the top of the feed deserves Novaire's interpretation?", action:"Choose one top-engagement post and turn it into a clip thesis plus two hooks."}
   ]
 }"""
+
+TWEET_TEMPLATES_JS = """[
+  {project:"Evolution Fund", text:"Value flows to whoever reduces entropy. The market calls it alpha when it works and heresy right before it works. Today’s job: separate signal from expensive theatre."},
+  {project:"Novaire Signal", text:"A dashboard should not be a Christmas tree. If a widget does not change a decision, it is just anxiety with CSS."},
+  {project:"MOTR", text:"Modern masculinity does not need another slogan. It needs sleep, strength, courage, honest conversation, and fewer linen-pants gurus selling fog."},
+  {project:"BOTR", text:"Most businesses do not need 'AI transformation.' They need one bot that replies faster than their hungover receptionist and never forgets the follow-up."},
+  {project:"Energy Maxxing", text:"Productivity advice after bad sleep is civilization pretending the battery icon is decorative. Recover first, conquer second."},
+  {project:"Retreat", text:"The best retreat is not an escape from real life. It is a pressure chamber where weak habits confess and stronger standards walk out with a passport stamp."},
+  {project:"Podcast", text:"The current thing is rarely the point. The point is what it reveals about incentives, status, fear, courage, and the tiny monarchies people run inside their heads."}
+]"""
 
 BOOKS_JS = """[
   {title:"Poor Charlie's Almanack", meta:"Charlie Munger · Self-Improvement/Investing", summary:"Mental models from Berkshire's vice-chairman. The most practical philosophy book disguised as a business text."},
@@ -618,6 +640,53 @@ def fmt_pct(p):
     cls = "positive" if p >= 0 else "negative"
     sign = "+" if p >= 0 else ""
     return f'<span class="{cls}">{sign}{p:.2f}%</span>'
+
+def build_suggested_tweet(gs_meta=None, fed_signal=None, zh_news=None):
+    """Create one witty X draft from active projects plus the current feed/zeitgeist."""
+    templates = [
+        {"project": "Evolution Fund", "text": "Value flows to whoever reduces entropy. The market calls it alpha when it works and heresy right before it works. Today’s job: separate signal from expensive theatre."},
+        {"project": "Novaire Signal", "text": "A dashboard should not be a Christmas tree. If a widget does not change a decision, it is just anxiety with CSS."},
+        {"project": "MOTR", "text": "Modern masculinity does not need another slogan. It needs sleep, strength, courage, honest conversation, and fewer linen-pants gurus selling fog."},
+        {"project": "BOTR", "text": "Most businesses do not need 'AI transformation.' They need one bot that replies faster than their hungover receptionist and never forgets the follow-up."},
+        {"project": "Energy Maxxing", "text": "Productivity advice after bad sleep is civilization pretending the battery icon is decorative. Recover first, conquer second."},
+        {"project": "Retreat", "text": "The best retreat is not an escape from real life. It is a pressure chamber where weak habits confess and stronger standards walk out with a passport stamp."},
+        {"project": "Podcast", "text": "The current thing is rarely the point. The point is what it reveals about incentives, status, fear, courage, and the tiny monarchies people run inside their heads."},
+    ]
+    item = templates[day_of_year() % len(templates)].copy()
+    hook_source = "House thesis"
+    hook = ""
+    feed_path = os.path.join(os.path.dirname(__file__), "feed.json")
+    try:
+        with open(feed_path, "r", encoding="utf-8") as f:
+            feed = json.load(f)
+        posts = feed.get("posts") or feed.get("items") or []
+        if posts:
+            post = posts[day_of_year() % min(len(posts), 5)]
+            raw = (post.get("text") or post.get("content") or post.get("title") or "").strip()
+            handle = post.get("handle") or post.get("author") or "X"
+            if raw:
+                hook = " Zeitgeist: " + raw.split("\n")[0][:82].rstrip(" .") + "."
+                hook_source = f"X feed · {handle}"
+    except Exception:
+        pass
+    if not hook and zh_news:
+        first = zh_news[0] if isinstance(zh_news, list) and zh_news else None
+        if isinstance(first, dict):
+            title = first.get("title") or first.get("headline")
+        else:
+            title = str(first) if first else ""
+        if title:
+            hook = " Zeitgeist: " + title[:82].rstrip(" .") + "."
+            hook_source = "ZeroHedge / news feed"
+    text = item["text"]
+    if item["project"] == "Evolution Fund" and gs_meta and gs_meta.get("roi_pct_str"):
+        text += f" Portfolio ROI: {gs_meta['roi_pct_str']}."
+    if item["project"] == "Novaire Signal" and fed_signal and fed_signal.get("days_until") is not None:
+        text += f" FOMC in {fed_signal['days_until']} days; cortisol is not a strategy."
+    full = (text + hook).strip()
+    if len(full) > 280:
+        full = full[:277].rstrip(" ,.;:-") + "…"
+    return {"project": item["project"], "text": full, "hook_source": hook_source, "chars": len(full)}
 
 def get_zodiac():
     now = datetime.now(timezone.utc)
@@ -1611,7 +1680,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None):
 
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -2029,6 +2098,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
+    .tweet-card{{border-color:rgba(201,161,91,.22);background:linear-gradient(145deg,rgba(201,161,91,.07),rgba(255,255,255,.025))}}
+    .tweet-top{{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}}
+    .tweet-chip{{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(201,161,91,.08)}}
+    .tweet-source{{font-size:.58rem;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}}
+    .tweet-text{{font-family:var(--serif);font-size:1.02rem;line-height:1.48;color:var(--text);margin:0 0 12px}}
+    .tweet-actions{{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}}
+    .tweet-count{{font-size:.58rem;color:var(--mute)}}
     .keystone-row{{display:flex;width:100%;box-sizing:border-box;align-items:stretch;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;background:rgba(0,0,0,.22)}}
     .keystone-row:focus-within{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}}
     .keystone-input{{flex:1 1 auto;width:auto;min-width:0;box-sizing:border-box;border:0;background:transparent;color:var(--text);border-radius:0;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
@@ -2560,8 +2636,25 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks, one click to approve the next implementation.</div>
+    <div class="updog-intro">Daily product senate: seven concise build tasks across MOTR, BOTR, Evolution Fund, Signal, energy, retreat, and clips.</div>
     <div class="updog-grid" id="updog-grid"></div>
+  </div>
+
+  <!-- SUGGESTED TWEET -->
+  <div class="card tweet-card" id="suggested-tweet-card" data-suggested-tweet="verified">
+    <div class="card-title">🪶 Suggested Tweet</div>
+    <div class="tweet-top">
+      <div class="tweet-chip" id="tweet-project">{escape((suggested_tweet or {}).get('project', 'Novaire Signal'))}</div>
+      <div class="tweet-source" id="tweet-source">{escape((suggested_tweet or {}).get('hook_source', 'House thesis'))}</div>
+    </div>
+    <p class="tweet-text" id="tweet-text">{escape((suggested_tweet or {}).get('text', 'Signal over noise. Build the thing, cut the theatre, let the work become the argument.'))}</p>
+    <div class="tweet-actions">
+      <span class="tweet-count" id="tweet-count">{(suggested_tweet or {}).get('chars', 86)} / 280</span>
+      <div class="updog-actions">
+        <button class="updog-btn updog-retry" type="button" onclick="copySuggestedTweet()">Copy</button>
+        <a class="updog-btn updog-approve" id="tweet-intent" href="https://x.com/intent/tweet?text={requests.utils.quote((suggested_tweet or {}).get('text', 'Signal over noise. Build the thing, cut the theatre, let the work become the argument.'))}" target="_blank" rel="noopener">Open X</a>
+      </div>
+    </div>
   </div>
 
   <!-- DAILY ACTION STEPS -->
@@ -2591,6 +2684,7 @@ const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const MEDITATIONS = {MEDITATIONS_JS};
 const UPDOG_SUGGESTIONS = {UPDOG_SUGGESTIONS_JS};
 const UPDOG_ACTION_STEPS = {UPDOG_ACTION_STEPS_JS};
+const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
 function getQuoteForToday(storageKey, quotes) {{
   const today = new Date().toDateString();
@@ -2668,6 +2762,8 @@ function getQuoteForToday(storageKey, quotes) {{
     ['motr', 'Man On The Rise Game'],
     ['retreat', 'Retreat'],
     ['energy', 'Energy Maxxing App'],
+    ['evofund', 'Evolution Fund'],
+    ['botr', 'Bot On The Rise'],
     ['signal', 'Novaire Signal'],
     ['podcast', 'Podcast / Clips']
   ];
@@ -2687,6 +2783,16 @@ function getQuoteForToday(storageKey, quotes) {{
       verbs:['make','test','score','compress','personalize','enforce'],
       bottlenecks:['too many questions','vague advice','no proof loop','ignoring sleep debt','low daily retention','no obvious first action']
     }},
+    evofund: {{
+      surfaces:['portfolio thesis row','debt-paydown trigger','Polymarket manual book','uranium and AI watchlist','risk ledger','macro catalyst note'],
+      verbs:['rank','hedge','trim','press','audit','wait'],
+      bottlenecks:['headline addiction','unclear action threshold','stale thesis','position drift','no cash discipline','overweight vibes']
+    }},
+    botr: {{
+      surfaces:['first install offer','demo proof asset','lead follow-up bot','customer pain map','pricing line','Miguel-Joseph-James handoff'],
+      verbs:['sell','demo','compress','prove','install','package'],
+      bottlenecks:['AI fog instead of concrete ROI','unclear buyer','no demo proof','too many bot ideas','weak follow-up','offer too abstract']
+    }},
     signal: {{
       surfaces:['daily cockpit layout','Updog approval workflow','Thailand expat brief','keystone action step','signal/noise pruning','implementation handoff copy'],
       verbs:['sharpen','automate','trim','rank','connect','verify'],
@@ -2699,23 +2805,36 @@ function getQuoteForToday(storageKey, quotes) {{
     }}
   }};
   function pickFrom(list, salt) {{ return list[(seed + dayIndex * 7 + salt) % list.length]; }}
+  function recentUpdogHistory() {{
+    try {{ return JSON.parse(localStorage.getItem('novaire-updog-history') || '[]').slice(-12); }} catch(e) {{ return []; }}
+  }}
   function synthesizeUpdogSuggestion(key, label, categoryIndex) {{
     const bank = iterationBank[key];
     const fallback = (UPDOG_SUGGESTIONS[key] || [])[0] || {{title:'Ship one iteration', idea:'Pick the next bottleneck and turn it into a concrete implementation task.', action:'Implement one focused product iteration.'}};
     if (!bank) return fallback;
-    const surface = pickFrom(bank.surfaces, categoryIndex * 3);
+    const history = recentUpdogHistory().filter(h => h.key === key).map(h => h.surface);
+    let surface = pickFrom(bank.surfaces, categoryIndex * 3);
+    for (let i = 0; i < bank.surfaces.length && history.includes(surface); i++) surface = pickFrom(bank.surfaces, categoryIndex * 3 + i + 1);
     const bottleneck = pickFrom(bank.bottlenecks, categoryIndex * 7 + 2);
+    const verb = pickFrom(bank.verbs || ['ship'], categoryIndex * 11 + 4);
     const title = surface.charAt(0).toUpperCase() + surface.slice(1);
     return {{
       title: title,
-      idea: 'Fix ' + bottleneck + ' in ' + label + '.',
-      action: 'Update the ' + surface + ' to fix ' + bottleneck + '.'
+      surface: surface,
+      idea: verb.charAt(0).toUpperCase() + verb.slice(1) + ' ' + bottleneck + ' in ' + label + '.',
+      action: verb.charAt(0).toUpperCase() + verb.slice(1) + ' the ' + surface + ' to fix ' + bottleneck + '.'
     }};
   }}
   window.handleUpdogVote = function(key, kind, url) {{
     votes[key] = kind;
     localStorage.setItem(voteKey, JSON.stringify(votes));
     const row = document.querySelector('[data-updog="' + key + '"]');
+    try {{
+      const hist = recentUpdogHistory();
+      const rowTitle = row ? (row.getAttribute('data-surface') || key) : key;
+      hist.push({{date: today, key: key, vote: kind, surface: rowTitle}});
+      localStorage.setItem('novaire-updog-history', JSON.stringify(hist.slice(-40)));
+    }} catch(e) {{}}
     if (row) {{
       row.classList.add('voted');
       const status = row.querySelector('.updog-status');
@@ -2732,7 +2851,7 @@ function getQuoteForToday(storageKey, quotes) {{
     const voteClass = votes[key] ? ' voted' : '';
     const voteStatus = votes[key] === 'approve' ? 'Approved' : (votes[key] === 'retry' ? 'Retry requested' : '');
     return `
-      <div class="updog-item${{voteClass}}" data-updog="${{key}}" title="${{item.idea}}">
+      <div class="updog-item${{voteClass}}" data-updog="${{key}}" data-surface="${{item.surface || item.title}}" title="${{item.idea}}">
         <div class="updog-num">${{categoryIndex + 1}}</div>
         <div class="updog-kicker">${{label}}</div>
         <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
@@ -2747,6 +2866,13 @@ function getQuoteForToday(storageKey, quotes) {{
       </div>`;
   }}).join('');
 }})();
+
+function copySuggestedTweet() {{
+  const text = document.getElementById('tweet-text')?.textContent || '';
+  if (navigator.clipboard && text) navigator.clipboard.writeText(text);
+  const count = document.getElementById('tweet-count');
+  if (count) count.textContent = 'Copied · ' + text.length + ' / 280';
+}}
 
 function escapeActionHtml(value) {{
   return String(value || '').replace(/[&<>"']/g, function(ch) {{
@@ -3363,6 +3489,8 @@ def main():
         print("  🌍 Top 5 Economies hidden until next biweekly Monday")
         economies = []
 
+    suggested_tweet = build_suggested_tweet(gs_meta=gs_meta, fed_signal=fed_signal, zh_news=zh_news)
+
     print("  🎨 Generating HTML...")
     html = render_html(
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
@@ -3373,7 +3501,8 @@ def main():
         poly_html=poly_html,
         alpaca_html=alpaca_html,
         fed_signal=fed_signal,
-        economies=economies
+        economies=economies,
+        suggested_tweet=suggested_tweet
     )
 
     print("  📦 Generating portfolio page...")
