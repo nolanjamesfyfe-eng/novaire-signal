@@ -2,11 +2,26 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-05T08:02:08.201602+00:00",
+  "fetchedAt": "2026-07-05T10:00:51.638215+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [],
   "posts": [
+    {
+      "id": "2073697008108339701",
+      "text": "US Labor Market Source: Robert Sinn",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-07-05T09:14:28+00:00",
+      "createdAtMs": 1783242868000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2073697008108339701#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2073613531077816685",
       "text": "RUN CMD:///{[~DRINK VIP STRETCHING CRONIFÍQUENLO GRIPPING DICHO IF FELLOW WTO]}\\\\\\",
@@ -19,7 +34,7 @@
       "url": "https://x.com/White_Rabbit_OG/status/2073613531077816685#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -32,21 +47,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/zerohedge/status/2073607834323812377#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2073592476770644296",
-      "text": "You are doomed when your creativity exceeds your body of knowledge and when your imagination exceeds your capacity to remember.",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-07-05T02:19:06+00:00",
-      "createdAtMs": 1783217946000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/nntaleb/status/2073592476770644296#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
