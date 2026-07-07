@@ -2626,7 +2626,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
     <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: seven concise build tasks across MOTR, BOTR, Evolution Fund, Signal, energy, retreat, and clips.</div>
+    <div class="updog-intro">Daily product senate: five concise build tasks across Podcast / Clips, Signal, MOTR, retreat, and energy.</div>
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
@@ -2799,18 +2799,14 @@ function getQuoteForToday(storageKey, quotes) {{
     ['signal', 'Novaire Signal'],
     ['motr', 'Man On The Rise Game'],
     ['retreat', 'Retreat'],
-    ['energy', 'Energy Maxxing App'],
-    ['evofund', 'Evolution Fund'],
-    ['botr', 'Bot On The Rise']
+    ['energy', 'Energy Maxxing App']
   ];
   const priorityMeta = {{
     podcast: {{rank:1, label:'AI pick'}},
     signal: {{rank:2, label:'Workflow'}},
     motr: {{rank:3, label:'Product'}},
     retreat: {{rank:4, label:'Revenue'}},
-    energy: {{rank:5, label:'Habit'}},
-    evofund: {{rank:6, label:'Capital'}},
-    botr: {{rank:7, label:'Leverage'}}
+    energy: {{rank:5, label:'Habit'}}
   }};
   const iterationBank = {{
     motr: {{
