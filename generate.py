@@ -2627,9 +2627,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="updog-intro">What is the one thing you'll feel good about if it gets done today?</div>
     <div class="keystone-row">
       <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
-      <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Done</button>
+      <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
     </div>
     <div id="keystone-status" style="margin-top:10px;color:var(--muted);font-size:.82rem">Keystone streak: 0 days.</div>
+    <div id="keystone-yesterday" style="margin-top:8px;color:var(--muted);font-size:.82rem"></div>
   </div>
 
   <!-- DAILY UPDOG PRODUCT VOTE -->
@@ -2723,22 +2724,25 @@ function getQuoteForToday(storageKey, quotes) {{
   const input = document.getElementById('keystone-input');
   const button = document.getElementById('keystone-done');
   const status = document.getElementById('keystone-status');
+  const yesterdayBox = document.getElementById('keystone-yesterday');
   if (!input || !button || !status) return;
   const today = new Date().toDateString();
   const key = 'novaire-keystone-priority';
-  const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":"","doneDates":[]}}');
+  const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":"","doneDates":[],"history":[]}}');
+  data.history = Array.isArray(data.history) ? data.history : [];
   if (!Array.isArray(data.doneDates)) data.doneDates = data.lastDone ? [data.lastDone] : [];
-  if (data.lastDone && !data.doneDates.includes(data.lastDone)) data.doneDates.push(data.lastDone);
+  // Today's keystone is SET, not completed. Streaks count completed prior days.
+  data.doneDates = data.doneDates.filter(d => d !== today);
   input.value = data.date === today ? (data.text || '') : '';
   function dayBefore(dateStr) {{
     const d = new Date(dateStr);
     d.setDate(d.getDate() - 1);
     return d.toDateString();
   }}
+  const yesterday = dayBefore(today);
   function calculateStreak(doneDates) {{
     const done = new Set(doneDates || []);
-    if (!done.size) return 0;
-    let cursor = done.has(today) ? today : dayBefore(today);
+    let cursor = yesterday;
     let streak = 0;
     while (done.has(cursor)) {{
       streak += 1;
@@ -2746,15 +2750,34 @@ function getQuoteForToday(storageKey, quotes) {{
     }}
     return streak;
   }}
+  function findHistory(dateStr) {{
+    return [...data.history].reverse().find(item => item && item.date === dateStr && item.text);
+  }}
+  function renderYesterdayPrompt() {{
+    if (!yesterdayBox) return;
+    const y = findHistory(yesterday);
+    if (!y || data.doneDates.includes(yesterday) || data.yesterdayAnswered === yesterday) {{
+      yesterdayBox.innerHTML = '';
+      return;
+    }}
+    yesterdayBox.innerHTML = 'Yesterday: <span style="color:var(--text)">' + escapeActionHtml(y.text) + '</span> · completed? <button class="updog-btn updog-approve" type="button" onclick="answerYesterdayKeystone(true)">Yes</button> <button class="updog-btn updog-retry" type="button" onclick="answerYesterdayKeystone(false)">No</button>';
+  }}
   function persist(renderSteps) {{
     data.text = input.value;
     data.date = today;
     data.streak = calculateStreak(data.doneDates);
     localStorage.setItem(key, JSON.stringify(data));
-    const completed = data.doneDates.includes(today);
-    status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' day' + ((data.streak || 0) === 1 ? '' : 's') + (completed ? ' · completed today.' : ' · mark Done to extend it.');
+    const setToday = Boolean(String(data.text || '').trim());
+    status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' day' + ((data.streak || 0) === 1 ? '' : 's') + (setToday ? ' · today’s Keystone is set.' : ' · set today’s Keystone.');
+    renderYesterdayPrompt();
     if (renderSteps && typeof renderActionSteps === 'function') renderActionSteps();
   }}
+  window.answerYesterdayKeystone = function(completed) {{
+    if (completed && !data.doneDates.includes(yesterday)) data.doneDates.push(yesterday);
+    data.yesterdayAnswered = yesterday;
+    data.lastDone = completed ? yesterday : (data.lastDone === yesterday ? '' : data.lastDone);
+    persist(true);
+  }};
   input.addEventListener('input', function() {{ persist(true); }});
   button.addEventListener('click', function() {{
     const text = input.value.trim();
@@ -2762,10 +2785,11 @@ function getQuoteForToday(storageKey, quotes) {{
       status.textContent = 'Write the keystone first; no empty victories for the scoreboard.';
       return;
     }}
-    if (!data.doneDates.includes(today)) data.doneDates.push(today);
-    data.lastDone = today;
-    data.history = Array.isArray(data.history) ? data.history : [];
-    data.history.push({{date: today, text: text}});
+    data.text = text;
+    data.date = today;
+    const existingToday = data.history.find(item => item && item.date === today);
+    if (existingToday) existingToday.text = text;
+    else data.history.push({{date: today, text: text}});
     data.history = data.history.slice(-30);
     persist(true);
   }});
