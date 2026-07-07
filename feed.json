@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-07T03:14:29.475565+00:00",
+  "fetchedAt": "2026-07-07T03:17:27.780679+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2074327571408257289",
+      "text": "Zelensky Touts \"Battle In The Sky\" As Key To Winning Asymmetric Fight With Russia https://www.zerohedge.com/geopolitical/zelensky-touts-battle-sky-key-winning-asymmetric-fight-russia",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-07T03:00:06+00:00",
+      "createdAtMs": 1783393206000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2074327571408257289#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2074323764435976663",
       "text": "🎇🇺🇸For first time in history a shuttered US #Nuclear power plant is being restarted as Palisades in #Michigan readies to return to service📶⚛️⚡️plus regulators are now reviewing plans to build 2 x 300MW small modular reactors at Palisades too!🤠🐂#Uranium https://www.michiganpublic.org/environment-climate-change/2026-07-06/federal-regulators-begin-review-of-plans-for-small-nuclear-reactors-at-palisades-plant",
@@ -21,7 +36,7 @@
       "url": "https://x.com/quakes99/status/2074323764435976663#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/BarbarianCap/status/2074321891301486706#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2074321884783530457",
-      "text": "This is basically the $LINC and $UTI thesis. We need to re-skill millions of workers and the ones who get re-skilled first, will get huge wages due to the shortages. A few thousand student body uptick, does a lot for a business with high fixed costs. Do the math. Think the Technical College trade has real legs...",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-07-07T02:37:31+00:00",
-      "createdAtMs": 1783391851000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/hkuppy/status/2074321884783530457#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,

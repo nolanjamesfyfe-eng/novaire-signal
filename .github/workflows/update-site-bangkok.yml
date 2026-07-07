@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: signal-site-refresh
+  cancel-in-progress: false
+
 jobs:
   build-site:
     runs-on: ubuntu-latest
@@ -16,12 +20,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -38,8 +42,16 @@ jobs:
 
       - name: Commit and push generated pages
         run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Scheduled runs can overlap with Hermes' local auto-refresh commits.
+          # Rebase onto the latest main before staging generated files so this
+          # job does not fail with a non-fast-forward push after doing the work.
+          git fetch origin main
+          git rebase origin/main
 
           # Stage generated outputs (stats.json is gitignored, so force-add when present).
           [ -f index.html ] && git add index.html
@@ -50,7 +62,10 @@ jobs:
 
           if git diff --staged --quiet; then
             echo "No generated changes to commit"
-          else
-            git commit -m "chore: 7am Bangkok refresh $(date -u '+%Y-%m-%d %H:%M UTC')"
-            git push
+            exit 0
           fi
+
+          git commit -m "chore: 7am Bangkok refresh $(date -u '+%Y-%m-%d %H:%M UTC')"
+
+          # One retry covers a remote update that lands between commit and push.
+          git push || { git fetch origin main && git rebase origin/main && git push; }

@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: signal-feed-refresh
+  cancel-in-progress: false
+
 jobs:
   fetch-feed:
     runs-on: ubuntu-latest
@@ -16,12 +20,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -33,12 +37,21 @@ jobs:
 
       - name: Commit and push feed.json
         run: |
+          set -euo pipefail
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Avoid non-fast-forward failures when another scheduled refresh lands first.
+          git fetch origin main
+          git rebase origin/main
+
           git add feed.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
+            exit 0
           else
             git commit -m "chore: Update signal feed $(date -u '+%Y-%m-%d %H:%M UTC')"
-            git push
           fi
+
+          git push || { git fetch origin main && git rebase origin/main && git push; }
