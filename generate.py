@@ -642,19 +642,21 @@ def fmt_pct(p):
     return f'<span class="{cls}">{sign}{p:.2f}%</span>'
 
 def build_suggested_tweet(gs_meta=None, fed_signal=None, zh_news=None):
-    """Create one actual X draft from Novaire's live interests, not a news update."""
-    core_angles = [
-        {"project": "Relationships", "text": "The best relationships are not built by avoiding conflict. They are built by making truth survivable enough that both people stop needing theatre."},
-        {"project": "Trickster", "text": "The trickster is not just the clown. He is the part of the psyche that smuggles truth past the guards while the respectable parts are still drafting a committee memo."},
-        {"project": "Podcast", "text": "A good podcast topic is not 'what happened today?' It is: what did today reveal about incentives, fear, status, courage, desire, or the little dictatorships people run inside themselves?"},
-        {"project": "MOTR", "text": "Most men do not need another productivity system. They need one honest conversation, one hard workout, one clean apology, and one standard they stop negotiating with."},
-        {"project": "Novaire Signal", "text": "Signal is not more information. Signal is the sentence that changes what you do next."},
-        {"project": "Evolution Fund", "text": "Value flows to whoever reduces entropy. Energy, compute, capital, relationships: different arenas, same law. Order compounds. Chaos invoices."},
-        {"project": "Energy Maxxing", "text": "Your nervous system is not a decorative subplot. Bad sleep turns ambition into theatre with a calendar invite."},
+    """Create one non-cringe X draft: specific, copyable, and thesis-led."""
+    drafts = [
+        {"project": "Relationships", "text": "A relationship usually does not die when people disagree. It dies when both people learn which truths are too expensive to say."},
+        {"project": "Relationships", "text": "The real green flag is not chemistry. It is repair speed: how quickly two people can tell the truth, lower the weapons, and return to the same side."},
+        {"project": "Trickster", "text": "The trickster matters because polite society lies with a straight face. The joke gets through the locked door first."},
+        {"project": "Trickster", "text": "Every serious man needs a little trickster in him. Not to become unserious — to stop confusing solemnity with truth."},
+        {"project": "Podcast", "text": "A strong podcast question: what are smart people pretending not to know because the answer would make their current identity expensive?"},
+        {"project": "Podcast", "text": "The best clips do not explain the news. They extract the pattern: incentives, status, fear, desire, courage. The headline is bait; the human machinery is the meal."},
+        {"project": "MOTR", "text": "Most men ask for confidence when what they need is evidence. Keep one promise to yourself before noon and watch the personality improve."},
+        {"project": "Novaire Signal", "text": "The point of a dashboard is not to display your life. It is to remove the next excuse."},
+        {"project": "Evolution Fund", "text": "Energy is not a sector. It is the cost of every possible future."},
+        {"project": "Energy Maxxing", "text": "If sleep is broken, productivity advice becomes cosplay. Fix the battery before negotiating with ambition."},
     ]
-    item = core_angles[day_of_year() % len(core_angles)].copy()
-    hook_source = "Novaire interests · relationships/trickster/podcast"
-    live_angle = ""
+    item = drafts[day_of_year() % len(drafts)].copy()
+    hook_source = "House thesis · relationships/trickster/podcast"
     feed_path = os.path.join(os.path.dirname(__file__), "feed.json")
     try:
         with open(feed_path, "r", encoding="utf-8") as f:
@@ -662,27 +664,15 @@ def build_suggested_tweet(gs_meta=None, fed_signal=None, zh_news=None):
         posts = feed.get("posts") or feed.get("items") or []
         if posts:
             post = posts[day_of_year() % min(len(posts), 5)]
-            raw = (post.get("text") or post.get("content") or post.get("title") or "").strip()
             handle = post.get("handle") or post.get("author") or "X"
-            if raw:
-                # Treat feed/news as an optional source of angle, not as the tweet itself.
-                # The visible tweet should be a usable Novaire-style post, not a news recap.
-                live_angle = ""
-                hook_source = f"Possible angle from @{handle} + house thesis"
+            hook_source = f"Possible angle from @{handle} · rewritten as house thesis"
     except Exception:
         pass
-    if not live_angle and zh_news:
-        first = zh_news[0] if isinstance(zh_news, list) and zh_news else None
-        title = first.get("title") if isinstance(first, dict) else (str(first) if first else "")
-        if title:
-            live_angle = ""
-            hook_source = "Possible news angle + house thesis"
-    text = item["text"]
     if item["project"] == "Evolution Fund" and gs_meta and gs_meta.get("roi_pct_str"):
-        text += f" Portfolio ROI: {gs_meta['roi_pct_str']}."
+        item["text"] += f" Portfolio ROI: {gs_meta['roi_pct_str']}."
     if item["project"] == "Novaire Signal" and fed_signal and fed_signal.get("days_until") is not None:
-        text += f" FOMC in {fed_signal['days_until']} days; cortisol is not a strategy."
-    full = (text + live_angle).strip()
+        item["text"] += f" FOMC in {fed_signal['days_until']} days; decision quality > cortisol."
+    full = item["text"].strip()
     if len(full) > 280:
         full = full[:277].rstrip(" ,.;:-") + "…"
     return {"project": item["project"], "text": full, "hook_source": hook_source, "chars": len(full)}
@@ -2805,14 +2795,23 @@ function getQuoteForToday(storageKey, quotes) {{
   const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
   const dayIndex = Math.floor((new Date().setHours(0,0,0,0) - new Date(new Date().getFullYear(),0,0)) / 86400000);
   const categories = [
+    ['podcast', 'Podcast / Clips'],
+    ['signal', 'Novaire Signal'],
     ['motr', 'Man On The Rise Game'],
     ['retreat', 'Retreat'],
     ['energy', 'Energy Maxxing App'],
     ['evofund', 'Evolution Fund'],
-    ['botr', 'Bot On The Rise'],
-    ['signal', 'Novaire Signal'],
-    ['podcast', 'Podcast / Clips']
+    ['botr', 'Bot On The Rise']
   ];
+  const priorityMeta = {{
+    podcast: {{rank:1, label:'AI pick'}},
+    signal: {{rank:2, label:'Workflow'}},
+    motr: {{rank:3, label:'Product'}},
+    retreat: {{rank:4, label:'Revenue'}},
+    energy: {{rank:5, label:'Habit'}},
+    evofund: {{rank:6, label:'Capital'}},
+    botr: {{rank:7, label:'Leverage'}}
+  }};
   const iterationBank = {{
     motr: {{
       surfaces:['relationship game onboarding','date-night mode','mastermind room mode','couples score report','question-category selector','post-game commitment screen'],
@@ -2858,6 +2857,18 @@ function getQuoteForToday(storageKey, quotes) {{
     const bank = iterationBank[key];
     const fallback = (UPDOG_SUGGESTIONS[key] || [])[0] || {{title:'Ship one iteration', idea:'Pick the next bottleneck and turn it into a concrete implementation task.', action:'Implement one focused product iteration.'}};
     if (!bank) return fallback;
+    if (key === 'podcast') return {{
+      title:'Hook/title generator',
+      surface:'hook/title generator',
+      idea:'Extract generic topics into a sharper Podcast / Clips generator: current interest + durable thesis + title + two hooks.',
+      action:'Extract the hook/title generator so each Podcast / Clips idea becomes one thesis, one title, and two non-generic hooks.'
+    }};
+    if (key === 'signal') return {{
+      title:'Ranked approval workflow',
+      surface:'Updog approval workflow',
+      idea:'Rank passive widgets by action value so Novaire sees the best build task first instead of scanning a flat list.',
+      action:'Rank the Updog approval workflow so the highest-leverage task appears first with a clear priority label.'
+    }};
     const history = recentUpdogHistory().filter(h => h.key === key).map(h => h.surface);
     let surface = pickFrom(bank.surfaces, categoryIndex * 3);
     for (let i = 0; i < bank.surfaces.length && history.includes(surface); i++) surface = pickFrom(bank.surfaces, categoryIndex * 3 + i + 1);
@@ -2890,6 +2901,7 @@ function getQuoteForToday(storageKey, quotes) {{
   }};
   grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
     const item = synthesizeUpdogSuggestion(key, label, categoryIndex);
+    const meta = priorityMeta[key] || {{rank: categoryIndex + 1, label:'Task'}};
     const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
     const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
     const approveUrl = 'https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=' + approveText.replace(/'/g, '%27');
@@ -2898,8 +2910,8 @@ function getQuoteForToday(storageKey, quotes) {{
     const voteStatus = votes[key] === 'approve' ? 'Approved' : (votes[key] === 'retry' ? 'Retry requested' : '');
     return `
       <div class="updog-item${{voteClass}}" data-updog="${{key}}" data-surface="${{item.surface || item.title}}" title="${{item.idea}}">
-        <div class="updog-num">${{categoryIndex + 1}}</div>
-        <div class="updog-kicker">${{label}}</div>
+        <div class="updog-num">${{meta.rank}}</div>
+        <div class="updog-kicker">${{label}} · ${{meta.label}}</div>
         <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
           <div class="updog-idea">${{item.action}}</div>
           <div class="updog-expand">Target: ${{item.title}}. Why: ${{item.idea}} Vote yes to build it, or Try Again for a sharper task.</div>
