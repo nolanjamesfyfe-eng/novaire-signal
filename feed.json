@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-07T14:00:55.761995+00:00",
+  "fetchedAt": "2026-07-07T14:01:45.220578+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2074493370177626555",
+      "text": "*UKMTO RECEIVES REPORT OF FURTHER INCIDENT IN HORMUZ STRAIT looks like #3",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-07T13:58:56+00:00",
+      "createdAtMs": 1783432736000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2074493370177626555#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2074492261409161370",
       "text": "This is the third Iranian attack on vessels in the Strait of Hormuz in the last 24 hours",
@@ -21,7 +36,7 @@
       "url": "https://x.com/JoshYoung/status/2074492261409161370#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2074489688123977963#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2074489574253076721",
-      "text": "Surprise!😊 >@WesternUranVan (CSE: $WUC OTC: $WSTRF) Reports a Greater Than 40% Grade Increase In The Final Assays of #Uranium Ore Deliveries from its Sunday Mine to Energy Fuels' White Mesa Mill⛏️🛻 resulting in a significantly larger final payment💰🤠🐂 https://investingnews.com/western-uranium-vanadium-reports-a-greater-than-40-grade-increase-in-the-final-assays-of-uranium-deliveries/",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-07-07T13:43:51+00:00",
-      "createdAtMs": 1783431831000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/quakes99/status/2074489574253076721#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
