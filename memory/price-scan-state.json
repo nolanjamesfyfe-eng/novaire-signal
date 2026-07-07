@@ -1,17 +1,11 @@
 {
+  "errors": {},
+  "iso": "2026-07-07T12:00:58Z",
+  "previous_timestamp": 1782410470,
   "prices": {
-    "BTC-USD": {
-      "market_time": 1782410465,
-      "price": 59608.45
-    },
-    "GC=F": {
-      "market_time": 1782409866,
-      "price": 4048.7
-    },
-    "SPY": {
-      "market_time": 1782410468,
-      "price": 733.23
-    }
+    "BTC-USD": 63346.45,
+    "GC=F": 4162.0,
+    "SPY": 751.28
   },
-  "timestamp": 1782410470
+  "timestamp": 1783425658
 }
