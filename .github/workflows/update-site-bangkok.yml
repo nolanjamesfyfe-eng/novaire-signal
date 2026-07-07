@@ -33,6 +33,12 @@ jobs:
         run: |
           pip install requests beautifulsoup4 yfinance
 
+      - name: Sync latest main before generating
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git rebase origin/main
+
       - name: Generate Novaire Signal + Portfolio
         env:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
@@ -46,12 +52,6 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Scheduled runs can overlap with Hermes' local auto-refresh commits.
-          # Rebase onto the latest main before staging generated files so this
-          # job does not fail with a non-fast-forward push after doing the work.
-          git fetch origin main
-          git rebase origin/main
 
           # Stage generated outputs (stats.json is gitignored, so force-add when present).
           [ -f index.html ] && git add index.html

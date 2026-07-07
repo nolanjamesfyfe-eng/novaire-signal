@@ -32,6 +32,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      - name: Sync latest main before fetching feed
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git rebase origin/main
+
       - name: Fetch tweets
         run: python3 scripts/fetch_feed.py
 
@@ -41,10 +47,6 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Avoid non-fast-forward failures when another scheduled refresh lands first.
-          git fetch origin main
-          git rebase origin/main
 
           git add feed.json
           if git diff --staged --quiet; then
