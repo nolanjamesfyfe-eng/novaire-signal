@@ -642,19 +642,19 @@ def fmt_pct(p):
     return f'<span class="{cls}">{sign}{p:.2f}%</span>'
 
 def build_suggested_tweet(gs_meta=None, fed_signal=None, zh_news=None):
-    """Create one witty X draft from active projects plus the current feed/zeitgeist."""
-    templates = [
-        {"project": "Evolution Fund", "text": "Value flows to whoever reduces entropy. The market calls it alpha when it works and heresy right before it works. Today’s job: separate signal from expensive theatre."},
-        {"project": "Novaire Signal", "text": "A dashboard should not be a Christmas tree. If a widget does not change a decision, it is just anxiety with CSS."},
-        {"project": "MOTR", "text": "Modern masculinity does not need another slogan. It needs sleep, strength, courage, honest conversation, and fewer linen-pants gurus selling fog."},
-        {"project": "BOTR", "text": "Most businesses do not need 'AI transformation.' They need one bot that replies faster than their hungover receptionist and never forgets the follow-up."},
-        {"project": "Energy Maxxing", "text": "Productivity advice after bad sleep is civilization pretending the battery icon is decorative. Recover first, conquer second."},
-        {"project": "Retreat", "text": "The best retreat is not an escape from real life. It is a pressure chamber where weak habits confess and stronger standards walk out with a passport stamp."},
-        {"project": "Podcast", "text": "The current thing is rarely the point. The point is what it reveals about incentives, status, fear, courage, and the tiny monarchies people run inside their heads."},
+    """Create one actual X draft from Novaire's live interests, not a news update."""
+    core_angles = [
+        {"project": "Relationships", "text": "The best relationships are not built by avoiding conflict. They are built by making truth survivable enough that both people stop needing theatre."},
+        {"project": "Trickster", "text": "The trickster is not just the clown. He is the part of the psyche that smuggles truth past the guards while the respectable parts are still drafting a committee memo."},
+        {"project": "Podcast", "text": "A good podcast topic is not 'what happened today?' It is: what did today reveal about incentives, fear, status, courage, desire, or the little dictatorships people run inside themselves?"},
+        {"project": "MOTR", "text": "Most men do not need another productivity system. They need one honest conversation, one hard workout, one clean apology, and one standard they stop negotiating with."},
+        {"project": "Novaire Signal", "text": "Signal is not more information. Signal is the sentence that changes what you do next."},
+        {"project": "Evolution Fund", "text": "Value flows to whoever reduces entropy. Energy, compute, capital, relationships: different arenas, same law. Order compounds. Chaos invoices."},
+        {"project": "Energy Maxxing", "text": "Your nervous system is not a decorative subplot. Bad sleep turns ambition into theatre with a calendar invite."},
     ]
-    item = templates[day_of_year() % len(templates)].copy()
-    hook_source = "House thesis"
-    hook = ""
+    item = core_angles[day_of_year() % len(core_angles)].copy()
+    hook_source = "Novaire interests · relationships/trickster/podcast"
+    live_angle = ""
     feed_path = os.path.join(os.path.dirname(__file__), "feed.json")
     try:
         with open(feed_path, "r", encoding="utf-8") as f:
@@ -665,25 +665,24 @@ def build_suggested_tweet(gs_meta=None, fed_signal=None, zh_news=None):
             raw = (post.get("text") or post.get("content") or post.get("title") or "").strip()
             handle = post.get("handle") or post.get("author") or "X"
             if raw:
-                hook = " Zeitgeist: " + raw.split("\n")[0][:82].rstrip(" .") + "."
-                hook_source = f"X feed · {handle}"
+                # Treat feed/news as an optional source of angle, not as the tweet itself.
+                # The visible tweet should be a usable Novaire-style post, not a news recap.
+                live_angle = ""
+                hook_source = f"Possible angle from @{handle} + house thesis"
     except Exception:
         pass
-    if not hook and zh_news:
+    if not live_angle and zh_news:
         first = zh_news[0] if isinstance(zh_news, list) and zh_news else None
-        if isinstance(first, dict):
-            title = first.get("title") or first.get("headline")
-        else:
-            title = str(first) if first else ""
+        title = first.get("title") if isinstance(first, dict) else (str(first) if first else "")
         if title:
-            hook = " Zeitgeist: " + title[:82].rstrip(" .") + "."
-            hook_source = "ZeroHedge / news feed"
+            live_angle = ""
+            hook_source = "Possible news angle + house thesis"
     text = item["text"]
     if item["project"] == "Evolution Fund" and gs_meta and gs_meta.get("roi_pct_str"):
         text += f" Portfolio ROI: {gs_meta['roi_pct_str']}."
     if item["project"] == "Novaire Signal" and fed_signal and fed_signal.get("days_until") is not None:
         text += f" FOMC in {fed_signal['days_until']} days; cortisol is not a strategy."
-    full = (text + hook).strip()
+    full = (text + live_angle).strip()
     if len(full) > 280:
         full = full[:277].rstrip(" ,.;:-") + "…"
     return {"project": item["project"], "text": full, "hook_source": hook_source, "chars": len(full)}
@@ -2727,27 +2726,50 @@ function getQuoteForToday(storageKey, quotes) {{
   if (!input || !button || !status) return;
   const today = new Date().toDateString();
   const key = 'novaire-keystone-priority';
-  const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":""}}');
+  const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":"","doneDates":[]}}');
+  if (!Array.isArray(data.doneDates)) data.doneDates = data.lastDone ? [data.lastDone] : [];
+  if (data.lastDone && !data.doneDates.includes(data.lastDone)) data.doneDates.push(data.lastDone);
   input.value = data.date === today ? (data.text || '') : '';
-  function save() {{
+  function dayBefore(dateStr) {{
+    const d = new Date(dateStr);
+    d.setDate(d.getDate() - 1);
+    return d.toDateString();
+  }}
+  function calculateStreak(doneDates) {{
+    const done = new Set(doneDates || []);
+    if (!done.size) return 0;
+    let cursor = done.has(today) ? today : dayBefore(today);
+    let streak = 0;
+    while (done.has(cursor)) {{
+      streak += 1;
+      cursor = dayBefore(cursor);
+    }}
+    return streak;
+  }}
+  function persist(renderSteps) {{
     data.text = input.value;
     data.date = today;
+    data.streak = calculateStreak(data.doneDates);
     localStorage.setItem(key, JSON.stringify(data));
-    status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' days' + (data.lastDone === today ? ' · completed today.' : '.');
-    if (typeof renderActionSteps === 'function') renderActionSteps();
+    const completed = data.doneDates.includes(today);
+    status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' day' + ((data.streak || 0) === 1 ? '' : 's') + (completed ? ' · completed today.' : ' · mark Done to extend it.');
+    if (renderSteps && typeof renderActionSteps === 'function') renderActionSteps();
   }}
-  input.addEventListener('input', save);
+  input.addEventListener('input', function() {{ persist(true); }});
   button.addEventListener('click', function() {{
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toDateString();
-    if (data.lastDone !== today) {{
-      data.streak = data.lastDone === yesterdayStr ? (data.streak || 0) + 1 : 1;
-      data.lastDone = today;
+    const text = input.value.trim();
+    if (!text) {{
+      status.textContent = 'Write the keystone first; no empty victories for the scoreboard.';
+      return;
     }}
-    save();
+    if (!data.doneDates.includes(today)) data.doneDates.push(today);
+    data.lastDone = today;
+    data.history = Array.isArray(data.history) ? data.history : [];
+    data.history.push({{date: today, text: text}});
+    data.history = data.history.slice(-30);
+    persist(true);
   }});
-  save();
+  persist(true);
 }})();
 
 (function renderUpdogVotes() {{
@@ -2884,20 +2906,33 @@ function renderActionSteps() {{
   const grid = document.getElementById('action-steps-grid');
   if (!grid) return;
   const today = new Date().toDateString();
-  const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":""}}');
+  const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":"","history":[]}}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {{
-    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will show one clean next action.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will turn that exact keystone into one clean next action.</div>';
     return;
   }}
+  const lower = task.toLowerCase();
+  function actionFor(text) {{
+    if (/tweet|x\b|post|thread/.test(lower)) return {{title:'Draft the actual tweet', ask:'Write one post from this keystone, not a vague theme.', action:'Create one 240-character draft, one sharper hook, and open X only after the sentence has teeth.'}};
+    if (/podcast|clip|record|episode|hook/.test(lower)) return {{title:'Turn it into a recording prompt', ask:'What is the durable idea beneath this topic?', action:'Write the thesis, two hooks, and three bullets; record the rough version before polishing the theatre.'}};
+    if (/relationship|date|romantic|family|friend|trickster|conversation/.test(lower)) return {{title:'Create one honest conversation', ask:'Who should this make you speak to more truthfully?', action:'Write one question or message that turns the keystone into a real conversation today.'}};
+    if (/retreat|deposit|villa|mastermind|cohort/.test(lower)) return {{title:'Move one man closer to yes', ask:'Who is the next concrete retreat prospect or proof asset?', action:'Send one direct nudge, update the deposit/status count, or create one proof asset that reduces buyer uncertainty.'}};
+    if (/energy|sleep|battery|health|workout|training|food/.test(lower)) return {{title:'Make the body obey the plan', ask:'What is the smallest physical proof this keystone moved?', action:'Log the metric, do the recovery/training action, and write the one energy leak to remove tomorrow.'}};
+    if (/signal|dashboard|novaire|updog|widget|prompt/.test(lower)) return {{title:'Sharpen the cockpit', ask:'What should this change in the dashboard or prompt loop?', action:'Cut one stale element or rewrite one prompt so the next decision is easier to make.'}};
+    if (/fund|portfolio|stock|uranium|ai|energy|trade|market/.test(lower)) return {{title:'Turn thesis into threshold', ask:'What price, catalyst, or evidence would change action?', action:'Write the if-this-then-that rule so the idea becomes an investment decision, not market cosplay.'}};
+    return {{title:'Start the smallest visible move', ask:'What proof can exist in 10 minutes?', action:'Set a 10-minute timer and create one artifact: draft, message, note, commit, screenshot, or decision.'}};
+  }}
+  const step = actionFor(task);
   const safeTask = escapeActionHtml(task);
   grid.innerHTML = `
     <div class="action-step main-action-step">
       <div class="action-step-num">1</div>
       <div class="action-step-copy">
-        <div class="action-step-kicker">Next Action</div>
-        <div class="action-step-title">Start the smallest visible move for: ${{safeTask}}</div>
-        <div class="action-step-ask">Set a 10-minute timer. Create one piece of proof that this moved forward.</div>
+        <div class="action-step-kicker">Personalized from today’s Keystone</div>
+        <div class="action-step-title">${{escapeActionHtml(step.title)}}: ${{safeTask}}</div>
+        <div class="action-step-ask">${{escapeActionHtml(step.ask)}}</div>
+        <div class="action-step-ask">${{escapeActionHtml(step.action)}}</div>
       </div>
     </div>`;
 }}
