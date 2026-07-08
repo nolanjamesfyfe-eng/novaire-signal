@@ -855,6 +855,14 @@ def fetch_bangkok_post():
                 href = ""
                 if link_el:
                     href = link_el.get("href") or link_el.get_text(" ", strip=True)
+                    # Bangkok Post RSS currently emits a self-closing <link/> tag
+                    # followed by the URL as a text sibling, which BeautifulSoup's
+                    # HTML parser leaves outside link_el.get_text(). Preserve the
+                    # live source URL instead of degrading to '#'.
+                    if not href and getattr(link_el, "next_sibling", None):
+                        sibling = str(link_el.next_sibling).strip()
+                        if sibling.startswith("http"):
+                            href = sibling
                 if (not href or href == "#") and guid_el:
                     href = guid_el.get_text(" ", strip=True)
                 raw_summary = desc_el.get_text(" ", strip=True) if desc_el else ""
