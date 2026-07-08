@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-08T06:02:22.754203+00:00",
+  "fetchedAt": "2026-07-08T06:22:56.250018+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2074735256683344287",
+      "text": "What Future Awaits Ukrainian Military-Aged Male Refugees In The EU? https://www.zerohedge.com/geopolitical/what-future-awaits-ukrainian-military-aged-male-refugees-eu",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-08T06:00:06+00:00",
+      "createdAtMs": 1783490406000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2074735256683344287#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2074705722500120679",
       "text": "UPDATE: OpenAI announces GPT-5.6 will be fully launched and publicly accessible on Thursday, July 9th.",
@@ -19,21 +34,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/WatcherGuru/status/2074705722500120679#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2074696254261452955",
-      "text": "\"F**k The USA\": Professor Delights Chicago Crowd With Anti-American And Anti-Border Rant https://www.zerohedge.com/political/fk-usa-professor-delights-chicago-crowd-anti-american-and-anti-border-rant",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-07-08T03:25:07+00:00",
-      "createdAtMs": 1783481107000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2074696254261452955#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
