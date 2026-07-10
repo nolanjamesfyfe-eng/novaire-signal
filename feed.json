@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-10T06:02:18.881343+00:00",
+  "fetchedAt": "2026-07-10T07:29:08.854591+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2075471356892795185",
+      "text": "Erdogan Taunts Israel & Greece After Trump Hands Turkey F-35, Sanctions Win https://www.zerohedge.com/geopolitical/erdogan-taunts-israel-greece-after-trump-hands-turkey-f-35-sanctions-win",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-10T06:45:06+00:00",
+      "createdAtMs": 1783665906000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2075471356892795185#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2075428211484483794",
       "text": "🇦🇺🚨🔥🚒 #Uranium #mining #stocks are up sharply in Friday trading on #Australia's #ASX with Cauldron $CXU UP +17% so far heading towards the weekend📈😎🍺 as #India puts the squeeze on U supplies⚛️⛽️🛒🇮🇳 to drive global U prices higher.🪗💲🛢️☢️ Here are some top gainers!👇🤠🐂🏄",
@@ -19,21 +34,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/quakes99/status/2075428211484483794#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2075427816926056497",
-      "text": "China's AI Models: The Definitive LLM Primer https://www.zerohedge.com/markets/chinas-ai-models-definitive-llm-primer",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-07-10T03:52:05+00:00",
-      "createdAtMs": 1783655525000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2075427816926056497#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
