@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-17T01:43:05.856659+00:00",
+  "fetchedAt": "2026-07-17T02:01:58.512142+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2077932574500909480",
+      "text": "Watchdog Uncovers Over $750 Million In Improper Unemployment Insurance Payments In New York https://www.zerohedge.com/political/watchdog-uncovers-over-750-million-improper-unemployment-insurance-payments-new-york",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-17T01:45:06+00:00",
+      "createdAtMs": 1784252706000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2077932574500909480#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2077928559184617966",
       "text": "Another shocking development",
@@ -21,7 +36,7 @@
       "url": "https://x.com/SantiagoAuFund/status/2077928559184617966#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/nntaleb/status/2077928210788942151#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2077928032447180800",
-      "text": "*TRUMP: URGES CONGRESS TO PASS SAVE AMERICA ACT *TRUMP: DIRECTED DHS TO REMOVE INELIGIBLE VOTER REGISTRATIONS",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-07-17T01:27:03+00:00",
-      "createdAtMs": 1784251623000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2077928032447180800#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
