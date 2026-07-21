@@ -2,14 +2,12 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-21T16:00:52.593171+00:00",
+  "fetchedAt": "2026-07-21T16:01:49.044157+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "hkuppy",
-    "quakes99",
     "JohnPolomny",
-    "wmiddelkoop",
     "White_Rabbit_OG"
   ],
   "posts": [
