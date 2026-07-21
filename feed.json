@@ -2,14 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-21T18:00:48.811831+00:00",
+  "fetchedAt": "2026-07-21T18:02:15.853647+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "JoshYoung",
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2079626466384646460",
+      "text": "\"Why am I reading this now?\"",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-07-21T17:56:01+00:00",
+      "createdAtMs": 1784656561000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/JoshYoung/status/2079626466384646460#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2079623468639773047",
       "text": "Convicted Illegal Migrant Murderer Sues Trump Over \"Emotional Distress\" https://www.zerohedge.com/political/convicted-illegal-migrant-murderer-sues-trump-over-emotional-distress",
@@ -22,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2079623468639773047#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -35,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/nntaleb/status/2079623030083317941#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2079622661374640270",
-      "text": "The AI boom is transforming one of the biggest deflationary forces into a key source of US inflation: Import prices for computer and electronic products surged +7.4% in the first 6 months of 2026, to 77.1 points, the highest since January 2016. This also marks a +8.0% YoY jump, the largest annual increase on record. This represents a historic reversal from a downtrend which persisted for over two decades. Between 2006 and 2019, computer and electronic product import prices fell -30%, as improving technology and manufacturing efficiency consistently pushed costs lower. Now, the AI investment boom is straining manufacturing capacity for semiconductors, servers, and electronic components, as companies race to build out AI infrastructure regardless of cost. The AI revolution has flipped technology from a long-term source of deflation into a major driver of inflation.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-07-21T17:40:54+00:00",
-      "createdAtMs": 1784655654000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2079622661374640270#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
