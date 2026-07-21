@@ -5,13 +5,13 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 28.6,
-    "humidity": 83,
+    "temp": 27.8,
+    "humidity": 84,
     "condition": "Overcast ☁️",
-    "aqi": 68,
+    "aqi": 69,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-07-21T18:01:42.304432+00:00"
+    "cached_at": "2026-07-21T22:00:06.462210+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -19,13 +19,13 @@
     "lat": 6.2442,
     "lon": -75.5812,
     "tz_offset": -5,
-    "temp": 27.9,
-    "humidity": 46,
-    "condition": "Mainly Clear 🌤",
-    "aqi": 36,
+    "temp": 26.7,
+    "humidity": 45,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 42,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-07-21T18:01:42.642525+00:00"
+    "cached_at": "2026-07-21T22:00:07.368495+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -33,13 +33,13 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 20.5,
-    "humidity": 69,
-    "condition": "Mainly Clear 🌤",
-    "aqi": 152,
+    "temp": 23.3,
+    "humidity": 61,
+    "condition": "Overcast ☁️",
+    "aqi": 154,
     "aqi_label": "Unhealthy",
     "ok": true,
-    "cached_at": "2026-07-21T18:01:42.980081+00:00"
+    "cached_at": "2026-07-21T22:00:08.231617+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -47,12 +47,12 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 11.5,
-    "humidity": 93,
-    "condition": "Light Drizzle 🌦",
-    "aqi": 50,
-    "aqi_label": "Good",
+    "temp": 11.6,
+    "humidity": 92,
+    "condition": "Overcast ☁️",
+    "aqi": 52,
+    "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-07-21T18:01:43.321114+00:00"
+    "cached_at": "2026-07-21T22:00:08.992385+00:00"
   }
 }
