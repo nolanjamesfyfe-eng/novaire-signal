@@ -2,17 +2,15 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-22T10:00:55.118988+00:00",
+  "fetchedAt": "2026-07-22T10:18:39.198900+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "nntaleb",
-    "tferriss",
+    "KobeissiLetter",
+    "BambroughKevin",
+    "quakes99",
     "BarbarianCap",
-    "JoshYoung",
-    "White_Rabbit_OG",
-    "colonelhomsi",
-    "HydroGraphInc"
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
