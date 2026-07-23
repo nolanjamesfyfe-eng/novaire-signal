@@ -2,13 +2,29 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-23T02:01:12.664430+00:00",
+  "fetchedAt": "2026-07-23T02:06:51.795729+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "White_Rabbit_OG"
+    "White_Rabbit_OG",
+    "HydroGraphInc"
   ],
   "posts": [
+    {
+      "id": "2080106903682642069",
+      "text": "House Passes Defense Policy Bill That Attaches SAVE America Act https://www.zerohedge.com/political/house-passes-defense-policy-bill-attaches-save-america-act",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-23T01:45:07+00:00",
+      "createdAtMs": 1784771107000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2080106903682642069#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2080105123158659483",
       "text": "Amazon, gig companies see spike in workers on SNAP and Medicaid, study shows https://www.washingtonpost.com/business/2026/07/22/amazon-gig-companies-see-spike-workers-snap-medicaid-study-shows/",
@@ -21,7 +37,7 @@
       "url": "https://x.com/BarbarianCap/status/2080105123158659483#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +50,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2080105008444440779#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2080102980766847217",
-      "text": "Everyone in research knows that think tanks do fake, non-citable research; it is the general public that is hoodwinked.",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-07-23T01:29:31+00:00",
-      "createdAtMs": 1784770171000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/nntaleb/status/2080102980766847217#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
