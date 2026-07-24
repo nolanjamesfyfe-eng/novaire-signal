@@ -2,10 +2,11 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-24T00:00:54.682473+00:00",
+  "fetchedAt": "2026-07-24T00:01:26.212088+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
+    "hkuppy",
     "White_Rabbit_OG"
   ],
   "posts": [
