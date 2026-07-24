@@ -60,12 +60,10 @@ HOLDINGS = [
     {"ticker": "_MOLY_FALLBACK", "display": "MOLY", "name": "GreenLand Resources", "shares": 5000, "currency": "CAD", "sector": "Molybdenum"},
 ]
 
-# Hardcoded fallback prices (USD) for tickers unavailable on Yahoo Finance
-FALLBACK_PRICES = {
-    "_MOLY_FALLBACK":  1.65,  # GreenLand Resources (MOLY.V) - CAD, verified Feb 18 2026
-    "_FVL_FALLBACK":   1.32,  # FreeGold Ventures (FVL.V) - CAD, verified Feb 18 2026
-    "_MAXX_FALLBACK":  1.12,  # Power Mining Corp (MAXX.V) - CAD, verified Feb 18 2026
-}
+# Never substitute an old remembered quote. Off-Yahoo holdings may use the
+# current Google Sheet mark (visibly labelled as a fallback); otherwise show
+# unavailable. A stale number is worse than no number on a signal dashboard.
+FALLBACK_PRICES = {}
 
 HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"], "display": h.get("display", h["ticker"].split(".")[0])} for h in HOLDINGS}
 SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
@@ -1319,10 +1317,10 @@ def fetch_commodities():
                                        "price": spot, "change": None}
         else:
             results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
-                                       "price": 88.80, "change": None}
+                                       "price": None, "change": None}
     except Exception:
         results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
-                                   "price": 88.80, "change": None}
+                                   "price": None, "change": None}
     return results
 
 def fetch_crypto():
