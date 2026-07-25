@@ -2,12 +2,11 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-25T06:01:13.960459+00:00",
+  "fetchedAt": "2026-07-25T06:10:39.077262+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "White_Rabbit_OG",
-    "HydroGraphInc"
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
