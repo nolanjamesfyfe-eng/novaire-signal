@@ -2,11 +2,15 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-25T09:39:49.606647+00:00",
+  "fetchedAt": "2026-07-25T10:00:52.687114+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "White_Rabbit_OG"
+    "hkuppy",
+    "JohnPolomny",
+    "BarbarianCap",
+    "White_Rabbit_OG",
+    "colonelhomsi"
   ],
   "posts": [
     {
