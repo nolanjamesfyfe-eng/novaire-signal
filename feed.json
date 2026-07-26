@@ -2,7 +2,7 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-26T12:00:53.950911+00:00",
+  "fetchedAt": "2026-07-26T12:02:09.560945+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
@@ -12,6 +12,21 @@
     "HydroGraphInc"
   ],
   "posts": [
+    {
+      "id": "2081348341770645821",
+      "text": "They are not blaming him for doing foreign policy. They are blaming him not not following THEIR foreign policy.",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-07-26T11:58:08+00:00",
+      "createdAtMs": 1785067088000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/nntaleb/status/2081348341770645821#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2081342546467274978",
       "text": "Russia Blasts Ukrainian Drone Mass Casualty Attack On Holiday Camp In Zaporizhzhia https://www.zerohedge.com/geopolitical/russia-blasts-ukrainian-drone-mass-casualty-attack-holiday-camp-zaporizhzhia",
@@ -24,7 +39,7 @@
       "url": "https://x.com/zerohedge/status/2081342546467274978#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -37,21 +52,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2081320739332903149#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2081319791717945356",
-      "text": "JUST IN: Binance Founder CZ says \"tough times (again).\" \"Self custody if you know how to keep your seedphrase safe.\"",
-      "author": "WatcherGuru",
-      "handle": "WatcherGuru",
-      "createdAt": "2026-07-26T10:04:42+00:00",
-      "createdAtMs": 1785060282000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/WatcherGuru/status/2081319791717945356#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
