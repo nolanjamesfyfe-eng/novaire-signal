@@ -2,12 +2,10 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-26T09:52:59.374403+00:00",
+  "fetchedAt": "2026-07-26T10:00:46.635534+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "quakes99",
-    "tferriss",
     "White_Rabbit_OG"
   ],
   "posts": [
@@ -28,7 +26,7 @@
     },
     {
       "id": "2081255288527618414",
-      "text": "JUST IN: Cryptocurrency exchange BitMart to shut down all operations. This is the second crypto exchange to shut down in under a week.",
+      "text": "Pinned: JUST IN: Cryptocurrency exchange BitMart to shut down all operations. This is the second crypto exchange to shut down in under a week.",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
       "createdAt": "2026-07-26T05:48:23+00:00",
