@@ -2,15 +2,30 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-26T13:04:53.405112+00:00",
+  "fetchedAt": "2026-07-26T14:00:55.360066+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "quakes99",
-    "White_Rabbit_OG",
-    "HydroGraphInc"
+    "BambroughKevin",
+    "JoshYoung",
+    "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2081371488129576973",
+      "text": "Meet Britain's New Cabinet Of Fakers, Fraudsters And Hangers-On https://www.zerohedge.com/geopolitical/meet-britains-new-cabinet-fakers-fraudsters-and-hangers",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-26T13:30:07+00:00",
+      "createdAtMs": 1785072607000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2081371488129576973#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2081362438725976070",
       "text": "JUST IN: Michael Saylor hints at buying more Bitcoin. \"We're gonna need another color.\"",
@@ -21,21 +36,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/WatcherGuru/status/2081362438725976070#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2081357646997680426",
-      "text": "France Orders Largest Peacetime Evacuation Since WWII As Wildfires Rage https://www.zerohedge.com/weather/france-orders-largest-peacetime-evacuation-wwii-wildfires-rage",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-07-26T12:35:07+00:00",
-      "createdAtMs": 1785069307000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2081357646997680426#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
