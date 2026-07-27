@@ -2,13 +2,12 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-27T12:00:53.712766+00:00",
+  "fetchedAt": "2026-07-27T12:01:42.014295+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "BambroughKevin",
     "nntaleb",
-    "wmiddelkoop",
     "White_Rabbit_OG"
   ],
   "posts": [
@@ -43,15 +42,15 @@
       "engagementScore": 0
     },
     {
-      "id": "2081611762231636013",
-      "text": "AI demand is becoming a key driver of China's economy: China's chip exports are up to a record ~$290 billion over the last 12 months. This figure has more than doubled over the last 3 years. At the same time, computer and component shipments are up to ~$240 billion, the highest since 2022. Power equipment exports are up to a record ~$190 billion, with the growth accelerating over the last 2 years. This brings China’s total AI-related exports up to ~$720 billion over the last 12 months, an all-time high. Western demand for China-made AI hardware is surging.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-07-27T05:24:53+00:00",
-      "createdAtMs": 1785129893000,
+      "id": "2081704020536701011",
+      "text": "Gold mining shares are dirt cheap again (compared to gold)",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-07-27T11:31:29+00:00",
+      "createdAtMs": 1785151889000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2081611762231636013#m",
+      "url": "https://x.com/wmiddelkoop/status/2081704020536701011#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
