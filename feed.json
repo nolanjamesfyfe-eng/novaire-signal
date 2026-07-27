@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-27T02:13:52.408462+00:00",
+  "fetchedAt": "2026-07-27T04:00:52.583681+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2081580360425410739",
+      "text": "China's Two-Front Squeeze On America's AI Build-Out https://www.zerohedge.com/ai/chinas-two-front-squeeze-americas-ai-build-out",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-07-27T03:20:06+00:00",
+      "createdAtMs": 1785122406000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2081580360425410739#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2081558402547712397",
       "text": "So much peace",
@@ -21,7 +36,7 @@
       "url": "https://x.com/JoshYoung/status/2081558402547712397#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/SantiagoAuFund/status/2081555739861279084#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2081553939724378353",
-      "text": "Morgan Stanley Breaks Down The New Paradigm In Asset Allocation And Portfolio Construction https://www.zerohedge.com/markets/morgan-stanley-breaks-down-new-paradigm-asset-allocation-and-portfolio-construction",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-07-27T01:35:07+00:00",
-      "createdAtMs": 1785116107000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2081553939724378353#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
