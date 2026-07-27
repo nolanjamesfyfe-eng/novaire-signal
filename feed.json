@@ -2,14 +2,30 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-27T17:37:30.204867+00:00",
+  "fetchedAt": "2026-07-27T18:00:53.163909+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "White_Rabbit_OG",
-    "colonelhomsi"
+    "zerohedge",
+    "JohnPolomny",
+    "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2081801044221211017",
+      "text": "dekulakization whether you like it or not",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-07-27T17:57:01+00:00",
+      "createdAtMs": 1785175021000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/BarbarianCap/status/2081801044221211017#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2081795076423123017",
       "text": "Bizarre that oil prices are down despite this:",
@@ -20,21 +36,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2081795076423123017#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2081793016994377888",
-      "text": "Amid 'Exhausting / Confusing' Iran Headlines, Goldman Partner Highlights The Rates Level Where Equities Will Struggle https://www.zerohedge.com/markets/amid-exhausting-confusing-iran-headlines-goldman-partner-says-heres-rates-level-where",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-07-27T17:25:07+00:00",
-      "createdAtMs": 1785173107000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2081793016994377888#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
