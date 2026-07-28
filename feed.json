@@ -2,25 +2,24 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-28T02:53:39.905095+00:00",
+  "fetchedAt": "2026-07-28T04:00:50.660631+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "SantiagoAuFund",
-    "White_Rabbit_OG",
-    "HydroGraphInc"
+    "tferriss",
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
-      "id": "2081931425155018911",
-      "text": "Houthi Threats Force Saudi Crude Tanker Onto Suez Route To Asia https://www.zerohedge.com/markets/houthi-threats-force-saudi-crude-tanker-suez-route-asia",
+      "id": "2081944008557723998",
+      "text": "How Total Surveillance Conquered The Last Sanctuary Of Human Privacy https://www.zerohedge.com/geopolitical/how-total-surveillance-conquered-last-sanctuary-human-privacy",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-07-28T02:35:06+00:00",
-      "createdAtMs": 1785206106000,
+      "createdAt": "2026-07-28T03:25:06+00:00",
+      "createdAtMs": 1785209106000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2081931425155018911#m",
+      "url": "https://x.com/zerohedge/status/2081944008557723998#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
