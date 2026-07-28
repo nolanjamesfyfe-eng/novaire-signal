@@ -2,25 +2,23 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-28T06:01:49.868717+00:00",
+  "fetchedAt": "2026-07-28T06:20:26.493808+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "White_Rabbit_OG",
-    "colonelhomsi"
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
-      "id": "2081983015526314379",
-      "text": "The 'Southern Front' Of The Ukrainian Conflict Is Heating Up https://www.zerohedge.com/geopolitical/southern-front-ukrainian-conflict-heating",
+      "id": "2081985649716977786",
+      "text": "*TAIWAN PROSECUTORS DETAIN NVIDIA WORKER IN CHIP SMUGGLING CASE",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-07-28T06:00:06+00:00",
-      "createdAtMs": 1785218406000,
+      "createdAt": "2026-07-28T06:10:34+00:00",
+      "createdAtMs": 1785219034000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2081983015526314379#m",
+      "url": "https://x.com/zerohedge/status/2081985649716977786#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
