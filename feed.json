@@ -2,14 +2,30 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-28T04:02:05.372561+00:00",
+  "fetchedAt": "2026-07-28T06:00:55.541947+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "tferriss",
-    "White_Rabbit_OG"
+    "BambroughKevin",
+    "White_Rabbit_OG",
+    "colonelhomsi"
   ],
   "posts": [
+    {
+      "id": "2081944022944563517",
+      "text": "I started meditating after listening to your Henry Shukman podcasts and I can concretely measure the change in my soul. Thank you!",
+      "author": "tferriss",
+      "handle": "tferriss",
+      "createdAt": "2026-07-28T03:25:10+00:00",
+      "createdAtMs": 1785209110000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/smbitw/status/2081944022944563517#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2081944008557723998",
       "text": "How Total Surveillance Conquered The Last Sanctuary Of Human Privacy https://www.zerohedge.com/geopolitical/how-total-surveillance-conquered-last-sanctuary-human-privacy",
@@ -22,7 +38,7 @@
       "url": "https://x.com/zerohedge/status/2081944008557723998#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -35,21 +51,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2081928874049343992#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2081919706655543636",
-      "text": "\"All in on ZYN\" is pretty good as far as punny sellside note titles go (Needham last Thr on $PM)",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-07-28T01:48:32+00:00",
-      "createdAtMs": 1785203312000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/BarbarianCap/status/2081919706655543636#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
