@@ -2,24 +2,23 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-07-30T06:01:36.218585+00:00",
+  "fetchedAt": "2026-07-30T06:21:10.870467+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "White_Rabbit_OG",
-    "colonelhomsi"
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
-      "id": "2082705959911100691",
-      "text": "Situational Awareness, the $20 BN hedge fund founded by former OpenAI employee Leopold Aschenbrenner, has sought to raise fresh capital from investors after suffering heavy losses during the recent rout in AI stocks: FT",
+      "id": "2082710158602281334",
+      "text": "*SHELL PLANS NEW SHARE BUYBACK OF $3B TO COMPLETE BY 3Q RESULTS",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-07-30T05:52:50+00:00",
-      "createdAtMs": 1785390770000,
+      "createdAt": "2026-07-30T06:09:31+00:00",
+      "createdAtMs": 1785391771000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2082705959911100691#m",
+      "url": "https://x.com/zerohedge/status/2082710158602281334#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
