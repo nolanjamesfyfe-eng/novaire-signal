@@ -2,14 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-01T06:22:29.040612+00:00",
+  "fetchedAt": "2026-08-01T08:01:02.025057+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "White_Rabbit_OG",
-    "HydroGraphInc"
+    "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2083440209862049968",
+      "text": "Douglas Macgregor: Iran Became the Graveyard of the U.S. Empire https://youtu.be/pVOyU6QPZa0?is=QfXU081UX-LHHECF",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-01T06:30:29+00:00",
+      "createdAtMs": 1785565829000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2083440209862049968#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2083432867615703276",
       "text": "“There has never been a just [war], never an honorable one—on the part of the instigator of the war. I can see a million years ahead, and this rule will never change in so many as half a dozen instances. The loud little handful—as usual—will shout for the war. … Next the statesmen will invent cheap lies, putting the blame upon the nation that is attacked, and every man will be glad of those conscience-soothing falsities, and will diligently study them, and refuse to examine any refutations of them; and thus he will by and by convince himself that the war is just, and will thank God for the better sleep he enjoys after this process of grotesque self-deception.”​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​ Mark Twain",
@@ -22,7 +36,7 @@
       "url": "https://x.com/hastingchris4/status/2083432867615703276#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -35,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2083408505789198631#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2083393563610554839",
-      "text": "Chaos Agent: Anthony Fauci Represents A System That Needs To Be Cleansed https://www.zerohedge.com/political/chaos-agent-anthony-fauci-represents-system-needs-be-cleansed",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-01T03:25:07+00:00",
-      "createdAtMs": 1785554707000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2083393563610554839#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
