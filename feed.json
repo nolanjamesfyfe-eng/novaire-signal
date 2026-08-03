@@ -2,11 +2,10 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-03T01:47:45.123564+00:00",
+  "fetchedAt": "2026-08-03T02:07:41.728858+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "BarbarianCap",
     "White_Rabbit_OG"
   ],
   "posts": [
@@ -26,6 +25,21 @@
       "engagementScore": 0
     },
     {
+      "id": "2084083822136545656",
+      "text": "German carmakers flood jobs market with managers after wielding axe https://www.ft.com/content/e345d51f-11f7-4d4d-8f09-86dd3a225597?syn-25a6b1a6=1",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-08-03T01:07:58+00:00",
+      "createdAtMs": 1785719278000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/BarbarianCap/status/2084083822136545656#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 2,
+      "engagementScore": 0
+    },
+    {
       "id": "2084070855718355013",
       "text": "Discounted Gas Producer with Oil Upside - Even Cheaper and Better Now! New public well data and strong Q2 results. https://www.bisoninsights.info/p/discounted-gas-producer-with-oil",
       "author": "JoshYoung",
@@ -35,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/BisonInsights/status/2084070855718355013#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2084067946784276981",
-      "text": "BREAKING: Global central bank gold purchases rose +62 tonnes YoY in Q2 2026, to 289 tonnes, the biggest quarterly addition since Q4 2024. Quarter-over-quarter, gold purchases surged +231 tonnes, or +407%. Year-to-date, central banks have acquired +345 tonnes of gold. Poland has led these purchases at +82 tonnes, bringing its total reserves to a record 632 tonnes. Uzbekistan and China followed, adding +41 tonnes and +40 tonnes, respectively, so far this year. Central banks continue to accumulate gold at a rapid pace.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-08-03T00:04:53+00:00",
-      "createdAtMs": 1785715493000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2084067946784276981#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
