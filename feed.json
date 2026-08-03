@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-03T12:00:56.563980+00:00",
+  "fetchedAt": "2026-08-03T12:01:27.162847+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2084247457140232624",
+      "text": "BREAKING: Michael Saylor's 'Strategy' sold 1,637 Bitcoin worth $102 million.",
+      "author": "WatcherGuru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-08-03T11:58:11+00:00",
+      "createdAtMs": 1785758291000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/WatcherGuru/status/2084247457140232624#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2084247062384627984",
       "text": "*GILTS EXTEND GAINS; UK 10-YEAR YIELD FALLS 10BPS TO 4.95%",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2084247062384627984#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/colonelhomsi/status/2084245392766509269#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2084244456601952355",
-      "text": "“If you can’t read and write, you can’t think. Your thoughts are dispersed if you don’t know how to read and write. You’ve got to be able to look at your thoughts on paper and discover what a fool you were.”​ — Ray Bradbury",
-      "author": "tferriss",
-      "handle": "tferriss",
-      "createdAt": "2026-08-03T11:46:16+00:00",
-      "createdAtMs": 1785757576000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/tferriss/status/2084244456601952355#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
