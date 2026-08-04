@@ -2,14 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-04T01:52:55.457253+00:00",
+  "fetchedAt": "2026-08-04T02:00:44.494888+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "SantiagoAuFund",
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2084456443386925522",
+      "text": "So past 24 h was busy satistfying moral obligations, fighting 1) for Armenian hostages, 2) agst Moroccan Zionistinism/for Spanish antigenociditism, 3) agst the retarded Lebanese Ponziist Sehnaoui & got 10^6 hate msgs. Tomorrow is cycling day. I care about myself Restart Wed.",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-08-04T01:48:38+00:00",
+      "createdAtMs": 1785808118000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/nntaleb/status/2084456443386925522#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2084455557574869166",
       "text": "Israeli Finance Minister Requests Netanyahu Approve Three Jewish Settlements In Gaza  https://www.zerohedge.com/geopolitical/israeli-finance-minister-requests-netanyahu-approve-three-jewish-settlements-gaza",
@@ -22,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2084455557574869166#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -35,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2084454032358158637#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2084453915798491334",
-      "text": "Crypto trading activity is declining: Daily trading volume across the 44 spot crypto exchanges tracked by Kaiko fell to ~$15 billion last week, the lowest level of the year. This marks a -70% decline from January peak levels. By comparison, in February, there were 2 trading days when volume exceeded $100 billion. As a result, the average daily volume trend has fallen -50% since December 2025, to $20 billion, the lowest this year. Meanwhile, trading volume remains heavily concentrated, with the 6 largest exchanges accounting for more than 60% of total activity. Crypto market liquidity is drying up.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-08-04T01:38:35+00:00",
-      "createdAtMs": 1785807515000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2084453915798491334#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
