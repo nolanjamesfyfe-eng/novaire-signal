@@ -33,13 +33,13 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 15.7,
-    "humidity": 85,
-    "condition": "Overcast ☁️",
-    "aqi": 34,
+    "temp": 14.3,
+    "humidity": 93,
+    "condition": "Light Drizzle 🌦",
+    "aqi": 33,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-08-05T04:01:08.999840+00:00"
+    "cached_at": "2026-08-05T06:00:10.548630+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -47,12 +47,12 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 11.9,
-    "humidity": 99,
+    "temp": 11.6,
+    "humidity": 100,
     "condition": "Overcast ☁️",
-    "aqi": 54,
+    "aqi": 53,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-08-05T04:01:09.338229+00:00"
+    "cached_at": "2026-08-05T06:00:11.797091+00:00"
   }
 }
