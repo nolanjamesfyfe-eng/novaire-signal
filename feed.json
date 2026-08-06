@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-06T01:01:20.476395+00:00",
+  "fetchedAt": "2026-08-06T01:26:02.107690+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2085167751283253402",
+      "text": "Declassified Documents Show FBI Probed Whether Trump Fired Comey At Russia's Direction https://www.zerohedge.com/political/declassified-documents-show-fbi-probed-whether-trump-fired-comey-russias-direction",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-06T00:55:07+00:00",
+      "createdAtMs": 1785977707000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2085167751283253402#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2085167288257319274",
       "text": "BREAKING: US-listed ETFs have attracted +$1.2 trillion in inflows year-to-date, the largest amount at this point of the year on record. This figure is already double the inflows recorded over the same period in 2025. This has also surpassed every full-year total in history except 2025, which saw +$1.5 trillion in inflows. At the current pace, US-listed ETFs are on track to exceed +$2.1 trillion in annual inflows for the first time, ~50% above last year's all-time high. Meanwhile, the semiconductor ETFs, $SMH and $SOXX, posted a combined +$13 billion in inflows in July, the largest monthly total on record. ETF demand is surging at an unprecedented rate.",
@@ -19,21 +34,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2085167288257319274#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2085161460481634702",
-      "text": "Fresh Panic As Pentagon Has Used 'Virtually All' Its Long-Range Precision Missiles On Iran https://www.zerohedge.com/geopolitical/fresh-panic-pentagon-has-used-virtually-all-its-long-range-precision-missiles-iran",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-06T00:30:07+00:00",
-      "createdAtMs": 1785976207000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2085161460481634702#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
