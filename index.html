@@ -61,26 +61,40 @@
     .meditation-meta{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
     .meditation-excerpt{font-size:.86rem;line-height:1.62;color:var(--muted)}
     #quotes-card{padding:14px 16px}
-    .updog-intro{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}
-    .updog-grid{display:flex;flex-direction:column;gap:7px}
-    .updog-item{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}
-    .updog-item.open{align-items:start}
-    .updog-item.voted{border-color:rgba(42,157,143,.45);background:linear-gradient(145deg,rgba(42,157,143,.09),rgba(201,161,91,.03))}
-    .updog-num{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}
-    .updog-kicker{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .updog-copy{min-width:0;cursor:pointer}
-    .updog-title{font-family:var(--serif);font-size:.86rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .updog-idea{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .updog-expand{display:none;margin-top:6px;font-size:.7rem;line-height:1.48;color:var(--dim);white-space:normal}
-    .updog-item.open .updog-title,.updog-item.open .updog-idea{white-space:normal;overflow:visible;text-overflow:clip}
-    .updog-item.open .updog-expand{display:block}
-    .updog-actions{display:flex;gap:6px;margin-left:auto;align-items:center}
-    .updog-status{font-size:.52rem;color:var(--green);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;display:none}
-    .updog-item.voted .updog-status{display:inline}
-    .updog-btn{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans)}
-    .updog-approve{background:rgba(201,161,91,.16);color:var(--gold)}
-    .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}
+    .updog-intro{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 12px}
+    .mystery-run{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.7fr);gap:12px}
+    .mystery-arena{position:relative;min-height:335px;border:1px solid rgba(201,161,91,.2);border-radius:16px;background:radial-gradient(circle at 50% 0,rgba(201,161,91,.12),transparent 52%),rgba(0,0,0,.18);display:grid;place-items:center;padding:18px;overflow:hidden}
+    .mystery-arena::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.5%,rgba(201,161,91,.025) 50%,transparent 50.5%),linear-gradient(transparent 49.5%,rgba(201,161,91,.018) 50%,transparent 50.5%);background-size:38px 38px;pointer-events:none}
+    .mystery-stage{position:relative;width:100%;text-align:center}
+    .mystery-box{width:116px;height:116px;margin:12px auto;border:1px solid #f0d18e;border-radius:18px;background:linear-gradient(145deg,#d7ad5f 0,#80602a 60%,#382812);box-shadow:0 0 0 7px rgba(201,161,91,.06),0 20px 45px rgba(0,0,0,.48),inset 0 1px #ffe6a7;display:grid;place-items:center;color:#171006;font:700 3.1rem var(--serif);cursor:pointer;transition:.2s ease;position:relative}
+    .mystery-box::after{content:"";position:absolute;inset:7px;border:1px solid rgba(30,20,8,.26);border-radius:12px}
+    .mystery-box:hover{transform:translateY(-3px) rotate(-1deg);filter:brightness(1.06)}
+    .mystery-micro{font-size:.52rem;color:var(--gold);letter-spacing:.18em;text-transform:uppercase}
+    .mystery-hint{font-size:.72rem;color:var(--muted);line-height:1.5;margin-top:14px}
+    .mystery-hint b{color:var(--gold);font-weight:500}
+    .mystery-reveal{text-align:left;max-width:530px;margin:auto}
+    .mystery-chip{display:inline-flex;border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;color:var(--gold);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase}
+    .mystery-riddle{font-family:var(--serif);font-style:italic;font-size:.94rem;line-height:1.5;color:var(--muted);margin:12px 0}
+    .mystery-task{font-family:var(--serif);font-size:1.28rem;line-height:1.24;color:var(--text);margin:10px 0}
+    .mystery-why{font-size:.72rem;color:var(--muted);line-height:1.5}
+    .mystery-step{border-left:2px solid var(--gold);padding:8px 0 8px 11px;margin:13px 0;color:var(--text);font-size:.76rem;line-height:1.45}
+    .updog-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:13px}
+    .updog-btn{border:1px solid var(--gold-mid);border-radius:999px;padding:6px 10px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.09em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans);background:transparent}
+    .updog-approve{background:rgba(201,161,91,.18);color:var(--gold)}
+    .updog-refine{color:#82a8ce;border-color:rgba(130,168,206,.45)}
+    .updog-retry{color:var(--dim);border-color:rgba(255,255,255,.16)}
     .updog-btn:hover{transform:translateY(-1px);filter:brightness(1.15)}
+    .mystery-log{border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(0,0,0,.16);padding:13px}
+    .mystery-log-title{font-family:var(--serif);font-size:.86rem;color:var(--text);margin-bottom:9px}
+    .mystery-log-row{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+    .mystery-log-row:last-child{border-bottom:0}
+    .mystery-log-top{display:flex;gap:7px;align-items:center}
+    .mystery-num{width:18px;height:18px;border:1px solid var(--gold-mid);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:var(--serif);font-size:.62rem;flex:0 0 auto}
+    .mystery-lane{font-size:.52rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;flex:1}
+    .mystery-status{font-size:.45rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+    .mystery-status.done{color:var(--green)}.mystery-status.live{color:var(--gold)}.mystery-status.retry{color:#c98273}
+    .mystery-log-step{font-size:.62rem;color:var(--dim);line-height:1.4;margin:5px 0 0 25px}
+    @media(max-width:760px){.mystery-run{grid-template-columns:1fr}.mystery-arena{min-height:360px}}
     .tweet-card{border-color:rgba(201,161,91,.22);background:linear-gradient(145deg,rgba(201,161,91,.07),rgba(255,255,255,.025))}
     .tweet-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
     .tweet-chip{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(201,161,91,.08)}
@@ -320,7 +334,7 @@
 
   <!-- DATE / GENERATION LINE -->
   <div class="dateline">
-    <div class="date">Friday, August 7, 2026</div>
+    <div class="date">Saturday, August 8, 2026</div>
     <!-- removed generated timestamp -->
   </div>
 
@@ -329,17 +343,17 @@
     <div class="countdown-strip-grid">
       <div class="countdown-item">
         <div class="countdown-label">🚂 Trans-Siberian</div>
-        <div class="countdown-days">31 days</div>
+        <div class="countdown-days">30 days</div>
         <div class="countdown-date">Sep 7</div>
       </div>
       <div class="countdown-item">
         <div class="countdown-label">🎡 EDC Thailand</div>
-        <div class="countdown-days">133 days</div>
+        <div class="countdown-days">132 days</div>
         <div class="countdown-date">Dec 18</div>
       </div>
       <div class="countdown-item">
         <div class="countdown-label">🏝 Mastermind Retreat</div>
-        <div class="countdown-days">165 days</div>
+        <div class="countdown-days">164 days</div>
         <div class="countdown-date">Jan 19</div>
       </div>
     </div>
@@ -381,36 +395,36 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:01</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:00</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">26°C</div>
-          <div class="condition">Drizzle 🌦</div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 95% · AQI 23 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 94% · AQI 21 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:01</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:00</div>
           <div class="city">🇨🇴 Medellín</div>
-          <div class="temp">26°C</div>
+          <div class="temp">28°C</div>
           <div class="condition">Mainly Clear 🌤</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 58% · AQI 58 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 55% · AQI 58 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:01</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:00</div>
           <div class="city">🇨🇦 Edmonton</div>
-          <div class="temp">14°C</div>
-          <div class="condition">Partly Cloudy ⛅</div>
+          <div class="temp">17°C</div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 70% · AQI 67 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 58% · AQI 69 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:01</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:00</div>
           <div class="city">🇺🇾 Montevideo</div>
-          <div class="temp">9°C</div>
+          <div class="temp">10°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 77% · AQI 25 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 67% · AQI 25 (Good)</div>
         </div>
     </div>
   </div>
@@ -430,12 +444,12 @@
       
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate">1.39</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">32.96</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.42</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,158</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.41</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,152</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.86</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">81.89</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,410</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">157.51</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,409</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">157.50</span></div>
     </div>
   </div>
 
@@ -446,33 +460,33 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,405</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,397</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+3.84%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+3.66%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$63.62</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$63.58</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+3.55%</span></div>
+          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+3.48%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6045</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.5940</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="negative">-1.23%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="negative">-1.39%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$78.12</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$78.06</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+1.07%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+1.00%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,378</div>
+          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,385</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="PA=F"><span class="positive">+0.37%</span></div>
+          <div class="commodity-change" data-comm-chg="PA=F"><span class="positive">+0.88%</span></div>
         </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -490,33 +504,33 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$64,936</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.48%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$64,765</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.24%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,919</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.45%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,912</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.07%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$73.93</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.87%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$73.41</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.33%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6731</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-0.21%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6689</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-1.44%</span></div>
         </div>
         <div class="crypto-item" data-coin="XRP">
           <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0280</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-2.00%</span></div>
+          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0166</div>
+          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-2.33%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.2008</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-3.88%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1979</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-3.18%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -525,8 +539,8 @@
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$512.94</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+4.08%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$512.00</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+3.04%</span></div>
         </div>
     </div>
   </div>
@@ -534,15 +548,15 @@
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-8.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+123.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:#4ade80">+25.0%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-8.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+129.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:#4ade80">+25.0%</span></div>
   <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>44W / 34L</span></div>
 </div>
 
   <div class="card">
     <div class="card-title">🦙 Livermore Darvis</div>
     <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · 3 trades</div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ</span><span style="font-weight:600;color:#f87171">-19.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK</span><span style="font-weight:600;color:#4ade80">+9.6%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ</span><span style="font-weight:600;color:#4ade80">+0.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-19.9%</span></div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#4ade80">+0.0%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ</span><span style="font-weight:600;color:#f87171">-19.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK</span><span style="font-weight:600;color:#4ade80">+9.4%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ</span><span style="font-weight:600;color:#4ade80">+0.6%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-20.5%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#f87171">-0.1%</span></div>
   </div>
 
 <!-- ZEROHEDGE -->
@@ -731,11 +745,11 @@
     <div class="card-title">🇹🇭 Thailand</div>
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
-      <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="33" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/04/swedish-woman-wanted-sixty-million-baht-fraud-at-home-arrested-by-phuket-immigration-bureau/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 7, 23:01 BKK</div>
-          <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/04/swedish-woman-wanted-sixty-million-baht-fraud-at-home-arrested-by-phuket-immigration-bureau/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Swedish woman wanted for sixty million baht fraud at home arrested by Phuket Immigration Bureau police</a>
-          <div class="thai-news-summary">Phuket Immigration officers captured a Swedish fugitive wanted by Interpol over a ฿60 million call centre fraud. Police say she belonged to a 14-member scam… Read More › The post S</div>
-          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 33.</div>
+      <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="30" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/06/western-foreigner-in-pattaya-wanted-for-the-alleged-theft-of-a-womans-smartphone-at-busy-coffee-shop/">
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 8, 01:00 BKK</div>
+          <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/06/western-foreigner-in-pattaya-wanted-for-the-alleged-theft-of-a-womans-smartphone-at-busy-coffee-shop/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Western foreigner in Pattaya wanted for the alleged theft of a woman’s smartphone at a busy coffee shop</a>
+          <div class="thai-news-summary">CCTV allegedly shows an elderly Western man stealing a Thai woman’s smartphone in Pattaya, triggering a police hunt and renewed scrutiny of foreign crime. Police… Read More › The p</div>
+          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>
         </div>
     </div>
   </div>
@@ -795,11 +809,14 @@
     <div id="keystone-yesterday" style="margin-top:8px;color:var(--muted);font-size:.82rem"></div>
   </div>
 
-  <!-- DAILY UPDOG PRODUCT VOTE -->
+  <!-- DAILY UPDOG MYSTERY RUN -->
   <div class="card" id="updog-card">
-    <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks across Podcast / Clips, Signal, MOTR, retreat, and energy.</div>
-    <div class="updog-grid" id="updog-grid"></div>
+    <div class="card-title">🎁 Daily Updog Mystery Run</div>
+    <div class="updog-intro">One priority-locked box at a time: retreat deposits, podcast automation, AI Wizards, then Energy Maxxing.</div>
+    <div class="mystery-run" id="mystery-run">
+      <div class="mystery-arena"><div class="mystery-stage" id="mystery-stage"></div></div>
+      <div class="mystery-log"><div class="mystery-log-title">Today’s Action Log</div><div id="mystery-log-rows"></div></div>
+    </div>
   </div>
 
   <!-- SUGGESTED TWEET -->
@@ -807,7 +824,7 @@
     <div class="card-title">🪶 Suggested Tweet</div>
     <div class="tweet-top">
       <div class="tweet-chip" id="tweet-project">Energy Maxxing</div>
-      <div class="tweet-source" id="tweet-source">Possible angle from @quakes99 · rewritten as house thesis</div>
+      <div class="tweet-source" id="tweet-source">Possible angle from @wmiddelkoop · rewritten as house thesis</div>
     </div>
     <p class="tweet-text" id="tweet-text">If sleep is broken, productivity advice becomes cosplay. Fix the battery before negotiating with ambition.</p>
     <div class="tweet-actions">
