@@ -2071,26 +2071,40 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}}
     .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
     #quotes-card{{padding:14px 16px}}
-    .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
-    .updog-grid{{display:flex;flex-direction:column;gap:7px}}
-    .updog-item{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}}
-    .updog-item.open{{align-items:start}}
-    .updog-item.voted{{border-color:rgba(42,157,143,.45);background:linear-gradient(145deg,rgba(42,157,143,.09),rgba(201,161,91,.03))}}
-    .updog-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
-    .updog-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .updog-copy{{min-width:0;cursor:pointer}}
-    .updog-title{{font-family:var(--serif);font-size:.86rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .updog-idea{{font-size:.72rem;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .updog-expand{{display:none;margin-top:6px;font-size:.7rem;line-height:1.48;color:var(--dim);white-space:normal}}
-    .updog-item.open .updog-title,.updog-item.open .updog-idea{{white-space:normal;overflow:visible;text-overflow:clip}}
-    .updog-item.open .updog-expand{{display:block}}
-    .updog-actions{{display:flex;gap:6px;margin-left:auto;align-items:center}}
-    .updog-status{{font-size:.52rem;color:var(--green);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;display:none}}
-    .updog-item.voted .updog-status{{display:inline}}
-    .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans)}}
-    .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
-    .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
+    .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 12px}}
+    .mystery-run{{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.7fr);gap:12px}}
+    .mystery-arena{{position:relative;min-height:335px;border:1px solid rgba(201,161,91,.2);border-radius:16px;background:radial-gradient(circle at 50% 0,rgba(201,161,91,.12),transparent 52%),rgba(0,0,0,.18);display:grid;place-items:center;padding:18px;overflow:hidden}}
+    .mystery-arena::before{{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.5%,rgba(201,161,91,.025) 50%,transparent 50.5%),linear-gradient(transparent 49.5%,rgba(201,161,91,.018) 50%,transparent 50.5%);background-size:38px 38px;pointer-events:none}}
+    .mystery-stage{{position:relative;width:100%;text-align:center}}
+    .mystery-box{{width:116px;height:116px;margin:12px auto;border:1px solid #f0d18e;border-radius:18px;background:linear-gradient(145deg,#d7ad5f 0,#80602a 60%,#382812);box-shadow:0 0 0 7px rgba(201,161,91,.06),0 20px 45px rgba(0,0,0,.48),inset 0 1px #ffe6a7;display:grid;place-items:center;color:#171006;font:700 3.1rem var(--serif);cursor:pointer;transition:.2s ease;position:relative}}
+    .mystery-box::after{{content:"";position:absolute;inset:7px;border:1px solid rgba(30,20,8,.26);border-radius:12px}}
+    .mystery-box:hover{{transform:translateY(-3px) rotate(-1deg);filter:brightness(1.06)}}
+    .mystery-micro{{font-size:.52rem;color:var(--gold);letter-spacing:.18em;text-transform:uppercase}}
+    .mystery-hint{{font-size:.72rem;color:var(--muted);line-height:1.5;margin-top:14px}}
+    .mystery-hint b{{color:var(--gold);font-weight:500}}
+    .mystery-reveal{{text-align:left;max-width:530px;margin:auto}}
+    .mystery-chip{{display:inline-flex;border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;color:var(--gold);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase}}
+    .mystery-riddle{{font-family:var(--serif);font-style:italic;font-size:.94rem;line-height:1.5;color:var(--muted);margin:12px 0}}
+    .mystery-task{{font-family:var(--serif);font-size:1.28rem;line-height:1.24;color:var(--text);margin:10px 0}}
+    .mystery-why{{font-size:.72rem;color:var(--muted);line-height:1.5}}
+    .mystery-step{{border-left:2px solid var(--gold);padding:8px 0 8px 11px;margin:13px 0;color:var(--text);font-size:.76rem;line-height:1.45}}
+    .updog-actions{{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:13px}}
+    .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:6px 10px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.09em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans);background:transparent}}
+    .updog-approve{{background:rgba(201,161,91,.18);color:var(--gold)}}
+    .updog-refine{{color:#82a8ce;border-color:rgba(130,168,206,.45)}}
+    .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16)}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
+    .mystery-log{{border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(0,0,0,.16);padding:13px}}
+    .mystery-log-title{{font-family:var(--serif);font-size:.86rem;color:var(--text);margin-bottom:9px}}
+    .mystery-log-row{{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07)}}
+    .mystery-log-row:last-child{{border-bottom:0}}
+    .mystery-log-top{{display:flex;gap:7px;align-items:center}}
+    .mystery-num{{width:18px;height:18px;border:1px solid var(--gold-mid);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:var(--serif);font-size:.62rem;flex:0 0 auto}}
+    .mystery-lane{{font-size:.52rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;flex:1}}
+    .mystery-status{{font-size:.45rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}}
+    .mystery-status.done{{color:var(--green)}}.mystery-status.live{{color:var(--gold)}}.mystery-status.retry{{color:#c98273}}
+    .mystery-log-step{{font-size:.62rem;color:var(--dim);line-height:1.4;margin:5px 0 0 25px}}
+    @media(max-width:760px){{.mystery-run{{grid-template-columns:1fr}}.mystery-arena{{min-height:360px}}}}
     .tweet-card{{border-color:rgba(201,161,91,.22);background:linear-gradient(145deg,rgba(201,161,91,.07),rgba(255,255,255,.025))}}
     .tweet-top{{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}}
     .tweet-chip{{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(201,161,91,.08)}}
@@ -2622,11 +2636,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div id="keystone-yesterday" style="margin-top:8px;color:var(--muted);font-size:.82rem"></div>
   </div>
 
-  <!-- DAILY UPDOG PRODUCT VOTE -->
+  <!-- DAILY UPDOG MYSTERY RUN -->
   <div class="card" id="updog-card">
-    <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks across Podcast / Clips, Signal, MOTR, retreat, and energy.</div>
-    <div class="updog-grid" id="updog-grid"></div>
+    <div class="card-title">🎁 Daily Updog Mystery Run</div>
+    <div class="updog-intro">One priority-locked box at a time: retreat deposits, podcast automation, AI Wizards, then Energy Maxxing.</div>
+    <div class="mystery-run" id="mystery-run">
+      <div class="mystery-arena"><div class="mystery-stage" id="mystery-stage"></div></div>
+      <div class="mystery-log"><div class="mystery-log-title">Today’s Action Log</div><div id="mystery-log-rows"></div></div>
+    </div>
   </div>
 
   <!-- SUGGESTED TWEET -->
