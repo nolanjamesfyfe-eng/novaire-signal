@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-08T06:01:44.956636+00:00",
+  "fetchedAt": "2026-08-08T08:01:00.716824+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2085983911792759121",
+      "text": "A White House (VTOL) Drone Port?!",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-08T06:58:14+00:00",
+      "createdAtMs": 1786172294000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2085983911792759121#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2085930273368137986",
       "text": "Pillagers Vs Producers: There's Only Two Ways To Save The Western World https://www.zerohedge.com/political/pillagers-vs-producers-theres-only-two-ways-save-western-world",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2085930273368137986#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2085920869759492395#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2085911974781886653",
-      "text": "It’s a beautiful book. @mebfaber was kind enough to send me a copy and it now has pride of place in the bookshelf in the entrance of the Gavekal HK office.",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-08-08T02:12:23+00:00",
-      "createdAtMs": 1786155143000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/gave_vincent/status/2085911974781886653#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
