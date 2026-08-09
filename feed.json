@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-09T06:01:02.405831+00:00",
+  "fetchedAt": "2026-08-09T08:00:53.351189+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2086351803948368055",
+      "text": "Breakout ⚠",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-09T07:20:07+00:00",
+      "createdAtMs": 1786260007000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2086351803948368055#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2086291410802692364",
       "text": "The Trojan Horse Inside Your Head: How Government Propaganda Is Quietly Dismantling Free Thought https://www.zerohedge.com/political/trojan-horse-inside-your-head-how-government-propaganda-quietly-dismantling-free-thought",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2086291410802692364#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/quakes99/status/2086267366602883101#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2086256494127759768",
-      "text": "Once again another headline about China buying Gold going viral on X The headline: China’s central bank officially added +20 tonnes of gold in July, its largest monthly purchase since October 2023. The reality 👇👇 #Gold #China",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-08-09T01:01:23+00:00",
-      "createdAtMs": 1786237283000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/mnicoletos/status/2086256494127759768#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
