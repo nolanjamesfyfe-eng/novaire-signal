@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-09T20:00:55.162149+00:00",
+  "fetchedAt": "2026-08-09T20:23:28.670929+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2086544471571755315",
+      "text": "What happened to that peace agreement and \"open Strait\" last Wednesday?",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-08-09T20:05:42+00:00",
+      "createdAtMs": 1786305942000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/JoshYoung/status/2086544471571755315#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2086541925033632012",
       "text": "Boys, how are we judging this?? Is this Trump’s 7th or 8th surrender to Iran… can you do a half surrender bc you’re bored of the whole thing??🤦‍♂️",
@@ -21,7 +36,7 @@
       "url": "https://x.com/hkuppy/status/2086541925033632012#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/zerohedge/status/2086539292860452924#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2086535936553243058",
-      "text": "Just chatting / laughing with a good friend on how insane it is for anyone to short hydrograph at this point. Looking at the chart, how it’s based, it’s proven ability to have massive upside vol on the slightest news, order book pipeline, gov / military deals in the works, Nasdaq listing and absolutely massive potential across countless industries. It takes a special kinda stupid to position short on a name like this… it’s gonna be a wild fall…",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-08-09T19:31:47+00:00",
-      "createdAtMs": 1786303907000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/BambroughKevin/status/2086535936553243058#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
