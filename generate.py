@@ -2085,18 +2085,22 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="crypto-change" data-crypto-chg="{coin}">{chg_html}</div>
         </div>"""
 
-    second_renaissance_html = f"""
-  <!-- THE SECOND RENAISSANCE PODCAST -->
-  <div class="card podcast-card compact-podcast-card">
-    <div class="card-title">🎙 The Second Renaissance</div>
-    <a class="podcast-mini" href="{SECOND_RENAISSANCE['episode_url']}" target="_blank" rel="noopener">
-      <img src="{SECOND_RENAISSANCE['thumbnail_url']}" alt="The Second Renaissance Podcast" loading="lazy">
-      <span>
+    latest_novaire_html = f"""
+  <!-- LATEST FROM NOVAIRE -->
+  <div class="card latest-novaire-card">
+    <div class="card-title">✦ Latest from Novaire</div>
+    <div class="latest-novaire-grid">
+      <a class="latest-novaire-link" href="{SECOND_RENAISSANCE['episode_url']}" target="_blank" rel="noopener">
+        <span class="latest-novaire-kicker">WATCH · YOUTUBE</span>
         <strong>{SECOND_RENAISSANCE['episode_title']}</strong>
-        <em>Watch on YouTube →</em>
-      </span>
-    </a>
-    <p class="podcast-mini-copy">{SECOND_RENAISSANCE['episode_blurb']}</p>
+        <em>Play latest episode →</em>
+      </a>
+      <a class="latest-novaire-link" href="https://novaireink.com/#when-you-dont-write" target="_blank" rel="noopener">
+        <span class="latest-novaire-kicker">READ · NOVAIRE INK</span>
+        <strong>When You Don't Write, You Are Wrong</strong>
+        <em>Read latest essay →</em>
+      </a>
+    </div>
   </div>"""
 
     # Full HTML template
@@ -2337,6 +2341,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .podcast-mini strong{{font-family:var(--serif);font-size:1.18rem;font-weight:500;color:var(--text);line-height:1.12}}
     .podcast-mini em{{font-style:normal;font-size:.64rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
     .podcast-mini-copy{{font-size:.72rem;color:var(--dim);line-height:1.45;margin:8px 2px 0}}
+    .latest-novaire-card{{padding:15px 16px}}
+    .latest-novaire-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
+    .latest-novaire-link{{display:flex;flex-direction:column;justify-content:center;min-height:76px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,rgba(201,161,91,.055),rgba(255,255,255,.018));text-decoration:none;transition:border-color .15s,transform .15s}}
+    .latest-novaire-link:hover{{border-color:var(--gold);transform:translateY(-1px)}}
+    .latest-novaire-kicker{{font-size:.52rem;color:var(--gold);letter-spacing:.14em;margin-bottom:5px}}
+    .latest-novaire-link strong{{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--text);line-height:1.2}}
+    .latest-novaire-link em{{font-style:normal;font-size:.6rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:7px}}
 
     .sat-word-box{{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}
@@ -2349,30 +2360,24 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fx-chip .fx-ccy{{font-size:.54rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);white-space:nowrap}}
     .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--gold);margin-top:1px}}
 
-    .feed-controls{{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}}
-    .feed-refresh{{font-size:.6rem;color:var(--dim);letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:4px 8px;border-radius:var(--r);font-family:var(--sans)}}
+    .compact-feed-card{{padding:14px 16px}}
+    .compact-feed-card .card-title{{margin-bottom:8px}}
+    .feed-controls{{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}}
+    .feed-refresh{{font-size:.55rem;letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:3px 7px;border-radius:var(--r);font-family:var(--sans)}}
     .feed-refresh:hover{{border-color:var(--gold);color:var(--gold)}}
-    .feed-status{{font-size:.62rem;color:var(--dim);font-style:italic}}
-    .feed-item{{padding:8px 0;border-bottom:1px solid var(--border)}}
+    .feed-status{{font-size:.58rem;color:var(--dim);font-style:italic}}
+    .feed-item{{display:grid;grid-template-columns:minmax(84px,auto) minmax(0,1fr) auto;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);min-height:24px}}
     .feed-item:last-child{{border-bottom:none}}
-    .feed-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}}
-    .feed-author{{display:flex;align-items:center;gap:7px}}
-    .feed-avatar{{width:26px;height:26px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--border)}}
-    .feed-name{{font-size:.78rem;font-weight:600;color:var(--text)}}
-    .feed-handle{{font-size:.68rem;color:var(--dim)}}
-    .feed-time{{font-size:.64rem;color:var(--dim)}}
-    .feed-text{{font-size:.8rem;color:var(--text);line-height:1.5;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
-    .feed-stats{{display:flex;gap:12px;margin-top:4px}}
-    .feed-stat{{font-size:.64rem;color:var(--dim)}}
-    .feed-stat span{{color:var(--gold)}}
-    .feed-link{{display:inline-block;margin-top:5px;font-size:.64rem;color:var(--gold);text-decoration:none;opacity:.6}}
+    .feed-handle{{font-size:.65rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .feed-text{{font-size:.75rem;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}}
+    .feed-link{{font-size:.6rem;color:var(--gold);text-decoration:none;opacity:.72;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}}
     .feed-link:hover{{opacity:1}}
-    .feed-empty{{text-align:center;padding:20px;color:var(--dim);font-size:.82rem}}
-    .feed-loading{{text-align:center;padding:20px;color:var(--dim);font-size:.82rem}}
+    .feed-empty{{text-align:center;padding:12px;color:var(--dim);font-size:.75rem}}
+    .feed-loading{{text-align:center;padding:12px;color:var(--dim);font-size:.75rem}}
     .feed-loading::after{{content:'...';animation:dots 1.2s steps(3,end) infinite}}
     @keyframes dots{{0%,100%{{content:'.'}}33%{{content:'..'}}66%{{content:'...'}}}}
-    .feed-filter{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}}
-    .feed-tag{{font-size:.6rem;padding:3px 7px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.06em;border-radius:var(--r);font-family:var(--sans)}}
+    .feed-filter{{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}}
+    .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
     .fed-card{{text-align:center;padding:14px 16px}}
@@ -2426,6 +2431,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
       .weekly-grid{{grid-template-columns:1fr}}
       .weekly-points{{grid-template-columns:1fr}}
+      .latest-novaire-grid{{grid-template-columns:1fr}}
     }}
   </style>
 </head>
@@ -2486,8 +2492,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  {second_renaissance_html}
-
   <!-- WEATHER + THAILAND NEWS -->
   <div class="card">
     <div class="card-title">🌤 Weather</div>
@@ -2539,7 +2543,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- SIGNAL FEED -->
-  <div class="card">
+  <div class="card compact-feed-card">
     <div class="card-title">📡 Signal Feed — Top 3 by Engagement</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
@@ -2555,7 +2559,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   (function() {{
     let allPosts = [];
     let activeFilter = null;
-    const CACHE_KEY = 'novaire_feed_v4';  // bumped — busts stale localStorage
+    const CACHE_KEY = 'novaire_feed_v5';  // compact one-line feed
     const CACHE_TTL = 4 * 60 * 1000;    // 4min cache — matches refresh cadence
 
     function timeAgo(iso) {{
@@ -2590,21 +2594,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       }}
       container.innerHTML = posts.map(p => `
         <div class="feed-item">
-          <div class="feed-header">
-            <div class="feed-author">
-              ${{p.avatar ? `<img class="feed-avatar" src="${{escHtml(p.avatar)}}" alt="" loading="lazy" onerror="this.style.display='none'">` : '<div class="feed-avatar"></div>'}}
-              <div>
-                <div class="feed-name">${{escHtml(p.author)}}</div>
-                <div class="feed-handle">@${{escHtml(p.handle)}}</div>
-              </div>
-            </div>
-            <div class="feed-time">${{timeAgo(p.createdAt)}}</div>
-          </div>
-          <div class="feed-text">${{escHtml(p.text).split(" ").slice(0, 15).join(" ")}}${{escHtml(p.text).split(" ").length > 15 ? "…" : ""}}</div>
-          <div class="feed-stats">
-            <div class="feed-stat">♥ <span>${{fmtNum(p.likes)}}</span></div>
-            <div class="feed-stat">↺ <span>${{fmtNum(p.retweets)}}</span></div>
-          </div>
+          <span class="feed-handle">@${{escHtml(p.handle)}}</span>
+          <span class="feed-text" title="${{escHtml(p.text)}}">${{escHtml(p.text)}}</span>
           <a class="feed-link" href="${{escHtml(p.url)}}" target="_blank" rel="noopener">View on X →</a>
         </div>
       `).join('');
@@ -2714,17 +2705,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- Daily Motivation merged into single Quote of the Day -->
 
-  <!-- LATEST FROM NOVAIRE INK -->
-  <a href="https://novaireink.com/#when-you-dont-write" class="card" style="display:block;text-decoration:none;cursor:pointer;">
-    <div class="card-title">📝 Latest from Novaire Ink</div>
-    <div class="quote">
-      <div class="quote-type">New Essay</div>
-      <div class="quote-text">When You Don't Write, You Are Wrong</div>
-      <div class="quote-author" style="font-style:normal;margin-top:6px;opacity:0.7;">There is a particular kind of guilt that belongs to the writer who stops writing. Not the guilt of saying something wrong, but the quieter, more corrosive guilt of saying nothing at all.</div>
-      <div class="quote-type" style="margin-top:10px;color:var(--gold);">Read the full essay →</div>
-    </div>
-  </a>
-
   <!-- FED SIGNAL -->
   {fed_html}
 
@@ -2756,6 +2736,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">⚔️ Four Moves for Today</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
+
+{latest_novaire_html}
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
