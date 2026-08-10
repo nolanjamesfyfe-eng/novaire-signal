@@ -1343,7 +1343,7 @@ def fetch_commodities():
 def fetch_crypto():
     all_syms = {
         "BTC": "BTCUSDT", "ETH": "ETHUSDT", "SOL": "SOLUSDT", "SUI": "SUIUSDT",
-        "XRP": "XRPUSDT", "ADA": "ADAUSDT", "ZEC": "ZECUSDT",
+        "ADA": "ADAUSDT", "ZEC": "ZECUSDT",
     }
     results = {}
     for coin, sym in all_syms.items():
@@ -2036,9 +2036,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     # ── Crypto HTML ──
     crypto_colors = {"BTC": "#f7931a","ETH": "#627eea","SOL": "#9945ff","SUI": "#6fd7ff",
-                     "XRP": "#346aa9","ADA": "#2a6df4","NIGHT": "#7868ff","ZEC": "#f4b728"}
+                     "ADA": "#2a6df4","NIGHT": "#7868ff","ZEC": "#f4b728"}
     crypto_html = ""
-    for coin in ["BTC","ETH","SOL","SUI","XRP","ADA","NIGHT","ZEC"]:
+    for coin in ["BTC","ETH","SOL","SUI","ADA","NIGHT","ZEC"]:
         c     = crypto.get(coin, {})
         price = c.get("price")
         chg   = c.get("change")
@@ -2132,7 +2132,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     #quotes-card{{padding:14px 16px}}
     .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
     .updog-grid{{display:flex;flex-direction:column;gap:7px}}
-    .updog-item{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}}
+    .updog-item{{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.62);border-radius:14px;padding:12px;background:linear-gradient(145deg,rgba(201,161,91,.2),rgba(201,161,91,.06));box-shadow:0 12px 34px rgba(201,161,91,.1);min-width:0}}
     .updog-item.open{{align-items:start}}
     .updog-item.voted{{border-color:rgba(42,157,143,.45);background:linear-gradient(145deg,rgba(42,157,143,.09),rgba(201,161,91,.03))}}
     .updog-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}}
@@ -2169,6 +2169,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}
     .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9;line-height:1.2}}
     .action-step-copy{{min-width:0}}
+    .action-step-actions{{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}}
+    .action-step.done{{opacity:.62;border-color:rgba(42,157,143,.5)}}
+    .action-step.ricies{{opacity:.52;border-color:rgba(180,70,55,.5)}}
     .action-step-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}}
     .action-step-title{{font-family:var(--serif);font-size:.9rem;color:var(--text);line-height:1.25}}
     .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.35;margin-top:2px}}
@@ -2694,8 +2697,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- DAILY KEYSTONE PRIORITY -->
   <div class="card" id="keystone-card">
-    <div class="card-title">🎯 Daily Keystone</div>
-    <div class="updog-intro">What is the one thing you'll feel good about if it gets done today?</div>
+    <div class="card-title">🎯 Daily Keystone Priority</div>
+    <div class="updog-intro">Enter the top priority. Signal will turn it into four concrete moves.</div>
     <div class="keystone-row">
       <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
       <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
@@ -2706,31 +2709,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
-    <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks across Podcast / Clips, Signal, MOTR, retreat, and energy.</div>
+    <div class="card-title">🎁 Daily Updog Mystery Box</div>
+    <div class="updog-intro">One high-leverage suggestion. Build it, refine it, or leave it for another day.</div>
     <div class="updog-grid" id="updog-grid"></div>
-  </div>
-
-  <!-- SUGGESTED TWEET -->
-  <div class="card tweet-card" id="suggested-tweet-card" data-suggested-tweet="verified">
-    <div class="card-title">🪶 Suggested Tweet</div>
-    <div class="tweet-top">
-      <div class="tweet-chip" id="tweet-project">{escape((suggested_tweet or {}).get('project', 'Novaire Signal'))}</div>
-      <div class="tweet-source" id="tweet-source">{escape((suggested_tweet or {}).get('hook_source', 'House thesis'))}</div>
-    </div>
-    <p class="tweet-text" id="tweet-text">{escape((suggested_tweet or {}).get('text', 'Signal over noise. Build the thing, cut the theatre, let the work become the argument.'))}</p>
-    <div class="tweet-actions">
-      <span class="tweet-count" id="tweet-count">{(suggested_tweet or {}).get('chars', 86)} / 280</span>
-      <div class="updog-actions">
-        <button class="updog-btn updog-retry" type="button" onclick="copySuggestedTweet()">Copy</button>
-        <a class="updog-btn updog-approve" id="tweet-intent" href="https://x.com/intent/tweet?text={requests.utils.quote((suggested_tweet or {}).get('text', 'Signal over noise. Build the thing, cut the theatre, let the work become the argument.'))}" target="_blank" rel="noopener">Open X</a>
-      </div>
-    </div>
   </div>
 
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Daily Action Steps</div>
+    <div class="card-title">⚔️ Four Moves for Today</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -2875,13 +2861,7 @@ function getQuoteForToday(storageKey, quotes) {{
   const votes = JSON.parse(localStorage.getItem(voteKey) || '{{}}');
   const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
   const dayIndex = Math.floor((new Date().setHours(0,0,0,0) - new Date(new Date().getFullYear(),0,0)) / 86400000);
-  const categories = [
-    ['podcast', 'Podcast / Clips'],
-    ['signal', 'Novaire Signal'],
-    ['motr', 'Man On The Rise Game'],
-    ['retreat', 'Retreat'],
-    ['energy', 'Energy Maxxing App']
-  ];
+  const categories = [['retreat', 'Man On The Rise Retreat']];
   const priorityMeta = {{
     podcast: {{rank:1, label:'AI pick'}},
     signal: {{rank:2, label:'Workflow'}},
@@ -3002,13 +2982,6 @@ function getQuoteForToday(storageKey, quotes) {{
   }}).join('');
 }})();
 
-function copySuggestedTweet() {{
-  const text = document.getElementById('tweet-text')?.textContent || '';
-  if (navigator.clipboard && text) navigator.clipboard.writeText(text);
-  const count = document.getElementById('tweet-count');
-  if (count) count.textContent = 'Copied · ' + text.length + ' / 280';
-}}
-
 function escapeActionHtml(value) {{
   return String(value || '').replace(/[&<>"']/g, function(ch) {{
     return ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}})[ch];
@@ -3022,7 +2995,7 @@ function renderActionSteps() {{
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":"","history":[]}}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {{
-    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will turn that exact keystone into one clean next action.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Set today’s top priority above. Signal will turn it into four concrete moves.</div>';
     return;
   }}
   const lower = task.toLowerCase();
@@ -3037,17 +3010,41 @@ function renderActionSteps() {{
     return {{title:'Start the smallest visible move', ask:'What proof can exist in 10 minutes?', action:'Set a 10-minute timer and create one artifact: draft, message, note, commit, screenshot, or decision.'}};
   }}
   const step = actionFor(task);
+  const feedbackKey = 'novaire-keystone-feedback-' + today;
+  const feedback = JSON.parse(localStorage.getItem(feedbackKey) || '{{}}');
+  const moves = [
+    {{title:step.title, action:step.action}},
+    {{title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'}},
+    {{title:'Remove the bottleneck', action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'}},
+    {{title:'Close the loop', action:'Before the day ends, record what moved, what remains, and the exact first move for tomorrow.'}}
+  ];
   const safeTask = escapeActionHtml(task);
-  grid.innerHTML = `
-    <div class="action-step main-action-step">
-      <div class="action-step-num">1</div>
+  window.recordKeystoneMove = function(index, status) {{
+    feedback[index] = {{status:status, task:task, move:moves[index].action, date:today}};
+    localStorage.setItem(feedbackKey, JSON.stringify(feedback));
+    const learning = JSON.parse(localStorage.getItem('novaire-keystone-learning') || '[]');
+    learning.push(feedback[index]);
+    localStorage.setItem('novaire-keystone-learning', JSON.stringify(learning.slice(-80)));
+    renderActionSteps();
+  }};
+  grid.innerHTML = moves.map((move,index) => {{
+    const state = feedback[index]?.status || '';
+    const cls = state === 'completed' ? ' done' : (state === 'ricies' ? ' ricies' : '');
+    return `<div class="action-step${{cls}}">
+      <div class="action-step-num">${{index + 1}}</div>
       <div class="action-step-copy">
-        <div class="action-step-kicker">Personalized from today’s Keystone</div>
-        <div class="action-step-title">${{escapeActionHtml(step.title)}}: ${{safeTask}}</div>
-        <div class="action-step-ask">${{escapeActionHtml(step.ask)}}</div>
-        <div class="action-step-ask">${{escapeActionHtml(step.action)}}</div>
+        <div class="action-step-kicker">From today’s priority</div>
+        <div class="action-step-title">${{escapeActionHtml(move.title)}}</div>
+        <div class="action-step-ask">${{escapeActionHtml(move.action)}}</div>
+        <div class="action-step-actions">
+          <button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove(${{index}},'completed')">Completed</button>
+          <button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${{index}},'incomplete')">Didn't complete</button>
+          <button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${{index}},'ricies')">Ricies</button>
+          ${{state ? '<span class="updog-status" style="display:inline">' + (state === 'ricies' ? 'Bad suggestion logged' : state) + '</span>' : ''}}
+        </div>
       </div>
     </div>`;
+  }}).join('');
 }}
 renderActionSteps();
 
@@ -3067,7 +3064,7 @@ renderActionSteps();
 
 // Live crypto prices (Binance; NIGHT uses CoinGecko's canonical Midnight id)
 !function(){{
-  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","XRP":"XRPUSDT","ADA":"ADAUSDT","ZEC":"ZECUSDT"}};
+  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","ADA":"ADAUSDT","ZEC":"ZECUSDT"}};
   function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
   function updCrypto(){{
     Object.keys(coins).forEach(function(c){{

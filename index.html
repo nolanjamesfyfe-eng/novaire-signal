@@ -63,7 +63,7 @@
     #quotes-card{padding:14px 16px}
     .updog-intro{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}
     .updog-grid{display:flex;flex-direction:column;gap:7px}
-    .updog-item{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.16);border-radius:12px;padding:8px 10px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(201,161,91,.032));min-width:0}
+    .updog-item{display:grid;grid-template-columns:28px minmax(120px,.85fr) minmax(0,2.4fr) auto;align-items:center;gap:10px;border:1px solid rgba(201,161,91,.62);border-radius:14px;padding:12px;background:linear-gradient(145deg,rgba(201,161,91,.2),rgba(201,161,91,.06));box-shadow:0 12px 34px rgba(201,161,91,.1);min-width:0}
     .updog-item.open{align-items:start}
     .updog-item.voted{border-color:rgba(42,157,143,.45);background:linear-gradient(145deg,rgba(42,157,143,.09),rgba(201,161,91,.03))}
     .updog-num{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9}
@@ -100,6 +100,9 @@
     .action-step{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}
     .action-step-num{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9;line-height:1.2}
     .action-step-copy{min-width:0}
+    .action-step-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+    .action-step.done{opacity:.62;border-color:rgba(42,157,143,.5)}
+    .action-step.ricies{opacity:.52;border-color:rgba(180,70,55,.5)}
     .action-step-kicker{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
     .action-step-title{font-family:var(--serif);font-size:.9rem;color:var(--text);line-height:1.25}
     .action-step-ask{font-size:.72rem;color:var(--muted);line-height:1.35;margin-top:2px}
@@ -397,7 +400,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:52</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:56</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">32°C</div>
           <div class="condition">Thunderstorm ⛈</div>
@@ -405,7 +408,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 62% · AQI 23 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:52</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:56</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">18°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -413,7 +416,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 31 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:52</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:56</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">15°C</div>
           <div class="condition">Mainly Clear 🌤</div>
@@ -421,7 +424,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 91% · AQI 63 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:52</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:56</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">9°C</div>
           <div class="condition">Clear Sky ☀️</div>
@@ -445,13 +448,13 @@
     <div class="fx-row">
       
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate">1.40</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">32.95</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">32.93</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.41</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,156</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.87</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">82.79</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,416</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">158.34</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">158.33</span></div>
     </div>
   </div>
 
@@ -462,27 +465,27 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,403</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,402</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.43%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.41%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$64.20</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$64.15</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.37%</span></div>
+          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.29%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6360</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6365</div>
           <div class="commodity-unit">/lb</div>
           <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+1.00%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$78.47</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$78.35</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+0.37%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+0.22%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
@@ -506,38 +509,38 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$65,057</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.43%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$65,151</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.56%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,922</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.40%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,925</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.55%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$76.85</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+1.12%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$76.93</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+1.24%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6926</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.25%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6953</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.64%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1976</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.10%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1978</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.20%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0181</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-2.59%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0182</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-2.58%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$509.72</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.02%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$510.65</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.14%</span></div>
         </div>
     </div>
   </div>
@@ -757,7 +760,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="25" data-thai-url="https://thethaiger.com/video-podcasts/thailand-video-news-10-08-2026">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 10, 12:52 BKK</div>
+          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 10, 12:56 BKK</div>
           <a href="https://thethaiger.com/video-podcasts/thailand-video-news-10-08-2026" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Thailand video news | Thailand sets 90-day deadline for new school safety rules, Homeless Norwegian set to return home after 1,179-day overstay</a>
           <div class="thai-news-summary">In Thailand video news, Alex covers the latest stories from across Thailand. The stories include updates on last Friday’s school shooting in Nonthaburi and Thailand’s ranking for f</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 25.</div>
@@ -810,8 +813,8 @@
 
   <!-- DAILY KEYSTONE PRIORITY -->
   <div class="card" id="keystone-card">
-    <div class="card-title">🎯 Daily Keystone</div>
-    <div class="updog-intro">What is the one thing you'll feel good about if it gets done today?</div>
+    <div class="card-title">🎯 Daily Keystone Priority</div>
+    <div class="updog-intro">Enter the top priority. Signal will turn it into four concrete moves.</div>
     <div class="keystone-row">
       <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
       <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
@@ -822,31 +825,14 @@
 
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
-    <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks across Podcast / Clips, Signal, MOTR, retreat, and energy.</div>
+    <div class="card-title">🎁 Daily Updog Mystery Box</div>
+    <div class="updog-intro">One high-leverage suggestion. Build it, refine it, or leave it for another day.</div>
     <div class="updog-grid" id="updog-grid"></div>
-  </div>
-
-  <!-- SUGGESTED TWEET -->
-  <div class="card tweet-card" id="suggested-tweet-card" data-suggested-tweet="verified">
-    <div class="card-title">🪶 Suggested Tweet</div>
-    <div class="tweet-top">
-      <div class="tweet-chip" id="tweet-project">Trickster</div>
-      <div class="tweet-source" id="tweet-source">Possible angle from @wmiddelkoop · rewritten as house thesis</div>
-    </div>
-    <p class="tweet-text" id="tweet-text">The trickster matters because polite society lies with a straight face. The joke gets through the locked door first.</p>
-    <div class="tweet-actions">
-      <span class="tweet-count" id="tweet-count">116 / 280</span>
-      <div class="updog-actions">
-        <button class="updog-btn updog-retry" type="button" onclick="copySuggestedTweet()">Copy</button>
-        <a class="updog-btn updog-approve" id="tweet-intent" href="https://x.com/intent/tweet?text=The%20trickster%20matters%20because%20polite%20society%20lies%20with%20a%20straight%20face.%20The%20joke%20gets%20through%20the%20locked%20door%20first." target="_blank" rel="noopener">Open X</a>
-      </div>
-    </div>
   </div>
 
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Daily Action Steps</div>
+    <div class="card-title">⚔️ Four Moves for Today</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -1160,13 +1146,7 @@ function getQuoteForToday(storageKey, quotes) {
   const votes = JSON.parse(localStorage.getItem(voteKey) || '{}');
   const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
   const dayIndex = Math.floor((new Date().setHours(0,0,0,0) - new Date(new Date().getFullYear(),0,0)) / 86400000);
-  const categories = [
-    ['podcast', 'Podcast / Clips'],
-    ['signal', 'Novaire Signal'],
-    ['motr', 'Man On The Rise Game'],
-    ['retreat', 'Retreat'],
-    ['energy', 'Energy Maxxing App']
-  ];
+  const categories = [['retreat', 'Man On The Rise Retreat']];
   const priorityMeta = {
     podcast: {rank:1, label:'AI pick'},
     signal: {rank:2, label:'Workflow'},
@@ -1287,13 +1267,6 @@ function getQuoteForToday(storageKey, quotes) {
   }).join('');
 })();
 
-function copySuggestedTweet() {
-  const text = document.getElementById('tweet-text')?.textContent || '';
-  if (navigator.clipboard && text) navigator.clipboard.writeText(text);
-  const count = document.getElementById('tweet-count');
-  if (count) count.textContent = 'Copied · ' + text.length + ' / 280';
-}
-
 function escapeActionHtml(value) {
   return String(value || '').replace(/[&<>"']/g, function(ch) {
     return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[ch];
@@ -1307,7 +1280,7 @@ function renderActionSteps() {
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{"text":"","date":"","history":[]}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {
-    grid.innerHTML = '<div class="action-step-empty">Write today’s one thing above. This section will turn that exact keystone into one clean next action.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Set today’s top priority above. Signal will turn it into four concrete moves.</div>';
     return;
   }
   const lower = task.toLowerCase();
@@ -1322,17 +1295,41 @@ function renderActionSteps() {
     return {title:'Start the smallest visible move', ask:'What proof can exist in 10 minutes?', action:'Set a 10-minute timer and create one artifact: draft, message, note, commit, screenshot, or decision.'};
   }
   const step = actionFor(task);
+  const feedbackKey = 'novaire-keystone-feedback-' + today;
+  const feedback = JSON.parse(localStorage.getItem(feedbackKey) || '{}');
+  const moves = [
+    {title:step.title, action:step.action},
+    {title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'},
+    {title:'Remove the bottleneck', action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'},
+    {title:'Close the loop', action:'Before the day ends, record what moved, what remains, and the exact first move for tomorrow.'}
+  ];
   const safeTask = escapeActionHtml(task);
-  grid.innerHTML = `
-    <div class="action-step main-action-step">
-      <div class="action-step-num">1</div>
+  window.recordKeystoneMove = function(index, status) {
+    feedback[index] = {status:status, task:task, move:moves[index].action, date:today};
+    localStorage.setItem(feedbackKey, JSON.stringify(feedback));
+    const learning = JSON.parse(localStorage.getItem('novaire-keystone-learning') || '[]');
+    learning.push(feedback[index]);
+    localStorage.setItem('novaire-keystone-learning', JSON.stringify(learning.slice(-80)));
+    renderActionSteps();
+  };
+  grid.innerHTML = moves.map((move,index) => {
+    const state = feedback[index]?.status || '';
+    const cls = state === 'completed' ? ' done' : (state === 'ricies' ? ' ricies' : '');
+    return `<div class="action-step${cls}">
+      <div class="action-step-num">${index + 1}</div>
       <div class="action-step-copy">
-        <div class="action-step-kicker">Personalized from today’s Keystone</div>
-        <div class="action-step-title">${escapeActionHtml(step.title)}: ${safeTask}</div>
-        <div class="action-step-ask">${escapeActionHtml(step.ask)}</div>
-        <div class="action-step-ask">${escapeActionHtml(step.action)}</div>
+        <div class="action-step-kicker">From today’s priority</div>
+        <div class="action-step-title">${escapeActionHtml(move.title)}</div>
+        <div class="action-step-ask">${escapeActionHtml(move.action)}</div>
+        <div class="action-step-actions">
+          <button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove(${index},'completed')">Completed</button>
+          <button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${index},'incomplete')">Didn't complete</button>
+          <button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${index},'ricies')">Ricies</button>
+          ${state ? '<span class="updog-status" style="display:inline">' + (state === 'ricies' ? 'Bad suggestion logged' : state) + '</span>' : ''}
+        </div>
       </div>
     </div>`;
+  }).join('');
 }
 renderActionSteps();
 
