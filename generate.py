@@ -1967,7 +1967,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     days_label = f"{fed['days_until']} day{'s' if fed['days_until'] != 1 else ''}"
     fed_html = f"""
   <div class="card fed-card">
-    <div class="fed-title">🏛️ Fed Signal</div>
+    <div class="fed-head">
+      <div class="fed-title">🏛️ Fed Signal</div>
+      <div class="wall-clock"><span>🗽 Wall St</span><b class="live-clock" data-tz-offset="-4"></b><em>NYSE {next_nyse_str} · TSX {next_tsx_str}</em></div>
+    </div>
     <div class="fed-grid">
       <div class="fed-grid-item">
         <div class="fed-grid-label">Rate</div>
@@ -1987,7 +1990,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="fed-grid-val" style="color:var(--blue)">{fed['cut_25bps_pct']}%</div>
       </div>
     </div>
-    <div style="font-size:.54rem;color:var(--mute);margin-top:8px;text-align:center">{fed['next_meeting']} probabilities · CME FedWatch</div>
+    <div class="fed-source">{fed['next_meeting']} probabilities · CME FedWatch</div>
   </div>"""
 
     # ── Top 5 Economies HTML: show only every two weeks on Monday ──
@@ -2380,13 +2383,19 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{text-align:center;padding:14px 16px}}
-    .fed-title{{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600}}
-    .fed-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}}
-    .fed-grid-item{{padding:6px 4px}}
-    .fed-grid-label{{font-size:.54rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}}
-    .fed-grid-val{{font-family:var(--serif);font-size:1.05rem;font-weight:400;line-height:1.3}}
-    .fed-grid-sub{{font-size:.52rem;color:var(--mute);margin-top:2px}}
+    .fed-card{{text-align:center;padding:10px 14px}}
+    .fed-head{{display:flex;align-items:center;justify-content:center;gap:14px;padding-bottom:7px;margin-bottom:5px;border-bottom:1px solid var(--border);flex-wrap:wrap}}
+    .fed-title{{font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}}
+    .wall-clock{{display:flex;align-items:center;gap:6px;font-size:.52rem;color:var(--dim)}}
+    .wall-clock span{{color:var(--gold);text-transform:uppercase;letter-spacing:.08em}}
+    .wall-clock b{{font-family:var(--serif);font-size:.88rem;font-weight:400;color:var(--text)}}
+    .wall-clock em{{font-style:normal;color:var(--mute)}}
+    .fed-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}}
+    .fed-grid-item{{padding:3px 2px}}
+    .fed-grid-label{{font-size:.48rem;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}}
+    .fed-grid-val{{font-family:var(--serif);font-size:.86rem;font-weight:400;line-height:1.2}}
+    .fed-grid-sub{{font-size:.46rem;color:var(--mute);margin-top:1px}}
+    .fed-source{{font-size:.47rem;color:var(--mute);margin-top:4px;text-align:center}}
     @media(max-width:400px){{.fed-grid{{grid-template-columns:repeat(2,1fr);gap:6px}}.fed-grid-val{{font-size:.95rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
@@ -2500,14 +2509,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- WALL STREET CLOCK -->
-  <div class="card" style="text-align:center;padding:8px 16px">
-    <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">
-      <span style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">🗽 Wall St</span>
-      <span class="live-clock" data-tz-offset="-4" style="font-family:var(--serif);font-size:1.15rem;color:var(--text);letter-spacing:.04em"></span>
-      <span style="font-size:.56rem;color:var(--mute)">NYSE {next_nyse_str} · TSX {next_tsx_str}</span>
-    </div>
-  </div>
 
   <div class="card">
     <div class="card-title">💱 FX Rates — 1 USD =</div>
@@ -2531,10 +2532,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       {crypto_html}
     </div>
   </div>
-
-  {poly_html}
-
-  {alpaca_html}
 
 <!-- ZEROHEDGE -->
   <div class="card">
@@ -2673,6 +2670,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
     {cats_html}
   </div>
+
+  <!-- TRADING BOOKS — placed above slower-changing Currently section -->
+  {poly_html}
+
+  {alpaca_html}
 
 
   <!-- CURRENTLY -->
