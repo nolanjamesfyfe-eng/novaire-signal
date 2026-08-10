@@ -517,39 +517,6 @@ MEDITATIONS_JS = """[
   {title:"Zeno of Citium", meta:"Founder of Stoicism · shipwreck into school", excerpt:"A ruined voyage can become a philosophy if the mind refuses to waste the wreckage. Loss is not automatically wisdom, but it can become raw material when a man asks what this disaster is trying to teach him."},
 ]"""
 
-UPDOG_SUGGESTIONS_JS = """{
-  motr:[
-    {title:"Relationship stage filter", idea:"Add under-1-year, 1–2, 2–5, and 5+ year filters to the MOTR relationship game so couples get questions matched to their actual season.", action:"Implement MOTR relationship-stage filtering and tailor the card pool by stage."},
-    {title:"Mastermind icebreaker pack", idea:"Add questions that make younger men discuss reading, discipline, money, health, relationships, family, and purpose without turning the room into a therapy swamp.", action:"Build a MOTR Mastermind question category for integrated self-improvement."},
-    {title:"Love languages into actions", idea:"Turn love-language answers into weekly actions: words, time, touch, service, and gifts translated into concrete relationship behaviors.", action:"Add actionable love-language prompts and follow-up commitments to the relationship game."},
-    {title:"Score report after each round", idea:"After a game session, generate a short relationship or mastermind signal report: strengths, friction, one next conversation, and one tiny practice.", action:"Add end-of-round MOTR signal reports."}
-  ],
-  retreat:[
-    {title:"Retreat readiness quiz", idea:"Add a short quiz that tells a visitor whether they are ready for the Bangkok/Thailand MOTR retreat, then routes them to apply, waitlist, or warm-up content.", action:"Build a MOTR retreat readiness quiz and CTA flow."},
-    {title:"Founder-style retreat itinerary", idea:"Show a sample day: training, deep work, mastermind, Thai food, nightlife optionality, recovery. Make the offer feel real, not brochure vapor.", action:"Add a sample MOTR retreat itinerary section."},
-    {title:"Retreat objection killer", idea:"Add a tight FAQ for price, location, safety, fitness level, dating/social anxiety, and what kind of man should not come.", action:"Add a conversion-focused MOTR retreat FAQ."},
-    {title:"Application signal score", idea:"Let applicants self-rate ambition, health, discipline, social courage, and coachability so the retreat attracts builders, not spiritual tourists with linen pants.", action:"Add a retreat application signal score."}
-  ],
-  energy:[
-    {title:"Battery icon daily check-in", idea:"Make the Energy Maxxing app start with a battery score and one question: sleep, food, training, sunlight, stress, libido, or mood — what is draining the system today?", action:"Add a battery-score check-in to the Energy Maxxing app."},
-    {title:"Energy leak detector", idea:"Have the app identify the top energy leak of the day: alcohol, doomscrolling, poor food, no sunlight, bad sleep, overwork, or unresolved conflict.", action:"Build an Energy Maxxing leak detector."},
-    {title:"30-day prime experiment", idea:"Turn energy maxxing into a monthly experiment with one metric, one habit, and one visible proof of progress.", action:"Add a 30-day Energy Maxxing experiment mode."},
-    {title:"Sleep debt warning", idea:"If sleep is poor, the app should stop giving heroic productivity advice and prescribe a recovery day like a civilized tyrant.", action:"Add sleep-aware recommendations to the Energy Maxxing app."}
-  ],
-  signal:[
-    {title:"Daily meditation source pool", idea:"Expand the Daily Meditation block with more Stoic, practical philosophy, psychology, and investing wisdom — Marcus, Seneca, Epictetus, Frankl, Munger, Taleb.", action:"Expand Novaire Signal's Daily Meditation source pool."},
-    {title:"One-tap product vote", idea:"Keep this Updog section as a daily yes/no product senate: four ideas, one click, less scattered ambition, more compounding execution.", action:"Improve the Novaire Signal Updog voting workflow."},
-    {title:"Marketing channel nudge", idea:"Add one daily distribution suggestion: newsletter, X thread, short clip, retreat lead magnet, relationship-game teaser, or BOTR install pitch.", action:"Add daily marketing-channel suggestions to Novaire Signal."},
-    {title:"Personal cockpit priority", idea:"Add a single daily keystone: the one action that moves health, wealth, product, or relationships furthest today.", action:"Add a daily keystone priority block to Novaire Signal."}
-  ],
-  podcast:[
-    {title:"Three-topic wisdom slate", idea:"Suggest three podcast or clip topics from the zeitgeist, X discourse, and Novaire's core telos: wisdom, better mental models, deeper conversations, and stronger relationships.", action:"Generate three topic candidates for Novaire to rank today."},
-    {title:"Relationship mental model clip", idea:"Turn a trending dating, marriage, friendship, or loneliness debate into a deeper clip about incentives, attachment, agency, status, and honest conversation.", action:"Draft one relationship-focused clip topic with a sharp mental model."},
-    {title:"Zeitgeist through telos", idea:"Take one trending event or claim and filter it through Seeking Wisdom: what does it reveal about human nature, institutions, incentives, or courage?", action:"Create a podcast topic that turns the current thing into a durable lesson."},
-    {title:"Conversation depth prompt", idea:"Find a trending idea that could become a dinner-table or mastermind conversation rather than a hot take: AI, money, masculinity, health, geopolitics, or meaning.", action:"Draft one deep-conversation prompt and two short-clip hooks."}
-  ]
-}"""
-
 UPDOG_ACTION_STEPS_JS = """{
   motr:[
     {title:"Define the player", ask:"Who is this game for first: girlfriend, date, retreat guest, mastermind brother, or a man testing himself alone?", action:"Run one 5-minute relationship-game session today and write down where the card felt sharp, soft, or confusing."},
@@ -1968,9 +1935,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     fed_html = f"""
   <div class="card fed-card">
     <div class="fed-head">
-      <div class="fed-title">🏛️ Fed Signal</div>
       <div class="wall-clock"><span>🗽 Wall St</span><b class="live-clock" data-tz-offset="-4"></b><em>NYSE {next_nyse_str} · TSX {next_tsx_str}</em></div>
     </div>
+    <div class="fed-title">🏛️ Fed Signal</div>
     <div class="fed-grid">
       <div class="fed-grid-item">
         <div class="fed-grid-label">Rate</div>
@@ -2383,19 +2350,19 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{text-align:center;padding:10px 14px}}
-    .fed-head{{display:flex;align-items:center;justify-content:center;gap:14px;padding-bottom:7px;margin-bottom:5px;border-bottom:1px solid var(--border);flex-wrap:wrap}}
-    .fed-title{{font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}}
-    .wall-clock{{display:flex;align-items:center;gap:6px;font-size:.52rem;color:var(--dim)}}
-    .wall-clock span{{color:var(--gold);text-transform:uppercase;letter-spacing:.08em}}
-    .wall-clock b{{font-family:var(--serif);font-size:.88rem;font-weight:400;color:var(--text)}}
-    .wall-clock em{{font-style:normal;color:var(--mute)}}
+    .fed-card{{text-align:center;padding:11px 14px}}
+    .fed-head{{display:flex;align-items:center;justify-content:center;padding-bottom:7px;margin-bottom:5px;border-bottom:1px solid var(--border)}}
+    .fed-title{{font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:3px;opacity:.8}}
+    .wall-clock{{display:flex;align-items:center;justify-content:center;gap:8px;font-size:.54rem;color:var(--dim);flex-wrap:wrap}}
+    .wall-clock span{{color:var(--gold);font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.11em}}
+    .wall-clock b{{font-family:var(--serif);font-size:1.28rem;font-weight:400;color:var(--text);letter-spacing:.04em}}
+    .wall-clock em{{font-style:normal;color:var(--mute);font-size:.5rem}}
     .fed-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}}
-    .fed-grid-item{{padding:3px 2px}}
-    .fed-grid-label{{font-size:.48rem;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}}
-    .fed-grid-val{{font-family:var(--serif);font-size:.86rem;font-weight:400;line-height:1.2}}
-    .fed-grid-sub{{font-size:.46rem;color:var(--mute);margin-top:1px}}
-    .fed-source{{font-size:.47rem;color:var(--mute);margin-top:4px;text-align:center}}
+    .fed-grid-item{{padding:2px}}
+    .fed-grid-label{{font-size:.43rem;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:1px}}
+    .fed-grid-val{{font-family:var(--serif);font-size:.74rem;font-weight:400;line-height:1.15}}
+    .fed-grid-sub{{font-size:.41rem;color:var(--mute);margin-top:1px}}
+    .fed-source{{font-size:.42rem;color:var(--mute);margin-top:3px;text-align:center}}
     @media(max-width:400px){{.fed-grid{{grid-template-columns:repeat(2,1fr);gap:6px}}.fed-grid-val{{font-size:.95rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
@@ -2532,6 +2499,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       {crypto_html}
     </div>
   </div>
+
+  <!-- WALL STREET TIME + COMPACT FED SIGNAL -->
+  {fed_html}
 
 <!-- ZEROHEDGE -->
   <div class="card">
@@ -2707,9 +2677,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- Daily Motivation merged into single Quote of the Day -->
 
-  <!-- FED SIGNAL -->
-  {fed_html}
-
   <!-- TOP 5 ECONOMIES -->
   {eco_html}
 
@@ -2724,13 +2691,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
     <div id="keystone-status" style="margin-top:10px;color:var(--muted);font-size:.82rem">Keystone streak: 0 days.</div>
     <div id="keystone-yesterday" style="margin-top:8px;color:var(--muted);font-size:.82rem"></div>
-  </div>
-
-  <!-- DAILY UPDOG PRODUCT VOTE -->
-  <div class="card" id="updog-card">
-    <div class="card-title">🎁 Daily Updog Mystery Box</div>
-    <div class="updog-intro">One high-leverage suggestion. Build it, refine it, or leave it for another day.</div>
-    <div class="updog-grid" id="updog-grid"></div>
   </div>
 
   <!-- DAILY ACTION STEPS -->
@@ -2760,7 +2720,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const MEDITATIONS = {MEDITATIONS_JS};
-const UPDOG_SUGGESTIONS = {UPDOG_SUGGESTIONS_JS};
 const UPDOG_ACTION_STEPS = {UPDOG_ACTION_STEPS_JS};
 const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
@@ -2872,135 +2831,6 @@ function getQuoteForToday(storageKey, quotes) {{
     persist(true);
   }});
   persist(true);
-}})();
-
-(function renderUpdogVotes() {{
-  const grid = document.getElementById('updog-grid');
-  if (!grid) return;
-  const today = new Date().toDateString();
-  const voteKey = 'novaire-updog-votes-' + today;
-  const votes = JSON.parse(localStorage.getItem(voteKey) || '{{}}');
-  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
-  const dayIndex = Math.floor((new Date().setHours(0,0,0,0) - new Date(new Date().getFullYear(),0,0)) / 86400000);
-  const categories = [['retreat', 'Man On The Rise Retreat']];
-  const priorityMeta = {{
-    podcast: {{rank:1, label:'AI pick'}},
-    signal: {{rank:2, label:'Workflow'}},
-    motr: {{rank:3, label:'Product'}},
-    retreat: {{rank:4, label:'Revenue'}},
-    energy: {{rank:5, label:'Habit'}}
-  }};
-  const iterationBank = {{
-    motr: {{
-      surfaces:['relationship game onboarding','date-night mode','mastermind room mode','couples score report','question-category selector','post-game commitment screen'],
-      verbs:['tighten','ship','test','instrument','personalize','simplify'],
-      bottlenecks:['first-session friction','weak follow-through','generic questions','unclear target user','no replay reason','missing shareable proof']
-    }},
-    retreat: {{
-      surfaces:['application funnel','deposit close flow','Bangkok itinerary proof','candidate qualification screen','venue/room proof block','follow-up message sequence'],
-      verbs:['clarify','pressure-test','de-risk','sell','validate','package'],
-      bottlenecks:['too much concept, not enough proof','unclear buyer urgency','soft qualification','no deadline pressure','weak trust signals','missing next close']
-    }},
-    energy: {{
-      surfaces:['daily battery check-in','sleep recovery logic','energy leak detector','30-day experiment mode','habit proof screen','recommendation engine'],
-      verbs:['make','test','score','compress','personalize','enforce'],
-      bottlenecks:['too many questions','vague advice','no proof loop','ignoring sleep debt','low daily retention','no obvious first action']
-    }},
-    evofund: {{
-      surfaces:['portfolio thesis row','debt-paydown trigger','Polymarket manual book','uranium and AI watchlist','risk ledger','macro catalyst note'],
-      verbs:['rank','hedge','trim','press','audit','wait'],
-      bottlenecks:['headline addiction','unclear action threshold','stale thesis','position drift','no cash discipline','overweight vibes']
-    }},
-    botr: {{
-      surfaces:['first install offer','demo proof asset','lead follow-up bot','customer pain map','pricing line','Miguel-Joseph-James handoff'],
-      verbs:['sell','demo','compress','prove','install','package'],
-      bottlenecks:['AI fog instead of concrete ROI','unclear buyer','no demo proof','too many bot ideas','weak follow-up','offer too abstract']
-    }},
-    signal: {{
-      surfaces:['daily cockpit layout','Updog approval workflow','Thailand expat brief','keystone action step','signal/noise pruning','implementation handoff copy'],
-      verbs:['sharpen','automate','trim','rank','connect','verify'],
-      bottlenecks:['stale suggestions','dashboard clutter','unclear next action','manual handoff friction','weak live verification','too many passive widgets']
-    }},
-    podcast: {{
-      surfaces:['clip topic queue','X-to-thesis scanner','relationship mental model series','wisdom monologue outline','hook/title generator','guest/conversation prompt'],
-      verbs:['draft','rank','extract','package','test','angle'],
-      bottlenecks:['generic topics','no durable thesis','weak hook','too much news, not enough wisdom','no recording prompt','unclear audience']
-    }}
-  }};
-  function pickFrom(list, salt) {{ return list[(seed + dayIndex * 7 + salt) % list.length]; }}
-  function recentUpdogHistory() {{
-    try {{ return JSON.parse(localStorage.getItem('novaire-updog-history') || '[]').slice(-12); }} catch(e) {{ return []; }}
-  }}
-  function synthesizeUpdogSuggestion(key, label, categoryIndex) {{
-    const bank = iterationBank[key];
-    const fallback = (UPDOG_SUGGESTIONS[key] || [])[0] || {{title:'Ship one iteration', idea:'Pick the next bottleneck and turn it into a concrete implementation task.', action:'Implement one focused product iteration.'}};
-    if (!bank) return fallback;
-    if (key === 'podcast') return {{
-      title:'Hook/title generator',
-      surface:'hook/title generator',
-      idea:'Extract generic topics into a sharper Podcast / Clips generator: current interest + durable thesis + title + two hooks.',
-      action:'Extract the hook/title generator so each Podcast / Clips idea becomes one thesis, one title, and two non-generic hooks.'
-    }};
-    if (key === 'signal') return {{
-      title:'Ranked approval workflow',
-      surface:'Updog approval workflow',
-      idea:'Rank passive widgets by action value so Novaire sees the best build task first instead of scanning a flat list.',
-      action:'Rank the Updog approval workflow so the highest-leverage task appears first with a clear priority label.'
-    }};
-    const history = recentUpdogHistory().filter(h => h.key === key).map(h => h.surface);
-    let surface = pickFrom(bank.surfaces, categoryIndex * 3);
-    for (let i = 0; i < bank.surfaces.length && history.includes(surface); i++) surface = pickFrom(bank.surfaces, categoryIndex * 3 + i + 1);
-    const bottleneck = pickFrom(bank.bottlenecks, categoryIndex * 7 + 2);
-    const verb = pickFrom(bank.verbs || ['ship'], categoryIndex * 11 + 4);
-    const title = surface.charAt(0).toUpperCase() + surface.slice(1);
-    return {{
-      title: title,
-      surface: surface,
-      idea: verb.charAt(0).toUpperCase() + verb.slice(1) + ' ' + bottleneck + ' in ' + label + '.',
-      action: verb.charAt(0).toUpperCase() + verb.slice(1) + ' the ' + surface + ' to fix ' + bottleneck + '.'
-    }};
-  }}
-  window.handleUpdogVote = function(key, kind, url) {{
-    votes[key] = kind;
-    localStorage.setItem(voteKey, JSON.stringify(votes));
-    const row = document.querySelector('[data-updog="' + key + '"]');
-    try {{
-      const hist = recentUpdogHistory();
-      const rowTitle = row ? (row.getAttribute('data-surface') || key) : key;
-      hist.push({{date: today, key: key, vote: kind, surface: rowTitle}});
-      localStorage.setItem('novaire-updog-history', JSON.stringify(hist.slice(-40)));
-    }} catch(e) {{}}
-    if (row) {{
-      row.classList.add('voted');
-      const status = row.querySelector('.updog-status');
-      if (status) status.textContent = kind === 'approve' ? 'Approved' : 'Retry requested';
-    }}
-    window.open(url, '_blank', 'noopener');
-  }};
-  grid.innerHTML = categories.map(([key, label], categoryIndex) => {{
-    const item = synthesizeUpdogSuggestion(key, label, categoryIndex);
-    const meta = priorityMeta[key] || {{rank: categoryIndex + 1, label:'Task'}};
-    const approveText = encodeURIComponent('APPROVE UPDOG: ' + label + ' — ' + item.action + ' Context: ' + item.idea);
-    const retryText = encodeURIComponent('TRY AGAIN UPDOG: Give me a sharper alternative for ' + label + '. Previous suggestion: ' + item.title + ' — ' + item.idea);
-    const approveUrl = 'https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=' + approveText.replace(/'/g, '%27');
-    const retryUrl = 'https://t.me/share/url?url=https%3A%2F%2Fnovairesignal.com&text=' + retryText.replace(/'/g, '%27');
-    const voteClass = votes[key] ? ' voted' : '';
-    const voteStatus = votes[key] === 'approve' ? 'Approved' : (votes[key] === 'retry' ? 'Retry requested' : '');
-    return `
-      <div class="updog-item${{voteClass}}" data-updog="${{key}}" data-surface="${{item.surface || item.title}}" title="${{item.idea}}">
-        <div class="updog-num">${{meta.rank}}</div>
-        <div class="updog-kicker">${{label}} · ${{meta.label}}</div>
-        <div class="updog-copy" onclick="this.closest('.updog-item').classList.toggle('open')">
-          <div class="updog-idea">${{item.action}}</div>
-          <div class="updog-expand">Target: ${{item.title}}. Why: ${{item.idea}} Vote yes to build it, or Try Again for a sharper task.</div>
-        </div>
-        <div class="updog-actions">
-          <span class="updog-status">${{voteStatus}}</span>
-          <button class="updog-btn updog-approve" type="button" onclick="handleUpdogVote('${{key}}','approve','${{approveUrl}}')">Approve</button>
-          <button class="updog-btn updog-retry" type="button" onclick="handleUpdogVote('${{key}}','retry','${{retryUrl}}')">Try Again</button>
-        </div>
-      </div>`;
-  }}).join('');
 }})();
 
 function escapeActionHtml(value) {{
