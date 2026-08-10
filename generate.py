@@ -1696,10 +1696,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         return f"{abs(days)} days {past_label}"
 
     # ── Personal countdowns ──
-    trip_date = _date(2026, 9, 7)
+    trip_date = _date(2026, 9, 30)
+    trans_siberian_date = _date(2027, 9, 1)
     edc_thailand_date = _date(2026, 12, 18)
     mastermind_retreat_date = _date(2027, 1, 19)
     trip_countdown_text = countdown_label(trip_date, "since departure")
+    trans_siberian_countdown_text = countdown_label(trans_siberian_date, "since departure")
     edc_countdown_text = countdown_label(edc_thailand_date, "since EDC")
     retreat_countdown_text = countdown_label(mastermind_retreat_date, "since kickoff")
     _nyse = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,25),"Memorial Day"),(_date(2026,6,19),"Juneteenth"),(_date(2026,7,3),"Independence Day"),(_date(2026,9,7),"Labor Day"),(_date(2026,11,26),"Thanksgiving"),(_date(2026,12,25),"Christmas")]
@@ -2053,7 +2055,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .trip-days{{font-family:var(--serif);font-size:1.35rem;color:var(--text);line-height:1.2}}
     .trip-sub{{font-size:.65rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}}
     .countdown-strip{{padding:13px 16px}}
-    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}}
+    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
     .countdown-item{{text-align:center;padding:4px 10px;border-right:1px solid var(--border)}}
     .countdown-item:last-child{{border-right:none}}
     .countdown-label{{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}}
@@ -2338,9 +2340,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <div class="card countdown-strip">
     <div class="countdown-strip-grid">
       <div class="countdown-item">
-        <div class="countdown-label">🚂 Trans-Siberian</div>
+        <div class="countdown-label">🍷 Tbilisi</div>
         <div class="countdown-days">{trip_countdown_text}</div>
-        <div class="countdown-date">Sep 7</div>
+        <div class="countdown-date">Sep 30 · Georgia</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-label">🚂 Trans-Siberian Quest</div>
+        <div class="countdown-days">{trans_siberian_countdown_text}</div>
+        <div class="countdown-date">Sep 2027</div>
       </div>
       <div class="countdown-item">
         <div class="countdown-label">🎡 EDC Thailand</div>
