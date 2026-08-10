@@ -1,16 +1,16 @@
 {
   "as_of": "2026-08-10",
-  "portfolio_note": "Screened against the live Signal portfolio, Evolution Fund, Alpaca, and Kraken exposures. Existing large HG, FVL, and GLO positions are not recycled as new ideas.",
+  "portfolio_note": "One clean asymmetric setup—screened against current holdings.",
   "ideas": [
     {
       "type": "token",
       "symbol": "NIGHT",
       "name": "Midnight",
-      "action": "RESEARCH / STARTER ONLY",
-      "snapshot": "$0.01878 indicative · 24B maximum supply · roughly $451M maximum-supply valuation",
-      "thesis": "The transcript's Midnight and NIGHT are the same asset. NIGHT is Midnight Network's tradable capital and governance token and continuously generates shielded, non-transferable DUST for transactions. Selective-disclosure privacy plus Cardano distribution gives it a real architecture rather than pure meme vapour.",
-      "risk": "Large thaw and unlock overhang, adoption is still unproven, and the low unit price disguises a substantial fully diluted valuation. A drawdown alone is not a margin of safety.",
-      "trigger": "Verify circulating supply and thaw schedule, then use a small staged starter only if network usage, developers, and DUST demand begin compounding.",
+      "action": "STARTER ONLY",
+      "snapshot": "$0.018 indicative · ~$300M market cap · 24B maximum supply",
+      "thesis": "Cardano distribution plus selective-disclosure privacy and real DUST utility.",
+      "risk": "Unlock pressure and adoption remain unproven.",
+      "trigger": "Add only when users, developers and DUST demand accelerate.",
       "source_url": "https://midnight.network/night"
     }
   ]

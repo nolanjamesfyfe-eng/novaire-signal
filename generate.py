@@ -1341,35 +1341,31 @@ def fetch_commodities():
     return results
 
 def fetch_crypto():
-    all_syms = {
-        "BTC": "BTCUSDT", "ETH": "ETHUSDT", "SOL": "SOLUSDT", "SUI": "SUIUSDT",
-        "ADA": "ADAUSDT", "ZEC": "ZECUSDT",
-    }
-    results = {}
-    for coin, sym in all_syms.items():
-        try:
-            r = requests.get(f"https://api.binance.com/api/v3/ticker/24hr?symbol={sym}", timeout=8)
-            data = r.json()
-            price = float(data.get("lastPrice", 0))
-            chg   = float(data.get("priceChangePercent", 0))
-            results[coin] = {"price": price, "change": chg}
-        except Exception:
-            results[coin] = {"price": None, "change": None}
-
-    # Midnight NIGHT. CoinGecko's canonical asset id avoids duplicate NIGHT
-    # tickers; Binance is the fallback if CoinGecko is temporarily unavailable.
+    ids = {"bitcoin":"BTC", "ethereum":"ETH", "solana":"SOL", "cardano":"ADA",
+           "the-open-network":"TON", "sui":"SUI", "zcash":"ZEC", "midnight-3":"NIGHT"}
+    results = {ticker: {"price": None, "change": None, "market_cap": 0} for ticker in ids.values()}
     try:
-        r = requests.get("https://api.coingecko.com/api/v3/simple/price",
-            params={"ids":"midnight-3","vs_currencies":"usd","include_24hr_change":"true"},
-            headers={"User-Agent":"NovaireSignal/1.0"}, timeout=10)
-        d = r.json()["midnight-3"]
-        results["NIGHT"] = {"price": float(d["usd"]), "change": float(d["usd_24h_change"])}
+        rows = requests.get("https://api.coingecko.com/api/v3/coins/markets",
+            params={"vs_currency":"usd", "ids":",".join(ids), "price_change_percentage":"24h"},
+            headers={"User-Agent":"NovaireSignal/1.0"}, timeout=12).json()
+        for row in rows:
+            ticker = ids.get(row.get("id"))
+            if ticker:
+                results[ticker] = {"price": row.get("current_price"),
+                    "change": row.get("price_change_percentage_24h"),
+                    "market_cap": row.get("market_cap") or 0}
     except Exception:
+        pass
+
+    # Binance is the faster live-price layer; CoinGecko remains the market-cap
+    # source and the fallback quote. XRP is intentionally excluded.
+    for ticker in results:
         try:
-            d = requests.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NIGHTUSDT", timeout=8).json()
-            results["NIGHT"] = {"price": float(d["lastPrice"]), "change": float(d["priceChangePercent"])}
+            d = requests.get(f"https://api.binance.com/api/v3/ticker/24hr?symbol={ticker}USDT", timeout=8).json()
+            results[ticker]["price"] = float(d["lastPrice"])
+            results[ticker]["change"] = float(d["priceChangePercent"])
         except Exception:
-            results["NIGHT"] = {"price": None, "change": None}
+            pass
     return results
 
 def fetch_polymarket():
@@ -1870,9 +1866,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="weekly-idea">
           <div class="weekly-idea-top"><span class="weekly-action">{action}</span><span class="weekly-type">{asset_type}</span><a href="{source_url}" target="_blank" rel="noopener">{symbol} · {name}</a></div>
           <div class="weekly-snapshot">{snapshot}</div>
-          <div class="weekly-thesis"><b>Why now:</b> {thesis}</div>
-          <div class="weekly-risk"><b>Kill shot:</b> {risk}</div>
-          <div class="weekly-trigger"><b>Trigger:</b> {trigger}</div>
+          <div class="weekly-points">
+            <div class="weekly-thesis"><b>Edge</b><span>{thesis}</span></div>
+            <div class="weekly-risk"><b>Risk</b><span>{risk}</span></div>
+            <div class="weekly-trigger"><b>Go</b><span>{trigger}</span></div>
+          </div>
         </div>"""
     if not weekly_rows:
         weekly_rows = '<div class="weekly-empty">Weekly scan awaiting verified data. No counterfeit conviction.</div>'
@@ -2036,9 +2034,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     # ── Crypto HTML ──
     crypto_colors = {"BTC": "#f7931a","ETH": "#627eea","SOL": "#9945ff","SUI": "#6fd7ff",
-                     "ADA": "#2a6df4","NIGHT": "#7868ff","ZEC": "#f4b728"}
+                     "ADA": "#2a6df4","TON": "#0098ea","NIGHT": "#7868ff","ZEC": "#f4b728"}
     crypto_html = ""
-    for coin in ["BTC","ETH","SOL","SUI","ADA","NIGHT","ZEC"]:
+    crypto_order = sorted(crypto, key=lambda coin: crypto.get(coin, {}).get("market_cap") or 0, reverse=True)
+    for coin in crypto_order:
         c     = crypto.get(coin, {})
         price = c.get("price")
         chg   = c.get("change")
@@ -2252,15 +2251,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .radar-sep{{color:var(--dim);font-size:.75rem;white-space:nowrap}}
     .radar-idea{{font-size:.78rem;color:var(--text);line-height:1.4}}
     .radar-source{{font-size:.68rem;color:var(--gold);opacity:.65;font-style:italic;white-space:nowrap}}
-    .weekly-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}}
-    .weekly-idea{{border:1px solid var(--border);border-radius:10px;padding:11px;background:rgba(255,255,255,.015)}}
-    .weekly-idea-top{{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px}}
+    .weekly-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:10px;margin-top:8px}}
+    .weekly-idea{{border:1px solid rgba(201,161,91,.2);border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(201,161,91,.055),rgba(255,255,255,.018))}}
+    .weekly-idea-top{{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px}}
     .weekly-idea-top a{{color:var(--gold);font-weight:700;text-decoration:none}}
     .weekly-action{{font-size:.58rem;font-weight:800;letter-spacing:.1em;color:#07110b;background:var(--green);padding:3px 6px;border-radius:5px}}
     .weekly-type{{font-size:.58rem;letter-spacing:.1em;color:var(--dim)}}
-    .weekly-snapshot{{font-size:.72rem;color:var(--blue);margin-bottom:6px}}
-    .weekly-thesis,.weekly-risk,.weekly-trigger{{font-size:.74rem;line-height:1.45;margin-top:4px}}
-    .weekly-risk{{color:#f7a7a7}} .weekly-trigger{{color:var(--dim)}}
+    .weekly-snapshot{{font-size:.68rem;color:var(--blue);margin-bottom:8px}}
+    .weekly-points{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}}
+    .weekly-thesis,.weekly-risk,.weekly-trigger{{font-size:.7rem;line-height:1.35;padding:8px 9px;border-radius:8px;background:rgba(0,0,0,.18);min-width:0}}
+    .weekly-points b{{display:block;font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;margin-bottom:3px;color:var(--gold)}}
+    .weekly-points span{{display:block;color:var(--text)}}
+    .weekly-risk span{{color:#f3b0b0}} .weekly-trigger span{{color:var(--dim)}}
     .weekly-meta,.weekly-empty{{font-size:.68rem;color:var(--mute);line-height:1.5}}
     .catalyst-source{{font-size:.62rem;color:var(--dim);margin-top:2px}}
     .no-news{{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}}
@@ -2389,6 +2391,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .rec-grid{{grid-template-columns:1fr}}
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
       .weekly-grid{{grid-template-columns:1fr}}
+      .weekly-points{{grid-template-columns:1fr}}
     }}
   </style>
 </head>
@@ -3062,9 +3065,10 @@ renderActionSteps();
 // Live world clocks
 !function(){{var u=function(){{document.querySelectorAll(".live-clock").forEach(function(e){{var o=parseInt(e.getAttribute("data-tz-offset"))||0,n=new Date,t=n.getTime()+n.getTimezoneOffset()*6e4,l=new Date(t+o*36e5);e.textContent=String(l.getHours()).padStart(2,"0")+":"+String(l.getMinutes()).padStart(2,"0")+":"+String(l.getSeconds()).padStart(2,"0")}})}}; u(); setInterval(u,1e3)}}();
 
-// Live crypto prices (Binance; NIGHT uses CoinGecko's canonical Midnight id)
+// Live crypto: Binance prices every 15s; CoinGecko market caps reorder every 60s.
 !function(){{
-  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","ADA":"ADAUSDT","ZEC":"ZECUSDT"}};
+  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","ADA":"ADAUSDT","TON":"TONUSDT","SUI":"SUIUSDT","ZEC":"ZECUSDT","NIGHT":"NIGHTUSDT"}};
+  var ids={{"bitcoin":"BTC","ethereum":"ETH","solana":"SOL","cardano":"ADA","the-open-network":"TON","sui":"SUI","zcash":"ZEC","midnight-3":"NIGHT"}};
   function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
   function updCrypto(){{
     Object.keys(coins).forEach(function(c){{
@@ -3077,15 +3081,18 @@ renderActionSteps();
           if(ce){{var ch=parseFloat(d.priceChangePercent);ce.innerHTML='<span class="'+(ch>=0?"positive":"negative")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>"}}
         }}).catch(function(){{}})
     }})
-    fetch("https://api.coingecko.com/api/v3/simple/price?ids=midnight-3&vs_currencies=usd&include_24hr_change=true")
+  }}
+  function reorderCrypto(){{
+    fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids="+Object.keys(ids).join(","))
       .then(function(r){{return r.json()}})
-      .then(function(d){{
-        var n=d["midnight-3"]||{{}},el=document.querySelector('[data-crypto-price="NIGHT"]'),ce=document.querySelector('[data-crypto-chg="NIGHT"]');
-        if(el&&Number.isFinite(Number(n.usd)))el.textContent=fmt(Number(n.usd));
-        if(ce&&Number.isFinite(Number(n.usd_24h_change))){{var ch=Number(n.usd_24h_change);ce.innerHTML='<span class="'+(ch>=0?"positive":"negative")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>'}}
+      .then(function(rows){{
+        var grid=document.querySelector('.crypto-grid');if(!grid)return;
+        rows.sort(function(a,b){{return (b.market_cap||0)-(a.market_cap||0)}}).forEach(function(row){{
+          var ticker=ids[row.id],el=ticker&&grid.querySelector('[data-coin="'+ticker+'"]');if(el)grid.appendChild(el)
+        }})
       }}).catch(function(){{}})
   }}
-  updCrypto();setInterval(updCrypto,30000);
+  updCrypto();reorderCrypto();setInterval(updCrypto,15000);setInterval(reorderCrypto,60000);
 }}();
 </script>
 </body>
