@@ -1233,8 +1233,13 @@ def fetch_portfolio(usdcad=1.365, audusd=0.63):
             results[ticker] = {"price": None, "change": None, "value": None, "currency": currency, "fallback": False}
     return results, holdings_source, gs_meta
 
-def fetch_catalysts(top3_tickers):
-    """Fetch news for top 3 tickers. Returns dict with freshness info."""
+def fetch_catalysts(tickers):
+    """Fetch recent verified news for every requested top holding.
+
+    Yahoo often returns no news for Canadian small caps, so each symbol also
+    gets an exact-company Google News RSS scan. A 14-day window retains useful
+    conference and project catalysts without filling the card with old fluff.
+    """
     try:
         import yfinance as yf
     except ImportError:
@@ -1242,51 +1247,80 @@ def fetch_catalysts(top3_tickers):
 
     cats = {}
     now = datetime.now(timezone.utc)
-    fresh_cutoff = now - timedelta(hours=48)  # 48h hard cutoff — no old fluff
-
-    # Map fallback tickers to real Yahoo Finance tickers for news
-    FALLBACK_NEWS_MAP = {
-        "_FVL_FALLBACK": "FVL.V",
-        "_MOLY_FALLBACK": "MOLY.V",
+    fresh_cutoff = now - timedelta(days=14)
+    fallback_news_map = {"_FVL_FALLBACK": "FVL.TO", "_MOLY_FALLBACK": "MOLY.V"}
+    news_queries = {
+        "HG.CN": "HydroGraph Clean Power",
+        "_FVL_FALLBACK": "Freegold Limited Golden Summit",
+        "FVL.TO": "Freegold Limited Golden Summit",
+        "GLO.TO": "Global Atomic Dasa",
+        "URNJ": "Sprott Junior Uranium Miners ETF",
+        "BNNLF": "Bannerman Energy Etango",
+        "VZLA.TO": "Vizsla Silver Panuco",
+    }
+    relevance_terms = {
+        "HG.CN": ("hydrograph",),
+        "_FVL_FALLBACK": ("freegold", "golden summit"),
+        "FVL.TO": ("freegold", "golden summit"),
+        "GLO.TO": ("global atomic", "dasa"),
+        "URNJ": ("urnj", "sprott junior uranium"),
+        "BNNLF": ("bannerman", "etango"),
+        "VZLA.TO": ("vizsla silver", "panuco"),
     }
 
-    for ticker in top3_tickers:
-        lookup_ticker = FALLBACK_NEWS_MAP.get(ticker, ticker)
-        if lookup_ticker.startswith("_"):
-            cats[ticker] = None
-            continue
-        try:
-            t = yf.Ticker(lookup_ticker)
-            news = t.news
-            if news:
-                item = news[0]
-                title = (item.get("content", {}).get("title")
-                         or item.get("title", "No title"))
-                pub_raw = (item.get("content", {}).get("pubDate")
-                           or item.get("providerPublishTime", ""))
-                # Normalise to datetime
-                pub_dt = None
-                if pub_raw:
+    for ticker in tickers:
+        lookup_ticker = fallback_news_map.get(ticker, ticker)
+        candidates = []
+        if not lookup_ticker.startswith("_"):
+            try:
+                for item in (yf.Ticker(lookup_ticker).news or []):
+                    title = item.get("content", {}).get("title") or item.get("title", "")
+                    pub_raw = item.get("content", {}).get("pubDate") or item.get("providerPublishTime", "")
+                    pub_dt = None
                     try:
-                        if isinstance(pub_raw, (int, float)):
-                            pub_dt = datetime.fromtimestamp(pub_raw, tz=timezone.utc)
-                        else:
-                            pub_dt = datetime.fromisoformat(str(pub_raw).replace("Z", "+00:00"))
+                        pub_dt = (datetime.fromtimestamp(pub_raw, tz=timezone.utc) if isinstance(pub_raw, (int, float))
+                                  else datetime.fromisoformat(str(pub_raw).replace("Z", "+00:00")))
                     except Exception:
                         pass
-                pub_str = pub_dt.strftime("%b %-d") if pub_dt else "—"
-                fresh = (pub_dt and pub_dt >= fresh_cutoff)
-                source = (item.get("content", {}).get("provider", {}).get("displayName")
-                          or item.get("publisher", ""))
-                cats[ticker] = {
-                    "title":  title,
-                    "date":   pub_str,
-                    "source": source,
-                    "fresh":  fresh,
-                }
-            else:
-                cats[ticker] = None
-        except Exception:
+                    source = (item.get("content", {}).get("provider", {}).get("displayName")
+                              or item.get("publisher", ""))
+                    if title and pub_dt:
+                        candidates.append({"title": title, "pub_dt": pub_dt, "source": source})
+            except Exception:
+                pass
+
+        query = news_queries.get(ticker)
+        if query:
+            try:
+                from urllib.parse import quote_plus
+                from email.utils import parsedate_to_datetime
+                import xml.etree.ElementTree as ET
+                url = ("https://news.google.com/rss/search?q=" + quote_plus(f'"{query}" when:14d')
+                       + "&hl=en-US&gl=US&ceid=US:en")
+                response = requests.get(url, headers={"User-Agent": "NovaireSignal/1.0"}, timeout=10)
+                response.raise_for_status()
+                for item in ET.fromstring(response.content).findall("./channel/item"):
+                    title = (item.findtext("title") or "").strip()
+                    pub_raw = item.findtext("pubDate") or ""
+                    if not title or not pub_raw:
+                        continue
+                    pub_dt = parsedate_to_datetime(pub_raw).astimezone(timezone.utc)
+                    source_node = item.find("source")
+                    source = ((source_node.text or "Google News").strip()
+                              if source_node is not None else "Google News")
+                    candidates.append({"title": title, "pub_dt": pub_dt, "source": source})
+            except Exception:
+                pass
+
+        terms = relevance_terms.get(ticker, ())
+        candidates = [c for c in candidates
+                      if fresh_cutoff <= c["pub_dt"] <= now + timedelta(hours=2)
+                      and (not terms or any(term in c["title"].lower() for term in terms))]
+        if candidates:
+            best = max(candidates, key=lambda c: c["pub_dt"])
+            cats[ticker] = {"title": best["title"], "date": best["pub_dt"].strftime("%b %-d"),
+                            "source": best["source"], "fresh": True}
+        else:
             cats[ticker] = None
     return cats
 
@@ -1806,7 +1840,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     # ── Top 5 by value ──
     top5 = [t for t, *_ in port_sorted[:5]]
 
-    # ── Catalysts HTML (top 5, 48h fresh only) ──
+    # ── Catalysts HTML (top 5, latest verified item within 14 days) ──
     # If ALL 5 have no news → one collapsed line. Otherwise show per-ticker lines.
     fresh_cats  = [(t, catalysts.get(t)) for t in top5 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
     no_news_tks = [t for t in top5 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
@@ -1832,7 +1866,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             <div class="catalyst-item">
               <span class="catalyst-ticker">{no_news_displays}</span>
               <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No news within 48 hours.</span>
+              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No verified news within 14 days.</span>
             </div>"""
 
     # ── Radar Moonshots HTML (3 crypto + 3 resource, live Reddit) ──
@@ -3200,7 +3234,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
             <div class="catalyst-item">
               <span class="catalyst-ticker">{no_news_displays}</span>
               <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No news within 48 hours.</span>
+              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No verified news within 14 days.</span>
             </div>"""
 
     return f"""<!DOCTYPE html>
@@ -3517,14 +3551,15 @@ def main():
 
     print("  🔍 Fetching catalysts (yfinance news)...")
     sorted_holdings = sorted(
-        [h["ticker"] for h in HOLDINGS],
+        [h["ticker"] for h in (holdings_source or HOLDINGS)],
         key=lambda t: (portfolio_data.get(t, {}).get("value") or 0),
         reverse=True
     )
-    top3 = sorted_holdings[:3]
+    top5 = sorted_holdings[:5]
     try:
-        catalysts = fetch_catalysts(top3)
-        print(f"    ✅ Catalysts for {', '.join(top3)}")
+        catalysts = fetch_catalysts(top5)
+        found = sum(1 for value in catalysts.values() if value)
+        print(f"    ✅ Catalysts for {', '.join(top5)} ({found}/{len(top5)} with verified news ≤14d)")
     except Exception as e:
         print(f"    ❌ {e}")
         catalysts = {}
