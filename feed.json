@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-10T04:01:22.525202+00:00",
+  "fetchedAt": "2026-08-10T05:19:05.200485+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2086683005783818528",
+      "text": "Probably nothing ..",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-10T05:16:11+00:00",
+      "createdAtMs": 1786338971000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2086683005783818528#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2086653792448098412",
       "text": "Globalism Must Be Vanquished https://www.zerohedge.com/geopolitical/globalism-must-be-vanquished",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2086653792448098412#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/BarbarianCap/status/2086636740270346661#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2086626368301793488",
-      "text": "Saudi Arabia's crude export flows are facing renewed uncertainty: Saudi Arabia's crude exports fell -460,000 barrels per day in July, to 4.19 million barrels per day. The 746-mile pipeline carrying crude from Saudi Arabia's eastern oil fields to the Red Sea coast has been a key factor in bypassing the Strait of Hormuz, making Yanbu Saudi's primary alternative export route. However, Yanbu has faced fresh threats after Yemen's Houthis pledged to blockade Saudi ports and claimed attacks on Saudi vessels and energy facilities last month. Meanwhile, Yanbu shipments have become harder to track as more vessels switch off their transponders, though satellite images showed 6 very large crude carriers loading at the port over the weekend, a possible sign exports are picking back up. Saudi Arabia's crude exports remain highly volatile.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-08-10T01:31:08+00:00",
-      "createdAtMs": 1786325468000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2086626368301793488#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
