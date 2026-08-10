@@ -65,6 +65,21 @@ HOLDINGS = [
 # unavailable. A stale number is worse than no number on a signal dashboard.
 FALLBACK_PRICES = {}
 
+WEEKLY_IDEAS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "weekly_ideas.json")
+
+
+def load_weekly_ideas():
+    """Load the researched weekly slate; frequent builds only render it."""
+    try:
+        with open(WEEKLY_IDEAS_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, dict) or not isinstance(data.get("ideas"), list):
+            raise ValueError("invalid shape")
+        return data
+    except Exception as e:
+        print(f"  ⚠ Weekly asymmetric ideas unavailable: {e}")
+        return {"as_of": None, "ideas": []}
+
 HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"], "display": h.get("display", h["ticker"].split(".")[0])} for h in HOLDINGS}
 SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
 
@@ -1305,12 +1320,14 @@ def fetch_commodities():
         except Exception:
             results[sym] = {**meta, "price": None, "change": None}
 
-    # Uranium spot price — scraped from tradingeconomics (U3O8 $/lb)
+    # Uranium spot price — Trading Economics benchmark CFD (U3O8 $/lb).
     try:
         r = requests.get("https://tradingeconomics.com/commodity/uranium",
                          headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
         import re
-        m = re.search(r'Uranium (?:fell|rose|remained)[^.]*?(\d+\.?\d*)\s*USD/Lbs', r.text)
+        # Copy varies: "rose", "fell", "remained", or "traded flat".
+        m = re.search(r'Uranium[^".]{0,160}?\bat\s+(\d+(?:\.\d+)?)\s*USD/Lbs',
+                      r.text, flags=re.IGNORECASE)
         if m:
             spot = float(m.group(1))
             results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
@@ -1326,7 +1343,7 @@ def fetch_commodities():
 def fetch_crypto():
     all_syms = {
         "BTC": "BTCUSDT", "ETH": "ETHUSDT", "SOL": "SOLUSDT", "SUI": "SUIUSDT",
-        "XRP": "XRPUSDT", "ADA": "ADAUSDT", "TON": "TONUSDT", "ZEC": "ZECUSDT",
+        "XRP": "XRPUSDT", "ADA": "ADAUSDT", "ZEC": "ZECUSDT",
     }
     results = {}
     for coin, sym in all_syms.items():
@@ -1338,6 +1355,21 @@ def fetch_crypto():
             results[coin] = {"price": price, "change": chg}
         except Exception:
             results[coin] = {"price": None, "change": None}
+
+    # Midnight NIGHT. CoinGecko's canonical asset id avoids duplicate NIGHT
+    # tickers; Binance is the fallback if CoinGecko is temporarily unavailable.
+    try:
+        r = requests.get("https://api.coingecko.com/api/v3/simple/price",
+            params={"ids":"midnight-3","vs_currencies":"usd","include_24hr_change":"true"},
+            headers={"User-Agent":"NovaireSignal/1.0"}, timeout=10)
+        d = r.json()["midnight-3"]
+        results["NIGHT"] = {"price": float(d["usd"]), "change": float(d["usd_24h_change"])}
+    except Exception:
+        try:
+            d = requests.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NIGHTUSDT", timeout=8).json()
+            results["NIGHT"] = {"price": float(d["lastPrice"]), "change": float(d["priceChangePercent"])}
+        except Exception:
+            results["NIGHT"] = {"price": None, "change": None}
     return results
 
 def fetch_polymarket():
@@ -1822,6 +1854,31 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     radar_crypto_html   = _radar_rows(moonshots.get("crypto", []))
     radar_resource_html = _radar_rows(moonshots.get("resource", []))
 
+    weekly = load_weekly_ideas()
+    weekly_rows = ""
+    for idea in weekly.get("ideas", [])[:6]:
+        action = escape(str(idea.get("action", "WATCH")).upper())
+        asset_type = escape(str(idea.get("type", "idea")).upper())
+        symbol = escape(str(idea.get("symbol", "—")))
+        name = escape(str(idea.get("name", symbol)))
+        snapshot = escape(str(idea.get("snapshot", "Data unavailable")))
+        thesis = escape(str(idea.get("thesis", "")))
+        risk = escape(str(idea.get("risk", "")))
+        trigger = escape(str(idea.get("trigger", "")))
+        source_url = escape(str(idea.get("source_url", "#")), quote=True)
+        weekly_rows += f"""
+        <div class="weekly-idea">
+          <div class="weekly-idea-top"><span class="weekly-action">{action}</span><span class="weekly-type">{asset_type}</span><a href="{source_url}" target="_blank" rel="noopener">{symbol} · {name}</a></div>
+          <div class="weekly-snapshot">{snapshot}</div>
+          <div class="weekly-thesis"><b>Why now:</b> {thesis}</div>
+          <div class="weekly-risk"><b>Kill shot:</b> {risk}</div>
+          <div class="weekly-trigger"><b>Trigger:</b> {trigger}</div>
+        </div>"""
+    if not weekly_rows:
+        weekly_rows = '<div class="weekly-empty">Weekly scan awaiting verified data. No counterfeit conviction.</div>'
+    weekly_as_of = escape(str(weekly.get("as_of") or "awaiting scan"))
+    weekly_note = escape(str(weekly.get("portfolio_note") or "Screened against current holdings and trading accounts."))
+
     # ── FX Rates HTML ──
     FX_ORDER = ["CAD", "THB", "AUD", "COP", "EUR", "RUB", "KRW", "JPY"]
     fx_rates_html = ""
@@ -1979,9 +2036,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     # ── Crypto HTML ──
     crypto_colors = {"BTC": "#f7931a","ETH": "#627eea","SOL": "#9945ff","SUI": "#6fd7ff",
-                     "XRP": "#346aa9","ADA": "#2a6df4","TON": "#0098ea","ZEC": "#f4b728"}
+                     "XRP": "#346aa9","ADA": "#2a6df4","NIGHT": "#7868ff","ZEC": "#f4b728"}
     crypto_html = ""
-    for coin in ["BTC","ETH","SOL","SUI","XRP","ADA","TON","ZEC"]:
+    for coin in ["BTC","ETH","SOL","SUI","XRP","ADA","NIGHT","ZEC"]:
         c     = crypto.get(coin, {})
         price = c.get("price")
         chg   = c.get("change")
@@ -2192,6 +2249,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .radar-sep{{color:var(--dim);font-size:.75rem;white-space:nowrap}}
     .radar-idea{{font-size:.78rem;color:var(--text);line-height:1.4}}
     .radar-source{{font-size:.68rem;color:var(--gold);opacity:.65;font-style:italic;white-space:nowrap}}
+    .weekly-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}}
+    .weekly-idea{{border:1px solid var(--border);border-radius:10px;padding:11px;background:rgba(255,255,255,.015)}}
+    .weekly-idea-top{{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px}}
+    .weekly-idea-top a{{color:var(--gold);font-weight:700;text-decoration:none}}
+    .weekly-action{{font-size:.58rem;font-weight:800;letter-spacing:.1em;color:#07110b;background:var(--green);padding:3px 6px;border-radius:5px}}
+    .weekly-type{{font-size:.58rem;letter-spacing:.1em;color:var(--dim)}}
+    .weekly-snapshot{{font-size:.72rem;color:var(--blue);margin-bottom:6px}}
+    .weekly-thesis,.weekly-risk,.weekly-trigger{{font-size:.74rem;line-height:1.45;margin-top:4px}}
+    .weekly-risk{{color:#f7a7a7}} .weekly-trigger{{color:var(--dim)}}
+    .weekly-meta,.weekly-empty{{font-size:.68rem;color:var(--mute);line-height:1.5}}
     .catalyst-source{{font-size:.62rem;color:var(--dim);margin-top:2px}}
     .no-news{{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}}
 
@@ -2318,6 +2385,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .allocation-section{{flex-direction:column}}
       .rec-grid{{grid-template-columns:1fr}}
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
+      .weekly-grid{{grid-template-columns:1fr}}
     }}
   </style>
 </head>
@@ -2345,19 +2413,19 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="countdown-date">Sep 30 · Georgia</div>
       </div>
       <div class="countdown-item">
-        <div class="countdown-label">🚂 Trans-Siberian Quest</div>
-        <div class="countdown-days">{trans_siberian_countdown_text}</div>
-        <div class="countdown-date">Sep 2027</div>
-      </div>
-      <div class="countdown-item">
         <div class="countdown-label">🎡 EDC Thailand</div>
         <div class="countdown-days">{edc_countdown_text}</div>
         <div class="countdown-date">Dec 18</div>
       </div>
       <div class="countdown-item">
-        <div class="countdown-label">🏝 Mastermind Retreat</div>
+        <div class="countdown-label">🏝 Man on the Rise Retreat</div>
         <div class="countdown-days">{retreat_countdown_text}</div>
         <div class="countdown-date">Jan 19</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-label">🚂 Trans-Siberian Quest</div>
+        <div class="countdown-days">{trans_siberian_countdown_text}</div>
+        <div class="countdown-date">Sep 2027</div>
       </div>
     </div>
   </div>
@@ -2561,6 +2629,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </script>
 
   <!-- PORTFOLIO removed — now at /portfolio -->
+
+  <!-- WEEKLY ASYMMETRIC IDEAS -->
+  <div class="card" id="weekly-asymmetric-ideas">
+    <div class="card-title">⚡ Weekly Asymmetric Ideas</div>
+    <div class="weekly-meta">Updated {weekly_as_of} · {weekly_note}</div>
+    <div class="weekly-grid">{weekly_rows}</div>
+  </div>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
   <div class="card">
@@ -2990,9 +3065,9 @@ renderActionSteps();
 // Live world clocks
 !function(){{var u=function(){{document.querySelectorAll(".live-clock").forEach(function(e){{var o=parseInt(e.getAttribute("data-tz-offset"))||0,n=new Date,t=n.getTime()+n.getTimezoneOffset()*6e4,l=new Date(t+o*36e5);e.textContent=String(l.getHours()).padStart(2,"0")+":"+String(l.getMinutes()).padStart(2,"0")+":"+String(l.getSeconds()).padStart(2,"0")}})}}; u(); setInterval(u,1e3)}}();
 
-// Live crypto prices (Binance, every 30s)
+// Live crypto prices (Binance; NIGHT uses CoinGecko's canonical Midnight id)
 !function(){{
-  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","XRP":"XRPUSDT","ADA":"ADAUSDT","TON":"TONUSDT","ZEC":"ZECUSDT"}};
+  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","XRP":"XRPUSDT","ADA":"ADAUSDT","ZEC":"ZECUSDT"}};
   function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
   function updCrypto(){{
     Object.keys(coins).forEach(function(c){{
@@ -3005,6 +3080,13 @@ renderActionSteps();
           if(ce){{var ch=parseFloat(d.priceChangePercent);ce.innerHTML='<span class="'+(ch>=0?"positive":"negative")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>"}}
         }}).catch(function(){{}})
     }})
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=midnight-3&vs_currencies=usd&include_24hr_change=true")
+      .then(function(r){{return r.json()}})
+      .then(function(d){{
+        var n=d["midnight-3"]||{{}},el=document.querySelector('[data-crypto-price="NIGHT"]'),ce=document.querySelector('[data-crypto-chg="NIGHT"]');
+        if(el&&Number.isFinite(Number(n.usd)))el.textContent=fmt(Number(n.usd));
+        if(ce&&Number.isFinite(Number(n.usd_24h_change))){{var ch=Number(n.usd_24h_change);ce.innerHTML='<span class="'+(ch>=0?"positive":"negative")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>'}}
+      }}).catch(function(){{}})
   }}
   updCrypto();setInterval(updCrypto,30000);
 }}();
