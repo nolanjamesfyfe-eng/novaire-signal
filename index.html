@@ -180,6 +180,16 @@
     .radar-sep{color:var(--dim);font-size:.75rem;white-space:nowrap}
     .radar-idea{font-size:.78rem;color:var(--text);line-height:1.4}
     .radar-source{font-size:.68rem;color:var(--gold);opacity:.65;font-style:italic;white-space:nowrap}
+    .weekly-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+    .weekly-idea{border:1px solid var(--border);border-radius:10px;padding:11px;background:rgba(255,255,255,.015)}
+    .weekly-idea-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px}
+    .weekly-idea-top a{color:var(--gold);font-weight:700;text-decoration:none}
+    .weekly-action{font-size:.58rem;font-weight:800;letter-spacing:.1em;color:#07110b;background:var(--green);padding:3px 6px;border-radius:5px}
+    .weekly-type{font-size:.58rem;letter-spacing:.1em;color:var(--dim)}
+    .weekly-snapshot{font-size:.72rem;color:var(--blue);margin-bottom:6px}
+    .weekly-thesis,.weekly-risk,.weekly-trigger{font-size:.74rem;line-height:1.45;margin-top:4px}
+    .weekly-risk{color:#f7a7a7} .weekly-trigger{color:var(--dim)}
+    .weekly-meta,.weekly-empty{font-size:.68rem;color:var(--mute);line-height:1.5}
     .catalyst-source{font-size:.62rem;color:var(--dim);margin-top:2px}
     .no-news{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}
 
@@ -306,6 +316,7 @@
       .allocation-section{flex-direction:column}
       .rec-grid{grid-template-columns:1fr}
       .portfolio-summary{grid-template-columns:repeat(3,1fr)}
+      .weekly-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -386,7 +397,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:51</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:52</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">32°C</div>
           <div class="condition">Thunderstorm ⛈</div>
@@ -394,7 +405,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 62% · AQI 23 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:51</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:52</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">18°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -402,7 +413,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 31 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:51</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:52</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">15°C</div>
           <div class="condition">Mainly Clear 🌤</div>
@@ -410,7 +421,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 91% · AQI 63 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:51</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:52</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">9°C</div>
           <div class="condition">Clear Sky ☀️</div>
@@ -440,7 +451,7 @@
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.87</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">82.79</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,416</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">158.33</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">158.34</span></div>
     </div>
   </div>
 
@@ -451,21 +462,21 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,404</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,403</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.47%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.43%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$64.19</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$64.20</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.36%</span></div>
+          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.37%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6310</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6360</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.92%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+1.00%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
@@ -495,28 +506,23 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$65,058</div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$65,057</div>
           <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.43%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,921</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.37%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,922</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.40%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$76.84</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+1.13%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$76.85</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+1.12%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
           <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6926</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.23%</span></div>
-        </div>
-        <div class="crypto-item" data-coin="XRP">
-          <div class="crypto-symbol" style="color:#346aa9">XRP</div>
-          <div class="crypto-price" data-crypto-price="XRP" style="color:#346aa9">$1.0347</div>
-          <div class="crypto-change" data-crypto-chg="XRP"><span class="negative">-0.12%</span></div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.25%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
@@ -530,8 +536,8 @@
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$509.70</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.11%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$509.72</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.02%</span></div>
         </div>
     </div>
   </div>
@@ -700,6 +706,20 @@
 
   <!-- PORTFOLIO removed — now at /portfolio -->
 
+  <!-- WEEKLY ASYMMETRIC IDEAS -->
+  <div class="card" id="weekly-asymmetric-ideas">
+    <div class="card-title">⚡ Weekly Asymmetric Ideas</div>
+    <div class="weekly-meta">Updated 2026-08-10 · Screened against the live Signal portfolio, Evolution Fund, Alpaca, and Kraken exposures. Existing large HG, FVL, and GLO positions are not recycled as new ideas.</div>
+    <div class="weekly-grid">
+        <div class="weekly-idea">
+          <div class="weekly-idea-top"><span class="weekly-action">RESEARCH / STARTER ONLY</span><span class="weekly-type">TOKEN</span><a href="https://midnight.network/night" target="_blank" rel="noopener">NIGHT · Midnight</a></div>
+          <div class="weekly-snapshot">$0.01878 indicative · 24B maximum supply · roughly $451M maximum-supply valuation</div>
+          <div class="weekly-thesis"><b>Why now:</b> The transcript&#x27;s Midnight and NIGHT are the same asset. NIGHT is Midnight Network&#x27;s tradable capital and governance token and continuously generates shielded, non-transferable DUST for transactions. Selective-disclosure privacy plus Cardano distribution gives it a real architecture rather than pure meme vapour.</div>
+          <div class="weekly-risk"><b>Kill shot:</b> Large thaw and unlock overhang, adoption is still unproven, and the low unit price disguises a substantial fully diluted valuation. A drawdown alone is not a margin of safety.</div>
+          <div class="weekly-trigger"><b>Trigger:</b> Verify circulating supply and thaw schedule, then use a small staged starter only if network usage, developers, and DUST demand begin compounding.</div>
+        </div></div>
+  </div>
+
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
   <div class="card">
     <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
@@ -737,7 +757,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="25" data-thai-url="https://thethaiger.com/video-podcasts/thailand-video-news-10-08-2026">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 10, 12:51 BKK</div>
+          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 10, 12:52 BKK</div>
           <a href="https://thethaiger.com/video-podcasts/thailand-video-news-10-08-2026" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Thailand video news | Thailand sets 90-day deadline for new school safety rules, Homeless Norwegian set to return home after 1,179-day overstay</a>
           <div class="thai-news-summary">In Thailand video news, Alex covers the latest stories from across Thailand. The stories include updates on last Friday’s school shooting in Nonthaburi and Thailand’s ranking for f</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 25.</div>
@@ -1332,7 +1352,7 @@ renderActionSteps();
 
 // Live crypto prices (Binance; NIGHT uses CoinGecko's canonical Midnight id)
 !function(){
-  var coins={"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","XRP":"XRPUSDT","ADA":"ADAUSDT","ZEC":"ZECUSDT"};
+  var coins={"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","SUI":"SUIUSDT","ADA":"ADAUSDT","ZEC":"ZECUSDT"};
   function fmt(p){return p>=1000?"$"+p.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}
   function updCrypto(){
     Object.keys(coins).forEach(function(c){
