@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-11T08:45:53.884574+00:00",
+  "fetchedAt": "2026-08-11T10:01:08.959716+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2087113068027199985",
+      "text": "Russia's Only Anti-War Party Banned From Parliamentary Elections Over 'Foreign Funding' https://www.zerohedge.com/geopolitical/russias-only-registered-anti-war-party-banned-parliamentary-elections-over-foreign",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-11T09:45:06+00:00",
+      "createdAtMs": 1786441506000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2087113068027199985#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2087095921720889759",
       "text": "Shock graph",
@@ -19,21 +34,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/wmiddelkoop/status/2087095921720889759#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2087090418466926827",
-      "text": "'How Can We Help You Kill More Russians?' German Reporter To Zelensky At Belgrade Meeting https://www.zerohedge.com/geopolitical/how-can-we-help-you-kill-more-russians-german-reporter-zelensky-belgrade-meeting",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-11T08:15:06+00:00",
-      "createdAtMs": 1786436106000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2087090418466926827#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
