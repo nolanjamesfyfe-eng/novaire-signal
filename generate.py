@@ -2728,14 +2728,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- DAILY UPDOG PRODUCT VOTE -->
   <div class="card" id="updog-card">
-    <div class="card-title">🎁 Daily Updog Mystery Box</div>
-    <div class="updog-intro">One high-leverage suggestion. Build it, refine it, or leave it for another day.</div>
+    <div class="card-title">🗳️ Daily Updog Vote</div>
+    <div class="updog-intro">Daily product senate: five concise build tasks across MOTR Game, Retreat, Energy Maxxing, Novaire Signal, and Podcast / Clips.</div>
     <div class="updog-grid" id="updog-grid"></div>
   </div>
 
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Four Moves for Today</div>
+    <div class="card-title">⚔️ Daily Action Steps</div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -2882,7 +2882,13 @@ function getQuoteForToday(storageKey, quotes) {{
   const votes = JSON.parse(localStorage.getItem(voteKey) || '{{}}');
   const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
   const dayIndex = Math.floor((new Date().setHours(0,0,0,0) - new Date(new Date().getFullYear(),0,0)) / 86400000);
-  const categories = [['retreat', 'Man On The Rise Retreat']];
+  const categories = [
+    ['motr', 'Man On The Rise Game'],
+    ['retreat', 'Retreat'],
+    ['energy', 'Energy Maxxing'],
+    ['signal', 'Novaire Signal'],
+    ['podcast', 'Podcast / Clips']
+  ];
   const priorityMeta = {{
     podcast: {{rank:1, label:'AI pick'}},
     signal: {{rank:2, label:'Workflow'}},
@@ -3013,6 +3019,29 @@ function renderActionSteps() {{
   const grid = document.getElementById('action-steps-grid');
   if (!grid) return;
   const today = new Date().toDateString();
+  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
+  const lanes = [
+    ['motr','Man On The Rise Game'],
+    ['retreat','Retreat'],
+    ['energy','Energy Maxxing'],
+    ['signal','Novaire Signal'],
+    ['podcast','Podcast / Clips']
+  ];
+  grid.innerHTML = lanes.map(([key,label], index) => {{
+    const pool = UPDOG_ACTION_STEPS[key] || [];
+    const step = pool[(seed + index * 7) % pool.length];
+    return `<details class="action-step">
+      <summary class="action-step-copy" style="cursor:pointer;list-style:none">
+        <span class="action-step-kicker">${{escapeActionHtml(label)}}</span>
+        <span class="action-step-title" style="display:block">${{escapeActionHtml(step.title)}}</span>
+      </summary>
+      <div class="action-step-copy" style="grid-column:2">
+        <div class="action-step-ask">${{escapeActionHtml(step.ask)}}</div>
+        <div class="action-step-ask">Action: ${{escapeActionHtml(step.action)}}</div>
+      </div>
+    </details>`;
+  }}).join('');
+  return;
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":"","history":[]}}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {{
