@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-11T04:01:01.091184+00:00",
+  "fetchedAt": "2026-08-11T04:59:59.086146+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2087039175321133566",
+      "text": "Still early ...",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-11T04:51:29+00:00",
+      "createdAtMs": 1786423889000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2087039175321133566#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2087017503192920265",
       "text": "Hedge Fund Alert 🦬",
@@ -21,7 +36,7 @@
       "url": "https://x.com/JoshYoung/status/2087017503192920265#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/zerohedge/status/2087017437124280394#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2087006898587664674",
-      "text": "😊#Nuclear fuel industry consultants TradeTech suggest the #Uranium market is signaling that the U308 Spot market might be moving out of the narrow price band it has traded in over the last few months.📈💥🥊 📶The spot U308 price rose US$0.50/lb to US$86.75/lb ⬆️💲🛢️☢️🤠🐂",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-08-11T02:43:13+00:00",
-      "createdAtMs": 1786416193000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/quakes99/status/2087006898587664674#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
