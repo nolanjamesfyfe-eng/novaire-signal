@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-12T09:04:43.948968+00:00",
+  "fetchedAt": "2026-08-12T10:01:02.553466+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2087475455519604760",
+      "text": "World's Largest Alumina Refinery Outside China Abruptly Halves Output On NatGas Disruption https://www.zerohedge.com/commodities/worlds-largest-alumina-refinery-outside-china-abruptly-halves-output-natgas-disruption",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-12T09:45:06+00:00",
+      "createdAtMs": 1786527906000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2087475455519604760#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2087460493304697244",
       "text": "China keeps Russia afloat ... economically, financially",
@@ -19,21 +34,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/wmiddelkoop/status/2087460493304697244#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2087452803341902006",
-      "text": "Alleged International Crime Boss Daniel Kinahan Extradited To Ireland Following Dubai Arrest https://www.zerohedge.com/political/alleged-international-crime-boss-daniel-kinahan-extradited-ireland-following-dubai-arrest",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-12T08:15:05+00:00",
-      "createdAtMs": 1786522505000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2087452803341902006#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
