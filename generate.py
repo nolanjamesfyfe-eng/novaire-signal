@@ -2370,22 +2370,22 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(0,2.1fr);align-items:stretch;gap:0;text-align:left;padding:0;overflow:hidden}}
-    .market-clock{{min-width:0;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);padding:15px 22px}}
-    .wall-clock{{display:flex;align-items:baseline;gap:10px;color:var(--dim)}}
-    .wall-clock span{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}}
-    .wall-clock b{{font-family:var(--serif);font-size:1.12rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
-    .market-calendar{{margin-top:5px;font-size:.45rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .fed-compact{{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:13px 22px}}
-    .fed-title{{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}}
-    .fed-stats{{display:grid;grid-template-columns:minmax(90px,.65fr) minmax(210px,1.45fr) minmax(180px,1.2fr);gap:0;align-items:stretch}}
-    .fed-stat{{min-width:0;padding:0 18px;border-left:1px solid var(--border)}}
-    .fed-stat:first-child{{padding-left:0;border-left:0}}
-    .fed-stat span{{display:block;font-size:.43rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px}}
-    .fed-stat b{{display:block;font-family:var(--serif);font-size:.78rem;font-weight:400;color:var(--text);white-space:nowrap}}
+    .fed-card{{display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,3fr);align-items:stretch;gap:0;text-align:left;padding:0;overflow:hidden}}
+    .market-clock{{min-width:0;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);padding:17px 24px}}
+    .wall-clock{{display:flex;align-items:baseline;gap:11px;color:var(--dim)}}
+    .wall-clock span{{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}}
+    .wall-clock b{{font-family:var(--serif);font-size:1.16rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
+    .market-calendar{{margin-top:6px;font-size:.47rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .fed-compact{{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:15px 0}}
+    .fed-title{{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 9px}}
+    .fed-stats{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch}}
+    .fed-stat{{min-width:0;padding:0 24px;border-left:1px solid var(--border)}}
+    .fed-stat:first-child{{border-left:0}}
+    .fed-stat span{{display:block;font-size:.45rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px}}
+    .fed-stat b{{display:block;font-family:var(--serif);font-size:.82rem;font-weight:400;color:var(--text);white-space:nowrap}}
     .fed-stat .fed-rate{{color:var(--gold)}}
-    .fed-stat em{{display:block;font-style:normal;font-size:.44rem;color:var(--mute);margin-top:1px}}
-    .fed-prob b{{display:flex;gap:13px}}
+    .fed-stat em{{display:block;font-style:normal;font-size:.46rem;color:var(--mute);margin-top:2px}}
+    .fed-prob b{{display:flex;gap:15px}}
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
@@ -2797,19 +2797,17 @@ function getQuoteForToday(storageKey, quotes) {{
   const key = 'novaire-keystone-priority';
   const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":"","doneDates":[],"history":[]}}');
   data.history = Array.isArray(data.history) ? data.history : [];
-  if (!Array.isArray(data.doneDates)) data.doneDates = data.lastDone ? [data.lastDone] : [];
-  // Today's keystone is SET, not completed. Streaks count completed prior days.
-  data.doneDates = data.doneDates.filter(d => d !== today);
+  data.doneDates = Array.isArray(data.doneDates) ? data.doneDates : (data.lastDone ? [data.lastDone] : []);
+  data.isSet = data.date === today && Boolean(data.isSet || data.text);
   input.value = data.date === today ? (data.text || '') : '';
   function dayBefore(dateStr) {{
     const d = new Date(dateStr);
     d.setDate(d.getDate() - 1);
     return d.toDateString();
   }}
-  const yesterday = dayBefore(today);
   function calculateStreak(doneDates) {{
     const done = new Set(doneDates || []);
-    let cursor = yesterday;
+    let cursor = done.has(today) ? today : dayBefore(today);
     let streak = 0;
     while (done.has(cursor)) {{
       streak += 1;
@@ -2817,52 +2815,43 @@ function getQuoteForToday(storageKey, quotes) {{
     }}
     return streak;
   }}
-  function findHistory(dateStr) {{
-    return [...data.history].reverse().find(item => item && item.date === dateStr && item.text);
-  }}
-  function renderYesterdayPrompt() {{
-    if (!yesterdayBox) return;
-    const y = findHistory(yesterday);
-    if (!y || data.doneDates.includes(yesterday) || data.yesterdayAnswered === yesterday) {{
-      yesterdayBox.innerHTML = '';
-      return;
-    }}
-    yesterdayBox.innerHTML = 'Yesterday: <span style="color:var(--text)">' + escapeActionHtml(y.text) + '</span> · completed? <button class="updog-btn updog-approve" type="button" onclick="answerYesterdayKeystone(true)">Yes</button> <button class="updog-btn updog-retry" type="button" onclick="answerYesterdayKeystone(false)">No</button>';
-  }}
-  function persist(renderSteps) {{
-    data.text = input.value;
-    data.date = today;
+  function updateStatus() {{
     data.streak = calculateStreak(data.doneDates);
+    const completeToday = data.doneDates.includes(today);
+    status.textContent = completeToday
+      ? 'Keystone complete · streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + '.'
+      : (data.isSet ? 'Today’s Keystone is set · complete all three moves to bank the day.' : 'Keystone streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + ' · set today’s Keystone.');
+    if (yesterdayBox) yesterdayBox.innerHTML = '';
     localStorage.setItem(key, JSON.stringify(data));
-    const setToday = Boolean(String(data.text || '').trim());
-    status.textContent = 'Keystone streak: ' + (data.streak || 0) + ' day' + ((data.streak || 0) === 1 ? '' : 's') + (setToday ? ' · today’s Keystone is set.' : ' · set today’s Keystone.');
-    renderYesterdayPrompt();
-    if (renderSteps && typeof renderActionSteps === 'function') renderActionSteps();
   }}
-  window.answerYesterdayKeystone = function(completed) {{
-    if (completed && !data.doneDates.includes(yesterday)) data.doneDates.push(yesterday);
-    data.yesterdayAnswered = yesterday;
-    data.lastDone = completed ? yesterday : (data.lastDone === yesterday ? '' : data.lastDone);
-    persist(true);
-  }};
-  input.addEventListener('input', function() {{ persist(true); }});
+  window.refreshKeystoneStatus = updateStatus;
+  input.addEventListener('input', function() {{
+    if (data.isSet && input.value.trim() !== String(data.text || '').trim()) {{
+      data.isSet = false;
+      updateStatus();
+      if (typeof renderActionSteps === 'function') renderActionSteps();
+    }}
+  }});
   button.addEventListener('click', function() {{
     const text = input.value.trim();
     if (!text) {{
-      status.textContent = 'Write the keystone first; no empty victories for the scoreboard.';
+      status.textContent = 'Write the Keystone first.';
       return;
     }}
     data.text = text;
     data.date = today;
+    data.isSet = true;
+    data.doneDates = data.doneDates.filter(d => d !== today);
     const existingToday = data.history.find(item => item && item.date === today);
     if (existingToday) existingToday.text = text;
     else data.history.push({{date: today, text: text}});
     data.history = data.history.slice(-30);
-    persist(true);
+    localStorage.removeItem('novaire-keystone-feedback-' + today);
+    updateStatus();
+    if (typeof renderActionSteps === 'function') renderActionSteps();
   }});
-  persist(true);
+  updateStatus();
 }})();
-
 (function renderUpdogVotes() {{
   const grid = document.getElementById('updog-grid');
   if (!grid) return;
@@ -3010,9 +2999,9 @@ function renderActionSteps() {{
   const today = new Date().toDateString();
 
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":"","history":[]}}');
-  const task = data.date === today ? String(data.text || '').trim() : '';
+  const task = data.date === today && data.isSet ? String(data.text || '').trim() : '';
   if (!task) {{
-    grid.innerHTML = '<div class="action-step-empty">Set today’s Keystone above. Signal will return three concrete moves.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Write your Keystone above and click Set. The three moves will appear here.</div>';
     return;
   }}
   const lower = task.toLowerCase();
@@ -3041,6 +3030,15 @@ function renderActionSteps() {{
     const learning = JSON.parse(localStorage.getItem('novaire-keystone-learning') || '[]');
     learning.push(feedback[index]);
     localStorage.setItem('novaire-keystone-learning', JSON.stringify(learning.slice(-80)));
+    const allComplete = moves.every((_, moveIndex) => feedback[moveIndex]?.status === 'completed');
+    if (allComplete) {{
+      const keystone = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{}}');
+      keystone.doneDates = Array.isArray(keystone.doneDates) ? keystone.doneDates : [];
+      if (!keystone.doneDates.includes(today)) keystone.doneDates.push(today);
+      keystone.lastDone = today;
+      localStorage.setItem('novaire-keystone-priority', JSON.stringify(keystone));
+      if (typeof refreshKeystoneStatus === 'function') refreshKeystoneStatus();
+    }}
     renderActionSteps();
   }};
   grid.innerHTML = moves.map((move,index) => {{
