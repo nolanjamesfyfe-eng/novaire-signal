@@ -2703,7 +2703,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY KEYSTONE PRIORITY -->
   <div class="card" id="keystone-card">
     <div class="card-title">🎯 Daily Keystone Priority</div>
-    <div class="updog-intro">Enter the top priority. Signal will turn it into four concrete moves.</div>
+    <div class="updog-intro">Enter one Keystone priority. Signal will return three concrete moves.</div>
     <div class="keystone-row">
       <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
       <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
@@ -2999,33 +2999,11 @@ function renderActionSteps() {{
   const grid = document.getElementById('action-steps-grid');
   if (!grid) return;
   const today = new Date().toDateString();
-  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
-  const lanes = [
-    ['motr','Man On The Rise Game'],
-    ['retreat','Retreat'],
-    ['energy','Energy Maxxing'],
-    ['signal','Novaire Signal'],
-    ['podcast','Podcast / Clips']
-  ];
-  grid.innerHTML = lanes.map(([key,label], index) => {{
-    const pool = UPDOG_ACTION_STEPS[key] || [];
-    const step = pool[(seed + index * 7) % pool.length];
-    return `<details class="action-step">
-      <summary class="action-step-copy" style="cursor:pointer;list-style:none">
-        <span class="action-step-kicker">${{escapeActionHtml(label)}}</span>
-        <span class="action-step-title" style="display:block">${{escapeActionHtml(step.title)}}</span>
-      </summary>
-      <div class="action-step-copy" style="grid-column:2">
-        <div class="action-step-ask">${{escapeActionHtml(step.ask)}}</div>
-        <div class="action-step-ask">Action: ${{escapeActionHtml(step.action)}}</div>
-      </div>
-    </details>`;
-  }}).join('');
-  return;
+
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":"","history":[]}}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {{
-    grid.innerHTML = '<div class="action-step-empty">Set today’s top priority above. Signal will turn it into four concrete moves.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Set today’s Keystone above. Signal will return three concrete moves.</div>';
     return;
   }}
   const lower = task.toLowerCase();
@@ -3044,9 +3022,8 @@ function renderActionSteps() {{
   const feedback = JSON.parse(localStorage.getItem(feedbackKey) || '{{}}');
   const moves = [
     {{title:step.title, action:step.action}},
-    {{title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'}},
     {{title:'Remove the bottleneck', action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'}},
-    {{title:'Close the loop', action:'Before the day ends, record what moved, what remains, and the exact first move for tomorrow.'}}
+    {{title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'}}
   ];
   const safeTask = escapeActionHtml(task);
   window.recordKeystoneMove = function(index, status) {{

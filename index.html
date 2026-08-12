@@ -274,23 +274,22 @@
     .feed-tag{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}
     .feed-tag.active,.feed-tag:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 
-    .fed-card{display:grid;grid-template-columns:minmax(250px,.9fr) minmax(0,2.1fr);align-items:center;gap:18px;text-align:left;padding:12px 16px}
-    .market-clock{min-width:0;border-right:1px solid var(--border);padding-right:18px}
-    .wall-clock{display:flex;align-items:baseline;gap:9px;color:var(--dim)}
-    .wall-clock span{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
-    .wall-clock b{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}
-    .market-calendar{margin-top:3px;font-size:.47rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .fed-card{display:grid;grid-template-columns:minmax(210px,.8fr) minmax(0,1.7fr);align-items:center;gap:16px;text-align:left;padding:10px 14px}
+    .market-clock{min-width:0;border-right:1px solid var(--border);padding-right:16px}
+    .wall-clock{display:flex;align-items:baseline;gap:8px;color:var(--dim)}
+    .wall-clock span{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+    .wall-clock b{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}
+    .market-calendar{margin-top:2px;font-size:.43rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .fed-compact{min-width:0}
-    .fed-title{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}
-    .fed-inline{display:grid;grid-template-columns:.65fr 1.05fr 1.25fr;gap:12px;align-items:start}
-    .fed-inline div{min-width:0}
-    .fed-inline span{display:block;font-size:.45rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
-    .fed-inline b{display:block;font-family:var(--serif);font-size:.78rem;font-weight:400;color:var(--text);white-space:nowrap}
-    .fed-inline b i{font-style:normal}
-    .fed-inline em{font-style:normal;font-size:.43rem;color:var(--mute)}
-    .fed-source{font-size:.43rem;color:var(--mute);margin-top:5px;text-align:right}
-    @media(max-width:700px){.fed-card{grid-template-columns:1fr;gap:10px}.market-clock{border-right:0;border-bottom:1px solid var(--border);padding:0 0 9px}.wall-clock b{font-size:1.2rem}.fed-inline{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:400px){.fed-inline{grid-template-columns:1fr 1fr}.fed-inline div:last-child{grid-column:1/-1}}
+    .fed-title{font-size:.49rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px}
+    .fed-line{font-size:.66rem;color:var(--dim);line-height:1.35;white-space:nowrap}
+    .fed-line b{font-family:var(--serif);font-size:.76rem;font-weight:400;color:var(--text)}
+    .fed-line .fed-rate{color:var(--gold)}
+    .fed-line em{font-style:normal;font-size:.52rem;color:var(--mute)}
+    .fed-odds{margin-top:3px;font-size:.5rem;color:var(--mute)}
+    .fed-odds b{font-weight:500;color:var(--text)}
+    @media(max-width:700px){.fed-card{grid-template-columns:1fr;gap:8px}.market-clock{border-right:0;border-bottom:1px solid var(--border);padding:0 0 7px}.fed-line{white-space:normal}}
+    @media(max-width:400px){.fed-card{padding:9px 11px}.wall-clock b{font-size:.95rem}}
 
     .eco-table{width:100%;border-collapse:collapse;font-size:.76rem}
     .eco-table th{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}
@@ -401,7 +400,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:02</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:13</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">31°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -409,7 +408,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 69% · AQI 37 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:02</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:13</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">20°C</div>
           <div class="condition">Partly Cloudy ⛅</div>
@@ -417,7 +416,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 78% · AQI 55 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:02</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:13</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">14°C</div>
           <div class="condition">Mainly Clear 🌤</div>
@@ -425,7 +424,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 94% · AQI 74 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:02</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:13</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">8°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -441,13 +440,13 @@
     <div class="fx-row">
       
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate">1.39</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">33.08</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">33.09</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.42</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,128</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.87</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">82.59</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,415</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">159.42</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,416</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">159.43</span></div>
     </div>
   </div>
 
@@ -458,33 +457,33 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,362</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,462</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+0.49%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.79%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$65.11</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$65.51</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+2.80%</span></div>
+          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.14%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.5945</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6545</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.37%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.64%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$82.13</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$84.22</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+5.05%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+1.23%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,377</div>
+          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,366</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="PA=F"><span class="positive">+0.23%</span></div>
+          <div class="commodity-change" data-comm-chg="PA=F"><span class="negative">-0.81%</span></div>
         </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -502,28 +501,28 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,840</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.48%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,782</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.55%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
           <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,887</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.28%</span></div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.37%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$76.46</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.42%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$76.41</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.30%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$482.29</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-2.27%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$482.45</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-2.28%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1877</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.52%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1879</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.26%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -532,13 +531,13 @@
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6934</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.86%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6923</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.76%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
           <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0178</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-0.28%</span></div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-0.11%</span></div>
         </div>
     </div>
   </div>
@@ -769,7 +768,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="30" data-thai-url="https://thethaiger.com/news/bangkok/foreign-man-held-for-egg-throwing-and-attacking-delivery-rider">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 12, 11:02 BKK</div>
+          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 12, 11:13 BKK</div>
           <a href="https://thethaiger.com/news/bangkok/foreign-man-held-for-egg-throwing-and-attacking-delivery-rider" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Foreign man arrested for attacking delivery rider, accused in string of Bangkok complaints</a>
           <div class="thai-news-summary">Police today, August 11, arrested a foreign man for throwing an egg and attacking a food delivery rider in Bangkok. More victims reportedly filed complaints against the foreigner. </div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>
@@ -788,12 +787,8 @@
     </div>
     <div class="fed-compact">
       <div class="fed-title">🏛️ Fed Signal</div>
-      <div class="fed-inline">
-        <div><span>Rate</span><b style="color:var(--gold)">3.50–3.75%</b></div>
-        <div><span>Next FOMC</span><b>September 16, 2026</b><em>35 days</em></div>
-        <div><span>Odds</span><b><i style="color:var(--green)">Hold 55%</i> · <i style="color:var(--blue)">Cut 0%</i></b></div>
-      </div>
-      <div class="fed-source">CME FedWatch · September FOMC</div>
+      <div class="fed-line"><span>Rate</span> <b class="fed-rate">3.50–3.75%</b> <span>· FOMC</span> <b>September 16, 2026</b> <em>(35 days)</em></div>
+      <div class="fed-odds">Hold <b>55%</b> · Cut <b>0%</b> · CME FedWatch</div>
     </div>
   </div>
 
@@ -804,7 +799,7 @@
   <!-- DAILY KEYSTONE PRIORITY -->
   <div class="card" id="keystone-card">
     <div class="card-title">🎯 Daily Keystone Priority</div>
-    <div class="updog-intro">Enter the top priority. Signal will turn it into four concrete moves.</div>
+    <div class="updog-intro">Enter one Keystone priority. Signal will return three concrete moves.</div>
     <div class="keystone-row">
       <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
       <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
@@ -813,12 +808,6 @@
     <div id="keystone-yesterday" style="margin-top:8px;color:var(--muted);font-size:.82rem"></div>
   </div>
 
-  <!-- DAILY UPDOG PRODUCT VOTE -->
-  <div class="card" id="updog-card">
-    <div class="card-title">🗳️ Daily Updog Vote</div>
-    <div class="updog-intro">Daily product senate: five concise build tasks across MOTR Game, Retreat, Energy Maxxing, Novaire Signal, and Podcast / Clips.</div>
-    <div class="updog-grid" id="updog-grid"></div>
-  </div>
 
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
@@ -1291,33 +1280,11 @@ function renderActionSteps() {
   const grid = document.getElementById('action-steps-grid');
   if (!grid) return;
   const today = new Date().toDateString();
-  const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
-  const lanes = [
-    ['motr','Man On The Rise Game'],
-    ['retreat','Retreat'],
-    ['energy','Energy Maxxing'],
-    ['signal','Novaire Signal'],
-    ['podcast','Podcast / Clips']
-  ];
-  grid.innerHTML = lanes.map(([key,label], index) => {
-    const pool = UPDOG_ACTION_STEPS[key] || [];
-    const step = pool[(seed + index * 7) % pool.length];
-    return `<details class="action-step">
-      <summary class="action-step-copy" style="cursor:pointer;list-style:none">
-        <span class="action-step-kicker">${escapeActionHtml(label)}</span>
-        <span class="action-step-title" style="display:block">${escapeActionHtml(step.title)}</span>
-      </summary>
-      <div class="action-step-copy" style="grid-column:2">
-        <div class="action-step-ask">${escapeActionHtml(step.ask)}</div>
-        <div class="action-step-ask">Action: ${escapeActionHtml(step.action)}</div>
-      </div>
-    </details>`;
-  }).join('');
-  return;
+
   const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{"text":"","date":"","history":[]}');
   const task = data.date === today ? String(data.text || '').trim() : '';
   if (!task) {
-    grid.innerHTML = '<div class="action-step-empty">Set today’s top priority above. Signal will turn it into four concrete moves.</div>';
+    grid.innerHTML = '<div class="action-step-empty">Set today’s Keystone above. Signal will return three concrete moves.</div>';
     return;
   }
   const lower = task.toLowerCase();
@@ -1336,9 +1303,8 @@ function renderActionSteps() {
   const feedback = JSON.parse(localStorage.getItem(feedbackKey) || '{}');
   const moves = [
     {title:step.title, action:step.action},
-    {title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'},
     {title:'Remove the bottleneck', action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'},
-    {title:'Close the loop', action:'Before the day ends, record what moved, what remains, and the exact first move for tomorrow.'}
+    {title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'}
   ];
   const safeTask = escapeActionHtml(task);
   window.recordKeystoneMove = function(index, status) {
