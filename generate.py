@@ -1973,8 +1973,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
     <div class="fed-compact">
       <div class="fed-title">🏛️ Fed Signal</div>
-      <div class="fed-line"><span>Rate</span> <b class="fed-rate">{fed['fed_funds_rate']}</b> <span>· FOMC</span> <b>{fed['next_decision']}</b> <em>({days_label})</em></div>
-      <div class="fed-odds">Hold <b>{fed['hold_pct']}%</b> · Cut <b>{fed['cut_25bps_pct']}%</b> · CME FedWatch</div>
+      <div class="fed-stats">
+        <div class="fed-stat"><span>Rate</span><b class="fed-rate">{fed['fed_funds_rate']}</b></div>
+        <div class="fed-stat fed-fomc"><span>Next FOMC</span><b>{fed['next_decision']}</b><em>{days_label}</em></div>
+        <div class="fed-stat fed-prob"><span>CME FedWatch</span><b><i>Hold {fed['hold_pct']}%</i><i>Cut {fed['cut_25bps_pct']}%</i></b></div>
+      </div>
     </div>
   </div>"""
     # ── Top 5 Economies HTML: show only every two weeks on Monday ──
@@ -2367,22 +2370,28 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{display:grid;grid-template-columns:minmax(210px,.8fr) minmax(0,1.7fr);align-items:center;gap:16px;text-align:left;padding:10px 14px}}
-    .market-clock{{min-width:0;border-right:1px solid var(--border);padding-right:16px}}
-    .wall-clock{{display:flex;align-items:baseline;gap:8px;color:var(--dim)}}
-    .wall-clock span{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}}
-    .wall-clock b{{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
-    .market-calendar{{margin-top:2px;font-size:.43rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .fed-compact{{min-width:0}}
-    .fed-title{{font-size:.49rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px}}
-    .fed-line{{font-size:.66rem;color:var(--dim);line-height:1.35;white-space:nowrap}}
-    .fed-line b{{font-family:var(--serif);font-size:.76rem;font-weight:400;color:var(--text)}}
-    .fed-line .fed-rate{{color:var(--gold)}}
-    .fed-line em{{font-style:normal;font-size:.52rem;color:var(--mute)}}
-    .fed-odds{{margin-top:3px;font-size:.5rem;color:var(--mute)}}
-    .fed-odds b{{font-weight:500;color:var(--text)}}
-    @media(max-width:700px){{.fed-card{{grid-template-columns:1fr;gap:8px}}.market-clock{{border-right:0;border-bottom:1px solid var(--border);padding:0 0 7px}}.fed-line{{white-space:normal}}}}
-    @media(max-width:400px){{.fed-card{{padding:9px 11px}}.wall-clock b{{font-size:.95rem}}}}
+    .fed-card{{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(0,2.1fr);align-items:stretch;gap:0;text-align:left;padding:0;overflow:hidden}}
+    .market-clock{{min-width:0;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);padding:15px 22px}}
+    .wall-clock{{display:flex;align-items:baseline;gap:10px;color:var(--dim)}}
+    .wall-clock span{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}}
+    .wall-clock b{{font-family:var(--serif);font-size:1.12rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
+    .market-calendar{{margin-top:5px;font-size:.45rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .fed-compact{{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:13px 22px}}
+    .fed-title{{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}}
+    .fed-stats{{display:grid;grid-template-columns:minmax(90px,.65fr) minmax(210px,1.45fr) minmax(180px,1.2fr);gap:0;align-items:stretch}}
+    .fed-stat{{min-width:0;padding:0 18px;border-left:1px solid var(--border)}}
+    .fed-stat:first-child{{padding-left:0;border-left:0}}
+    .fed-stat span{{display:block;font-size:.43rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px}}
+    .fed-stat b{{display:block;font-family:var(--serif);font-size:.78rem;font-weight:400;color:var(--text);white-space:nowrap}}
+    .fed-stat .fed-rate{{color:var(--gold)}}
+    .fed-stat em{{display:block;font-style:normal;font-size:.44rem;color:var(--mute);margin-top:1px}}
+    .fed-prob b{{display:flex;gap:13px}}
+    .fed-prob i{{font-style:normal}}
+    .fed-prob i:first-child{{color:var(--green)}}
+    .fed-prob i:last-child{{color:var(--blue)}}
+    @media(max-width:820px){{.fed-card{{grid-template-columns:1fr}}.market-clock{{border-right:0;border-bottom:1px solid var(--border);padding:11px 14px}}.fed-compact{{padding:11px 14px}}.fed-stats{{grid-template-columns:.65fr 1.35fr 1.2fr}}}}
+    @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:9px 0 0;margin-top:8px;border-top:1px solid var(--border)}}}}
+    @media(max-width:400px){{.wall-clock b{{font-size:1rem}}.fed-stat{{padding:0 10px}}.fed-stat:first-child{{padding-left:0}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
