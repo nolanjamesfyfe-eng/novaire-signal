@@ -23,10 +23,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/portfolio", "destination": "/api/portfolio-gate" },
-    { "source": "/portfolio/", "destination": "/api/portfolio-gate" },
-    { "source": "/portfolio/evolutionfund", "destination": "/api/portfolio-gate?path=evolutionfund" },
-    { "source": "/portfolio/evolutionfund/", "destination": "/api/portfolio-gate?path=evolutionfund" }
+    { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
 }
