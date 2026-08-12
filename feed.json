@@ -2,7 +2,11 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
+<<<<<<< HEAD
   "fetchedAt": "2026-08-12T05:25:41.478724+00:00",
+=======
+  "fetchedAt": "2026-08-12T06:02:41.272767+00:00",
+>>>>>>> 5333340a (auto-refresh)
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
@@ -10,6 +14,24 @@
   ],
   "posts": [
     {
+<<<<<<< HEAD
+=======
+      "id": "2087411156197511305",
+      "text": "JUST IN: Elon Musk says we \"will get flying cars.\"",
+      "author": "WatcherGuru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-08-12T05:29:36+00:00",
+      "createdAtMs": 1786512576000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/WatcherGuru/status/2087411156197511305#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
+    {
+>>>>>>> 5333340a (auto-refresh)
       "id": "2087399869929386197",
       "text": "Ht @typesfast",
       "author": "wmiddelkoop",
@@ -21,7 +43,11 @@
       "url": "https://x.com/wmiddelkoop/status/2087399869929386197#m",
       "avatar": null,
       "slot": "engagement",
+<<<<<<< HEAD
       "slot_order": 1,
+=======
+      "slot_order": 2,
+>>>>>>> 5333340a (auto-refresh)
       "engagementScore": 0
     },
     {
@@ -36,6 +62,7 @@
       "url": "https://x.com/JoshYoung/status/2087390197742788872#m",
       "avatar": null,
       "slot": "engagement",
+<<<<<<< HEAD
       "slot_order": 2,
       "engagementScore": 0
     },
@@ -51,6 +78,8 @@
       "url": "https://x.com/zerohedge/status/2087379827959456093#m",
       "avatar": null,
       "slot": "engagement",
+=======
+>>>>>>> 5333340a (auto-refresh)
       "slot_order": 3,
       "engagementScore": 0
     }
