@@ -1967,32 +1967,20 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     days_label = f"{fed['days_until']} day{'s' if fed['days_until'] != 1 else ''}"
     fed_html = f"""
   <div class="card fed-card">
-    <div class="fed-head">
+    <div class="market-clock">
+      <div class="wall-clock"><span>🗽 Wall Street</span><b class="live-clock" data-tz-offset="-4"></b></div>
+      <div class="market-calendar">NYSE {next_nyse_str} · TSX {next_tsx_str}</div>
+    </div>
+    <div class="fed-compact">
       <div class="fed-title">🏛️ Fed Signal</div>
-      <div class="wall-clock"><span>🗽 Wall St</span><b class="live-clock" data-tz-offset="-4"></b><em>NYSE {next_nyse_str} · TSX {next_tsx_str}</em></div>
+      <div class="fed-inline">
+        <div><span>Rate</span><b style="color:var(--gold)">{fed['fed_funds_rate']}</b></div>
+        <div><span>Next FOMC</span><b>{fed['next_decision']}</b><em>{days_label}</em></div>
+        <div><span>Odds</span><b><i style="color:var(--green)">Hold {fed['hold_pct']}%</i> · <i style="color:var(--blue)">Cut {fed['cut_25bps_pct']}%</i></b></div>
+      </div>
+      <div class="fed-source">CME FedWatch · {fed['next_meeting']}</div>
     </div>
-    <div class="fed-grid">
-      <div class="fed-grid-item">
-        <div class="fed-grid-label">Rate</div>
-        <div class="fed-grid-val" style="color:var(--gold)">{fed['fed_funds_rate']}</div>
-      </div>
-      <div class="fed-grid-item">
-        <div class="fed-grid-label">Next FOMC</div>
-        <div class="fed-grid-val" style="color:var(--text)">{fed['next_decision']}</div>
-        <div class="fed-grid-sub">{days_label}</div>
-      </div>
-      <div class="fed-grid-item">
-        <div class="fed-grid-label">Hold</div>
-        <div class="fed-grid-val" style="color:var(--green)">{fed['hold_pct']}%</div>
-      </div>
-      <div class="fed-grid-item">
-        <div class="fed-grid-label">Cut 25bp</div>
-        <div class="fed-grid-val" style="color:var(--blue)">{fed['cut_25bps_pct']}%</div>
-      </div>
-    </div>
-    <div class="fed-source">{fed['next_meeting']} probabilities · CME FedWatch</div>
   </div>"""
-
     # ── Top 5 Economies HTML: show only every two weeks on Monday ──
     eco_html = ""
     if show_biweekly_monday_section():
@@ -2383,20 +2371,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{text-align:center;padding:10px 14px}}
-    .fed-head{{display:flex;align-items:center;justify-content:center;gap:14px;padding-bottom:7px;margin-bottom:5px;border-bottom:1px solid var(--border);flex-wrap:wrap}}
-    .fed-title{{font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}}
-    .wall-clock{{display:flex;align-items:center;gap:6px;font-size:.52rem;color:var(--dim)}}
-    .wall-clock span{{color:var(--gold);text-transform:uppercase;letter-spacing:.08em}}
-    .wall-clock b{{font-family:var(--serif);font-size:.88rem;font-weight:400;color:var(--text)}}
-    .wall-clock em{{font-style:normal;color:var(--mute)}}
-    .fed-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}}
-    .fed-grid-item{{padding:3px 2px}}
-    .fed-grid-label{{font-size:.48rem;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}}
-    .fed-grid-val{{font-family:var(--serif);font-size:.86rem;font-weight:400;line-height:1.2}}
-    .fed-grid-sub{{font-size:.46rem;color:var(--mute);margin-top:1px}}
-    .fed-source{{font-size:.47rem;color:var(--mute);margin-top:4px;text-align:center}}
-    @media(max-width:400px){{.fed-grid{{grid-template-columns:repeat(2,1fr);gap:6px}}.fed-grid-val{{font-size:.95rem}}}}
+    .fed-card{{display:grid;grid-template-columns:minmax(250px,.9fr) minmax(0,2.1fr);align-items:center;gap:18px;text-align:left;padding:12px 16px}}
+    .market-clock{{min-width:0;border-right:1px solid var(--border);padding-right:18px}}
+    .wall-clock{{display:flex;align-items:baseline;gap:9px;color:var(--dim)}}
+    .wall-clock span{{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}}
+    .wall-clock b{{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
+    .market-calendar{{margin-top:3px;font-size:.47rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .fed-compact{{min-width:0}}
+    .fed-title{{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}}
+    .fed-inline{{display:grid;grid-template-columns:.65fr 1.05fr 1.25fr;gap:12px;align-items:start}}
+    .fed-inline div{{min-width:0}}
+    .fed-inline span{{display:block;font-size:.45rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}}
+    .fed-inline b{{display:block;font-family:var(--serif);font-size:.78rem;font-weight:400;color:var(--text);white-space:nowrap}}
+    .fed-inline b i{{font-style:normal}}
+    .fed-inline em{{font-style:normal;font-size:.43rem;color:var(--mute)}}
+    .fed-source{{font-size:.43rem;color:var(--mute);margin-top:5px;text-align:right}}
+    @media(max-width:700px){{.fed-card{{grid-template-columns:1fr;gap:10px}}.market-clock{{border-right:0;border-bottom:1px solid var(--border);padding:0 0 9px}}.wall-clock b{{font-size:1.2rem}}.fed-inline{{grid-template-columns:repeat(3,1fr)}}}}
+    @media(max-width:400px){{.fed-inline{{grid-template-columns:1fr 1fr}}.fed-inline div:last-child{{grid-column:1/-1}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
