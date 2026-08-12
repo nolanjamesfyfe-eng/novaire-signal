@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-12T04:02:11.272866+00:00",
+  "fetchedAt": "2026-08-12T04:22:44.040079+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2087390197742788872",
+      "text": "This could meaningfully reduce Russian crude oil exports",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-08-12T04:06:19+00:00",
+      "createdAtMs": 1786507579000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/JoshYoung/status/2087390197742788872#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2087379827959456093",
       "text": "The July Incident: What They Didn't Tell You About the First Rogue AI Breach https://www.zerohedge.com/ai/july-incident-what-they-didnt-tell-you-about-first-rogue-ai-breach",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2087379827959456093#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/TheBabylonBee/status/2087358448308515065#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2087353240601948290",
-      "text": "Demand for drilling rigs is rising",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-08-12T01:39:28+00:00",
-      "createdAtMs": 1786498768000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/JoshYoung/status/2087353240601948290#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,

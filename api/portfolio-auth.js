@@ -15,7 +15,7 @@ module.exports=async function handler(req,res){
   return json(res,401,{error:record.until?'Too many attempts. Locked for 15 minutes.':'Incorrect PIN.'});
  }
  attempts.delete(ip);
- const remember=data.remember!==false,maxAge=remember?60*60*24*30:60*60*12,expires=Math.floor(Date.now()/1000)+maxAge;
+ const maxAge=75,expires=Math.floor(Date.now()/1000)+maxAge;
  const secret=process.env.NOS_AUTH_SECRET;if(!secret)return json(res,500,{error:'Portfolio lock is not configured.'});
  const payload=String(expires),signature=crypto.createHmac('sha256',secret).update(payload).digest('base64url');
  const cookie=`novaire_portfolio_session=${payload}.${signature}; Path=/portfolio; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Strict`;

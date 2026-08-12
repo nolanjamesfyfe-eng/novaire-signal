@@ -3417,6 +3417,13 @@ document.querySelectorAll('.collapse-toggle').forEach(t => {{
   }});
 }});
 </script>
+<script>
+// A portfolio unlock is intentionally single-view: reloading requires the PIN again.
+if (window.performance && performance.getEntriesByType('navigation')[0]?.type === 'reload') {{
+  document.documentElement.style.visibility = 'hidden';
+  location.replace('/portfolio-lock.html');
+}}
+</script>
 </body>
 </html>"""
 
