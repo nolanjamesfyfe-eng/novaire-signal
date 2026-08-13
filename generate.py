@@ -2370,22 +2370,22 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,3fr);align-items:stretch;gap:0;text-align:left;padding:0;overflow:hidden}}
-    .market-clock{{min-width:0;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);padding:17px 24px}}
-    .wall-clock{{display:flex;align-items:baseline;gap:11px;color:var(--dim)}}
-    .wall-clock span{{font-size:.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}}
-    .wall-clock b{{font-family:var(--serif);font-size:1.16rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
-    .market-calendar{{margin-top:6px;font-size:.47rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .fed-compact{{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:15px 0}}
-    .fed-title{{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 9px}}
+    .fed-card{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:0;text-align:left;padding:0;overflow:hidden}}
+    .market-clock{{grid-column:1;min-width:0;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);padding:24px 30px}}
+    .wall-clock{{display:flex;align-items:baseline;gap:13px;color:var(--dim)}}
+    .wall-clock span{{font-size:.76rem;color:var(--gold);text-transform:uppercase;letter-spacing:.11em;white-space:nowrap}}
+    .wall-clock b{{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums}}
+    .market-calendar{{margin-top:9px;font-size:.58rem;line-height:1.35;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .fed-compact{{grid-column:2/-1;min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:21px 0 22px}}
+    .fed-title{{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 30px 12px}}
     .fed-stats{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch}}
-    .fed-stat{{min-width:0;padding:0 24px;border-left:1px solid var(--border)}}
+    .fed-stat{{min-width:0;padding:0 30px;border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center}}
     .fed-stat:first-child{{border-left:0}}
-    .fed-stat span{{display:block;font-size:.45rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px}}
-    .fed-stat b{{display:block;font-family:var(--serif);font-size:.82rem;font-weight:400;color:var(--text);white-space:nowrap}}
+    .fed-stat span{{display:block;font-size:.57rem;color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin-bottom:7px}}
+    .fed-stat b{{display:block;font-family:var(--serif);font-size:1.06rem;line-height:1.2;font-weight:400;color:var(--text);white-space:nowrap}}
     .fed-stat .fed-rate{{color:var(--gold)}}
-    .fed-stat em{{display:block;font-style:normal;font-size:.46rem;color:var(--mute);margin-top:2px}}
-    .fed-prob b{{display:flex;gap:15px}}
+    .fed-stat em{{display:block;font-style:normal;font-size:.57rem;color:var(--mute);margin-top:5px}}
+    .fed-prob b{{display:flex;gap:20px}}
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
