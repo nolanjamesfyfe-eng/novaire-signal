@@ -2722,6 +2722,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
 
+  <!-- DAILY UPDOG PRODUCT VOTE -->
+  <div class="card" id="updog-card">
+    <div class="card-title">🗳️ Daily Updog Vote</div>
+    <div class="updog-intro">Daily product senate: five concise build tasks across MOTR Game, Retreat, Energy Maxxing, Novaire Signal, and Podcast / Clips.</div>
+    <div class="updog-grid" id="updog-grid"></div>
+  </div>
+
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
     <div class="card-title">⚔️ Daily Action Steps</div>
