@@ -840,11 +840,11 @@ def fetch_trending_recs():
     Fetch daily trending recs:
     - Movie/Show: FlixPatrol #1 Netflix movie + OMDB description
     - Book: Amazon Business bestsellers #1 title + Open Library description
-    Fallback to hardcoded picks on any failure.
+    Show an explicit unavailable card on failure rather than substituting a
+    stale recommendation.
     """
-    rec_movie = {"label": "📺 Now Watching", "title": "Diamond League Track & Field", "meta": "World Athletics · Sprinting, distance, jumps, throws", "summary": "Elite track and field as a weekly performance study: speed, pressure, tactics, recovery, and the psychology of peak humans under the clock."}
-    rec_book  = {"label": "📖 Now Reading",  "title": "The Trickster Archetype", "meta": "James' pick · Psychology/Myth", "summary": "A study of the trickster pattern: mischief, boundary crossing, disruption, transformation, and the strange wisdom that enters through chaos."}
-    return rec_movie, rec_book
+    rec_movie = {"label": "📺 Trending Now", "title": "Live recommendation unavailable", "meta": "Source fetch failed", "summary": "No stale pick substituted."}
+    rec_book  = {"label": "📖 Trending Book", "title": "Live recommendation unavailable", "meta": "Source fetch failed", "summary": "No stale pick substituted."}
 
     # ── Movie: FlixPatrol trending → OMDB description ──
     try:
@@ -864,7 +864,9 @@ def fetch_trending_recs():
                         label = "Netflix Movies" if i == 0 else "Netflix Shows"
                         candidates.append((title, label))
         # Pick #1 movie (table 0)
-        movie_title, movie_platform = candidates[0] if candidates else ("Margin Call", "Prime")
+        if not candidates:
+            raise ValueError("FlixPatrol returned no usable titles")
+        movie_title, movie_platform = candidates[0]
         # Fetch OMDB description
         omdb = requests.get(f"http://www.omdbapi.com/?t={requests.utils.quote(movie_title)}&apikey=trilogy", timeout=8).json()
         if omdb.get("Response") == "True":
