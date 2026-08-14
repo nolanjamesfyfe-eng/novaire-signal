@@ -2578,7 +2578,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- TRADING BOOKS — placed above slower-changing Currently section -->
   {poly_html}
 
-  {alpaca_html}
+{alpaca_html}
 
 
   <!-- CURRENTLY -->
