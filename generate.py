@@ -1047,9 +1047,15 @@ def fetch_holdings_from_gsheet():
         try: return float(s.replace(",", "").strip())
         except: return None
 
+    def parse_percent(s):
+        if not s: return None
+        try: return float(s.replace("%", "").replace(",", "").strip())
+        except: return None
+
     holdings = []
     meta     = {}
     seen     = set()
+    allocation_totals = {}
 
     for row in rows:
         while len(row) < 16:
@@ -1074,11 +1080,13 @@ def fetch_holdings_from_gsheet():
         if currency not in ("CAD", "USD", "AUD"):
             continue
 
+        note        = row[0].strip()
         name        = row[2].strip()
         ex_ticker   = row[3].strip()
         price_str   = row[5].strip()
         buy_str     = row[8].strip()
         shares_str  = row[9].strip()
+        allocation_pct = parse_percent(row[12])
         sector      = row[15].strip() if len(row) > 15 else "Other"
 
         ticker = EXCHANGE_TO_TICKER.get(ex_ticker, ex_ticker)
@@ -1092,6 +1100,12 @@ def fetch_holdings_from_gsheet():
 
         if not shares:
             continue
+
+        # The Google Sheet's allocation chart covers the primary book only.
+        # Covered-call rows are a separate strategy block and are intentionally
+        # excluded from the sheet chart even though they remain in holdings.
+        if note.casefold() != "ccalls" and allocation_pct and sector:
+            allocation_totals[sector] = allocation_totals.get(sector, 0.0) + allocation_pct
 
         display = DISPLAY_OVERRIDES.get(ticker, ticker.split(".")[0])
 
@@ -1107,6 +1121,20 @@ def fetch_holdings_from_gsheet():
         if ticker.startswith("_") and cur_price:
             h["fallback_price"] = cur_price
         holdings.append(h)
+
+    if allocation_totals:
+        allocations = sorted(
+            ((sector, round(percent, 2)) for sector, percent in allocation_totals.items()),
+            key=lambda item: item[1],
+            reverse=True,
+        )
+        allocation_total = round(sum(percent for _, percent in allocations), 2)
+        if 99.5 <= allocation_total <= 100.5:
+            meta["sector_allocations_pct"] = allocations
+            meta["sector_allocation_total_pct"] = allocation_total
+            meta["allocation_source"] = "Google Sheet · % of Fund"
+        else:
+            print(f"    ⚠️  Sheet allocation total is {allocation_total:.2f}%; chart withheld")
 
     return holdings, meta
 
@@ -1743,38 +1771,123 @@ def fetch_fx_rates():
 # SVG DONUT CHART
 # ─────────────────────────────────────────────────────────────
 
-def build_donut(allocations):
-    COLORS = ["#b59662","#5a7bc4","#9470c8","#2a9d8f","#e63946","#f4a261","#a8dadc","#e9c46a","#264653"]
-    r = 25; cx = cy = 50
-    circumference = 2 * math.pi * r
-    total = sum(v for _, v, _ in allocations)
-    if total == 0: return ""
-    offset = 0
-    slices = []
-    for i, (label, val, _) in enumerate(allocations):
-        pct  = val / total
-        dash = pct * circumference
-        color = COLORS[i % len(COLORS)]
-        slices.append(f'<circle r="{r}" cx="{cx}" cy="{cy}" fill="transparent" '
-                      f'stroke="{color}" stroke-width="50" '
-                      f'stroke-dasharray="{dash:.2f} {circumference:.2f}" '
-                      f'stroke-dashoffset="{-offset:.2f}" '
-                      f'transform="rotate(-90 {cx} {cy})"/>')
-        offset += dash
-    slices.append(f'<circle r="15" cx="{cx}" cy="{cy}" fill="#0a0a0c"/>')
-    return (f'<svg class="pie-chart" viewBox="0 0 100 100" style="width:120px;height:120px">'
-            + "".join(slices) + "</svg>")
+ALLOCATION_PALETTES = [
+    ("#fff36a", "#ffb800"),  # graphene · high-voltage yellow
+    ("#9cff57", "#19d6a2"),  # uranium
+    ("#ffd45f", "#ff7a42"),  # gold
+    ("#f3f7ff", "#7d9dff"),  # silver
+    ("#ff925f", "#f02f74"),  # copper
+    ("#c66cff", "#43cfff"),  # molybdenum
+    ("#3de4ff", "#30f5b4"),  # hydro
+    ("#f979ff", "#7668ff"),
+    ("#ffe75f", "#ff5c94"),
+]
 
-def build_legend(allocations, total_val):
-    COLORS = ["#b59662","#5a7bc4","#9470c8","#2a9d8f","#e63946","#f4a261","#a8dadc","#e9c46a","#264653"]
+
+def build_donut(allocations):
+    """Build a scalable, luminous SVG from Google Sheet allocation percentages."""
+    cx = cy = 160
+    radius = 108
+    stroke_width = 52
+    circumference = 2 * math.pi * radius
     total = sum(v for _, v, _ in allocations)
+    if total == 0:
+        return ""
+
+    gradients = []
+    glows = []
+    slices = []
+    offset = 0.0
+    gap = 3.0
+    description = []
+
+    for i, (label, val, _) in enumerate(allocations):
+        start, end = ALLOCATION_PALETTES[i % len(ALLOCATION_PALETTES)]
+        gradient_id = f"allocation-gradient-{i}"
+        gradients.append(
+            f'<linearGradient id="{gradient_id}" x1="0%" y1="0%" x2="100%" y2="100%">'
+            f'<stop offset="0%" stop-color="{start}"/>'
+            f'<stop offset="100%" stop-color="{end}"/>'
+            f'</linearGradient>'
+        )
+        pct = val / total
+        dash = pct * circumference
+        visible_dash = max(dash - gap, 0)
+        geometry = (
+            f'r="{radius}" cx="{cx}" cy="{cy}" fill="none" '
+            f'stroke="url(#{gradient_id})" stroke-width="{stroke_width}" '
+            f'stroke-dasharray="{visible_dash:.2f} {circumference:.2f}" '
+            f'stroke-dashoffset="{-offset:.2f}" transform="rotate(-90 {cx} {cy})"'
+        )
+        glows.append(f'<circle class="allocation-glow" {geometry}/>' )
+        slices.append(
+            f'<circle class="allocation-slice" data-sector="{escape(label, quote=True)}" '
+            f'data-percent="{val:.2f}" {geometry}/>'
+        )
+        description.append(f"{label} {val:.1f}%")
+        offset += dash
+
+    return (
+        '<svg class="pie-chart allocation-donut" viewBox="0 0 320 320" role="img" '
+        'aria-labelledby="allocation-chart-title allocation-chart-desc" '
+        'data-allocation-source="google-sheet">'
+        '<title id="allocation-chart-title">Portfolio allocation from Google Sheet</title>'
+        f'<desc id="allocation-chart-desc">{escape(", ".join(description))}</desc>'
+        '<defs>'
+        + "".join(gradients)
+        + '<radialGradient id="allocation-core" cx="44%" cy="38%" r="75%">'
+          '<stop offset="0%" stop-color="#191921"/>'
+          '<stop offset="72%" stop-color="#0b0b10"/>'
+          '<stop offset="100%" stop-color="#060608"/>'
+          '</radialGradient>'
+          '<filter id="allocation-bloom" x="-60%" y="-60%" width="220%" height="220%">'
+          '<feGaussianBlur stdDeviation="7"/>'
+          '</filter>'
+          '</defs>'
+        f'<circle class="allocation-aura" cx="{cx}" cy="{cy}" r="126"/>'
+        f'<circle class="allocation-track" cx="{cx}" cy="{cy}" r="{radius}"/>'
+        f'<g filter="url(#allocation-bloom)">{"".join(glows)}</g>'
+        + "".join(slices)
+        + f'<circle class="allocation-core" cx="{cx}" cy="{cy}" r="72"/>'
+          '<text class="allocation-core-kicker" x="160" y="126" text-anchor="middle">PORTFOLIO</text>'
+          '<text class="allocation-core-bolt" x="160" y="183" text-anchor="middle">&#x26A1;&#xFE0F;</text>'
+          '<text class="allocation-core-label" x="160" y="211" text-anchor="middle">LIVE SHEET</text>'
+          '</svg>'
+    )
+
+
+def build_legend(allocations, total_val=None):
+    """Render the percentages exactly as supplied by the Google Sheet."""
     items = []
     for i, (label, val, _) in enumerate(allocations):
-        pct   = val / total * 100 if total else 0
-        color = COLORS[i % len(COLORS)]
-        items.append(f'<div class="legend-item"><span class="legend-dot" style="background:{color}"></span>'
-                     f'{label}<span class="legend-pct">{pct:.1f}%</span></div>')
+        start, end = ALLOCATION_PALETTES[i % len(ALLOCATION_PALETTES)]
+        safe_label = escape(label, quote=True)
+        items.append(
+            f'<div class="legend-item" data-allocation-sector="{safe_label}" data-allocation-pct="{val:.2f}">'
+            f'<span class="legend-dot" style="--swatch-start:{start};--swatch-end:{end}"></span>'
+            f'<span class="legend-name">{safe_label}</span>'
+            f'<span class="legend-pct">{val:.1f}%</span></div>'
+        )
     return "\n".join(items)
+
+
+def build_sheet_allocation_component(gs_meta):
+    """Build the allocation component exclusively from the Sheet's % of Fund data."""
+    allocations = (gs_meta or {}).get("sector_allocations_pct") or []
+    if not allocations:
+        return (
+            '<div class="allocation-unavailable">Allocation awaiting Google Sheet sync.</div>',
+            "",
+            '<div class="allocation-source allocation-source--offline">Google Sheet allocation unavailable</div>',
+        )
+
+    alloc_list = [(label, float(percent), "") for label, percent in allocations]
+    source = escape((gs_meta or {}).get("allocation_source") or "Google Sheet · % of Fund")
+    return (
+        build_donut(alloc_list),
+        build_legend(alloc_list),
+        f'<div class="allocation-source"><span aria-hidden="true"></span>{source} · live source of truth</div>',
+    )
 
 # ─────────────────────────────────────────────────────────────
 # HTML GENERATION
@@ -1875,11 +1988,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             <td style="text-align:right;font-weight:600">{value_str}</td>
           </tr>"""
 
-    # ── Allocation chart ──
-    alloc_sorted = sorted(sector_totals.items(), key=lambda x: x[1], reverse=True)
-    alloc_list   = [(s, v, "") for s, v in alloc_sorted]
-    donut_svg    = build_donut(alloc_list)
-    legend_html  = build_legend(alloc_list, total_usd)
+    # ── Allocation chart: fail closed to the Google Sheet source of truth ──
+    donut_svg, legend_html, allocation_source_html = build_sheet_allocation_component(_meta)
 
     # ── Top 5 by value ──
     top5 = [t for t, *_ in port_sorted[:5]]
@@ -2315,12 +2425,28 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .total-value.cad{{color:var(--green)}}
     .total-value.usd{{color:var(--gold)}}
 
-    .allocation-section{{display:flex;align-items:center;gap:24px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}}
-    .pie-chart{{flex-shrink:0}}
-    .allocation-legend{{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}}
-    .legend-item{{display:flex;align-items:center;gap:6px;font-size:.72rem}}
-    .legend-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
-    .legend-pct{{color:var(--dim);margin-left:auto}}
+    .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(181,150,98,.16);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(79,240,194,.08),transparent 36%),radial-gradient(circle at 82% 72%,rgba(172,101,255,.07),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.025),rgba(0,0,0,.18))}}
+    .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,207,120,.045) 42%,transparent 68%);pointer-events:none}}
+    .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
+    .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(181,150,98,.12);stroke-width:1}}
+    .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
+    .allocation-glow{{opacity:.42}}
+    .allocation-slice{{stroke-linecap:butt;transition:opacity .2s ease,filter .2s ease}}
+    .allocation-slice:hover{{opacity:.86;filter:brightness(1.16)}}
+    .allocation-core{{fill:url(#allocation-core);stroke:rgba(245,207,120,.18);stroke-width:1.25}}
+    .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#9a95aa;font-size:9px;font-weight:600;letter-spacing:3px}}
+    .allocation-core-bolt{{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:58px;filter:drop-shadow(0 0 9px rgba(255,211,38,.9)) drop-shadow(0 0 22px rgba(255,172,0,.42))}}
+    .allocation-copy{{min-width:0}}
+    .allocation-kicker{{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}}
+    .allocation-legend{{display:grid;grid-template-columns:1fr;gap:8px}}
+    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(4,4,7,.28);font-size:.7rem}}
+    .legend-dot{{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:0 0 12px color-mix(in srgb,var(--swatch-end) 55%,transparent)}}
+    .legend-name{{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}}
+    .legend-pct{{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}}
+    .allocation-source{{display:flex;align-items:center;gap:7px;margin-top:13px;color:var(--mute);font-size:.55rem;letter-spacing:.06em}}
+    .allocation-source span{{width:6px;height:6px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 10px rgba(95,241,184,.78)}}
+    .allocation-source--offline{{color:var(--red)}}
+    .allocation-unavailable{{grid-column:1/-1;padding:34px 18px;text-align:center;color:var(--dim);font-size:.72rem}}
 
     .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
@@ -2497,9 +2623,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .fx-row{{gap:4px}}
       .fx-chip .fx-ccy{{font-size:.5rem}}
       .fx-chip .fx-rate{{font-size:.7rem}}
-      .allocation-section{{flex-direction:column}}
+      .allocation-section{{grid-template-columns:1fr;gap:14px;padding:18px}}
+      .pie-chart{{width:min(100%,250px)}}
+      .allocation-kicker{{text-align:center}}
+      .allocation-legend{{grid-template-columns:1fr}}
       .rec-grid{{grid-template-columns:1fr}}
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
+      .totals-row{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
+      .totals-row .total-item{{text-align:left;min-width:0}}
+      .totals-row .total-value{{font-size:1.05rem;white-space:nowrap}}
       .weekly-grid{{grid-template-columns:1fr}}
       .weekly-points{{grid-template-columns:1fr}}
       .latest-novaire-grid{{grid-template-columns:1fr}}
@@ -3140,11 +3272,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
             <td style="text-align:right;font-weight:600">{value_str}</td>
           </tr>"""
 
-    # ── Allocation chart ──
-    alloc_sorted = sorted(sector_totals.items(), key=lambda x: x[1], reverse=True)
-    alloc_list   = [(s, v, "") for s, v in alloc_sorted]
-    donut_svg    = build_donut(alloc_list)
-    legend_html  = build_legend(alloc_list, total_usd)
+    # ── Allocation chart: fail closed to the Google Sheet source of truth ──
+    donut_svg, legend_html, allocation_source_html = build_sheet_allocation_component(_meta)
 
     # ── Top 5 catalysts ──
     top5 = [t for t, *_ in port_sorted[:5]]
@@ -3216,12 +3345,28 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .total-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}}
     .total-value{{font-family:var(--serif);font-size:1.4rem;font-weight:400;margin-top:3px}}
     .total-value.cad{{color:var(--green)}}.total-value.usd{{color:var(--gold)}}
-    .allocation-section{{display:flex;align-items:center;gap:24px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}}
-    .pie-chart{{flex-shrink:0}}
-    .allocation-legend{{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}}
-    .legend-item{{display:flex;align-items:center;gap:6px;font-size:.72rem}}
-    .legend-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
-    .legend-pct{{color:var(--dim);margin-left:auto}}
+    .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(181,150,98,.16);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(79,240,194,.08),transparent 36%),radial-gradient(circle at 82% 72%,rgba(172,101,255,.07),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.025),rgba(0,0,0,.18))}}
+    .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,207,120,.045) 42%,transparent 68%);pointer-events:none}}
+    .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
+    .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(181,150,98,.12);stroke-width:1}}
+    .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
+    .allocation-glow{{opacity:.42}}
+    .allocation-slice{{stroke-linecap:butt;transition:opacity .2s ease,filter .2s ease}}
+    .allocation-slice:hover{{opacity:.86;filter:brightness(1.16)}}
+    .allocation-core{{fill:url(#allocation-core);stroke:rgba(245,207,120,.18);stroke-width:1.25}}
+    .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#9a95aa;font-size:9px;font-weight:600;letter-spacing:3px}}
+    .allocation-core-bolt{{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:58px;filter:drop-shadow(0 0 9px rgba(255,211,38,.9)) drop-shadow(0 0 22px rgba(255,172,0,.42))}}
+    .allocation-copy{{min-width:0}}
+    .allocation-kicker{{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}}
+    .allocation-legend{{display:grid;grid-template-columns:1fr;gap:8px}}
+    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(4,4,7,.28);font-size:.7rem}}
+    .legend-dot{{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:0 0 12px color-mix(in srgb,var(--swatch-end) 55%,transparent)}}
+    .legend-name{{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}}
+    .legend-pct{{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}}
+    .allocation-source{{display:flex;align-items:center;gap:7px;margin-top:13px;color:var(--mute);font-size:.55rem;letter-spacing:.06em}}
+    .allocation-source span{{width:6px;height:6px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 10px rgba(95,241,184,.78)}}
+    .allocation-source--offline{{color:var(--red)}}
+    .allocation-unavailable{{grid-column:1/-1;padding:34px 18px;text-align:center;color:var(--dim);font-size:.72rem}}
     .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
     .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
@@ -3240,7 +3385,13 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .back-link:hover{{color:var(--gold)}}
     @media(max-width:600px){{
       .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
-      .allocation-section{{flex-direction:column}}
+      .totals-row{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
+      .totals-row .total-item{{text-align:left;min-width:0}}
+      .totals-row .total-value{{font-size:1.05rem;white-space:nowrap}}
+      .allocation-section{{grid-template-columns:1fr;gap:14px;padding:18px}}
+      .pie-chart{{width:min(100%,250px)}}
+      .allocation-kicker{{text-align:center}}
+      .allocation-legend{{grid-template-columns:1fr}}
     }}
     .collapse-toggle{{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}}
     .collapse-toggle:hover{{opacity:.7;background:rgba(181,150,98,0.05);border-radius:4px}}
@@ -3329,8 +3480,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     </div>
     <div class="allocation-section">
       {donut_svg}
-      <div class="allocation-legend">
-        {legend_html}
+      <div class="allocation-copy">
+        <div class="allocation-kicker">Sector Allocation</div>
+        <div class="allocation-legend">
+          {legend_html}
+        </div>
+        {allocation_source_html}
       </div>
     </div>
     <div style="font-size:.6rem;color:var(--mute);margin-top:10px;text-align:center">
