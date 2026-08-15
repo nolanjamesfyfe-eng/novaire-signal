@@ -148,22 +148,21 @@
     .total-value.cad{color:var(--green)}
     .total-value.usd{color:var(--gold)}
 
-    .allocation-section{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(181,150,98,.16);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(79,240,194,.08),transparent 36%),radial-gradient(circle at 82% 72%,rgba(172,101,255,.07),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.025),rgba(0,0,0,.18))}
-    .allocation-section::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,207,120,.045) 42%,transparent 68%);pointer-events:none}
+    .allocation-section{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(140,255,0,.15);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(140,255,0,.09),transparent 38%),radial-gradient(circle at 82% 72%,rgba(0,232,111,.065),transparent 42%),linear-gradient(145deg,rgba(121,247,255,.025),rgba(0,0,0,.2))}
+    .allocation-section::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,255,90,.055) 42%,transparent 68%);pointer-events:none}
     .pie-chart{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}
-    .allocation-aura{fill:rgba(9,10,14,.76);stroke:rgba(181,150,98,.12);stroke-width:1}
+    .allocation-aura{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}
     .allocation-track{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}
-    .allocation-glow{opacity:.42}
-    .allocation-slice{stroke-linecap:butt;transition:opacity .2s ease,filter .2s ease}
-    .allocation-slice:hover{opacity:.86;filter:brightness(1.16)}
-    .allocation-core{fill:url(#allocation-core);stroke:rgba(245,207,120,.18);stroke-width:1.25}
-    .allocation-core-kicker,.allocation-core-label{font-family:var(--sans);fill:#9a95aa;font-size:9px;font-weight:600;letter-spacing:3px}
-    .allocation-core-bolt{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:58px;filter:drop-shadow(0 0 9px rgba(255,211,38,.9)) drop-shadow(0 0 22px rgba(255,172,0,.42))}
+    .allocation-glow{opacity:.66}
+    .allocation-slice{stroke-linecap:butt;filter:saturate(1.15) brightness(1.05);transition:opacity .2s ease,filter .2s ease}
+    .allocation-slice:hover{opacity:.9;filter:saturate(1.28) brightness(1.2)}
+    .allocation-core{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}
+    .allocation-core-kicker,.allocation-core-label{font-family:var(--sans);fill:#bdff94;font-size:9px;font-weight:600;letter-spacing:3px;filter:drop-shadow(0 0 5px rgba(140,255,0,.25))}
     .allocation-copy{min-width:0}
     .allocation-kicker{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
     .allocation-legend{display:grid;grid-template-columns:1fr;gap:8px}
-    .legend-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(4,4,7,.28);font-size:.7rem}
-    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:0 0 12px color-mix(in srgb,var(--swatch-end) 55%,transparent)}
+    .legend-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem}
+    .legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:inset 0 0 4px rgba(255,255,255,.8),0 0 8px var(--swatch-start),0 0 18px color-mix(in srgb,var(--swatch-end) 72%,transparent)}
     .legend-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
     .legend-pct{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}
     .allocation-source{display:flex;align-items:center;gap:7px;margin-top:13px;color:var(--mute);font-size:.55rem;letter-spacing:.06em}
@@ -446,36 +445,36 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">21:02</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:40</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">28°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 75% · AQI 28 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 77% · AQI 27 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">09:02</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:40</div>
           <div class="city">🇨🇴 Medellín</div>
-          <div class="temp">24°C</div>
+          <div class="temp">28°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 64% · AQI 47 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 49% · AQI 47 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:02</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">09:40</div>
           <div class="city">🇨🇦 Edmonton</div>
-          <div class="temp">12°C</div>
+          <div class="temp">15°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 85% · AQI 55 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 80% · AQI 55 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:02</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:40</div>
           <div class="city">🇺🇾 Montevideo</div>
-          <div class="temp">14°C</div>
-          <div class="condition">Light Drizzle 🌦</div>
+          <div class="temp">15°C</div>
+          <div class="condition">Partly Cloudy ⛅</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 84% · AQI 41 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 82% · AQI 42 (Good)</div>
         </div>
     </div>
   </div>
@@ -574,43 +573,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,043</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.62%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,119</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.15%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,884</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.76%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,886</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.09%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.57</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.32%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.53</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.29%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$489.50</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+1.29%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$490.09</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.26%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1789</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.45%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1792</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.39%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3370</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+0.83%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3450</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.20%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6828</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.80%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6836</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.84%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0177</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+3.81%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0176</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+3.04%</span></div>
         </div>
     </div>
   </div>
@@ -621,15 +620,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/political/war-rowling-continues-sans-facts" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">War On Rowling Continues (Sans Facts)</a>
+          <a href="https://www.zerohedge.com/precious-metals/post-maduro-venezuela-wants-its-4bn-gold-back-england" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Post-Maduro Venezuela Wants Its $4BN In Gold Back From England</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/geopolitical/north-korea-rages-upcoming-us-drills-rehearsal-aggressive-war" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">North Korea Rages At Upcoming US Drills: "Rehearsal For Aggressive War"</a>
+          <a href="https://www.zerohedge.com/geopolitical/racist-plan-berlins-blacks-only-swimming-pool-day-canceled-over-safety-concerns" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Racist Plan For Berlin's 'Blacks-Only' Swimming Pool Day Canceled Over 'Safety Concerns'</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/geopolitical/it-was-destroyed-just-days" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">It Was Destroyed In Just Days...</a>
+          <a href="https://www.zerohedge.com/military/china-copies-americas-futuristic-sub-second-detect-fire-anti-drone-swarm-dome-gun" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">China Copies America's Futuristic "Sub-Second Detect-To-Fire" Anti-Drone Swarm Dome Gun</a>
         </div>
   </div>
 
@@ -854,7 +853,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="30" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 21:02 BKK</div>
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 22:40 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Chinese man who embezzled 50 million baht for Bangkok good life lifted on Thursday by Immigration</a>
           <div class="thai-news-summary">Chinese investor Chon Henke’ai, 41, is arrested in a luxury Bangkok condo after fleeing China. He is wanted over a ฿50 million parking investment scheme… Read More › The post Chine</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>

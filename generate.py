@@ -1784,15 +1784,15 @@ def fetch_fx_rates():
 # ─────────────────────────────────────────────────────────────
 
 ALLOCATION_PALETTES = [
-    ("#fff36a", "#ffb800"),  # graphene · high-voltage yellow
-    ("#9cff57", "#19d6a2"),  # uranium
-    ("#ffd45f", "#ff7a42"),  # gold
-    ("#f3f7ff", "#7d9dff"),  # silver
-    ("#ff925f", "#f02f74"),  # copper
-    ("#c66cff", "#43cfff"),  # molybdenum
-    ("#3de4ff", "#30f5b4"),  # hydro
-    ("#f979ff", "#7668ff"),
-    ("#ffe75f", "#ff5c94"),
+    ("#F5FF5A", "#8CFF00"),  # graphene · charged lime
+    ("#63FF9B", "#00E86F"),  # uranium · battery green
+    ("#FFE66B", "#FFB000"),  # gold · charge amber
+    ("#79F7FF", "#3D8BFF"),  # silver · electric cyan
+    ("#FF875F", "#FF315D"),  # copper · warning charge
+    ("#C57CFF", "#6E52FF"),  # molybdenum · ultraviolet
+    ("#33FFF3", "#00B9FF"),  # hydro · ion blue
+    ("#FF69F5", "#755CFF"),
+    ("#F8FF7A", "#FF6B8C"),
 ]
 
 
@@ -1853,7 +1853,7 @@ def build_donut(allocations):
           '<stop offset="100%" stop-color="#060608"/>'
           '</radialGradient>'
           '<filter id="allocation-bloom" x="-60%" y="-60%" width="220%" height="220%">'
-          '<feGaussianBlur stdDeviation="7"/>'
+          '<feGaussianBlur stdDeviation="9"/>'
           '</filter>'
           '</defs>'
         f'<circle class="allocation-aura" cx="{cx}" cy="{cy}" r="126"/>'
@@ -1861,9 +1861,8 @@ def build_donut(allocations):
         f'<g filter="url(#allocation-bloom)">{"".join(glows)}</g>'
         + "".join(slices)
         + f'<circle class="allocation-core" cx="{cx}" cy="{cy}" r="72"/>'
-          '<text class="allocation-core-kicker" x="160" y="126" text-anchor="middle">PORTFOLIO</text>'
-          '<text class="allocation-core-bolt" x="160" y="183" text-anchor="middle">&#x26A1;&#xFE0F;</text>'
-          '<text class="allocation-core-label" x="160" y="211" text-anchor="middle">LIVE SHEET</text>'
+          '<text class="allocation-core-kicker" x="160" y="151" text-anchor="middle">PORTFOLIO</text>'
+          '<text class="allocation-core-label" x="160" y="177" text-anchor="middle">LIVE SHEET</text>'
           '</svg>'
     )
 
@@ -2438,22 +2437,21 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .total-value.cad{{color:var(--green)}}
     .total-value.usd{{color:var(--gold)}}
 
-    .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(181,150,98,.16);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(79,240,194,.08),transparent 36%),radial-gradient(circle at 82% 72%,rgba(172,101,255,.07),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.025),rgba(0,0,0,.18))}}
-    .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,207,120,.045) 42%,transparent 68%);pointer-events:none}}
+    .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(140,255,0,.15);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(140,255,0,.09),transparent 38%),radial-gradient(circle at 82% 72%,rgba(0,232,111,.065),transparent 42%),linear-gradient(145deg,rgba(121,247,255,.025),rgba(0,0,0,.2))}}
+    .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,255,90,.055) 42%,transparent 68%);pointer-events:none}}
     .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
-    .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(181,150,98,.12);stroke-width:1}}
+    .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}}
     .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
-    .allocation-glow{{opacity:.42}}
-    .allocation-slice{{stroke-linecap:butt;transition:opacity .2s ease,filter .2s ease}}
-    .allocation-slice:hover{{opacity:.86;filter:brightness(1.16)}}
-    .allocation-core{{fill:url(#allocation-core);stroke:rgba(245,207,120,.18);stroke-width:1.25}}
-    .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#9a95aa;font-size:9px;font-weight:600;letter-spacing:3px}}
-    .allocation-core-bolt{{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:58px;filter:drop-shadow(0 0 9px rgba(255,211,38,.9)) drop-shadow(0 0 22px rgba(255,172,0,.42))}}
+    .allocation-glow{{opacity:.66}}
+    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.15) brightness(1.05);transition:opacity .2s ease,filter .2s ease}}
+    .allocation-slice:hover{{opacity:.9;filter:saturate(1.28) brightness(1.2)}}
+    .allocation-core{{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}}
+    .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#bdff94;font-size:9px;font-weight:600;letter-spacing:3px;filter:drop-shadow(0 0 5px rgba(140,255,0,.25))}}
     .allocation-copy{{min-width:0}}
     .allocation-kicker{{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}}
     .allocation-legend{{display:grid;grid-template-columns:1fr;gap:8px}}
-    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(4,4,7,.28);font-size:.7rem}}
-    .legend-dot{{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:0 0 12px color-mix(in srgb,var(--swatch-end) 55%,transparent)}}
+    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem}}
+    .legend-dot{{width:11px;height:11px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:inset 0 0 4px rgba(255,255,255,.8),0 0 8px var(--swatch-start),0 0 18px color-mix(in srgb,var(--swatch-end) 72%,transparent)}}
     .legend-name{{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}}
     .legend-pct{{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}}
     .allocation-source{{display:flex;align-items:center;gap:7px;margin-top:13px;color:var(--mute);font-size:.55rem;letter-spacing:.06em}}
@@ -3380,22 +3378,21 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .total-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}}
     .total-value{{font-family:var(--serif);font-size:1.4rem;font-weight:400;margin-top:3px}}
     .total-value.cad{{color:var(--green)}}.total-value.usd{{color:var(--gold)}}
-    .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(181,150,98,.16);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(79,240,194,.08),transparent 36%),radial-gradient(circle at 82% 72%,rgba(172,101,255,.07),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.025),rgba(0,0,0,.18))}}
-    .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,207,120,.045) 42%,transparent 68%);pointer-events:none}}
+    .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(140,255,0,.15);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(140,255,0,.09),transparent 38%),radial-gradient(circle at 82% 72%,rgba(0,232,111,.065),transparent 42%),linear-gradient(145deg,rgba(121,247,255,.025),rgba(0,0,0,.2))}}
+    .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,255,90,.055) 42%,transparent 68%);pointer-events:none}}
     .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
-    .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(181,150,98,.12);stroke-width:1}}
+    .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}}
     .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
-    .allocation-glow{{opacity:.42}}
-    .allocation-slice{{stroke-linecap:butt;transition:opacity .2s ease,filter .2s ease}}
-    .allocation-slice:hover{{opacity:.86;filter:brightness(1.16)}}
-    .allocation-core{{fill:url(#allocation-core);stroke:rgba(245,207,120,.18);stroke-width:1.25}}
-    .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#9a95aa;font-size:9px;font-weight:600;letter-spacing:3px}}
-    .allocation-core-bolt{{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:58px;filter:drop-shadow(0 0 9px rgba(255,211,38,.9)) drop-shadow(0 0 22px rgba(255,172,0,.42))}}
+    .allocation-glow{{opacity:.66}}
+    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.15) brightness(1.05);transition:opacity .2s ease,filter .2s ease}}
+    .allocation-slice:hover{{opacity:.9;filter:saturate(1.28) brightness(1.2)}}
+    .allocation-core{{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}}
+    .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#bdff94;font-size:9px;font-weight:600;letter-spacing:3px;filter:drop-shadow(0 0 5px rgba(140,255,0,.25))}}
     .allocation-copy{{min-width:0}}
     .allocation-kicker{{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}}
     .allocation-legend{{display:grid;grid-template-columns:1fr;gap:8px}}
-    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(4,4,7,.28);font-size:.7rem}}
-    .legend-dot{{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:0 0 12px color-mix(in srgb,var(--swatch-end) 55%,transparent)}}
+    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem}}
+    .legend-dot{{width:11px;height:11px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:inset 0 0 4px rgba(255,255,255,.8),0 0 8px var(--swatch-start),0 0 18px color-mix(in srgb,var(--swatch-end) 72%,transparent)}}
     .legend-name{{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}}
     .legend-pct{{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}}
     .allocation-source{{display:flex;align-items:center;gap:7px;margin-top:13px;color:var(--mute);font-size:.55rem;letter-spacing:.06em}}
