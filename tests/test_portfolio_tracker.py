@@ -1,6 +1,8 @@
 import unittest
 from datetime import datetime, timezone
 
+from bs4 import BeautifulSoup
+
 import portfolio_tracker
 
 
@@ -54,14 +56,21 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIsNone(model["combined_periods"]["1D"])
 
     def test_render_tracker_has_two_accounts_and_all_periods(self):
-        history = {"snapshots": [{
-            "market_date": "2026-08-14",
-            "captured_at_utc": "2026-08-15T08:00:00+00:00",
-            "accounts": {
-                "tfsa_ws": {"cad": 121390.06, "usd": 87478.87},
-                "kraken": {"cad": 1387.65, "usd": 1000.0},
+        history = {"snapshots": [
+            {
+                "market_date": "2026-08-13",
+                "captured_at_utc": "2026-08-14T22:00:00+00:00",
+                "accounts": {"tfsa_ws": {"cad": 120000.0, "usd": 86500.0}},
             },
-        }]}
+            {
+                "market_date": "2026-08-14",
+                "captured_at_utc": "2026-08-15T08:00:00+00:00",
+                "accounts": {
+                    "tfsa_ws": {"cad": 121390.06, "usd": 87478.87},
+                    "kraken": {"cad": 1387.65, "usd": 1000.0},
+                },
+            },
+        ]}
 
         html = portfolio_tracker.render_tracker_html(portfolio_tracker.build_tracker_model(history))
 
@@ -73,6 +82,13 @@ class PortfolioTrackerTests(unittest.TestCase):
             self.assertIn(f">{label}<", html)
         self.assertIn("C$122,778", html)
         self.assertIn("History started", html)
+        self.assertIn("Portfolio close performance indexed to 100", html)
+        soup = BeautifulSoup(html, "html.parser")
+        legend = soup.select_one(".tracker-chart-legend")
+        self.assertIsNotNone(legend)
+        legend_text = legend.get_text(" ", strip=True) if legend else ""
+        self.assertIn("Wealthsimple TFSA", legend_text)
+        self.assertNotIn("Kraken", legend_text)
 
 
 if __name__ == "__main__":

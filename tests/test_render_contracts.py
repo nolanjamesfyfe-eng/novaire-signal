@@ -9,6 +9,7 @@ class RenderContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.html = (ROOT / "index.html").read_text(encoding="utf-8")
+        cls.portfolio_html = (ROOT / "portfolio" / "index.html").read_text(encoding="utf-8")
 
     def test_market_strip_is_between_weather_and_fx(self):
         weather = self.html.index("🌤 Weather")
@@ -52,6 +53,11 @@ class RenderContractTests(unittest.TestCase):
             self.assertNotIn(forbidden, self.html)
         self.assertIn("data.isSet", self.html)
         self.assertIn("moves.every", self.html)
+
+    def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
+        heading = "🔍 Catalysts — Top 5 Holdings"
+        self.assertIn(heading, self.html)
+        self.assertNotIn(heading, self.portfolio_html)
 
 
 if __name__ == "__main__":

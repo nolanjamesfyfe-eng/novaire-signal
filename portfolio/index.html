@@ -62,6 +62,39 @@
     .allocation-source span{width:6px;height:6px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 10px rgba(95,241,184,.78)}
     .allocation-source--offline{color:var(--red)}
     .allocation-unavailable{grid-column:1/-1;padding:34px 18px;text-align:center;color:var(--dim);font-size:.72rem}
+    .net-worth-tracker{position:relative;overflow:hidden;padding:24px;background:radial-gradient(circle at 92% 8%,rgba(61,228,255,.09),transparent 33%),radial-gradient(circle at 9% 88%,rgba(255,184,0,.08),transparent 38%),var(--surface)}
+    .net-worth-tracker::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 14%,rgba(255,255,255,.025) 46%,transparent 72%)}
+    .tracker-head{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+    .tracker-head .card-title{margin-bottom:4px}
+    .tracker-subtitle{color:var(--mute);font-size:.58rem;letter-spacing:.055em}
+    .tracker-asof{display:flex;align-items:center;gap:7px;color:#73efc5;font-size:.55rem;letter-spacing:.08em;white-space:nowrap}
+    .tracker-asof span{width:7px;height:7px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 13px rgba(95,241,184,.9)}
+    .tracker-total-label{position:relative;color:var(--dim);font-size:.57rem;letter-spacing:.17em;text-transform:uppercase}
+    .tracker-total{position:relative;margin-top:4px;font-family:var(--serif);font-size:2.6rem;font-weight:400;line-height:1;color:#f7f1e6;text-shadow:0 0 24px rgba(255,211,38,.09);font-variant-numeric:tabular-nums}
+    .tracker-accounts{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0 14px}
+    .tracker-account{padding:13px 14px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:rgba(4,4,7,.34)}
+    .tracker-account-name{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase}
+    .tracker-account-name span{width:7px;height:7px;border-radius:50%;background:#ffd21f;box-shadow:0 0 10px rgba(255,210,31,.7)}
+    .tracker-account--kraken .tracker-account-name span{background:#42d8ff;box-shadow:0 0 10px rgba(66,216,255,.75)}
+    .tracker-account-value{margin-top:4px;font-family:var(--serif);font-size:1.42rem;font-variant-numeric:tabular-nums}
+    .tracker-account-secondary{color:var(--mute);font-size:.54rem}
+    .tracker-chart{position:relative;margin:4px 0 16px}
+    .tracker-chart svg{display:block;width:100%;height:auto;border:1px solid rgba(255,255,255,.045);border-radius:14px;background:rgba(3,3,6,.34)}
+    .tracker-chart-legend{display:flex;gap:16px;margin-top:7px;color:var(--mute);font-size:.52rem}
+    .tracker-chart-legend span{display:flex;align-items:center;gap:6px}
+    .tracker-chart-legend i{width:14px;height:2px;background:var(--tracker-color);box-shadow:0 0 8px var(--tracker-color)}
+    .tracker-chart-empty{position:relative;padding:28px 16px;margin:4px 0 16px;border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;color:var(--mute);font-size:.62rem}
+    .tracker-performance-title{position:relative;margin:2px 0 9px;padding-top:14px;border-top:1px solid rgba(255,255,255,.055);color:var(--gold);font-size:.55rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase}
+    .tracker-performance{position:relative}
+    .tracker-performance-row{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:10px;margin-top:8px}
+    .tracker-performance-name{color:var(--dim);font-size:.57rem;letter-spacing:.04em}
+    .tracker-performance-grid{display:grid;grid-template-columns:repeat(5,minmax(68px,1fr));gap:6px;min-width:380px}
+    .tracker-performance-grid>div{padding:7px 6px;border:1px solid rgba(255,255,255,.05);border-radius:8px;background:rgba(2,2,5,.3);text-align:right}
+    .tracker-performance-grid em{display:block;color:var(--mute);font-size:.48rem;font-style:normal;letter-spacing:.1em}
+    .tracker-period strong{display:block;margin-top:2px;font-size:.64rem;font-variant-numeric:tabular-nums}
+    .tracker-period small{display:block;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}
+    .tracker-period--pending strong{color:var(--mute)}
+    .tracker-foot{position:relative;margin-top:12px;color:var(--mute);font-size:.52rem;line-height:1.5}
     .catalyst-item{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}
     .catalyst-item:last-child{border-bottom:none}
     .catalyst-ticker{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}
@@ -87,6 +120,14 @@
       .pie-chart{width:min(100%,250px)}
       .allocation-kicker{text-align:center}
       .allocation-legend{grid-template-columns:1fr}
+      .net-worth-tracker{padding:18px}
+      .tracker-head{align-items:flex-start}
+      .tracker-total{font-size:2.15rem}
+      .tracker-accounts{grid-template-columns:1fr}
+      .tracker-performance{overflow:visible;padding-bottom:0}
+      .tracker-performance-row{grid-template-columns:1fr;gap:5px;margin-top:12px}
+      .tracker-performance-grid{min-width:0}
+      .tracker-performance-name{padding-left:2px}
     }
     .collapse-toggle{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}
     .collapse-toggle:hover{opacity:.7;background:rgba(181,150,98,0.05);border-radius:4px}
@@ -362,37 +403,8 @@
     </div>
   </div>
 
-  <!-- CATALYSTS -->
-  <div class="card">
-    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
-    
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">HG</span>
-              <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Aug 15 · simplywall.st</span>
-              <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">HydroGraph Clean Power (CNSX:HG) Is Down 8.3% After Texas Graphene Expansion Plan - Has The Bull Case Changed? - simplywall.st</span>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">URNJ</span>
-              <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Aug 13 · Stock Traders Daily</span>
-              <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">Liquidity Mapping Around (URNJ) Price Events - Stock Traders Daily</span>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">BNNLF</span>
-              <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Aug 11 · Kalkine</span>
-              <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">Bannerman Energy Advances Etango Uranium Development as Market Conditions Improve (ASX:BMN) - Kalkine</span>
-            </div>
-            <div class="catalyst-item">
-              <span class="catalyst-ticker">FVL · GLO</span>
-              <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline" style="color:var(--dim);font-style:italic">No verified news within 14 days.</span>
-            </div>
-  </div>
+  <!-- NET WORTH TRACKER — daily Google Sheet closes -->
+  <section class="card net-worth-tracker" id="net-worth-tracker"><div class="tracker-head"><div><div class="card-title">⚡ Net Worth Tracker</div><div class="tracker-subtitle">Google Sheet daily closes · TFSA/WS + Kraken</div></div><div class="tracker-asof"><span></span>Aug 14, 2026 close</div></div><div class="tracker-total-label">Combined Net Worth</div><div class="tracker-total">C$122,778</div><div class="tracker-accounts"><div class="tracker-account tracker-account--tfsa_ws"><div class="tracker-account-name"><span></span>Wealthsimple TFSA</div><div class="tracker-account-value">C$121,390</div><div class="tracker-account-secondary">US$87,479</div></div><div class="tracker-account tracker-account--kraken"><div class="tracker-account-name"><span></span>Kraken</div><div class="tracker-account-value">US$1,000</div><div class="tracker-account-secondary">C$1,388</div></div></div><div class="tracker-chart"><svg viewBox="0 0 640 150" role="img" aria-label="Portfolio close performance indexed to 100"><defs><linearGradient id="tracker-grid" x1="0" x2="1"><stop stop-color="#ffd21f" stop-opacity=".16"/><stop offset="1" stop-color="#42d8ff" stop-opacity=".08"/></linearGradient></defs><rect x="0" y="0" width="640" height="150" rx="14" fill="url(#tracker-grid)"/><path d="M10 40 H630 M10 75 H630 M10 110 H630" stroke="rgba(255,255,255,.06)" stroke-width="1"/><polyline points="10.0,13.9 17.0,15.0 23.9,10.0 30.9,13.8 37.9,24.6 44.8,26.5 51.8,69.4 58.8,59.8 65.7,68.6 72.7,66.6 79.7,61.5 86.6,53.5 93.6,58.7 100.6,53.6 107.5,62.8 114.5,68.5 121.5,68.1 128.4,70.8 135.4,71.4 142.4,64.8 149.3,60.4 156.3,59.1 163.3,68.8 170.2,75.7 177.2,74.7 184.2,86.8 191.1,86.8 198.1,73.8 205.1,75.5 212.0,73.2 219.0,28.8 226.0,33.2 232.9,79.5 239.9,74.2 246.9,74.0 253.8,63.8 260.8,71.0 267.8,69.1 274.7,84.9 281.7,86.3 288.7,96.4 295.6,95.4 302.6,93.9 309.6,86.5 316.5,82.4 323.5,83.2 330.4,76.0 337.4,75.1 344.4,80.0 351.3,78.5 358.3,92.8 365.3,115.9 372.2,118.9 379.2,112.9 386.2,112.9 393.1,124.0 400.1,123.2 407.1,122.1 414.0,131.9 421.0,122.0 428.0,124.7 434.9,137.3 441.9,123.1 448.9,131.2 455.8,119.6 462.8,140.0 469.8,127.5 476.7,109.2 483.7,133.9 490.7,137.7 497.6,118.0 504.6,108.9 511.6,121.9 518.5,120.4 525.5,124.2 532.5,130.1 539.4,134.6 546.4,130.3 553.4,132.2 560.3,131.8 567.3,114.0 574.3,105.8 581.2,102.6 588.2,83.4 595.2,62.9 602.1,63.9 609.1,71.4 616.1,77.8 623.0,74.2 630.0,78.9" fill="none" stroke="#ffd21f" stroke-width="3" vector-effect="non-scaling-stroke"/></svg><div class="tracker-chart-legend"><span><i style="--tracker-color:#ffd21f"></i>Wealthsimple TFSA</span></div></div><div class="tracker-performance-title">Close-to-close performance</div><div class="tracker-performance"><div class="tracker-performance-row tracker-performance-row--total"><div class="tracker-performance-name">Total Net Worth</div><div class="tracker-performance-grid"><div><em>1D</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>1W</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>1M</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>3M</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>1Y</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div></div></div><div class="tracker-performance-row"><div class="tracker-performance-name">Wealthsimple TFSA</div><div class="tracker-performance-grid"><div><em>1D</em><div class="tracker-period negative"><strong>−1.7%</strong><small>−C$2,081</small></div></div><div><em>1W</em><div class="tracker-period negative"><strong>−5.6%</strong><small>−C$7,154</small></div></div><div><em>1M</em><div class="tracker-period positive"><strong>+12.5%</strong><small>+C$13,525</small></div></div><div><em>3M</em><div class="tracker-period negative"><strong>−1.5%</strong><small>−C$1,889</small></div></div><div><em>1Y</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div></div></div><div class="tracker-performance-row"><div class="tracker-performance-name">Kraken</div><div class="tracker-performance-grid"><div><em>1D</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>1W</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>1M</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>3M</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div><div><em>1Y</em><div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div></div></div></div></div><div class="tracker-foot">History started from verified Sheet closes. Missing periods unlock automatically—no invented backfill.</div></section>
 
   <!-- EVOLUTION FUND -->
   <div class="card">
@@ -408,12 +420,12 @@
         <th style="text-align:right">G/L $</th>
         <th style="text-align:right">G/L %</th>
       </tr></thead>
-      <tbody><tr><td class="ticker">PHYS</td><td style="font-size:.78rem">Gold (Sprott)</td><td style="text-align:right;font-size:.78rem">16,827</td><td style="text-align:right;font-size:.78rem">$33.23</td><td style="text-align:right;font-size:.78rem">$559,161</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$62,596</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-10.1%</td></tr><tr><td class="ticker">URNM</td><td style="font-size:.78rem">Uranium</td><td style="text-align:right;font-size:.78rem">6,000</td><td style="text-align:right;font-size:.78rem">$54.56</td><td style="text-align:right;font-size:.78rem">$327,360</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$78,960</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-19.4%</td></tr><tr><td class="ticker">GRID</td><td style="font-size:.78rem">Grid Infrastructure</td><td style="text-align:right;font-size:.78rem">2,177</td><td style="text-align:right;font-size:.78rem">$187.87</td><td style="text-align:right;font-size:.78rem">$408,993</td><td style="text-align:right;font-size:.78rem;color:#4ade80">+$24,078</td><td style="text-align:right;font-size:.78rem;color:#4ade80;font-weight:600">+6.3%</td></tr><tr><td class="ticker">PSLV</td><td style="font-size:.78rem">Silver (Sprott)</td><td style="text-align:right;font-size:.78rem">8,545</td><td style="text-align:right;font-size:.78rem">$21.08</td><td style="text-align:right;font-size:.78rem">$180,129</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$67,847</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-27.4%</td></tr><tr><td class="ticker">COPX</td><td style="font-size:.78rem">Copper Miners</td><td style="text-align:right;font-size:.78rem">2,000</td><td style="text-align:right;font-size:.78rem">$85.70</td><td style="text-align:right;font-size:.78rem">$171,400</td><td style="text-align:right;font-size:.78rem;color:#4ade80">+$3,480</td><td style="text-align:right;font-size:.78rem;color:#4ade80;font-weight:600">+2.1%</td></tr><tr><td class="ticker">COPP</td><td style="font-size:.78rem">Copper</td><td style="text-align:right;font-size:.78rem">5,047</td><td style="text-align:right;font-size:.78rem">$41.36</td><td style="text-align:right;font-size:.78rem">$208,744</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$11,305</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-5.1%</td></tr><tr><td class="ticker">URNJ</td><td style="font-size:.78rem">Jr Uranium</td><td style="text-align:right;font-size:.78rem">3,151</td><td style="text-align:right;font-size:.78rem">$24.42</td><td style="text-align:right;font-size:.78rem">$76,947</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$33,054</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-30.0%</td></tr><tr><td class="ticker">SGDJ</td><td style="font-size:.78rem">Gold Miners</td><td style="text-align:right;font-size:.78rem">1,002</td><td style="text-align:right;font-size:.78rem">$91.28</td><td style="text-align:right;font-size:.78rem">$91,463</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$18,487</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-16.8%</td></tr><tr><td class="ticker">AAPL</td><td style="font-size:.78rem">Apple</td><td style="text-align:right;font-size:.78rem">31</td><td style="text-align:right;font-size:.78rem">$305.93</td><td style="text-align:right;font-size:.78rem">$9,484</td><td style="text-align:right;font-size:.78rem;color:#4ade80">+$1,376</td><td style="text-align:right;font-size:.78rem;color:#4ade80;font-weight:600">+17.0%</td></tr><tr><td class="ticker">CEG</td><td style="font-size:.78rem">Constellation Energy</td><td style="text-align:right;font-size:.78rem">177</td><td style="text-align:right;font-size:.78rem">$282.50</td><td style="text-align:right;font-size:.78rem">$50,002</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$5,275</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-9.5%</td></tr><tr><td class="ticker">VST</td><td style="font-size:.78rem">Vistra Energy</td><td style="text-align:right;font-size:.78rem">322</td><td style="text-align:right;font-size:.78rem">$148.13</td><td style="text-align:right;font-size:.78rem">$47,698</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$7,216</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-13.1%</td></tr><tr><td class="ticker">BTC</td><td style="font-size:.78rem">Bitcoin (8% alloc)</td><td style="text-align:right;font-size:.78rem">6.72</td><td style="text-align:right;font-size:.78rem">$62,997.04</td><td style="text-align:right;font-size:.78rem">$423,340</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$16,820</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-3.8%</td></tr></tbody>
+      <tbody><tr><td class="ticker">PHYS</td><td style="font-size:.78rem">Gold (Sprott)</td><td style="text-align:right;font-size:.78rem">16,827</td><td style="text-align:right;font-size:.78rem">$33.23</td><td style="text-align:right;font-size:.78rem">$559,161</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$62,596</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-10.1%</td></tr><tr><td class="ticker">URNM</td><td style="font-size:.78rem">Uranium</td><td style="text-align:right;font-size:.78rem">6,000</td><td style="text-align:right;font-size:.78rem">$54.56</td><td style="text-align:right;font-size:.78rem">$327,360</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$78,960</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-19.4%</td></tr><tr><td class="ticker">GRID</td><td style="font-size:.78rem">Grid Infrastructure</td><td style="text-align:right;font-size:.78rem">2,177</td><td style="text-align:right;font-size:.78rem">$187.87</td><td style="text-align:right;font-size:.78rem">$408,993</td><td style="text-align:right;font-size:.78rem;color:#4ade80">+$24,078</td><td style="text-align:right;font-size:.78rem;color:#4ade80;font-weight:600">+6.3%</td></tr><tr><td class="ticker">PSLV</td><td style="font-size:.78rem">Silver (Sprott)</td><td style="text-align:right;font-size:.78rem">8,545</td><td style="text-align:right;font-size:.78rem">$21.08</td><td style="text-align:right;font-size:.78rem">$180,129</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$67,847</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-27.4%</td></tr><tr><td class="ticker">COPX</td><td style="font-size:.78rem">Copper Miners</td><td style="text-align:right;font-size:.78rem">2,000</td><td style="text-align:right;font-size:.78rem">$85.70</td><td style="text-align:right;font-size:.78rem">$171,400</td><td style="text-align:right;font-size:.78rem;color:#4ade80">+$3,480</td><td style="text-align:right;font-size:.78rem;color:#4ade80;font-weight:600">+2.1%</td></tr><tr><td class="ticker">COPP</td><td style="font-size:.78rem">Copper</td><td style="text-align:right;font-size:.78rem">5,047</td><td style="text-align:right;font-size:.78rem">$41.36</td><td style="text-align:right;font-size:.78rem">$208,744</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$11,305</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-5.1%</td></tr><tr><td class="ticker">URNJ</td><td style="font-size:.78rem">Jr Uranium</td><td style="text-align:right;font-size:.78rem">3,151</td><td style="text-align:right;font-size:.78rem">$24.42</td><td style="text-align:right;font-size:.78rem">$76,947</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$33,054</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-30.0%</td></tr><tr><td class="ticker">SGDJ</td><td style="font-size:.78rem">Gold Miners</td><td style="text-align:right;font-size:.78rem">1,002</td><td style="text-align:right;font-size:.78rem">$91.28</td><td style="text-align:right;font-size:.78rem">$91,463</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$18,487</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-16.8%</td></tr><tr><td class="ticker">AAPL</td><td style="font-size:.78rem">Apple</td><td style="text-align:right;font-size:.78rem">31</td><td style="text-align:right;font-size:.78rem">$305.93</td><td style="text-align:right;font-size:.78rem">$9,484</td><td style="text-align:right;font-size:.78rem;color:#4ade80">+$1,376</td><td style="text-align:right;font-size:.78rem;color:#4ade80;font-weight:600">+17.0%</td></tr><tr><td class="ticker">CEG</td><td style="font-size:.78rem">Constellation Energy</td><td style="text-align:right;font-size:.78rem">177</td><td style="text-align:right;font-size:.78rem">$282.50</td><td style="text-align:right;font-size:.78rem">$50,002</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$5,275</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-9.5%</td></tr><tr><td class="ticker">VST</td><td style="font-size:.78rem">Vistra Energy</td><td style="text-align:right;font-size:.78rem">322</td><td style="text-align:right;font-size:.78rem">$148.13</td><td style="text-align:right;font-size:.78rem">$47,698</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$7,216</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-13.1%</td></tr><tr><td class="ticker">BTC</td><td style="font-size:.78rem">Bitcoin (8% alloc)</td><td style="text-align:right;font-size:.78rem">6.72</td><td style="text-align:right;font-size:.78rem">$62,987.36</td><td style="text-align:right;font-size:.78rem">$423,275</td><td style="text-align:right;font-size:.78rem;color:#f87171">-$16,885</td><td style="text-align:right;font-size:.78rem;color:#f87171;font-weight:600">-3.8%</td></tr></tbody>
     </table></div>
     <div class="totals-row">
       <div class="total-item">
         <div class="total-label">Total Value</div>
-        <div class="total-value usd">$2,554,721</div>
+        <div class="total-value usd">$2,554,656</div>
       </div>
       <div class="total-item">
         <div class="total-label">Total Cost</div>
@@ -421,7 +433,7 @@
       </div>
       <div class="total-item">
         <div class="total-label">Gain/Loss</div>
-        <div class="total-value" style="color:#f87171">-$272,627</div>
+        <div class="total-value" style="color:#f87171">-$272,692</div>
       </div>
       <div class="total-item">
         <div class="total-label">ROI</div>

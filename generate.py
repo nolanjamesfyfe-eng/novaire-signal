@@ -3218,7 +3218,7 @@ renderActionSteps();
 # MAIN
 # ─────────────────────────────────────────────────────────────
 
-def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html=""):
+def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html="", net_worth_tracker_html=""):
     """Render standalone portfolio page at /portfolio"""
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -3379,6 +3379,39 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .allocation-source span{{width:6px;height:6px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 10px rgba(95,241,184,.78)}}
     .allocation-source--offline{{color:var(--red)}}
     .allocation-unavailable{{grid-column:1/-1;padding:34px 18px;text-align:center;color:var(--dim);font-size:.72rem}}
+    .net-worth-tracker{{position:relative;overflow:hidden;padding:24px;background:radial-gradient(circle at 92% 8%,rgba(61,228,255,.09),transparent 33%),radial-gradient(circle at 9% 88%,rgba(255,184,0,.08),transparent 38%),var(--surface)}}
+    .net-worth-tracker::before{{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 14%,rgba(255,255,255,.025) 46%,transparent 72%)}}
+    .tracker-head{{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}}
+    .tracker-head .card-title{{margin-bottom:4px}}
+    .tracker-subtitle{{color:var(--mute);font-size:.58rem;letter-spacing:.055em}}
+    .tracker-asof{{display:flex;align-items:center;gap:7px;color:#73efc5;font-size:.55rem;letter-spacing:.08em;white-space:nowrap}}
+    .tracker-asof span{{width:7px;height:7px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 13px rgba(95,241,184,.9)}}
+    .tracker-total-label{{position:relative;color:var(--dim);font-size:.57rem;letter-spacing:.17em;text-transform:uppercase}}
+    .tracker-total{{position:relative;margin-top:4px;font-family:var(--serif);font-size:2.6rem;font-weight:400;line-height:1;color:#f7f1e6;text-shadow:0 0 24px rgba(255,211,38,.09);font-variant-numeric:tabular-nums}}
+    .tracker-accounts{{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0 14px}}
+    .tracker-account{{padding:13px 14px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:rgba(4,4,7,.34)}}
+    .tracker-account-name{{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase}}
+    .tracker-account-name span{{width:7px;height:7px;border-radius:50%;background:#ffd21f;box-shadow:0 0 10px rgba(255,210,31,.7)}}
+    .tracker-account--kraken .tracker-account-name span{{background:#42d8ff;box-shadow:0 0 10px rgba(66,216,255,.75)}}
+    .tracker-account-value{{margin-top:4px;font-family:var(--serif);font-size:1.42rem;font-variant-numeric:tabular-nums}}
+    .tracker-account-secondary{{color:var(--mute);font-size:.54rem}}
+    .tracker-chart{{position:relative;margin:4px 0 16px}}
+    .tracker-chart svg{{display:block;width:100%;height:auto;border:1px solid rgba(255,255,255,.045);border-radius:14px;background:rgba(3,3,6,.34)}}
+    .tracker-chart-legend{{display:flex;gap:16px;margin-top:7px;color:var(--mute);font-size:.52rem}}
+    .tracker-chart-legend span{{display:flex;align-items:center;gap:6px}}
+    .tracker-chart-legend i{{width:14px;height:2px;background:var(--tracker-color);box-shadow:0 0 8px var(--tracker-color)}}
+    .tracker-chart-empty{{position:relative;padding:28px 16px;margin:4px 0 16px;border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;color:var(--mute);font-size:.62rem}}
+    .tracker-performance-title{{position:relative;margin:2px 0 9px;padding-top:14px;border-top:1px solid rgba(255,255,255,.055);color:var(--gold);font-size:.55rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase}}
+    .tracker-performance{{position:relative}}
+    .tracker-performance-row{{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:10px;margin-top:8px}}
+    .tracker-performance-name{{color:var(--dim);font-size:.57rem;letter-spacing:.04em}}
+    .tracker-performance-grid{{display:grid;grid-template-columns:repeat(5,minmax(68px,1fr));gap:6px;min-width:380px}}
+    .tracker-performance-grid>div{{padding:7px 6px;border:1px solid rgba(255,255,255,.05);border-radius:8px;background:rgba(2,2,5,.3);text-align:right}}
+    .tracker-performance-grid em{{display:block;color:var(--mute);font-size:.48rem;font-style:normal;letter-spacing:.1em}}
+    .tracker-period strong{{display:block;margin-top:2px;font-size:.64rem;font-variant-numeric:tabular-nums}}
+    .tracker-period small{{display:block;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
+    .tracker-period--pending strong{{color:var(--mute)}}
+    .tracker-foot{{position:relative;margin-top:12px;color:var(--mute);font-size:.52rem;line-height:1.5}}
     .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
     .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
@@ -3404,6 +3437,14 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .pie-chart{{width:min(100%,250px)}}
       .allocation-kicker{{text-align:center}}
       .allocation-legend{{grid-template-columns:1fr}}
+      .net-worth-tracker{{padding:18px}}
+      .tracker-head{{align-items:flex-start}}
+      .tracker-total{{font-size:2.15rem}}
+      .tracker-accounts{{grid-template-columns:1fr}}
+      .tracker-performance{{overflow:visible;padding-bottom:0}}
+      .tracker-performance-row{{grid-template-columns:1fr;gap:5px;margin-top:12px}}
+      .tracker-performance-grid{{min-width:0}}
+      .tracker-performance-name{{padding-left:2px}}
     }}
     .collapse-toggle{{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}}
     .collapse-toggle:hover{{opacity:.7;background:rgba(181,150,98,0.05);border-radius:4px}}
@@ -3505,11 +3546,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     </div>
   </div>
 
-  <!-- CATALYSTS -->
-  <div class="card">
-    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
-    {cats_html}
-  </div>
+  <!-- NET WORTH TRACKER — daily Google Sheet closes -->
+  {net_worth_tracker_html}
 
   <!-- EVOLUTION FUND -->
   {evo_fund_html}
@@ -3659,6 +3697,21 @@ def main():
         print(f"    ❌ {e}")
         portfolio_data = {}
         gs_meta = {}
+
+    print("  ⚡ Updating net-worth close history (TFSA/WS + Kraken)...")
+    kraken_meta = fetch_kraken_totals()
+    portfolio_history = load_portfolio_history(PORTFOLIO_HISTORY_PATH)
+    if gs_meta.get("total_cad") and kraken_meta.get("total_cad") is not None:
+        portfolio_history = upsert_daily_snapshot(portfolio_history, gs_meta, kraken_meta)
+        save_portfolio_history(portfolio_history, PORTFOLIO_HISTORY_PATH)
+        print(
+            f"    ✅ TFSA C${gs_meta['total_cad']:,.2f} · "
+            f"Kraken US${kraken_meta['total_usd']:,.2f} · "
+            f"{len(portfolio_history.get('snapshots', []))} daily closes"
+        )
+    else:
+        print("    ⚠️  Incomplete Sheet totals; preserving the last verified close")
+    net_worth_tracker_html = render_tracker_html(build_tracker_model(portfolio_history))
 
     print("  🔍 Fetching catalysts (yfinance news)...")
     sorted_holdings = sorted(
@@ -4081,7 +4134,8 @@ def main():
 
     portfolio_html = render_portfolio_html(
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
-        bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html
+        bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html,
+        net_worth_tracker_html=net_worth_tracker_html,
     )
 
     required_thai_markers = [

@@ -147,13 +147,22 @@ def upsert_daily_snapshot(
 
     now = now or datetime.now(timezone.utc)
     market_date = latest_completed_market_date(now)
+    existing_same_date = next(
+        (
+            item for item in history.get("snapshots", [])
+            if isinstance(item, dict) and item.get("market_date") == market_date
+        ),
+        None,
+    )
+    merged_accounts = dict((existing_same_date or {}).get("accounts") or {})
+    merged_accounts.update(accounts)
     snapshot = {
         "market_date": market_date,
         "captured_at_utc": now.astimezone(timezone.utc).isoformat(),
-        "accounts": accounts,
+        "accounts": merged_accounts,
         "source": "Google Sheet daily close",
     }
-    snapshot["net_worth_cad"] = round(sum(item["cad"] for item in accounts.values()), 2)
+    snapshot["net_worth_cad"] = round(sum(item["cad"] for item in merged_accounts.values()), 2)
 
     snapshots = [
         item for item in history.get("snapshots", [])
@@ -264,13 +273,25 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
 
 
 def _sparkline_svg(accounts: dict[str, Any]) -> str:
+    """Render each account as a normalized close index so unlike balances compare cleanly."""
     colors = {"tfsa_ws": "#ffd21f", "kraken": "#42d8ff"}
-    all_values = [
-        point["cad"]
-        for account in accounts.values()
-        for point in account.get("series", [])[-90:]
-        if isinstance(point.get("cad"), (int, float))
-    ]
+    eligible = {
+        key: account
+        for key, account in accounts.items()
+        if len(account.get("series", [])[-90:]) >= 2
+    }
+    if not eligible:
+        return '<div class="tracker-chart-empty">History started · the close chart will build automatically.</div>'
+
+    indexed_series: dict[str, list[float]] = {}
+    for key, account in eligible.items():
+        series = account.get("series", [])[-90:]
+        base = float(series[0]["cad"])
+        if base <= 0:
+            continue
+        indexed_series[key] = [float(point["cad"]) / base * 100 for point in series]
+
+    all_values = [value for series in indexed_series.values() for value in series]
     if len(all_values) < 2:
         return '<div class="tracker-chart-empty">History started · the close chart will build automatically.</div>'
 
@@ -279,25 +300,23 @@ def _sparkline_svg(accounts: dict[str, Any]) -> str:
     width, height, pad = 640.0, 150.0, 10.0
     paths = []
     legend = []
-    for key, account in accounts.items():
-        series = account.get("series", [])[-90:]
-        if not series:
-            continue
+    for key, values in indexed_series.items():
         points = []
-        for index, point in enumerate(series):
-            x = pad + (width - 2 * pad) * (index / max(len(series) - 1, 1))
-            y = pad + (height - 2 * pad) * (1 - (float(point["cad"]) - low) / spread)
+        for index, value in enumerate(values):
+            x = pad + (width - 2 * pad) * (index / max(len(values) - 1, 1))
+            y = pad + (height - 2 * pad) * (1 - (value - low) / spread)
             points.append(f"{x:.1f},{y:.1f}")
         color = colors.get(key, "#b59662")
-        if len(points) > 1:
-            paths.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="{color}" stroke-width="3" vector-effect="non-scaling-stroke"/>')
-        else:
-            x, y = points[0].split(",")
-            paths.append(f'<circle cx="{x}" cy="{y}" r="4" fill="{color}"/>')
-        legend.append(f'<span><i style="--tracker-color:{color}"></i>{escape(account["label"])}</span>')
+        paths.append(
+            f'<polyline points="{" ".join(points)}" fill="none" stroke="{color}" '
+            'stroke-width="3" vector-effect="non-scaling-stroke"/>'
+        )
+        legend.append(
+            f'<span><i style="--tracker-color:{color}"></i>{escape(eligible[key]["label"])}</span>'
+        )
     return (
         '<div class="tracker-chart">'
-        '<svg viewBox="0 0 640 150" role="img" aria-label="Portfolio daily close history">'
+        '<svg viewBox="0 0 640 150" role="img" aria-label="Portfolio close performance indexed to 100">'
         '<defs><linearGradient id="tracker-grid" x1="0" x2="1"><stop stop-color="#ffd21f" stop-opacity=".16"/><stop offset="1" stop-color="#42d8ff" stop-opacity=".08"/></linearGradient></defs>'
         '<rect x="0" y="0" width="640" height="150" rx="14" fill="url(#tracker-grid)"/>'
         '<path d="M10 40 H630 M10 75 H630 M10 110 H630" stroke="rgba(255,255,255,.06)" stroke-width="1"/>'
