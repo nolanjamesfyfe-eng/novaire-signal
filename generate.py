@@ -2570,16 +2570,26 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-clock{{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 20px;border-bottom:1px solid var(--border);padding:12px 24px}}
     .market-primary{{grid-area:primary;display:flex;align-items:baseline;gap:12px;min-width:0}}
     .market-label{{font-size:.64rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
-    .wall-time{{display:block;font-family:var(--serif);font-size:1.04rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
+    .wall-time{{display:block;font-family:var(--serif);font-size:1.248rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
     .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}}
     .market-future{{display:grid;grid-template-columns:1fr auto;gap:0 7px;align-items:baseline;padding-left:10px;border-left:1px solid var(--border);min-width:0}}
     .market-future span{{grid-column:1/-1;font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
-    .market-future b{{font-family:var(--serif);font-size:.86rem;color:var(--text);font-weight:500;white-space:nowrap}}
-    .market-future em{{font-size:.47rem;font-style:normal;text-align:right;white-space:nowrap}}
-    .market-future small{{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:5px;align-items:baseline;margin-top:2px;color:var(--mute);font-size:.41rem;white-space:nowrap}}
+    .market-future b{{font-family:var(--serif);font-size:1.032rem;color:var(--text);font-weight:500;white-space:nowrap}}
+    .market-future em{{font-size:.611rem;font-style:normal;text-align:right;white-space:nowrap}}
+    .market-future small{{
+      grid-column:1/-1;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:5px;
+      align-items:baseline;
+      margin-top:2px;
+      color:var(--mute);
+      font-size:.41rem;
+      white-space:nowrap;
+    }}
     .market-future small i{{font-style:normal;text-transform:uppercase;letter-spacing:.06em}}
-    .market-future small strong{{font-weight:500;color:var(--dim)}}
-    .market-future small u{{text-decoration:none;text-align:right}}
+    .market-future small strong{{font-size:.492rem;font-weight:500;color:var(--dim)}}
+    .market-future small u{{font-size:.533rem;text-decoration:none;text-align:right}}
     .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
@@ -2597,7 +2607,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i:last-child{{color:var(--blue)}}
     @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-futures{{width:100%}}.market-future:first-child{{border-left:none;padding-left:0}}.market-calendar{{white-space:normal;text-align:left;line-height:1.45}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
-    @media(max-width:400px){{.market-futures{{grid-template-columns:1fr;gap:6px}}.market-future{{grid-template-columns:1fr auto auto;border-left:none;border-top:1px solid var(--border);padding:6px 0 0}}.market-future span{{grid-column:auto}}.market-calendar{{margin-top:3px}}.wall-time{{font-size:.98rem}}}}
+    @media(max-width:400px){{.market-futures{{grid-template-columns:1fr;gap:6px}}.market-future{{grid-template-columns:1fr auto auto;border-left:none;border-top:1px solid var(--border);padding:6px 0 0}}.market-future span{{grid-column:auto}}.market-calendar{{margin-top:3px}}.wall-time{{font-size:1.176rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
