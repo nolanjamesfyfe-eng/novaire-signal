@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-15T20:01:04.310457+00:00",
+  "fetchedAt": "2026-08-15T20:13:48.471160+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2088717110340149514",
+      "text": "Nvidia is dominating retail investor demand across the Magnificent 7: Retail investors have bought +$27 billion worth of Nvidia, $NVDA, stock over the last year, the most among all Magnificent 7 companies. Since October 2025, these purchases have more than quadrupled. Tesla, $TSLA, ranked 2nd, with +$15 billion in retail purchases over the last year. Over the same period, retail investors bought +$9 billion worth of Microsoft, $MSFT, stock. On the other hand, Apple, $AAPL, recorded -$5 billion in retail sales over the last year, the only Magnificent 7 company that retail investors sold. For retail investors, Nvidia remains the ultimate AI trade.",
+      "author": "KobeissiLetter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-08-15T19:59:00+00:00",
+      "createdAtMs": 1786823940000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/KobeissiLetter/status/2088717110340149514#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2088716009481879769",
       "text": "Excellent summary analysis by Joe Shipman @joe_shipman:",
@@ -21,7 +36,7 @@
       "url": "https://x.com/nntaleb/status/2088716009481879769#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/zerohedge/status/2088713617164087775#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2088712514976542849",
-      "text": "JUST IN: 🇧🇪 Construction workers in Belgium discover more than $10,000,000 worth of gold while renovating a building. They \"immediately\" contacted police.",
-      "author": "WatcherGuru",
-      "handle": "WatcherGuru",
-      "createdAt": "2026-08-15T19:40:44+00:00",
-      "createdAtMs": 1786822844000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/WatcherGuru/status/2088712514976542849#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
