@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-15T04:04:24.189509+00:00",
+  "fetchedAt": "2026-08-15T04:22:21.817975+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2088481103363371356",
+      "text": "This doesn't happen because our leaders are well educated and prudent:",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-08-15T04:21:11+00:00",
+      "createdAtMs": 1786767671000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/JoshYoung/status/2088481103363371356#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2088466991619121201",
       "text": "Escobar: The New Great Game, Revisited https://www.zerohedge.com/geopolitical/escobar-new-great-game-revisited",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2088466991619121201#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/WatcherGuru/status/2088437868628775326#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2088422377461866523",
-      "text": "Think top-hats are making a come-back…",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-08-15T00:27:50+00:00",
-      "createdAtMs": 1786753670000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/hkuppy/status/2088422377461866523#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
