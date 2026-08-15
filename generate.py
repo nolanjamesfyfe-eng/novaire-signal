@@ -2697,17 +2697,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="countdown-date">Sep 30 · Georgia</div>
       </div>
       <div class="countdown-item">
-        <div class="countdown-label">🎡 EDC Thailand</div>
+        <div class="countdown-label">🎡 EDC PHUKET</div>
         <div class="countdown-days">{edc_countdown_text}</div>
         <div class="countdown-date">Dec 18</div>
       </div>
       <div class="countdown-item">
-        <div class="countdown-label">🏝 Man on the Rise Retreat</div>
+        <div class="countdown-label">🏝️ MAN ON THE RISE</div>
         <div class="countdown-days">{retreat_countdown_text}</div>
         <div class="countdown-date">Jan 19</div>
       </div>
       <div class="countdown-item">
-        <div class="countdown-label">🚂 Trans-Siberian Quest</div>
+        <div class="countdown-label">🚂 SOVIET SIDE QUEST</div>
         <div class="countdown-days">{trans_siberian_countdown_text}</div>
         <div class="countdown-date">Sep 2027</div>
       </div>
