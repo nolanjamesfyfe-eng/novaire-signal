@@ -39,8 +39,12 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("font-size:18.15px", self.html)
         self.assertIn(".footer-logo{font-family:var(--serif);font-size:1.6363636rem", self.html)
 
-    def test_approved_bolt_and_retired_vote_contract(self):
-        self.assertIn('<span aria-hidden="true">&#x26A1;&#xFE0E;</span>', self.html)
+    def test_high_voltage_emoji_and_retired_vote_contract(self):
+        emoji = '<span aria-hidden="true">&#x26A1;&#xFE0F;</span>'
+        text_glyph = '<a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0E;</span>'
+        self.assertGreaterEqual(self.html.count(emoji), 2)
+        self.assertNotIn(text_glyph, self.html)
+        self.assertIn("font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji'", self.html)
         for forbidden in (
             "Daily Updog Vote",
             "Daily product senate",
