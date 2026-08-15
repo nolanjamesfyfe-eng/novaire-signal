@@ -45,6 +45,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertGreaterEqual(self.html.count(emoji), 2)
         self.assertNotIn(text_glyph, self.html)
         self.assertIn("font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji'", self.html)
+        self.assertIn("filter:url(#signal-bolt-antique-gold)", self.html)
+        self.assertIn('<feFlood flood-color="#b59662" result="gold"/>', self.html)
         for forbidden in (
             "Daily Updog Vote",
             "Daily product senate",

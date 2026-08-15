@@ -2315,7 +2315,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .header-brand{{text-align:center;padding-bottom:20px}}
 
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;line-height:1;filter:drop-shadow(0 0 5px rgba(255,204,36,.5))}}
+    .signal-filter-defs{{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}}
+    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;line-height:1;filter:url(#signal-bolt-antique-gold)}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
@@ -2651,6 +2652,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </style>
 </head>
 <body>
+<svg class="signal-filter-defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <filter id="signal-bolt-antique-gold" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#b59662" result="gold"/>
+      <feComposite in="gold" in2="SourceAlpha" operator="in" result="goldBolt"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="blur"/>
+      <feFlood flood-color="#b59662" flood-opacity=".38" result="glowColor"/>
+      <feComposite in="glowColor" in2="blur" operator="in" result="goldGlow"/>
+      <feMerge><feMergeNode in="goldGlow"/><feMergeNode in="goldBolt"/></feMerge>
+    </filter>
+  </defs>
+</svg>
 <div class="container">
 
   <!-- HEADER BRANDING -->
