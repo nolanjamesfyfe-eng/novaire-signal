@@ -2569,18 +2569,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-card .market-clock{{border-bottom:0}}
     .market-clock{{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 20px;border-bottom:1px solid var(--border);padding:12px 24px}}
     .market-primary{{grid-area:primary;display:flex;align-items:baseline;gap:12px;min-width:0}}
-    .market-label{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
+    .market-label{{font-size:.64rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
     .wall-time{{display:block;font-family:var(--serif);font-size:1.04rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
     .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}}
     .market-future{{display:grid;grid-template-columns:1fr auto;gap:0 7px;align-items:baseline;padding-left:10px;border-left:1px solid var(--border);min-width:0}}
-    .market-future span{{grid-column:1/-1;font-size:.44rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
-    .market-future b{{font-family:var(--serif);font-size:.78rem;color:var(--text);font-weight:500;white-space:nowrap}}
-    .market-future em{{font-size:.42rem;font-style:normal;text-align:right;white-space:nowrap}}
-    .market-future small{{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:5px;align-items:baseline;margin-top:2px;color:var(--mute);font-size:.37rem;white-space:nowrap}}
+    .market-future span{{grid-column:1/-1;font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
+    .market-future b{{font-family:var(--serif);font-size:.86rem;color:var(--text);font-weight:500;white-space:nowrap}}
+    .market-future em{{font-size:.47rem;font-style:normal;text-align:right;white-space:nowrap}}
+    .market-future small{{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:5px;align-items:baseline;margin-top:2px;color:var(--mute);font-size:.41rem;white-space:nowrap}}
     .market-future small i{{font-style:normal;text-transform:uppercase;letter-spacing:.06em}}
     .market-future small strong{{font-weight:500;color:var(--dim)}}
     .market-future small u{{text-decoration:none;text-align:right}}
-    .market-calendar{{grid-area:calendar;font-size:.43rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
+    .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
