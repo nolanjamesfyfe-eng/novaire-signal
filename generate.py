@@ -2387,7 +2387,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
-    .weather-item .city{{font-size:.65rem;color:var(--dim);margin-bottom:5px;letter-spacing:.04em}}
+    .weather-item .city{{font-size:.845rem;color:var(--dim);margin-bottom:5px;letter-spacing:.04em}}
     .weather-item .temp{{font-size:1.25rem;font-weight:500;color:var(--gold);font-family:var(--serif)}}
     .weather-item .condition{{font-size:.62rem;color:var(--dim);margin-top:3px;line-height:1.3}}
 
