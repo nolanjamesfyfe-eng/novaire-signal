@@ -11,6 +11,9 @@
     },
     "api/portfolio-gate.js": {
       "maxDuration": 10
+    },
+    "api/market-futures.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

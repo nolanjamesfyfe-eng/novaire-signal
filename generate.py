@@ -13,6 +13,7 @@ import time
 import traceback
 from html import escape
 from datetime import datetime, timezone, timedelta
+from urllib.parse import quote
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
@@ -27,6 +28,23 @@ except Exception:
 # CONFIG
 # ─────────────────────────────────────────────────────────────
 OUTPUT = "/tmp/novaire-signal/index.html"
+
+MARKET_FUTURES = {
+    "ES=F": {"label": "S&P 500", "short": "S&P FUT"},
+    "NQ=F": {"label": "Nasdaq 100", "short": "NASDAQ FUT"},
+    "YM=F": {"label": "Dow Jones", "short": "DOW FUT"},
+}
+
+MARKET_INDICES = {
+    "^GSPC": {"label": "S&P 500", "short": "S&P CASH"},
+    "^IXIC": {"label": "Nasdaq Composite", "short": "NASDAQ CASH"},
+    "^DJI": {"label": "Dow Jones", "short": "DOW CASH"},
+}
+
+CRYPTO_BINANCE_PAIRS = {
+    "BTC": "BTCUSDT", "ETH": "ETHUSDT", "SOL": "SOLUSDT", "ADA": "ADAUSDT",
+    "TON": "GRAMUSDT", "SUI": "SUIUSDT", "ZEC": "ZECUSDT", "NIGHT": "NIGHTUSDT",
+}
 
 # PERMANENT PRODUCT RULE — explicitly rejected by Novaire (2026-08-15):
 # The five-lane daily product-voting module is retired. Never restore, rename,
@@ -54,10 +72,10 @@ CITIES = [
 HOLDINGS = [
     {"ticker": "HG.CN",  "display": "HG",    "name": "Hydrograph",         "shares": 10000, "currency": "CAD", "sector": "Graphene"},
     {"ticker": "GLO.TO", "display": "GLO",   "name": "Global Atomic",       "shares": 23000, "currency": "CAD", "sector": "Uranium"},
-    {"ticker": "_FVL_FALLBACK",  "display": "FVL",   "name": "FreeGold Ventures",   "shares": 10000, "currency": "CAD", "sector": "Gold"},
+    {"ticker": "FVL.TO",  "display": "FVL",   "name": "FreeGold Ventures",   "shares": 10000, "currency": "CAD", "sector": "Gold"},
     {"ticker": "DML.TO", "display": "DML",   "name": "Denison",             "shares": 1000,  "currency": "CAD", "sector": "Uranium"},
     {"ticker": "BNNLF",  "display": "BNNLF", "name": "Bannerman Energy",    "shares": 1300,  "currency": "USD", "sector": "Uranium"},
-    {"ticker": "_MAXX_FALLBACK",  "display": "MAXX",  "name": "Power Mining Corp",   "shares": 2000,  "currency": "CAD", "sector": "Silver"},
+    {"ticker": "MAXX.CN",  "display": "MAXX",  "name": "Power Mining Corp",   "shares": 2000,  "currency": "CAD", "sector": "Silver"},
     {"ticker": "TOM.V",  "display": "TOM",   "name": "Trinity One Metals",  "shares": 5000,  "currency": "CAD", "sector": "Silver"},
     {"ticker": "LOT.AX", "display": "LOT",   "name": "Lotus Resources",     "shares": 956,   "currency": "AUD", "sector": "Uranium"},
     {"ticker": "NAM.V",  "display": "NAM",   "name": "New Age Metals",      "shares": 3772,  "currency": "CAD", "sector": "Copper"},
@@ -70,8 +88,7 @@ HOLDINGS = [
     {"ticker": "AAG.V",  "display": "AAG",   "name": "Aftermath Silver",    "shares": 1000,  "currency": "CAD", "sector": "Copper"},
     {"ticker": "BQSSF",  "display": "BQSSF", "name": "Boss Energy",         "shares": 500,   "currency": "USD", "sector": "Uranium"},
     {"ticker": "EU.V",   "display": "EU",    "name": "Encore Energy",       "shares": 125,   "currency": "CAD", "sector": "Uranium"},
-    # MOLY.V (GreenLand Resources) - not on Yahoo Finance; hardcoded fallback (CAD)
-    {"ticker": "_MOLY_FALLBACK", "display": "MOLY", "name": "GreenLand Resources", "shares": 5000, "currency": "CAD", "sector": "Molybdenum"},
+    {"ticker": "MOLY.TO", "display": "MOLY", "name": "GreenLand Resources", "shares": 5000, "currency": "CAD", "sector": "Molybdenum"},
 ]
 
 # Never substitute an old remembered quote. Off-Yahoo holdings may use the
@@ -971,11 +988,11 @@ GSHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1rqRNI6z3rqXGCMlPbsbVEJ
 EXCHANGE_TO_TICKER = {
     "CNSX:HG":  "HG.CN",
     "TSE:GLO":  "GLO.TO",
-    "FVL":      "_FVL_FALLBACK",
-    "MOLY":     "_MOLY_FALLBACK",
+    "FVL":      "FVL.TO",
+    "MOLY":     "MOLY.TO",
     "DML":      "DML.TO",
     "BNNLF":    "BNNLF",
-    "MAXX":     "_MAXX_FALLBACK",
+    "MAXX":     "MAXX.CN",
     "CVE:TOM":  "TOM.V",
     "ASX:LOT":  "LOT.AX",
     "CVE:NAM":  "NAM.V",
@@ -1186,7 +1203,7 @@ def fetch_catalysts(tickers):
     cats = {}
     now = datetime.now(timezone.utc)
     fresh_cutoff = now - timedelta(days=14)
-    fallback_news_map = {"_FVL_FALLBACK": "FVL.TO", "_MOLY_FALLBACK": "MOLY.V"}
+    fallback_news_map = {}
     news_queries = {
         "HG.CN": "HydroGraph Clean Power",
         "_FVL_FALLBACK": "Freegold Limited Golden Summit",
@@ -1262,6 +1279,76 @@ def fetch_catalysts(tickers):
             cats[ticker] = None
     return cats
 
+def parse_yahoo_chart_quote(payload, *, period="futures session"):
+    """Parse the latest two valid adjacent Yahoo chart bars."""
+    try:
+        result = payload["chart"]["result"][0]
+        timestamps = result.get("timestamp") or []
+        closes = result["indicators"]["quote"][0].get("close") or []
+        valid = [
+            (int(ts), float(close))
+            for ts, close in zip(timestamps, closes)
+            if close is not None and float(close) > 0
+        ]
+        if len(valid) < 2:
+            return None
+        previous = valid[-2][1]
+        price = valid[-1][1]
+        quote_ts = int(result.get("meta", {}).get("regularMarketTime") or valid[-1][0])
+        return {
+            "price": price,
+            "previous": previous,
+            "change": (price - previous) / previous * 100,
+            "source": "Yahoo Finance",
+            "period": period,
+            "quote_time": datetime.fromtimestamp(quote_ts, timezone.utc).isoformat().replace("+00:00", "Z"),
+        }
+    except (KeyError, IndexError, TypeError, ValueError, ZeroDivisionError):
+        return None
+
+
+def fetch_market_futures():
+    """Fetch the three major US index futures from adjacent valid bars."""
+    results = {}
+    for symbol, meta in MARKET_FUTURES.items():
+        try:
+            response = requests.get(
+                f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(symbol, safe='')}",
+                params={"range": "5d", "interval": "1d"},
+                headers={"User-Agent": "NovaireSignal/1.0"},
+                timeout=10,
+            )
+            parsed = parse_yahoo_chart_quote(response.json())
+        except Exception:
+            parsed = None
+        results[symbol] = {**meta, **(parsed or {
+            "price": None, "previous": None, "change": None,
+            "source": "Yahoo Finance", "period": "futures session", "quote_time": None,
+        })}
+    return results
+
+
+def fetch_market_indices():
+    """Fetch the S&P 500, Nasdaq Composite, and Dow cash indexes."""
+    results = {}
+    for symbol, meta in MARKET_INDICES.items():
+        try:
+            response = requests.get(
+                f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(symbol, safe='')}",
+                params={"range": "5d", "interval": "1d"},
+                headers={"User-Agent": "NovaireSignal/1.0"},
+                timeout=10,
+            )
+            parsed = parse_yahoo_chart_quote(response.json(), period="cash session")
+        except Exception:
+            parsed = None
+        results[symbol] = {**meta, **(parsed or {
+            "price": None, "previous": None, "change": None,
+            "source": "Yahoo Finance", "period": "cash session", "quote_time": None,
+        })}
+    return results
+
+
 def fetch_commodities():
     try:
         import yfinance as yf
@@ -1312,10 +1399,22 @@ def fetch_commodities():
                                    "price": None, "change": None}
     return results
 
+def quote_timestamp_is_fresh(close_time_ms, *, now_ms=None, max_age_seconds=300):
+    """Return True only for an exchange quote updated within the allowed age."""
+    try:
+        close_time_ms = int(close_time_ms)
+        now_ms = int(now_ms if now_ms is not None else datetime.now(timezone.utc).timestamp() * 1000)
+    except (TypeError, ValueError):
+        return False
+    age_ms = now_ms - close_time_ms
+    return 0 <= age_ms <= max_age_seconds * 1000
+
+
 def fetch_crypto():
     ids = {"bitcoin":"BTC", "ethereum":"ETH", "solana":"SOL", "cardano":"ADA",
            "the-open-network":"TON", "sui":"SUI", "zcash":"ZEC", "midnight-3":"NIGHT"}
-    results = {ticker: {"price": None, "change": None, "market_cap": 0} for ticker in ids.values()}
+    results = {ticker: {"price": None, "change": None, "market_cap": 0,
+                        "source": None, "quote_time": None} for ticker in ids.values()}
     try:
         rows = requests.get("https://api.coingecko.com/api/v3/coins/markets",
             params={"vs_currency":"usd", "ids":",".join(ids), "price_change_percentage":"24h"},
@@ -1325,17 +1424,24 @@ def fetch_crypto():
             if ticker:
                 results[ticker] = {"price": row.get("current_price"),
                     "change": row.get("price_change_percentage_24h"),
-                    "market_cap": row.get("market_cap") or 0}
+                    "market_cap": row.get("market_cap") or 0,
+                    "source": "CoinGecko", "quote_time": row.get("last_updated")}
     except Exception:
         pass
 
     # Binance is the faster live-price layer; CoinGecko remains the market-cap
-    # source and the fallback quote. XRP is intentionally excluded.
-    for ticker in results:
+    # source and the fallback quote. TON trades on Binance under its active
+    # GRAM successor pair; the retired TONUSDT endpoint is stale. XRP stays excluded.
+    for ticker, pair in CRYPTO_BINANCE_PAIRS.items():
         try:
-            d = requests.get(f"https://api.binance.com/api/v3/ticker/24hr?symbol={ticker}USDT", timeout=8).json()
-            results[ticker]["price"] = float(d["lastPrice"])
-            results[ticker]["change"] = float(d["priceChangePercent"])
+            d = requests.get(f"https://api.binance.com/api/v3/ticker/24hr?symbol={pair}", timeout=8).json()
+            if quote_timestamp_is_fresh(d.get("closeTime")):
+                results[ticker]["price"] = float(d["lastPrice"])
+                results[ticker]["change"] = float(d["priceChangePercent"])
+                results[ticker]["source"] = "Binance"
+                results[ticker]["quote_time"] = datetime.fromtimestamp(
+                    int(d["closeTime"]) / 1000, timezone.utc
+                ).isoformat().replace("+00:00", "Z")
         except Exception:
             pass
     return results
@@ -1675,7 +1781,7 @@ def build_legend(allocations, total_val):
 # ─────────────────────────────────────────────────────────────
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
 
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -1900,13 +2006,38 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 {w.get('humidity', '—') or '—'}% · AQI {w.get('aqi', '—') or '—'} ({w.get('aqi_label', '—')})</div>
         </div>"""
 
-    # ── Fed Signal HTML ──
+    # ── Wall Street futures + Fed Signal HTML ──
     fed = fed_signal or fetch_fed_signal()
     days_label = f"{fed['days_until']} day{'s' if fed['days_until'] != 1 else ''}"
+    futures_data = market_futures or fetch_market_futures()
+    indices_data = market_indices or fetch_market_indices()
+    futures_html = ""
+    for (symbol, meta), (cash_symbol, cash_meta) in zip(MARKET_FUTURES.items(), MARKET_INDICES.items()):
+        item = futures_data.get(symbol, {})
+        cash = indices_data.get(cash_symbol, {})
+        price = item.get("price")
+        change = item.get("change")
+        cash_price = cash.get("price")
+        cash_change = cash.get("change")
+        price_text = f"{price:,.2f}" if price is not None else "—"
+        change_text = f"{change:+.2f}%" if change is not None else "—"
+        cash_price_text = f"{cash_price:,.2f}" if cash_price is not None else "—"
+        cash_change_text = f"{cash_change:+.2f}%" if cash_change is not None else "—"
+        change_class = "positive" if change is not None and change >= 0 else ("negative" if change is not None else "")
+        cash_change_class = "positive" if cash_change is not None and cash_change >= 0 else ("negative" if cash_change is not None else "")
+        quote_time = escape(str(item.get("quote_time") or ""), quote=True)
+        futures_html += f"""
+        <div class="market-future" data-future-symbol="{symbol}" data-quote-time="{quote_time}">
+          <span>{meta['short']}</span>
+          <b data-future-price>{price_text}</b>
+          <em data-future-change class="{change_class}">{change_text}</em>
+          <small title="{cash_meta['label']} cash index"><i>Cash</i><strong data-market-price="{cash_symbol}">{cash_price_text}</strong><u data-market-change="{cash_symbol}" class="{cash_change_class}">{cash_change_text}</u></small>
+        </div>"""
     fed_html = f"""
   <div class="card fed-card">
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
+      <div class="market-futures" aria-label="Live major US index futures">{futures_html}</div>
       <div class="market-calendar">NYSE {next_nyse_str} <span>·</span> TSX {next_tsx_str}</div>
     </div>
     <div class="fed-compact">
@@ -2053,14 +2184,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
-    html{{scroll-behavior:smooth}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:16.5px;line-height:1.5}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:16.5px;line-height:1.5}}
+    html{{scroll-behavior:smooth;font-size:110%}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
 
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;line-height:1}}
+    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1rem;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;line-height:1}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
@@ -2294,11 +2424,20 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
     .fed-card{{display:block;text-align:left;padding:0;overflow:hidden}}
-    .market-clock{{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--border);padding:10px 24px}}
-    .market-primary{{display:flex;align-items:baseline;gap:12px;min-width:0}}
+    .market-clock{{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 20px;border-bottom:1px solid var(--border);padding:12px 24px}}
+    .market-primary{{grid-area:primary;display:flex;align-items:baseline;gap:12px;min-width:0}}
     .market-label{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
     .wall-time{{display:block;font-family:var(--serif);font-size:1.04rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
-    .market-calendar{{font-size:.47rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
+    .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}}
+    .market-future{{display:grid;grid-template-columns:1fr auto;gap:0 7px;align-items:baseline;padding-left:10px;border-left:1px solid var(--border);min-width:0}}
+    .market-future span{{grid-column:1/-1;font-size:.44rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
+    .market-future b{{font-family:var(--serif);font-size:.78rem;color:var(--text);font-weight:500;white-space:nowrap}}
+    .market-future em{{font-size:.42rem;font-style:normal;text-align:right;white-space:nowrap}}
+    .market-future small{{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:5px;align-items:baseline;margin-top:2px;color:var(--mute);font-size:.37rem;white-space:nowrap}}
+    .market-future small i{{font-style:normal;text-transform:uppercase;letter-spacing:.06em}}
+    .market-future small strong{{font-weight:500;color:var(--dim)}}
+    .market-future small u{{text-decoration:none;text-align:right}}
+    .market-calendar{{grid-area:calendar;font-size:.43rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
@@ -2313,9 +2452,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
-    @media(max-width:620px){{.market-clock{{align-items:flex-start;padding:10px 14px}}.market-calendar{{white-space:normal;max-width:44%;line-height:1.45}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
+    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-futures{{width:100%}}.market-future:first-child{{border-left:none;padding-left:0}}.market-calendar{{white-space:normal;text-align:left;line-height:1.45}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
-    @media(max-width:400px){{.market-clock{{display:block}}.market-calendar{{max-width:none;text-align:left;margin-top:6px}}.wall-time{{font-size:.98rem}}}}
+    @media(max-width:400px){{.market-futures{{grid-template-columns:1fr;gap:6px}}.market-future{{grid-template-columns:1fr auto auto;border-left:none;border-top:1px solid var(--border);padding:6px 0 0}}.market-future span{{grid-column:auto}}.market-calendar{{margin-top:3px}}.wall-time{{font-size:.98rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
@@ -2328,7 +2467,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .eco-infl{{font-size:.72rem}}
 
     .footer{{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}}
-    .footer-logo{{font-family:var(--serif);font-size:1.8rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
+    .footer-logo{{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
     .footer-logo span{{color:var(--gold);font-style:italic}}
     .footer-tagline{{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}}
     .footer-sub{{font-size:.58rem;color:var(--mute);margin-top:6px}}
@@ -2337,8 +2476,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .eco-link:hover{{opacity:1}}
 
     @media(min-width:761px){{
-      html{{font-size:110%}}
-      body{{font-size:18.15px;padding:35px 18px}}
+      html{{font-size:121%}}
+      body{{font-size:19.965px;padding:35px 18px}}
       .container{{max-width:792px}}
       .card{{padding:22px;margin-bottom:15px}}
       .podcast-mini img{{min-width:141px}}
@@ -2428,6 +2567,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
+  <!-- WALL STREET FUTURES + FED SIGNAL -->
+{fed_html}
 
   <div class="card">
     <div class="card-title">💱 FX Rates — 1 USD =</div>
@@ -2625,9 +2766,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- Daily Motivation merged into single Quote of the Day -->
-
-  <!-- FED SIGNAL -->
-  {fed_html}
 
   <!-- TOP 5 ECONOMIES -->
   {eco_html}
@@ -2863,16 +3001,17 @@ renderActionSteps();
 // Live world clocks
 !function(){{var u=function(){{document.querySelectorAll(".live-clock").forEach(function(e){{var o=parseInt(e.getAttribute("data-tz-offset"))||0,n=new Date,t=n.getTime()+n.getTimezoneOffset()*6e4,l=new Date(t+o*36e5);e.textContent=String(l.getHours()).padStart(2,"0")+":"+String(l.getMinutes()).padStart(2,"0")+":"+String(l.getSeconds()).padStart(2,"0")}})}}; u(); setInterval(u,1e3)}}();
 
-// Live crypto: Binance prices every 15s; CoinGecko market caps reorder every 60s.
+// Live crypto: fresh Binance prices every 15s; CoinGecko quotes/ranks every 60s.
 !function(){{
-  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","ADA":"ADAUSDT","TON":"TONUSDT","SUI":"SUIUSDT","ZEC":"ZECUSDT","NIGHT":"NIGHTUSDT"}};
+  var coins={{"BTC":"BTCUSDT","ETH":"ETHUSDT","SOL":"SOLUSDT","ADA":"ADAUSDT","TON":"GRAMUSDT","SUI":"SUIUSDT","ZEC":"ZECUSDT","NIGHT":"NIGHTUSDT"}};
   var ids={{"bitcoin":"BTC","ethereum":"ETH","solana":"SOL","cardano":"ADA","the-open-network":"TON","sui":"SUI","zcash":"ZEC","midnight-3":"NIGHT"}};
   function fmt(p){{return p>=1000?"$"+p.toFixed(0).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,","):p>=1?"$"+p.toFixed(2):"$"+p.toFixed(4)}}
   function updCrypto(){{
     Object.keys(coins).forEach(function(c){{
-      fetch("https://api.binance.com/api/v3/ticker/24hr?symbol="+coins[c])
-        .then(function(r){{return r.json()}})
+      fetch("https://api.binance.com/api/v3/ticker/24hr?symbol="+coins[c],{{cache:"no-store"}})
+        .then(function(r){{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}})
         .then(function(d){{
+          if(!d.closeTime || Date.now()-Number(d.closeTime)>300000)return;
           var el=document.querySelector('[data-crypto-price="'+c+'"]');
           var ce=document.querySelector('[data-crypto-chg="'+c+'"]');
           if(el)el.textContent=fmt(parseFloat(d.lastPrice));
@@ -2886,11 +3025,38 @@ renderActionSteps();
       .then(function(rows){{
         var grid=document.querySelector('.crypto-grid');if(!grid)return;
         rows.sort(function(a,b){{return (b.market_cap||0)-(a.market_cap||0)}}).forEach(function(row){{
-          var ticker=ids[row.id],el=ticker&&grid.querySelector('[data-coin="'+ticker+'"]');if(el)grid.appendChild(el)
+          var ticker=ids[row.id],el=ticker&&grid.querySelector('[data-coin="'+ticker+'"]');if(!el)return;
+          var pe=el.querySelector('[data-crypto-price]'),ce=el.querySelector('[data-crypto-chg]');
+          if(pe&&Number.isFinite(Number(row.current_price)))pe.textContent=fmt(Number(row.current_price));
+          if(ce&&Number.isFinite(Number(row.price_change_percentage_24h))){{var ch=Number(row.price_change_percentage_24h);ce.innerHTML='<span class="'+(ch>=0?"positive":"negative")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>"}}
+          grid.appendChild(el)
         }})
       }}).catch(function(){{}})
   }}
   updCrypto();reorderCrypto();setInterval(updCrypto,15000);setInterval(reorderCrypto,60000);
+}}();
+
+// Live index futures: refresh through the same-origin Vercel edge proxy every minute.
+!function(){{
+  function refreshFutures(){{
+    fetch('/api/market-futures?_='+Date.now(),{{cache:'no-store'}})
+      .then(function(r){{return r.json()}})
+      .then(function(data){{
+        (data.quotes||[]).forEach(function(q){{
+          var el=document.querySelector('[data-future-symbol="'+q.symbol+'"]');if(!el)return;
+          var pe=el.querySelector('[data-future-price]'),ce=el.querySelector('[data-future-change]');
+          if(pe&&Number.isFinite(Number(q.price)))pe.textContent=Number(q.price).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
+          if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}}
+          if(q.quoteTime)el.setAttribute('data-quote-time',q.quoteTime);
+        }});
+        (data.indices||[]).forEach(function(q){{
+          var pe=document.querySelector('[data-market-price="'+q.symbol+'"]'),ce=document.querySelector('[data-market-change="'+q.symbol+'"]');
+          if(pe&&Number.isFinite(Number(q.price)))pe.textContent=Number(q.price).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
+          if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}}
+        }});
+      }}).catch(function(){{}})
+  }}
+  refreshFutures();setInterval(refreshFutures,60000);
 }}();
 </script>
 </body>
@@ -3018,8 +3184,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
-    html{{scroll-behavior:smooth}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:16.5px;line-height:1.5}}
+    html{{scroll-behavior:smooth;font-size:110%}}
+    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
     .container{{max-width:720px;margin:0 auto}}
     .header-brand{{text-align:center;padding-bottom:20px}}
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
@@ -3056,7 +3222,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .catalyst-badge{{color:var(--gold);font-size:.75rem;opacity:.8;white-space:nowrap}}
     .catalyst-headline{{font-size:.8rem;color:var(--text);line-height:1.4}}
     .footer{{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}}
-    .footer-logo{{font-family:var(--serif);font-size:1.8rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
+    .footer-logo{{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
     .footer-logo span{{color:var(--gold);font-style:italic}}
     .footer-tagline{{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}}
     .footer-sub{{font-size:.58rem;color:var(--mute);margin-top:6px}}
@@ -3353,6 +3519,24 @@ def main():
         print(f"    ❌ {e}")
         crypto = {}
 
+    print("  📊 Fetching Wall Street index futures...")
+    try:
+        market_futures = fetch_market_futures()
+        loaded_f = sum(1 for v in market_futures.values() if v.get("price") is not None)
+        print(f"    ✅ {loaded_f}/{len(MARKET_FUTURES)} futures loaded")
+    except Exception as e:
+        print(f"    ❌ {e}")
+        market_futures = {}
+
+    print("  📉 Fetching major cash indexes...")
+    try:
+        market_indices = fetch_market_indices()
+        loaded_i = sum(1 for v in market_indices.values() if v.get("price") is not None)
+        print(f"    ✅ {loaded_i}/{len(MARKET_INDICES)} cash indexes loaded")
+    except Exception as e:
+        print(f"    ❌ {e}")
+        market_indices = {}
+
     # FX already fetched before portfolio; ensure fallback exists
     if not fx:
         fx = {"usdcad": 1.365, "audusd": 0.630}
@@ -3467,7 +3651,9 @@ def main():
         alpaca_html=alpaca_html,
         fed_signal=fed_signal,
         economies=economies,
-        suggested_tweet=suggested_tweet
+        suggested_tweet=suggested_tweet,
+        market_futures=market_futures,
+        market_indices=market_indices
     )
 
     print("  📦 Generating portfolio page...")
@@ -3513,7 +3699,7 @@ def main():
                 _pnl = _p["pnl"]
                 _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
                 _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
-                pm_rows += f'<tr><td style="font-size:.75rem">{_p["outcome"]} · {_p["title"]}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>' 
+                pm_rows += f'<tr><td style="font-size:.75rem">{_p["outcome"]} · {_p["title"]}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
             pm_total = poly_full.get("total_account", pm_pos_val)
             pm_cash = pm_total - pm_pos_val
         except:
