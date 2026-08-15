@@ -17,6 +17,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertLess(weather, market)
         self.assertLess(market, fx)
 
+    def test_fed_signal_is_immediately_below_top_five_catalysts(self):
+        catalysts = self.html.index("🔍 Catalysts — Top 5 Holdings")
+        fed = self.html.index("🏛️ Fed Signal")
+        trading_books = self.html.index("<!-- TRADING BOOKS")
+        self.assertLess(catalysts, fed)
+        self.assertLess(fed, trading_books)
+
     def test_requested_cash_indices_are_present(self):
         for symbol in ("^GSPC", "^IXIC", "^DJI"):
             self.assertIn(f'data-market-price="{symbol}"', self.html)

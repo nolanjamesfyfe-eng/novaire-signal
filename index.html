@@ -258,7 +258,8 @@
     .feed-tag{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}
     .feed-tag.active,.feed-tag:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 
-    .fed-card{display:block;text-align:left;padding:0;overflow:hidden}
+    .fed-card,.market-card{display:block;text-align:left;padding:0;overflow:hidden}
+    .market-card .market-clock{border-bottom:0}
     .market-clock{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 20px;border-bottom:1px solid var(--border);padding:12px 24px}
     .market-primary{grid-area:primary;display:flex;align-items:baseline;gap:12px;min-width:0}
     .market-label{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}
@@ -400,7 +401,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">14:24</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">14:29</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">32°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -408,7 +409,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 61% · AQI 30 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:24</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:29</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">18°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -416,7 +417,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 48 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:24</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:29</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">12°C</div>
           <div class="condition">Clear Sky ☀️</div>
@@ -424,7 +425,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 87% · AQI 53 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">04:24</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">04:29</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">12°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -434,9 +435,9 @@
     </div>
   </div>
 
-  <!-- WALL STREET FUTURES + FED SIGNAL -->
+  <!-- WALL STREET TIME + LIVE MARKET PULSE -->
 
-  <div class="card fed-card">
+  <div class="card market-card">
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
@@ -459,14 +460,6 @@
           <small title="Dow Jones cash index"><i>Cash</i><strong data-market-price="^DJI">53,732.41</strong><u data-market-change="^DJI" class="negative">-0.20%</u></small>
         </div></div>
       <div class="market-calendar">NYSE Labor Day · Sep 07 <span>·</span> TSX Labour Day · Sep 07</div>
-    </div>
-    <div class="fed-compact">
-      <div class="fed-title">🏛️ Fed Signal</div>
-      <div class="fed-stats">
-        <div class="fed-stat"><span>Rate</span><b class="fed-rate">3.50–3.75%</b></div>
-        <div class="fed-stat fed-fomc"><span>Next FOMC</span><b>September 16, 2026</b><em>32 days</em></div>
-        <div class="fed-stat fed-prob"><span>CME FedWatch</span><b><i>Hold 55%</i><i>Cut 0%</i></b></div>
-      </div>
     </div>
   </div>
 
@@ -536,43 +529,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,083</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.04%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,081</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.03%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
           <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,881</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.19%</span></div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.18%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.32</div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.33</div>
           <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.49%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$490.80</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.67%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$490.66</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.61%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1794</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.54%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1796</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.37%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
           <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3300</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+0.30%</span></div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+0.23%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6829</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.52%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6830</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.50%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
           <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0173</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-1.48%</span></div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-1.59%</span></div>
         </div>
     </div>
   </div>
@@ -762,6 +755,19 @@
             </div>
   </div>
 
+  <!-- FED SIGNAL — intentionally lower because it updates less often -->
+
+  <div class="card fed-card">
+    <div class="fed-compact">
+      <div class="fed-title">🏛️ Fed Signal</div>
+      <div class="fed-stats">
+        <div class="fed-stat"><span>Rate</span><b class="fed-rate">3.50–3.75%</b></div>
+        <div class="fed-stat fed-fomc"><span>Next FOMC</span><b>September 16, 2026</b><em>32 days</em></div>
+        <div class="fed-stat fed-prob"><span>CME FedWatch</span><b><i>Hold 55%</i><i>Cut 0%</i></b></div>
+      </div>
+    </div>
+  </div>
+
   <!-- TRADING BOOKS — placed above slower-changing Currently section -->
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
@@ -802,11 +808,11 @@
     <div class="card-title">🇹🇭 Thailand</div>
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
-      <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="25" data-thai-url="https://thethaiger.com/news/national/three-held-for-posing-as-police-in-rayong-donation-scam">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 15, 14:24 BKK</div>
-          <a href="https://thethaiger.com/news/national/three-held-for-posing-as-police-in-rayong-donation-scam" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Three held for posing as police in Rayong donation scam</a>
-          <div class="thai-news-summary">Three suspects accused of posing as police and immigration officers to solicit money from Chinese nationals in Rayong have been arrested, following a manhunt that extended into nei</div>
-          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 25.</div>
+      <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="30" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/">
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 14:29 BKK</div>
+          <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Chinese man who embezzled 50 million baht for Bangkok good life lifted on Thursday by Immigration</a>
+          <div class="thai-news-summary">Chinese investor Chon Henke’ai, 41, is arrested in a luxury Bangkok condo after fleeing China. He is wanted over a ฿50 million parking investment scheme… Read More › The post Chine</div>
+          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>
         </div>
     </div>
   </div>

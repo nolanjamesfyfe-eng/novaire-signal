@@ -128,8 +128,10 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     fx = html.find("💱 FX Rates")
     audit.record(min(weather, wall_street, fx) >= 0 and weather < wall_street < fx, f"{label} section order", f"Weather={weather}, WallStreet={wall_street}, FX={fx}")
 
+    catalysts = html.find("🔍 Catalysts — Top 5 Holdings")
     fed = html.find("🏛️ Fed Signal")
-    audit.record(min(weather, wall_street, fed, fx) >= 0 and weather < wall_street <= fed < fx, f"{label} Fed placement", f"Weather={weather}, WallStreet={wall_street}, Fed={fed}, FX={fx}")
+    trading_books = html.find("<!-- TRADING BOOKS")
+    audit.record(min(catalysts, fed, trading_books) >= 0 and catalysts < fed < trading_books, f"{label} Fed placement", f"Catalysts={catalysts}, Fed={fed}, TradingBooks={trading_books}")
 
     soup = BeautifulSoup(html, "html.parser")
     crypto_nodes = soup.select("[data-crypto-price]")

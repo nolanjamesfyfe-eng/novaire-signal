@@ -2033,13 +2033,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <em data-future-change class="{change_class}">{change_text}</em>
           <small title="{cash_meta['label']} cash index"><i>Cash</i><strong data-market-price="{cash_symbol}">{cash_price_text}</strong><u data-market-change="{cash_symbol}" class="{cash_change_class}">{cash_change_text}</u></small>
         </div>"""
-    fed_html = f"""
-  <div class="card fed-card">
+    market_html = f"""
+  <div class="card market-card">
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">{futures_html}</div>
       <div class="market-calendar">NYSE {next_nyse_str} <span>·</span> TSX {next_tsx_str}</div>
     </div>
+  </div>"""
+    fed_html = f"""
+  <div class="card fed-card">
     <div class="fed-compact">
       <div class="fed-title">🏛️ Fed Signal</div>
       <div class="fed-stats">
@@ -2423,7 +2426,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
     .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
 
-    .fed-card{{display:block;text-align:left;padding:0;overflow:hidden}}
+    .fed-card,.market-card{{display:block;text-align:left;padding:0;overflow:hidden}}
+    .market-card .market-clock{{border-bottom:0}}
     .market-clock{{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 20px;border-bottom:1px solid var(--border);padding:12px 24px}}
     .market-primary{{grid-area:primary;display:flex;align-items:baseline;gap:12px;min-width:0}}
     .market-label{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
@@ -2567,8 +2571,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>
 
-  <!-- WALL STREET FUTURES + FED SIGNAL -->
-{fed_html}
+  <!-- WALL STREET TIME + LIVE MARKET PULSE -->
+{market_html}
 
   <div class="card">
     <div class="card-title">💱 FX Rates — 1 USD =</div>
@@ -2730,6 +2734,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
     {cats_html}
   </div>
+
+  <!-- FED SIGNAL — intentionally lower because it updates less often -->
+{fed_html}
 
   <!-- TRADING BOOKS — placed above slower-changing Currently section -->
   {poly_html}
