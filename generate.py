@@ -3839,7 +3839,7 @@ def main():
     <div class="card-title">🦙 Livermore Darvis</div>
     <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · {total_trades} trades</div>
     {all_rows}
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:{total_color}">{total_str}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI <span style="font-size:.65rem;color:var(--mute);font-weight:500">· Since Feb 24, 2026</span></span><span style="color:{total_color}">{total_str}</span></div>
   </div>"""
 
     # ── Crypto Strategy / Kraken Margin ──
