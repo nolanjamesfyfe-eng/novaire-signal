@@ -124,9 +124,12 @@ def audit_upstreams(audit: Audit) -> None:
 
 def audit_html(audit: Audit, html: str, label: str) -> None:
     weather = html.find("🌤 Weather")
-    wall_street = html.find("🗽 Wall Street")
+    wall_street = html.find("Wall Street")
     fx = html.find("💱 FX Rates")
     audit.record(min(weather, wall_street, fx) >= 0 and weather < wall_street < fx, f"{label} section order", f"Weather={weather}, WallStreet={wall_street}, FX={fx}")
+
+    fed = html.find("🏛️ Fed Signal")
+    audit.record(min(weather, wall_street, fed, fx) >= 0 and weather < wall_street <= fed < fx, f"{label} Fed placement", f"Weather={weather}, WallStreet={wall_street}, Fed={fed}, FX={fx}")
 
     soup = BeautifulSoup(html, "html.parser")
     crypto_nodes = soup.select("[data-crypto-price]")
