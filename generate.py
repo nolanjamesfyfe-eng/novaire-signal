@@ -1638,7 +1638,7 @@ def fetch_fx_rates():
 # ─────────────────────────────────────────────────────────────
 
 def build_donut(allocations):
-    COLORS = ["#c9a84c","#5a7bc4","#9470c8","#2a9d8f","#e63946","#f4a261","#a8dadc","#e9c46a","#264653"]
+    COLORS = ["#b59662","#5a7bc4","#9470c8","#2a9d8f","#e63946","#f4a261","#a8dadc","#e9c46a","#264653"]
     r = 25; cx = cy = 50
     circumference = 2 * math.pi * r
     total = sum(v for _, v, _ in allocations)
@@ -1660,7 +1660,7 @@ def build_donut(allocations):
             + "".join(slices) + "</svg>")
 
 def build_legend(allocations, total_val):
-    COLORS = ["#c9a84c","#5a7bc4","#9470c8","#2a9d8f","#e63946","#f4a261","#a8dadc","#e9c46a","#264653"]
+    COLORS = ["#b59662","#5a7bc4","#9470c8","#2a9d8f","#e63946","#f4a261","#a8dadc","#e9c46a","#264653"]
     total = sum(v for _, v, _ in allocations)
     items = []
     for i, (label, val, _) in enumerate(allocations):
@@ -2049,7 +2049,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <style>
     :root{{
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
-      --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-mid:rgba(201,168,76,.25);
+      --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
@@ -2060,8 +2060,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .header-brand{{text-align:center;padding-bottom:20px}}
 
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem}}
+    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:var(--gold)}}
+    .signal-bolt svg{{display:block;width:.72em;height:1em;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
+    .section-bolt{{display:inline-flex;align-items:center;color:var(--gold)}}
+    .section-bolt svg{{display:block;width:.72em;height:1em;fill:currentColor}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
 
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
@@ -2090,28 +2093,28 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
     .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
     .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
-    .meditation{{margin-bottom:14px;padding:12px 14px;border:1px solid rgba(201,161,91,.22);border-radius:14px;background:linear-gradient(135deg,rgba(201,161,91,.08),rgba(255,255,255,.02))}}
+    .meditation{{margin-bottom:14px;padding:12px 14px;border:1px solid rgba(181,150,98,.22);border-radius:14px;background:linear-gradient(135deg,rgba(181,150,98,.08),rgba(255,255,255,.02))}}
     .meditation-title{{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-bottom:3px}}
     .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}}
     .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
     #quotes-card{{padding:14px 16px}}
     .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
     .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans)}}
-    .updog-approve{{background:rgba(201,161,91,.16);color:var(--gold)}}
+    .updog-approve{{background:rgba(181,150,98,.16);color:var(--gold)}}
     .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
     .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
-    .tweet-card{{border-color:rgba(201,161,91,.22);background:linear-gradient(145deg,rgba(201,161,91,.07),rgba(255,255,255,.025))}}
+    .tweet-card{{border-color:rgba(181,150,98,.22);background:linear-gradient(145deg,rgba(181,150,98,.07),rgba(255,255,255,.025))}}
     .tweet-top{{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}}
-    .tweet-chip{{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(201,161,91,.08)}}
+    .tweet-chip{{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(181,150,98,.08)}}
     .tweet-source{{font-size:.58rem;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}}
     .tweet-text{{font-family:var(--serif);font-size:1.02rem;line-height:1.48;color:var(--text);margin:0 0 12px}}
     .tweet-actions{{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}}
     .tweet-count{{font-size:.58rem;color:var(--mute)}}
     .keystone-row{{display:flex;width:100%;box-sizing:border-box;align-items:stretch;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;background:rgba(0,0,0,.22)}}
-    .keystone-row:focus-within{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(201,168,76,.08)}}
+    .keystone-row:focus-within{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(181,150,98,.08)}}
     .keystone-input{{flex:1 1 auto;width:auto;min-width:0;box-sizing:border-box;border:0;background:transparent;color:var(--text);border-radius:0;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
     .keystone-input:focus{{box-shadow:none}}
-    .keystone-done{{flex:0 0 50px;align-self:stretch;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:0;border-left:1px solid rgba(201,168,76,.38);border-radius:0;padding:0;font-size:.42rem;letter-spacing:.08em;background:rgba(201,161,91,.12);min-height:0}}
+    .keystone-done{{flex:0 0 50px;align-self:stretch;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:0;border-left:1px solid rgba(181,150,98,.38);border-radius:0;padding:0;font-size:.42rem;letter-spacing:.08em;background:rgba(181,150,98,.12);min-height:0}}
     .keystone-done:hover{{transform:none;filter:brightness(1.15)}}
     .updog-action-card{{margin-top:-6px}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
@@ -2202,7 +2205,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .radar-idea{{font-size:.78rem;color:var(--text);line-height:1.4}}
     .radar-source{{font-size:.68rem;color:var(--gold);opacity:.65;font-style:italic;white-space:nowrap}}
     .weekly-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:10px;margin-top:8px}}
-    .weekly-idea{{border:1px solid rgba(201,161,91,.2);border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(201,161,91,.055),rgba(255,255,255,.018))}}
+    .weekly-idea{{border:1px solid rgba(181,150,98,.2);border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,rgba(181,150,98,.055),rgba(255,255,255,.018))}}
     .weekly-idea-top{{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px}}
     .weekly-idea-top a{{color:var(--gold);font-weight:700;text-decoration:none}}
     .weekly-action{{font-size:.58rem;font-weight:800;letter-spacing:.1em;color:#07110b;background:var(--green);padding:3px 6px;border-radius:5px}}
@@ -2223,7 +2226,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodity-price{{font-family:var(--serif);font-size:1.2rem;font-weight:400;margin-bottom:2px}}
     .commodity-unit{{font-size:.6rem;color:var(--dim)}}
     .commodity-change{{font-size:.72rem;margin-top:3px}}
-    .c-gold{{color:#c9a84c}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
+    .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-palladium{{color:#ccc}}.c-uranium{{color:#7fc87f}}
 
     .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
@@ -2255,7 +2258,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .podcast-mini-copy{{font-size:.72rem;color:var(--dim);line-height:1.45;margin:8px 2px 0}}
     .latest-novaire-card{{padding:15px 16px}}
     .latest-novaire-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
-    .latest-novaire-link{{display:flex;flex-direction:column;justify-content:center;min-height:76px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,rgba(201,161,91,.055),rgba(255,255,255,.018));text-decoration:none;transition:border-color .15s,transform .15s}}
+    .latest-novaire-link{{display:flex;flex-direction:column;justify-content:center;min-height:76px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,rgba(181,150,98,.055),rgba(255,255,255,.018));text-decoration:none;transition:border-color .15s,transform .15s}}
     .latest-novaire-link:hover{{border-color:var(--gold);transform:translateY(-1px)}}
     .latest-novaire-kicker{{font-size:.52rem;color:var(--gold);letter-spacing:.14em;margin-bottom:5px}}
     .latest-novaire-link strong{{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--text);line-height:1.2}}
@@ -2367,7 +2370,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -2578,7 +2581,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <div class="card" id="weekly-asymmetric-ideas">
-    <div class="card-title">⚡ Weekly Asymmetric Ideas</div>
+    <div class="card-title"><span class="section-bolt" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></span> Weekly Asymmetric Ideas</div>
     <div class="weekly-meta">Updated {weekly_as_of} · {weekly_note}</div>
     <div class="weekly-grid">{weekly_rows}</div>
   </div>
@@ -2655,7 +2658,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio">⚡</a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
@@ -3013,7 +3016,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   <style>
     :root{{
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
-      --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-mid:rgba(201,168,76,.25);
+      --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
@@ -3069,7 +3072,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .allocation-section{{flex-direction:column}}
     }}
     .collapse-toggle{{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}}
-    .collapse-toggle:hover{{opacity:.7;background:rgba(201,168,76,0.05);border-radius:4px}}
+    .collapse-toggle:hover{{opacity:.7;background:rgba(181,150,98,0.05);border-radius:4px}}
     .collapse-toggle::after{{content:' ▾';font-size:.65rem;color:var(--mute);margin-left:4px}}
   </style>
 </head>
