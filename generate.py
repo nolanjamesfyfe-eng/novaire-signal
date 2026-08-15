@@ -1809,6 +1809,7 @@ def build_donut(allocations):
     gradients = []
     glows = []
     slices = []
+    glosses = []
     offset = 0.0
     gap = 3.0
     description = []
@@ -1836,6 +1837,11 @@ def build_donut(allocations):
             f'<circle class="allocation-slice" data-sector="{escape(label, quote=True)}" '
             f'data-percent="{val:.2f}" {geometry}/>'
         )
+        gloss_geometry = geometry.replace(
+            f'stroke="url(#{gradient_id})"',
+            'stroke="url(#allocation-gloss)"',
+        )
+        glosses.append(f'<circle class="allocation-gloss" {gloss_geometry}/>')
         description.append(f"{label} {val:.1f}%")
         offset += dash
 
@@ -1847,19 +1853,25 @@ def build_donut(allocations):
         f'<desc id="allocation-chart-desc">{escape(", ".join(description))}</desc>'
         '<defs>'
         + "".join(gradients)
+        + '<radialGradient id="allocation-gloss" cx="24%" cy="18%" r="84%">'
+          '<stop offset="0%" stop-color="#ffffff" stop-opacity=".62"/>'
+          '<stop offset="38%" stop-color="#ffffff" stop-opacity=".18"/>'
+          '<stop offset="72%" stop-color="#ffffff" stop-opacity="0"/>'
+          '</radialGradient>'
         + '<radialGradient id="allocation-core" cx="44%" cy="38%" r="75%">'
           '<stop offset="0%" stop-color="#191921"/>'
           '<stop offset="72%" stop-color="#0b0b10"/>'
           '<stop offset="100%" stop-color="#060608"/>'
           '</radialGradient>'
           '<filter id="allocation-bloom" x="-60%" y="-60%" width="220%" height="220%">'
-          '<feGaussianBlur stdDeviation="9"/>'
+          '<feGaussianBlur stdDeviation="6"/>'
           '</filter>'
           '</defs>'
         f'<circle class="allocation-aura" cx="{cx}" cy="{cy}" r="126"/>'
         f'<circle class="allocation-track" cx="{cx}" cy="{cy}" r="{radius}"/>'
         f'<g filter="url(#allocation-bloom)">{"".join(glows)}</g>'
         + "".join(slices)
+        + f'<g class="allocation-gloss-layer">{"".join(glosses)}</g>'
         + f'<circle class="allocation-core" cx="{cx}" cy="{cy}" r="72"/>'
           '<text class="allocation-core-kicker" x="160" y="151" text-anchor="middle">PORTFOLIO</text>'
           '<text class="allocation-core-label" x="160" y="177" text-anchor="middle">LIVE SHEET</text>'
@@ -2442,9 +2454,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
     .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}}
     .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
-    .allocation-glow{{opacity:.66}}
-    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.15) brightness(1.05);transition:opacity .2s ease,filter .2s ease}}
-    .allocation-slice:hover{{opacity:.9;filter:saturate(1.28) brightness(1.2)}}
+    .allocation-glow{{opacity:.86}}
+    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease}}
+    .allocation-slice:hover{{opacity:.94;filter:saturate(1.55) contrast(1.08) brightness(1.18)}}
+    .allocation-gloss-layer{{pointer-events:none;mix-blend-mode:screen}}
+    .allocation-gloss{{opacity:.34}}
     .allocation-core{{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}}
     .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#bdff94;font-size:9px;font-weight:600;letter-spacing:3px;filter:drop-shadow(0 0 5px rgba(140,255,0,.25))}}
     .allocation-copy{{min-width:0}}
@@ -3383,9 +3397,11 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
     .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}}
     .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
-    .allocation-glow{{opacity:.66}}
-    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.15) brightness(1.05);transition:opacity .2s ease,filter .2s ease}}
-    .allocation-slice:hover{{opacity:.9;filter:saturate(1.28) brightness(1.2)}}
+    .allocation-glow{{opacity:.86}}
+    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease}}
+    .allocation-slice:hover{{opacity:.94;filter:saturate(1.55) contrast(1.08) brightness(1.18)}}
+    .allocation-gloss-layer{{pointer-events:none;mix-blend-mode:screen}}
+    .allocation-gloss{{opacity:.34}}
     .allocation-core{{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}}
     .allocation-core-kicker,.allocation-core-label{{font-family:var(--sans);fill:#bdff94;font-size:9px;font-weight:600;letter-spacing:3px;filter:drop-shadow(0 0 5px rgba(140,255,0,.25))}}
     .allocation-copy{{min-width:0}}

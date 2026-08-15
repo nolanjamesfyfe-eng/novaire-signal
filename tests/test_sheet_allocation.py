@@ -81,6 +81,8 @@ class SheetAllocationTests(unittest.TestCase):
         self.assertIn('viewBox="0 0 320 320"', chart)
         self.assertIn('data-allocation-source="google-sheet"', chart)
         self.assertIn('class="allocation-glow"', chart)
+        self.assertIn('class="allocation-gloss"', chart)
+        self.assertIn('id="allocation-gloss"', chart)
         self.assertIn("Portfolio allocation from Google Sheet", chart)
         self.assertNotIn('class="allocation-core-bolt"', chart)
         self.assertNotIn("&#x26A1;&#xFE0F;", chart)

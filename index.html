@@ -153,9 +153,11 @@
     .pie-chart{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}
     .allocation-aura{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}
     .allocation-track{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}
-    .allocation-glow{opacity:.66}
-    .allocation-slice{stroke-linecap:butt;filter:saturate(1.15) brightness(1.05);transition:opacity .2s ease,filter .2s ease}
-    .allocation-slice:hover{opacity:.9;filter:saturate(1.28) brightness(1.2)}
+    .allocation-glow{opacity:.86}
+    .allocation-slice{stroke-linecap:butt;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease}
+    .allocation-slice:hover{opacity:.94;filter:saturate(1.55) contrast(1.08) brightness(1.18)}
+    .allocation-gloss-layer{pointer-events:none;mix-blend-mode:screen}
+    .allocation-gloss{opacity:.34}
     .allocation-core{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}
     .allocation-core-kicker,.allocation-core-label{font-family:var(--sans);fill:#bdff94;font-size:9px;font-weight:600;letter-spacing:3px;filter:drop-shadow(0 0 5px rgba(140,255,0,.25))}
     .allocation-copy{min-width:0}
@@ -445,31 +447,31 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:05</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:46</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">28°C</div>
+          <div class="temp">27°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 77% · AQI 28 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 78% · AQI 28 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:05</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:46</div>
           <div class="city">🇨🇴 Medellín</div>
-          <div class="temp">28°C</div>
+          <div class="temp">29°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 46% · AQI 47 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 43% · AQI 47 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:05</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:46</div>
           <div class="city">🇨🇦 Edmonton</div>
-          <div class="temp">16°C</div>
+          <div class="temp">17°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 76% · AQI 55 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 67% · AQI 55 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:05</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:46</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">15°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -573,43 +575,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,094</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.10%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,096</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.17%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,885</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.17%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,884</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.08%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.50</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.24%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.47</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.15%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$489.56</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.44%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$491.93</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.54%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1789</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.83%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1788</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.67%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3500</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.73%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3490</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.50%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6837</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.97%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6827</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.57%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0176</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+2.26%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0175</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+2.16%</span></div>
         </div>
     </div>
   </div>
@@ -620,15 +622,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/precious-metals/post-maduro-venezuela-wants-its-4bn-gold-back-england" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Post-Maduro Venezuela Wants Its $4BN In Gold Back From England</a>
+          <a href="https://www.zerohedge.com/markets/lutnick-draws-red-line-great-american-companies-shouldnt-use-chinese-memory-chips" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Lutnick Draws Red Line: "Great American Companies" Shouldn't Use Chinese Memory Chips</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/geopolitical/racist-plan-berlins-blacks-only-swimming-pool-day-canceled-over-safety-concerns" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Racist Plan For Berlin's 'Blacks-Only' Swimming Pool Day Canceled Over 'Safety Concerns'</a>
+          <a href="https://www.zerohedge.com/personal-finance/gold-tax-surprise-when-gold-profits-get-taxed-28-percent" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">The Gold Tax Surprise: When Gold Profits Get Taxed At 28 Percent</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/military/china-copies-americas-futuristic-sub-second-detect-fire-anti-drone-swarm-dome-gun" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">China Copies America's Futuristic "Sub-Second Detect-To-Fire" Anti-Drone Swarm Dome Gun</a>
+          <a href="https://www.zerohedge.com/weather/hawaii-brace-direct-tropical-storm-hit-big-island" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Hawaii Braces For Direct Tropical Storm Hit On Big Island</a>
         </div>
   </div>
 
@@ -853,7 +855,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="30" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 23:05 BKK</div>
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 23:46 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Chinese man who embezzled 50 million baht for Bangkok good life lifted on Thursday by Immigration</a>
           <div class="thai-news-summary">Chinese investor Chon Henke’ai, 41, is arrested in a luxury Bangkok condo after fleeing China. He is wanted over a ฿50 million parking investment scheme… Read More › The post Chine</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>
