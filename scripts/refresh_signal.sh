@@ -12,7 +12,15 @@ set +a
 # Keep branch current without destructive reset (preserves intentional local edits)
 /usr/bin/git pull --rebase --autostash origin main || true
 
-/usr/bin/python3 generate.py
+# Use the Hermes runtime that owns the dashboard dependencies. Fail closed before
+# generation rather than publishing a stripped page from bare /usr/bin/python3.
+PYTHON_BIN="${NOVAIRE_SIGNAL_PYTHON:-/usr/local/lib/hermes-agent/venv/bin/python3}"
+if [ ! -x "$PYTHON_BIN" ] || ! "$PYTHON_BIN" -c 'import requests, bs4, yfinance' >/dev/null 2>&1; then
+  echo "ERROR: Novaire Signal Python runtime is missing required dependencies: $PYTHON_BIN" >&2
+  exit 1
+fi
+
+"$PYTHON_BIN" generate.py
 
 # Commit/push only if generated files changed
 if ! /usr/bin/git diff --quiet -- index.html portfolio/index.html portfolio/evolutionfund/index.html stats.json feed.json weather_cache.json; then

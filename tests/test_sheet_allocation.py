@@ -1,5 +1,6 @@
 import csv
 import io
+import sys
 import unittest
 from unittest.mock import patch
 
@@ -88,6 +89,26 @@ class SheetAllocationTests(unittest.TestCase):
         self.assertIn("49.6%", legend)
         self.assertIn("18.8%", legend)
         self.assertIn('data-allocation-sector="Graphene"', legend)
+
+    def test_sheet_totals_survive_when_yfinance_is_unavailable(self):
+        holdings = [{
+            "ticker": "HG.CN",
+            "display": "HG",
+            "name": "Hydrograph",
+            "shares": 9750,
+            "currency": "CAD",
+            "sector": "Graphene",
+        }]
+        meta = {
+            "total_cad": 121390.06,
+            "sector_allocations_pct": [("Graphene", 100.0)],
+        }
+
+        with patch.object(generate, "fetch_holdings_from_gsheet", return_value=(holdings, meta)):
+            with patch.dict(sys.modules, {"yfinance": None}):
+                result = generate.fetch_portfolio()
+
+        self.assertEqual(result, ({}, holdings, meta))
 
 
 if __name__ == "__main__":

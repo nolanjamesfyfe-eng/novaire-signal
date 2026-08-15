@@ -1140,12 +1140,7 @@ def fetch_holdings_from_gsheet():
 
 
 def fetch_portfolio(usdcad=1.365, audusd=0.63):
-    """Fetch portfolio prices. Reads holdings from Google Sheet, prices from yfinance."""
-    try:
-        import yfinance as yf
-    except ImportError:
-        return {}
-
+    """Fetch Sheet holdings/totals first, then enrich prices with yfinance when available."""
     def to_usd(amount, currency):
         if currency == "CAD": return amount / usdcad
         if currency == "AUD": return amount * audusd
@@ -1166,6 +1161,12 @@ def fetch_portfolio(usdcad=1.365, audusd=0.63):
     else:
         holdings_source = HOLDINGS
         sheet_fallbacks = {}
+        gs_meta = gs_meta or {}
+
+    try:
+        import yfinance as yf
+    except ImportError:
+        return {}, holdings_source, gs_meta
 
     results = {}
     for h in holdings_source:
