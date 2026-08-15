@@ -2060,11 +2060,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .header-brand{{text-align:center;padding-bottom:20px}}
 
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:var(--gold)}}
-    .signal-bolt svg{{display:block;width:.72em;height:1em;fill:currentColor}}
+    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;line-height:1}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
-    .section-bolt{{display:inline-flex;align-items:center;color:var(--gold)}}
-    .section-bolt svg{{display:block;width:.72em;height:1em;fill:currentColor}}
+    .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
 
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
@@ -2370,7 +2368,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0E;</span></a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -2581,7 +2579,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <div class="card" id="weekly-asymmetric-ideas">
-    <div class="card-title"><span class="section-bolt" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></span> Weekly Asymmetric Ideas</div>
+    <div class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetric Ideas</div>
     <div class="weekly-meta">Updated {weekly_as_of} · {weekly_note}</div>
     <div class="weekly-grid">{weekly_rows}</div>
   </div>
@@ -2658,7 +2656,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0E;</span></a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>

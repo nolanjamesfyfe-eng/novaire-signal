@@ -26,11 +26,9 @@
 
     .header-brand{text-align:center;padding-bottom:20px}
 
-    .signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:var(--gold)}
-    .signal-bolt svg{display:block;width:.72em;height:1em;fill:currentColor}
+    .signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;line-height:1}
     .signal-bolt:hover{opacity:.7;transform:scale(1.1)}
-    .section-bolt{display:inline-flex;align-items:center;color:var(--gold)}
-    .section-bolt svg{display:block;width:.72em;height:1em;fill:currentColor}
+    .section-bolt{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}
     @keyframes neon-flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.8}94%{opacity:1}96%{opacity:.9}97%{opacity:1}}
 
     .dateline{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}
@@ -336,7 +334,7 @@
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0E;</span></a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -394,36 +392,36 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">11:04</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:01</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">31°C</div>
-          <div class="condition">Light Drizzle 🌦</div>
+          <div class="temp">32°C</div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 66% · AQI 32 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 64% · AQI 31 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:04</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:01</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">18°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 47 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 48 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:04</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:01</div>
           <div class="city">🇨🇦 Edmonton</div>
-          <div class="temp">14°C</div>
+          <div class="temp">13°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 78% · AQI 51 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 82% · AQI 52 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">01:04</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:01</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">12°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 88% · AQI 47 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 87% · AQI 46 (Good)</div>
         </div>
     </div>
   </div>
@@ -438,7 +436,7 @@
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.41</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,141</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.86</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">84.06</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">84.18</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,412</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">159.30</span></div>
     </div>
@@ -451,9 +449,9 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$nan</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,380</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="negative">nan%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+0.38%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
@@ -463,21 +461,21 @@
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$nan</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.5995</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="negative">nan%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+0.11%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$nan</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$82.40</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">nan%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+1.42%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium" data-comm-price="PA=F">$nan</div>
+          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,322</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="PA=F"><span class="negative">nan%</span></div>
+          <div class="commodity-change" data-comm-chg="PA=F"><span class="negative">-0.01%</span></div>
         </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -495,28 +493,28 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,080</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.45%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,122</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="negative">-0.41%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,883</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.06%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,884</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.04%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.47</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.53%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.54</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="negative">-0.42%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$493.35</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.18%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$493.61</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+0.38%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1809</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.04%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1806</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.93%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -525,13 +523,13 @@
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6858</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.23%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6863</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.35%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0173</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-1.31%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0174</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-1.14%</span></div>
         </div>
     </div>
   </div>
@@ -542,15 +540,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/political/all-ice-enforcement-officers-maine-equipped-body-worn-cameras-sen-collins-says" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">All ICE Enforcement Officers In Maine Equipped With Body-Worn Cameras, Sen. Collins Says</a>
+          <a href="https://www.zerohedge.com/geopolitical/escobar-new-great-game-revisited" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Escobar: The New Great Game, Revisited</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/political/forget-reminding-young-people-about-boat-people-south-americas-rejection-socialism" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Forget Reminding Young People About 'Boat People': South America's Rejection Of Socialism Is Happening In Real Time</a>
+          <a href="https://www.zerohedge.com/weather/where-world-burning-2026" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Where The World Is Burning In 2026</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/political/judge-drops-case-against-6-nevada-republicans-accused-falsifying-2020-election-result" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Judge Drops Case Against 6 Nevada Republicans Accused Of Falsifying 2020 Election Result</a>
+          <a href="https://www.zerohedge.com/political/all-ice-enforcement-officers-maine-equipped-body-worn-cameras-sen-collins-says" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">All ICE Enforcement Officers In Maine Equipped With Body-Worn Cameras, Sen. Collins Says</a>
         </div>
   </div>
 
@@ -675,7 +673,7 @@
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <div class="card" id="weekly-asymmetric-ideas">
-    <div class="card-title"><span class="section-bolt" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></span> Weekly Asymmetric Ideas</div>
+    <div class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetric Ideas</div>
     <div class="weekly-meta">Updated 2026-08-10 · One clean asymmetric setup—screened against current holdings.</div>
     <div class="weekly-grid">
         <div class="weekly-idea">
@@ -696,9 +694,9 @@
             <div class="catalyst-item">
               <span class="catalyst-ticker">HG</span>
               <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Aug 15 · Simply Wall St.</span>
+              <span class="catalyst-badge">Aug 15 · simplywall.st</span>
               <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">HydroGraph Clean Power (CNSX:HG) Opens Texas Hub, Is The Valuation Already Fully Priced?</span>
+              <span class="catalyst-headline">HydroGraph Clean Power (CNSX:HG) Is Down 8.3% After Texas Graphene Expansion Plan - Has The Bull Case Changed? - simplywall.st</span>
             </div>
             <div class="catalyst-item">
               <span class="catalyst-ticker">URNJ</span>
@@ -729,7 +727,12 @@
   <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>44W / 34L</span></div>
 </div>
 
-
+<div class="card">
+    <div class="card-title">🦙 Livermore Darvis</div>
+    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · 3 trades</div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ</span><span style="font-weight:600;color:#f87171">-17.4%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK</span><span style="font-weight:600;color:#4ade80">+24.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ</span><span style="font-weight:600;color:#4ade80">+4.1%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-24.4%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI</span><span style="color:#4ade80">+4.3%</span></div>
+  </div>
 
 
   <!-- CURRENTLY -->
@@ -757,7 +760,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="30" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 11:04 BKK</div>
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 15, 12:01 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Chinese man who embezzled 50 million baht for Bangkok good life lifted on Thursday by Immigration</a>
           <div class="thai-news-summary">Chinese investor Chon Henke’ai, 41, is arrested in a luxury Bangkok condo after fleeing China. He is wanted over a ฿50 million parking investment scheme… Read More › The post Chine</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>
@@ -827,7 +830,7 @@
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 1.5 4.4 13.1h6.1l-1 9.4 10.1-13H13z"/></svg></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0E;</span></a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
