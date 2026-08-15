@@ -15,6 +15,17 @@ from html import escape
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+from portfolio_tracker import (
+    HISTORY_PATH as PORTFOLIO_HISTORY_PATH,
+    SHEET_ID as PORTFOLIO_SHEET_ID,
+    TFSA_GID,
+    build_tracker_model,
+    fetch_kraken_totals,
+    load_history as load_portfolio_history,
+    render_tracker_html,
+    save_history as save_portfolio_history,
+    upsert_daily_snapshot,
+)
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
@@ -982,7 +993,7 @@ def fetch_zerohedge():
         headlines = [{"title": f"ZeroHedge unavailable", "url": "#"}]
     return headlines[:4] if headlines else [{"title": "No headlines in last 24h", "url": "#"}]
 
-GSHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak/export?format=csv"
+GSHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{PORTFOLIO_SHEET_ID}/export?format=csv&gid={TFSA_GID}"
 
 # Map sheet exchange/ticker strings → Yahoo Finance tickers
 EXCHANGE_TO_TICKER = {

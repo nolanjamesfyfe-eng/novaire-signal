@@ -1,0 +1,1098 @@
+{
+  "schema_version": 1,
+  "snapshots": [
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 142824.08,
+          "usd": 103055.48
+        }
+      },
+      "captured_at_utc": "2026-04-13T04:15:23+00:00",
+      "market_date": "2026-04-10",
+      "net_worth_cad": 142824.08,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 150396.91,
+          "usd": 109074.56
+        }
+      },
+      "captured_at_utc": "2026-04-14T01:26:39+00:00",
+      "market_date": "2026-04-13",
+      "net_worth_cad": 150396.91,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 149906.24,
+          "usd": 108884.54
+        }
+      },
+      "captured_at_utc": "2026-04-15T01:23:20+00:00",
+      "market_date": "2026-04-14",
+      "net_worth_cad": 149906.24,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 152142.26,
+          "usd": 110811.71
+        }
+      },
+      "captured_at_utc": "2026-04-16T01:55:13+00:00",
+      "market_date": "2026-04-15",
+      "net_worth_cad": 152142.26,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 150448.11,
+          "usd": 109802.52
+        }
+      },
+      "captured_at_utc": "2026-04-17T01:26:46+00:00",
+      "market_date": "2026-04-16",
+      "net_worth_cad": 150448.11,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 145629.8,
+          "usd": 106295.24
+        }
+      },
+      "captured_at_utc": "2026-04-20T05:49:43+00:00",
+      "market_date": "2026-04-17",
+      "net_worth_cad": 145629.8,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 144765.05,
+          "usd": 106105.51
+        }
+      },
+      "captured_at_utc": "2026-04-21T01:26:33+00:00",
+      "market_date": "2026-04-20",
+      "net_worth_cad": 144765.05,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 125616.87,
+          "usd": 92046.9
+        }
+      },
+      "captured_at_utc": "2026-04-22T08:32:01+00:00",
+      "market_date": "2026-04-21",
+      "net_worth_cad": 125616.87,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 129926.99,
+          "usd": 95074.56
+        }
+      },
+      "captured_at_utc": "2026-04-23T01:30:32+00:00",
+      "market_date": "2026-04-22",
+      "net_worth_cad": 129926.99,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 125985.02,
+          "usd": 91976.32
+        }
+      },
+      "captured_at_utc": "2026-04-24T01:29:20+00:00",
+      "market_date": "2026-04-23",
+      "net_worth_cad": 125985.02,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 126871.03,
+          "usd": 92844.46
+        }
+      },
+      "captured_at_utc": "2026-04-27T01:47:08+00:00",
+      "market_date": "2026-04-24",
+      "net_worth_cad": 126871.03,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 129149.37,
+          "usd": 94730.47
+        }
+      },
+      "captured_at_utc": "2026-04-28T01:54:34+00:00",
+      "market_date": "2026-04-27",
+      "net_worth_cad": 129149.37,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 132736.48,
+          "usd": 97011.87
+        }
+      },
+      "captured_at_utc": "2026-04-29T01:57:29+00:00",
+      "market_date": "2026-04-28",
+      "net_worth_cad": 132736.48,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 130391.04,
+          "usd": 95335.65
+        }
+      },
+      "captured_at_utc": "2026-04-30T01:56:24+00:00",
+      "market_date": "2026-04-29",
+      "net_worth_cad": 130391.04,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 132691.55,
+          "usd": 97729.0
+        }
+      },
+      "captured_at_utc": "2026-05-01T01:58:19+00:00",
+      "market_date": "2026-04-30",
+      "net_worth_cad": 132691.55,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 128590.16,
+          "usd": 94610.72
+        }
+      },
+      "captured_at_utc": "2026-05-04T01:50:55+00:00",
+      "market_date": "2026-05-01",
+      "net_worth_cad": 128590.16,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 126015.61,
+          "usd": 92502.77
+        }
+      },
+      "captured_at_utc": "2026-05-05T01:51:45+00:00",
+      "market_date": "2026-05-04",
+      "net_worth_cad": 126015.61,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 126216.78,
+          "usd": 92681.06
+        }
+      },
+      "captured_at_utc": "2026-05-06T14:47:22+00:00",
+      "market_date": "2026-05-05",
+      "net_worth_cad": 126216.78,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 124997.81,
+          "usd": 91664.14
+        }
+      },
+      "captured_at_utc": "2026-05-07T19:02:56+00:00",
+      "market_date": "2026-05-06",
+      "net_worth_cad": 124997.81,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 124718.54,
+          "usd": 91317.05
+        }
+      },
+      "captured_at_utc": "2026-05-08T02:00:21+00:00",
+      "market_date": "2026-05-07",
+      "net_worth_cad": 124718.54,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 127696.97,
+          "usd": 93300.04
+        }
+      },
+      "captured_at_utc": "2026-05-11T02:02:48+00:00",
+      "market_date": "2026-05-08",
+      "net_worth_cad": 127696.97,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 129657.45,
+          "usd": 94559.03
+        }
+      },
+      "captured_at_utc": "2026-05-12T18:01:20+00:00",
+      "market_date": "2026-05-11",
+      "net_worth_cad": 129657.45,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 130214.33,
+          "usd": 94992.18
+        }
+      },
+      "captured_at_utc": "2026-05-13T18:01:16+00:00",
+      "market_date": "2026-05-12",
+      "net_worth_cad": 130214.33,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 125887.1,
+          "usd": 91738.4
+        }
+      },
+      "captured_at_utc": "2026-05-14T18:01:13+00:00",
+      "market_date": "2026-05-13",
+      "net_worth_cad": 125887.1,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 122808.83,
+          "usd": 89370.76
+        }
+      },
+      "captured_at_utc": "2026-05-15T18:01:26+00:00",
+      "market_date": "2026-05-14",
+      "net_worth_cad": 122808.83,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123278.84,
+          "usd": 89727.16
+        }
+      },
+      "captured_at_utc": "2026-05-18T18:01:38+00:00",
+      "market_date": "2026-05-15",
+      "net_worth_cad": 123278.84,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 117880.49,
+          "usd": 85720.04
+        }
+      },
+      "captured_at_utc": "2026-05-19T18:01:31+00:00",
+      "market_date": "2026-05-18",
+      "net_worth_cad": 117880.49,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 117861.68,
+          "usd": 85693.9
+        }
+      },
+      "captured_at_utc": "2026-05-20T18:01:46+00:00",
+      "market_date": "2026-05-19",
+      "net_worth_cad": 117861.68,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123681.89,
+          "usd": 89770.93
+        }
+      },
+      "captured_at_utc": "2026-05-21T18:01:28+00:00",
+      "market_date": "2026-05-20",
+      "net_worth_cad": 123681.89,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 122891.69,
+          "usd": 88983.92
+        }
+      },
+      "captured_at_utc": "2026-05-22T18:01:24+00:00",
+      "market_date": "2026-05-21",
+      "net_worth_cad": 122891.69,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123912.48,
+          "usd": 89764.33
+        }
+      },
+      "captured_at_utc": "2026-05-25T18:01:37+00:00",
+      "market_date": "2026-05-22",
+      "net_worth_cad": 123912.48,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 143757.24,
+          "usd": 104035.47
+        }
+      },
+      "captured_at_utc": "2026-05-26T18:01:33+00:00",
+      "market_date": "2026-05-25",
+      "net_worth_cad": 143757.24,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 141788.65,
+          "usd": 102518.08
+        }
+      },
+      "captured_at_utc": "2026-05-27T18:01:40+00:00",
+      "market_date": "2026-05-26",
+      "net_worth_cad": 141788.65,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 121102.4,
+          "usd": 87843.21
+        }
+      },
+      "captured_at_utc": "2026-05-28T18:01:37+00:00",
+      "market_date": "2026-05-27",
+      "net_worth_cad": 121102.4,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123483.35,
+          "usd": 89506.31
+        }
+      },
+      "captured_at_utc": "2026-05-29T18:01:37+00:00",
+      "market_date": "2026-05-28",
+      "net_worth_cad": 123483.35,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123555.12,
+          "usd": 89328.79
+        }
+      },
+      "captured_at_utc": "2026-06-01T18:01:41+00:00",
+      "market_date": "2026-05-29",
+      "net_worth_cad": 123555.12,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 128106.34,
+          "usd": 92571.75
+        }
+      },
+      "captured_at_utc": "2026-06-02T18:03:06+00:00",
+      "market_date": "2026-06-01",
+      "net_worth_cad": 128106.34,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 124921.79,
+          "usd": 89914.49
+        }
+      },
+      "captured_at_utc": "2026-06-03T19:32:55+00:00",
+      "market_date": "2026-06-02",
+      "net_worth_cad": 124921.79,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 125759.29,
+          "usd": 90465.52
+        }
+      },
+      "captured_at_utc": "2026-06-04T18:02:18+00:00",
+      "market_date": "2026-06-03",
+      "net_worth_cad": 125759.29,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 118706.56,
+          "usd": 85145.88
+        }
+      },
+      "captured_at_utc": "2026-06-05T18:02:27+00:00",
+      "market_date": "2026-06-04",
+      "net_worth_cad": 118706.56,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 118075.79,
+          "usd": 84625.46
+        }
+      },
+      "captured_at_utc": "2026-06-08T18:02:45+00:00",
+      "market_date": "2026-06-05",
+      "net_worth_cad": 118075.79,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 113567.58,
+          "usd": 81395.57
+        }
+      },
+      "captured_at_utc": "2026-06-09T18:02:18+00:00",
+      "market_date": "2026-06-08",
+      "net_worth_cad": 113567.58,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 114024.28,
+          "usd": 81855.19
+        }
+      },
+      "captured_at_utc": "2026-06-10T18:03:00+00:00",
+      "market_date": "2026-06-09",
+      "net_worth_cad": 114024.28,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 114683.75,
+          "usd": 82020.95
+        }
+      },
+      "captured_at_utc": "2026-06-11T18:02:14+00:00",
+      "market_date": "2026-06-10",
+      "net_worth_cad": 114683.75,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 117975.06,
+          "usd": 84403.55
+        }
+      },
+      "captured_at_utc": "2026-06-12T18:02:59+00:00",
+      "market_date": "2026-06-11",
+      "net_worth_cad": 117975.06,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 119830.23,
+          "usd": 85698.62
+        }
+      },
+      "captured_at_utc": "2026-06-15T18:01:46+00:00",
+      "market_date": "2026-06-12",
+      "net_worth_cad": 119830.23,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 119475.65,
+          "usd": 85371.15
+        }
+      },
+      "captured_at_utc": "2026-06-16T18:03:31+00:00",
+      "market_date": "2026-06-15",
+      "net_worth_cad": 119475.65,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 122686.02,
+          "usd": 87436.45
+        }
+      },
+      "captured_at_utc": "2026-06-17T18:01:51+00:00",
+      "market_date": "2026-06-16",
+      "net_worth_cad": 122686.02,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123098.08,
+          "usd": 87057.56
+        }
+      },
+      "captured_at_utc": "2026-06-18T19:03:41+00:00",
+      "market_date": "2026-06-17",
+      "net_worth_cad": 123098.08,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 120919.92,
+          "usd": 85309.27
+        }
+      },
+      "captured_at_utc": "2026-06-19T18:02:03+00:00",
+      "market_date": "2026-06-18",
+      "net_worth_cad": 120919.92,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 121583.13,
+          "usd": 85853.49
+        }
+      },
+      "captured_at_utc": "2026-06-22T18:01:34+00:00",
+      "market_date": "2026-06-19",
+      "net_worth_cad": 121583.13,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 115201.71,
+          "usd": 81070.87
+        }
+      },
+      "captured_at_utc": "2026-06-23T18:02:29+00:00",
+      "market_date": "2026-06-22",
+      "net_worth_cad": 115201.71,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 104865.46,
+          "usd": 73668.12
+        }
+      },
+      "captured_at_utc": "2026-06-24T18:02:00+00:00",
+      "market_date": "2026-06-23",
+      "net_worth_cad": 104865.46,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 103513.99,
+          "usd": 72923.11
+        }
+      },
+      "captured_at_utc": "2026-06-25T18:02:12+00:00",
+      "market_date": "2026-06-24",
+      "net_worth_cad": 103513.99,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 106233.07,
+          "usd": 74860.0
+        }
+      },
+      "captured_at_utc": "2026-06-26T18:01:48+00:00",
+      "market_date": "2026-06-25",
+      "net_worth_cad": 106233.07,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 106214.47,
+          "usd": 74817.63
+        }
+      },
+      "captured_at_utc": "2026-06-29T18:02:01+00:00",
+      "market_date": "2026-06-26",
+      "net_worth_cad": 106214.47,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 101249.86,
+          "usd": 71287.91
+        }
+      },
+      "captured_at_utc": "2026-06-30T18:02:07+00:00",
+      "market_date": "2026-06-29",
+      "net_worth_cad": 101249.86,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 101632.9,
+          "usd": 71502.47
+        }
+      },
+      "captured_at_utc": "2026-07-01T18:02:31+00:00",
+      "market_date": "2026-06-30",
+      "net_worth_cad": 101632.9,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 102096.5,
+          "usd": 71994.76
+        }
+      },
+      "captured_at_utc": "2026-07-02T18:02:21+00:00",
+      "market_date": "2026-07-01",
+      "net_worth_cad": 102096.5,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 97724.28,
+          "usd": 68810.22
+        }
+      },
+      "captured_at_utc": "2026-07-03T18:01:40+00:00",
+      "market_date": "2026-07-02",
+      "net_worth_cad": 97724.28,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 102160.16,
+          "usd": 71872.41
+        }
+      },
+      "captured_at_utc": "2026-07-06T18:01:48+00:00",
+      "market_date": "2026-07-03",
+      "net_worth_cad": 102160.16,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 100963.66,
+          "usd": 71173.85
+        }
+      },
+      "captured_at_utc": "2026-07-07T18:02:07+00:00",
+      "market_date": "2026-07-06",
+      "net_worth_cad": 100963.66,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 95314.75,
+          "usd": 67240.97
+        }
+      },
+      "captured_at_utc": "2026-07-08T18:01:52+00:00",
+      "market_date": "2026-07-07",
+      "net_worth_cad": 95314.75,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 101637.65,
+          "usd": 71752.92
+        }
+      },
+      "captured_at_utc": "2026-07-09T18:01:58+00:00",
+      "market_date": "2026-07-08",
+      "net_worth_cad": 101637.65,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 98047.82,
+          "usd": 69316.73
+        }
+      },
+      "captured_at_utc": "2026-07-10T18:02:39+00:00",
+      "market_date": "2026-07-09",
+      "net_worth_cad": 98047.82,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 103204.55,
+          "usd": 72879.42
+        }
+      },
+      "captured_at_utc": "2026-07-13T01:47:26+00:00",
+      "market_date": "2026-07-10",
+      "net_worth_cad": 103204.55,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 94116.52,
+          "usd": 66544.25
+        }
+      },
+      "captured_at_utc": "2026-07-14T01:22:27+00:00",
+      "market_date": "2026-07-13",
+      "net_worth_cad": 94116.52,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 99709.95,
+          "usd": 70996.23
+        }
+      },
+      "captured_at_utc": "2026-07-15T01:18:52+00:00",
+      "market_date": "2026-07-14",
+      "net_worth_cad": 99709.95,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 107865.28,
+          "usd": 76809.89
+        }
+      },
+      "captured_at_utc": "2026-07-16T01:29:10+00:00",
+      "market_date": "2026-07-15",
+      "net_worth_cad": 107865.28,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 96846.04,
+          "usd": 69012.83
+        }
+      },
+      "captured_at_utc": "2026-07-17T01:43:10+00:00",
+      "market_date": "2026-07-16",
+      "net_worth_cad": 96846.04,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 95165.44,
+          "usd": 67926.56
+        }
+      },
+      "captured_at_utc": "2026-07-20T01:55:54+00:00",
+      "market_date": "2026-07-17",
+      "net_worth_cad": 95165.44,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 103929.8,
+          "usd": 73698.1
+        }
+      },
+      "captured_at_utc": "2026-07-21T18:02:27+00:00",
+      "market_date": "2026-07-20",
+      "net_worth_cad": 103929.8,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 107999.25,
+          "usd": 76635.7
+        }
+      },
+      "captured_at_utc": "2026-07-22T18:01:58+00:00",
+      "market_date": "2026-07-21",
+      "net_worth_cad": 107999.25,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 102192.67,
+          "usd": 72580.54
+        }
+      },
+      "captured_at_utc": "2026-07-23T18:01:38+00:00",
+      "market_date": "2026-07-22",
+      "net_worth_cad": 102192.67,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 102876.31,
+          "usd": 72969.69
+        }
+      },
+      "captured_at_utc": "2026-07-24T18:01:24+00:00",
+      "market_date": "2026-07-23",
+      "net_worth_cad": 102876.31,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 101180.59,
+          "usd": 71658.15
+        }
+      },
+      "captured_at_utc": "2026-07-27T18:01:49+00:00",
+      "market_date": "2026-07-24",
+      "net_worth_cad": 101180.59,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 98529.17,
+          "usd": 69846.15
+        }
+      },
+      "captured_at_utc": "2026-07-28T18:01:42+00:00",
+      "market_date": "2026-07-27",
+      "net_worth_cad": 98529.17,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 96511.55,
+          "usd": 68470.25
+        }
+      },
+      "captured_at_utc": "2026-07-29T18:01:33+00:00",
+      "market_date": "2026-07-28",
+      "net_worth_cad": 96511.55,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 98434.97,
+          "usd": 70315.72
+        }
+      },
+      "captured_at_utc": "2026-07-30T19:02:31+00:00",
+      "market_date": "2026-07-29",
+      "net_worth_cad": 98434.97,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 97583.84,
+          "usd": 69614.73
+        }
+      },
+      "captured_at_utc": "2026-07-31T18:02:29+00:00",
+      "market_date": "2026-07-30",
+      "net_worth_cad": 97583.84,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 97779.68,
+          "usd": 69591.6
+        }
+      },
+      "captured_at_utc": "2026-08-03T18:01:56+00:00",
+      "market_date": "2026-07-31",
+      "net_worth_cad": 97779.68,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 105732.03,
+          "usd": 75140.2
+        }
+      },
+      "captured_at_utc": "2026-08-04T18:02:14+00:00",
+      "market_date": "2026-08-03",
+      "net_worth_cad": 105732.03,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 109403.73,
+          "usd": 78083.89
+        }
+      },
+      "captured_at_utc": "2026-08-05T18:01:58+00:00",
+      "market_date": "2026-08-04",
+      "net_worth_cad": 109403.73,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 110792.93,
+          "usd": 79049.72
+        }
+      },
+      "captured_at_utc": "2026-08-06T18:01:54+00:00",
+      "market_date": "2026-08-05",
+      "net_worth_cad": 110792.93,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 119370.6,
+          "usd": 85647.07
+        }
+      },
+      "captured_at_utc": "2026-08-07T18:02:13+00:00",
+      "market_date": "2026-08-06",
+      "net_worth_cad": 119370.6,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 128544.21,
+          "usd": 92171.5
+        }
+      },
+      "captured_at_utc": "2026-08-10T18:02:27+00:00",
+      "market_date": "2026-08-07",
+      "net_worth_cad": 128544.21,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 128074.11,
+          "usd": 91987.11
+        }
+      },
+      "captured_at_utc": "2026-08-11T18:02:59+00:00",
+      "market_date": "2026-08-10",
+      "net_worth_cad": 128074.11,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 124729.1,
+          "usd": 89449.05
+        }
+      },
+      "captured_at_utc": "2026-08-12T18:01:46+00:00",
+      "market_date": "2026-08-11",
+      "net_worth_cad": 124729.1,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 121875.5,
+          "usd": 87451.83
+        }
+      },
+      "captured_at_utc": "2026-08-13T18:03:12+00:00",
+      "market_date": "2026-08-12",
+      "net_worth_cad": 121875.5,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 123470.66,
+          "usd": 88966.06
+        }
+      },
+      "captured_at_utc": "2026-08-14T18:02:46+00:00",
+      "market_date": "2026-08-13",
+      "net_worth_cad": 123470.66,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    },
+    {
+      "accounts": {
+        "tfsa_ws": {
+          "cad": 121390.06,
+          "usd": 87478.87
+        }
+      },
+      "captured_at_utc": "2026-08-15T08:01:13+00:00",
+      "market_date": "2026-08-14",
+      "net_worth_cad": 121390.06,
+      "source": "Google Sheet close \u00b7 recovered from versioned stats.json"
+    }
+  ],
+  "source": "Google Sheet daily closes \u00b7 TFSA/WS + Kraken"
+}
