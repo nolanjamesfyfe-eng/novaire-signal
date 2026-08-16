@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-16T02:50:16.375498+00:00",
+  "fetchedAt": "2026-08-16T04:00:56.910138+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2088828118152700187",
+      "text": "Inside Five Years Of Taliban Rule Since US Chaotic Exit https://www.zerohedge.com/geopolitical/five-years-taliban-rule-us-chaotic-exit",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-16T03:20:06+00:00",
+      "createdAtMs": 1786850406000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2088828118152700187#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2088815510012211361",
       "text": "Consumer confidence is rapidly declining in the US. The 6-month average of the Consumer Confidence Index for Generation X is down to ~78 points, the lowest in at least 5 years. At the same time, this metric for Baby Boomers is down to ~80 points, the lowest since at least September 2021. By comparison, readings for both age groups stood at ~110 points in October 2021, or ~40% higher. Meanwhile, the Silent Generation's Consumer Confidence Index has fallen in 5 months of 2026, to ~81 points, the lowest in at least 5 years. The gauge remains above 100 points only for Generation Z and Millennials, but even those readings are still below their 2021-2023 levels. Consumer confidence remains well below post-pandemic highs across every generation.",
@@ -19,21 +34,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2088815510012211361#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 0
-    },
-    {
-      "id": "2088810505552990543",
-      "text": "How Much Money Should You Convert To A Roth Each Year? https://www.zerohedge.com/political/how-much-money-should-you-convert-roth-each-year",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-16T02:10:07+00:00",
-      "createdAtMs": 1786846207000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2088810505552990543#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
