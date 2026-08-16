@@ -42,14 +42,17 @@ class RenderContractTests(unittest.TestCase):
     def test_signal_bolt_is_locked_to_antique_gold_svg(self):
         emoji = '<span aria-hidden="true">&#x26A1;&#xFE0F;</span>'
         text_glyph = '<span aria-hidden="true">&#x26A1;&#xFE0E;</span>'
-        bolt_path = "M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925"
+        bolt_path = "M219 44Q217 43 215 44L51 180Q49 183 51 185"
+        old_font_awesome_path = "M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925"
         self.assertEqual(self.html.count('class="signal-bolt-icon"'), 2)
         self.assertEqual(self.html.count(bolt_path), 2)
+        self.assertNotIn(old_font_awesome_path, self.html)
         self.assertNotIn(emoji, self.html)
         self.assertNotIn(f'class="signal-bolt">{text_glyph}', self.html)
         self.assertIn(".signal-bolt{display:inline-flex", self.html)
         self.assertIn("color:#b59662", self.html)
-        self.assertIn(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor", self.html)
+        self.assertIn(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}", self.html)
+        self.assertNotIn(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor;filter:", self.html)
         self.assertNotIn("signal-bolt-antique-gold", self.html)
         for forbidden in (
             "Daily Updog Vote",

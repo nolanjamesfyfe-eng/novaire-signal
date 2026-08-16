@@ -1917,8 +1917,8 @@ def build_sheet_allocation_component(gs_meta):
 # ─────────────────────────────────────────────────────────────
 
 SIGNAL_BOLT_SVG = (
-    '<svg class="signal-bolt-icon" viewBox="0 0 36 36" aria-hidden="true" focusable="false">'
-    '<path fill="currentColor" d="M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925L26.89 1.458c.219-.426.106-.947-.271-1.243C26.437.071 26.218 0 26 0c-.233 0-.466.082-.653.243L18 6.588 3.347 19.243c-.316.273-.43.714-.284 1.105S3.582 21 4 21h12.075L9.11 34.542c-.219.426-.106.947.271 1.243.182.144.401.215.619.215.233 0 .466-.082.653-.243L18 29.412l14.653-12.655c.317-.273.43-.714.285-1.106z"/>'
+    '<svg class="signal-bolt-icon" viewBox="45 38 200 264" aria-hidden="true" focusable="false">'
+    '<path fill="currentColor" d="M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z"/>'
     '</svg>'
 )
 
@@ -2334,7 +2334,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .header-brand{{text-align:center;padding-bottom:20px}}
 
     .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
-    .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor;filter:drop-shadow(0 0 3px rgba(181,150,98,.38))}}
+    .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
