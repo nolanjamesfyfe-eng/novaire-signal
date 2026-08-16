@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-16T08:19:50.447558+00:00",
+  "fetchedAt": "2026-08-16T10:01:16.947301+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2088927703730737413",
+      "text": "RT @wmiddelkoop: The Coming Sovereign Debt Crisis 'So, within the next decade, the system will probably break. Persistent primary deficit…",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-16T09:55:49+00:00",
+      "createdAtMs": 1786874149000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2088927703730737413#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2088828118152700187",
       "text": "Inside Five Years Of Taliban Rule Since US Chaotic Exit https://www.zerohedge.com/geopolitical/five-years-taliban-rule-us-chaotic-exit",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2088828118152700187#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2088815510012211361#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2088798510854582763",
-      "text": "Enter Stablecoins…buyers of short term US debt",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-08-16T01:22:27+00:00",
-      "createdAtMs": 1786843347000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/SantiagoAuFund/status/2088798510854582763#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
