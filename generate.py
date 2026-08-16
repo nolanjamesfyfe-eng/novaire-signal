@@ -1916,6 +1916,13 @@ def build_sheet_allocation_component(gs_meta):
 # HTML GENERATION
 # ─────────────────────────────────────────────────────────────
 
+SIGNAL_BOLT_SVG = (
+    '<svg class="signal-bolt-icon" viewBox="0 0 36 36" aria-hidden="true" focusable="false">'
+    '<path fill="currentColor" d="M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925L26.89 1.458c.219-.426.106-.947-.271-1.243C26.437.071 26.218 0 26 0c-.233 0-.466.082-.653.243L18 6.588 3.347 19.243c-.316.273-.43.714-.284 1.105S3.582 21 4 21h12.075L9.11 34.542c-.219.426-.106.947.271 1.243.182.144.401.215.619.215.233 0 .466-.082.653-.243L18 29.412l14.653-12.655c.317-.273.43-.714.285-1.106z"/>'
+    '</svg>'
+)
+
+
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
 
@@ -2326,8 +2333,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .header-brand{{text-align:center;padding-bottom:20px}}
 
-    .signal-filter-defs{{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}}
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;line-height:1;filter:url(#signal-bolt-antique-gold)}}
+    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
+    .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor;filter:drop-shadow(0 0 3px rgba(181,150,98,.38))}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
@@ -2674,23 +2681,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </style>
 </head>
 <body>
-<svg class="signal-filter-defs" aria-hidden="true" focusable="false" width="0" height="0">
-  <defs>
-    <filter id="signal-bolt-antique-gold" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">
-      <feFlood flood-color="#b59662" result="gold"/>
-      <feComposite in="gold" in2="SourceAlpha" operator="in" result="goldBolt"/>
-      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="blur"/>
-      <feFlood flood-color="#b59662" flood-opacity=".38" result="glowColor"/>
-      <feComposite in="glowColor" in2="blur" operator="in" result="goldGlow"/>
-      <feMerge><feMergeNode in="goldGlow"/><feMergeNode in="goldBolt"/></feMerge>
-    </filter>
-  </defs>
-</svg>
 <div class="container">
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0F;</span></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -2980,7 +2975,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0F;</span></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>

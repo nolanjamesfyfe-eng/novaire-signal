@@ -25,8 +25,8 @@
 
     .header-brand{text-align:center;padding-bottom:20px}
 
-    .signal-filter-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
-    .signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;line-height:1;filter:url(#signal-bolt-antique-gold)}
+    .signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}
+    .signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor;filter:drop-shadow(0 0 3px rgba(181,150,98,.38))}
     .signal-bolt:hover{opacity:.7;transform:scale(1.1)}
     .section-bolt{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}
     @keyframes neon-flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.8}94%{opacity:1}96%{opacity:.9}97%{opacity:1}}
@@ -373,23 +373,11 @@
   </style>
 </head>
 <body>
-<svg class="signal-filter-defs" aria-hidden="true" focusable="false" width="0" height="0">
-  <defs>
-    <filter id="signal-bolt-antique-gold" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">
-      <feFlood flood-color="#b59662" result="gold"/>
-      <feComposite in="gold" in2="SourceAlpha" operator="in" result="goldBolt"/>
-      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="blur"/>
-      <feFlood flood-color="#b59662" flood-opacity=".38" result="glowColor"/>
-      <feComposite in="glowColor" in2="blur" operator="in" result="goldGlow"/>
-      <feMerge><feMergeNode in="goldGlow"/><feMergeNode in="goldBolt"/></feMerge>
-    </filter>
-  </defs>
-</svg>
 <div class="container">
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0F;</span></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg class="signal-bolt-icon" viewBox="0 0 36 36" aria-hidden="true" focusable="false"><path fill="currentColor" d="M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925L26.89 1.458c.219-.426.106-.947-.271-1.243C26.437.071 26.218 0 26 0c-.233 0-.466.082-.653.243L18 6.588 3.347 19.243c-.316.273-.43.714-.284 1.105S3.582 21 4 21h12.075L9.11 34.542c-.219.426-.106.947.271 1.243.182.144.401.215.619.215.233 0 .466-.082.653-.243L18 29.412l14.653-12.655c.317-.273.43-.714.285-1.106z"/></svg></a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -447,34 +435,34 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:01</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:49</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">27°C</div>
-          <div class="condition">Drizzle 🌦</div>
+          <div class="temp">28°C</div>
+          <div class="condition">Light Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 93% · AQI 30 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 87% · AQI 30 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">20:01</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">20:49</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">20°C</div>
-          <div class="condition">Overcast ☁️</div>
+          <div class="condition">Light Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 92% · AQI 51 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 97% · AQI 51 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">19:01</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">19:49</div>
           <div class="city">🇨🇦 Edmonton</div>
-          <div class="temp">21°C</div>
+          <div class="temp">20°C</div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 50% · AQI 56 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 62% · AQI 56 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:01</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:49</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">14°C</div>
-          <div class="condition">Light Drizzle 🌦</div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Winter</div>
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 94% · AQI 29 (Good)</div>
         </div>
@@ -575,38 +563,38 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,075</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.09%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,067</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.07%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,881</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.08%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,880</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="negative">-0.22%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
           <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.44</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.08%</span></div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.05%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$487.66</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-0.96%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$486.26</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-2.15%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1768</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.78%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1766</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.73%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3420</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+0.60%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3390</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+0.30%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6779</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-0.78%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6766</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-0.79%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
@@ -818,7 +806,7 @@
   <div class="card" style="margin-bottom:1rem">
   <div class="card-title">🎰 Polymarket — Barron147</div>
   <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-14.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+140.4%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:#4ade80">+41.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div>
+  <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-14.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+141.3%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:#4ade80">+41.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div>
   <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>44W / 34L</span></div>
 </div>
 
@@ -855,7 +843,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="30" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 16, 08:01 BKK</div>
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 16, 08:49 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/14/chinese-man-who-embezzled-50-million-baht-for-bangkok-good-life-lifted-on-thursday-by-immigration-police/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Chinese man who embezzled 50 million baht for Bangkok good life lifted on Thursday by Immigration</a>
           <div class="thai-news-summary">Chinese investor Chon Henke’ai, 41, is arrested in a luxury Bangkok condo after fleeing China. He is wanted over a ฿50 million parking investment scheme… Read More › The post Chine</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 30.</div>
@@ -908,7 +896,7 @@
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0F;</span></a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg class="signal-bolt-icon" viewBox="0 0 36 36" aria-hidden="true" focusable="false"><path fill="currentColor" d="M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925L26.89 1.458c.219-.426.106-.947-.271-1.243C26.437.071 26.218 0 26 0c-.233 0-.466.082-.653.243L18 6.588 3.347 19.243c-.316.273-.43.714-.284 1.105S3.582 21 4 21h12.075L9.11 34.542c-.219.426-.106.947.271 1.243.182.144.401.215.619.215.233 0 .466-.082.653-.243L18 29.412l14.653-12.655c.317-.273.43-.714.285-1.106z"/></svg></a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>

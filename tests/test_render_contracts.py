@@ -39,14 +39,18 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("font-size:18.15px", self.html)
         self.assertIn(".footer-logo{font-family:var(--serif);font-size:1.6363636rem", self.html)
 
-    def test_high_voltage_emoji_and_retired_vote_contract(self):
+    def test_signal_bolt_is_locked_to_antique_gold_svg(self):
         emoji = '<span aria-hidden="true">&#x26A1;&#xFE0F;</span>'
-        text_glyph = '<a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><span aria-hidden="true">&#x26A1;&#xFE0E;</span>'
-        self.assertGreaterEqual(self.html.count(emoji), 2)
-        self.assertNotIn(text_glyph, self.html)
-        self.assertIn("font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji'", self.html)
-        self.assertIn("filter:url(#signal-bolt-antique-gold)", self.html)
-        self.assertIn('<feFlood flood-color="#b59662" result="gold"/>', self.html)
+        text_glyph = '<span aria-hidden="true">&#x26A1;&#xFE0E;</span>'
+        bolt_path = "M32.938 15.651C32.792 15.26 32.418 15 32 15H19.925"
+        self.assertEqual(self.html.count('class="signal-bolt-icon"'), 2)
+        self.assertEqual(self.html.count(bolt_path), 2)
+        self.assertNotIn(emoji, self.html)
+        self.assertNotIn(f'class="signal-bolt">{text_glyph}', self.html)
+        self.assertIn(".signal-bolt{display:inline-flex", self.html)
+        self.assertIn("color:#b59662", self.html)
+        self.assertIn(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor", self.html)
+        self.assertNotIn("signal-bolt-antique-gold", self.html)
         for forbidden in (
             "Daily Updog Vote",
             "Daily product senate",
