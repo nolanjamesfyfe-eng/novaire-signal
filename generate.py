@@ -1150,6 +1150,49 @@ def fetch_holdings_from_gsheet():
     return holdings, meta
 
 
+def fetch_official_cse_hg_quote():
+    """Return HydroGraph's official CSE closing auction price.
+
+    Yahoo can stop at the 15:59 continuous-session trade and omit the CSE
+    16:10 market-on-close print. The exchange's own consolidated ticker is
+    authoritative for the official daily close.
+    """
+    import json
+    import re
+    try:
+        url = "https://thecse.com/listings/hydrograph-clean-power-inc/"
+        response = requests.get(
+            url,
+            headers={"User-Agent": "Mozilla/5.0", "Cache-Control": "no-cache"},
+            timeout=20,
+        )
+        response.raise_for_status()
+        match = re.search(
+            r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
+            response.text,
+            re.DOTALL,
+        )
+        if not match:
+            return None
+        data = json.loads(match.group(1))
+        company = data["props"]["pageProps"]["staticCompanyData"]
+        ticker = company.get("consolidated", {}).get("ticker") or company.get("ticker", {})
+        price = float(ticker["Last Price"])
+        previous = float(ticker["Previous Closing Price"])
+        if not (0 < price < 1000 and 0 < previous < 1000):
+            return None
+        return {
+            "price": price,
+            "change": (price - previous) / previous * 100,
+            "volume": ticker.get("Trading Volume"),
+            "time": ticker.get("Time"),
+            "source": "Canadian Securities Exchange",
+        }
+    except Exception as exc:
+        print(f"    ⚠️  Official CSE HG quote unavailable: {exc}")
+        return None
+
+
 def fetch_portfolio(usdcad=1.365, audusd=0.63):
     """Fetch Sheet holdings/totals first, then enrich prices with yfinance when available."""
     def to_usd(amount, currency):
@@ -1180,10 +1223,27 @@ def fetch_portfolio(usdcad=1.365, audusd=0.63):
         return {}, holdings_source, gs_meta
 
     results = {}
+    official_hg = fetch_official_cse_hg_quote()
     for h in holdings_source:
         ticker   = h["ticker"]
         shares   = h["shares"]
         currency = h.get("currency", "CAD")
+
+        # HydroGraph is MOC-eligible on the CSE. Use the exchange's 16:10
+        # closing-auction print rather than Yahoo's 15:59 continuous-session
+        # trade, which can differ materially on volatile days.
+        if ticker == "HG.CN" and official_hg:
+            p = official_hg["price"]
+            value_usd = to_usd(p * shares, currency)
+            results[ticker] = {
+                "price": p,
+                "change": official_hg["change"],
+                "value": value_usd,
+                "currency": currency,
+                "fallback": False,
+                "source": official_hg["source"],
+            }
+            continue
 
         # Off-Yahoo tickers: use sheet's live price
         if ticker.startswith("_"):
