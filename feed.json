@@ -2,13 +2,28 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-16T00:00:55.069059+00:00",
+  "fetchedAt": "2026-08-16T00:04:11.640644+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2088775338901868667",
+      "text": "JUST IN: Elon Musk says \"I hope AI is nice to us.\"",
+      "author": "WatcherGuru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-08-15T23:50:23+00:00",
+      "createdAtMs": 1786837823000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/WatcherGuru/status/2088775338901868667#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2088775275668447599",
       "text": "Are China's Surveillance Exports Turning Nations Into Digital Dictatorships? https://www.zerohedge.com/geopolitical/are-chinas-surveillance-exports-turning-nations-digital-dictatorships",
@@ -21,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2088775275668447599#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -34,21 +49,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2088774488246898836#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2088767895698289018",
-      "text": "this is the next GFC",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-08-15T23:20:48+00:00",
-      "createdAtMs": 1786836048000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/BarbarianCap/status/2088767895698289018#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
