@@ -4142,7 +4142,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 </div>
 <dialog id="holding-chart-dialog" class="holding-chart-dialog">
   <div class="chart-shell">
-    <div class="chart-head"><div><div id="holding-chart-title" class="chart-symbol">Price chart</div><div class="chart-meta">9-month weekly candles · Previous close</div></div><button class="chart-close" type="button" aria-label="Close chart">×</button></div>
+    <div class="chart-head"><div><div id="holding-chart-title" class="chart-symbol">Price chart</div><div class="chart-meta">9 months · Weekly candles + volume · Final after Friday close</div></div><button class="chart-close" type="button" aria-label="Close chart">×</button></div>
     <div id="holding-chart-stage" class="chart-stage" aria-live="polite"><div class="chart-status">Select a ticker</div></div>
   </div>
 </dialog>
@@ -4164,13 +4164,16 @@ document.querySelectorAll('.collapse-toggle').forEach(t => {{
   dialog.querySelector('.chart-close').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('click',event=>{{if(event.target===dialog)dialog.close()}});
   function candleSvg(data){{
-    const candles=data.candles||[],W=640,H=330,p={{l:48,r:16,t:18,b:30}},innerW=W-p.l-p.r,innerH=H-p.t-p.b;
-    const values=candles.flatMap(c=>[c.low,c.high]).concat(Number.isFinite(data.previousClose)?[data.previousClose]:[]),lo=Math.min(...values),hi=Math.max(...values),span=Math.max(hi-lo,.0001);
-    const y=value=>p.t+(hi-value)/span*innerH,x=index=>p.l+(index+.5)/candles.length*innerW,body=Math.max(3,Math.min(10,innerW/candles.length*.58));
-    const grid=[0,.25,.5,.75,1].map(q=>{{const yy=p.t+q*innerH,val=hi-q*span;return `<line x1="${{p.l}}" y1="${{yy}}" x2="${{W-p.r}}" y2="${{yy}}" stroke="#1e1e26"/><text x="${{p.l-6}}" y="${{yy+3}}" text-anchor="end" fill="#6e6a85" font-size="9">${{val.toFixed(val<1?3:2)}}</text>`}}).join('');
-    const bars=candles.map((c,i)=>{{const xx=x(i),color=c.close>=c.open?'#2a9d8f':'#e63946',top=y(Math.max(c.open,c.close)),height=Math.max(1,Math.abs(y(c.open)-y(c.close)));return `<line x1="${{xx}}" y1="${{y(c.high)}}" x2="${{xx}}" y2="${{y(c.low)}}" stroke="${{color}}"/><rect x="${{xx-body/2}}" y="${{top}}" width="${{body}}" height="${{height}}" fill="${{color}}" rx="1"/>`}}).join('');
-    const prev=Number.isFinite(data.previousClose)?`<line x1="${{p.l}}" y1="${{y(data.previousClose)}}" x2="${{W-p.r}}" y2="${{y(data.previousClose)}}" stroke="#b59662" stroke-dasharray="5 4"/><text x="${{W-p.r-2}}" y="${{y(data.previousClose)-5}}" text-anchor="end" fill="#b59662" font-size="9">Previous close ${{data.previousClose.toFixed(2)}}</text>`:'';
-    return `<svg viewBox="0 0 ${{W}} ${{H}}" role="img" aria-label="${{data.symbol}} 9-month weekly candlestick chart"><rect width="${{W}}" height="${{H}}" fill="#09090d"/>${{grid}}${{prev}}${{bars}}<text x="${{p.l}}" y="${{H-9}}" fill="#6e6a85" font-size="9">9 months ago</text><text x="${{W-p.r}}" y="${{H-9}}" text-anchor="end" fill="#6e6a85" font-size="9">Latest weekly bar</text></svg>`;
+    const candles=data.candles||[],W=640,H=390,p={{l:48,r:18,t:24,b:28}},priceH=252,volumeTop=294,volumeH=68,innerW=W-p.l-p.r;
+    const values=candles.flatMap(c=>[c.low,c.high]),lo=Math.min(...values),hi=Math.max(...values),span=Math.max(hi-lo,.0001),maxVolume=Math.max(...candles.map(c=>c.volume||0),1);
+    const y=value=>p.t+(hi-value)/span*priceH,x=index=>p.l+(index+.5)/candles.length*innerW,body=Math.max(3,Math.min(10,innerW/candles.length*.58));
+    const fmt=value=>value<1?value.toFixed(3):value.toFixed(2),dateLabel=time=>new Date(time*1000).toLocaleDateString('en-US',{{month:'short',day:'numeric'}});
+    const grid=[0,.25,.5,.75,1].map(q=>{{const yy=p.t+q*priceH,val=hi-q*span;return `<line x1="${{p.l}}" y1="${{yy}}" x2="${{W-p.r}}" y2="${{yy}}" stroke="#1e1e26"/><text x="${{p.l-6}}" y="${{yy+3}}" text-anchor="end" fill="#6e6a85" font-size="9">${{fmt(val)}}</text>`}}).join('');
+    const bars=candles.map((c,i)=>{{const xx=x(i),up=c.close>=c.open,color=up?'#e9e5dc':'#e63946',top=y(Math.max(c.open,c.close)),height=Math.max(1,Math.abs(y(c.open)-y(c.close))),volHeight=(c.volume||0)/maxVolume*volumeH;return `<line x1="${{xx}}" y1="${{y(c.high)}}" x2="${{xx}}" y2="${{y(c.low)}}" stroke="${{color}}" stroke-width="1.2"/><rect x="${{xx-body/2}}" y="${{top}}" width="${{body}}" height="${{height}}" fill="${{up?'#09090d':color}}" stroke="${{color}}" stroke-width="1.2"/><rect x="${{xx-body/2}}" y="${{volumeTop+volumeH-volHeight}}" width="${{body}}" height="${{volHeight}}" fill="${{up?'#7f9d87':'#a84c59'}}" opacity=".72"/>`}}).join('');
+    const point=(item,label,color,above)=>{{if(!item||!Number.isFinite(item.price))return '';const xx=x(item.index),yy=y(item.price),ty=above?Math.max(12,yy-10):Math.min(volumeTop-5,yy+15);return `<circle cx="${{xx}}" cy="${{yy}}" r="3" fill="${{color}}"/><text x="${{xx}}" y="${{ty}}" text-anchor="middle" fill="${{color}}" font-size="10" font-weight="600">${{label}} ${{fmt(item.price)}}</text>`}};
+    const highLow=point(data.highest,'HIGH','#d7b56d',true)+point(data.lowest,'LOW','#75c4df',false);
+    const first=candles[0],last=candles[candles.length-1];
+    return `<svg viewBox="0 0 ${{W}} ${{H}}" role="img" aria-label="${{data.symbol}} 9-month weekly candlestick and volume chart"><rect width="${{W}}" height="${{H}}" fill="#09090d"/>${{grid}}<line x1="${{p.l}}" y1="${{volumeTop-8}}" x2="${{W-p.r}}" y2="${{volumeTop-8}}" stroke="#292932"/><text x="${{p.l}}" y="${{volumeTop+7}}" fill="#6e6a85" font-size="9">VOLUME</text>${{bars}}${{highLow}}<text x="${{p.l}}" y="${{H-8}}" fill="#6e6a85" font-size="9">${{dateLabel(first.time)}}</text><text x="${{W-p.r}}" y="${{H-8}}" text-anchor="end" fill="#6e6a85" font-size="9">${{dateLabel(last.time)}} · Friday close</text></svg>`;
   }}
   async function openChart(cell){{
     const symbol=cell.dataset.chartSymbol,name=cell.dataset.chartName||symbol;title.textContent=`${{cell.textContent.trim()}} · ${{name}}`;stage.innerHTML='<div class="chart-status">Loading weekly candles…</div>';dialog.showModal();
