@@ -1606,53 +1606,50 @@ def fetch_market_indices():
 
 
 def fetch_commodities():
-    try:
-        import yfinance as yf
-    except ImportError:
-        return {}
+    """Fetch the exact six derived futures shown by Investing.com.
 
+    These are intentionally not mixed with Yahoo contracts: Novaire uses the
+    Investing.com commodities screen as the visual reference, so source,
+    contract and daily-change basis must travel together.
+    """
     symbols = {
-        "GC=F": {"name": "Gold",     "unit": "/oz",  "cls": "c-gold"},
-        "SI=F": {"name": "Silver",   "unit": "/oz",  "cls": "c-silver"},
-        "HG=F": {"name": "Copper",   "unit": "/lb",  "cls": "c-copper"},
-        "CL=F": {"name": "Oil (WTI)","unit": "/bbl", "cls": "c-oil"},
-        "PA=F": {"name": "Palladium","unit": "/oz",  "cls": "c-palladium"},
+        "GOLD": {"name": "Gold",        "unit": "/oz",  "cls": "c-gold"},
+        "SILVER": {"name": "Silver",      "unit": "/oz",  "cls": "c-silver"},
+        "COPPER": {"name": "Copper",      "unit": "/lb",  "cls": "c-copper"},
+        "WTI": {"name": "Crude Oil WTI", "unit": "/bbl", "cls": "c-oil"},
+        "BRENT": {"name": "Brent Oil",    "unit": "/bbl", "cls": "c-oil"},
+        "NATGAS": {"name": "Natural Gas", "unit": "/MMBtu", "cls": "c-gas"},
     }
-    results = {}
-    for sym, meta in symbols.items():
-        try:
-            t = yf.Ticker(sym)
-            hist = t.history(period="5d")
-            if len(hist) >= 2:
-                p  = float(hist["Close"].iloc[-1])
-                pp = float(hist["Close"].iloc[-2])
-                chg = (p - pp) / pp * 100
-            elif len(hist) == 1:
-                p = float(hist["Close"].iloc[-1]); chg = None
-            else:
-                p = None; chg = None
-            results[sym] = {**meta, "price": p, "change": chg}
-        except Exception:
-            results[sym] = {**meta, "price": None, "change": None}
-
-    # Uranium spot price — Trading Economics benchmark CFD (U3O8 $/lb).
+    results = {key: {**meta, "price": None, "change": None,
+                     "source": "Investing.com", "period": "daily",
+                     "quote_time": None} for key, meta in symbols.items()}
     try:
-        r = requests.get("https://tradingeconomics.com/commodity/uranium",
-                         headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
-        import re
-        # Copy varies: "rose", "fell", "remained", or "traded flat".
-        m = re.search(r'Uranium[^".]{0,160}?\bat\s+(\d+(?:\.\d+)?)\s*USD/Lbs',
-                      r.text, flags=re.IGNORECASE)
-        if m:
-            spot = float(m.group(1))
-            results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
-                                       "price": spot, "change": None}
-        else:
-            results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
-                                       "price": None, "change": None}
+        firecrawl_key = os.environ.get("FIRECRAWL_API_KEY")
+        if not firecrawl_key:
+            raise RuntimeError("FIRECRAWL_API_KEY unavailable")
+        r = requests.post("https://api.firecrawl.dev/v2/scrape",
+                          headers={"Authorization": f"Bearer {firecrawl_key}", "Content-Type": "application/json"},
+                          json={"url": "https://www.investing.com/commodities/real-time-futures",
+                                "formats": ["markdown"], "onlyMainContent": True}, timeout=90)
+        r.raise_for_status()
+        markdown = r.json().get("data", {}).get("markdown", "")
+        slugs = {"GOLD": "gold", "SILVER": "silver", "COPPER": "copper",
+                 "WTI": "crude-oil", "BRENT": "brent-oil", "NATGAS": "natural-gas"}
+        for key, slug in slugs.items():
+            marker = f"](https://www.investing.com/commodities/{slug} \""
+            row = next((line for line in markdown.splitlines() if marker in line), None)
+            if not row:
+                continue
+            cells = [cell.strip() for cell in row.strip().strip('|').split('|')]
+            if len(cells) >= 8:
+                results[key]["price"] = float(cells[3].replace(',', ''))
+                results[key]["change"] = float(cells[7].rstrip('%').replace('−', '-'))
+        results_quote_time = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        for item in results.values():
+            if item["price"] is not None:
+                item["quote_time"] = results_quote_time
     except Exception:
-        results["URANIUM_SPOT"] = {"name": "Uranium", "unit": "/lb", "cls": "c-uranium",
-                                   "price": None, "change": None}
+        pass
     return results
 
 def quote_timestamp_is_fresh(close_time_ms, *, now_ms=None, max_age_seconds=300):
@@ -2839,7 +2836,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodity-unit{{font-size:.6rem;color:var(--dim)}}
     .commodity-change{{font-size:.72rem;margin-top:3px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
-    .c-oil{{color:#8b7355}}.c-palladium{{color:#ccc}}.c-uranium{{color:#7fc87f}}
+    .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}
 
     .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
     .crypto-item{{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
@@ -3651,6 +3648,21 @@ renderActionSteps();
   updCrypto();reorderCrypto();setInterval(updCrypto,15000);setInterval(reorderCrypto,60000);
 }}();
 
+// Live Investing.com commodities: refresh on open and every minute.
+!function(){{
+  function fmtCommodity(p){{return p>=1000?'$'+p.toLocaleString('en-US',{{maximumFractionDigits:2}}):p>=10?'$'+p.toFixed(2):'$'+p.toFixed(4)}}
+  function refreshCommodities(){{
+    fetch('/api/commodities?_='+Date.now(),{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}}).then(function(data){{
+      (data.quotes||[]).forEach(function(q){{
+        var pe=document.querySelector('[data-comm-price="'+q.symbol+'"]'),ce=document.querySelector('[data-comm-chg="'+q.symbol+'"]');
+        if(pe&&Number.isFinite(Number(q.price)))pe.textContent=fmtCommodity(Number(q.price));
+        if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.innerHTML='<span class="'+(ch>=0?'positive':'negative')+'">'+(ch>=0?'+':'')+ch.toFixed(2)+'%</span>'}}
+      }})
+    }}).catch(function(){{}})
+  }}
+  refreshCommodities();setInterval(refreshCommodities,60000);
+}}();
+
 // Live index futures: refresh through the same-origin Vercel edge proxy every minute.
 !function(){{
   function refreshFutures(){{
@@ -4213,7 +4225,7 @@ def main():
         print(f"    ❌ {e}")
         catalysts = {}
 
-    print("  🪙 Fetching commodities (yfinance)...")
+    print("  🪙 Fetching commodities (Investing.com)...")
     try:
         commodities = fetch_commodities()
         loaded_c = sum(1 for v in commodities.values() if v.get("price"))

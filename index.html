@@ -237,7 +237,7 @@
     .commodity-unit{font-size:.6rem;color:var(--dim)}
     .commodity-change{font-size:.72rem;margin-top:3px}
     .c-gold{color:#b59662}.c-silver{color:#b8b8b8}.c-copper{color:#b87333}
-    .c-oil{color:#8b7355}.c-palladium{color:#ccc}.c-uranium{color:#7fc87f}
+    .c-oil{color:#8b7355}.c-gas{color:#72a8c7}
 
     .crypto-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
     .crypto-item{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
@@ -485,15 +485,15 @@
     <summary><span class="card-title">🌤 Weather</span><span class="accordion-score" id="weather-viewed">Today</span></summary>
     <div class="signal-accordion-body"><div class="weather-grid">
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">17:39</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">18:02</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">28°C</div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 89% · AQI 31 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 88% · AQI 32 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:39</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">06:02</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">18°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -501,15 +501,15 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 51 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">04:39</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:02</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">13°C</div>
           <div class="condition">Showers 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Summer</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 89% · AQI 51 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 87% · AQI 51 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">07:39</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:02</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">11°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -524,22 +524,22 @@
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
-        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-17T10:28:47Z">
+        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-17T10:52:08Z">
           <span>S&P FUT</span>
-          <b data-future-price>7,813.75</b>
-          <em data-future-change class="positive">+0.11%</em>
+          <b data-future-price>7,816.75</b>
+          <em data-future-change class="positive">+0.15%</em>
           <small title="S&P 500 cash index"><i>Cash</i><strong data-market-price="^GSPC">7,785.76</strong><u data-market-change="^GSPC" class="negative">-0.17%</u></small>
         </div>
-        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-17T10:28:49Z">
+        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-17T10:52:07Z">
           <span>NASDAQ FUT</span>
-          <b data-future-price>30,285.25</b>
-          <em data-future-change class="positive">+0.48%</em>
+          <b data-future-price>30,310.50</b>
+          <em data-future-change class="positive">+0.56%</em>
           <small title="Nasdaq Composite cash index"><i>Cash</i><strong data-market-price="^IXIC">26,729.16</strong><u data-market-change="^IXIC" class="negative">-0.28%</u></small>
         </div>
-        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-17T10:28:43Z">
+        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-17T10:51:47Z">
           <span>DOW FUT</span>
-          <b data-future-price>53,712.00</b>
-          <em data-future-change class="negative">-0.18%</em>
+          <b data-future-price>53,742.00</b>
+          <em data-future-change class="negative">-0.12%</em>
           <small title="Dow Jones cash index"><i>Cash</i><strong data-market-price="^DJI">53,732.41</strong><u data-market-change="^DJI" class="negative">-0.20%</u></small>
         </div></div>
       <div class="market-calendar">NYSE Labor Day · Sep 07 <span>·</span> TSX Labour Day · Sep 07</div>
@@ -555,9 +555,9 @@
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.40</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,134</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.86</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">85.34</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,412</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">159.14</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">84.69</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,411</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">159.17</span></div>
     </div>
   </div>
 
@@ -566,41 +566,41 @@
     <div class="card-title">🪙 Commodities</div>
     <div class="commodities-grid">
       
-        <div class="commodity-item" data-commodity="GC=F">
+        <div class="commodity-item" data-commodity="GOLD">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,450</div>
+          <div class="commodity-price c-gold" data-comm-price="GOLD">$4,455</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.60%</span></div>
+          <div class="commodity-change" data-comm-chg="GOLD"><span class="positive">+0.40%</span></div>
         </div>
-        <div class="commodity-item" data-commodity="SI=F">
+        <div class="commodity-item" data-commodity="SILVER">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$65.64</div>
+          <div class="commodity-price c-silver" data-comm-price="SILVER">$65.78</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.00%</span></div>
+          <div class="commodity-change" data-comm-chg="SILVER"><span class="positive">+1.04%</span></div>
         </div>
-        <div class="commodity-item" data-commodity="HG=F">
+        <div class="commodity-item" data-commodity="COPPER">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6905</div>
+          <div class="commodity-price c-copper" data-comm-price="COPPER">$6.6965</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+1.38%</span></div>
+          <div class="commodity-change" data-comm-chg="COPPER"><span class="positive">+1.26%</span></div>
         </div>
-        <div class="commodity-item" data-commodity="CL=F">
-          <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$83.15</div>
+        <div class="commodity-item" data-commodity="WTI">
+          <div class="commodity-name c-oil">Crude Oil WTI</div>
+          <div class="commodity-price c-oil" data-comm-price="WTI">$82.03</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="positive">+0.91%</span></div>
+          <div class="commodity-change" data-comm-chg="WTI"><span class="positive">+0.69%</span></div>
         </div>
-        <div class="commodity-item" data-commodity="PA=F">
-          <div class="commodity-name c-palladium">Palladium</div>
-          <div class="commodity-price c-palladium" data-comm-price="PA=F">$1,332</div>
-          <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="PA=F"><span class="positive">+0.72%</span></div>
+        <div class="commodity-item" data-commodity="BRENT">
+          <div class="commodity-name c-oil">Brent Oil</div>
+          <div class="commodity-price c-oil" data-comm-price="BRENT">$89.40</div>
+          <div class="commodity-unit">/bbl</div>
+          <div class="commodity-change" data-comm-chg="BRENT"><span class="positive">+0.99%</span></div>
         </div>
-        <div class="commodity-item" data-commodity="URANIUM_SPOT">
-          <div class="commodity-name c-uranium">Uranium</div>
-          <div class="commodity-price c-uranium" data-comm-price="URANIUM_SPOT">$88.07</div>
-          <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="URANIUM_SPOT"><span style="color:var(--dim)">—</span></div>
+        <div class="commodity-item" data-commodity="NATGAS">
+          <div class="commodity-name c-gas">Natural Gas</div>
+          <div class="commodity-price c-gas" data-comm-price="NATGAS">$2.6610</div>
+          <div class="commodity-unit">/MMBtu</div>
+          <div class="commodity-change" data-comm-chg="NATGAS"><span class="negative">-2.63%</span></div>
         </div>
     </div>
   </div>
@@ -612,43 +612,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,550</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.86%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,669</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+1.05%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,904</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+1.23%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,907</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+1.37%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.65</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.53%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.77</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.69%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$511.90</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+5.32%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$513.48</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+5.62%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1738</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.31%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1749</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.13%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3340</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-0.45%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3350</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-0.52%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6776</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.09%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6791</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.18%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
           <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0172</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-1.49%</span></div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-2.11%</span></div>
         </div>
     </div>
   </div>
@@ -659,15 +659,15 @@
     
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/geopolitical/irans-army-chief-offers-30k-reward-kill-or-capture-american-troops" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Iran's Army Chief Offers $30K Reward For Kill Or Capture Of American Troops</a>
+          <a href="https://www.zerohedge.com/markets/ballpark-battlefield-ondas-ma-blitz-builds-drone-and-ground-robotics-empire" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">"Ballpark To Battlefield": Ondas' M&A Blitz Builds Drone And Ground Robotics Empire</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/covid-19/british-medical-journal-retracts-paper-linking-covid-shots-millions-excess-deaths" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">British Medical Journal Retracts Paper Linking COVID Shots To Millions Of Excess Deaths</a>
+          <a href="https://www.zerohedge.com/geopolitical/irans-army-chief-offers-30k-reward-kill-or-capture-american-troops" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Iran's Army Chief Offers $30K Reward For Kill Or Capture Of American Troops</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/political/us-drafts-ultimatum-allies-joining-chinas-ai-bloc" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">U.S. Drafts Ultimatum for Allies Joining China's AI Bloc</a>
+          <a href="https://www.zerohedge.com/covid-19/fauci-hiding-abc-censorship-bombshell-explodes" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Fauci In Hiding As ABC Censorship Bombshell Explodes</a>
         </div>
   </div>
 
@@ -859,7 +859,7 @@
   <summary><span class="card-title">🎰 Polymarket — Barron147</span><span class="accordion-score"><b>44W / 34L</b> · 56% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-14.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+142.9%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:#4ade80">+41.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin dip to $55,000 by December ...</span><span style="font-weight:600;color:#f87171">-14.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Mojtaba Khamenei be head of state i...</span><span style="font-weight:600;color:#4ade80">+143.6%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:#4ade80">+41.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will the Iranian regime fall before 2027...</span><span style="font-weight:600;color:#4ade80">+90.8%</span></div>
   </div>
 </details>
 
@@ -878,7 +878,7 @@
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
       <div class="thai-news-compact" style="margin-top:10px"><div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="19" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/17/brutal-assault-by-cambodian-worker-on-wrong-man-over-9000-baht-wage-dispute-leaves-man-needing-surgery/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 17, 17:39 BKK</div>
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Aug 17, 18:02 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/08/17/brutal-assault-by-cambodian-worker-on-wrong-man-over-9000-baht-wage-dispute-leaves-man-needing-surgery/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Brutal assault by Cambodian worker on wrong man over 9,000 baht dispute leaves man needing surgery</a>
           <div class="thai-news-summary">Bloodbath at a Pattaya workers’ camp leaves a Cambodian barely breathing with his skull exposed. Police arrest Reaksa Chheut, 30, eating ice cream hours later.… Read More › The pos</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 19.</div>
@@ -1474,6 +1474,21 @@ renderActionSteps();
       }).catch(function(){})
   }
   updCrypto();reorderCrypto();setInterval(updCrypto,15000);setInterval(reorderCrypto,60000);
+}();
+
+// Live Investing.com commodities: refresh on open and every minute.
+!function(){
+  function fmtCommodity(p){return p>=1000?'$'+p.toLocaleString('en-US',{maximumFractionDigits:2}):p>=10?'$'+p.toFixed(2):'$'+p.toFixed(4)}
+  function refreshCommodities(){
+    fetch('/api/commodities?_='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(data){
+      (data.quotes||[]).forEach(function(q){
+        var pe=document.querySelector('[data-comm-price="'+q.symbol+'"]'),ce=document.querySelector('[data-comm-chg="'+q.symbol+'"]');
+        if(pe&&Number.isFinite(Number(q.price)))pe.textContent=fmtCommodity(Number(q.price));
+        if(ce&&Number.isFinite(Number(q.change))){var ch=Number(q.change);ce.innerHTML='<span class="'+(ch>=0?'positive':'negative')+'">'+(ch>=0?'+':'')+ch.toFixed(2)+'%</span>'}
+      })
+    }).catch(function(){})
+  }
+  refreshCommodities();setInterval(refreshCommodities,60000);
 }();
 
 // Live index futures: refresh through the same-origin Vercel edge proxy every minute.

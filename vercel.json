@@ -14,6 +14,9 @@
     },
     "api/market-futures.js": {
       "maxDuration": 10
+    },
+    "api/commodities.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

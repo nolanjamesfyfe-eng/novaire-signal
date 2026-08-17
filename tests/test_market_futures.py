@@ -51,6 +51,12 @@ class MarketFuturesTests(unittest.TestCase):
         )
         self.assertEqual(generate.MARKET_INDICES["^IXIC"]["label"], "Nasdaq Composite")
 
+    def test_commodities_track_exact_investing_screen_set(self):
+        self.assertEqual(
+            list(generate.fetch_commodities.__doc__.splitlines())[0],
+            "Fetch the exact six derived futures shown by Investing.com.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
