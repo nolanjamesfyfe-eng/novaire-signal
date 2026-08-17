@@ -1,5 +1,8 @@
 from pathlib import Path
+from datetime import datetime
 import unittest
+
+import generate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,6 +89,20 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("Top engagement", self.html)
         self.assertIn("https://www.instagram.com/j.novaire/", self.html)
         self.assertNotIn('class="latest-novaire-grid"', self.html)
+
+    def test_weekly_sections_open_only_monday_and_tuesday(self):
+        self.assertTrue(generate.open_early_week(datetime(2026, 8, 17)))
+        self.assertTrue(generate.open_early_week(datetime(2026, 8, 18)))
+        self.assertFalse(generate.open_early_week(datetime(2026, 8, 19)))
+        self.assertFalse(generate.open_early_week(datetime(2026, 8, 23)))
+
+    def test_clutter_cards_are_accordions_with_compact_summaries(self):
+        self.assertIn('class="card signal-accordion" id="weekly-asymmetric-ideas" open', self.html)
+        self.assertIn('class="card signal-accordion" id="catalysts-card" open', self.html)
+        self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
+        self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
+        self.assertIn('44W / 34L', self.html)
+        self.assertIn('Inception ROI', self.html)
 
 
 if __name__ == "__main__":

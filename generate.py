@@ -670,6 +670,12 @@ def show_biweekly_monday_section():
     bkk = datetime.now(timezone(timedelta(hours=7)))
     return bkk.weekday() == 0 and (bkk.isocalendar().week % 2 == 0)
 
+
+def open_early_week(value=None):
+    """Keep weekly research expanded on Monday and Tuesday in Bangkok."""
+    current = value or datetime.now(timezone.utc).astimezone(BKK_TZ)
+    return current.weekday() in (0, 1)
+
 def pick(lst, offset=0):
     return lst[(day_of_year() + offset) % len(lst)]
 
@@ -2537,6 +2543,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .card{{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}}
     .card-title{{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}}
     .card-title::after{{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}}
+    .signal-accordion{{padding:0;overflow:hidden}}
+    .signal-accordion>summary{{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;cursor:pointer}}
+    .signal-accordion>summary::-webkit-details-marker{{display:none}}
+    .signal-accordion>summary .card-title{{margin:0;flex:1}}
+    .signal-accordion>summary::after{{content:'⌄';color:var(--gold);font-size:1rem;transition:transform .15s}}
+    .signal-accordion[open]>summary::after{{transform:rotate(180deg)}}
+    .signal-accordion-body{{padding:0 20px 20px}}
+    .accordion-score{{font-size:.68rem;color:var(--dim);white-space:nowrap}}
+    .accordion-score b{{color:var(--text);font-size:.78rem}}
+    .trading-accordion>summary{{padding-top:15px;padding-bottom:15px}}
 
     .trip-countdown{{padding:14px 16px}}
     .trip-row{{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}}
@@ -3094,17 +3110,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- PORTFOLIO removed — now at /portfolio -->
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
-  <div class="card" id="weekly-asymmetric-ideas">
-    <div class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetric Ideas</div>
-    <div class="weekly-meta">Updated {weekly_as_of} · {weekly_note}</div>
-    <div class="weekly-grid">{weekly_rows}</div>
-  </div>
+  <details class="card signal-accordion" id="weekly-asymmetric-ideas" {'open' if open_early_week(now) else ''}>
+    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetric Ideas</span><span class="accordion-score">Updated {weekly_as_of}</span></summary>
+    <div class="signal-accordion-body"><div class="weekly-meta">{weekly_note}</div><div class="weekly-grid">{weekly_rows}</div></div>
+  </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <div class="card">
-    <div class="card-title">🔍 Catalysts — Top 5 Holdings</div>
-    {cats_html}
-  </div>
+  <details class="card signal-accordion" id="catalysts-card" {'open' if open_early_week(now) else ''}>
+    <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="accordion-score">{len(fresh_cats)} fresh</span></summary>
+    <div class="signal-accordion-body">{cats_html}</div>
+  </details>
 
   <!-- FED SIGNAL — intentionally lower because it updates less often -->
 {fed_html}
@@ -3998,12 +4013,15 @@ def main():
             pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
             pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
             bets_html += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"][:40]}...</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
-        poly_html = f'''<div class="card" style="margin-bottom:1rem">
-  <div class="card-title">🎰 Polymarket — Barron147</div>
-  <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-  {bets_html}
-  <div style="display:flex;justify-content:space-between;padding:8px 0 0;border-top:1px solid var(--border);font-size:.8rem;font-weight:700"><span>Wins vs Losses</span><span>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</span></div>
-</div>'''
+        settled = pm_wr_summary['wins'] + pm_wr_summary['losses']
+        win_rate = (pm_wr_summary['wins'] / settled * 100) if settled else 0
+        poly_html = f'''<details class="card signal-accordion trading-accordion" id="polymarket-card">
+  <summary><span class="card-title">🎰 Polymarket — Barron147</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
+  <div class="signal-accordion-body">
+    <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
+    {bets_html}
+  </div>
+</details>'''
 
     # ── Alpaca (Novaire's bot) ──
     print("  📈 Fetching Alpaca positions...")
@@ -4030,12 +4048,13 @@ def main():
         total_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
         all_rows = _alp_rows(all_positions, "All")
 
-        alpaca_html = f"""<div class="card">
-    <div class="card-title">🦙 Livermore Darvis</div>
-    <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · {total_trades} trades</div>
-    {all_rows}
-    <div style="display:flex;justify-content:space-between;padding:3px 0 0;font-size:.8rem;font-weight:700"><span>Inception ROI <span style="font-size:.65rem;color:var(--mute);font-weight:500">· Since Feb 24, 2026</span></span><span style="color:{total_color}">{total_str}</span></div>
-  </div>"""
+        alpaca_html = f"""<details class="card signal-accordion trading-accordion" id="darvas-card">
+    <summary><span class="card-title">🦙 Livermore Darvis</span><span class="accordion-score">Inception ROI <b style="color:{total_color}">{total_str}</b></span></summary>
+    <div class="signal-accordion-body">
+      <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · {total_trades} trades · Since Feb 24, 2026</div>
+      {all_rows}
+    </div>
+  </details>"""
 
     # ── Crypto Strategy / Kraken Margin ──
     # Removed May 29, 2026: Novaire is not holding crypto for now, so the
