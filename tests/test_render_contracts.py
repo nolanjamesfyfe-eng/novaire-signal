@@ -33,6 +33,10 @@ class RenderContractTests(unittest.TestCase):
             self.assertIn(f'data-market-price="{symbol}"', self.html)
             self.assertIn(f'data-market-change="{symbol}"', self.html)
 
+    def test_wall_street_daily_change_percentages_are_emphasized(self):
+        self.assertIn(".market-future em{font-size:.7332rem", self.html)
+        self.assertIn(".market-future small u{font-size:.6396rem", self.html)
+
     def test_ton_poll_uses_active_gram_pair(self):
         self.assertIn('"TON":"GRAMUSDT"', self.html)
         self.assertNotIn('"TON":"TONUSDT"', self.html)
@@ -97,12 +101,28 @@ class RenderContractTests(unittest.TestCase):
         self.assertFalse(generate.open_early_week(datetime(2026, 8, 23)))
 
     def test_clutter_cards_are_accordions_with_compact_summaries(self):
-        self.assertIn('class="card signal-accordion" id="weekly-asymmetric-ideas" open', self.html)
-        self.assertIn('class="card signal-accordion" id="catalysts-card" open', self.html)
+        self.assertIn('class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="2026-08-10" open', self.html)
+        self.assertIn('class="card signal-accordion" id="catalysts-card" data-edition="2026-W34" open', self.html)
         self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
         self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
+        self.assertIn("Updated on Aug 17", self.html)
+        self.assertIn("nv_weekly_ideas_seen", self.html)
+        self.assertIn("nv_catalysts_seen", self.html)
+        self.assertIn('details.addEventListener(\'toggle\'', self.html)
         self.assertIn('44W / 34L', self.html)
         self.assertIn('Inception ROI', self.html)
+
+    def test_latest_instagram_uses_verified_post_cache(self):
+        item = generate.load_latest_instagram()
+        self.assertEqual(item["url"], "https://www.instagram.com/j.novaire/reel/DbfU2zHiXyU/")
+        self.assertIn("Sexuality Maxxing", item["title"])
+        self.assertEqual(item["published_at"], "2026-08-01")
+
+    def test_economies_open_once_then_remember_viewed_edition(self):
+        self.assertIn('id="economies-card"', self.html)
+        self.assertIn('data-edition="2026-W34"', self.html)
+        self.assertIn("nv_economies_seen", self.html)
+        self.assertIn("IntersectionObserver", self.html)
 
 
 if __name__ == "__main__":

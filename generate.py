@@ -134,6 +134,7 @@ SECOND_RENAISSANCE = {
 }
 
 INSTAGRAM_PROFILE_URL = "https://www.instagram.com/j.novaire/"
+INSTAGRAM_LATEST_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "instagram_latest.json")
 SECOND_RENAISSANCE_FEED = (
     "https://www.youtube.com/feeds/videos.xml?"
     "channel_id=UC0-4nIbz6OCjUa08WO0-vFw"
@@ -147,8 +148,37 @@ def _safe_int(value):
         return None
 
 
+def load_latest_instagram():
+    """Load the last publicly verified Instagram post; never invent a URL."""
+    fallback = {
+        "title": "Latest Instagram post",
+        "url": INSTAGRAM_PROFILE_URL,
+        "published_at": None,
+        "views": None,
+        "likes": None,
+        "followers": None,
+    }
+    try:
+        with open(INSTAGRAM_LATEST_PATH, "r", encoding="utf-8") as handle:
+            cached = json.load(handle)
+        if not cached.get("url", "").startswith("https://www.instagram.com/"):
+            raise ValueError("unverified Instagram URL")
+        return {**fallback, **cached}
+    except Exception as exc:
+        print(f"  ⚠ Latest Instagram cache unavailable: {exc}")
+        return fallback
+
+
 def fetch_latest_novaire_content():
     """Fetch current content and metrics without inventing unavailable data."""
+    instagram = load_latest_instagram()
+    instagram.update({
+        "title": os.getenv("IG_LATEST_TITLE", instagram["title"]),
+        "url": os.getenv("IG_LATEST_URL", instagram["url"]),
+        "views": _safe_int(os.getenv("IG_LATEST_VIEWS")) if os.getenv("IG_LATEST_VIEWS") else instagram.get("views"),
+        "likes": _safe_int(os.getenv("IG_LATEST_LIKES")) if os.getenv("IG_LATEST_LIKES") else instagram.get("likes"),
+        "followers": _safe_int(os.getenv("IG_FOLLOWERS")) if os.getenv("IG_FOLLOWERS") else instagram.get("followers"),
+    })
     result = {
         "clip": None,
         "episode": {
@@ -157,13 +187,7 @@ def fetch_latest_novaire_content():
             "views": None,
             "likes": None,
         },
-        "instagram": {
-            "title": os.getenv("IG_LATEST_TITLE", "Latest Instagram post"),
-            "url": os.getenv("IG_LATEST_URL", INSTAGRAM_PROFILE_URL),
-            "views": _safe_int(os.getenv("IG_LATEST_VIEWS")),
-            "likes": _safe_int(os.getenv("IG_LATEST_LIKES")),
-            "followers": _safe_int(os.getenv("IG_FOLLOWERS")),
-        },
+        "instagram": instagram,
     }
     try:
         response = requests.get(
@@ -2065,6 +2089,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
     gen_time  = now.strftime("%H:%M ICT")
+    week_start = now - timedelta(days=now.weekday())
+    weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
+    weekly_updated_label = week_start.strftime("%b %-d")
 
     # ── Next market holidays ──
     from datetime import date as _date
@@ -2332,6 +2359,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     eco_html = ""
     if show_biweekly_monday_section():
         eco_data = economies or fetch_top5_economies()
+        iso = now.isocalendar()
+        eco_edition = f"{iso.year}-W{iso.week:02d}"
         eco_rows = ""
         for e in eco_data:
             yoy = e.get('gdp_yoy', '—')
@@ -2346,9 +2375,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <td class="eco-infl" style="text-align:right;color:var(--dim)">{e['inflation']}</td>
       </tr>"""
         eco_html = f"""
-  <div class="card">
-    <div class="card-title">🌍 Top 5 Economies · Biweekly Monday</div>
-    <table class="eco-table">
+  <details class="card signal-accordion" id="economies-card" data-edition="{eco_edition}" open>
+    <summary><span class="card-title">🌍 Top 5 Economies · Biweekly Monday</span><span class="accordion-score">New edition</span></summary>
+    <div class="signal-accordion-body"><table class="eco-table">
       <thead>
         <tr>
           <th colspan="2">Country</th>
@@ -2361,7 +2390,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <tbody>{eco_rows}</tbody>
     </table>
     <div style="font-size:.58rem;color:var(--mute);margin-top:8px;text-align:right">IMF 2024 nom. · GDP YoY: Q4 2025 · Shows every two weeks on Monday</div>
-  </div>"""
+    </div>
+  </details>"""
 
     # ── Thailand expat news HTML ──
     bkk_html = ""
@@ -2808,7 +2838,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-future{{display:grid;grid-template-columns:1fr auto;gap:0 7px;align-items:baseline;padding-left:10px;border-left:1px solid var(--border);min-width:0}}
     .market-future span{{grid-column:1/-1;font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
     .market-future b{{font-family:var(--serif);font-size:1.032rem;color:var(--text);font-weight:500;white-space:nowrap}}
-    .market-future em{{font-size:.611rem;font-style:normal;text-align:right;white-space:nowrap}}
+    .market-future em{{font-size:.7332rem;font-style:normal;text-align:right;white-space:nowrap}}
     .market-future small{{
       grid-column:1/-1;
       display:grid;
@@ -2822,7 +2852,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
     .market-future small i{{font-style:normal;text-transform:uppercase;letter-spacing:.06em}}
     .market-future small strong{{font-size:.492rem;font-weight:500;color:var(--dim)}}
-    .market-future small u{{font-size:.533rem;text-decoration:none;text-align:right}}
+    .market-future small u{{font-size:.6396rem;text-decoration:none;text-align:right}}
     .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
@@ -3110,14 +3140,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- PORTFOLIO removed — now at /portfolio -->
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
-  <details class="card signal-accordion" id="weekly-asymmetric-ideas" {'open' if open_early_week(now) else ''}>
+  <details class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="{weekly_as_of}" {'open' if open_early_week(now) else ''}>
     <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetric Ideas</span><span class="accordion-score">Updated {weekly_as_of}</span></summary>
     <div class="signal-accordion-body"><div class="weekly-meta">{weekly_note}</div><div class="weekly-grid">{weekly_rows}</div></div>
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="accordion-score">{len(fresh_cats)} fresh</span></summary>
+  <details class="card signal-accordion" id="catalysts-card" data-edition="{weekly_edition}" {'open' if open_early_week(now) else ''}>
+    <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
     <div class="signal-accordion-body">{cats_html}</div>
   </details>
 
@@ -3195,6 +3225,48 @@ const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const MEDITATIONS = {MEDITATIONS_JS};
 const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
+
+(function rememberWeeklyAccordions() {{
+  [
+    ['weekly-asymmetric-ideas', 'nv_weekly_ideas_seen'],
+    ['catalysts-card', 'nv_catalysts_seen']
+  ].forEach(function(config) {{
+    const details = document.getElementById(config[0]);
+    if (!details) return;
+    const edition = details.dataset.edition;
+    try {{
+      if (localStorage.getItem(config[1]) === edition) details.removeAttribute('open');
+      details.addEventListener('toggle', function() {{
+        if (!details.open) localStorage.setItem(config[1], edition);
+      }});
+    }} catch (e) {{}}
+  }});
+}})();
+
+(function rememberEconomiesEdition() {{
+  const card = document.getElementById('economies-card');
+  if (!card) return;
+  const storageKey = 'nv_economies_seen';
+  const edition = card.dataset.edition;
+  try {{
+    if (localStorage.getItem(storageKey) === edition) {{
+      card.removeAttribute('open');
+      const score = card.querySelector('.accordion-score');
+      if (score) score.textContent = 'Viewed';
+      return;
+    }}
+    const observer = new IntersectionObserver(function(entries) {{
+      if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.45)) return;
+      window.setTimeout(function() {{
+        const rect = card.getBoundingClientRect();
+        const visible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (visible) localStorage.setItem(storageKey, edition);
+      }}, 1500);
+      observer.disconnect();
+    }}, {{threshold:[0.45]}});
+    observer.observe(card);
+  }} catch (e) {{}}
+}})();
 
 function getQuoteForToday(storageKey, quotes) {{
   const today = new Date().toDateString();
