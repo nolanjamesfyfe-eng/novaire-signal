@@ -10,7 +10,7 @@ module.exports=async function handler(req,res){
  let body='';for await(const chunk of req)body+=chunk;
  let data={};try{data=JSON.parse(body||'{}')}catch{return json(res,400,{error:'Invalid request'})}
  const expected=process.env.NOS_ACCESS_PIN||'',provided=String(data.pin||'');
- if(!/^\d{4}$/.test(provided)||!expected||!safeEqual(provided,expected)){
+ if(!/^\d{5}$/.test(provided)||!expected||!safeEqual(provided,expected)){
   record.count++;if(record.count>=5){record.until=now+15*60*1000;record.count=0}attempts.set(ip,record);
   return json(res,401,{error:record.until?'Too many attempts. Locked for 15 minutes.':'Incorrect PIN.'});
  }
