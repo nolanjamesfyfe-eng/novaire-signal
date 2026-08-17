@@ -2976,6 +2976,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .footer-logo span{{color:var(--gold);font-style:italic}}
     .footer-tagline{{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}}
     .footer-sub{{font-size:.58rem;color:var(--mute);margin-top:6px}}
+    .footer-powered{{font-size:.62rem;color:var(--dim);margin-top:14px;letter-spacing:.05em}}
+    .footer-powered a{{color:var(--gold);text-decoration:none;opacity:.82;transition:opacity .15s}}
+    .footer-powered a:hover,.footer-powered a:focus-visible{{opacity:1;text-decoration:underline;text-underline-offset:3px}}
     .eco-links{{display:flex;justify-content:center;gap:20px;margin-top:12px;flex-wrap:wrap}}
     .eco-link{{font-size:.7rem;color:var(--gold);text-decoration:none;opacity:.7;transition:opacity .15s;letter-spacing:.06em}}
     .eco-link:hover{{opacity:1}}
@@ -3301,6 +3304,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
       <a href="https://evolution-fund.vercel.app" class="eco-link">Evolution Fund</a>
     </div>
+    <div class="footer-powered">Powered by <a href="https://novairecito.com" aria-label="Open Novairecito OS">Novairecito OS</a></div>
     <div class="footer-sub">Live data · Updated every 2 hours · 24/7</div>
   </div>
 
