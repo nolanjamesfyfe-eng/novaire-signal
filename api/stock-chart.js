@@ -1,4 +1,7 @@
 const ALLOWED = /^[A-Z0-9.^=-]{1,16}$/;
+// MOLY.TO has fewer than 39 completed trading weeks after its listing change.
+// Its US OTC line is the same company and provides the full nine-month history.
+const HISTORY_ALIASES = { 'MOLY.TO': 'GRLRF' };
 
 function finite(value) {
   const number = Number(value);
@@ -64,10 +67,12 @@ export default async function handler(req, res) {
   const symbol = String(req.query?.symbol || '').trim().toUpperCase();
   if (!ALLOWED.test(symbol)) return res.status(400).json({ error: 'Invalid symbol' });
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1y&interval=1d&events=div%2Csplits`;
+    const sourceSymbol = HISTORY_ALIASES[symbol] || symbol;
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sourceSymbol)}?range=1y&interval=1d&events=div%2Csplits`;
     const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 NovaireSignal/1.0' } });
     if (!response.ok) throw new Error(`Market data HTTP ${response.status}`);
     const data = aggregateCompletedWeeks(await response.json(), symbol);
+    if (sourceSymbol !== symbol) data.historySource = sourceSymbol;
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
     return res.status(200).json(data);
   } catch (error) {
