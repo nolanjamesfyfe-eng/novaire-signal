@@ -28,6 +28,12 @@ class RenderContractTests(unittest.TestCase):
         self.assertLess(catalysts, fed)
         self.assertLess(fed, trading_books)
 
+    def test_fed_signal_collapses_to_rate_and_latest_sentiment(self):
+        self.assertIn('id="fed-signal-card"', self.html)
+        self.assertIn('class="fed-summary-rate"', self.html)
+        self.assertIn('class="fed-summary-sentiment"', self.html)
+        self.assertIn('Hold 55%', self.html)
+
     def test_requested_cash_indices_are_present(self):
         for symbol in ("^GSPC", "^IXIC", "^DJI"):
             self.assertIn(f'data-market-price="{symbol}"', self.html)
@@ -72,7 +78,14 @@ class RenderContractTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, self.html)
         self.assertIn("data.isSet", self.html)
-        self.assertIn("moves.every", self.html)
+        self.assertIn("novaire-keystone-action-index-", self.html)
+        self.assertIn("novaire-keystone-streak", self.html)
+        self.assertIn("calculateKeystoneStreak", self.html)
+        self.assertIn("day complete':' days complete", self.html)
+        self.assertIn("Next action generated", self.html)
+        self.assertNotIn("state==='incomplete'?\"Didn't complete\":'Completed'", self.html)
+        self.assertIn(">Ricies</button>", self.html)
+        self.assertNotIn("moves.map((move,index)", self.html)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts — Top 5 Holdings"
@@ -117,6 +130,35 @@ class RenderContractTests(unittest.TestCase):
         self.assertEqual(item["url"], "https://www.instagram.com/j.novaire/reel/DbfU2zHiXyU/")
         self.assertIn("Sexuality Maxxing", item["title"])
         self.assertEqual(item["published_at"], "2026-08-01")
+
+    def test_weather_and_world_tour_collapse_to_viewed_for_same_day(self):
+        for card_id, score_id, storage_key in (
+            ("weather-card", "weather-viewed", "nv_weather_viewed"),
+            ("world-tour-card", "world-tour-viewed", "nv_world_tour_viewed"),
+            ("quotes-daily", "quotes-viewed", "nv_quotes_viewed"),
+        ):
+            self.assertIn(f'id="{card_id}"', self.html)
+            self.assertIn(f'id="{score_id}"', self.html)
+            self.assertIn(storage_key, self.html)
+        self.assertIn("rememberDailySignalCard", self.html)
+        self.assertIn("score.textContent = 'Viewed'", self.html)
+
+    def test_daily_meditation_reopens_each_new_day_and_remembers_same_day_collapse(self):
+        self.assertIn('id="meditation-daily" class="meditation" open', self.html)
+        self.assertNotIn('A short Stoic reset for today', self.html)
+        self.assertNotIn('carry one sentence into the day', self.html)
+        self.assertIn('class="meditation-collapse"', self.html)
+        self.assertIn("nv_meditation_collapsed_date", self.html)
+        self.assertIn("localDateKey", self.html)
+        self.assertIn("meditation.open = collapsedDate !== today", self.html)
+        self.assertIn('id="meditation-viewed"', self.html)
+        self.assertIn("meditationViewed.textContent = 'Viewed'", self.html)
+
+    def test_thailand_news_collapses_to_viewed_for_same_daily_edition(self):
+        self.assertIn('id="thailand-news-card"', self.html)
+        self.assertIn('id="thailand-news-viewed"', self.html)
+        self.assertIn("nv_thailand_news_viewed", self.html)
+        self.assertIn("thailandScore.textContent = 'Viewed'", self.html)
 
     def test_economies_open_once_then_remember_viewed_edition(self):
         self.assertIn('id="economies-card"', self.html)

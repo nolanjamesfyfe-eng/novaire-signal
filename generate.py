@@ -6,6 +6,8 @@ Generates index.html with premium dark + gold aesthetic + live data
 
 import requests
 import json
+import re
+import hashlib
 import math
 import os
 import sys
@@ -169,14 +171,68 @@ def load_latest_instagram():
         return fallback
 
 
+def fetch_live_instagram_metrics(item):
+    """Fetch public Reel plays, likes and comments from Instagram's current GraphQL endpoints."""
+    match = re.search(r"/(?:p|reel|reels)/([A-Za-z0-9_-]+)", item.get("url", ""))
+    if not match:
+        return item
+    shortcode = match.group(1)
+    try:
+        session = requests.Session()
+        session.headers.update({
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/138 Safari/537.36",
+            "X-IG-App-ID": "936619743392459",
+        })
+        session.get("https://www.instagram.com/", timeout=20).raise_for_status()
+        csrf = session.cookies.get("csrftoken", "")
+        headers = {"X-CSRFToken": csrf, "Referer": item["url"]}
+        variables = {
+            "shortcode": shortcode,
+            "__relay_internal__pv__PolarisAIGMMediaWebLabelEnabledrelayprovider": False,
+        }
+        response = session.post(
+            "https://www.instagram.com/graphql/query",
+            data={"doc_id": "27128499623469141", "variables": json.dumps(variables, separators=(",", ":"))},
+            headers=headers, timeout=20,
+        )
+        response.raise_for_status()
+        items = (((response.json().get("data") or {}).get("xdt_api__v1__media__shortcode__web_info") or {}).get("items") or [])
+        if not items:
+            return item
+        media = items[0]
+        current = {**item, "likes": _safe_int(media.get("like_count")), "comments": _safe_int(media.get("comment_count"))}
+        current["views"] = _safe_int(media.get("play_count") or media.get("view_count"))
+        if current["views"] is None and (media.get("user") or {}).get("pk"):
+            clips_vars = {"data": {"include_feed_video": True, "page_size": 12, "target_user_id": str(media["user"]["pk"])}}
+            clips = session.post(
+                "https://www.instagram.com/graphql/query",
+                data={"doc_id": "27234427476213202", "variables": json.dumps(clips_vars, separators=(",", ":"))},
+                headers=headers, timeout=20,
+            )
+            clips.raise_for_status()
+            edges = (((clips.json().get("data") or {}).get("xdt_api__v1__clips__user__connection_v2") or {}).get("edges") or [])
+            for edge in edges:
+                candidate = (edge.get("node") or {}).get("media") or {}
+                if candidate.get("code") == shortcode:
+                    current["views"] = _safe_int(candidate.get("play_count") or candidate.get("view_count"))
+                    current["likes"] = _safe_int(candidate.get("like_count")) or current["likes"]
+                    current["comments"] = _safe_int(candidate.get("comment_count")) or current["comments"]
+                    break
+        return current
+    except Exception as exc:
+        print(f"  ⚠ Live Instagram metrics unavailable; using verified cache: {exc}")
+        return item
+
+
 def fetch_latest_novaire_content():
     """Fetch current content and metrics without inventing unavailable data."""
-    instagram = load_latest_instagram()
+    instagram = fetch_live_instagram_metrics(load_latest_instagram())
     instagram.update({
         "title": os.getenv("IG_LATEST_TITLE", instagram["title"]),
         "url": os.getenv("IG_LATEST_URL", instagram["url"]),
         "views": _safe_int(os.getenv("IG_LATEST_VIEWS")) if os.getenv("IG_LATEST_VIEWS") else instagram.get("views"),
         "likes": _safe_int(os.getenv("IG_LATEST_LIKES")) if os.getenv("IG_LATEST_LIKES") else instagram.get("likes"),
+        "comments": _safe_int(os.getenv("IG_LATEST_COMMENTS")) if os.getenv("IG_LATEST_COMMENTS") else instagram.get("comments"),
         "followers": _safe_int(os.getenv("IG_FOLLOWERS")) if os.getenv("IG_FOLLOWERS") else instagram.get("followers"),
     })
     result = {
@@ -2089,6 +2145,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
     gen_time  = now.strftime("%H:%M ICT")
+    daily_edition = now.strftime("%Y-%m-%d")
     week_start = now - timedelta(days=now.weekday())
     weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
     weekly_updated_label = week_start.strftime("%b %-d")
@@ -2191,6 +2248,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     # If ALL 5 have no news → one collapsed line. Otherwise show per-ticker lines.
     fresh_cats  = [(t, catalysts.get(t)) for t in top5 if catalysts.get(t) and catalysts.get(t, {}).get("fresh")]
     no_news_tks = [t for t in top5 if not (catalysts.get(t) and catalysts.get(t, {}).get("fresh"))]
+    catalyst_ids = [hashlib.sha256(f"{ticker}|{cat.get('date','')}|{cat.get('source','')}|{cat.get('title','')}".encode()).hexdigest()[:16] for ticker, cat in fresh_cats]
+    catalyst_fingerprint = hashlib.sha256("|".join(catalyst_ids).encode()).hexdigest()[:16]
+    catalyst_ids_attr = escape(json.dumps(catalyst_ids, separators=(',', ':')), quote=True)
 
     cats_html = ""
     for ticker, cat in fresh_cats:
@@ -2345,16 +2405,20 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>"""
     fed_html = f"""
-  <div class="card fed-card">
-    <div class="fed-compact">
+  <details class="card fed-card signal-accordion" id="fed-signal-card">
+    <summary>
       <div class="fed-title">🏛️ Fed Signal</div>
+      <span class="fed-summary-rate">{fed['fed_funds_rate']}</span>
+      <span class="fed-summary-sentiment">Hold {fed['hold_pct']}%</span>
+    </summary>
+    <div class="signal-accordion-body fed-compact">
       <div class="fed-stats">
         <div class="fed-stat"><span>Rate</span><b class="fed-rate">{fed['fed_funds_rate']}</b></div>
         <div class="fed-stat fed-fomc"><span>Next FOMC</span><b>{fed['next_decision']}</b><em>{days_label}</em></div>
         <div class="fed-stat fed-prob"><span>CME FedWatch</span><b><i>Hold {fed['hold_pct']}%</i><i>Cut {fed['cut_25bps_pct']}%</i></b></div>
       </div>
     </div>
-  </div>"""
+  </details>"""
     # ── Top 5 Economies HTML: show only every two weeks on Monday ──
     eco_html = ""
     if show_biweekly_monday_section():
@@ -2477,15 +2541,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     def social_item(kicker, item, action, extra_metric=""):
         views = item.get("views")
         likes = item.get("likes")
+        comments = item.get("comments")
         is_top = likes is not None and likes == top_likes and len(measurable) > 1
         top_badge = '<span class="metric-winner">Top engagement</span>' if is_top else ""
         visible_metrics = []
         if extra_metric:
             visible_metrics.append(extra_metric)
-        visible_metrics.extend([
-            f'<span><b>{compact_count(views)}</b> views</span>',
-            f'<span><b>{compact_count(likes)}</b> likes</span>',
-        ])
+        if views is not None:
+            visible_metrics.append(f'<span><b>{compact_count(views)}</b> views</span>')
+        if likes is not None:
+            visible_metrics.append(f'<span><b>{compact_count(likes)}</b> likes</span>')
+        if comments is not None:
+            visible_metrics.append(f'<span><b>{compact_count(comments)}</b> comments</span>')
         return f'''<details class="latest-novaire-item">
           <summary>
             <span class="latest-novaire-copy">
@@ -2525,7 +2592,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="latest-novaire-detail latest-novaire-ink-detail">
-          <span>Latest essay</span>
+          <span>Latest essay · <b id="ink-unique-views">—</b> unique readers</span>
           <a href="https://novaireink.com/#when-you-dont-write" target="_blank" rel="noopener">Read essay →</a>
         </div>
       </details>
@@ -2582,6 +2649,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-accordion-body{{padding:0 20px 20px}}
     .accordion-score{{font-size:.68rem;color:var(--dim);white-space:nowrap}}
     .accordion-score b{{color:var(--text);font-size:.78rem}}
+    .catalyst-unread{{font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ffd06b;border:1px solid rgba(255,208,107,.42);border-radius:999px;padding:4px 8px;white-space:nowrap}}
+    #catalysts-card:not([open]).has-unread .catalyst-unread{{animation:catalyst-mail 1.35s ease-in-out infinite;box-shadow:0 0 14px rgba(255,208,107,.28)}}
+    @keyframes catalyst-mail{{0%,100%{{opacity:.62;transform:scale(.98)}}50%{{opacity:1;transform:scale(1.04)}}}}
+    @media(prefers-reduced-motion:reduce){{#catalysts-card:not([open]).has-unread .catalyst-unread{{animation:none}}}}
     .trading-accordion>summary{{padding-top:15px;padding-bottom:15px}}
 
     .trip-countdown{{padding:14px 16px}}
@@ -2589,6 +2660,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .trip-days{{font-family:var(--serif);font-size:1.35rem;color:var(--text);line-height:1.2}}
     .trip-sub{{font-size:.65rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}}
     .countdown-strip{{padding:13px 16px}}
+    .daily-signal-card{{padding:0;overflow:hidden}}
+    .daily-signal-card>summary{{min-height:62px;box-sizing:border-box;padding:18px 20px}}
+    .daily-signal-card:not([open])>summary{{min-height:62px}}
+    #world-tour-card{{padding:0}}
+    #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
     .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
     .countdown-item{{text-align:center;padding:4px 10px;border-right:1px solid var(--border)}}
     .countdown-item:last-child{{border-right:none}}
@@ -2602,11 +2678,19 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
     .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
     .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
-    .meditation{{margin-bottom:14px;padding:12px 14px;border:1px solid rgba(181,150,98,.22);border-radius:14px;background:linear-gradient(135deg,rgba(181,150,98,.08),rgba(255,255,255,.02))}}
+    .meditation{{margin-bottom:14px;padding:0;border:1px solid rgba(181,150,98,.22);border-radius:14px;background:linear-gradient(135deg,rgba(181,150,98,.08),rgba(255,255,255,.02));overflow:hidden}}
+    .meditation>summary{{list-style:none;cursor:pointer;padding:12px 14px;position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}}
+    .meditation-summary-copy{{min-width:0}}
+    .meditation>summary::-webkit-details-marker{{display:none}}
     .meditation-title{{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-bottom:3px}}
-    .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}}
+    .meditation-meta{{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}}
+    .meditation-brief{{font-size:.72rem;line-height:1.48;color:var(--dim)}}
+    .meditation-body{{padding:0 14px 13px}}
     .meditation-excerpt{{font-size:.86rem;line-height:1.62;color:var(--muted)}}
-    #quotes-card{{padding:14px 16px}}
+    .meditation-collapse{{display:block;margin:11px 0 0 auto;border:0;background:transparent;color:var(--gold);font:600 .5rem var(--sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}}
+    #quotes-card{{padding:0}}
+    #quotes-card>.signal-accordion-body{{padding:0 16px 16px}}
+    #quotes-card .meditation{{margin-top:0}}
     .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
     .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans)}}
     .updog-approve{{background:rgba(181,150,98,.16);color:var(--gold)}}
@@ -2626,6 +2710,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .keystone-done{{flex:0 0 50px;align-self:stretch;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:0;border-left:1px solid rgba(181,150,98,.38);border-radius:0;padding:0;font-size:.42rem;letter-spacing:.08em;background:rgba(181,150,98,.12);min-height:0}}
     .keystone-done:hover{{transform:none;filter:brightness(1.15)}}
     .updog-action-card{{margin-top:-6px}}
+    .action-step-heading{{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}}
+    .action-step-heading .card-title{{margin-bottom:0}}
+    .keystone-streak{{font-size:.58rem;font-weight:650;color:var(--gold);border:1px solid var(--gold-mid);background:var(--gold-dim);border-radius:999px;padding:5px 9px;white-space:nowrap}}
     .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
     .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}
     .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9;line-height:1.2}}
@@ -2660,7 +2747,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .star-sign-main{{font-family:var(--serif);font-size:.95rem;color:var(--gold);display:flex;align-items:center;gap:6px;margin-bottom:4px}}
     .star-sign-main::before{{content:attr(data-symbol);font-size:.85rem}}
     .star-sign-range{{display:inline;font-size:.65rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-left:4px;vertical-align:middle}}
-    .star-sign-desc{{font-size:.78rem;color:var(--dim);line-height:1.55;margin-top:6px}}
 
     .headline{{padding:8px 0;border-bottom:1px solid var(--border)}}
     .headline:last-child{{border-bottom:none}}
@@ -2857,6 +2943,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
+    #fed-signal-card>summary .fed-title{{margin:0;flex:1}}
+    .fed-summary-rate{{font-size:.72rem;font-weight:650;color:var(--text);white-space:nowrap}}
+    .fed-summary-sentiment{{font-size:.62rem;font-weight:600;color:var(--green);white-space:nowrap}}
     .fed-stats{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch}}
     .fed-stat{{min-width:0;padding:0 24px;border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center}}
     .fed-stat:first-child{{border-left:0}}
@@ -2939,8 +3028,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- PERSONAL COUNTDOWNS -->
-  <div class="card countdown-strip">
-    <div class="countdown-strip-grid">
+  <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" open>
+    <summary><span class="card-title">🧭 Flâneur Life</span><span class="accordion-score" id="world-tour-viewed">Today</span></summary>
+    <div class="signal-accordion-body"><div class="countdown-strip-grid">
       <div class="countdown-item">
         <div class="countdown-label">Tbilisi 🍷</div>
         <div class="countdown-days">{trip_countdown_text}</div>
@@ -2961,32 +3051,39 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="countdown-days">{trans_siberian_countdown_text}</div>
         <div class="countdown-date">Sep 2027</div>
       </div>
-    </div>
-  </div>
+    </div></div>
+  </details>
 
   <!-- DAILY MEDITATION + QUOTES (client-side localStorage dedup) -->
-  <div class="card" id="quotes-card">
-    <div class="card-title">📜 Daily Meditation</div>
-    <div id="meditation-daily" class="meditation">
-      <div class="meditation-title" id="med-title"></div>
-      <div class="meditation-meta" id="med-meta"></div>
-      <div class="meditation-excerpt" id="med-excerpt"></div>
+  <details class="card signal-accordion daily-signal-card" id="quotes-card" data-edition="{daily_edition}" open>
+    <summary><span class="card-title">📜 Daily Meditation</span><span class="accordion-score" id="meditation-card-viewed">Today</span></summary>
+    <div class="signal-accordion-body">
+    <details id="meditation-daily" class="meditation" open>
+      <summary>
+        <div class="meditation-summary-copy"><div class="meditation-title" id="med-title"></div><div class="meditation-meta" id="med-meta"></div></div>
+        <span class="accordion-score" id="meditation-viewed">Today</span>
+      </summary>
+      <div class="meditation-body">
+        <div class="meditation-excerpt" id="med-excerpt"></div>
+        <button class="meditation-collapse" id="med-collapse" type="button">Collapse meditation ↑</button>
+      </div>
+    </details>
+    <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="{daily_edition}" open>
+      <summary><span class="card-title">Quotes</span><span class="accordion-score" id="quotes-viewed">Today</span></summary>
+      <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
+        <div class="quote-type" id="qt-type"></div>
+        <div class="quote-text" id="qt-text"></div>
+        <div class="quote-author" id="qt-auth"></div>
+      </div></div>
+    </details>
     </div>
-    <div class="card-title">Quotes</div>
-    <div id="quote-daily" class="quote">
-      <div class="quote-type" id="qt-type"></div>
-      <div class="quote-text" id="qt-text"></div>
-      <div class="quote-author" id="qt-auth"></div>
-    </div>
-  </div>
+  </details>
 
   <!-- WEATHER + THAILAND NEWS -->
-  <div class="card">
-    <div class="card-title">🌤 Weather</div>
-    <div class="weather-grid">
-      {weather_html}
-    </div>
-  </div>
+  <details class="card signal-accordion daily-signal-card" id="weather-card" data-edition="{daily_edition}" open>
+    <summary><span class="card-title">🌤 Weather</span><span class="accordion-score" id="weather-viewed">Today</span></summary>
+    <div class="signal-accordion-body"><div class="weather-grid">{weather_html}</div></div>
+  </details>
 
   <!-- WALL STREET TIME + LIVE MARKET PULSE -->
 {market_html}
@@ -3146,8 +3243,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" data-edition="{weekly_edition}" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
+  <details class="card signal-accordion" id="catalysts-card" data-edition="{weekly_edition}" data-fingerprint="{catalyst_fingerprint}" data-items="{catalyst_ids_attr}" {'open' if open_early_week(now) else ''}>
+    <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
     <div class="signal-accordion-body">{cats_html}</div>
   </details>
 
@@ -3160,23 +3257,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 {alpaca_html}
 
 
-  <!-- CURRENTLY READING — intentionally quiet, personal reference only -->
-  <div class="card">
-    <div class="card-title">📖 Currently Reading</div>
-    <div class="currently-mini">
-      <div class="currently-title">The Book of Elon</div>
-      <div class="currently-author">Eric Jorgenson</div>
-    </div>
-  </div>
-
   <!-- THAILAND NEWS -->
-  <div class="card">
-    <div class="card-title">🇹🇭 Thailand</div>
-    <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
-    <div class="thai-news-compact" style="margin-top:10px">
-      {bkk_html}
+  <details class="card signal-accordion" id="thailand-news-card" data-edition="{daily_edition}" open>
+    <summary><span class="card-title">🇹🇭 Thailand</span><span class="accordion-score" id="thailand-news-viewed">Today</span></summary>
+    <div class="signal-accordion-body">
+      <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
+      <div class="thai-news-compact" style="margin-top:10px">{bkk_html}</div>
     </div>
-  </div>
+  </details>
 
   <!-- Daily Motivation merged into single Quote of the Day -->
 
@@ -3199,7 +3287,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="card-title">⚔️ Daily Action Steps</div>
+    <div class="action-step-heading"><div class="card-title">⚔️ Daily Action Step</div><span class="keystone-streak" id="novaire-keystone-streak">🔥 0 days</span></div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -3228,8 +3316,7 @@ const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
 (function rememberWeeklyAccordions() {{
   [
-    ['weekly-asymmetric-ideas', 'nv_weekly_ideas_seen'],
-    ['catalysts-card', 'nv_catalysts_seen']
+    ['weekly-asymmetric-ideas', 'nv_weekly_ideas_seen']
   ].forEach(function(config) {{
     const details = document.getElementById(config[0]);
     if (!details) return;
@@ -3294,11 +3381,81 @@ function getQuoteForToday(storageKey, quotes) {{
   }}
 }}
 
+function rememberDailySignalCard(cardId, scoreId, storageKey) {{
+  const card = document.getElementById(cardId);
+  const score = document.getElementById(scoreId);
+  if (!card || !score) return;
+  const edition = card.dataset.edition;
+  try {{
+    if (localStorage.getItem(storageKey) === edition) {{ card.removeAttribute('open'); score.textContent = 'Viewed'; }}
+    card.addEventListener('toggle', function() {{
+      if (!card.open) {{ localStorage.setItem(storageKey, edition); score.textContent = 'Viewed'; }}
+      else if (localStorage.getItem(storageKey) !== edition) score.textContent = 'Today';
+    }});
+  }} catch (e) {{}}
+}}
+rememberDailySignalCard('weather-card', 'weather-viewed', 'nv_weather_viewed');
+rememberDailySignalCard('world-tour-card','world-tour-viewed','nv_world_tour_viewed');
+rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
+
+(function rememberThailandNews() {{
+  const card = document.getElementById('thailand-news-card');
+  const thailandScore = document.getElementById('thailand-news-viewed');
+  if (!card || !thailandScore) return;
+  const edition = card.dataset.edition;
+  const key = 'nv_thailand_news_viewed';
+  try {{
+    if (localStorage.getItem(key) === edition) {{ card.removeAttribute('open'); thailandScore.textContent = 'Viewed'; }}
+    card.addEventListener('toggle', function() {{
+      if (!card.open) {{ localStorage.setItem(key, edition); thailandScore.textContent = 'Viewed'; }}
+      else if (localStorage.getItem(key) !== edition) thailandScore.textContent = 'Today';
+    }});
+  }} catch (e) {{}}
+}})();
+
 (function renderDailyMeditation() {{
   const m = getQuoteForToday("meditation", MEDITATIONS);
+  const meditation = document.getElementById('meditation-daily');
+  const meditationViewed = document.getElementById('meditation-viewed');
+  const meditationCard = document.getElementById('quotes-card');
+  const meditationCardViewed = document.getElementById('meditation-card-viewed');
+  const quotesDaily = document.getElementById('quotes-daily');
+  const localDateKey = function() {{
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }};
+  const today = localDateKey();
+  function syncMeditationShell() {{
+    let meditationDone = false;
+    let quoteDone = false;
+    try {{
+      meditationDone = localStorage.getItem('nv_meditation_collapsed_date') === today;
+      quoteDone = localStorage.getItem('nv_quotes_viewed') === meditationCard.dataset.edition;
+    }} catch (e) {{}}
+    const consumed = meditationDone && quoteDone;
+    if (consumed) meditationCard.removeAttribute('open');
+    if (meditationCardViewed) meditationCardViewed.textContent = consumed ? 'Viewed' : 'Today';
+  }}
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
   document.getElementById('med-excerpt').textContent = m.excerpt;
+  try {{
+    const collapsedDate = localStorage.getItem('nv_meditation_collapsed_date');
+    meditation.open = collapsedDate !== today;
+    if (collapsedDate === today && meditationViewed) meditationViewed.textContent = 'Viewed';
+ syncMeditationShell();
+    meditation.addEventListener('toggle', function() {{
+      if (!meditation.open) {{ localStorage.setItem('nv_meditation_collapsed_date', today); if (meditationViewed) meditationViewed.textContent = 'Viewed'; }}
+      else if (localStorage.getItem('nv_meditation_collapsed_date') === today) {{ localStorage.removeItem('nv_meditation_collapsed_date'); if (meditationViewed) meditationViewed.textContent = 'Today'; }}
+      syncMeditationShell();
+    }});
+  }} catch (e) {{ meditation.open = true; }}
+  quotesDaily?.addEventListener('toggle', syncMeditationShell);
+  syncMeditationShell();
+  document.getElementById('med-collapse').addEventListener('click', function() {{
+    meditation.open = false;
+    meditation.scrollIntoView({{behavior:'smooth',block:'nearest'}});
+  }});
 }})();
 
 
@@ -3375,70 +3532,38 @@ function escapeActionHtml(value) {{
 
 function renderActionSteps() {{
   const grid = document.getElementById('action-steps-grid');
+  const streakEl = document.getElementById('novaire-keystone-streak');
   if (!grid) return;
   const today = new Date().toDateString();
-
-  const data = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{"text":"","date":"","history":[]}}');
-  const task = data.date === today && data.isSet ? String(data.text || '').trim() : '';
-  if (!task) {{
-    grid.innerHTML = '<div class="action-step-empty">Write your Keystone above and click Set. The three moves will appear here.</div>';
-    return;
+  const dayBefore = value => {{ const d = new Date(value); d.setDate(d.getDate()-1); return d.toDateString(); }};
+  function calculateKeystoneStreak(doneDates) {{ const done=new Set(doneDates||[]); let cursor=done.has(today)?today:dayBefore(today),streak=0; while(done.has(cursor)){{streak++;cursor=dayBefore(cursor)}} return streak; }}
+  const data=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{"text":"","date":"","history":[]}}'); data.doneDates=Array.isArray(data.doneDates)?data.doneDates:[];
+  const streak=calculateKeystoneStreak(data.doneDates); if(streakEl)streakEl.textContent='🔥 '+streak+(streak===1?' day complete':' days complete');
+  const task=data.date===today&&data.isSet?String(data.text||'').trim():'';
+  if(!task){{grid.innerHTML='<div class="action-step-empty">Set today’s Keystone above. One useful move will appear here.</div>';return}}
+  const lower=task.toLowerCase();
+  function actionFor(){{
+    if(/tweet|x\b|post|thread/.test(lower))return {{title:'Draft the actual tweet',action:'Create one 240-character draft with a sharper hook. Open X only when the sentence has teeth.'}};
+    if(/podcast|clip|record|episode|hook/.test(lower))return {{title:'Record the rough version',action:'Write the thesis, two hooks and three bullets—then record before polishing.'}};
+    if(/relationship|date|romantic|family|friend|conversation/.test(lower))return {{title:'Create one honest conversation',action:'Send one question or message that turns this Keystone into a real conversation today.'}};
+    if(/retreat|deposit|villa|mastermind|cohort/.test(lower))return {{title:'Move one man closer to yes',action:'Send one direct nudge or create one proof asset that reduces buyer uncertainty.'}};
+    if(/energy|sleep|battery|health|workout|training|food/.test(lower))return {{title:'Make the body obey the plan',action:'Log the metric, do the recovery or training move, and remove one energy leak.'}};
+    if(/signal|dashboard|novaire|widget|prompt/.test(lower))return {{title:'Sharpen the cockpit',action:'Cut one stale element or rewrite one prompt so the next decision becomes obvious.'}};
+    if(/fund|portfolio|stock|uranium|ai|trade|market/.test(lower))return {{title:'Turn thesis into threshold',action:'Write one if-this-then-that rule that converts the thesis into an actual decision.'}};
+    return {{title:'Start the smallest visible move',action:'Set ten minutes and create one artifact: draft, message, note, commit, screenshot or decision.'}};
   }}
-  const lower = task.toLowerCase();
-  function actionFor(text) {{
-    if (/tweet|x\b|post|thread/.test(lower)) return {{title:'Draft the actual tweet', ask:'Write one post from this keystone, not a vague theme.', action:'Create one 240-character draft, one sharper hook, and open X only after the sentence has teeth.'}};
-    if (/podcast|clip|record|episode|hook/.test(lower)) return {{title:'Turn it into a recording prompt', ask:'What is the durable idea beneath this topic?', action:'Write the thesis, two hooks, and three bullets; record the rough version before polishing the theatre.'}};
-    if (/relationship|date|romantic|family|friend|trickster|conversation/.test(lower)) return {{title:'Create one honest conversation', ask:'Who should this make you speak to more truthfully?', action:'Write one question or message that turns the keystone into a real conversation today.'}};
-    if (/retreat|deposit|villa|mastermind|cohort/.test(lower)) return {{title:'Move one man closer to yes', ask:'Who is the next concrete retreat prospect or proof asset?', action:'Send one direct nudge, update the deposit/status count, or create one proof asset that reduces buyer uncertainty.'}};
-    if (/energy|sleep|battery|health|workout|training|food/.test(lower)) return {{title:'Make the body obey the plan', ask:'What is the smallest physical proof this keystone moved?', action:'Log the metric, do the recovery/training action, and write the one energy leak to remove tomorrow.'}};
-    if (/signal|dashboard|novaire|updog|widget|prompt/.test(lower)) return {{title:'Sharpen the cockpit', ask:'What should this change in the dashboard or prompt loop?', action:'Cut one stale element or rewrite one prompt so the next decision is easier to make.'}};
-    if (/fund|portfolio|stock|uranium|ai|energy|trade|market/.test(lower)) return {{title:'Turn thesis into threshold', ask:'What price, catalyst, or evidence would change action?', action:'Write the if-this-then-that rule so the idea becomes an investment decision, not market cosplay.'}};
-    return {{title:'Start the smallest visible move', ask:'What proof can exist in 10 minutes?', action:'Set a 10-minute timer and create one artifact: draft, message, note, commit, screenshot, or decision.'}};
-  }}
-  const step = actionFor(task);
-  const feedbackKey = 'novaire-keystone-feedback-' + today;
-  const feedback = JSON.parse(localStorage.getItem(feedbackKey) || '{{}}');
-  const moves = [
-    {{title:step.title, action:step.action}},
-    {{title:'Remove the bottleneck', action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'}},
-    {{title:'Create visible proof', action:'Produce one artifact that proves progress on “' + task + '”: a sent message, draft, screenshot, commit, booking, or decision.'}}
-  ];
-  const safeTask = escapeActionHtml(task);
-  window.recordKeystoneMove = function(index, status) {{
-    feedback[index] = {{status:status, task:task, move:moves[index].action, date:today}};
-    localStorage.setItem(feedbackKey, JSON.stringify(feedback));
-    const learning = JSON.parse(localStorage.getItem('novaire-keystone-learning') || '[]');
-    learning.push(feedback[index]);
-    localStorage.setItem('novaire-keystone-learning', JSON.stringify(learning.slice(-80)));
-    const allComplete = moves.every((_, moveIndex) => feedback[moveIndex]?.status === 'completed');
-    if (allComplete) {{
-      const keystone = JSON.parse(localStorage.getItem('novaire-keystone-priority') || '{{}}');
-      keystone.doneDates = Array.isArray(keystone.doneDates) ? keystone.doneDates : [];
-      if (!keystone.doneDates.includes(today)) keystone.doneDates.push(today);
-      keystone.lastDone = today;
-      localStorage.setItem('novaire-keystone-priority', JSON.stringify(keystone));
-      if (typeof refreshKeystoneStatus === 'function') refreshKeystoneStatus();
-    }}
+  const moves=[actionFor(),{{title:'Remove the bottleneck',action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'}},{{title:'Create visible proof',action:'Produce one artifact that proves progress on “'+task+'”.'}}];
+  const indexKey='novaire-keystone-action-index-'+today; let actionIndex=Math.max(0,parseInt(localStorage.getItem(indexKey)||'0',10))%moves.length;
+  const feedbackKey='novaire-keystone-feedback-'+today,feedback=JSON.parse(localStorage.getItem(feedbackKey)||'{{}}'),move=moves[actionIndex],state=feedback[actionIndex]?.status||'';
+  window.recordKeystoneMove=function(status){{
+    if(status==='ricies'){{feedback[actionIndex]={{status:'ricies',task:task,move:move.action,date:today}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));localStorage.setItem(indexKey,String((actionIndex+1)%moves.length));sessionStorage.setItem('novaire-keystone-action-message','Next action generated');renderActionSteps();return}}
+    feedback[actionIndex]={{status:status,task:task,move:move.action,date:today}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));
+    const learning=JSON.parse(localStorage.getItem('novaire-keystone-learning')||'[]');learning.push(feedback[actionIndex]);localStorage.setItem('novaire-keystone-learning',JSON.stringify(learning.slice(-80)));
+    if(status==='completed'){{const keystone=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{}}');keystone.doneDates=Array.isArray(keystone.doneDates)?keystone.doneDates:[];if(!keystone.doneDates.includes(today))keystone.doneDates.push(today);keystone.lastDone=today;localStorage.setItem('novaire-keystone-priority',JSON.stringify(keystone))}}
     renderActionSteps();
   }};
-  grid.innerHTML = moves.map((move,index) => {{
-    const state = feedback[index]?.status || '';
-    const cls = state === 'completed' ? ' done' : (state === 'ricies' ? ' ricies' : '');
-    return `<div class="action-step${{cls}}">
-      <div class="action-step-num">${{index + 1}}</div>
-      <div class="action-step-copy">
-        <div class="action-step-kicker">From today’s priority</div>
-        <div class="action-step-title">${{escapeActionHtml(move.title)}}</div>
-        <div class="action-step-ask">${{escapeActionHtml(move.action)}}</div>
-        <div class="action-step-actions">
-          <button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove(${{index}},'completed')">Completed</button>
-          <button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${{index}},'incomplete')">Didn't complete</button>
-          <button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${{index}},'ricies')">Ricies</button>
-          ${{state ? '<span class="updog-status" style="display:inline">' + (state === 'ricies' ? 'Bad suggestion logged' : state) + '</span>' : ''}}
-        </div>
-      </div>
-    </div>`;
-  }}).join('');
+  const message=sessionStorage.getItem('novaire-keystone-action-message')||'';sessionStorage.removeItem('novaire-keystone-action-message');const cls=state==='completed'?' done':'';
+  grid.innerHTML=`<div class="action-step${{cls}}"><div class="action-step-num">1</div><div class="action-step-copy"><div class="action-step-kicker">From today’s priority</div><div class="action-step-title">${{escapeActionHtml(move.title)}}</div><div class="action-step-ask">${{escapeActionHtml(move.action)}}</div><div class="action-step-actions"><button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove('completed')" ${{state==='completed'?'disabled':''}}>Completed</button><button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove('incomplete')">Didn't complete</button><button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove('ricies')">Ricies</button>${{message?'<span class="updog-status" style="display:inline">'+message+'</span>':''}}</div></div></div>`;
 }}
 renderActionSteps();
 
@@ -3448,6 +3573,15 @@ renderActionSteps();
   document.getElementById('qt-type').textContent = isInv ? 'Investing' : 'Psychology';
   document.getElementById('qt-text').textContent = '\u201c' + q.text + '\u201d';
   document.getElementById('qt-auth').textContent = '\u2014 ' + q.author;
+}})();
+
+(function loadInkReaders() {{
+  fetch('https://novaireink.com/api/article-views?slug=when-you-dont-write')
+    .then(function(r) {{ return r.ok ? r.json() : Promise.reject(); }})
+    .then(function(data) {{
+      const el = document.getElementById('ink-unique-views');
+      if (el) el.textContent = Number(data.uniqueViews || 0).toLocaleString();
+    }}).catch(function() {{}});
 }})();
 
 // Recommendations are now server-side rendered (live trending data)

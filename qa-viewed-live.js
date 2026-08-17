@@ -1,0 +1,11 @@
+const {chromium}=require('/root/clawd/novaire-operations-system/node_modules/playwright');
+(async()=>{const b=await chromium.launch({headless:true,executablePath:'/snap/bin/chromium',args:['--no-sandbox']});const p=await b.newPage({viewport:{width:390,height:844}});await p.goto('https://novairesignal.com?qa=viewed-'+Date.now(),{waitUntil:'networkidle'});
+const med=p.locator('#meditation-daily'),thai=p.locator('#thailand-news-card');
+if((await med.getAttribute('open'))===null||(await thai.getAttribute('open'))===null)throw Error('daily sections did not open fresh');
+await p.locator('#med-collapse').click();await thai.locator('summary').click();
+if(await med.getAttribute('open')!==null||await thai.getAttribute('open')!==null)throw Error('daily sections did not collapse');
+if(await p.locator('#meditation-viewed').innerText()!=='Viewed'||await p.locator('#thailand-news-viewed').innerText()!=='Viewed')throw Error('Viewed labels missing');
+await p.reload({waitUntil:'networkidle'});
+if(await med.getAttribute('open')!==null||await thai.getAttribute('open')!==null)throw Error('consumed sections reopened same day');
+if(await p.locator('#meditation-viewed').innerText()!=='Viewed'||await p.locator('#thailand-news-viewed').innerText()!=='Viewed')throw Error('Viewed labels not restored');
+console.log('PASS live: Meditation and Thailand collapse to Viewed and stay consumed for the day');await b.close()})().catch(e=>{console.error(e);process.exit(1)});
