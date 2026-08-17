@@ -318,7 +318,7 @@ def _account_chart_svg(key: str, account: dict[str, Any]) -> str:
     values = [float(point[value_key]) for point in series]
     low, high = min(values), max(values)
     spread = high - low or 1.0
-    width, height, xpad, ypad = 640.0, 190.0, 18.0, 24.0
+    width, height, xpad, ypad = 640.0, 145.0, 18.0, 18.0
     points = []
     for index, value in enumerate(values):
         x = xpad + (width - 2 * xpad) * (index / max(len(values) - 1, 1))
@@ -335,10 +335,10 @@ def _account_chart_svg(key: str, account: dict[str, Any]) -> str:
         f'<div class="tracker-chart tracker-chart--{key}"><div class="tracker-chart-head">'
         f'<div><strong>{escape(account["label"])}</strong><span>{start_date} → {end_date}</span></div>'
         f'<b class="{"positive" if change >= 0 else "negative"}">{change_sign}{abs(change):.1f}%</b></div>'
-        f'<svg viewBox="0 0 640 190" role="img" aria-label="{escape(account["label"])} account value history">'
+        f'<svg viewBox="0 0 640 145" role="img" aria-label="{escape(account["label"])} account value history">'
         '<defs><linearGradient id="tracker-grid" x1="0" x2="1"><stop stop-color="#ffd21f" stop-opacity=".16"/><stop offset="1" stop-color="#42d8ff" stop-opacity=".08"/></linearGradient></defs>'
-        '<rect x="0" y="0" width="640" height="190" rx="14" fill="url(#tracker-grid)"/>'
-        '<path d="M18 48 H622 M18 95 H622 M18 142 H622" stroke="rgba(255,255,255,.06)" stroke-width="1"/>'
+        '<rect x="0" y="0" width="640" height="145" rx="14" fill="url(#tracker-grid)"/>'
+        '<path d="M18 36 H622 M18 72 H622 M18 108 H622" stroke="rgba(255,255,255,.06)" stroke-width="1"/>'
         f'<polyline points="{" ".join(points)}" fill="none" stroke="{color}" stroke-width="3" vector-effect="non-scaling-stroke"/>'
         f'<circle cx="{points[-1].split(",")[0]}" cy="{points[-1].split(",")[1]}" r="5" fill="{color}"/>'
         '</svg>'
