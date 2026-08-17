@@ -3551,8 +3551,12 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     else data.history.push({{date: today, text: text}});
     data.history = data.history.slice(-30);
     localStorage.removeItem('novaire-keystone-feedback-' + today);
+    localStorage.setItem('novaire-keystone-action-index-' + today, '0');
     updateStatus();
     if (typeof renderActionSteps === 'function') renderActionSteps();
+  }});
+  input.addEventListener('keydown', function(event) {{
+    if (event.key === 'Enter') {{ event.preventDefault(); button.click(); }}
   }});
   updateStatus();
 }})();
@@ -3574,17 +3578,20 @@ function renderActionSteps() {{
   const task=data.date===today&&data.isSet?String(data.text||'').trim():'';
   if(!task){{grid.innerHTML='<div class="action-step-empty">Set today’s Keystone above. One useful move will appear here.</div>';return}}
   const lower=task.toLowerCase();
+  const priorityLabel='“'+task+'”';
   function actionFor(){{
-    if(/tweet|x\b|post|thread/.test(lower))return {{title:'Draft the actual tweet',action:'Create one 240-character draft with a sharper hook. Open X only when the sentence has teeth.'}};
-    if(/podcast|clip|record|episode|hook/.test(lower))return {{title:'Record the rough version',action:'Write the thesis, two hooks and three bullets—then record before polishing.'}};
-    if(/relationship|date|romantic|family|friend|conversation/.test(lower))return {{title:'Create one honest conversation',action:'Send one question or message that turns this Keystone into a real conversation today.'}};
-    if(/retreat|deposit|villa|mastermind|cohort/.test(lower))return {{title:'Move one man closer to yes',action:'Send one direct nudge or create one proof asset that reduces buyer uncertainty.'}};
-    if(/energy|sleep|battery|health|workout|training|food/.test(lower))return {{title:'Make the body obey the plan',action:'Log the metric, do the recovery or training move, and remove one energy leak.'}};
-    if(/signal|dashboard|novaire|widget|prompt/.test(lower))return {{title:'Sharpen the cockpit',action:'Cut one stale element or rewrite one prompt so the next decision becomes obvious.'}};
-    if(/fund|portfolio|stock|uranium|ai|trade|market/.test(lower))return {{title:'Turn thesis into threshold',action:'Write one if-this-then-that rule that converts the thesis into an actual decision.'}};
-    return {{title:'Start the smallest visible move',action:'Set ten minutes and create one artifact: draft, message, note, commit, screenshot or decision.'}};
+    if(/tweet|x\b|post|thread/.test(lower))return {{title:'Draft the actual post',action:'For '+priorityLabel+', write one post-ready draft with a sharp hook and one clear point.'}};
+    if(/podcast|clip|record|episode|hook/.test(lower))return {{title:'Record the rough version',action:'For '+priorityLabel+', write the thesis, two hooks and three bullets, then record one rough take.'}};
+    if(/relationship|date|romantic|family|friend|conversation/.test(lower))return {{title:'Start the real conversation',action:'Advance '+priorityLabel+' by sending one honest question or message to the person involved.'}};
+    if(/retreat|deposit|villa|mastermind|cohort/.test(lower))return {{title:'Move one buyer closer to yes',action:'Advance '+priorityLabel+' with one direct nudge or proof asset that removes buyer uncertainty.'}};
+    if(/energy|sleep|battery|health|workout|training|food/.test(lower))return {{title:'Do the body move now',action:'Advance '+priorityLabel+' by logging the key metric and completing one concrete recovery or training action.'}};
+    if(/signal|dashboard|novaire|widget|prompt|build|deploy|code|site|app/.test(lower))return {{title:'Ship one verified improvement',action:'For '+priorityLabel+', make the smallest useful change, test it, and capture the live proof.'}};
+    if(/fund|portfolio|stock|uranium|ai|trade|market/.test(lower))return {{title:'Turn the thesis into a rule',action:'For '+priorityLabel+', write one price, risk or evidence threshold that forces a clear decision.'}};
+    if(/email|reply|message|call|contact|send/.test(lower))return {{title:'Send the consequential message',action:'Advance '+priorityLabel+' by drafting and sending the single communication that unlocks the next move.'}};
+    if(/book|read|study|research|learn|review/.test(lower))return {{title:'Extract one decision-grade insight',action:'For '+priorityLabel+', complete one focused 25-minute pass and record the useful conclusion plus source.'}};
+    return {{title:'Create the first proof',action:'Advance '+priorityLabel+' in one 25-minute block and finish one visible artifact that did not exist before.'}};
   }}
-  const moves=[actionFor(),{{title:'Remove the bottleneck',action:'Name the one point of friction blocking this priority and spend 15 focused minutes removing it.'}},{{title:'Create visible proof',action:'Produce one artifact that proves progress on “'+task+'”.'}}];
+  const moves=[actionFor(),{{title:'Remove its bottleneck',action:'For '+priorityLabel+', name the single point of friction and spend 15 focused minutes removing it.'}},{{title:'Create visible proof',action:'Finish one artifact that proves measurable progress on '+priorityLabel+'.'}}];
   const indexKey='novaire-keystone-action-index-'+today; let actionIndex=Math.max(0,parseInt(localStorage.getItem(indexKey)||'0',10))%moves.length;
   const feedbackKey='novaire-keystone-feedback-'+today,feedback=JSON.parse(localStorage.getItem(feedbackKey)||'{{}}'),move=moves[actionIndex],state=feedback[actionIndex]?.status||'';
   window.recordKeystoneMove=function(status){{
