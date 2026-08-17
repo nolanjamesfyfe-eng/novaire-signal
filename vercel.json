@@ -17,6 +17,9 @@
     },
     "api/commodities.js": {
       "maxDuration": 10
+    },
+    "api/zerohedge.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

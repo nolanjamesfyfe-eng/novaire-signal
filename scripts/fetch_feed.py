@@ -3,8 +3,8 @@
 Novaire Signal — Signal Feed fetcher.
 Runs in GitHub Actions every 4 hours. Outputs feed.json to repo root.
 
-Feed spec (exactly 4 tweets per run):
-  Top 3 posts by engagement across the scanner accounts.
+Feed spec (up to 12 tweets per run):
+  Four consecutive pages of 3 posts, ranked by engagement across the scanner accounts.
   The Economist is intentionally excluded: too broad for this compact section.
 
 Final output is sorted by engagement score, then recency.
@@ -137,6 +137,7 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
 # ── Selection helpers ─────────────────────────────────────────────────────────
 
 ENGAGEMENT_MAX_AGE_MS = 24 * 60 * 60 * 1000  # 24h — engagement slots
+SIGNAL_POOL_SIZE = 12
 
 def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n: int) -> list:
     """
@@ -168,7 +169,7 @@ def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n:
 def main():
     print(f'Signal Feed — fetching {len(ALL_ACCOUNTS)} accounts...\n')
 
-    # Fetch all timelines, then take the top four by engagement.
+    # Fetch all timelines, then keep four pages of three ranked signals.
     all_data: dict[str, list] = {}
     errors: list[str] = []
 
@@ -181,14 +182,19 @@ def main():
             if i < len(ENGAGEMENT_ACCOUNTS) - 1:
                 time.sleep(0.5)
 
-    print('\n── Selecting top three by engagement (last 24h) ──')
+    print(f'\n── Selecting top {SIGNAL_POOL_SIZE} by engagement (last 24h) ──')
     feed: list[dict] = []
-    top3 = top_engagement([all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS], set(), ENGAGEMENT_MAX_AGE_MS, n=3)
+    top12 = top_engagement(
+        [all_data.get(u, []) for u in ENGAGEMENT_ACCOUNTS],
+        set(),
+        ENGAGEMENT_MAX_AGE_MS,
+        n=SIGNAL_POOL_SIZE,
+    )
 
-    if not top3:
+    if not top12:
         print('  ⚠️  No engagement tweets in last 24h — keeping existing feed.json')
 
-    for i, t in enumerate(top3):
+    for i, t in enumerate(top12):
         score = t['likes'] + t['retweets']
         t['slot'] = 'engagement'
         t['slot_order'] = i + 1
@@ -219,7 +225,7 @@ def main():
         'accountsWithPosts': len({t['handle'] for t in feed}),
         'fetchedAt':       datetime.now(timezone.utc).isoformat(),
         'windowHours':     24,
-        'curation':        'top3_engagement_no_economist',
+        'curation':        'top12_engagement_no_economist',
         'errors':          errors,
         'posts':           feed,
     }

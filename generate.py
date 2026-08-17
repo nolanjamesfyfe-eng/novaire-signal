@@ -2893,9 +2893,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .compact-feed-card{{padding:14px 16px}}
     .compact-feed-card .card-title{{margin-bottom:8px}}
-    .feed-controls{{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}}
+    .feed-controls{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}}
     .feed-refresh{{font-size:.55rem;letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:3px 7px;border-radius:var(--r);font-family:var(--sans)}}
     .feed-refresh:hover{{border-color:var(--gold);color:var(--gold)}}
+    .feed-refresh[disabled]{{opacity:.45;cursor:wait}}
     .feed-status{{font-size:.58rem;color:var(--dim);font-style:italic}}
     .feed-item{{display:grid;grid-template-columns:minmax(84px,auto) minmax(0,1fr) auto;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);min-height:24px}}
     .feed-item:last-child{{border-bottom:none}}
@@ -2956,7 +2957,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i:last-child{{color:var(--blue)}}
     @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-futures{{width:100%}}.market-future:first-child{{border-left:none;padding-left:0}}.market-calendar{{white-space:normal;text-align:left;line-height:1.45}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
-    @media(max-width:400px){{.market-futures{{grid-template-columns:1fr;gap:6px}}.market-future{{grid-template-columns:1fr auto auto;border-left:none;border-top:1px solid var(--border);padding:6px 0 0}}.market-future span{{grid-column:auto}}.market-calendar{{margin-top:3px}}.wall-time{{font-size:1.176rem}}}}
+    @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:14px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{grid-template-columns:1fr auto auto;column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px}}.market-future span{{grid-column:auto}}.market-future small{{margin-top:5px}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
@@ -2995,9 +2996,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(3,1fr)}}
       .crypto-grid{{grid-template-columns:repeat(4,1fr)}}
-      .fx-row{{gap:4px}}
+      .fx-row{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}}
+      .fx-chip{{padding:9px 4px}}
       .fx-chip .fx-ccy{{font-size:.5rem}}
-      .fx-chip .fx-rate{{font-size:.7rem}}
+      .fx-chip .fx-rate{{font-size:.7rem;margin-top:3px}}
       .allocation-section{{grid-template-columns:1fr;gap:14px;padding:18px}}
       .pie-chart{{width:min(100%,250px)}}
       .allocation-kicker{{text-align:center}}
@@ -3112,9 +3114,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
 <!-- ZEROHEDGE -->
-  <div class="card">
+  <div class="card compact-feed-card">
     <div class="card-title">📰 ZeroHedge — Top Headlines</div>
-    {zh_html}
+    <div class="feed-controls">
+      <div class="feed-status" id="news-status">Live pool · latest three</div>
+      <button class="feed-refresh" id="news-refresh" onclick="loadFreshNews(true)" title="Show the next three ranked X signals and the next three live ZeroHedge articles">↻ Refresh both</button>
+    </div>
+    <div id="zerohedge-feed">{zh_html}</div>
   </div>
 
   <!-- SIGNAL FEED -->
@@ -3122,9 +3128,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">📡 Signal Feed — Top 3 by Engagement</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
-      <button class="feed-refresh" onclick="loadFeed(true)" title="Feed updates every 4 hours · filtered to last 4h · ranked by likes + retweets">↻ Refresh</button>
     </div>
-    <div class="feed-filter" id="feed-filter"></div>
     <div id="signal-feed">
       <div class="feed-loading">Fetching signals</div>
     </div>
@@ -3132,10 +3136,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <script>
   (function() {{
-    let allPosts = [];
-    let activeFilter = null;
-    const CACHE_KEY = 'novaire_feed_v5';  // compact one-line feed
-    const CACHE_TTL = 4 * 60 * 1000;    // 4min cache — matches refresh cadence
+    let signalPool = [];
+    let zhPool = {json.dumps(zh_news)};
+    let signalCursor = 0;
+    let zhCursor = 0;
 
     function timeAgo(iso) {{
       const d = new Date(iso);
@@ -3156,9 +3160,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }}
 
-    // Enforce display order: top four by engagement. The Economist intentionally excluded upstream.
     function sortBySlot(posts) {{
       return [...posts].sort((a, b) => (a.slot_order || 99) - (b.slot_order || 99));
+    }}
+
+    function nextBatch(pool, cursor, size) {{
+      if (!pool.length) return {{ items: [], cursor: 0 }};
+      const items = [];
+      for (let i = 0; i < Math.min(size, pool.length); i++) items.push(pool[(cursor + i) % pool.length]);
+      return {{ items, cursor: (cursor + items.length) % pool.length }};
     }}
 
     function renderFeed(posts) {{
@@ -3176,61 +3186,60 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       `).join('');
     }}
 
-    function renderFilter() {{
-      const bar = document.getElementById('feed-filter');
-      const handles = [...new Set(allPosts.map(p => p.handle))].sort();
-      bar.innerHTML = `<button class="feed-tag${{!activeFilter?' active':''}}" onclick="window._feedFilter(null)">All</button>` +
-        handles.map(h => `<button class="feed-tag${{activeFilter===h?' active':''}}" onclick="window._feedFilter('${{escHtml(h)}}')">${{escHtml('@'+h)}}</button>`).join('');
+    function renderZeroHedge(items) {{
+      const container = document.getElementById('zerohedge-feed');
+      container.innerHTML = items.map((item, index) => `
+        <div class="headline">
+          <span class="headline-num">${{index + 1}}</span>
+          <a href="${{escHtml(item.url)}}" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank" rel="noopener">${{escHtml(item.title)}}</a>
+        </div>
+      `).join('');
     }}
 
-    window._feedFilter = function(handle) {{
-      activeFilter = handle;
-      renderFilter();
-      renderFeed(handle ? allPosts.filter(p => p.handle === handle) : allPosts);
-    }};
-
-    async function loadFeed(force) {{
+    async function loadFreshNews(force) {{
       const status = document.getElementById('feed-status');
-      const now = Date.now();
-      if (!force) {{
-        try {{
-          const cached = localStorage.getItem(CACHE_KEY);
-          if (cached) {{
-            const {{ ts, data }} = JSON.parse(cached);
-            if (now - ts < CACHE_TTL && data.length > 0) {{
-              allPosts = sortBySlot(data);
-              renderFilter();
-              renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);
-              status.textContent = data.length + ' posts · cached ' + timeAgo(new Date(ts).toISOString());
-              return;
-            }}
-          }}
-        }} catch(e) {{}}
-      }}
-      status.textContent = 'Fetching signals…';
-      document.getElementById('signal-feed').innerHTML = '<div class="feed-loading">Fetching signals</div>';
+      const newsStatus = document.getElementById('news-status');
+      const button = document.getElementById('news-refresh');
+      button.disabled = true;
+      status.textContent = force ? 'Finding next three signals…' : 'Loading ranked signal pool…';
+      newsStatus.textContent = force ? 'Finding next three articles…' : 'Loading live article pool…';
       try {{
-        const resp = await fetch('/feed.json');
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        const json = await resp.json();
-        if (!json.ok) throw new Error(json.error || 'API error');
-        allPosts = sortBySlot(json.posts);
-        try {{ localStorage.setItem(CACHE_KEY, JSON.stringify({{ ts: now, data: allPosts }})); }} catch(e) {{}}
-        renderFilter();
-        renderFeed(activeFilter ? allPosts.filter(p=>p.handle===activeFilter) : allPosts);
-        const fetchedAt = json.fetchedAt ? new Date(json.fetchedAt) : new Date();
+        const [signalResponse, zhResponse] = await Promise.all([
+          fetch('/feed.json?_=' + Date.now(), {{ cache: 'no-store' }}),
+          fetch('/api/zerohedge?_=' + Date.now(), {{ cache: 'no-store' }})
+        ]);
+        if (!signalResponse.ok) throw new Error('Signal HTTP ' + signalResponse.status);
+        const signalJson = await signalResponse.json();
+        if (!signalJson.ok || !signalJson.posts?.length) throw new Error(signalJson.error || 'No ranked signals');
+        signalPool = sortBySlot(signalJson.posts);
+        if (zhResponse.ok) {{
+          const zhJson = await zhResponse.json();
+          if (zhJson.ok && zhJson.articles?.length) zhPool = zhJson.articles;
+        }}
+
+        const signalBatch = nextBatch(signalPool, signalCursor, 3);
+        const zhBatch = nextBatch(zhPool, zhCursor, 3);
+        signalCursor = signalBatch.cursor;
+        zhCursor = zhBatch.cursor;
+        renderFeed(signalBatch.items);
+        renderZeroHedge(zhBatch.items);
+
+        const fetchedAt = signalJson.fetchedAt ? new Date(signalJson.fetchedAt) : new Date();
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
-        const windowHours = json.windowHours || 24;
-        status.textContent = 'Top 3 by engagement · no Economist · last ' + windowHours + 'h · updated ' + ageStr;
+        status.textContent = '3 of ' + signalPool.length + ' ranked signals · updated ' + ageStr;
+        newsStatus.textContent = '3 of ' + zhPool.length + ' live articles';
       }} catch(err) {{
-        status.textContent = 'Feed unavailable';
-        document.getElementById('signal-feed').innerHTML = '<div class="feed-empty">Could not load feed: ' + err.message + '</div>';
+        status.textContent = 'Refresh failed · tap again';
+        newsStatus.textContent = 'Keeping current headlines';
+      }} finally {{
+        button.disabled = false;
       }}
     }}
+    window.loadFreshNews = loadFreshNews;
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => loadFeed(false))
-      : loadFeed(false);
+      ? document.addEventListener('DOMContentLoaded', () => loadFreshNews(false))
+      : loadFreshNews(false);
   }})();
   </script>
 
