@@ -2674,7 +2674,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .trip-days{{font-family:var(--serif);font-size:1.35rem;color:var(--text);line-height:1.2}}
     .trip-sub{{font-size:.65rem;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}}
     .countdown-strip{{padding:13px 16px}}
-    .daily-signal-card{{padding:0;overflow:hidden}}
+    .card.daily-signal-card{{padding:0;overflow:hidden}}
     .daily-signal-card>summary{{min-height:62px;box-sizing:border-box;padding:18px 20px}}
     .daily-signal-card:not([open]){{height:62px;min-height:62px}}
     .daily-signal-card:not([open])>summary{{height:62px;min-height:62px}}

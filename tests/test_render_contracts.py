@@ -184,6 +184,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("rememberDailySignalCard", self.html)
         self.assertIn("score.textContent = 'Viewed'", self.html)
         self.assertIn(".daily-signal-card:not([open]){height:62px;min-height:62px}", self.html)
+        self.assertIn(".card.daily-signal-card{padding:0;overflow:hidden}", self.html)
         self.assertIn(".daily-signal-card:not([open])>summary{height:62px;min-height:62px}", self.html)
         self.assertIn(".daily-signal-card.is-viewed{height:62px;min-height:62px}", self.html)
         self.assertIn(".daily-signal-card.is-viewed>.signal-accordion-body{display:none}", self.html)
