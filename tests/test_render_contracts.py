@@ -72,6 +72,21 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(heading, self.html)
         self.assertNotIn(heading, self.portfolio_html)
 
+    def test_latest_novaire_is_compact_metric_accordion(self):
+        self.assertEqual(self.html.count('class="latest-novaire-item"'), 4)
+        for label in (
+            "INSTAGRAM · LATEST POST",
+            "YOUTUBE · LATEST CLIP",
+            "YOUTUBE · FULL EPISODE",
+            "READ · NOVAIRE INK",
+        ):
+            self.assertIn(label, self.html)
+        self.assertIn("views</span>", self.html)
+        self.assertIn("likes</span>", self.html)
+        self.assertIn("Top engagement", self.html)
+        self.assertIn("https://www.instagram.com/j.novaire/", self.html)
+        self.assertNotIn('class="latest-novaire-grid"', self.html)
+
 
 if __name__ == "__main__":
     unittest.main()

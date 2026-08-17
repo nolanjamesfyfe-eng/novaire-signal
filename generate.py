@@ -133,6 +133,76 @@ SECOND_RENAISSANCE = {
     "episode_blurb": "DeFleur and Novaire explore hormesis: why controlled stress — from exercise, fasting, sauna, cold exposure, Stoicism, psychedelics, and debate — can make biological, psychological, and civic systems stronger.",
 }
 
+INSTAGRAM_PROFILE_URL = "https://www.instagram.com/j.novaire/"
+SECOND_RENAISSANCE_FEED = (
+    "https://www.youtube.com/feeds/videos.xml?"
+    "channel_id=UC0-4nIbz6OCjUa08WO0-vFw"
+)
+
+
+def _safe_int(value):
+    try:
+        return int(value) if value not in (None, "") else None
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_latest_novaire_content():
+    """Fetch current content and metrics without inventing unavailable data."""
+    result = {
+        "clip": None,
+        "episode": {
+            "title": SECOND_RENAISSANCE["episode_title"],
+            "url": SECOND_RENAISSANCE["episode_url"],
+            "views": None,
+            "likes": None,
+        },
+        "instagram": {
+            "title": os.getenv("IG_LATEST_TITLE", "Latest Instagram post"),
+            "url": os.getenv("IG_LATEST_URL", INSTAGRAM_PROFILE_URL),
+            "views": _safe_int(os.getenv("IG_LATEST_VIEWS")),
+            "likes": _safe_int(os.getenv("IG_LATEST_LIKES")),
+            "followers": _safe_int(os.getenv("IG_FOLLOWERS")),
+        },
+    }
+    try:
+        response = requests.get(
+            SECOND_RENAISSANCE_FEED,
+            headers={"User-Agent": "NovaireSignal/1.0"},
+            timeout=10,
+        )
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "xml")
+        entries = []
+        for entry in soup.find_all("entry"):
+            video_id = entry.find("yt:videoId") or entry.find("videoId")
+            title = entry.find("title")
+            description = entry.find("media:description") or entry.find("description")
+            stats = entry.find("media:statistics") or entry.find("statistics")
+            rating = entry.find("media:starRating") or entry.find("starRating")
+            if not video_id or not title:
+                continue
+            entries.append({
+                "title": title.get_text(strip=True),
+                "url": f"https://www.youtube.com/watch?v={video_id.get_text(strip=True)}",
+                "views": _safe_int(stats.get("views")) if stats else None,
+                "likes": _safe_int(rating.get("count")) if rating else None,
+                "description": description.get_text(" ", strip=True) if description else "",
+            })
+
+        if entries:
+            result["clip"] = next(
+                (item for item in entries if "this clip comes from" in item["description"].lower()),
+                entries[0],
+            )
+            result["episode"] = next(
+                (item for item in entries if item["url"] == SECOND_RENAISSANCE["episode_url"]),
+                result["episode"],
+            )
+    except Exception as exc:
+        print(f"  ⚠ Latest Novaire social feed unavailable: {exc}")
+    return result
+
 # Portfolio basis stats (from spreadsheet)
 PORT_BASIS_CAD = 99_234.14
 PORT_ATH       = 113_522
@@ -2347,21 +2417,82 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="crypto-change" data-crypto-chg="{coin}">{chg_html}</div>
         </div>"""
 
+    latest_content = fetch_latest_novaire_content()
+    clip = latest_content["clip"] or {
+        "title": "Latest Second Renaissance clip",
+        "url": SECOND_RENAISSANCE["channel_url"],
+        "views": None,
+        "likes": None,
+    }
+    episode = latest_content["episode"]
+    instagram = latest_content["instagram"]
+    measurable = [item.get("likes") for item in (instagram, clip, episode) if item.get("likes") is not None]
+    top_likes = max(measurable) if measurable else None
+
+    def compact_count(value):
+        if value is None:
+            return "—"
+        if value >= 1_000_000:
+            return f"{value / 1_000_000:.1f}M"
+        if value >= 1_000:
+            return f"{value / 1_000:.1f}K"
+        return f"{value:,}"
+
+    def social_item(kicker, item, action, extra_metric=""):
+        views = item.get("views")
+        likes = item.get("likes")
+        is_top = likes is not None and likes == top_likes and len(measurable) > 1
+        top_badge = '<span class="metric-winner">Top engagement</span>' if is_top else ""
+        visible_metrics = []
+        if extra_metric:
+            visible_metrics.append(extra_metric)
+        visible_metrics.extend([
+            f'<span><b>{compact_count(views)}</b> views</span>',
+            f'<span><b>{compact_count(likes)}</b> likes</span>',
+        ])
+        return f'''<details class="latest-novaire-item">
+          <summary>
+            <span class="latest-novaire-copy">
+              <span class="latest-novaire-kicker">{kicker}</span>
+              <strong>{escape(item["title"])}</strong>
+            </span>
+            <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="latest-novaire-detail">
+            <div class="latest-novaire-metrics">{"".join(visible_metrics)}{top_badge}</div>
+            <a href="{escape(item["url"], quote=True)}" target="_blank" rel="noopener">{action} →</a>
+          </div>
+        </details>'''
+
+    instagram_followers = (
+        f'<span><b>{compact_count(instagram.get("followers"))}</b> followers</span>'
+        if instagram.get("followers") is not None else ""
+    )
+    latest_social_items = "".join([
+        social_item("INSTAGRAM · LATEST POST", instagram, "Open Instagram", instagram_followers),
+        social_item("YOUTUBE · LATEST CLIP", clip, "Watch clip"),
+        social_item("YOUTUBE · FULL EPISODE", episode, "Play episode"),
+    ])
+
     latest_novaire_html = f"""
   <!-- LATEST FROM NOVAIRE -->
   <div class="card latest-novaire-card">
     <div class="card-title">✦ Latest from Novaire</div>
-    <div class="latest-novaire-grid">
-      <a class="latest-novaire-link" href="{SECOND_RENAISSANCE['episode_url']}" target="_blank" rel="noopener">
-        <span class="latest-novaire-kicker">WATCH · YOUTUBE</span>
-        <strong>{SECOND_RENAISSANCE['episode_title']}</strong>
-        <em>Play latest episode →</em>
-      </a>
-      <a class="latest-novaire-link" href="https://novaireink.com/#when-you-dont-write" target="_blank" rel="noopener">
-        <span class="latest-novaire-kicker">READ · NOVAIRE INK</span>
-        <strong>When You Don't Write, You Are Wrong</strong>
-        <em>Read latest essay →</em>
-      </a>
+    <div class="latest-novaire-stack">
+      {latest_social_items}
+      <details class="latest-novaire-item">
+        <summary>
+          <span class="latest-novaire-copy">
+            <span class="latest-novaire-kicker">READ · NOVAIRE INK</span>
+            <strong>When You Don't Write, You Are Wrong</strong>
+          </span>
+          <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="latest-novaire-detail latest-novaire-ink-detail">
+          <span>Latest essay</span>
+          <a href="https://novaireink.com/#when-you-dont-write" target="_blank" rel="noopener">Read essay →</a>
+        </div>
+      </details>
     </div>
   </div>"""
 
@@ -2603,12 +2734,22 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .podcast-mini em{{font-style:normal;font-size:.64rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}}
     .podcast-mini-copy{{font-size:.72rem;color:var(--dim);line-height:1.45;margin:8px 2px 0}}
     .latest-novaire-card{{padding:15px 16px}}
-    .latest-novaire-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
-    .latest-novaire-link{{display:flex;flex-direction:column;justify-content:center;min-height:76px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,rgba(181,150,98,.055),rgba(255,255,255,.018));text-decoration:none;transition:border-color .15s,transform .15s}}
-    .latest-novaire-link:hover{{border-color:var(--gold);transform:translateY(-1px)}}
-    .latest-novaire-kicker{{font-size:.52rem;color:var(--gold);letter-spacing:.14em;margin-bottom:5px}}
-    .latest-novaire-link strong{{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--text);line-height:1.2}}
-    .latest-novaire-link em{{font-style:normal;font-size:.6rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:7px}}
+    .latest-novaire-stack{{display:grid;gap:7px}}
+    .latest-novaire-item{{border:1px solid var(--border);border-radius:9px;background:linear-gradient(135deg,rgba(181,150,98,.05),rgba(255,255,255,.015));overflow:hidden}}
+    .latest-novaire-item summary{{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px;padding:10px 13px;cursor:pointer;list-style:none}}
+    .latest-novaire-item summary::-webkit-details-marker{{display:none}}
+    .latest-novaire-item[open] summary{{border-bottom:1px solid var(--border)}}
+    .latest-novaire-copy{{display:flex;min-width:0;flex-direction:column}}
+    .latest-novaire-kicker{{font-size:.49rem;color:var(--gold);letter-spacing:.14em;margin-bottom:3px}}
+    .latest-novaire-copy strong{{font-family:var(--serif);font-size:.94rem;font-weight:500;color:var(--text);line-height:1.14;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+    .latest-novaire-chevron{{flex:none;color:var(--gold);font-size:1rem;transition:transform .15s}}
+    .latest-novaire-item[open] .latest-novaire-chevron{{transform:rotate(180deg)}}
+    .latest-novaire-detail{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 13px 11px;font-size:.57rem;color:var(--dim)}}
+    .latest-novaire-detail>a{{flex:none;color:var(--gold);text-decoration:none;letter-spacing:.07em;text-transform:uppercase}}
+    .latest-novaire-metrics{{display:flex;align-items:center;gap:10px;flex-wrap:wrap}}
+    .latest-novaire-metrics b{{color:var(--text);font-weight:600}}
+    .metric-winner{{padding:2px 6px;border:1px solid rgba(42,157,143,.36);border-radius:999px;color:var(--green);text-transform:uppercase;letter-spacing:.08em;font-size:.49rem}}
+    .latest-novaire-ink-detail{{color:var(--dim)}}
 
     .sat-word-box{{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}
@@ -2733,7 +2874,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .totals-row .total-value{{font-size:1.05rem;white-space:nowrap}}
       .weekly-grid{{grid-template-columns:1fr}}
       .weekly-points{{grid-template-columns:1fr}}
-      .latest-novaire-grid{{grid-template-columns:1fr}}
     }}
   </style>
 </head>
