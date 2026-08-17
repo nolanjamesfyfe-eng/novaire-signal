@@ -2678,6 +2678,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .daily-signal-card>summary{{min-height:62px;box-sizing:border-box;padding:18px 20px}}
     .daily-signal-card:not([open]){{height:62px;min-height:62px}}
     .daily-signal-card:not([open])>summary{{height:62px;min-height:62px}}
+    .daily-signal-card.is-viewed{{height:62px;min-height:62px}}
+    .daily-signal-card.is-viewed>summary{{height:62px;min-height:62px}}
+    .daily-signal-card.is-viewed>.signal-accordion-body{{display:none}}
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
     .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
@@ -3416,10 +3419,15 @@ function rememberDailySignalCard(cardId, scoreId, storageKey) {{
   if (!card || !score) return;
   const edition = card.dataset.edition;
   try {{
-    if (localStorage.getItem(storageKey) === edition) {{ card.removeAttribute('open'); score.textContent = 'Viewed'; }}
+    if (localStorage.getItem(storageKey) === edition) {{
+      card.open = false;
+      card.classList.add('is-viewed');
+      score.textContent = 'Viewed';
+    }}
     card.addEventListener('toggle', function() {{
+      card.classList.toggle('is-viewed', !card.open);
       if (!card.open) {{ localStorage.setItem(storageKey, edition); score.textContent = 'Viewed'; }}
-      else if (localStorage.getItem(storageKey) !== edition) score.textContent = 'Today';
+      else {{ card.classList.remove('is-viewed'); if (localStorage.getItem(storageKey) !== edition) score.textContent = 'Today'; }}
     }});
   }} catch (e) {{}}
 }}

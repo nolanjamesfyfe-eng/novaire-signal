@@ -183,6 +183,10 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("score.textContent = 'Viewed'", self.html)
         self.assertIn(".daily-signal-card:not([open]){height:62px;min-height:62px}", self.html)
         self.assertIn(".daily-signal-card:not([open])>summary{height:62px;min-height:62px}", self.html)
+        self.assertIn(".daily-signal-card.is-viewed{height:62px;min-height:62px}", self.html)
+        self.assertIn(".daily-signal-card.is-viewed>.signal-accordion-body{display:none}", self.html)
+        self.assertIn("card.classList.add('is-viewed')", self.html)
+        self.assertIn("card.classList.toggle('is-viewed', !card.open)", self.html)
 
     def test_commodities_are_six_equal_tiles_without_natural_gas(self):
         self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
