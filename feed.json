@@ -2,11 +2,10 @@
   "ok": true,
   "count": 11,
   "accountsWithPosts": 11,
-  "fetchedAt": "2026-08-17T12:00:53.770016+00:00",
+  "fetchedAt": "2026-08-17T12:02:30.497449+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "JohnPolomny",
     "White_Rabbit_OG"
   ],
   "posts": [
