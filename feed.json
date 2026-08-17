@@ -2,10 +2,14 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-17T00:51:27.493899+00:00",
+  "fetchedAt": "2026-08-17T01:01:19.866019+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
+    "KobeissiLetter",
+    "JohnPolomny",
+    "BarbarianCap",
+    "wmiddelkoop",
     "White_Rabbit_OG"
   ],
   "posts": [
@@ -25,15 +29,15 @@
       "engagementScore": 0
     },
     {
-      "id": "2089128940908519580",
-      "text": "The cost of servicing US debt is the highest in decades: On Thursday, the US government sold $25 billion of 30Y Treasury bonds at a 5.216% yield, the highest auction yield since 2001. This follows a $42 billion auction of 10Y Treasury notes on Wednesday that resulted in a 4.683% yield, the highest since 2007. Previously, on July 9th, the government sold 30Y Treasury bonds at a 5.058% yield, the highest since 2007, highlighting the worsening trend in US debt financing costs. By comparison, yields on the same-maturity Treasury auctions were below 2.00% during the 2020 pandemic. This comes as investors are demanding more compensation to finance the US government's ever-growing deficit. In July, the US Treasury’s budget deficit surged +$141 billion YoY, to $432 billion, the largest July total in history. The US debt crisis is entering uncharted territory.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-08-16T23:15:28+00:00",
-      "createdAtMs": 1786922128000,
+      "id": "2089131179907662215",
+      "text": "Bond market crisis is hitting the entire world The Bloomberg Global Long Bond Index yield has surged to around 4.2%, its highest level since July 2008. https://www.linkedin.com/posts/wim-grommen-87aa7632_bond-market-crisis-is-hitting-the-entire-activity-7494880458309189633-0V67?utm_source=share&utm_medium=member_android&rcm=ACoAAAbrvF4B1VA_cGQhR77KVFef7NAD1QeudHQ",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-08-16T23:24:22+00:00",
+      "createdAtMs": 1786922662000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2089128940908519580#m",
+      "url": "https://x.com/wimgrommen/status/2089131179907662215#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
