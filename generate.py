@@ -3882,7 +3882,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .portfolio-table{{width:100%;border-collapse:collapse;font-size:.78rem}}
     .chart-ticker{{cursor:pointer;text-decoration:underline;text-decoration-color:rgba(181,150,98,.38);text-underline-offset:3px}}
     .chart-ticker:hover,.chart-ticker:focus-visible{{color:#dfc48f;outline:none;text-decoration-color:currentColor}}
-    .holding-chart-dialog{{width:min(680px,calc(100vw - 24px));max-height:calc(100vh - 24px);padding:0;border:1px solid var(--gold-mid);border-radius:10px;color:var(--text);background:#0d0d12;box-shadow:0 24px 80px rgba(0,0,0,.75)}}
+    .holding-chart-dialog{{width:min(780px,calc(100vw - 24px));max-height:calc(100vh - 24px);padding:0;border:1px solid var(--gold-mid);border-radius:10px;color:var(--text);background:#0d0d12;box-shadow:0 24px 80px rgba(0,0,0,.75)}}
     .holding-chart-dialog::backdrop{{background:rgba(0,0,0,.78);backdrop-filter:blur(3px)}}
     .chart-shell{{padding:18px}}.chart-head{{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}}
     .chart-symbol{{font-family:var(--serif);font-size:1.35rem;color:var(--gold)}}.chart-meta,.chart-status{{font-size:.62rem;color:var(--mute)}}
@@ -4142,7 +4142,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 </div>
 <dialog id="holding-chart-dialog" class="holding-chart-dialog">
   <div class="chart-shell">
-    <div class="chart-head"><div><div id="holding-chart-title" class="chart-symbol">Price chart</div><div class="chart-meta">9 months · Weekly candles + volume · Final after Friday close</div></div><button class="chart-close" type="button" aria-label="Close chart">×</button></div>
+    <div class="chart-head"><div><div id="holding-chart-title" class="chart-symbol">Price chart</div><div class="chart-meta">9 months · Exactly 39 weekly candles + volume · Final after Friday close</div></div><button class="chart-close" type="button" aria-label="Close chart">×</button></div>
     <div id="holding-chart-stage" class="chart-stage" aria-live="polite"><div class="chart-status">Select a ticker</div></div>
   </div>
 </dialog>
@@ -4164,7 +4164,7 @@ document.querySelectorAll('.collapse-toggle').forEach(t => {{
   dialog.querySelector('.chart-close').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('click',event=>{{if(event.target===dialog)dialog.close()}});
   function candleSvg(data){{
-    const candles=data.candles||[],W=640,H=390,p={{l:48,r:18,t:24,b:28}},priceH=252,volumeTop=294,volumeH=68,innerW=W-p.l-p.r;
+    const candles=data.candles||[],W=720,H=420,p={{l:64,r:64,t:24,b:42}},priceH=266,volumeTop=308,volumeH=68,innerW=W-p.l-p.r;
     const values=candles.flatMap(c=>[c.low,c.high]),lo=Math.min(...values),hi=Math.max(...values),span=Math.max(hi-lo,.0001),maxVolume=Math.max(...candles.map(c=>c.volume||0),1);
     const y=value=>p.t+(hi-value)/span*priceH,x=index=>p.l+(index+.5)/candles.length*innerW,body=Math.max(3,Math.min(10,innerW/candles.length*.58));
     const fmt=value=>value<1?value.toFixed(3):value.toFixed(2),dateLabel=time=>new Date(time*1000).toLocaleDateString('en-US',{{month:'short',day:'numeric'}});
@@ -4173,7 +4173,8 @@ document.querySelectorAll('.collapse-toggle').forEach(t => {{
     const point=(item,label,color,above)=>{{if(!item||!Number.isFinite(item.price))return '';const xx=x(item.index),yy=y(item.price),ty=above?Math.max(12,yy-10):Math.min(volumeTop-5,yy+15);return `<circle cx="${{xx}}" cy="${{yy}}" r="3" fill="${{color}}"/><text x="${{xx}}" y="${{ty}}" text-anchor="middle" fill="${{color}}" font-size="10" font-weight="600">${{label}} ${{fmt(item.price)}}</text>`}};
     const highLow=point(data.highest,'HIGH','#d7b56d',true)+point(data.lowest,'LOW','#75c4df',false);
     const first=candles[0],last=candles[candles.length-1];
-    return `<svg viewBox="0 0 ${{W}} ${{H}}" role="img" aria-label="${{data.symbol}} 9-month weekly candlestick and volume chart"><rect width="${{W}}" height="${{H}}" fill="#09090d"/>${{grid}}<line x1="${{p.l}}" y1="${{volumeTop-8}}" x2="${{W-p.r}}" y2="${{volumeTop-8}}" stroke="#292932"/><text x="${{p.l}}" y="${{volumeTop+7}}" fill="#6e6a85" font-size="9">VOLUME</text>${{bars}}${{highLow}}<text x="${{p.l}}" y="${{H-8}}" fill="#6e6a85" font-size="9">${{dateLabel(first.time)}}</text><text x="${{W-p.r}}" y="${{H-8}}" text-anchor="end" fill="#6e6a85" font-size="9">${{dateLabel(last.time)}} · Friday close</text></svg>`;
+    const lastX=x(candles.length-1),lastY=y(last.close),lastClose=`<line x1="${{lastX+5}}" y1="${{lastY}}" x2="${{W-p.r+5}}" y2="${{lastY}}" stroke="#b59662"/><text x="${{W-p.r+8}}" y="${{lastY+3}}" fill="#dfc48f" font-size="10" font-weight="700">${{fmt(last.close)}}</text>`;
+    return `<svg viewBox="0 0 ${{W}} ${{H}}" role="img" aria-label="${{data.symbol}} 9-month chart with exactly 39 weekly candlesticks; last close ${{fmt(last.close)}}"><rect width="${{W}}" height="${{H}}" fill="#09090d"/>${{grid}}<line x1="${{p.l}}" y1="${{volumeTop-8}}" x2="${{W-p.r}}" y2="${{volumeTop-8}}" stroke="#292932"/><text x="${{p.l}}" y="${{volumeTop+7}}" fill="#6e6a85" font-size="9">VOLUME</text>${{bars}}${{highLow}}${{lastClose}}<text x="${{x(0)}}" y="${{H-19}}" text-anchor="middle" fill="#b59662" font-size="9" font-weight="600">FIRST</text><text x="${{x(0)}}" y="${{H-7}}" text-anchor="middle" fill="#a8a4ba" font-size="9">${{dateLabel(first.time)}}</text><text x="${{lastX}}" y="${{H-19}}" text-anchor="middle" fill="#b59662" font-size="9" font-weight="600">LAST</text><text x="${{lastX}}" y="${{H-7}}" text-anchor="middle" fill="#a8a4ba" font-size="9">${{dateLabel(last.time)}}</text></svg>`;
   }}
   async function openChart(cell){{
     const symbol=cell.dataset.chartSymbol,name=cell.dataset.chartName||symbol;title.textContent=`${{cell.textContent.trim()}} · ${{name}}`;stage.innerHTML='<div class="chart-status">Loading weekly candles…</div>';dialog.showModal();

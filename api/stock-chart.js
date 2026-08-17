@@ -40,11 +40,11 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
     current.close = row.close;
     current.volume += row.volume;
   });
-  const cutoff = nowSeconds - (276 * 24 * 60 * 60);
   const candles = [...weeks.values()]
-    .filter(candle => candle.time <= nowSeconds && candle.time >= cutoff)
-    .sort((a, b) => a.time - b.time);
-  if (!candles.length) throw new Error('No complete weekly candles');
+    .filter(candle => candle.time <= nowSeconds)
+    .sort((a, b) => a.time - b.time)
+    .slice(-39);
+  if (candles.length !== 39) throw new Error('Insufficient history for 39 weekly candles');
   const highest = candles.reduce((best, candle, index) => candle.high > best.price ? { price: candle.high, index, time: candle.time } : best, { price: -Infinity, index: 0, time: 0 });
   const lowest = candles.reduce((best, candle, index) => candle.low < best.price ? { price: candle.low, index, time: candle.time } : best, { price: Infinity, index: 0, time: 0 });
   return {
@@ -52,6 +52,7 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
     currency: result.meta?.currency || '',
     interval: '1wk',
     range: '9mo',
+    candleCount: 39,
     candleRule: 'Finalized after Friday market close',
     highest,
     lowest,
@@ -63,7 +64,7 @@ export default async function handler(req, res) {
   const symbol = String(req.query?.symbol || '').trim().toUpperCase();
   if (!ALLOWED.test(symbol)) return res.status(400).json({ error: 'Invalid symbol' });
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=10mo&interval=1d&events=div%2Csplits`;
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1y&interval=1d&events=div%2Csplits`;
     const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 NovaireSignal/1.0' } });
     if (!response.ok) throw new Error(`Market data HTTP ${response.status}`);
     const data = aggregateCompletedWeeks(await response.json(), symbol);
