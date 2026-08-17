@@ -406,7 +406,8 @@ def render_tracker_html(model: dict[str, Any]) -> str:
             )
             performance_rows.append(
                 f'<div class="tracker-performance-row"><div class="tracker-performance-name">{escape(account["label"])}</div>'
-                f'<div class="tracker-performance-grid">{cells}</div></div>'
+                f'<div class="tracker-performance-grid{" tracker-performance-grid--single" if len(available_periods) == 1 else ""}" '
+                f'style="--period-count:{len(available_periods)}">{cells}</div></div>'
             )
 
     available_combined_periods = [
@@ -423,7 +424,8 @@ def render_tracker_html(model: dict[str, Any]) -> str:
             0,
             '<div class="tracker-performance-row tracker-performance-row--total">'
             '<div class="tracker-performance-name">Total Net Worth</div>'
-            f'<div class="tracker-performance-grid">{combined_cells}</div></div>',
+            f'<div class="tracker-performance-grid{" tracker-performance-grid--single" if len(available_combined_periods) == 1 else ""}" '
+            f'style="--period-count:{len(available_combined_periods)}">{combined_cells}</div></div>',
         )
 
     performance_html = ""
