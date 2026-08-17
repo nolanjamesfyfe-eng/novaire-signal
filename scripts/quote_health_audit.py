@@ -101,7 +101,7 @@ def audit_upstreams(audit: Audit) -> None:
         audit.record(ok, f"cash index {symbol}", detail)
 
     commodities = generate.fetch_commodities()
-    expected_commodities = {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "NATGAS"}
+    expected_commodities = {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "NATGAS", "URANIUM_SPOT"}
     audit.record(set(commodities) == expected_commodities, "commodity coverage", f"{len(commodities)}/{len(expected_commodities)} quotes")
     for symbol in sorted(expected_commodities):
         price = commodities.get(symbol, {}).get("price")
@@ -139,7 +139,7 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     market_nodes = soup.select("[data-market-price], [data-future-price]")
     for name, nodes, expected in (
         ("crypto markup", crypto_nodes, 8),
-        ("commodity markup", commodity_nodes, 6),
+        ("commodity markup", commodity_nodes, 7),
         ("market markup", market_nodes, len(getattr(generate, "MARKET_FUTURES", {})) + len(getattr(generate, "MARKET_INDICES", {}))),
     ):
         values = [node.get_text(" ", strip=True) for node in nodes]
