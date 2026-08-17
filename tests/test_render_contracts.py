@@ -21,6 +21,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertLess(weather, market)
         self.assertLess(market, fx)
 
+    def test_mobile_market_and_fx_spacing_contract(self):
+        self.assertIn('.market-clock{gap:14px;padding-top:16px;padding-bottom:16px}', self.html)
+        self.assertIn('.market-futures{grid-template-columns:1fr;gap:10px}', self.html)
+        self.assertIn('column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px', self.html)
+        self.assertIn('.fx-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}', self.html)
+        self.assertIn('.fx-chip{padding:9px 4px}', self.html)
+
     def test_fed_signal_is_immediately_below_top_five_catalysts(self):
         catalysts = self.html.index("🔍 Catalysts — Top 5 Holdings")
         fed = self.html.index("🏛️ Fed Signal")
