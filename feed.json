@@ -1,16 +1,33 @@
 {
   "ok": true,
-  "count": 11,
-  "accountsWithPosts": 11,
-  "fetchedAt": "2026-08-17T20:01:17.845805+00:00",
+  "count": 8,
+  "accountsWithPosts": 8,
+  "fetchedAt": "2026-08-17T20:17:44.190177+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "zerohedge",
-    "White_Rabbit_OG",
-    "colonelhomsi"
+    "BambroughKevin",
+    "hkuppy",
+    "tferriss",
+    "JoshYoung",
+    "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2089442424431001789",
+      "text": "Crude & Crypto Rip, Stocks Dip, Yield Curve & Gold Scream 'Policy Error' https://www.zerohedge.com/markets/crude-crypto-rip-stocks-dip-yield-curve-gold-scream-policy-error",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-17T20:01:08+00:00",
+      "createdAtMs": 1786996868000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2089442424431001789#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2089437819009638833",
       "text": "\"prediction markets may be useful for gamblers, but they cannot hedge economic exposures.\" Source: page 224 of probability calibration under fat tails book written by @nntaleb.",
@@ -23,7 +40,7 @@
       "url": "https://x.com/OrtunMacro/status/2089437819009638833#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -38,7 +55,7 @@
       "url": "https://x.com/Stansberry/status/2089436212213825745#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
+      "slot_order": 3,
       "engagementScore": 0
     },
     {
@@ -51,21 +68,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/KobeissiLetter/status/2089422760049025135#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089421865336885359",
-      "text": "MCGA!!",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-08-17T18:39:26+00:00",
-      "createdAtMs": 1786991966000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/hkuppy/status/2089421865336885359#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
@@ -102,36 +104,6 @@
       "engagementScore": 0
     },
     {
-      "id": "2089397044452663686",
-      "text": "The Strait of Hormuz has been closed for almost 6 months",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-08-17T17:00:49+00:00",
-      "createdAtMs": 1786986049000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/JoshYoung/status/2089397044452663686#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089395235629453357",
-      "text": "Don’t get me wrong… I’m longer term bearish and think the Nasdaq will have a dead decade vs inflation. But I still think there’s a good chance we are gonna squeeze the hell out of a bunch of hedgefunds… the market can stay insane longer than the smart guys can often stay solvent. Liquidity is gonna keep coming. Count on it. This admin and frankly all governments have no choice but to try to inflate the debts away. The central bankers all know a deflationary collapse will result in huge economic contraction, drop in tax receipts and exploding debt as gov deficits dramatically increase. They will choose inflation and goverment bail outs every time until such time as they are all thrown out of office because runaway inflation drives voting. The are no where close to this point. The majority of voters still want inflation, inflation in their real estate portfolio, inflation in their investment holdings. The public has also been sold that low interest rates makes homes affordable. Which is a lie. It makes money cheap and homes high priced and risky. But one thing for sure boomers aren’t gonna support policies that don’t let them off load housing to the next generation at prices that that will support their retirement. A significant percentage of the influential voting electorate are home owners whose home equity is a major asset that they need to be able to monetize. There was a good book out more than a decade ago called “Boom, Bust and Echo”. We are now at the bust point where boomers need to downsize and manage retirement budgets. I think we will see monetary policies that support the housing market because so few people have good pension funds these days. Nobody wants a deflationary collapse which will only explode the debt anyhow. Damned if they do. Damned if they don’t. Again. Inflate away the debts will be the choice even of the course is rocky. It’s a macro trend we need to be cognizant of. To conclude, major tops don’t get put in with record short interest. My bet is shorts get blown out into a mid term election run up",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-08-17T16:53:37+00:00",
-      "createdAtMs": 1786985617000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/BambroughKevin/status/2089395235629453357#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 0
-    },
-    {
       "id": "2089383753290301850",
       "text": "Wow, seems like Google is buying Spirit Airlines' enterprise data for $10m (outbidding Mercor at $7.5m). Basically includes every internal document, email, workflow, and codebase for a once $6B company. Honestly, $10m for 34 years of operational data really seems like a steal.",
       "author": "BarbarianCap",
@@ -143,7 +115,7 @@
       "url": "https://x.com/abhijaymrana/status/2089383753290301850#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
+      "slot_order": 7,
       "engagementScore": 0
     },
     {
@@ -158,22 +130,7 @@
       "url": "https://x.com/wmiddelkoop/status/2089382692961886439#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089381461333885347",
-      "text": "This is a helpful mindset for anyone, it seems to me. “A writer—and, I believe, generally all persons—must think that whatever happens to him or her is a resource.\" — Jorge Luis Borges via the 5-Bullet Friday newsletter (https://tim.blog/fbf) from @tferriss",
-      "author": "tferriss",
-      "handle": "tferriss",
-      "createdAt": "2026-08-17T15:58:53+00:00",
-      "createdAtMs": 1786982333000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/notable_tomes/status/2089381461333885347#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 11,
+      "slot_order": 8,
       "engagementScore": 0
     }
   ]
