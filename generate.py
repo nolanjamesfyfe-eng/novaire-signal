@@ -3876,6 +3876,14 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-period small{{display:block;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
     .tracker-period--pending strong{{color:var(--mute)}}
     .tracker-foot{{position:relative;margin-top:12px;color:var(--mute);font-size:.52rem;line-height:1.5}}
+    .debt-hub{{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px;padding:22px 24px;border-color:rgba(255,126,54,.22);background:radial-gradient(circle at 88% 15%,rgba(255,92,39,.12),transparent 36%),linear-gradient(135deg,rgba(255,184,0,.045),rgba(4,4,7,.4)),var(--surface)}}
+    .debt-hub::before{{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.025) 48%,transparent 76%)}}
+    .debt-hub-copy,.debt-hub-action{{position:relative}}
+    .debt-hub-kicker{{color:#ffad69;font-size:.56rem;font-weight:650;letter-spacing:.18em;text-transform:uppercase}}
+    .debt-hub h2{{margin:6px 0 7px;font-family:var(--serif);font-size:1.48rem;font-weight:400;color:#f7f1e6}}
+    .debt-hub p{{max-width:620px;margin:0;color:var(--mute);font-size:.67rem;line-height:1.55}}
+    .debt-hub-link{{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 15px;border:1px solid rgba(255,173,105,.35);border-radius:9px;color:#ffd0aa;background:rgba(255,116,45,.08);font-size:.64rem;font-weight:650;letter-spacing:.08em;text-decoration:none;white-space:nowrap;transition:.18s ease}}
+    .debt-hub-link:hover{{border-color:rgba(255,173,105,.65);background:rgba(255,116,45,.14);transform:translateY(-1px)}}
     .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
     .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
@@ -3910,6 +3918,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .tracker-performance-row{{grid-template-columns:1fr;gap:5px;margin-top:12px}}
       .tracker-performance-grid{{min-width:0}}
       .tracker-performance-name{{padding-left:2px}}
+      .debt-hub{{grid-template-columns:1fr;padding:20px}}
+      .debt-hub-link{{width:100%}}
     }}
     .collapse-toggle{{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}}
     .collapse-toggle:hover{{opacity:.7;background:rgba(181,150,98,0.05);border-radius:4px}}
@@ -4013,6 +4023,16 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <!-- NET WORTH TRACKER — daily Google Sheet closes -->
   {net_worth_tracker_html}
+
+  <!-- ON THE RISE FINANCES — debt progress -->
+  <section class="card debt-hub" id="debt-progress">
+    <div class="debt-hub-copy">
+      <div class="debt-hub-kicker">On The Rise Finances · live debt progress</div>
+      <h2>Put out the interest fire. Recharge the balance sheet.</h2>
+      <p>Open the spreadsheet-linked fire and battery visuals, payoff milestones, monthly interest load and debt history.</p>
+    </div>
+    <div class="debt-hub-action"><a class="debt-hub-link" href="/portfolio/finances/">Open debt dashboard →</a></div>
+  </section>
 
   <!-- EVOLUTION FUND -->
   {evo_fund_html}
