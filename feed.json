@@ -2,16 +2,11 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-17T04:00:54.681793+00:00",
+  "fetchedAt": "2026-08-17T04:06:18.314141+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "KobeissiLetter",
-    "tferriss",
-    "JohnPolomny",
-    "White_Rabbit_OG",
-    "colonelhomsi",
-    "HydroGraphInc"
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
