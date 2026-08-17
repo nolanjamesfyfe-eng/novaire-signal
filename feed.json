@@ -2,15 +2,31 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-17T04:34:02.321341+00:00",
+  "fetchedAt": "2026-08-17T06:00:55.640216+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "KobeissiLetter",
-    "JoshYoung",
-    "White_Rabbit_OG"
+    "hkuppy",
+    "JohnPolomny",
+    "White_Rabbit_OG",
+    "colonelhomsi"
   ],
   "posts": [
+    {
+      "id": "2089222410335609281",
+      "text": "Seconds from disaster ..",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-17T05:26:53+00:00",
+      "createdAtMs": 1786944413000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2089222410335609281#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2089190776748020208",
       "text": "Here's the conclusion",
@@ -23,7 +39,7 @@
       "url": "https://x.com/zerohedge/status/2089190776748020208#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -36,21 +52,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/SantiagoAuFund/status/2089184690381144228#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089158548366229677",
-      "text": "An evil \"state\". Liars, criminals, land thieves, bloodthirsty savages with technology and advanced PR controlling Western Media.",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-08-17T01:13:07+00:00",
-      "createdAtMs": 1786929187000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/nntaleb/status/2089158548366229677#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
