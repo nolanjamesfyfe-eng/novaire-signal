@@ -80,7 +80,8 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn("Wealthsimple TFSA", html)
         self.assertIn("Kraken", html)
         self.assertIn(">1D<", html)
-        for label in ("1W", "MoM", "QoQ", "YTD"):
+        self.assertIn(">YTD<", html)
+        for label in ("1W", "MoM", "QoQ"):
             self.assertNotIn(f">{label}<", html)
         self.assertIn("C$122,778", html)
         self.assertIn("Account-value return, not pure investment return", html)
@@ -103,6 +104,18 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn("−85.7%", html)
         self.assertIn("≈−US$6,000", html)
         self.assertIn("Account-value return, not pure investment return", html)
+
+    def test_ytd_uses_first_verified_current_year_close_when_january_is_unavailable(self):
+        history = {"snapshots": [
+            {"market_date": "2026-04-10", "accounts": {"tfsa_ws": {"cad": 100000.0}}},
+            {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 112500.0}}},
+        ]}
+        model = portfolio_tracker.build_tracker_model(history)
+        ytd = model["accounts"]["tfsa_ws"]["periods"]["YTD"]
+        self.assertAlmostEqual(ytd["percent"], 12.5)
+        self.assertEqual(ytd["baseline_date"], "2026-04-10")
+        self.assertTrue(ytd["estimated"])
+        self.assertIn(">YTD<", portfolio_tracker.render_tracker_html(model))
 
 
 if __name__ == "__main__":

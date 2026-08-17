@@ -51,11 +51,14 @@ class MarketFuturesTests(unittest.TestCase):
         )
         self.assertEqual(generate.MARKET_INDICES["^IXIC"]["label"], "Nasdaq Composite")
 
-    def test_commodities_track_exact_investing_screen_set(self):
+    def test_commodities_preserve_uranium_alongside_investing_screen_set(self):
+        commodities = generate.fetch_commodities()
         self.assertEqual(
-            list(generate.fetch_commodities.__doc__.splitlines())[0],
-            "Fetch the exact six derived futures shown by Investing.com.",
+            set(commodities),
+            {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "NATGAS", "URANIUM_SPOT"},
         )
+        self.assertEqual(commodities["URANIUM_SPOT"]["name"], "Uranium")
+        self.assertEqual(commodities["URANIUM_SPOT"]["unit"], "/lb")
 
 
 if __name__ == "__main__":

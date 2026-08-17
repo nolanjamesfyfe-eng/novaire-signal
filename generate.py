@@ -1606,7 +1606,7 @@ def fetch_market_indices():
 
 
 def fetch_commodities():
-    """Fetch the exact six derived futures shown by Investing.com.
+    """Fetch six Investing.com futures plus the preserved uranium spot benchmark.
 
     These are intentionally not mixed with Yahoo contracts: Novaire uses the
     Investing.com commodities screen as the visual reference, so source,
@@ -1619,6 +1619,7 @@ def fetch_commodities():
         "WTI": {"name": "Crude Oil WTI", "unit": "/bbl", "cls": "c-oil"},
         "BRENT": {"name": "Brent Oil",    "unit": "/bbl", "cls": "c-oil"},
         "NATGAS": {"name": "Natural Gas", "unit": "/MMBtu", "cls": "c-gas"},
+        "URANIUM_SPOT": {"name": "Uranium", "unit": "/lb", "cls": "c-uranium"},
     }
     results = {key: {**meta, "price": None, "change": None,
                      "source": "Investing.com", "period": "daily",
@@ -1648,6 +1649,23 @@ def fetch_commodities():
         for item in results.values():
             if item["price"] is not None:
                 item["quote_time"] = results_quote_time
+    except Exception:
+        pass
+
+    # Uranium is absent from Investing.com's futures screen. Preserve the
+    # pre-migration Trading Economics U3O8 benchmark rather than silently
+    # shrinking the user's approved commodity set to one provider's list.
+    try:
+        r = requests.get("https://tradingeconomics.com/commodity/uranium",
+                         headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        m = re.search(r'Uranium[^".]{0,160}?\bat\s+(\d+(?:\.\d+)?)\s*USD/Lbs',
+                      r.text, flags=re.IGNORECASE)
+        if m:
+            results["URANIUM_SPOT"].update({
+                "price": float(m.group(1)), "source": "Trading Economics",
+                "period": "spot benchmark",
+                "quote_time": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            })
     except Exception:
         pass
     return results
@@ -2326,7 +2344,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             # Shorten large numbers for compact strip
             val = d['fmt']
             fx_rates_html += f"""
-      <div class="fx-chip"><div class="fx-ccy">{d['icon']} {ccy}</div><span class="fx-rate">{val}</span></div>"""
+      <div class="fx-chip"><div class="fx-ccy">{d['icon']} {ccy}</div><span class="fx-rate" data-fx-rate="{ccy}">{val}</span></div>"""
 
     # ── Weather HTML ──
     import datetime as _dt
@@ -2836,7 +2854,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodity-unit{{font-size:.6rem;color:var(--dim)}}
     .commodity-change{{font-size:.72rem;margin-top:3px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
-    .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}
+    .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}.c-uranium{{color:#7fc87f}}
 
     .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
     .crypto-item{{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
@@ -3090,13 +3108,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- WALL STREET TIME + LIVE MARKET PULSE -->
 {market_html}
 
-  <div class="card">
-    <div class="card-title">💱 FX Rates — 1 USD =</div>
-    <div class="fx-row">
-      {fx_rates_html}
-    </div>
-  </div>
-
   <!-- COMMODITIES -->
   <div class="card">
     <div class="card-title">🪙 Commodities</div>
@@ -3110,6 +3121,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">🌐 Crypto</div>
     <div class="crypto-grid">
       {crypto_html}
+    </div>
+  </div>
+
+  <!-- FX RATES — below crypto -->
+  <div class="card">
+    <div class="card-title">💱 FX Rates — 1 USD =</div>
+    <div class="fx-row">
+      {fx_rates_html}
     </div>
   </div>
 
@@ -3677,6 +3696,30 @@ renderActionSteps();
     }}).catch(function(){{}})
   }}
   refreshCommodities();setInterval(refreshCommodities,60000);
+}}();
+
+// Live USD FX rates: refresh on page load and every minute.
+!function(){{
+  function refreshFx(){{
+    fetch('/api/fx-rates?_='+Date.now(),{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}}).then(function(data){{
+      Object.keys(data.rates||{{}}).forEach(function(ccy){{
+        var el=document.querySelector('[data-fx-rate="'+ccy+'"]'),rate=Number(data.rates[ccy]);
+        if(el&&Number.isFinite(rate))el.textContent=rate>=1000?Math.round(rate).toLocaleString('en-US'):rate>=10?rate.toFixed(2):rate.toFixed(4).replace(/0+$/,'').replace(/\.$/,'');
+      }});
+    }}).catch(function(){{}})
+  }}
+  refreshFx();setInterval(refreshFx,60000);
+}}();
+
+// Live Livermore Darvis ROI: refresh on every page load and every hour.
+!function(){{
+  function refreshDarvis(){{
+    fetch('/api/alpaca-summary?_='+Date.now(),{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}}).then(function(data){{
+      var el=document.querySelector('[data-darvas-roi]'),roi=Number(data.inceptionRoi);
+      if(el&&Number.isFinite(roi)){{el.textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';el.style.color=roi>=0?'#4ade80':'#f87171'}}
+    }}).catch(function(){{}})
+  }}
+  refreshDarvis();setInterval(refreshDarvis,3600000);
 }}();
 
 // Live index futures: refresh through the same-origin Vercel edge proxy every minute.
@@ -4331,12 +4374,12 @@ def main():
         all_rows = _alp_rows(all_positions, "All")
 
         alpaca_html = f"""<details class="card signal-accordion trading-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Livermore Darvis</span><span class="accordion-score">Inception ROI <b style="color:{total_color}">{total_str}</b></span></summary>
+    <summary><span class="card-title">🦙 Livermore Darvis</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · {total_trades} trades · Since Feb 24, 2026</div>
       {all_rows}
     </div>
-  </details>"""
+  </details><script>document.getElementById("darvas-card")?.removeAttribute("open");</script>"""
 
     # ── Crypto Strategy / Kraken Margin ──
     # Removed May 29, 2026: Novaire is not holding crypto for now, so the

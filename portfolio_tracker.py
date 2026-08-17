@@ -272,6 +272,26 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
             label: _period_change(snapshots, current, (key,), days)
             for label, days in PERIODS
         }
+        # If Jan 1 history predates the tracker, show a YTD proxy from the
+        # first verified close captured in the current calendar year.
+        if periods.get("YTD") is None and key != "kraken":
+            current_year = date.fromisoformat(current["market_date"]).year
+            first_ytd = next((
+                item for item in snapshots
+                if date.fromisoformat(item["market_date"]).year == current_year
+                and _account_value(item, key) is not None
+            ), None)
+            if first_ytd and first_ytd is not current:
+                baseline = _account_value(first_ytd, key) or 0.0
+                if baseline > 0:
+                    amount = float(account_data["cad"]) - baseline
+                    periods["YTD"] = {
+                        "amount": amount,
+                        "percent": amount / baseline * 100,
+                        "baseline_date": first_ytd["market_date"],
+                        "baseline_cad": baseline,
+                        "estimated": True,
+                    }
         # Kraken's spreadsheet contains its Oct-2025 starting capital. Use that
         # as the honest cash-flow-unadjusted YTD proxy until daily 2025 closes exist.
         if key == "kraken" and periods.get("YTD") is None and kraken_reference and account_data.get("usd") is not None:

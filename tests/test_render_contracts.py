@@ -104,6 +104,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(heading, self.html)
         self.assertNotIn(heading, self.portfolio_html)
 
+    def test_portfolio_tickers_open_nine_month_weekly_candles(self):
+        self.assertIn('class="ticker chart-ticker"', self.portfolio_html)
+        self.assertIn('data-chart-symbol="HG.CN"', self.portfolio_html)
+        self.assertIn('id="holding-chart-dialog"', self.portfolio_html)
+        self.assertIn("/api/stock-chart?symbol=", self.portfolio_html)
+        self.assertIn("9-month weekly candles", self.portfolio_html)
+        self.assertIn("Previous close", self.portfolio_html)
+        self.assertIn("role=\"img\"", self.portfolio_html)
+
     def test_latest_novaire_is_compact_metric_accordion(self):
         self.assertEqual(self.html.count('class="latest-novaire-item"'), 4)
         for label in (
@@ -128,8 +137,11 @@ class RenderContractTests(unittest.TestCase):
     def test_clutter_cards_are_accordions_with_compact_summaries(self):
         self.assertIn('class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="2026-08-10" open', self.html)
         self.assertIn('class="card signal-accordion" id="catalysts-card" data-edition="2026-W34"', self.html)
-        self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
         self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
+        # Polymarket may be omitted when its live API is rate-limited; if rendered,
+        # it must remain a compact accordion.
+        if 'id="polymarket-card"' in self.html:
+            self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
         self.assertIn("Updated on Aug 17", self.html)
         self.assertIn("nv_weekly_ideas_seen", self.html)
         self.assertIn('data-fingerprint=', self.html)
@@ -140,7 +152,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("cardDone || (meditationDone && quoteDone)", self.html)
         self.assertIn("if (!meditationCard.open) localStorage.setItem(meditationCardKey, meditationCard.dataset.edition)", self.html)
         self.assertIn('details.addEventListener(\'toggle\'', self.html)
-        self.assertIn('44W / 34L', self.html)
+        if 'id="polymarket-card"' in self.html:
+            self.assertIn('44W / 34L', self.html)
         self.assertIn('Inception ROI', self.html)
 
     def test_latest_instagram_uses_verified_post_cache(self):
