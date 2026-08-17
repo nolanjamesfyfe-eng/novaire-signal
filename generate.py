@@ -3856,11 +3856,14 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-account--kraken .tracker-account-name span{{background:#42d8ff;box-shadow:0 0 10px rgba(66,216,255,.75)}}
     .tracker-account-value{{margin-top:4px;font-family:var(--serif);font-size:1.42rem;font-variant-numeric:tabular-nums}}
     .tracker-account-secondary{{color:var(--mute);font-size:.54rem}}
-    .tracker-chart{{position:relative;margin:4px 0 16px}}
+    .tracker-charts{{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 16px}}
+    .tracker-chart{{position:relative;min-width:0;padding:10px;border:1px solid rgba(255,255,255,.045);border-radius:14px;background:rgba(3,3,6,.34)}}
+    .tracker-chart-head{{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin:0 2px 8px}}
+    .tracker-chart-head strong{{display:block;color:var(--text);font-family:var(--serif);font-size:.85rem;font-weight:500}}
+    .tracker-chart-head span{{display:block;margin-top:1px;color:var(--mute);font-size:.46rem;letter-spacing:.04em}}
+    .tracker-chart-head b{{font-size:.66rem;font-variant-numeric:tabular-nums}}
     .tracker-chart svg{{display:block;width:100%;height:auto;border:1px solid rgba(255,255,255,.045);border-radius:14px;background:rgba(3,3,6,.34)}}
-    .tracker-chart-legend{{display:flex;gap:16px;margin-top:7px;color:var(--mute);font-size:.52rem}}
-    .tracker-chart-legend span{{display:flex;align-items:center;gap:6px}}
-    .tracker-chart-legend i{{width:14px;height:2px;background:var(--tracker-color);box-shadow:0 0 8px var(--tracker-color)}}
+    .tracker-chart-axis{{display:flex;justify-content:space-between;gap:8px;margin:6px 2px 0;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
     .tracker-chart-empty{{position:relative;padding:28px 16px;margin:4px 0 16px;border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;color:var(--mute);font-size:.62rem}}
     .tracker-performance-title{{position:relative;margin:2px 0 9px;padding-top:14px;border-top:1px solid rgba(255,255,255,.055);color:var(--gold);font-size:.55rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase}}
     .tracker-performance{{position:relative}}
@@ -3902,6 +3905,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .tracker-head{{align-items:flex-start}}
       .tracker-total{{font-size:2.15rem}}
       .tracker-accounts{{grid-template-columns:1fr}}
+      .tracker-charts{{grid-template-columns:1fr}}
       .tracker-performance{{overflow:visible;padding-bottom:0}}
       .tracker-performance-row{{grid-template-columns:1fr;gap:5px;margin-top:12px}}
       .tracker-performance-grid{{min-width:0}}

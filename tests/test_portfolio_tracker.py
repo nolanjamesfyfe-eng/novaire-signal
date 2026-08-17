@@ -20,6 +20,8 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertAlmostEqual(result["usdcad"], 1.38765003)
         self.assertAlmostEqual(result["total_cad"], 1387.65003)
         self.assertEqual(result["sheet_gid"], "338118850")
+        self.assertEqual(result["inception_usd"], 7000.0)
+        self.assertEqual(result["inception_label"], "Oct 2025")
 
     def test_market_close_date_uses_latest_completed_new_york_session(self):
         saturday_utc = datetime(2026, 8, 15, 8, 0, tzinfo=timezone.utc)
@@ -50,8 +52,7 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertAlmostEqual(model["current_total_cad"], 122777.71, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1D"]["amount"], 1390.06, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1W"]["amount"], 2390.06, places=2)
-        self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["3M"]["amount"], 11390.06, places=2)
-        self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1Y"]["amount"], 21390.06, places=2)
+        self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["QoQ"]["amount"], 11390.06, places=2)
         self.assertIsNone(model["accounts"]["kraken"]["periods"]["1D"])
         self.assertIsNone(model["combined_periods"]["1D"])
 
@@ -79,21 +80,29 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn("Wealthsimple TFSA", html)
         self.assertIn("Kraken", html)
         self.assertIn(">1D<", html)
-        for label in ("1W", "1M", "3M", "1Y"):
+        for label in ("1W", "MoM", "QoQ", "YTD"):
             self.assertNotIn(f">{label}<", html)
         self.assertIn("C$122,778", html)
-        self.assertIn("verified Google Sheet closes only", html)
+        self.assertIn("Account-value return, not pure investment return", html)
         self.assertNotIn("Building", html)
         self.assertNotIn("Total Net Worth", html)
-        self.assertIn("Portfolio close performance indexed to 100", html)
+        self.assertIn("Wealthsimple TFSA account value history", html)
         soup = BeautifulSoup(html, "html.parser")
         performance_names = [node.get_text(" ", strip=True) for node in soup.select(".tracker-performance-name")]
         self.assertEqual(performance_names, ["Wealthsimple TFSA"])
-        legend = soup.select_one(".tracker-chart-legend")
-        self.assertIsNotNone(legend)
-        legend_text = legend.get_text(" ", strip=True) if legend else ""
-        self.assertIn("Wealthsimple TFSA", legend_text)
-        self.assertNotIn("Kraken", legend_text)
+        self.assertEqual(len(soup.select(".tracker-chart")), 1)
+
+    def test_kraken_inception_reference_renders_separate_chart_and_estimated_ytd(self):
+        history = {"kraken_reference": {"date": "2025-10-01", "label": "Oct 2025", "usd": 7000.0}, "snapshots": [
+            {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 121000.0}, "kraken": {"cad": 1386.0, "usd": 1000.0}}}
+        ]}
+        model = portfolio_tracker.build_tracker_model(history)
+        html = portfolio_tracker.render_tracker_html(model)
+        self.assertAlmostEqual(model["accounts"]["kraken"]["periods"]["YTD"]["percent"], -85.714, places=2)
+        self.assertIn("Kraken account value history", html)
+        self.assertIn("−85.7%", html)
+        self.assertIn("≈−US$6,000", html)
+        self.assertIn("Account-value return, not pure investment return", html)
 
 
 if __name__ == "__main__":

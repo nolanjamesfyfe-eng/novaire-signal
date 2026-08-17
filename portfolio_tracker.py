@@ -23,7 +23,7 @@ SHEET_ID = "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak"
 TFSA_GID = "527699504"
 KRAKEN_GID = "338118850"
 HISTORY_PATH = Path(__file__).with_name("portfolio_history.json")
-PERIODS = (("1D", 1), ("1W", 7), ("1M", 30), ("3M", 90), ("1Y", 365))
+PERIODS = (("1D", 1), ("1W", 7), ("MoM", 30), ("QoQ", 90), ("YTD", "ytd"))
 
 
 def parse_money(value: Any) -> float | None:
@@ -43,6 +43,14 @@ def parse_money(value: Any) -> float | None:
 
 def parse_kraken_rows(rows: list[list[str]]) -> dict[str, Any]:
     """Read Kraken equity from the row whose status is explicitly `Live`."""
+    inception_usd = None
+    inception_label = None
+    for raw in rows:
+        row = list(raw) + [""] * max(0, 15 - len(raw))
+        if row[11].strip().casefold() == "inception":
+            inception_usd = parse_money(row[10])
+            inception_label = row[9].strip() or None
+            break
     for raw in rows:
         row = list(raw) + [""] * max(0, 15 - len(raw))
         if row[11].strip().casefold() != "live":
@@ -60,6 +68,8 @@ def parse_kraken_rows(rows: list[list[str]]) -> dict[str, Any]:
             "sheet_gid": KRAKEN_GID,
             "sheet_name": "What's Kraken 2025",
             "source": "Google Sheet · Live value of fund",
+            "inception_usd": inception_usd,
+            "inception_label": inception_label,
         }
     return {}
 
@@ -172,6 +182,13 @@ def upsert_daily_snapshot(
     snapshots.sort(key=lambda item: item.get("market_date", ""))
     history["schema_version"] = 1
     history["source"] = "Google Sheet daily closes · TFSA/WS + Kraken"
+    if isinstance(kraken_meta.get("inception_usd"), (int, float)):
+        history["kraken_reference"] = {
+            "date": "2025-10-01",
+            "label": kraken_meta.get("inception_label") or "Oct 2025",
+            "usd": round(float(kraken_meta["inception_usd"]), 2),
+            "note": "Spreadsheet inception capital · cash-flow unadjusted",
+        }
     history["snapshots"] = snapshots[-730:]
     return history
 
@@ -185,10 +202,13 @@ def _period_change(
     snapshots: list[dict[str, Any]],
     current: dict[str, Any],
     account_keys: tuple[str, ...],
-    days: int,
+    days: int | str,
 ) -> dict[str, Any] | None:
     current_date = date.fromisoformat(current["market_date"])
-    target = current_date - timedelta(days=days)
+    if days == "ytd":
+        target = date(current_date.year, 1, 1) - timedelta(days=1)
+    else:
+        target = current_date - timedelta(days=int(days))
     current_values = [_account_value(current, key) for key in account_keys]
     if any(value is None for value in current_values):
         return None
@@ -235,23 +255,38 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     }
     accounts = {}
     active_keys = []
+    kraken_reference = history.get("kraken_reference") if isinstance(history.get("kraken_reference"), dict) else None
     for key, definition in account_defs.items():
         account_data = (current.get("accounts") or {}).get(key)
         if not isinstance(account_data, dict) or not isinstance(account_data.get("cad"), (int, float)):
             continue
         active_keys.append(key)
+        series = [
+            {"market_date": item["market_date"], "cad": _account_value(item, key),
+             "usd": ((item.get("accounts") or {}).get(key) or {}).get("usd")}
+            for item in snapshots if _account_value(item, key) is not None
+        ]
+        if key == "kraken" and kraken_reference and isinstance(kraken_reference.get("usd"), (int, float)):
+            series.insert(0, {"market_date": kraken_reference.get("date", "2025-10-01"), "usd": float(kraken_reference["usd"]), "cad": None, "reference": True})
+        periods = {
+            label: _period_change(snapshots, current, (key,), days)
+            for label, days in PERIODS
+        }
+        # Kraken's spreadsheet contains its Oct-2025 starting capital. Use that
+        # as the honest cash-flow-unadjusted YTD proxy until daily 2025 closes exist.
+        if key == "kraken" and periods.get("YTD") is None and kraken_reference and account_data.get("usd") is not None:
+            baseline = float(kraken_reference.get("usd") or 0)
+            if baseline > 0:
+                amount_usd = float(account_data["usd"]) - baseline
+                periods["YTD"] = {"amount": amount_usd, "percent": amount_usd / baseline * 100,
+                                  "baseline_date": kraken_reference.get("date", "2025-10-01"),
+                                  "baseline_cad": None, "currency": "USD", "estimated": True}
         accounts[key] = {
             **definition,
             "current_cad": float(account_data["cad"]),
             "current_usd": float(account_data["usd"]) if isinstance(account_data.get("usd"), (int, float)) else None,
-            "periods": {
-                label: _period_change(snapshots, current, (key,), days)
-                for label, days in PERIODS
-            },
-            "series": [
-                {"market_date": item["market_date"], "cad": _account_value(item, key)}
-                for item in snapshots if _account_value(item, key) is not None
-            ],
+            "periods": periods,
+            "series": series,
         }
 
     combined_periods = {
@@ -272,57 +307,49 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _sparkline_svg(accounts: dict[str, Any]) -> str:
-    """Render each account as a normalized close index so unlike balances compare cleanly."""
+def _account_chart_svg(key: str, account: dict[str, Any]) -> str:
+    """Render one account's value path in its natural currency."""
     colors = {"tfsa_ws": "#ffd21f", "kraken": "#42d8ff"}
-    eligible = {
-        key: account
-        for key, account in accounts.items()
-        if len(account.get("series", [])[-90:]) >= 2
-    }
-    if not eligible:
+    value_key = "usd" if key == "kraken" else "cad"
+    currency = "US$" if key == "kraken" else "C$"
+    series = [point for point in account.get("series", []) if isinstance(point.get(value_key), (int, float))]
+    if len(series) < 2:
         return '<div class="tracker-chart-empty">History started · the close chart will build automatically.</div>'
-
-    indexed_series: dict[str, list[float]] = {}
-    for key, account in eligible.items():
-        series = account.get("series", [])[-90:]
-        base = float(series[0]["cad"])
-        if base <= 0:
-            continue
-        indexed_series[key] = [float(point["cad"]) / base * 100 for point in series]
-
-    all_values = [value for series in indexed_series.values() for value in series]
-    if len(all_values) < 2:
-        return '<div class="tracker-chart-empty">History started · the close chart will build automatically.</div>'
-
-    low, high = min(all_values), max(all_values)
+    values = [float(point[value_key]) for point in series]
+    low, high = min(values), max(values)
     spread = high - low or 1.0
-    width, height, pad = 640.0, 150.0, 10.0
-    paths = []
-    legend = []
-    for key, values in indexed_series.items():
-        points = []
-        for index, value in enumerate(values):
-            x = pad + (width - 2 * pad) * (index / max(len(values) - 1, 1))
-            y = pad + (height - 2 * pad) * (1 - (value - low) / spread)
-            points.append(f"{x:.1f},{y:.1f}")
-        color = colors.get(key, "#b59662")
-        paths.append(
-            f'<polyline points="{" ".join(points)}" fill="none" stroke="{color}" '
-            'stroke-width="3" vector-effect="non-scaling-stroke"/>'
-        )
-        legend.append(
-            f'<span><i style="--tracker-color:{color}"></i>{escape(eligible[key]["label"])}</span>'
-        )
+    width, height, xpad, ypad = 640.0, 190.0, 18.0, 24.0
+    points = []
+    for index, value in enumerate(values):
+        x = xpad + (width - 2 * xpad) * (index / max(len(values) - 1, 1))
+        y = ypad + (height - 2 * ypad) * (1 - (value - low) / spread)
+        points.append(f"{x:.1f},{y:.1f}")
+    color = colors.get(key, "#b59662")
+    start_date = date.fromisoformat(series[0]["market_date"]).strftime("%b %Y")
+    end_date = date.fromisoformat(series[-1]["market_date"]).strftime("%b %Y")
+    start = values[0]
+    current = values[-1]
+    change = (current / start - 1) * 100 if start else 0
+    change_sign = "+" if change >= 0 else "−"
     return (
-        '<div class="tracker-chart">'
-        '<svg viewBox="0 0 640 150" role="img" aria-label="Portfolio close performance indexed to 100">'
+        f'<div class="tracker-chart tracker-chart--{key}"><div class="tracker-chart-head">'
+        f'<div><strong>{escape(account["label"])}</strong><span>{start_date} → {end_date}</span></div>'
+        f'<b class="{"positive" if change >= 0 else "negative"}">{change_sign}{abs(change):.1f}%</b></div>'
+        f'<svg viewBox="0 0 640 190" role="img" aria-label="{escape(account["label"])} account value history">'
         '<defs><linearGradient id="tracker-grid" x1="0" x2="1"><stop stop-color="#ffd21f" stop-opacity=".16"/><stop offset="1" stop-color="#42d8ff" stop-opacity=".08"/></linearGradient></defs>'
-        '<rect x="0" y="0" width="640" height="150" rx="14" fill="url(#tracker-grid)"/>'
-        '<path d="M10 40 H630 M10 75 H630 M10 110 H630" stroke="rgba(255,255,255,.06)" stroke-width="1"/>'
-        + "".join(paths)
-        + '</svg><div class="tracker-chart-legend">' + "".join(legend) + "</div></div>"
+        '<rect x="0" y="0" width="640" height="190" rx="14" fill="url(#tracker-grid)"/>'
+        '<path d="M18 48 H622 M18 95 H622 M18 142 H622" stroke="rgba(255,255,255,.06)" stroke-width="1"/>'
+        f'<polyline points="{" ".join(points)}" fill="none" stroke="{color}" stroke-width="3" vector-effect="non-scaling-stroke"/>'
+        f'<circle cx="{points[-1].split(",")[0]}" cy="{points[-1].split(",")[1]}" r="5" fill="{color}"/>'
+        '</svg>'
+        f'<div class="tracker-chart-axis"><span>{currency}{start:,.0f}</span><span>Current {currency}{current:,.0f}</span></div></div>'
     )
+
+
+def _charts_html(accounts: dict[str, Any]) -> str:
+    return '<div class="tracker-charts">' + ''.join(
+        _account_chart_svg(key, accounts[key]) for key in ("tfsa_ws", "kraken") if key in accounts
+    ) + '</div>'
 
 
 def _format_period_cell(change: dict[str, Any]) -> str:
@@ -332,7 +359,7 @@ def _format_period_cell(change: dict[str, Any]) -> str:
     return (
         f'<div class="tracker-period {cls}">'
         f'<strong>{sign}{abs(change["percent"]):.1f}%</strong>'
-        f'<small>{sign}C${abs(change["amount"]):,.0f}</small>'
+        f'<small>{"≈" if change.get("estimated") else ""}{sign}{"US$" if change.get("currency") == "USD" else "C$"}{abs(change["amount"]):,.0f}</small>'
         '</div>'
     )
 
@@ -415,8 +442,8 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         '<div class="tracker-total-label">Combined Net Worth</div>'
         f'<div class="tracker-total">C${model["current_total_cad"]:,.0f}</div>'
         '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
-        + _sparkline_svg(model["accounts"])
+        + _charts_html(model["accounts"])
         + performance_html
-        + '<div class="tracker-foot">Performance uses verified Google Sheet closes only.</div>'
+        + '<div class="tracker-foot"><strong>Account-value return, not pure investment return.</strong> Deposits, withdrawals and Kraken leverage affect these percentages. Kraken YTD is an approximate capital-path reference from the spreadsheet’s Oct 2025 US$7,000 inception balance; future closes will sharpen it automatically.</div>'
         '</section>'
     )
