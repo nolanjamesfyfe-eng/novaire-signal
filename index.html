@@ -1250,11 +1250,10 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
   const card = document.getElementById('catalysts-card');
   if (!card) return;
   const key = 'nv_catalysts_seen';
+  const fingerprint = card.dataset.fingerprint;
   try {
-    if (localStorage.getItem(key) === 'closed') card.removeAttribute('open');
-    card.addEventListener('toggle', function() {
-      localStorage.setItem(key, card.open ? 'open' : 'closed');
-    });
+    if (localStorage.getItem(key) === fingerprint) card.removeAttribute('open');
+    else localStorage.setItem(key, fingerprint);
   } catch (e) {}
 })();
 
