@@ -222,12 +222,9 @@
     .fresh{background:rgba(61,158,106,.12);color:#3d9e6a;border:1px solid rgba(61,158,106,.2)}
     .stale{background:rgba(106,103,122,.1);color:var(--dim);border:1px solid var(--border)}
 
-    .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .rec-item{background:var(--bg);padding:16px;border:1px solid var(--border);border-radius:var(--r)}
-    .rec-label{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:7px;font-weight:600}
-    .rec-title{font-family:var(--serif);font-size:1.05rem;color:var(--text);margin-bottom:3px}
-    .rec-meta{font-size:.68rem;color:var(--blue);margin-bottom:5px}
-    .rec-summary{font-size:.76rem;color:var(--dim);line-height:1.45}
+    .currently-mini{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:2px 0}
+    .currently-title{font-family:var(--serif);font-size:1rem;color:var(--text)}
+    .currently-author{font-size:.68rem;color:var(--blue);white-space:nowrap}
 
     .podcast-card{padding:14px 16px}
     .podcast-mini{display:flex;align-items:stretch;gap:12px;text-decoration:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:8px;transition:border-color .15s}
@@ -435,7 +432,7 @@
     <div class="weather-grid">
       
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:01</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">15:07</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">27°C</div>
           <div class="condition">Thunderstorm ⛈</div>
@@ -443,7 +440,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 93% · AQI 29 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:01</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">03:07</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">18°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -451,7 +448,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 52 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:01</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:07</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">13°C</div>
           <div class="condition">Drizzle 🌦</div>
@@ -459,7 +456,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 90% · AQI 50 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:01</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">05:07</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">12°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -475,22 +472,22 @@
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
-        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-17T07:50:46Z">
+        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-17T07:56:56Z">
           <span>S&P FUT</span>
-          <b data-future-price>7,819.75</b>
-          <em data-future-change class="positive">+0.19%</em>
+          <b data-future-price>7,818.75</b>
+          <em data-future-change class="positive">+0.18%</em>
           <small title="S&P 500 cash index"><i>Cash</i><strong data-market-price="^GSPC">7,785.76</strong><u data-market-change="^GSPC" class="negative">-0.17%</u></small>
         </div>
-        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-17T07:50:46Z">
+        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-17T07:57:01Z">
           <span>NASDAQ FUT</span>
-          <b data-future-price>30,313.00</b>
-          <em data-future-change class="positive">+0.57%</em>
+          <b data-future-price>30,307.75</b>
+          <em data-future-change class="positive">+0.55%</em>
           <small title="Nasdaq Composite cash index"><i>Cash</i><strong data-market-price="^IXIC">26,729.16</strong><u data-market-change="^IXIC" class="negative">-0.28%</u></small>
         </div>
-        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-17T07:50:28Z">
+        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-17T07:56:56Z">
           <span>DOW FUT</span>
-          <b data-future-price>53,776.00</b>
-          <em data-future-change class="negative">-0.06%</em>
+          <b data-future-price>53,763.00</b>
+          <em data-future-change class="negative">-0.08%</em>
           <small title="Dow Jones cash index"><i>Cash</i><strong data-market-price="^DJI">53,732.41</strong><u data-market-change="^DJI" class="negative">-0.20%</u></small>
         </div></div>
       <div class="market-calendar">NYSE Labor Day · Sep 07 <span>·</span> TSX Labour Day · Sep 07</div>
@@ -502,13 +499,13 @@
     <div class="fx-row">
       
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate">1.39</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">32.95</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate">32.94</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate">1.40</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate">3,131</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate">0.86</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate">84.99</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate">1,411</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">158.96</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate">158.99</span></div>
     </div>
   </div>
 
@@ -519,27 +516,27 @@
       
         <div class="commodity-item" data-commodity="GC=F">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,464</div>
+          <div class="commodity-price c-gold" data-comm-price="GC=F">$4,461</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.92%</span></div>
+          <div class="commodity-change" data-comm-chg="GC=F"><span class="positive">+1.85%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SI=F">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price c-silver" data-comm-price="SI=F">$65.96</div>
+          <div class="commodity-price c-silver" data-comm-price="SI=F">$65.89</div>
           <div class="commodity-unit">/oz</div>
-          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.49%</span></div>
+          <div class="commodity-change" data-comm-chg="SI=F"><span class="positive">+1.39%</span></div>
         </div>
         <div class="commodity-item" data-commodity="HG=F">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6910</div>
+          <div class="commodity-price c-copper" data-comm-price="HG=F">$6.6855</div>
           <div class="commodity-unit">/lb</div>
-          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+1.39%</span></div>
+          <div class="commodity-change" data-comm-chg="HG=F"><span class="positive">+1.30%</span></div>
         </div>
         <div class="commodity-item" data-commodity="CL=F">
           <div class="commodity-name c-oil">Oil (WTI)</div>
-          <div class="commodity-price c-oil" data-comm-price="CL=F">$81.98</div>
+          <div class="commodity-price c-oil" data-comm-price="CL=F">$82.07</div>
           <div class="commodity-unit">/bbl</div>
-          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">-0.51%</span></div>
+          <div class="commodity-change" data-comm-chg="CL=F"><span class="negative">-0.40%</span></div>
         </div>
         <div class="commodity-item" data-commodity="PA=F">
           <div class="commodity-name c-palladium">Palladium</div>
@@ -563,43 +560,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,545</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.77%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,470</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.64%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,902</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+1.06%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,897</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.85%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.77</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.42%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.61</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.24%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$514.36</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+5.39%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$513.05</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+5.19%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1762</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-0.84%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1758</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.18%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3320</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-0.74%</span></div>
+          <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3310</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-0.75%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6786</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.18%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6773</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.03%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
           <div class="crypto-price" data-crypto-price="NIGHT" style="color:#7868ff">$0.0172</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-1.54%</span></div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-2.16%</span></div>
         </div>
     </div>
   </div>
@@ -818,22 +815,12 @@
   </div>
 
 
-  <!-- CURRENTLY -->
+  <!-- CURRENTLY READING — intentionally quiet, personal reference only -->
   <div class="card">
-    <div class="card-title">📚 Currently</div>
-    <div class="rec-grid">
-      <div class="rec-item">
-        <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">Diamond League Track & Field</div>
-        <div class="rec-meta">World Athletics · Sprinting, distance, jumps, throws</div>
-        <div class="rec-summary">Elite track and field as a weekly performance study: speed, pressure, tactics, recovery, and the psychology of peak humans under the clock.</div>
-      </div>
-      <div class="rec-item">
-        <div class="rec-label">📖 Reading</div>
-        <div class="rec-title">The Trickster Archetype</div>
-        <div class="rec-meta">James' pick · Psychology/Myth</div>
-        <div class="rec-summary">A study of the trickster pattern: mischief, boundary crossing, disruption, transformation, and the strange wisdom that enters through chaos.</div>
-      </div>
+    <div class="card-title">📖 Currently Reading</div>
+    <div class="currently-mini">
+      <div class="currently-title">The Book of Elon</div>
+      <div class="currently-author">Eric Jorgenson</div>
     </div>
   </div>
 
@@ -843,7 +830,7 @@
     <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
     <div class="thai-news-compact" style="margin-top:10px">
       <div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="28" data-thai-url="https://thethaiger.com/hot-news/tourism/bali-visa-crackdown-sees-342-deported-in-6-months">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 17, 15:01 BKK</div>
+          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 17, 15:07 BKK</div>
           <a href="https://thethaiger.com/hot-news/tourism/bali-visa-crackdown-sees-342-deported-in-6-months" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Bali visa crackdown sees 342 deported in 6 months</a>
           <div class="thai-news-summary">Bali deported 342 foreigners from 60 countries in the first six months of this year, as Indonesia tightens enforcement around its growing community of foreign residents and visas f</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 28.</div>

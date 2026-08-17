@@ -2590,12 +2590,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fresh{{background:rgba(61,158,106,.12);color:#3d9e6a;border:1px solid rgba(61,158,106,.2)}}
     .stale{{background:rgba(106,103,122,.1);color:var(--dim);border:1px solid var(--border)}}
 
-    .rec-grid{{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
-    .rec-item{{background:var(--bg);padding:16px;border:1px solid var(--border);border-radius:var(--r)}}
-    .rec-label{{font-size:.58rem;color:var(--gold);text-transform:uppercase;letter-spacing:.16em;margin-bottom:7px;font-weight:600}}
-    .rec-title{{font-family:var(--serif);font-size:1.05rem;color:var(--text);margin-bottom:3px}}
-    .rec-meta{{font-size:.68rem;color:var(--blue);margin-bottom:5px}}
-    .rec-summary{{font-size:.76rem;color:var(--dim);line-height:1.45}}
+    .currently-mini{{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:2px 0}}
+    .currently-title{{font-family:var(--serif);font-size:1rem;color:var(--text)}}
+    .currently-author{{font-size:.68rem;color:var(--blue);white-space:nowrap}}
 
     .podcast-card{{padding:14px 16px}}
     .podcast-mini{{display:flex;align-items:stretch;gap:12px;text-decoration:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:8px;transition:border-color .15s}}
@@ -2978,22 +2975,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 {alpaca_html}
 
 
-  <!-- CURRENTLY -->
+  <!-- CURRENTLY READING — intentionally quiet, personal reference only -->
   <div class="card">
-    <div class="card-title">📚 Currently</div>
-    <div class="rec-grid">
-      <div class="rec-item">
-        <div class="rec-label">📺 Watching</div>
-        <div class="rec-title">Diamond League Track & Field</div>
-        <div class="rec-meta">World Athletics · Sprinting, distance, jumps, throws</div>
-        <div class="rec-summary">Elite track and field as a weekly performance study: speed, pressure, tactics, recovery, and the psychology of peak humans under the clock.</div>
-      </div>
-      <div class="rec-item">
-        <div class="rec-label">📖 Reading</div>
-        <div class="rec-title">The Trickster Archetype</div>
-        <div class="rec-meta">James' pick · Psychology/Myth</div>
-        <div class="rec-summary">A study of the trickster pattern: mischief, boundary crossing, disruption, transformation, and the strange wisdom that enters through chaos.</div>
-      </div>
+    <div class="card-title">📖 Currently Reading</div>
+    <div class="currently-mini">
+      <div class="currently-title">The Book of Elon</div>
+      <div class="currently-author">Eric Jorgenson</div>
     </div>
   </div>
 
