@@ -13,6 +13,7 @@ function portfolioFile(req){
  const raw=String(req.query?.path||'').replace(/^\/+|\/+$/g,'');
  if(!raw)return 'index.html';
  if(raw==='evolutionfund')return path.join('evolutionfund','index.html');
+ if(raw==='finances')return path.join('finances','index.html');
  return null;
 }
 module.exports=function handler(req,res){
