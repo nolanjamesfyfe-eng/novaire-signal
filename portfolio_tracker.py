@@ -325,9 +325,7 @@ def _sparkline_svg(accounts: dict[str, Any]) -> str:
     )
 
 
-def _format_period_cell(change: dict[str, Any] | None) -> str:
-    if not change:
-        return '<div class="tracker-period tracker-period--pending"><strong>—</strong><small>Building</small></div>'
+def _format_period_cell(change: dict[str, Any]) -> str:
     positive = change["amount"] >= 0
     sign = "+" if positive else "−"
     cls = "positive" if positive else "negative"
@@ -369,25 +367,44 @@ def render_tracker_html(model: dict[str, Any]) -> str:
             f'<div class="tracker-account-secondary">{secondary}</div>'
             '</div>'
         )
-        cells = "".join(
-            f'<div><em>{label}</em>{_format_period_cell(account["periods"].get(label))}</div>'
+        available_periods = [
+            (label, account["periods"].get(label))
             for label in model["periods"]
+            if account["periods"].get(label) is not None
+        ]
+        if available_periods:
+            cells = "".join(
+                f'<div><em>{label}</em>{_format_period_cell(change)}</div>'
+                for label, change in available_periods
+            )
+            performance_rows.append(
+                f'<div class="tracker-performance-row"><div class="tracker-performance-name">{escape(account["label"])}</div>'
+                f'<div class="tracker-performance-grid">{cells}</div></div>'
+            )
+
+    available_combined_periods = [
+        (label, model["combined_periods"].get(label))
+        for label in model["periods"]
+        if model["combined_periods"].get(label) is not None
+    ]
+    if available_combined_periods:
+        combined_cells = "".join(
+            f'<div><em>{label}</em>{_format_period_cell(change)}</div>'
+            for label, change in available_combined_periods
         )
-        performance_rows.append(
-            f'<div class="tracker-performance-row"><div class="tracker-performance-name">{escape(account["label"])}</div>'
-            f'<div class="tracker-performance-grid">{cells}</div></div>'
+        performance_rows.insert(
+            0,
+            '<div class="tracker-performance-row tracker-performance-row--total">'
+            '<div class="tracker-performance-name">Total Net Worth</div>'
+            f'<div class="tracker-performance-grid">{combined_cells}</div></div>',
         )
 
-    combined_cells = "".join(
-        f'<div><em>{label}</em>{_format_period_cell(model["combined_periods"].get(label))}</div>'
-        for label in model["periods"]
-    )
-    performance_rows.insert(
-        0,
-        '<div class="tracker-performance-row tracker-performance-row--total">'
-        '<div class="tracker-performance-name">Total Net Worth</div>'
-        f'<div class="tracker-performance-grid">{combined_cells}</div></div>',
-    )
+    performance_html = ""
+    if performance_rows:
+        performance_html = (
+            '<div class="tracker-performance-title">Close-to-close performance</div>'
+            '<div class="tracker-performance">' + "".join(performance_rows) + '</div>'
+        )
 
     return (
         '<section class="card net-worth-tracker" id="net-worth-tracker">'
@@ -399,8 +416,7 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         f'<div class="tracker-total">C${model["current_total_cad"]:,.0f}</div>'
         '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
         + _sparkline_svg(model["accounts"])
-        + '<div class="tracker-performance-title">Close-to-close performance</div>'
-        '<div class="tracker-performance">' + "".join(performance_rows) + '</div>'
-        '<div class="tracker-foot">History started from verified Sheet closes. Missing periods unlock automatically—no invented backfill.</div>'
+        + performance_html
+        + '<div class="tracker-foot">Performance uses verified Google Sheet closes only.</div>'
         '</section>'
     )

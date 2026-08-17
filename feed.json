@@ -2,12 +2,11 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-17T10:01:13.527025+00:00",
+  "fetchedAt": "2026-08-17T10:10:56.738680+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "hkuppy",
+    "tferriss",
     "White_Rabbit_OG"
   ],
   "posts": [

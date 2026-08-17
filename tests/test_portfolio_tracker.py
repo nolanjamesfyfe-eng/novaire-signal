@@ -55,7 +55,7 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIsNone(model["accounts"]["kraken"]["periods"]["1D"])
         self.assertIsNone(model["combined_periods"]["1D"])
 
-    def test_render_tracker_has_two_accounts_and_all_periods(self):
+    def test_render_tracker_omits_unavailable_performance_rows_and_periods(self):
         history = {"snapshots": [
             {
                 "market_date": "2026-08-13",
@@ -78,12 +78,17 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn("Net Worth Tracker", html)
         self.assertIn("Wealthsimple TFSA", html)
         self.assertIn("Kraken", html)
-        for label in ("1D", "1W", "1M", "3M", "1Y"):
-            self.assertIn(f">{label}<", html)
+        self.assertIn(">1D<", html)
+        for label in ("1W", "1M", "3M", "1Y"):
+            self.assertNotIn(f">{label}<", html)
         self.assertIn("C$122,778", html)
-        self.assertIn("History started", html)
+        self.assertIn("verified Google Sheet closes only", html)
+        self.assertNotIn("Building", html)
+        self.assertNotIn("Total Net Worth", html)
         self.assertIn("Portfolio close performance indexed to 100", html)
         soup = BeautifulSoup(html, "html.parser")
+        performance_names = [node.get_text(" ", strip=True) for node in soup.select(".tracker-performance-name")]
+        self.assertEqual(performance_names, ["Wealthsimple TFSA"])
         legend = soup.select_one(".tracker-chart-legend")
         self.assertIsNotNone(legend)
         legend_text = legend.get_text(" ", strip=True) if legend else ""

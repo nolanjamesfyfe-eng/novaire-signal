@@ -3275,7 +3275,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- DAILY KEYSTONE PRIORITY -->
   <div class="card" id="keystone-card">
     <div class="card-title">🎯 Daily Keystone Priority</div>
-    <div class="updog-intro">Enter one Keystone priority. Signal will return three concrete moves.</div>
+    <div class="updog-intro">Enter one Keystone priority. Signal will return one concrete move.</div>
     <div class="keystone-row">
       <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
       <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
@@ -3398,6 +3398,19 @@ rememberDailySignalCard('weather-card', 'weather-viewed', 'nv_weather_viewed');
 rememberDailySignalCard('world-tour-card','world-tour-viewed','nv_world_tour_viewed');
 rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
 
+(function rememberCatalystsCard() {{
+  const card = document.getElementById('catalysts-card');
+  if (!card) return;
+  const fingerprint = card.dataset.fingerprint || card.dataset.edition || '';
+  const key = 'nv_catalysts_seen';
+  try {{
+    if (localStorage.getItem(key) === fingerprint) card.removeAttribute('open');
+    card.addEventListener('toggle', function() {{
+      if (!card.open) localStorage.setItem(key, fingerprint);
+    }});
+  }} catch (e) {{}}
+}})();
+
 (function rememberThailandNews() {{
   const card = document.getElementById('thailand-news-card');
   const thailandScore = document.getElementById('thailand-news-viewed');
@@ -3420,6 +3433,7 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
   const meditationCard = document.getElementById('quotes-card');
   const meditationCardViewed = document.getElementById('meditation-card-viewed');
   const quotesDaily = document.getElementById('quotes-daily');
+  const meditationCardKey = 'nv_meditation_card_viewed';
   const localDateKey = function() {{
     const d = new Date();
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -3428,11 +3442,13 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
   function syncMeditationShell() {{
     let meditationDone = false;
     let quoteDone = false;
+    let cardDone = false;
     try {{
       meditationDone = localStorage.getItem('nv_meditation_collapsed_date') === today;
       quoteDone = localStorage.getItem('nv_quotes_viewed') === meditationCard.dataset.edition;
+      cardDone = localStorage.getItem(meditationCardKey) === meditationCard.dataset.edition;
     }} catch (e) {{}}
-    const consumed = meditationDone && quoteDone;
+    const consumed = cardDone || (meditationDone && quoteDone);
     if (consumed) meditationCard.removeAttribute('open');
     if (meditationCardViewed) meditationCardViewed.textContent = consumed ? 'Viewed' : 'Today';
   }}
@@ -3451,6 +3467,12 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     }});
   }} catch (e) {{ meditation.open = true; }}
   quotesDaily?.addEventListener('toggle', syncMeditationShell);
+  meditationCard.addEventListener('toggle', function() {{
+    try {{
+      if (!meditationCard.open) localStorage.setItem(meditationCardKey, meditationCard.dataset.edition);
+    }} catch (e) {{}}
+    syncMeditationShell();
+  }});
   syncMeditationShell();
   document.getElementById('med-collapse').addEventListener('click', function() {{
     meditation.open = false;
@@ -3492,7 +3514,7 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     const completeToday = data.doneDates.includes(today);
     status.textContent = completeToday
       ? 'Keystone complete · streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + '.'
-      : (data.isSet ? 'Today’s Keystone is set · complete all three moves to bank the day.' : 'Keystone streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + ' · set today’s Keystone.');
+      : (data.isSet ? 'Today’s Keystone is set · complete the action to bank the day.' : 'Keystone streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + ' · set today’s Keystone.');
     if (yesterdayBox) yesterdayBox.innerHTML = '';
     localStorage.setItem(key, JSON.stringify(data));
   }}
