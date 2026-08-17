@@ -1618,7 +1618,6 @@ def fetch_commodities():
         "COPPER": {"name": "Copper",      "unit": "/lb",  "cls": "c-copper"},
         "WTI": {"name": "Crude Oil WTI", "unit": "/bbl", "cls": "c-oil"},
         "BRENT": {"name": "Brent Oil",    "unit": "/bbl", "cls": "c-oil"},
-        "NATGAS": {"name": "Natural Gas", "unit": "/MMBtu", "cls": "c-gas"},
         "URANIUM_SPOT": {"name": "Uranium", "unit": "/lb", "cls": "c-uranium"},
     }
     results = {key: {**meta, "price": None, "change": None,
@@ -1635,7 +1634,7 @@ def fetch_commodities():
         r.raise_for_status()
         markdown = r.json().get("data", {}).get("markdown", "")
         slugs = {"GOLD": "gold", "SILVER": "silver", "COPPER": "copper",
-                 "WTI": "crude-oil", "BRENT": "brent-oil", "NATGAS": "natural-gas"}
+                 "WTI": "crude-oil", "BRENT": "brent-oil"}
         for key, slug in slugs.items():
             marker = f"](https://www.investing.com/commodities/{slug} \""
             row = next((line for line in markdown.splitlines() if marker in line), None)
@@ -2677,7 +2676,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .countdown-strip{{padding:13px 16px}}
     .daily-signal-card{{padding:0;overflow:hidden}}
     .daily-signal-card>summary{{min-height:62px;box-sizing:border-box;padding:18px 20px}}
-    .daily-signal-card:not([open])>summary{{min-height:62px}}
+    .daily-signal-card:not([open]){{height:62px;min-height:62px}}
+    .daily-signal-card:not([open])>summary{{height:62px;min-height:62px}}
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
     .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
@@ -3430,12 +3430,11 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
 (function rememberCatalystsCard() {{
   const card = document.getElementById('catalysts-card');
   if (!card) return;
-  const fingerprint = card.dataset.fingerprint || card.dataset.edition || '';
   const key = 'nv_catalysts_seen';
   try {{
-    if (localStorage.getItem(key) === fingerprint) card.removeAttribute('open');
+    if (localStorage.getItem(key) === 'closed') card.removeAttribute('open');
     card.addEventListener('toggle', function() {{
-      if (!card.open) localStorage.setItem(key, fingerprint);
+      localStorage.setItem(key, card.open ? 'open' : 'closed');
     }});
   }} catch (e) {{}}
 }})();

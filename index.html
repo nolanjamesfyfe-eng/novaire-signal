@@ -60,7 +60,8 @@
     .countdown-strip{padding:13px 16px}
     .daily-signal-card{padding:0;overflow:hidden}
     .daily-signal-card>summary{min-height:62px;box-sizing:border-box;padding:18px 20px}
-    .daily-signal-card:not([open])>summary{min-height:62px}
+    .daily-signal-card:not([open]){height:62px;min-height:62px}
+    .daily-signal-card:not([open])>summary{height:62px;min-height:62px}
     #world-tour-card{padding:0}
     #world-tour-card .signal-accordion-body{padding:0 16px 16px}
     .countdown-strip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}
@@ -487,7 +488,7 @@
     <summary><span class="card-title">🌤 Weather</span><span class="accordion-score" id="weather-viewed">Today</span></summary>
     <div class="signal-accordion-body"><div class="weather-grid">
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">20:05</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">20:14</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">28°C</div>
           <div class="condition">Partly Cloudy ⛅</div>
@@ -495,7 +496,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 87% · AQI 31 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:05</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:14</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">20°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -503,7 +504,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 92% · AQI 51 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">07:05</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">07:14</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">12°C</div>
           <div class="condition">Rain 🌧</div>
@@ -511,7 +512,7 @@
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 91% · AQI 42 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:05</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">10:14</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">11°C</div>
           <div class="condition">Overcast ☁️</div>
@@ -526,22 +527,22 @@
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
-        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-17T12:54:38Z">
+        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-17T13:04:19Z">
           <span>S&P FUT</span>
-          <b data-future-price>7,803.25</b>
-          <em data-future-change class="negative">-0.02%</em>
+          <b data-future-price>7,804.25</b>
+          <em data-future-change class="negative">-0.01%</em>
           <small title="S&P 500 cash index"><i>Cash</i><strong data-market-price="^GSPC">7,785.76</strong><u data-market-change="^GSPC" class="negative">-0.17%</u></small>
         </div>
-        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-17T12:54:37Z">
+        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-17T13:04:21Z">
           <span>NASDAQ FUT</span>
-          <b data-future-price>30,201.50</b>
-          <em data-future-change class="positive">+0.20%</em>
+          <b data-future-price>30,205.25</b>
+          <em data-future-change class="positive">+0.21%</em>
           <small title="Nasdaq Composite cash index"><i>Cash</i><strong data-market-price="^IXIC">26,729.16</strong><u data-market-change="^IXIC" class="negative">-0.28%</u></small>
         </div>
-        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-17T12:54:38Z">
+        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-17T13:04:10Z">
           <span>DOW FUT</span>
-          <b data-future-price>53,618.00</b>
-          <em data-future-change class="negative">-0.35%</em>
+          <b data-future-price>53,609.00</b>
+          <em data-future-change class="negative">-0.37%</em>
           <small title="Dow Jones cash index"><i>Cash</i><strong data-market-price="^DJI">53,732.41</strong><u data-market-change="^DJI" class="negative">-0.20%</u></small>
         </div></div>
       <div class="market-calendar">NYSE Labor Day · Sep 07 <span>·</span> TSX Labour Day · Sep 07</div>
@@ -583,12 +584,6 @@
           <div class="commodity-unit">/bbl</div>
           <div class="commodity-change" data-comm-chg="BRENT"><span class="positive">+0.99%</span></div>
         </div>
-        <div class="commodity-item" data-commodity="NATGAS">
-          <div class="commodity-name c-gas">Natural Gas</div>
-          <div class="commodity-price c-gas" data-comm-price="NATGAS">$2.6610</div>
-          <div class="commodity-unit">/MMBtu</div>
-          <div class="commodity-change" data-comm-chg="NATGAS"><span class="negative">-2.63%</span></div>
-        </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
           <div class="commodity-name c-uranium">Uranium</div>
           <div class="commodity-price c-uranium" data-comm-price="URANIUM_SPOT">$88.07</div>
@@ -605,38 +600,38 @@
 
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,522</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.79%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC" style="color:#f7931a">$63,578</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.82%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,898</div>
+          <div class="crypto-price" data-crypto-price="ETH" style="color:#627eea">$1,899</div>
           <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+0.98%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.32</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.08%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL" style="color:#9945ff">$75.41</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.13%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$509.70</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+4.95%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC" style="color:#f4b728">$510.58</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+5.08%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1732</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.70%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA" style="color:#2a6df4">$0.1735</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="negative">-1.48%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
           <div class="crypto-price" data-crypto-price="TON" style="color:#0098ea">$1.3310</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-1.04%</span></div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="negative">-0.97%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6753</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-0.43%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI" style="color:#6fd7ff">$0.6758</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="negative">-0.35%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
@@ -652,11 +647,11 @@
     <div class="fx-row">
 
       <div class="fx-chip"><div class="fx-ccy">🇨🇦 CAD</div><span class="fx-rate" data-fx-rate="CAD">1.39</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate" data-fx-rate="THB">33.03</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇹🇭 THB</div><span class="fx-rate" data-fx-rate="THB">33.01</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇦🇺 AUD</div><span class="fx-rate" data-fx-rate="AUD">1.40</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇨🇴 COP</div><span class="fx-rate" data-fx-rate="COP">3,132</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇪🇺 EUR</div><span class="fx-rate" data-fx-rate="EUR">0.86</span></div>
-      <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate" data-fx-rate="RUB">84.99</span></div>
+      <div class="fx-chip"><div class="fx-ccy">🇷🇺 RUB</div><span class="fx-rate" data-fx-rate="RUB">84.96</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇰🇷 KRW</div><span class="fx-rate" data-fx-rate="KRW">1,412</span></div>
       <div class="fx-chip"><div class="fx-ccy">🇯🇵 JPY</div><span class="fx-rate" data-fx-rate="JPY">159.25</span></div>
     </div>
@@ -822,15 +817,15 @@
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W34" data-fingerprint="0c50a0ce22beb7e3" data-items="[&quot;1150abd6059cd06d&quot;,&quot;b1c8bbf0cee5e419&quot;,&quot;8c0aac9c1287a0f0&quot;]" open>
+  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W34" data-fingerprint="5669b38f7a46927b" data-items="[&quot;00e2acb23b40f19d&quot;,&quot;b1c8bbf0cee5e419&quot;,&quot;8c0aac9c1287a0f0&quot;]" open>
     <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on Aug 17</span></summary>
     <div class="signal-accordion-body">
             <div class="catalyst-item">
               <span class="catalyst-ticker">HG</span>
               <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Aug 17 · The Globe and Mail</span>
+              <span class="catalyst-badge">Aug 17 · theglobeandmail.com</span>
               <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">HydroGraph to Hold Special Meeting of Shareholders in Connection with Proposed Redomiciling Transaction - The Globe and Mail</span>
+              <span class="catalyst-headline">HydroGraph to Hold Special Meeting of Shareholders in Connection with Proposed Redomiciling Transaction - theglobeandmail.com</span>
             </div>
             <div class="catalyst-item">
               <span class="catalyst-ticker">URNJ</span>
@@ -877,7 +872,7 @@
     <summary><span class="card-title">🦙 Livermore Darvis</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:#4ade80">+4.3%</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · 3 trades · Since Feb 24, 2026</div>
-      <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ</span><span style="font-weight:600;color:#f87171">-17.4%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK</span><span style="font-weight:600;color:#4ade80">+24.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ</span><span style="font-weight:600;color:#4ade80">+4.1%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-24.6%</span></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ</span><span style="font-weight:600;color:#f87171">-17.4%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK</span><span style="font-weight:600;color:#4ade80">+24.5%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ</span><span style="font-weight:600;color:#4ade80">+4.1%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR</span><span style="font-weight:600;color:#f87171">-24.4%</span></div>
     </div>
   </details><script>document.getElementById("darvas-card")?.removeAttribute("open");</script>
 
@@ -888,7 +883,7 @@
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
       <div class="thai-news-compact" style="margin-top:10px"><div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="The Thaiger" data-thai-score="22" data-thai-url="https://thethaiger.com/news/pattaya/foreigner-loses-tooth-in-attack-by-homeless-man-in-pattaya">
-          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 17, 20:05 BKK</div>
+          <div class="thai-news-source">The Thaiger · Expat-relevant · Verified Aug 17, 20:14 BKK</div>
           <a href="https://thethaiger.com/news/pattaya/foreigner-loses-tooth-in-attack-by-homeless-man-in-pattaya" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Pattaya homeless man attack leaves foreign tourist with broken tooth</a>
           <div class="thai-news-summary">A foreigner lost a tooth and suffered a mouth injury after a Thai homeless man punched him while he was smoking on the roadside in Pattaya on August 6. CCTV footage of the incident</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 22.</div>
@@ -1240,12 +1235,11 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
 (function rememberCatalystsCard() {
   const card = document.getElementById('catalysts-card');
   if (!card) return;
-  const fingerprint = card.dataset.fingerprint || card.dataset.edition || '';
   const key = 'nv_catalysts_seen';
   try {
-    if (localStorage.getItem(key) === fingerprint) card.removeAttribute('open');
+    if (localStorage.getItem(key) === 'closed') card.removeAttribute('open');
     card.addEventListener('toggle', function() {
-      if (!card.open) localStorage.setItem(key, fingerprint);
+      localStorage.setItem(key, card.open ? 'open' : 'closed');
     });
   } catch (e) {}
 })();

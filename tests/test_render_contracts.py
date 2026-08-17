@@ -146,8 +146,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("nv_weekly_ideas_seen", self.html)
         self.assertIn('data-fingerprint=', self.html)
         self.assertIn("const key = 'nv_catalysts_seen'", self.html)
-        self.assertIn("if (localStorage.getItem(key) === fingerprint) card.removeAttribute('open')", self.html)
-        self.assertIn("if (!card.open) localStorage.setItem(key, fingerprint)", self.html)
+        self.assertIn("if (localStorage.getItem(key) === 'closed') card.removeAttribute('open')", self.html)
+        self.assertIn("localStorage.setItem(key, card.open ? 'open' : 'closed')", self.html)
         self.assertIn("const meditationCardKey = 'nv_meditation_card_viewed'", self.html)
         self.assertIn("cardDone || (meditationDone && quoteDone)", self.html)
         self.assertIn("if (!meditationCard.open) localStorage.setItem(meditationCardKey, meditationCard.dataset.edition)", self.html)
@@ -173,6 +173,14 @@ class RenderContractTests(unittest.TestCase):
             self.assertIn(storage_key, self.html)
         self.assertIn("rememberDailySignalCard", self.html)
         self.assertIn("score.textContent = 'Viewed'", self.html)
+        self.assertIn(".daily-signal-card:not([open]){height:62px;min-height:62px}", self.html)
+        self.assertIn(".daily-signal-card:not([open])>summary{height:62px;min-height:62px}", self.html)
+
+    def test_commodities_are_six_equal_tiles_without_natural_gas(self):
+        self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
+        self.assertNotIn('data-commodity="NATGAS"', self.html)
+        for symbol in ("GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT"):
+            self.assertIn(f'data-commodity="{symbol}"', self.html)
 
     def test_daily_meditation_reopens_each_new_day_and_remembers_same_day_collapse(self):
         self.assertIn('id="meditation-daily" class="meditation" open', self.html)

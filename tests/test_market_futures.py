@@ -55,7 +55,7 @@ class MarketFuturesTests(unittest.TestCase):
         commodities = generate.fetch_commodities()
         self.assertEqual(
             set(commodities),
-            {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "NATGAS", "URANIUM_SPOT"},
+            {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT"},
         )
         self.assertEqual(commodities["URANIUM_SPOT"]["name"], "Uranium")
         self.assertEqual(commodities["URANIUM_SPOT"]["unit"], "/lb")

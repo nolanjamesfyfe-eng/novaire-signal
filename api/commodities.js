@@ -3,7 +3,7 @@ export const config = { runtime: 'edge' };
 
 const INSTRUMENTS = [
   ['GOLD', 'Gold'], ['SILVER', 'Silver'], ['COPPER', 'Copper'],
-  ['WTI', 'Crude Oil WTI'], ['BRENT', 'Brent Oil'], ['NATGAS', 'Natural Gas'],
+  ['WTI', 'Crude Oil WTI'], ['BRENT', 'Brent Oil'],
 ];
 
 function parseUranium(markdown) {
@@ -14,7 +14,7 @@ function parseUranium(markdown) {
 export function parseInvestingCommodities(markdown) {
   const lines = String(markdown).split('\n');
   return INSTRUMENTS.flatMap(([symbol, name]) => {
-    const slug = {GOLD:'gold',SILVER:'silver',COPPER:'copper',WTI:'crude-oil',BRENT:'brent-oil',NATGAS:'natural-gas'}[symbol];
+    const slug = {GOLD:'gold',SILVER:'silver',COPPER:'copper',WTI:'crude-oil',BRENT:'brent-oil'}[symbol];
     const row = lines.find(line => line.includes(`](https://www.investing.com/commodities/${slug} "`));
     if (!row) return [];
     const cells = row.trim().replace(/^\||\|$/g, '').split('|').map(cell => cell.trim());
