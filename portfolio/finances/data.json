@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "title": "On The Rise Finances",
+  "currency": "CAD",
+  "starting_debt": 58000,
+  "baseline_period": "2026-01-01",
+  "current_period": "2026-08-01",
+  "projection_rule": "Periods after current_period are projections.",
+  "source": {
+    "type": "screenshot_seed",
+    "google_sheet_id": "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak"
+  },
+  "rows": [
+    {
+      "date": "2026-01-01",
+      "visa": 27000,
+      "line": 31000,
+      "total_debt": 58000,
+      "visa_interest": 470,
+      "line_interest": 293,
+      "total_interest": 763,
+      "annual_interest": 9158,
+      "status": "actual"
+    },
+    {
+      "date": "2026-02-01",
+      "visa": 25318,
+      "line": 31000,
+      "total_debt": 56318,
+      "visa_interest": 441,
+      "line_interest": 293,
+      "total_interest": 734,
+      "annual_interest": 8807,
+      "status": "actual"
+    },
+    {
+      "date": "2026-03-01",
+      "visa": 21818,
+      "line": 31000,
+      "total_debt": 52818,
+      "visa_interest": 380,
+      "line_interest": 293,
+      "total_interest": 673,
+      "annual_interest": 8075,
+      "status": "actual"
+    },
+    {
+      "date": "2026-04-01",
+      "visa": 24000,
+      "line": 31000,
+      "total_debt": 55000,
+      "visa_interest": 418,
+      "line_interest": 293,
+      "total_interest": 711,
+      "annual_interest": 8531,
+      "status": "actual"
+    },
+    {
+      "date": "2026-05-01",
+      "visa": 20500,
+      "line": 31000,
+      "total_debt": 51500,
+      "visa_interest": 357,
+      "line_interest": 293,
+      "total_interest": 650,
+      "annual_interest": 7800,
+      "status": "actual"
+    },
+    {
+      "date": "2026-06-01",
+      "visa": 24392,
+      "line": 31000,
+      "total_debt": 55392,
+      "visa_interest": 425,
+      "line_interest": 293,
+      "total_interest": 718,
+      "annual_interest": 8613,
+      "status": "actual"
+    },
+    {
+      "date": "2026-07-01",
+      "visa": 20892,
+      "line": 31000,
+      "total_debt": 51892,
+      "visa_interest": 364,
+      "line_interest": 293,
+      "total_interest": 657,
+      "annual_interest": 7882,
+      "status": "actual"
+    },
+    {
+      "date": "2026-08-01",
+      "visa": 25000,
+      "line": 31000,
+      "total_debt": 56000,
+      "visa_interest": 435,
+      "line_interest": 293,
+      "total_interest": 728,
+      "annual_interest": 8740,
+      "status": "actual"
+    },
+    {
+      "date": "2026-09-01",
+      "visa": 21500,
+      "line": 31000,
+      "total_debt": 52500,
+      "visa_interest": 374,
+      "line_interest": 293,
+      "total_interest": 667,
+      "annual_interest": 8009,
+      "status": "projection"
+    },
+    {
+      "date": "2026-10-01",
+      "visa": 19200,
+      "line": 31000,
+      "total_debt": 50200,
+      "visa_interest": 334,
+      "line_interest": 293,
+      "total_interest": 627,
+      "annual_interest": 7528,
+      "status": "projection"
+    },
+    {
+      "date": "2026-11-01",
+      "visa": 16900,
+      "line": 31000,
+      "total_debt": 47900,
+      "visa_interest": 294,
+      "line_interest": 293,
+      "total_interest": 587,
+      "annual_interest": 7048,
+      "status": "projection"
+    },
+    {
+      "date": "2026-12-01",
+      "visa": 14600,
+      "line": 31000,
+      "total_debt": 45600,
+      "visa_interest": 254,
+      "line_interest": 293,
+      "total_interest": 547,
+      "annual_interest": 6567,
+      "status": "projection"
+    },
+    {
+      "date": "2027-01-01",
+      "visa": 12600,
+      "line": 31000,
+      "total_debt": 43600,
+      "visa_interest": 219,
+      "line_interest": 293,
+      "total_interest": 512,
+      "annual_interest": 6149,
+      "status": "projection"
+    },
+    {
+      "date": "2027-02-01",
+      "visa": 10600,
+      "line": 31000,
+      "total_debt": 41600,
+      "visa_interest": 185,
+      "line_interest": 293,
+      "total_interest": 478,
+      "annual_interest": 5731,
+      "status": "projection"
+    },
+    {
+      "date": "2027-03-01",
+      "visa": 8600,
+      "line": 31000,
+      "total_debt": 39600,
+      "visa_interest": 150,
+      "line_interest": 293,
+      "total_interest": 443,
+      "annual_interest": 5313,
+      "status": "projection"
+    },
+    {
+      "date": "2027-04-01",
+      "visa": 6600,
+      "line": 31000,
+      "total_debt": 37600,
+      "visa_interest": 115,
+      "line_interest": 293,
+      "total_interest": 408,
+      "annual_interest": 4895,
+      "status": "projection"
+    },
+    {
+      "date": "2027-05-01",
+      "visa": 4600,
+      "line": 31000,
+      "total_debt": 35600,
+      "visa_interest": 80,
+      "line_interest": 293,
+      "total_interest": 373,
+      "annual_interest": 4477,
+      "status": "projection"
+    },
+    {
+      "date": "2027-06-01",
+      "visa": 2600,
+      "line": 31000,
+      "total_debt": 33600,
+      "visa_interest": 45,
+      "line_interest": 293,
+      "total_interest": 338,
+      "annual_interest": 4059,
+      "status": "projection"
+    },
+    {
+      "date": "2027-07-01",
+      "visa": 600,
+      "line": 31000,
+      "total_debt": 31600,
+      "visa_interest": 10,
+      "line_interest": 293,
+      "total_interest": 303,
+      "annual_interest": 3641,
+      "status": "projection"
+    },
+    {
+      "date": "2027-08-01",
+      "visa": -1400,
+      "line": 31000,
+      "total_debt": 29600,
+      "visa_interest": -24,
+      "line_interest": 293,
+      "total_interest": 269,
+      "annual_interest": 3223,
+      "status": "projection"
+    },
+    {
+      "date": "2027-09-01",
+      "visa": -3400,
+      "line": 31000,
+      "total_debt": 27600,
+      "visa_interest": -59,
+      "line_interest": 293,
+      "total_interest": 234,
+      "annual_interest": 2805,
+      "status": "projection"
+    }
+  ]
+}
