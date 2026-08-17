@@ -2,14 +2,11 @@
   "ok": true,
   "count": 3,
   "accountsWithPosts": 3,
-  "fetchedAt": "2026-08-17T00:36:51.725101+00:00",
+  "fetchedAt": "2026-08-17T00:51:27.493899+00:00",
   "windowHours": 24,
   "curation": "top3_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "JoshYoung",
-    "White_Rabbit_OG",
-    "HydroGraphInc"
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
