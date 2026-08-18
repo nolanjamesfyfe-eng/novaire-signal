@@ -44,11 +44,16 @@ class MarketFuturesTests(unittest.TestCase):
             "exchange": {"price": 7770.25, "change": 0.02, "name": "Investing.com Exchange"},
             "derived": {"price": 7748.6, "change": 0.04, "name": "Investing.com Derived"},
         }
-        quote = generate.build_futures_consensus(yahoo, investing)
-        self.assertEqual(quote["price"], 7770.25)
-        self.assertEqual(quote["change"], 0.02)
-        self.assertEqual(quote["signal"], "mixed")
-        self.assertEqual(quote["source_count"], 3)
+        quote = generate.build_exchange_futures_quote(yahoo, investing)
+        self.assertEqual(quote["price"], 7747.25)
+        self.assertEqual(quote["change"], -0.74)
+        self.assertEqual(quote["source"], "Yahoo Finance · CME/CBOT front month")
+        self.assertFalse(quote["is_fallback"])
+
+        fallback = generate.build_exchange_futures_quote({"price": None, "change": None}, investing)
+        self.assertEqual(fallback["price"], 7770.25)
+        self.assertEqual(fallback["change"], 0.02)
+        self.assertTrue(fallback["is_fallback"])
 
     def test_fixed_futures_map_is_sp_nasdaq_and_dow(self):
         self.assertEqual(

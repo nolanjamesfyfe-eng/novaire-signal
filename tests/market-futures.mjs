@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { buildConsensusQuote, parseInvestingFutures, parseYahooChart } from '../api/market-futures.js';
+import { buildExchangeQuote, parseInvestingFutures, parseYahooChart } from '../api/market-futures.js';
 
 const payload = {
   chart: {
@@ -37,13 +37,16 @@ assert.equal(investing['ES=F'].derived.change, 0.04);
 assert.equal(investing['NQ=F'].exchange.change, 0.04);
 assert.equal(investing['YM=F'].derived.price, 53467.6);
 
-const consensus = buildConsensusQuote(
+const exchangeQuote = buildExchangeQuote(
   {symbol:'ES=F', price:7747.25, change:-0.74, source:'Yahoo Finance'},
   investing['ES=F'],
 );
-assert.equal(consensus.price, 7770.25, 'exchange quote is the consensus display price');
-assert.equal(consensus.change, 0.02, 'median of Yahoo, Investing exchange and Investing derived changes');
-assert.equal(consensus.signal, 'mixed');
-assert.equal(consensus.sourceCount, 3);
-assert.deepEqual(consensus.sources.map(source => source.name), ['Yahoo Finance', 'Investing.com Exchange', 'Investing.com Derived']);
-console.log('market futures parser and consensus: ok');
+assert.equal(exchangeQuote.price, 7747.25, 'Yahoo front-month exchange future is primary');
+assert.equal(exchangeQuote.change, -0.74, 'the displayed move remains the primary exchange quote move');
+assert.equal(exchangeQuote.source, 'Yahoo Finance · CME/CBOT front month');
+assert.equal(exchangeQuote.isFallback, false);
+const fallback = buildExchangeQuote({symbol:'ES=F', price:null, change:null}, investing['ES=F']);
+assert.equal(fallback.price, 7770.25, 'Investing exchange future is the fallback');
+assert.equal(fallback.change, 0.02);
+assert.equal(fallback.isFallback, true);
+console.log('market futures parser and canonical exchange quote: ok');

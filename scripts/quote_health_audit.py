@@ -85,7 +85,9 @@ def audit_upstreams(audit: Audit) -> None:
         age_hours = (now - quote_time).total_seconds() / 3600 if quote_time else None
         # Four calendar days covers normal weekends and exchange holidays.
         ok = bool(price and float(price) > 0 and age_hours is not None and -1 <= age_hours <= 96)
-        detail = f"{meta.get('label')}={price} age_hours={age_hours:.1f}" if age_hours is not None else f"{meta.get('label')}={price} age=missing"
+        source = str(item.get("source") or "")
+        ok = ok and "CME/CBOT front month" in source and "Consensus" not in source
+        detail = f"{meta.get('label')}={price} source={source} age_hours={age_hours:.1f}" if age_hours is not None else f"{meta.get('label')}={price} source={source} age=missing"
         audit.record(ok, f"market {symbol}", detail)
 
     cash_indices = generate.fetch_market_indices()
@@ -101,7 +103,7 @@ def audit_upstreams(audit: Audit) -> None:
         audit.record(ok, f"cash index {symbol}", detail)
 
     commodities = generate.fetch_commodities()
-    expected_commodities = {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "NATGAS", "URANIUM_SPOT"}
+    expected_commodities = {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT", "RBOB_CRACK"}
     audit.record(set(commodities) == expected_commodities, "commodity coverage", f"{len(commodities)}/{len(expected_commodities)} quotes")
     for symbol in sorted(expected_commodities):
         price = commodities.get(symbol, {}).get("price")
@@ -140,7 +142,7 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     for name, nodes, expected in (
         ("crypto markup", crypto_nodes, 8),
         ("commodity markup", commodity_nodes, 7),
-        ("market markup", market_nodes, len(getattr(generate, "MARKET_FUTURES", {})) + len(getattr(generate, "MARKET_INDICES", {}))),
+        ("market markup", market_nodes, len(getattr(generate, "MARKET_FUTURES", {}))),
     ):
         values = [node.get_text(" ", strip=True) for node in nodes]
         audit.record(len(nodes) == expected and all(value not in {"", "—"} for value in values), f"{label} {name}", f"count={len(nodes)} values={values}")
@@ -148,7 +150,7 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     audit.record('"TON":"GRAMUSDT"' in html and '"TON":"TONUSDT"' not in html, f"{label} TON browser poll", "active GRAMUSDT mapping present")
     absent = [marker for marker in FORBIDDEN if marker in html]
     audit.record(not absent, f"{label} retired vote guard", f"forbidden markers={absent}")
-    audit.record("data.isSet" in html and "moves.every" in html, f"{label} Keystone gates", "set gate and all-three completion gate present")
+    audit.record("data.isSet" in html and "items.every" in html, f"{label} Keystone gates", "set gate and all-action completion gate present")
 
 
 def main() -> int:
@@ -183,8 +185,9 @@ def main() -> int:
             api_payload = api_response.json()
             futures = api_payload.get("quotes") or []
             indices = api_payload.get("indices") or []
-            api_ok = api_response.status_code in (200, 206) and len(futures) == 3 and len(indices) == 3
-            audit.record(api_ok, "live market API", f"status={api_response.status_code} futures={len(futures)} cash_indices={len(indices)}")
+            canonical = all("CME/CBOT front month" in str(item.get("source") or "") and item.get("price") for item in futures)
+            api_ok = api_response.status_code in (200, 206) and len(futures) == 3 and len(indices) == 3 and canonical
+            audit.record(api_ok, "live market API", f"status={api_response.status_code} futures={len(futures)} cash_indices={len(indices)} canonical={canonical}")
         except Exception as exc:
             audit.record(False, "live HTML/API", repr(exc))
 

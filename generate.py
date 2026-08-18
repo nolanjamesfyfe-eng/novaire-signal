@@ -1574,32 +1574,16 @@ def parse_yahoo_chart_quote(payload, *, period="futures session"):
         return None
 
 
-def build_futures_consensus(yahoo, investing=None):
-    """Return the median daily move across exchange and derived futures feeds."""
+def build_exchange_futures_quote(yahoo, investing=None):
+    """Use the canonical front-month exchange future; keep one exchange fallback."""
     investing = investing or {}
-    sources = []
-    if yahoo.get("change") is not None:
-        sources.append({"name": "Yahoo Finance", "price": yahoo.get("price"), "change": float(yahoo["change"])})
-    for kind in ("exchange", "derived"):
-        item = investing.get(kind) or {}
-        if item.get("change") is not None:
-            sources.append({"name": item.get("name") or f"Investing.com {kind.title()}",
-                            "price": item.get("price"), "change": float(item["change"])})
-    changes = sorted(source["change"] for source in sources)
-    if changes:
-        middle = len(changes) // 2
-        consensus_change = changes[middle] if len(changes) % 2 else (changes[middle - 1] + changes[middle]) / 2
-        consensus_change = round(consensus_change, 2)
-    else:
-        consensus_change = None
-    signs = {1 if value > 0 else -1 if value < 0 else 0 for value in changes} - {0}
-    signal = "mixed" if len(signs) > 1 else "bullish" if consensus_change and consensus_change > 0 else "bearish" if consensus_change and consensus_change < 0 else "flat"
-    return {**yahoo,
-            "price": (investing.get("exchange") or {}).get("price") or yahoo.get("price") or (investing.get("derived") or {}).get("price"),
-            "change": consensus_change,
-            "source": "Consensus: Yahoo Finance + Investing.com",
-            "period": "cross-source futures consensus",
-            "signal": signal, "source_count": len(sources), "sources": sources}
+    if yahoo.get("price") is not None and yahoo.get("change") is not None:
+        return {**yahoo, "source": "Yahoo Finance · CME/CBOT front month",
+                "period": "front-month exchange futures session", "is_fallback": False}
+    exchange = investing.get("exchange") or {}
+    return {**yahoo, "price": exchange.get("price"), "change": exchange.get("change"),
+            "source": "Investing.com · CME/CBOT front month",
+            "period": "front-month exchange futures session", "is_fallback": True}
 
 
 def parse_investing_futures(markdown):
@@ -1639,7 +1623,7 @@ def fetch_investing_futures():
 
 
 def fetch_market_futures():
-    """Fetch and consolidate Yahoo exchange futures with Investing.com futures/CFDs."""
+    """Fetch canonical front-month US index futures with an exchange-only fallback."""
     investing = {}
     try:
         investing = fetch_investing_futures()
@@ -1661,7 +1645,7 @@ def fetch_market_futures():
             "price": None, "previous": None, "change": None,
             "source": "Yahoo Finance", "period": "futures session", "quote_time": None,
         }
-        results[symbol] = {**meta, **build_futures_consensus(yahoo, investing.get(symbol))}
+        results[symbol] = {**meta, **build_exchange_futures_quote(yahoo, investing.get(symbol))}
     return results
 
 
@@ -1981,12 +1965,10 @@ def fetch_alpaca():
             pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
             side = p.get("side", "long")
             cost = float(p.get("cost_basis", 0))
-            broker_mval = float(p.get("market_value", 0))
-            qty = abs(float(p.get("qty", 0) or 0))
-            fallback_price = (broker_mval / qty) if qty else float(p.get("current_price", 0) or 0)
-            price = close_based_price(symbol, fallback_price)
-            mval = price * qty
-            pct_pnl = ((mval / cost) - 1) * 100 if cost else 0
+            # Alpaca is canonical for current holdings, marks and position P&L.
+            # The live edge endpoint refreshes these fields again in the browser.
+            mval = abs(float(p.get("market_value", 0)))
+            pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
             entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval}
             # Tier 1 = Volume Scalp (executor.py); Tier 2 = Livermore Darvas
             if symbol in tier1_syms or not tier1_syms:
@@ -2031,6 +2013,9 @@ def fetch_alpaca():
         tier2_roi = ((tier2_equity / TIER2_INCEPTION) - 1) * 100 if TIER2_INCEPTION > 0 else 0
         equity = cash + tier1_val + tier2_val
         inception_roi = ((equity / TOTAL_INCEPTION) - 1) * 100 if TOTAL_INCEPTION > 0 and equity > 0 else 0
+        invested_value = tier1_val + tier2_val
+        for entry in tier1_positions + tier2_positions:
+            entry["portfolio_weight"] = (entry["market_value"] / invested_value * 100) if invested_value > 0 else 0
 
         return {
             "tier2_positions": tier2_positions,
@@ -2529,12 +2514,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         change_text = f"{change:+.2f}%" if change is not None else "—"
         change_class = "positive" if change is not None and change >= 0 else ("negative" if change is not None else "")
         quote_time = escape(str(item.get("quote_time") or ""), quote=True)
-        consensus_label = meta['short'].replace("FUT", "CONSENSUS")
-        source_count = int(item.get("source_count") or 1)
-        consensus_title = escape(f"Consensus futures signal · {source_count} source{'s' if source_count != 1 else ''}", quote=True)
+        future_label = escape(meta['label'].upper())
+        quote_source = escape(str(item.get("source") or "CME/CBOT front-month future"), quote=True)
         futures_html += f"""
-        <div class="market-future" data-future-symbol="{symbol}" data-quote-time="{quote_time}" data-source-count="{source_count}" title="{consensus_title}">
-          <span>{consensus_label}</span>
+        <div class="market-future" data-future-symbol="{symbol}" data-quote-time="{quote_time}" title="CME/CBOT front-month future · {quote_source}">
+          <span>{future_label}</span>
           <b data-future-price>{price_text}</b>
           <em data-future-change class="{change_class}">{change_text}</em>
         </div>"""
@@ -3597,7 +3581,7 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
   }};
   const today = localDateKey();
-  function syncMeditationShell() {{
+  function meditationConsumed() {{
     let meditationDone = false;
     let quoteDone = false;
     let cardDone = false;
@@ -3606,9 +3590,14 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
       quoteDone = localStorage.getItem('nv_quotes_viewed') === meditationCard.dataset.edition;
       cardDone = localStorage.getItem(meditationCardKey) === meditationCard.dataset.edition;
     }} catch (e) {{}}
-    const consumed = cardDone || (meditationDone && quoteDone);
-    if (consumed) meditationCard.removeAttribute('open');
-    if (meditationCardViewed) meditationCardViewed.textContent = consumed ? 'Viewed' : 'Today';
+    return cardDone || (meditationDone && quoteDone);
+  }}
+  function syncMeditationShell() {{
+    if (meditationCardViewed) meditationCardViewed.textContent = meditationConsumed() ? 'Viewed' : 'Today';
+  }}
+  function restoreMeditationShell() {{
+    if (meditationConsumed()) meditationCard.removeAttribute('open');
+    syncMeditationShell();
   }}
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
@@ -3617,7 +3606,7 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     const collapsedDate = localStorage.getItem('nv_meditation_collapsed_date');
     meditation.open = collapsedDate !== today;
     if (collapsedDate === today && meditationViewed) meditationViewed.textContent = 'Viewed';
- syncMeditationShell();
+    restoreMeditationShell();
     meditation.addEventListener('toggle', function() {{
       if (!meditation.open) {{ localStorage.setItem('nv_meditation_collapsed_date', today); if (meditationViewed) meditationViewed.textContent = 'Viewed'; }}
       else if (localStorage.getItem('nv_meditation_collapsed_date') === today) {{ localStorage.removeItem('nv_meditation_collapsed_date'); if (meditationViewed) meditationViewed.textContent = 'Today'; }}
@@ -3900,15 +3889,26 @@ renderActionSteps();
   refreshFx();setInterval(refreshFx,60000);
 }}();
 
-// Live Livermore Darvis ROI: refresh on every page load and every hour.
+// Alpaca is the canonical source: refresh ROI, holdings, P&L and weights on load and hourly.
 !function(){{
-  function refreshDarvis(){{
+  function refreshDarvas(){{
     fetch('/api/alpaca-summary?_='+Date.now(),{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}}).then(function(data){{
       var el=document.querySelector('[data-darvas-roi]'),roi=Number(data.inceptionRoi);
       if(el&&Number.isFinite(roi)){{el.textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';el.style.color=roi>=0?'var(--green)':'var(--red)'}}
+      var book=document.querySelector('[data-alpaca-positions]');
+      if(book&&Array.isArray(data.positions)){{
+        book.replaceChildren.apply(book,data.positions.map(function(p){{
+          var row=document.createElement('div'),left=document.createElement('span'),weight=document.createElement('span'),pnl=document.createElement('span');
+          row.dataset.alpacaSymbol=p.symbol;row.style.cssText='display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem';
+          left.style.color='var(--text)';left.append(document.createTextNode('🟢 '+p.symbol+' '));
+          weight.className='alpaca-weight';weight.style.color='var(--mute)';weight.textContent='· '+Number(p.portfolioWeight).toFixed(1)+'% weight';left.append(weight);
+          var change=Number(p.pctPnl);pnl.style.cssText='font-weight:600;color:'+(change>=0?'var(--green)':'var(--red)');pnl.textContent=(change>=0?'+':'')+change.toFixed(1)+'%';
+          row.append(left,pnl);return row;
+        }}));
+      }}
     }}).catch(function(){{}})
   }}
-  refreshDarvis();setInterval(refreshDarvis,3600000);
+  refreshDarvas();setInterval(refreshDarvas,3600000);
 }}();
 
 // Live index futures: refresh through the same-origin Vercel edge proxy every minute.
@@ -3923,7 +3923,7 @@ renderActionSteps();
           if(pe&&Number.isFinite(Number(q.price)))pe.textContent=Number(q.price).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
           if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}}
           if(q.quoteTime)el.setAttribute('data-quote-time',q.quoteTime);
-          if(q.sourceCount){{el.setAttribute('data-source-count',q.sourceCount);el.title='Consensus futures signal · '+q.sourceCount+' sources · '+(q.signal||'')}}
+          if(q.source)el.title='CME/CBOT front-month future · '+q.source;
         }});
       }}).catch(function(){{}})
   }}
@@ -4590,7 +4590,8 @@ def main():
                 pnl = p["pct_pnl"]
                 pnl_color = "var(--green)" if pnl >= 0 else "var(--red)"
                 pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
-                rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 {p["symbol"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
+                weight = float(p.get("portfolio_weight", 0))
+                rows += f'<div data-alpaca-symbol="{p["symbol"]}" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 {p["symbol"]} <span class="alpaca-weight" style="color:var(--mute)">· {weight:.1f}% weight</span></span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
             if not positions:
                 rows = f'<div style="font-size:.75rem;color:var(--mute);padding:3px 0">No open positions</div>'
             return rows
@@ -4605,10 +4606,12 @@ def main():
         all_rows = _alp_rows(all_positions, "All")
 
         alpaca_html = f"""<details class="card signal-accordion trading-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Livermore Darvis</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
+    <summary><span class="card-title">🦙 Alpaca · Livermore Darvas</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
     <div class="signal-accordion-body">
-      <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Unified bot book · {total_trades} trades · Since Feb 24, 2026</div>
+      <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · {total_trades} trades · Since Feb 24, 2026</div>
+      <div data-alpaca-positions>
       {all_rows}
+      </div>
     </div>
   </details><script>document.getElementById("darvas-card")?.removeAttribute("open");</script>"""
 

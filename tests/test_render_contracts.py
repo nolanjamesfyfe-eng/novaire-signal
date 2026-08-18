@@ -53,8 +53,11 @@ class RenderContractTests(unittest.TestCase):
             self.assertIn(f"{selector}", self.html)
         self.assertIn("font-size:var(--market-quote-size)", self.html)
         self.assertIn("font-size:var(--market-change-size)", self.html)
-        self.assertIn("CONSENSUS", self.html)
-        self.assertIn("q.sourceCount", self.html)
+        for label in ("S&amp;P 500", "NASDAQ 100", "DOW JONES"):
+            self.assertIn(label, self.html)
+        self.assertNotIn("CONSENSUS", self.html)
+        self.assertNotIn("q.sourceCount", self.html)
+        self.assertIn("CME/CBOT front-month future", self.html)
         self.assertIn("grid-template-columns:repeat(4,minmax(0,1fr))", self.html)
         self.assertIn("grid-template-areas:\"primary futures futures futures\" \"calendar calendar calendar calendar\"", self.html)
         self.assertIn(".market-primary{grid-area:primary;display:flex;flex-direction:column", self.html)
@@ -167,6 +170,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="2026-08-10" open', self.html)
         self.assertIn('class="card signal-accordion" id="catalysts-card" data-edition="2026-W34"', self.html)
         self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
+
+    def test_alpaca_is_canonical_live_holdings_source_with_weights(self):
+        self.assertIn("🦙 Alpaca · Livermore Darvas", self.html)
+        self.assertIn("Live Alpaca holdings", self.html)
+        self.assertIn('data-alpaca-positions', self.html)
+        self.assertIn('data-alpaca-symbol="URNJ"', self.html)
+        self.assertIn('class="alpaca-weight"', self.html)
+        self.assertIn("data.positions", self.html)
+        self.assertIn("portfolioWeight", self.html)
         # Polymarket may be omitted when its live API is rate-limited; if rendered,
         # it must remain a compact accordion.
         if 'id="polymarket-card"' in self.html:
@@ -183,6 +195,9 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("localStorage.setItem(key, card.open ? 'open' : 'closed')", self.html)
         self.assertIn("const meditationCardKey = 'nv_meditation_card_viewed'", self.html)
         self.assertIn("cardDone || (meditationDone && quoteDone)", self.html)
+        self.assertIn("function restoreMeditationShell()", self.html)
+        self.assertIn("restoreMeditationShell();", self.html)
+        self.assertNotIn("if (consumed) meditationCard.removeAttribute('open')", self.html)
         self.assertIn("if (!meditationCard.open) localStorage.setItem(meditationCardKey, meditationCard.dataset.edition)", self.html)
         self.assertIn('details.addEventListener(\'toggle\'', self.html)
         if 'id="polymarket-card"' in self.html:

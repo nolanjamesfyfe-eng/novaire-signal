@@ -47,32 +47,20 @@ export function parseInvestingFutures(markdown) {
   return result;
 }
 
-function median(values) {
-  const sorted = values.filter(Number.isFinite).toSorted((a, b) => a - b);
-  if (!sorted.length) return null;
-  const middle = Math.floor(sorted.length / 2);
-  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
-}
-
-export function buildConsensusQuote(yahoo, investing = {}) {
-  const sources = [];
-  if (Number.isFinite(Number(yahoo?.change))) sources.push({name:'Yahoo Finance', price:Number(yahoo.price), change:Number(yahoo.change), basis:'exchange settlement'});
-  for (const kind of ['exchange', 'derived']) {
-    const quote = investing?.[kind];
-    if (Number.isFinite(Number(quote?.change))) sources.push({name:quote.name, price:Number(quote.price), change:Number(quote.change), basis:quote.period});
+export function buildExchangeQuote(yahoo, investing = {}) {
+  const hasYahooQuote = yahoo?.price !== null && yahoo?.price !== undefined && yahoo?.change !== null && yahoo?.change !== undefined
+    && Number.isFinite(Number(yahoo.price)) && Number.isFinite(Number(yahoo.change));
+  if (hasYahooQuote) {
+    return {...yahoo, source:'Yahoo Finance · CME/CBOT front month', period:'front-month exchange futures session', isFallback:false};
   }
-  const change = median(sources.map(source => source.change));
-  const signs = new Set(sources.map(source => Math.sign(source.change)).filter(Boolean));
-  const signal = signs.size > 1 ? 'mixed' : (change > 0 ? 'bullish' : change < 0 ? 'bearish' : 'flat');
+  const exchange = investing?.exchange;
   return {
     ...yahoo,
-    price: investing?.exchange?.price ?? yahoo?.price ?? investing?.derived?.price ?? null,
-    change: change === null ? null : Math.round(change * 100) / 100,
-    source: 'Consensus: Yahoo Finance + Investing.com',
-    period: 'cross-source futures consensus',
-    signal,
-    sourceCount: sources.length,
-    sources,
+    price: Number.isFinite(Number(exchange?.price)) ? Number(exchange.price) : null,
+    change: Number.isFinite(Number(exchange?.change)) ? Number(exchange.change) : null,
+    source: 'Investing.com · CME/CBOT front month',
+    period: 'front-month exchange futures session',
+    isFallback: true,
   };
 }
 
@@ -144,8 +132,8 @@ export default async function handler(req) {
   const investing = investingSettled[0]?.status === 'fulfilled' ? investingSettled[0].value : {};
   const quotes = FUTURES.flatMap(meta => {
     const yahoo = yahooBySymbol[meta.symbol] || {symbol:meta.symbol, label:meta.label, short:meta.short, price:null, change:null};
-    const consensus = buildConsensusQuote(yahoo, investing[meta.symbol]);
-    return consensus.sourceCount ? [{...consensus, ...meta}] : [];
+    const exchangeQuote = buildExchangeQuote(yahoo, investing[meta.symbol]);
+    return exchangeQuote.price !== null && exchangeQuote.price !== undefined && Number.isFinite(Number(exchangeQuote.price)) ? [{...exchangeQuote, ...meta}] : [];
   });
   const indices = indexSettled.filter(item => item.status === 'fulfilled').map(item => item.value);
   const errors = [...futureSettled, ...indexSettled, ...investingSettled]
