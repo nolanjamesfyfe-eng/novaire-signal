@@ -23,7 +23,7 @@ SHEET_ID = "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak"
 TFSA_GID = "527699504"
 KRAKEN_GID = "338118850"
 HISTORY_PATH = Path(__file__).with_name("portfolio_history.json")
-PERIODS = (("1D", 1), ("1W", 7), ("MoM", 30), ("QoQ", 90), ("YTD", "ytd"))
+PERIODS = (("1D", 1), ("1W", 7), ("1M", 30), ("3M", 90), ("6M", 180), ("YTD", "ytd"), ("1Y", 365), ("ALL", "all"))
 
 
 def parse_money(value: Any) -> float | None:
@@ -220,6 +220,8 @@ def _period_change(
     current_date = date.fromisoformat(current["market_date"])
     if days == "ytd":
         target = date(current_date.year, 1, 1) - timedelta(days=1)
+    elif days == "all":
+        target = date.min
     else:
         target = current_date - timedelta(days=int(days))
     current_values = [_account_value(current, key) for key in account_keys]
@@ -232,11 +234,16 @@ def _period_change(
             snapshot_date = date.fromisoformat(snapshot["market_date"])
         except (KeyError, TypeError, ValueError):
             continue
+        if days == "all" and all(_account_value(snapshot, key) is not None for key in account_keys):
+            prior = snapshot
+            break
         if snapshot_date <= target and all(_account_value(snapshot, key) is not None for key in account_keys):
             prior = snapshot
         if snapshot_date > target:
             break
     if prior is None:
+        return None
+    if prior is current:
         return None
 
     current_total = sum(value for value in current_values if value is not None)
@@ -328,6 +335,15 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     } if active_keys else {label: None for label, _ in PERIODS}
 
     current_total = sum(account["current_cad"] for account in accounts.values())
+    total_series = []
+    for item in snapshots:
+        values = [value for key in active_keys if (value := _account_value(item, key)) is not None]
+        if values:
+            total_series.append({
+                "market_date": item["market_date"],
+                "cad": round(sum(values), 2),
+                "complete": len(values) == len(active_keys),
+            })
     return {
         "available": True,
         "market_date": current["market_date"],
@@ -335,6 +351,7 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
         "current_total_cad": current_total,
         "accounts": accounts,
         "combined_periods": combined_periods,
+        "total_series": total_series,
         "periods": [label for label, _ in PERIODS],
         "snapshot_count": len(snapshots),
     }
@@ -395,6 +412,34 @@ def _format_period_cell(change: dict[str, Any]) -> str:
         f'<small>{"≈" if change.get("estimated") else ""}{sign}{"US$" if change.get("currency") == "USD" else "C$"}{abs(change["amount"]):,.0f}</small>'
         '</div>'
     )
+
+
+def _interactive_chart_html(model: dict[str, Any]) -> str:
+    """Render a Wealthsimple-style dependency-free interactive net-worth chart."""
+    series = model.get("total_series") or []
+    if len(series) < 2:
+        return '<div class="tracker-chart-empty">History started · the chart will build automatically.</div>'
+    payload = escape(json.dumps(series, separators=(",", ":")), quote=True)
+    tabs = "".join(
+        f'<button type="button" data-range="{label}" class="tracker-range{" is-active" if label == "YTD" else ""}">{label}</button>'
+        for label, _ in PERIODS
+    )
+    return f'''<div class="tracker-hero" data-series="{payload}">
+      <div class="tracker-hero-metric"><div class="tracker-hero-value">C${model["current_total_cad"]:,.2f}</div><div class="tracker-hero-change" aria-live="polite"></div><div class="tracker-hero-note"></div></div>
+      <svg class="tracker-hero-svg" viewBox="0 0 920 330" preserveAspectRatio="none" role="img" aria-label="Interactive total net worth history">
+        <defs><linearGradient id="netWorthFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56f2b1" stop-opacity=".24"/><stop offset="1" stop-color="#56f2b1" stop-opacity="0"/></linearGradient></defs>
+        <path class="tracker-hero-area" fill="url(#netWorthFill)"/><path class="tracker-hero-line" fill="none" stroke="#56f2b1" stroke-width="3.5" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/><line class="tracker-crosshair" y1="16" y2="308"/><circle class="tracker-dot" r="6"/>
+      </svg><div class="tracker-ranges" aria-label="Chart range">{tabs}</div>
+    </div>
+    <script>(function(){{
+      const root=document.currentScript.previousElementSibling;if(!root||root.dataset.ready)return;root.dataset.ready='1';
+      const all=JSON.parse(root.dataset.series),svg=root.querySelector('svg'),line=root.querySelector('.tracker-hero-line'),area=root.querySelector('.tracker-hero-area'),dot=root.querySelector('.tracker-dot'),cross=root.querySelector('.tracker-crosshair'),change=root.querySelector('.tracker-hero-change'),note=root.querySelector('.tracker-hero-note');
+      const W=920,H=330,P=18,cut={{'1D':1,'1W':7,'1M':30,'3M':90,'6M':180,'YTD':'ytd','1Y':365,'ALL':'all'}};let shown=[];
+      const money=n=>'C$'+Math.abs(n).toLocaleString('en-CA',{{maximumFractionDigits:0}});
+      function draw(range){{const end=new Date(all.at(-1).market_date+'T00:00:00Z');let start;if(cut[range]==='all')start=new Date('1900-01-01');else if(cut[range]==='ytd')start=new Date(Date.UTC(end.getUTCFullYear(),0,1));else start=new Date(end-cut[range]*86400000);shown=all.filter(p=>new Date(p.market_date+'T00:00:00Z')>=start);if(shown.length<2)shown=all.slice(-2);const vals=shown.map(p=>p.cad),lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max((hi-lo)*.13,1),min=lo-pad,max=hi+pad,pts=shown.map((p,i)=>[P+(W-2*P)*(i/Math.max(shown.length-1,1)),P+(H-2*P)*(1-(p.cad-min)/(max-min))]),d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');line.setAttribute('d',d);area.setAttribute('d',d+' L '+pts.at(-1)[0]+' '+(H-P)+' L '+pts[0][0]+' '+(H-P)+' Z');const first=shown[0],last=shown.at(-1),delta=last.cad-first.cad,pct=first.cad?delta/first.cad*100:0,pos=delta>=0,sign=pos?'+':'−';change.className='tracker-hero-change '+(pos?'positive':'negative');change.textContent=sign+' '+money(delta)+' ('+sign+Math.abs(pct).toFixed(2)+'%) · '+range;note.textContent=(shown.length===all.length&&range!=='ALL'?'Available history begins ':'Close history from ')+new Date(first.market_date+'T00:00:00Z').toLocaleDateString('en-CA',{{month:'short',day:'numeric',year:'numeric'}})+(shown.some(p=>!p.complete)?' · earlier points exclude accounts not yet tracked':'');dot.style.opacity=cross.style.opacity=0;}}
+      root.querySelectorAll('.tracker-range').forEach(b=>b.addEventListener('click',()=>{{root.querySelectorAll('.tracker-range').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');draw(b.dataset.range)}}));
+      svg.addEventListener('pointermove',e=>{{const r=svg.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*W,i=Math.max(0,Math.min(shown.length-1,Math.round((x-P)/(W-2*P)*(shown.length-1)))),p=shown[i],vals=shown.map(q=>q.cad),lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max((hi-lo)*.13,1),cx=P+(W-2*P)*(i/Math.max(shown.length-1,1)),cy=P+(H-2*P)*(1-(p.cad-(lo-pad))/((hi+pad)-(lo-pad)));dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);cross.setAttribute('x1',cx);cross.setAttribute('x2',cx);dot.style.opacity=cross.style.opacity=1;root.querySelector('.tracker-hero-value').textContent='C$'+p.cad.toLocaleString('en-CA',{{minimumFractionDigits:2,maximumFractionDigits:2}});note.textContent=new Date(p.market_date+'T00:00:00Z').toLocaleDateString('en-CA',{{month:'long',day:'numeric',year:'numeric'}})}});svg.addEventListener('pointerleave',()=>{{root.querySelector('.tracker-hero-value').textContent='C$'+all.at(-1).cad.toLocaleString('en-CA',{{minimumFractionDigits:2,maximumFractionDigits:2}});draw(root.querySelector('.tracker-range.is-active').dataset.range)}});draw('YTD');
+    }})();</script>'''
 
 
 def render_tracker_html(model: dict[str, Any]) -> str:
@@ -476,8 +521,8 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         f'<div class="tracker-asof"><span></span>{date_label} close</div></div>'
         '<div class="tracker-total-label">Combined Net Worth</div>'
         f'<div class="tracker-total">C${model["current_total_cad"]:,.0f}</div>'
-        '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
-        + _charts_html(model["accounts"])
+        + _interactive_chart_html(model)
+        + '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
         + performance_html
         + '<div class="tracker-foot"><strong>Account-value return, not pure investment return.</strong> Deposits, withdrawals and Kraken leverage affect these percentages. Kraken YTD is an approximate capital-path reference from the spreadsheet’s Oct 2025 US$7,000 inception balance; future closes will sharpen it automatically.</div>'
         '</section>'

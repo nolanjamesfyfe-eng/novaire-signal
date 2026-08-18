@@ -57,7 +57,7 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertAlmostEqual(model["current_total_cad"], 122777.71, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1D"]["amount"], 1390.06, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1W"]["amount"], 2390.06, places=2)
-        self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["QoQ"]["amount"], 11390.06, places=2)
+        self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["3M"]["amount"], 11390.06, places=2)
         self.assertIsNone(model["accounts"]["kraken"]["periods"]["1D"])
         self.assertIsNone(model["combined_periods"]["1D"])
 
@@ -86,17 +86,17 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn("Kraken", html)
         self.assertIn(">1D<", html)
         self.assertIn(">YTD<", html)
-        for label in ("1W", "MoM", "QoQ"):
-            self.assertNotIn(f">{label}<", html)
+
         self.assertIn("C$122,778", html)
         self.assertIn("Account-value return, not pure investment return", html)
         self.assertNotIn("Building", html)
         self.assertNotIn("Total Net Worth", html)
-        self.assertIn("Wealthsimple TFSA account value history", html)
+        self.assertIn('data-range="ALL"', html)
+        self.assertIn("Interactive total net worth history", html)
         soup = BeautifulSoup(html, "html.parser")
         performance_names = [node.get_text(" ", strip=True) for node in soup.select(".tracker-performance-name")]
         self.assertEqual(performance_names, ["Wealthsimple TFSA"])
-        self.assertEqual(len(soup.select(".tracker-chart")), 1)
+        self.assertEqual(len(soup.select(".tracker-hero")), 1)
 
     def test_kraken_inception_reference_renders_separate_chart_and_estimated_ytd(self):
         history = {"kraken_reference": {"date": "2025-10-01", "label": "Oct 2025", "usd": 7000.0}, "snapshots": [
@@ -105,7 +105,7 @@ class PortfolioTrackerTests(unittest.TestCase):
         model = portfolio_tracker.build_tracker_model(history)
         html = portfolio_tracker.render_tracker_html(model)
         self.assertAlmostEqual(model["accounts"]["kraken"]["periods"]["YTD"]["percent"], -85.714, places=2)
-        self.assertIn("Kraken account value history", html)
+        self.assertIn("US$1,000", html)
         self.assertIn("−85.7%", html)
         self.assertIn("≈−US$6,000", html)
         self.assertIn("Account-value return, not pure investment return", html)

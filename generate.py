@@ -4288,6 +4288,18 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-asof span{{width:7px;height:7px;border-radius:50%;background:#5ff1b8;box-shadow:0 0 13px rgba(95,241,184,.9)}}
     .tracker-total-label{{position:relative;color:var(--dim);font-size:.57rem;letter-spacing:.17em;text-transform:uppercase}}
     .tracker-total{{position:relative;margin-top:3px;font-family:var(--serif);font-size:2.35rem;font-weight:400;line-height:1;color:#f7f1e6;text-shadow:0 0 24px rgba(255,211,38,.09);font-variant-numeric:tabular-nums}}
+    .tracker-hero{{position:relative;margin:10px 0 12px;padding:16px 16px 10px;border:1px solid rgba(255,255,255,.06);border-radius:16px;background:#030407;box-shadow:inset 0 1px rgba(255,255,255,.025),0 18px 50px rgba(0,0,0,.18)}}
+    .tracker-hero-metric{{position:absolute;z-index:2;top:16px;left:18px;pointer-events:none}}
+    .tracker-hero-value{{font-family:var(--serif);font-size:1.62rem;color:#f8f8f5;font-variant-numeric:tabular-nums}}
+    .tracker-hero-change{{margin-top:3px;font-size:.68rem;font-weight:650;font-variant-numeric:tabular-nums}}
+    .tracker-hero-note{{margin-top:3px;max-width:570px;color:var(--mute);font-size:.48rem;line-height:1.35}}
+    .tracker-hero-svg{{display:block;width:100%;height:260px;overflow:visible;touch-action:pan-y}}
+    .tracker-crosshair{{stroke:rgba(255,255,255,.18);stroke-width:1;stroke-dasharray:3 5;opacity:0;pointer-events:none}}
+    .tracker-dot{{fill:#030407;stroke:#56f2b1;stroke-width:3;opacity:0;pointer-events:none}}
+    .tracker-ranges{{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:3px}}
+    .tracker-range{{min-width:0;padding:7px 2px;border:0;border-radius:999px;background:transparent;color:var(--mute);font:600 .56rem/1 Inter,system-ui,sans-serif;cursor:pointer;transition:.15s ease}}
+    .tracker-range:hover{{color:var(--text);background:rgba(255,255,255,.05)}}
+    .tracker-range.is-active{{color:#050706;background:#f4f7f5;box-shadow:0 5px 20px rgba(0,0,0,.35)}}
     .tracker-accounts{{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 10px}}
     .tracker-account{{padding:10px 12px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:rgba(4,4,7,.34)}}
     .tracker-account-name{{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase}}
@@ -4356,6 +4368,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .net-worth-tracker{{padding:14px}}
       .tracker-head{{align-items:flex-start}}
       .tracker-total{{font-size:1.9rem}}
+      .tracker-hero{{padding:12px 8px 8px}}
+      .tracker-hero-metric{{top:13px;left:13px}}
+      .tracker-hero-value{{font-size:1.35rem}}
+      .tracker-hero-note{{max-width:310px}}
+      .tracker-hero-svg{{height:220px}}
+      .tracker-range{{font-size:.49rem;padding:7px 0}}
       .tracker-accounts{{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:10px 0 8px}}
       .tracker-account{{padding:8px 9px}}
       .tracker-account-value{{font-size:1.08rem}}
