@@ -15,7 +15,7 @@ import time
 import traceback
 from html import escape
 from datetime import datetime, timezone, timedelta
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 from portfolio_tracker import (
     HISTORY_PATH as PORTFOLIO_HISTORY_PATH,
@@ -872,12 +872,18 @@ def fetch_weather():
         try:
             url = (f"https://api.open-meteo.com/v1/forecast"
                    f"?latitude={city['lat']}&longitude={city['lon']}"
-                   f"&current=temperature_2m,weathercode,weather_code,relative_humidity_2m&timezone=auto")
+                   f"&current=temperature_2m,weathercode,weather_code,relative_humidity_2m"
+                   f"&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto")
             data = _get_json(url)
             cur = data.get("current", {})
             temp = cur.get("temperature_2m")
             humidity = cur.get("relative_humidity_2m")
             code = cur.get("weathercode", cur.get("weather_code", 0))
+            daily = data.get("daily", {})
+            high_values = daily.get("temperature_2m_max") or []
+            low_values = daily.get("temperature_2m_min") or []
+            high = high_values[0] if high_values else None
+            low = low_values[0] if low_values else None
             if temp is None:
                 raise ValueError(f"missing temperature for {city['name']}: {data}")
             condition = WEATHER_CODES.get(code, "Unknown")
@@ -899,7 +905,7 @@ def fetch_weather():
                     else: aqi_label = "Hazardous"
             except Exception as e:
                 print(f"    ⚠️  AQI unavailable for {city['name']}: {e}")
-            result = {**city, "temp": temp, "humidity": humidity, "condition": condition, "aqi": aqi, "aqi_label": aqi_label, "ok": True}
+            result = {**city, "temp": temp, "high": high, "low": low, "humidity": humidity, "condition": condition, "aqi": aqi, "aqi_label": aqi_label, "ok": True}
             results.append(result)
             weather_cache[city["name"]] = {**result, "cached_at": datetime.now(timezone.utc).isoformat()}
         except Exception as e:
@@ -913,9 +919,9 @@ def fetch_weather():
                     cache_age = timedelta.max
                 if cache_age <= timedelta(hours=12) and cached.get("temp") is not None:
                     print(f"    ↳ using cached {city['name']} weather from {cached.get('cached_at')}")
-                    results.append({**city, "temp": cached.get("temp"), "humidity": cached.get("humidity"), "condition": cached.get("condition", "—"), "aqi": cached.get("aqi"), "aqi_label": cached.get("aqi_label", "—"), "ok": True, "cached": True})
+                    results.append({**city, "temp": cached.get("temp"), "high": cached.get("high"), "low": cached.get("low"), "humidity": cached.get("humidity"), "condition": cached.get("condition", "—"), "aqi": cached.get("aqi"), "aqi_label": cached.get("aqi_label", "—"), "ok": True, "cached": True})
                     continue
-            results.append({**city, "temp": None, "humidity": None, "condition": "—", "aqi": None, "aqi_label": "—", "ok": False})
+            results.append({**city, "temp": None, "high": None, "low": None, "humidity": None, "condition": "—", "aqi": None, "aqi_label": "—", "ok": False})
     try:
         with open(cache_path, "w", encoding="utf-8") as f:
             json.dump(weather_cache, f, ensure_ascii=False, indent=2)
@@ -1495,8 +1501,12 @@ def fetch_catalysts(tickers):
                         pass
                     source = (item.get("content", {}).get("provider", {}).get("displayName")
                               or item.get("publisher", ""))
+                    content = item.get("content", {})
+                    article_url = ((content.get("canonicalUrl") or {}).get("url")
+                                   or (content.get("clickThroughUrl") or {}).get("url")
+                                   or item.get("link") or "")
                     if title and pub_dt:
-                        candidates.append({"title": title, "pub_dt": pub_dt, "source": source})
+                        candidates.append({"title": title, "pub_dt": pub_dt, "source": source, "url": article_url})
             except Exception:
                 pass
 
@@ -1519,7 +1529,8 @@ def fetch_catalysts(tickers):
                     source_node = item.find("source")
                     source = ((source_node.text or "Google News").strip()
                               if source_node is not None else "Google News")
-                    candidates.append({"title": title, "pub_dt": pub_dt, "source": source})
+                    article_url = (item.findtext("link") or "").strip()
+                    candidates.append({"title": title, "pub_dt": pub_dt, "source": source, "url": article_url})
             except Exception:
                 pass
 
@@ -1530,7 +1541,7 @@ def fetch_catalysts(tickers):
         if candidates:
             best = max(candidates, key=lambda c: c["pub_dt"])
             cats[ticker] = {"title": best["title"], "date": best["pub_dt"].strftime("%b %-d"),
-                            "source": best["source"], "fresh": True}
+                            "source": best["source"], "url": best.get("url", ""), "fresh": True}
         else:
             cats[ticker] = None
     return cats
@@ -2270,14 +2281,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     for ticker, cat in fresh_cats:
         display    = HOLDINGS_MAP.get(ticker, {}).get("display", ticker.split(".")[0])
         source_str = f' · {cat["source"]}' if cat["source"] else ""
+        article_url = cat.get("url") or f"https://news.google.com/search?q={quote_plus(cat['title'])}"
+        article_url = escape(article_url, quote=True)
         cats_html += f"""
-            <div class="catalyst-item">
+            <a class="catalyst-item catalyst-link" href="{article_url}" target="_blank" rel="noopener noreferrer" aria-label="Open {escape(display, quote=True)} catalyst article">
               <span class="catalyst-ticker">{display}</span>
               <span class="catalyst-sep"> · </span>
               <span class="catalyst-badge">{cat['date']}{source_str}</span>
               <span class="catalyst-sep"> — </span>
               <span class="catalyst-headline">{cat['title']}</span>
-            </div>"""
+            </a>"""
 
     if no_news_tks:
         no_news_displays = " · ".join(
@@ -2368,6 +2381,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     weather_html = ""
     for w in weather:
         temp_str = f"{w['temp']:.0f}°C" if w["temp"] is not None else "—"
+        high_str = f"{w['high']:.0f}°" if w.get("high") is not None else "—"
+        low_str = f"{w['low']:.0f}°" if w.get("low") is not None else "—"
         season = get_season(w['name'], w.get('lat', 0), month)
         # Local time in 24h format
         import datetime as _dtmod
@@ -2378,6 +2393,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <div class="condition live-clock" data-tz-offset="{w.get('tz_offset', 0)}" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">{local_time_str}</div>
           <div class="city">{w['flag']} {w['name']}</div>
           <div class="temp">{temp_str}</div>
+          <div class="weather-range"><span>H {high_str}</span><span>L {low_str}</span></div>
           <div class="condition">{w['condition']}</div>
           <div class="condition" style="margin-top:2px;font-style:italic">{season}</div>
           <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 {w.get('humidity', '—') or '—'}% · AQI {w.get('aqi', '—') or '—'} ({w.get('aqi_label', '—')})</div>
@@ -2749,6 +2765,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .weather-item{{text-align:center;padding:12px 8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}}
     .weather-item .city{{font-size:.845rem;color:var(--dim);margin-bottom:5px;letter-spacing:.04em}}
     .weather-item .temp{{font-size:1.25rem;font-weight:500;color:var(--gold);font-family:var(--serif)}}
+    .weather-range{{display:flex;align-items:center;justify-content:center;gap:8px;margin:1px 0 2px;font-size:.58rem;line-height:1;color:var(--dim);letter-spacing:.04em}}
+    .weather-range span:first-child{{color:var(--gold);opacity:.9}}
     .weather-item .condition{{font-size:.62rem;color:var(--dim);margin-top:3px;line-height:1.3}}
 
     .thai-news-compact{{margin-top:14px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
@@ -2823,6 +2841,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
+    .catalyst-link{{color:inherit;text-decoration:none;cursor:pointer;border-radius:4px;transition:background .15s ease,transform .15s ease}}
+    .catalyst-link:hover{{background:rgba(181,150,98,.07);transform:translateX(2px)}}
+    .catalyst-link:focus-visible{{outline:1px solid var(--gold);outline-offset:3px}}
     .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
     .catalyst-sep{{color:var(--dim);font-size:.8rem}}
     .catalyst-badge{{color:var(--gold);font-size:.75rem;opacity:.8;white-space:nowrap}}
@@ -3837,14 +3858,16 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     for ticker, cat in fresh_cats:
         display    = HOLDINGS_MAP.get(ticker, {}).get("display", ticker.split(".")[0])
         source_str = f' · {cat["source"]}' if cat["source"] else ""
+        article_url = cat.get("url") or f"https://news.google.com/search?q={quote_plus(cat['title'])}"
+        article_url = escape(article_url, quote=True)
         cats_html += f"""
-            <div class="catalyst-item">
+            <a class="catalyst-item catalyst-link" href="{article_url}" target="_blank" rel="noopener noreferrer" aria-label="Open {escape(display, quote=True)} catalyst article">
               <span class="catalyst-ticker">{display}</span>
               <span class="catalyst-sep"> · </span>
               <span class="catalyst-badge">{cat['date']}{source_str}</span>
               <span class="catalyst-sep"> — </span>
               <span class="catalyst-headline">{cat['title']}</span>
-            </div>"""
+            </a>"""
     if no_news_tks:
         no_news_displays = " · ".join(
             HOLDINGS_MAP.get(t, {}).get("display", t.split(".")[0]) for t in no_news_tks
@@ -3977,6 +4000,9 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .debt-hub-link:hover{{border-color:rgba(255,173,105,.65);background:rgba(255,116,45,.14);transform:translateY(-1px)}}
     .catalyst-item{{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.4}}
     .catalyst-item:last-child{{border-bottom:none}}
+    .catalyst-link{{color:inherit;text-decoration:none;cursor:pointer;border-radius:4px;transition:background .15s ease,transform .15s ease}}
+    .catalyst-link:hover{{background:rgba(181,150,98,.07);transform:translateX(2px)}}
+    .catalyst-link:focus-visible{{outline:1px solid var(--gold);outline-offset:3px}}
     .catalyst-ticker{{font-weight:600;color:var(--gold);font-size:.85rem;white-space:nowrap}}
     .catalyst-sep{{color:var(--dim);font-size:.8rem}}
     .catalyst-badge{{color:var(--gold);font-size:.75rem;opacity:.8;white-space:nowrap}}
