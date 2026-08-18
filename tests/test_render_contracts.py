@@ -109,7 +109,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('data-chart-symbol="HG.CN"', self.portfolio_html)
         self.assertIn('id="holding-chart-dialog"', self.portfolio_html)
         self.assertIn("/api/stock-chart?symbol=", self.portfolio_html)
-        self.assertIn("9 months · Exactly 39 weekly candles + volume · Final after Friday close", self.portfolio_html)
+        self.assertIn("9 months · 39 weekly candles + volume · Current week through prior close", self.portfolio_html)
         self.assertIn("FIRST", self.portfolio_html)
         self.assertIn("LAST", self.portfolio_html)
         self.assertIn("last close", self.portfolio_html)
@@ -117,7 +117,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("VOLUME", self.portfolio_html)
         self.assertIn("HIGH", self.portfolio_html)
         self.assertIn("LOW", self.portfolio_html)
-        self.assertIn("Friday close", self.portfolio_html)
+        self.assertIn("prior close", self.portfolio_html)
         self.assertNotIn("Previous close", self.portfolio_html)
         self.assertIn("role=\"img\"", self.portfolio_html)
 

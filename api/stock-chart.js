@@ -16,13 +16,27 @@ function fridayCloseUtcSeconds(timestamp) {
   return Date.UTC(monday.getUTCFullYear(), monday.getUTCMonth(), monday.getUTCDate() + 4, 21, 0, 0) / 1000;
 }
 
+function marketDateKey(timestamp, timeZone = 'UTC') {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date(timestamp * 1000));
+}
+
 export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now() / 1000) {
   const result = payload?.chart?.result?.[0];
   const quote = result?.indicators?.quote?.[0];
   const timestamps = result?.timestamp || [];
   if (!quote || !timestamps.length) throw new Error('No chart data');
+  const timeZone = result.meta?.exchangeTimezoneName || 'UTC';
+  const today = marketDateKey(nowSeconds, timeZone);
   const weeks = new Map();
   timestamps.forEach((time, index) => {
+    // Exclude today's possibly unfinished Yahoo daily bar. The active weekly
+    // candle must always stop at the prior market day's official close.
+    if (marketDateKey(Number(time), timeZone) >= today) return;
     const row = {
       time: Number(time),
       open: finite(quote.open?.[index]),
@@ -44,7 +58,6 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
     current.volume += row.volume;
   });
   const candles = [...weeks.values()]
-    .filter(candle => candle.time <= nowSeconds)
     .sort((a, b) => a.time - b.time)
     .slice(-39);
   if (candles.length !== 39) throw new Error('Insufficient history for 39 weekly candles');
@@ -56,7 +69,7 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
     interval: '1wk',
     range: '9mo',
     candleCount: 39,
-    candleRule: 'Finalized after Friday market close',
+    candleRule: 'Current weekly candle updated through prior market close',
     highest,
     lowest,
     candles,
