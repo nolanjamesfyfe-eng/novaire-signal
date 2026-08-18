@@ -51,6 +51,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".market-future small u{font-size:.6396rem", self.html)
         self.assertIn("CONSENSUS", self.html)
         self.assertIn("q.sourceCount", self.html)
+        self.assertIn("padding:12px 12px", self.html)
+        self.assertIn("grid-template-columns:minmax(260px,.9fr) minmax(0,2.6fr)", self.html)
 
     def test_ton_poll_uses_active_gram_pair(self):
         self.assertIn('"TON":"GRAMUSDT"', self.html)
@@ -194,11 +196,19 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("card.classList.add('is-viewed')", self.html)
         self.assertIn("card.classList.toggle('is-viewed', !card.open)", self.html)
 
-    def test_commodities_are_six_equal_tiles_without_natural_gas(self):
-        self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
+    def test_commodities_are_seven_compact_tiles_with_rbob_crack(self):
+        self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(7,1fr)", self.html)
+        self.assertIn(".commodity-item{background:var(--bg);padding:9px", self.html)
+        self.assertIn(".commodity-name{font-size:.465rem", self.html)
         self.assertNotIn('data-commodity="NATGAS"', self.html)
-        for symbol in ("GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT"):
+        for symbol in ("GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT", "RBOB_CRACK"):
             self.assertIn(f'data-commodity="{symbol}"', self.html)
+
+    def test_trading_summary_typography_and_signal_colors_match_fed(self):
+        self.assertIn(".accordion-score,.accordion-score b,.fed-summary-rate,.fed-summary-sentiment{font-size:.68rem", self.html)
+        self.assertNotIn("#4ade80", self.html)
+        self.assertNotIn("#f87171", self.html)
+        self.assertIn("el.style.color=roi>=0?'var(--green)':'var(--red)'", self.html)
 
     def test_daily_meditation_reopens_each_new_day_and_remembers_same_day_collapse(self):
         self.assertIn('id="meditation-daily" class="meditation" open', self.html)

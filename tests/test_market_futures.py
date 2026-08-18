@@ -63,14 +63,25 @@ class MarketFuturesTests(unittest.TestCase):
         )
         self.assertEqual(generate.MARKET_INDICES["^IXIC"]["label"], "Nasdaq Composite")
 
-    def test_commodities_preserve_uranium_alongside_investing_screen_set(self):
+    def test_commodities_preserve_approved_set_and_add_rbob_gasoline_crack(self):
         commodities = generate.fetch_commodities()
         self.assertEqual(
             set(commodities),
-            {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT"},
+            {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT", "RBOB_CRACK"},
         )
         self.assertEqual(commodities["URANIUM_SPOT"]["name"], "Uranium")
         self.assertEqual(commodities["URANIUM_SPOT"]["unit"], "/lb")
+        self.assertEqual(commodities["RBOB_CRACK"]["name"], "RBOB Crack")
+        self.assertEqual(commodities["RBOB_CRACK"]["unit"], "/bbl")
+
+    def test_rbob_crack_uses_aligned_adjacent_bars_and_42_gallons_per_barrel(self):
+        rbob = {"chart": {"result": [{"timestamp": [100, 200, 300], "indicators": {"quote": [{"close": [2.50, 2.60, 2.70]}]}}]}}
+        wti = {"chart": {"result": [{"timestamp": [100, 200, 300], "indicators": {"quote": [{"close": [80.0, 82.0, 84.0]}]}}]}}
+        quote = generate.parse_rbob_crack(rbob, wti)
+        self.assertAlmostEqual(quote["price"], 29.4)
+        self.assertAlmostEqual(quote["previous"], 27.2)
+        self.assertAlmostEqual(quote["change"], (29.4 - 27.2) / 27.2 * 100)
+        self.assertEqual(quote["formula"], "RBOB × 42 − WTI")
 
 
 if __name__ == "__main__":

@@ -1686,13 +1686,44 @@ def fetch_market_indices():
     return results
 
 
-def fetch_commodities():
-    """Fetch six Investing.com futures plus the preserved uranium spot benchmark.
+def parse_rbob_crack(rbob_payload, wti_payload):
+    """Calculate the aligned front-month RBOB-WTI 1:1 crack in USD/bbl."""
+    def bars(payload):
+        result = payload["chart"]["result"][0]
+        timestamps = result.get("timestamp") or []
+        closes = result["indicators"]["quote"][0].get("close") or []
+        return {int(ts): float(close) for ts, close in zip(timestamps, closes)
+                if close is not None and float(close) > 0}
 
-    These are intentionally not mixed with Yahoo contracts: Novaire uses the
-    Investing.com commodities screen as the visual reference, so source,
-    contract and daily-change basis must travel together.
-    """
+    rbob_bars, wti_bars = bars(rbob_payload), bars(wti_payload)
+    common = sorted(set(rbob_bars) & set(wti_bars))
+    if len(common) < 2:
+        raise ValueError("Fewer than two aligned RBOB/WTI bars")
+    previous_ts, current_ts = common[-2:]
+    previous = rbob_bars[previous_ts] * 42 - wti_bars[previous_ts]
+    price = rbob_bars[current_ts] * 42 - wti_bars[current_ts]
+    if previous == 0:
+        raise ValueError("Previous crack spread is zero")
+    return {"price": price, "previous": previous, "change": (price - previous) / abs(previous) * 100,
+            "source": "Yahoo Finance (calculated)", "period": "adjacent futures sessions",
+            "quote_time": datetime.fromtimestamp(current_ts, timezone.utc).isoformat().replace("+00:00", "Z"),
+            "formula": "RBOB × 42 − WTI"}
+
+
+def fetch_rbob_crack():
+    payloads = []
+    for symbol in ("RB=F", "CL=F"):
+        response = requests.get(
+            f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(symbol, safe='')}",
+            params={"range": "5d", "interval": "1d"},
+            headers={"User-Agent": "NovaireSignal/1.0"}, timeout=10)
+        response.raise_for_status()
+        payloads.append(response.json())
+    return parse_rbob_crack(*payloads)
+
+
+def fetch_commodities():
+    """Fetch Investing.com resources, uranium spot, and the RBOB gasoline crack."""
     symbols = {
         "GOLD": {"name": "Gold",        "unit": "/oz",  "cls": "c-gold"},
         "SILVER": {"name": "Silver",      "unit": "/oz",  "cls": "c-silver"},
@@ -1700,6 +1731,7 @@ def fetch_commodities():
         "WTI": {"name": "Crude Oil WTI", "unit": "/bbl", "cls": "c-oil"},
         "BRENT": {"name": "Brent Oil",    "unit": "/bbl", "cls": "c-oil"},
         "URANIUM_SPOT": {"name": "Uranium", "unit": "/lb", "cls": "c-uranium"},
+        "RBOB_CRACK": {"name": "RBOB Crack", "unit": "/bbl", "cls": "c-gas"},
     }
     results = {key: {**meta, "price": None, "change": None,
                      "source": "Investing.com", "period": "daily",
@@ -1729,6 +1761,13 @@ def fetch_commodities():
         for item in results.values():
             if item["price"] is not None:
                 item["quote_time"] = results_quote_time
+    except Exception:
+        pass
+
+    # Direct gasoline-at-the-pump pressure gauge: one barrel-equivalent of
+    # front-month RBOB gasoline less one front-month WTI barrel.
+    try:
+        results["RBOB_CRACK"].update(fetch_rbob_crack())
     except Exception:
         pass
 
@@ -2593,8 +2632,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     for sym, c in commodities.items():
         price_str = fmt_price(c["price"]) if c["price"] else "—"
         chg_html  = fmt_pct(c["change"]) if c["change"] is not None else '<span style="color:var(--dim)">—</span>'
+        title_attr = ' title="Front-month RBOB × 42 gallons − front-month WTI"' if sym == "RBOB_CRACK" else ""
         comm_html += f"""
-        <div class="commodity-item" data-commodity="{sym}">
+        <div class="commodity-item" data-commodity="{sym}"{title_attr}>
           <div class="commodity-name {c['cls']}">{c['name']}</div>
           <div class="commodity-price {c['cls']}" data-comm-price="{sym}">{price_str}</div>
           <div class="commodity-unit">{c['unit']}</div>
@@ -2750,8 +2790,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-accordion>summary::after{{content:'⌄';color:var(--gold);font-size:1rem;transition:transform .15s}}
     .signal-accordion[open]>summary::after{{transform:rotate(180deg)}}
     .signal-accordion-body{{padding:0 20px 20px}}
-    .accordion-score{{font-size:.68rem;color:var(--dim);white-space:nowrap}}
-    .accordion-score b{{color:var(--text);font-size:.78rem}}
+    .accordion-score,.accordion-score b,.fed-summary-rate,.fed-summary-sentiment{{font-size:.68rem;line-height:1.2}}
+    .accordion-score{{color:var(--dim);white-space:nowrap}}
+    .accordion-score b{{color:var(--text)}}
     .catalyst-unread{{font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ffd06b;border:1px solid rgba(255,208,107,.42);border-radius:999px;padding:4px 8px;white-space:nowrap}}
     #catalysts-card:not([open]).has-unread .catalyst-unread{{animation:catalyst-mail 1.35s ease-in-out infinite;box-shadow:0 0 14px rgba(255,208,107,.28)}}
     @keyframes catalyst-mail{{0%,100%{{opacity:.62;transform:scale(.98)}}50%{{opacity:1;transform:scale(1.04)}}}}
@@ -2944,12 +2985,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .catalyst-source{{font-size:.62rem;color:var(--dim);margin-top:2px}}
     .no-news{{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}}
 
-    .commodities-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}}
-    .commodity-item{{background:var(--bg);padding:12px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
-    .commodity-name{{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-weight:600}}
-    .commodity-price{{font-family:var(--serif);font-size:1.2rem;font-weight:400;margin-bottom:2px}}
-    .commodity-unit{{font-size:.6rem;color:var(--dim)}}
-    .commodity-change{{font-size:.72rem;margin-top:3px}}
+    .commodities-grid{{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}}
+    .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
+    .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
+    .commodity-price{{font-family:var(--serif);font-size:.9rem;font-weight:400;margin-bottom:1.5px}}
+    .commodity-unit{{font-size:.45rem;color:var(--dim)}}
+    .commodity-change{{font-size:.54rem;margin-top:2.25px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}.c-uranium{{color:#7fc87f}}
 
@@ -3029,8 +3070,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .fed-card,.market-card{{display:block;text-align:left;padding:0;overflow:hidden}}
     .market-card .market-clock{{border-bottom:0}}
-    .market-clock{{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 20px;border-bottom:1px solid var(--border);padding:12px 24px}}
-    .market-primary{{grid-area:primary;display:flex;align-items:baseline;gap:12px;min-width:0}}
+    .market-clock{{min-width:0;display:grid;grid-template-columns:minmax(260px,.9fr) minmax(0,2.6fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 0;border-bottom:1px solid var(--border);padding:12px 12px}}
+    .market-primary{{grid-area:primary;display:flex;align-items:baseline;justify-content:center;gap:16px;min-width:0;padding:0 10px}}
     .market-label{{font-size:.64rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
     .wall-time{{display:block;font-family:var(--serif);font-size:1.248rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
     .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}}
@@ -3057,8 +3098,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
     #fed-signal-card>summary .fed-title{{margin:0;flex:1}}
-    .fed-summary-rate{{font-size:.72rem;font-weight:650;color:var(--text);white-space:nowrap}}
-    .fed-summary-sentiment{{font-size:.62rem;font-weight:600;color:var(--green);white-space:nowrap}}
+    .fed-summary-rate{{font-weight:650;color:var(--text);white-space:nowrap}}
+    .fed-summary-sentiment{{font-weight:600;color:var(--green);white-space:nowrap}}
     .fed-stats{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch}}
     .fed-stat{{min-width:0;padding:0 24px;border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center}}
     .fed-stat:first-child{{border-left:0}}
@@ -3070,7 +3111,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
-    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-futures{{width:100%}}.market-future{{grid-template-columns:1fr;text-align:center;padding:0 8px}}.market-future:first-child{{border-left:none;padding-left:0}}.market-future span,.market-future b,.market-future em{{grid-column:1}}.market-future em{{text-align:center}}.market-future small{{grid-template-columns:auto auto;justify-content:center}}.market-future small u{{grid-column:1/-1;text-align:center}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
+    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-primary{{justify-content:flex-start;padding:0}}.market-futures{{width:100%}}.market-future{{grid-template-columns:1fr;text-align:center;padding:0 8px}}.market-future:first-child{{border-left:none;padding-left:0}}.market-future span,.market-future b,.market-future em{{grid-column:1}}.market-future em{{text-align:center}}.market-future small{{grid-template-columns:auto auto;justify-content:center}}.market-future small u{{grid-column:1/-1;text-align:center}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
     @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:14px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{grid-template-columns:1fr auto;column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px;text-align:left}}.market-future span{{grid-column:1/-1;text-align:left}}.market-future b{{grid-column:1;text-align:left}}.market-future em{{grid-column:2;text-align:right}}.market-future small{{grid-template-columns:auto 1fr auto;justify-content:stretch;margin-top:5px}}.market-future small u{{grid-column:auto;text-align:right}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
 
@@ -3103,13 +3144,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .card{{padding:22px;margin-bottom:15px}}
       .podcast-mini img{{min-width:141px}}
       .feed-avatar{{width:29px;height:29px}}
-      .commodity-item,.weather-item,.rec-item,.psum-item{{padding:13px}}
+      .commodity-item,.weather-item,.rec-item,.psum-item{{padding:9px}}
       .crypto-item{{padding:10px 7px}}
     }}
 
     @media(max-width:600px){{
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
-      .commodities-grid{{grid-template-columns:repeat(3,1fr)}}
+      .commodities-grid{{grid-template-columns:repeat(2,1fr)}}
+      .commodity-item[data-commodity="RBOB_CRACK"]{{grid-column:1/-1}}
       .crypto-grid{{grid-template-columns:repeat(4,1fr)}}
       .fx-row{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}}
       .fx-chip{{padding:9px 4px}}
@@ -3816,7 +3858,7 @@ renderActionSteps();
   function refreshDarvis(){{
     fetch('/api/alpaca-summary?_='+Date.now(),{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}}).then(function(data){{
       var el=document.querySelector('[data-darvas-roi]'),roi=Number(data.inceptionRoi);
-      if(el&&Number.isFinite(roi)){{el.textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';el.style.color=roi>=0?'#4ade80':'#f87171'}}
+      if(el&&Number.isFinite(roi)){{el.textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';el.style.color=roi>=0?'var(--green)':'var(--red)'}}
     }}).catch(function(){{}})
   }}
   refreshDarvis();setInterval(refreshDarvis,3600000);
@@ -4481,7 +4523,7 @@ def main():
         bets_html = ""
         for p in poly["positions"][:4]:  # Show top 4 open bets by weight
             pnl = p["pct_pnl"]
-            pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
+            pnl_color = "var(--green)" if pnl >= 0 else "var(--red)"
             pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
             bets_html += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"][:40]}...</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
         settled = pm_wr_summary['wins'] + pm_wr_summary['losses']
@@ -4503,7 +4545,7 @@ def main():
             rows = ""
             for p in positions:
                 pnl = p["pct_pnl"]
-                pnl_color = "#4ade80" if pnl >= 0 else "#f87171"
+                pnl_color = "var(--green)" if pnl >= 0 else "var(--red)"
                 pnl_str = f"+{pnl:.1f}%" if pnl >= 0 else f"{pnl:.1f}%"
                 rows += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 {p["symbol"]}</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
             if not positions:
@@ -4515,7 +4557,7 @@ def main():
         total_trades = int(alpaca.get("t1_trade_count", 0)) + int(alpaca.get("t2_trade_count", 0))
         total_equity = float(alpaca.get("equity", 0))
         total_roi = float(alpaca.get("inception_roi", 0))
-        total_color = "#4ade80" if total_roi >= 0 else "#f87171"
+        total_color = "var(--green)" if total_roi >= 0 else "var(--red)"
         total_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
         all_rows = _alp_rows(all_positions, "All")
 
@@ -4632,7 +4674,7 @@ def main():
             open_positions.sort(key=lambda x: x["value"], reverse=True)
             for _p in open_positions[:4]:
                 _pnl = _p["pnl"]
-                _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
+                _pnl_color = "var(--green)" if _pnl >= 0 else "var(--red)"
                 _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
                 pm_rows += f'<tr><td style="font-size:.75rem">{_p["outcome"]} · {_p["title"]}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
             pm_total = poly_full.get("total_account", pm_pos_val)
@@ -4668,7 +4710,7 @@ def main():
             _mval = float(_ap.get("market_value", 0))
             _cost = float(_ap.get("cost", _ap.get("cost_basis", 0)))
             _pnl = float(_ap.get("pct_pnl", 0))
-            _pnl_color = "#4ade80" if _pnl >= 0 else "#f87171"
+            _pnl_color = "var(--green)" if _pnl >= 0 else "var(--red)"
             _pnl_str = f"+{_pnl:.1f}%" if _pnl >= 0 else f"{_pnl:.1f}%"
             rows += f'<tr><td style="font-size:.75rem">{_side} · {_sym}</td><td style="text-align:right;font-size:.75rem">${_cost:.2f}</td><td style="text-align:right;font-size:.75rem">${_mval:.2f}</td><td style="text-align:right;font-size:.75rem;color:{_pnl_color};font-weight:600">{_pnl_str}</td></tr>'
         if not rows:
@@ -4677,11 +4719,11 @@ def main():
         cash_total = float(alpaca_full.get("cash", 0))
         total_equity = float(alpaca_full.get("equity", 0))
         total_roi = float(alpaca_full.get("inception_roi", 0))
-        total_roi_color = "#4ade80" if total_roi >= 0 else "#f87171"
+        total_roi_color = "var(--green)" if total_roi >= 0 else "var(--red)"
         total_roi_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
         total_realized = float(alpaca_full.get("t1_realized", 0)) + float(alpaca_full.get("t2_realized", 0))
         total_trades = int(alpaca_full.get("t1_trade_count", 0)) + int(alpaca_full.get("t2_trade_count", 0))
-        total_realized_color = "#4ade80" if total_realized >= 0 else "#f87171"
+        total_realized_color = "var(--green)" if total_realized >= 0 else "var(--red)"
         total_realized_str = f"+${total_realized:.2f}" if total_realized >= 0 else f"-${abs(total_realized):.2f}"
 
         bot_accounts_html += f"""<div class="card">
@@ -4752,7 +4794,7 @@ def main():
             evo_total_value += value
             evo_total_cost += cost
             evo_snapshot[sym] = {"price": round(price, 2), "gl": round(gl_pct, 1)}
-            gl_color = "#4ade80" if gl >= 0 else "#f87171"
+            gl_color = "var(--green)" if gl >= 0 else "var(--red)"
             gl_str = f"+${gl:,.0f}" if gl >= 0 else f"-${abs(gl):,.0f}"
             pct_str = f"+{gl_pct:.1f}%" if gl_pct >= 0 else f"{gl_pct:.1f}%"
             evo_rows += f'<tr><td class="ticker">{sym}</td><td style="font-size:.78rem">{h["name"]}</td><td style="text-align:right;font-size:.78rem">{shares:,}</td><td style="text-align:right;font-size:.78rem">${price:,.2f}</td><td style="text-align:right;font-size:.78rem">${value:,.0f}</td><td style="text-align:right;font-size:.78rem;color:{gl_color}">{gl_str}</td><td style="text-align:right;font-size:.78rem;color:{gl_color};font-weight:600">{pct_str}</td></tr>'
@@ -4764,14 +4806,14 @@ def main():
         evo_total_value += btc_value
         evo_total_cost += btc_cost
         evo_snapshot["BTC"] = {"price": round(btc_price, 2), "gl": round(btc_pct, 1)}
-        btc_color = "#4ade80" if btc_gl >= 0 else "#f87171"
+        btc_color = "var(--green)" if btc_gl >= 0 else "var(--red)"
         btc_gl_str = f"+${btc_gl:,.0f}" if btc_gl >= 0 else f"-${abs(btc_gl):,.0f}"
         btc_pct_str = f"+{btc_pct:.1f}%" if btc_pct >= 0 else f"{btc_pct:.1f}%"
         evo_rows += f'<tr><td class="ticker">BTC</td><td style="font-size:.78rem">{EVO_BTC["name"]}</td><td style="text-align:right;font-size:.78rem">{EVO_BTC["shares"]}</td><td style="text-align:right;font-size:.78rem">${btc_price:,.2f}</td><td style="text-align:right;font-size:.78rem">${btc_value:,.0f}</td><td style="text-align:right;font-size:.78rem;color:{btc_color}">{btc_gl_str}</td><td style="text-align:right;font-size:.78rem;color:{btc_color};font-weight:600">{btc_pct_str}</td></tr>'
 
         evo_gl_total = evo_total_value - evo_total_cost
         evo_roi = (evo_gl_total / evo_total_cost * 100) if evo_total_cost > 0 else 0
-        evo_roi_color = "#4ade80" if evo_roi >= 0 else "#f87171"
+        evo_roi_color = "var(--green)" if evo_roi >= 0 else "var(--red)"
         evo_roi_str = f"+{evo_roi:.2f}%" if evo_roi >= 0 else f"{evo_roi:.2f}%"
         evo_gl_str = f"+${evo_gl_total:,.0f}" if evo_gl_total >= 0 else f"-${abs(evo_gl_total):,.0f}"
 

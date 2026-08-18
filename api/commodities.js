@@ -26,6 +26,36 @@ export function parseInvestingCommodities(markdown) {
   });
 }
 
+export function parseRbobCrack(rbobPayload, wtiPayload) {
+  function bars(payload) {
+    const result = payload?.chart?.result?.[0];
+    const timestamps = result?.timestamp || [];
+    const closes = result?.indicators?.quote?.[0]?.close || [];
+    return new Map(timestamps.map((timestamp, index) => [Number(timestamp), Number(closes[index])])
+      .filter(([timestamp, close]) => Number.isFinite(timestamp) && Number.isFinite(close) && close > 0));
+  }
+  const rbob = bars(rbobPayload), wti = bars(wtiPayload);
+  const common = [...rbob.keys()].filter(timestamp => wti.has(timestamp)).toSorted((a, b) => a - b);
+  if (common.length < 2) throw new Error('Fewer than two aligned RBOB/WTI bars');
+  const previousTimestamp = common.at(-2), quoteTimestamp = common.at(-1);
+  const previous = rbob.get(previousTimestamp) * 42 - wti.get(previousTimestamp);
+  const price = rbob.get(quoteTimestamp) * 42 - wti.get(quoteTimestamp);
+  if (!previous) throw new Error('Previous crack spread is zero');
+  return {
+    symbol:'RBOB_CRACK', name:'RBOB Crack', price, previous,
+    change:(price - previous) / Math.abs(previous) * 100,
+    source:'Yahoo Finance (calculated)', period:'adjacent futures sessions',
+    quoteTime:new Date(quoteTimestamp * 1000).toISOString(), formula:'RBOB × 42 − WTI',
+  };
+}
+
+async function fetchYahooChart(symbol) {
+  const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=5d&interval=1d`,
+    {headers:{'User-Agent':'NovaireSignal/1.0'}});
+  if (!response.ok) throw new Error(`${symbol}: Yahoo HTTP ${response.status}`);
+  return response.json();
+}
+
 export default async function handler(req) {
   const headers = {'Content-Type':'application/json','Cache-Control':'s-maxage=30, stale-while-revalidate=60'};
   try {
@@ -39,6 +69,8 @@ export default async function handler(req) {
     const payload = await response.json();
     const quotes = parseInvestingCommodities(payload?.data?.markdown || '');
     if (quotes.length !== INSTRUMENTS.length) throw new Error(`Only ${quotes.length}/${INSTRUMENTS.length} quotes parsed`);
+    const [rbobPayload, wtiPayload] = await Promise.all([fetchYahooChart('RB=F'), fetchYahooChart('CL=F')]);
+    quotes.push(parseRbobCrack(rbobPayload, wtiPayload));
     const uraniumResponse = await fetch('https://api.firecrawl.dev/v2/scrape', {
       method: 'POST',
       headers: {'Authorization':`Bearer ${process.env.FIRECRAWL_API_KEY}`,'Content-Type':'application/json'},
