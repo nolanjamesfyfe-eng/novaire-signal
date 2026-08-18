@@ -3,7 +3,7 @@ export const config = { runtime: 'edge' };
 
 const INSTRUMENTS = [
   ['GOLD', 'Gold'], ['SILVER', 'Silver'], ['COPPER', 'Copper'],
-  ['WTI', 'Crude Oil WTI'], ['BRENT', 'Brent Oil'],
+  ['WTI', 'Crude Oil WTI'],
 ];
 
 function parseUranium(markdown) {
@@ -14,7 +14,7 @@ function parseUranium(markdown) {
 export function parseInvestingCommodities(markdown) {
   const lines = String(markdown).split('\n');
   return INSTRUMENTS.flatMap(([symbol, name]) => {
-    const slug = {GOLD:'gold',SILVER:'silver',COPPER:'copper',WTI:'crude-oil',BRENT:'brent-oil'}[symbol];
+    const slug = {GOLD:'gold',SILVER:'silver',COPPER:'copper',WTI:'crude-oil'}[symbol];
     const row = lines.find(line => line.includes(`](https://www.investing.com/commodities/${slug} "`));
     if (!row) return [];
     const cells = row.trim().replace(/^\||\|$/g, '').split('|').map(cell => cell.trim());
@@ -26,30 +26,19 @@ export function parseInvestingCommodities(markdown) {
   });
 }
 
-export function parseRbobCrack(rbobPayload, wtiPayload) {
-  function bars(payload) {
-    const result = payload?.chart?.result?.[0];
-    const timestamps = result?.timestamp || [];
-    const closes = result?.indicators?.quote?.[0]?.close || [];
-    return new Map(timestamps.map((timestamp, index) => [
-      new Date(Number(timestamp) * 1000).toISOString().slice(0, 10),
-      {timestamp:Number(timestamp), close:Number(closes[index])},
-    ]).filter(([, bar]) => Number.isFinite(bar.timestamp) && Number.isFinite(bar.close) && bar.close > 0));
-  }
-  const rbob = bars(rbobPayload), wti = bars(wtiPayload);
-  const common = [...rbob.keys()].filter(day => wti.has(day)).toSorted();
-  if (common.length < 2) throw new Error('Fewer than two aligned RBOB/WTI trading dates');
-  const previousDay = common.at(-2), quoteDay = common.at(-1);
-  const previous = rbob.get(previousDay).close * 42 - wti.get(previousDay).close;
-  const price = rbob.get(quoteDay).close * 42 - wti.get(quoteDay).close;
-  const quoteTimestamp = Math.max(rbob.get(quoteDay).timestamp, wti.get(quoteDay).timestamp);
-  if (!previous) throw new Error('Previous crack spread is zero');
-  return {
-    symbol:'RBOB_CRACK', name:'RBOB Crack', price, previous,
-    change:(price - previous) / Math.abs(previous) * 100,
-    source:'Yahoo Finance (calculated)', period:'adjacent futures sessions',
-    quoteTime:new Date(quoteTimestamp * 1000).toISOString(), formula:'RBOB × 42 − WTI',
-  };
+export function parseDiesel(payload) {
+  const result = payload?.chart?.result?.[0];
+  const timestamps = result?.timestamp || [];
+  const closes = result?.indicators?.quote?.[0]?.close || [];
+  const bars = timestamps.map((timestamp, index) => ({timestamp:Number(timestamp), close:Number(closes[index])}))
+    .filter(bar => Number.isFinite(bar.timestamp) && Number.isFinite(bar.close) && bar.close > 0);
+  if (bars.length < 2) throw new Error('Fewer than two diesel futures sessions');
+  const previous = bars.at(-2).close * 42;
+  const price = bars.at(-1).close * 42;
+  return {symbol:'DIESEL', name:'Diesel', price, previous,
+    change:(price - previous) / previous * 100,
+    source:'Yahoo Finance (NYMEX ULSD)', period:'futures session',
+    quoteTime:new Date(bars.at(-1).timestamp * 1000).toISOString()};
 }
 
 async function fetchYahooChart(symbol) {
@@ -72,8 +61,7 @@ export default async function handler(req) {
     const payload = await response.json();
     const quotes = parseInvestingCommodities(payload?.data?.markdown || '');
     if (quotes.length !== INSTRUMENTS.length) throw new Error(`Only ${quotes.length}/${INSTRUMENTS.length} quotes parsed`);
-    const [rbobPayload, wtiPayload] = await Promise.all([fetchYahooChart('RB=F'), fetchYahooChart('CL=F')]);
-    quotes.push(parseRbobCrack(rbobPayload, wtiPayload));
+    quotes.push(parseDiesel(await fetchYahooChart('HO=F')));
     const uraniumResponse = await fetch('https://api.firecrawl.dev/v2/scrape', {
       method: 'POST',
       headers: {'Authorization':`Bearer ${process.env.FIRECRAWL_API_KEY}`,'Content-Type':'application/json'},

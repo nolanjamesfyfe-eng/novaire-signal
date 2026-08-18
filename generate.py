@@ -1708,16 +1708,32 @@ def fetch_rbob_crack():
     return parse_rbob_crack(*payloads)
 
 
+def fetch_diesel():
+    """Fetch front-month NY Harbor ULSD and quote it in USD per barrel."""
+    response = requests.get(
+        f"https://query1.finance.yahoo.com/v8/finance/chart/{quote('HO=F', safe='')}",
+        params={"range": "5d", "interval": "1d"},
+        headers={"User-Agent": "NovaireSignal/1.0"}, timeout=10)
+    response.raise_for_status()
+    parsed = parse_yahoo_chart_quote(response.json())
+    if not parsed or parsed.get("price") is None:
+        raise ValueError("Diesel futures quote unavailable")
+    parsed["price"] *= 42
+    if parsed.get("previous") is not None:
+        parsed["previous"] *= 42
+    parsed.update({"source": "Yahoo Finance (NYMEX ULSD)", "period": "futures session"})
+    return parsed
+
+
 def fetch_commodities():
-    """Fetch Investing.com resources, uranium spot, and the RBOB gasoline crack."""
+    """Fetch six resource benchmarks, including barrel-equivalent ULSD diesel."""
     symbols = {
         "GOLD": {"name": "Gold",        "unit": "/oz",  "cls": "c-gold"},
         "SILVER": {"name": "Silver",      "unit": "/oz",  "cls": "c-silver"},
         "COPPER": {"name": "Copper",      "unit": "/lb",  "cls": "c-copper"},
         "WTI": {"name": "Crude Oil WTI", "unit": "/bbl", "cls": "c-oil"},
-        "BRENT": {"name": "Brent Oil",    "unit": "/bbl", "cls": "c-oil"},
         "URANIUM_SPOT": {"name": "Uranium", "unit": "/lb", "cls": "c-uranium"},
-        "RBOB_CRACK": {"name": "RBOB Crack", "unit": "/bbl", "cls": "c-gas"},
+        "DIESEL": {"name": "Diesel", "unit": "/bbl", "cls": "c-gas"},
     }
     results = {key: {**meta, "price": None, "change": None,
                      "source": "Investing.com", "period": "daily",
@@ -1733,7 +1749,7 @@ def fetch_commodities():
         r.raise_for_status()
         markdown = r.json().get("data", {}).get("markdown", "")
         slugs = {"GOLD": "gold", "SILVER": "silver", "COPPER": "copper",
-                 "WTI": "crude-oil", "BRENT": "brent-oil"}
+                 "WTI": "crude-oil"}
         for key, slug in slugs.items():
             marker = f"](https://www.investing.com/commodities/{slug} \""
             row = next((line for line in markdown.splitlines() if marker in line), None)
@@ -1750,10 +1766,9 @@ def fetch_commodities():
     except Exception:
         pass
 
-    # Direct gasoline-at-the-pump pressure gauge: one barrel-equivalent of
-    # front-month RBOB gasoline less one front-month WTI barrel.
+    # Front-month NY Harbor ULSD, converted from USD/gallon to USD/barrel.
     try:
-        results["RBOB_CRACK"].update(fetch_rbob_crack())
+        results["DIESEL"].update(fetch_diesel())
     except Exception:
         pass
 
@@ -2655,7 +2670,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     for sym, c in commodities.items():
         price_str = fmt_price(c["price"]) if c["price"] else "—"
         chg_html  = fmt_pct(c["change"]) if c["change"] is not None else '<span style="color:var(--dim)">—</span>'
-        title_attr = ' title="Front-month RBOB × 42 gallons − front-month WTI"' if sym == "RBOB_CRACK" else ""
+        title_attr = ' title="Front-month NY Harbor ULSD futures × 42 gallons"' if sym == "DIESEL" else ""
         comm_html += f"""
         <div class="commodity-item" data-commodity="{sym}"{title_attr}>
           <div class="commodity-name {c['cls']}">{c['name']}</div>
@@ -3009,7 +3024,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .catalyst-source{{font-size:.62rem;color:var(--dim);margin-top:2px}}
     .no-news{{color:var(--dim);font-style:italic;font-size:.78rem;margin-left:6px}}
 
-    .commodities-grid{{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}}
+    .commodities-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}}
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
     .commodity-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:1.5px}}
@@ -3165,9 +3180,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .commodity-item[data-commodity="SILVER"]{{order:2}}
       .commodity-item[data-commodity="WTI"]{{order:3}}
       .commodity-item[data-commodity="COPPER"]{{order:4}}
-      .commodity-item[data-commodity="BRENT"]{{order:5}}
-      .commodity-item[data-commodity="URANIUM_SPOT"]{{order:6}}
-      .commodity-item[data-commodity="RBOB_CRACK"]{{order:7}}
+      .commodity-item[data-commodity="URANIUM_SPOT"]{{order:5}}
+      .commodity-item[data-commodity="DIESEL"]{{order:6}}
       .crypto-grid{{grid-template-columns:repeat(4,1fr)}}
       .fx-row{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}}
       .fx-chip{{padding:9px 4px}}

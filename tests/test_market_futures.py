@@ -68,16 +68,16 @@ class MarketFuturesTests(unittest.TestCase):
         )
         self.assertEqual(generate.MARKET_INDICES["^IXIC"]["label"], "Nasdaq Composite")
 
-    def test_commodities_preserve_approved_set_and_add_rbob_gasoline_crack(self):
+    def test_commodities_use_six_tile_set_with_diesel(self):
         commodities = generate.fetch_commodities()
         self.assertEqual(
             set(commodities),
-            {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT", "RBOB_CRACK"},
+            {"GOLD", "SILVER", "COPPER", "WTI", "URANIUM_SPOT", "DIESEL"},
         )
         self.assertEqual(commodities["URANIUM_SPOT"]["name"], "Uranium")
         self.assertEqual(commodities["URANIUM_SPOT"]["unit"], "/lb")
-        self.assertEqual(commodities["RBOB_CRACK"]["name"], "RBOB Crack")
-        self.assertEqual(commodities["RBOB_CRACK"]["unit"], "/bbl")
+        self.assertEqual(commodities["DIESEL"]["name"], "Diesel")
+        self.assertEqual(commodities["DIESEL"]["unit"], "/bbl")
 
     def test_rbob_crack_uses_aligned_adjacent_bars_and_42_gallons_per_barrel(self):
         rbob = {"chart": {"result": [{"timestamp": [1786507200, 1786593600, 1786680000], "indicators": {"quote": [{"close": [2.50, 2.60, 2.70]}]}}]}}

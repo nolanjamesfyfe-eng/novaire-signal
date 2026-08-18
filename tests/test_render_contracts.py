@@ -236,12 +236,14 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("card.classList.add('is-viewed')", self.html)
         self.assertIn("card.classList.toggle('is-viewed', !card.open)", self.html)
 
-    def test_commodities_are_seven_compact_tiles_with_rbob_crack(self):
-        self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(7,1fr)", self.html)
+    def test_commodities_are_six_compact_tiles_with_diesel(self):
+        self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
         self.assertIn(".commodity-item{background:var(--bg);padding:9px", self.html)
         self.assertIn(".commodity-name{font-size:.465rem", self.html)
         self.assertNotIn('data-commodity="NATGAS"', self.html)
-        for symbol in ("GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT", "RBOB_CRACK"):
+        self.assertNotIn('data-commodity="BRENT"', self.html)
+        self.assertNotIn('data-commodity="RBOB_CRACK"', self.html)
+        for symbol in ("GOLD", "SILVER", "COPPER", "WTI", "URANIUM_SPOT", "DIESEL"):
             self.assertIn(f'data-commodity="{symbol}"', self.html)
 
     def test_trading_summary_typography_and_signal_colors_match_fed(self):

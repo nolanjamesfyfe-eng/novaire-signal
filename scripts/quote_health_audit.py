@@ -103,7 +103,7 @@ def audit_upstreams(audit: Audit) -> None:
         audit.record(ok, f"cash index {symbol}", detail)
 
     commodities = generate.fetch_commodities()
-    expected_commodities = {"GOLD", "SILVER", "COPPER", "WTI", "BRENT", "URANIUM_SPOT", "RBOB_CRACK"}
+    expected_commodities = {"GOLD", "SILVER", "COPPER", "WTI", "URANIUM_SPOT", "DIESEL"}
     audit.record(set(commodities) == expected_commodities, "commodity coverage", f"{len(commodities)}/{len(expected_commodities)} quotes")
     for symbol in sorted(expected_commodities):
         price = commodities.get(symbol, {}).get("price")
