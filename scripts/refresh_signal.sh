@@ -22,6 +22,14 @@ fi
 
 "$PYTHON_BIN" generate.py
 
+# Never publish a refresh that replaced healthy market data with blanks during
+# an upstream outage or rate limit. Restore the last committed artifacts and
+# fail so the watchdog can retry/alert instead of deploying dead quote cards.
+if ! "$PYTHON_BIN" scripts/validate_generated_quotes.py; then
+  /usr/bin/git restore index.html portfolio/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json stats.json weather_cache.json 2>/dev/null || true
+  exit 1
+fi
+
 # Commit/push only if generated files changed
 if ! /usr/bin/git diff --quiet -- index.html portfolio/index.html portfolio/evolutionfund/index.html portfolio_history.json stats.json feed.json weather_cache.json; then
   /usr/bin/git add index.html portfolio/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json
