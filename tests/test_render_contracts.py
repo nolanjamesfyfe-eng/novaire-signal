@@ -294,6 +294,16 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("nv_thailand_news_viewed", self.html)
         self.assertIn("thailandScore.textContent = 'Viewed'", self.html)
 
+    def test_net_worth_chart_stays_below_metrics_and_period_tiles_wrap(self):
+        html = self.portfolio_html
+        self.assertIn(".tracker-hero-metric{position:relative", html)
+        self.assertNotIn(".tracker-hero-metric{position:absolute", html)
+        self.assertIn(".tracker-performance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr))", html)
+        self.assertIn(".tracker-performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))", html)
+        self.assertIn(".tracker-performance-grid>div:last-child:nth-child(odd){grid-column:1/-1}", html)
+        self.assertNotIn("minmax(68px,1fr)", html)
+        self.assertNotIn(".tracker-hero-svg{display:block;width:100%;height:260px;overflow:visible", html)
+
     def test_economies_open_once_then_remember_viewed_edition(self):
         # The biweekly card is intentionally absent outside its scheduled Monday;
         # persistence machinery remains in every build.
