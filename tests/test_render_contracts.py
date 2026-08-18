@@ -179,7 +179,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
 
     def test_alpaca_is_canonical_live_holdings_source_with_weights(self):
-        self.assertIn("🦙 Alpaca · Livermore Darvas", self.html)
+        self.assertIn("🦙 Alpaca · Novairecito", self.html)
+        self.assertNotIn("🦙 Alpaca · Livermore Darvas", self.html)
         self.assertIn("Live Alpaca holdings", self.html)
         self.assertIn('data-alpaca-positions', self.html)
         self.assertIn('data-alpaca-symbol="URNJ"', self.html)

@@ -4681,7 +4681,7 @@ def main():
         all_rows = _alp_rows(all_positions, "All")
 
         alpaca_html = f"""<details class="card signal-accordion trading-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Alpaca · Livermore Darvas</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
+    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · {total_trades} trades · Since Feb 24, 2026</div>
       <div data-alpaca-positions>
