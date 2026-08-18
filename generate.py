@@ -2693,7 +2693,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         crypto_html += f"""
         <div class="crypto-item" data-coin="{coin}">
           <div class="crypto-symbol" style="color:{color}">{coin}</div>
-          <div class="crypto-price" data-crypto-price="{coin}" style="color:{color}">{price_str}</div>
+          <div class="crypto-price" data-crypto-price="{coin}">{price_str}</div>
           <div class="crypto-change" data-crypto-chg="{coin}">{chg_html}</div>
         </div>"""
 
@@ -3026,7 +3026,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodities-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}}
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
-    .commodity-price{{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:1.5px}}
+    .commodity-price{{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text);margin-bottom:1.5px}}
     .commodity-unit{{font-family:var(--sans);font-size:.42rem;font-weight:400;color:var(--dim);letter-spacing:.01em}}
     .commodity-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2.25px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
@@ -3035,7 +3035,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
     .crypto-item{{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .crypto-symbol{{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}}
-    .crypto-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:2px}}
+    .crypto-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text);margin-bottom:2px}}
     .crypto-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2px}}
 
     .radar-item{{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}}
@@ -3083,7 +3083,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fx-row{{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:4px}}
     .fx-chip{{text-align:center;min-width:0;flex:1 1 0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:6px 4px}}
     .fx-chip .fx-ccy{{font-size:.54rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);white-space:nowrap}}
-    .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--gold);margin-top:1px}}
+    .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--text);margin-top:1px}}
 
     .compact-feed-card{{padding:14px 16px}}
     .compact-feed-card .card-title{{margin-bottom:8px}}
