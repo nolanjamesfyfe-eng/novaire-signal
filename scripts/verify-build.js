@@ -84,4 +84,16 @@ if (missingTransient.length) {
   for (const needle of missingTransient) console.warn(`  - ${needle}`);
 }
 
+const { spawnSync } = require('child_process');
+const chartTest = spawnSync(process.execPath, [path.join(root, 'tests', 'stock-chart.mjs')], {
+  cwd: root,
+  encoding: 'utf8',
+});
+if (chartTest.status !== 0) {
+  console.error('❌ Build guard failed: weekly last-close contract broke.');
+  if (chartTest.stdout) process.stderr.write(chartTest.stdout);
+  if (chartTest.stderr) process.stderr.write(chartTest.stderr);
+  process.exit(1);
+}
+
 console.log('✅ Build guard passed: core Novaire Signal files are deployable.');

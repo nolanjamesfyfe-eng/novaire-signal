@@ -25,6 +25,55 @@ function marketDateKey(timestamp, timeZone = 'UTC') {
   }).format(new Date(timestamp * 1000));
 }
 
+function quoteFromOfficialClose(officialClose) {
+  if (officialClose === null || officialClose <= 0) return null;
+  return {
+    open: officialClose,
+    high: officialClose,
+    low: officialClose,
+    close: officialClose,
+    volume: 0,
+  };
+}
+
+function officialCompletedQuote(meta, rowDate, timeZone, nowSeconds, currentSessionIsClosed, isLatestCompleted) {
+  const today = marketDateKey(nowSeconds, timeZone);
+  const rowCompleted = rowDate < today || (rowDate === today && currentSessionIsClosed);
+  if (!rowCompleted) return null;
+  const officialTime = finite(meta?.regularMarketTime);
+  const officialDate = officialTime !== null ? marketDateKey(officialTime, timeZone) : null;
+  if (officialDate === rowDate) {
+    return quoteFromOfficialClose(finite(meta?.regularMarketPrice) ?? finite(meta?.previousClose));
+  }
+  // After the next session starts, Yahoo points regularMarketTime at the live
+  // bar and keeps yesterday's official print on previousClose. Apply that only
+  // to the latest completed blank row so older OTC zeros stay discarded.
+  if (isLatestCompleted) return quoteFromOfficialClose(finite(meta?.previousClose));
+  return null;
+}
+
+function applyOfficialLastClose(weeks, meta, timeZone, nowSeconds, currentSessionIsClosed) {
+  const today = marketDateKey(nowSeconds, timeZone);
+  const officialTime = finite(meta?.regularMarketTime);
+  if (officialTime === null) return;
+  const officialDate = marketDateKey(officialTime, timeZone);
+  const officialCompleted = officialDate < today || (officialDate === today && currentSessionIsClosed);
+  const close = officialCompleted
+    ? finite(meta?.regularMarketPrice) ?? finite(meta?.previousClose)
+    : finite(meta?.previousClose);
+  if (close === null || close <= 0) return;
+  const closeTime = officialCompleted ? officialTime : officialTime - 86400;
+  const weekEnd = fridayCloseUtcSeconds(closeTime);
+  const current = weeks.get(weekEnd);
+  if (!current) {
+    weeks.set(weekEnd, { time: weekEnd, open: close, high: close, low: close, close, volume: 0 });
+    return;
+  }
+  current.close = close;
+  current.high = Math.max(current.high, close);
+  current.low = Math.min(current.low, close);
+}
+
 export function mergeChartPayloads(primaryPayload, fallbackPayload) {
   const primary = primaryPayload?.chart?.result?.[0];
   const fallback = fallbackPayload?.chart?.result?.[0];
@@ -59,6 +108,11 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
   const today = marketDateKey(nowSeconds, timeZone);
   const regularSessionEnd = finite(result.meta?.currentTradingPeriod?.regular?.end);
   const currentSessionIsClosed = regularSessionEnd !== null && nowSeconds >= regularSessionEnd;
+  let latestCompletedIndex = -1;
+  timestamps.forEach((time, index) => {
+    const rowDate = marketDateKey(Number(time), timeZone);
+    if (rowDate < today || (rowDate === today && currentSessionIsClosed)) latestCompletedIndex = index;
+  });
   const weeks = new Map();
   timestamps.forEach((time, index) => {
     // Include today's bar only after the exchange's regular session has ended.
@@ -66,7 +120,7 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
     // arrives early the next morning while it is still the same date in-market.
     const rowDate = marketDateKey(Number(time), timeZone);
     if (rowDate > today || (rowDate === today && !currentSessionIsClosed)) return;
-    const row = {
+    let row = {
       time: Number(time),
       open: finite(quote.open?.[index]),
       high: finite(quote.high?.[index]),
@@ -74,10 +128,18 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
       close: finite(quote.close?.[index]),
       volume: finite(quote.volume?.[index]) ?? 0,
     };
-    if (![row.time, row.open, row.high, row.low, row.close].every(Number.isFinite)) return;
-    // Thin OTC feeds sometimes publish a synthetic all-zero row when no trade
-    // occurred. It is not a closing price and must not distort the candle.
-    if ([row.open, row.high, row.low, row.close].some(value => value <= 0)) return;
+    const rowIsBlank = ![row.open, row.high, row.low, row.close].every(Number.isFinite)
+      || [row.open, row.high, row.low, row.close].some(value => value <= 0);
+    if (rowIsBlank) {
+      // Yahoo overnight-nulls some completed small-cap daily bars while keeping
+      // the official print on meta.regularMarketPrice. Reconstruct that close
+      // so the weekly last-close marker cannot fall back to Friday.
+      const official = officialCompletedQuote(
+        result.meta, rowDate, timeZone, nowSeconds, currentSessionIsClosed, index === latestCompletedIndex,
+      );
+      if (!official) return;
+      row = { ...row, ...official };
+    }
     const weekEnd = fridayCloseUtcSeconds(row.time);
     const current = weeks.get(weekEnd);
     if (!current) {
@@ -89,6 +151,7 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
     current.close = row.close;
     current.volume += row.volume;
   });
+  applyOfficialLastClose(weeks, result.meta, timeZone, nowSeconds, currentSessionIsClosed);
   const candles = [...weeks.values()]
     .sort((a, b) => a.time - b.time)
     .slice(-39);
@@ -125,7 +188,7 @@ export default async function handler(req, res) {
       : primaryPayload;
     const data = aggregateCompletedWeeks(payload, symbol);
     if (historyAlias) data.historySource = historyAlias;
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
+    res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate=300');
     return res.status(200).json(data);
   } catch (error) {
     return res.status(502).json({ error: 'Chart temporarily unavailable' });
