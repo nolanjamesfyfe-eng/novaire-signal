@@ -2,14 +2,28 @@
   "ok": true,
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-08-18T04:01:57.055380+00:00",
+  "fetchedAt": "2026-08-18T04:20:42.890728+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "JohnPolomny",
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2089563790064951555",
+      "text": "Boom!💥 #Egypt's 4.8GW El Dabaa #Nuclear Plant of 4 x 1.2GW reactors is being expanded by an additional 2 reactors to host 6 reactors in all6️⃣⚛️🏗️👷🇪🇬 in a pivot away from reliance on traditional fuels🔥⚡🚫🤠🐂 #Uranium #EnergyCrisis #EnergySecurity🌊🏄 https://cairoscene.com/News/El-Dabaa-Nuclear-Plant-is-Getting-Two-Additional-Reactors",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-08-18T04:03:24+00:00",
+      "createdAtMs": 1787025804000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/quakes99/status/2089563790064951555#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
     {
       "id": "2089560442532233256",
       "text": "What's Behind Trump's Unexpected Favor To Kim Jong Un? https://www.zerohedge.com/geopolitical/whats-behind-trumps-unexpected-favor-kim-jong-un",
@@ -22,7 +36,7 @@
       "url": "https://x.com/zerohedge/status/2089560442532233256#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 2,
       "engagementScore": 0
     },
     {
@@ -37,7 +51,7 @@
       "url": "https://x.com/nntaleb/status/2089529685533151627#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
+      "slot_order": 3,
       "engagementScore": 0
     },
     {
@@ -52,7 +66,7 @@
       "url": "https://x.com/SantiagoAuFund/status/2089520698909692235#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
+      "slot_order": 4,
       "engagementScore": 0
     },
     {
@@ -67,7 +81,7 @@
       "url": "https://x.com/KobeissiLetter/status/2089507603386896421#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
+      "slot_order": 5,
       "engagementScore": 0
     },
     {
@@ -82,7 +96,7 @@
       "url": "https://x.com/HydroGraphInc/status/2089473168834712021#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
+      "slot_order": 6,
       "engagementScore": 0
     },
     {
@@ -97,7 +111,7 @@
       "url": "https://x.com/HydroGraphInc/status/2089473168834712021#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 7,
       "engagementScore": 0
     },
     {
@@ -112,7 +126,7 @@
       "url": "https://x.com/WatcherGuru/status/2089466026903679209#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 8,
       "engagementScore": 0
     },
     {
@@ -125,21 +139,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2089463915742908747#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089446869093241192",
-      "text": "⚡️ #Uranium stocks were burning bright in Monday AM trading🔥📈 but then US markets took a deep dive🇺🇸⤵️🤿 splashing cold water on the rally💦 as Spot #U3O8 breaks out of a 6-month consolidation🌋 amid accelerating #Nuclear growth🏎️⬆️⚛️🏗️ as #mining giant BHP eyes NexGen🇨🇦👀🤠🐂",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-08-17T20:18:48+00:00",
-      "createdAtMs": 1786997928000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/quakes99/status/2089446869093241192#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
