@@ -20,10 +20,13 @@ class LiveNewsRefreshTests(unittest.TestCase):
         self.assertIn("n=SIGNAL_POOL_SIZE", source)
         self.assertIn("top12_engagement_no_economist", source)
 
-    def test_homepage_refresh_advances_both_feeds_without_repeats(self):
+    def test_homepage_has_independent_refresh_controls_for_each_feed(self):
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
         self.assertIn('id="news-refresh"', source)
-        self.assertIn("loadFreshNews(true)", source)
+        self.assertIn('id="signal-refresh"', source)
+        self.assertIn('onclick="refreshZeroHedge(true)"', source)
+        self.assertIn('onclick="refreshSignals(true)"', source)
+        self.assertNotIn("Refresh both", source)
         self.assertIn("nextBatch(signalPool, signalCursor, 3)", source)
         self.assertIn("nextBatch(zhPool, zhCursor, 3)", source)
         self.assertIn("/api/zerohedge?", source)

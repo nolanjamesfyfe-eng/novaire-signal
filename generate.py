@@ -3292,7 +3292,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">📰 ZeroHedge — Top Headlines</div>
     <div class="feed-controls">
       <div class="feed-status" id="news-status">Live pool · latest three</div>
-      <button class="feed-refresh" id="news-refresh" onclick="loadFreshNews(true)" title="Show the next three ranked X signals and the next three live ZeroHedge articles">↻ Refresh both</button>
+      <button class="feed-refresh" id="news-refresh" onclick="refreshZeroHedge(true)" title="Show the next three live ZeroHedge articles">↻ Refresh</button>
     </div>
     <div id="zerohedge-feed">{zh_html}</div>
   </div>
@@ -3302,6 +3302,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="card-title">📡 Signal Feed — Top 3 by Engagement</div>
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
+      <button class="feed-refresh" id="signal-refresh" onclick="refreshSignals(true)" title="Show the next three ranked signals matching your criteria">↻ Refresh</button>
     </div>
     <div id="signal-feed">
       <div class="feed-loading">Fetching signals</div>
@@ -3370,50 +3371,58 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       `).join('');
     }}
 
-    async function loadFreshNews(force) {{
+    async function refreshSignals(force) {{
       const status = document.getElementById('feed-status');
-      const newsStatus = document.getElementById('news-status');
-      const button = document.getElementById('news-refresh');
+      const button = document.getElementById('signal-refresh');
       button.disabled = true;
       status.textContent = force ? 'Finding next three signals…' : 'Loading ranked signal pool…';
-      newsStatus.textContent = force ? 'Finding next three articles…' : 'Loading live article pool…';
       try {{
-        const [signalResponse, zhResponse] = await Promise.all([
-          fetch('/feed.json?_=' + Date.now(), {{ cache: 'no-store' }}),
-          fetch('/api/zerohedge?_=' + Date.now(), {{ cache: 'no-store' }})
-        ]);
+        const signalResponse = await fetch('/feed.json?_=' + Date.now(), {{ cache: 'no-store' }});
         if (!signalResponse.ok) throw new Error('Signal HTTP ' + signalResponse.status);
         const signalJson = await signalResponse.json();
         if (!signalJson.ok || !signalJson.posts?.length) throw new Error(signalJson.error || 'No ranked signals');
         signalPool = sortBySlot(signalJson.posts);
-        if (zhResponse.ok) {{
-          const zhJson = await zhResponse.json();
-          if (zhJson.ok && zhJson.articles?.length) zhPool = zhJson.articles;
-        }}
 
         const signalBatch = nextBatch(signalPool, signalCursor, 3);
-        const zhBatch = nextBatch(zhPool, zhCursor, 3);
         signalCursor = signalBatch.cursor;
-        zhCursor = zhBatch.cursor;
         renderFeed(signalBatch.items);
-        renderZeroHedge(zhBatch.items);
 
         const fetchedAt = signalJson.fetchedAt ? new Date(signalJson.fetchedAt) : new Date();
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
         status.textContent = '3 of ' + signalPool.length + ' ranked signals · updated ' + ageStr;
-        newsStatus.textContent = '3 of ' + zhPool.length + ' live articles';
       }} catch(err) {{
         status.textContent = 'Refresh failed · tap again';
+      }} finally {{
+        button.disabled = false;
+      }}
+    }}
+
+    async function refreshZeroHedge(force) {{
+      const newsStatus = document.getElementById('news-status');
+      const button = document.getElementById('news-refresh');
+      button.disabled = true;
+      newsStatus.textContent = force ? 'Finding next three articles…' : 'Loading live article pool…';
+      try {{
+        const response = await fetch('/api/zerohedge?_=' + Date.now(), {{ cache: 'no-store' }});
+        if (!response.ok) throw new Error('ZeroHedge HTTP ' + response.status);
+        const json = await response.json();
+        if (json.ok && json.articles?.length) zhPool = json.articles;
+        const batch = nextBatch(zhPool, zhCursor, 3);
+        zhCursor = batch.cursor;
+        renderZeroHedge(batch.items);
+        newsStatus.textContent = '3 of ' + zhPool.length + ' live articles';
+      }} catch(err) {{
         newsStatus.textContent = 'Keeping current headlines';
       }} finally {{
         button.disabled = false;
       }}
     }}
-    window.loadFreshNews = loadFreshNews;
+    window.refreshSignals = refreshSignals;
+    window.refreshZeroHedge = refreshZeroHedge;
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => loadFreshNews(false))
-      : loadFreshNews(false);
+      ? document.addEventListener('DOMContentLoaded', () => Promise.all([refreshSignals(false), refreshZeroHedge(false)]))
+      : Promise.all([refreshSignals(false), refreshZeroHedge(false)]);
   }})();
   </script>
 
