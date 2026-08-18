@@ -2674,8 +2674,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         comm_html += f"""
         <div class="commodity-item" data-commodity="{sym}"{title_attr}>
           <div class="commodity-name {c['cls']}">{c['name']}</div>
-          <div class="commodity-price {c['cls']}" data-comm-price="{sym}">{price_str}</div>
-          <div class="commodity-unit">{c['unit']}</div>
+          <div class="commodity-price {c['cls']}"><span class="commodity-price-value" data-comm-price="{sym}">{price_str}</span><span class="commodity-unit">{c['unit']}</span></div>
           <div class="commodity-change" data-comm-chg="{sym}">{chg_html}</div>
         </div>"""
 
@@ -3027,8 +3026,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodities-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}}
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
-    .commodity-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:1.5px}}
-    .commodity-unit{{font-size:.45rem;color:var(--dim)}}
+    .commodity-price{{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:1.5px}}
+    .commodity-unit{{font-family:var(--sans);font-size:.42rem;font-weight:400;color:var(--dim);letter-spacing:.01em}}
     .commodity-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2.25px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}.c-uranium{{color:#7fc87f}}
