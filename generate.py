@@ -2453,7 +2453,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         </div>"""
     if not weekly_rows:
         weekly_rows = '<div class="weekly-empty">Weekly scan awaiting verified data. No counterfeit conviction.</div>'
-    weekly_as_of = escape(str(weekly.get("as_of") or "awaiting scan"))
+    weekly_as_of_raw = str(weekly.get("as_of") or "awaiting scan")
+    weekly_as_of = escape(weekly_as_of_raw)
+    try:
+        weekly_updated = datetime.strptime(weekly_as_of_raw[:10], "%Y-%m-%d").strftime("%b %-d")
+    except ValueError:
+        weekly_updated = weekly_as_of_raw
+    weekly_updated = escape(weekly_updated)
     weekly_note = escape(str(weekly.get("portfolio_note") or "Screened against current holdings and trading accounts."))
 
     # ── FX Rates HTML ──
@@ -2514,21 +2520,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     fed = fed_signal or fetch_fed_signal()
     days_label = f"{fed['days_until']} day{'s' if fed['days_until'] != 1 else ''}"
     futures_data = market_futures or fetch_market_futures()
-    indices_data = market_indices or fetch_market_indices()
     futures_html = ""
-    for (symbol, meta), (cash_symbol, cash_meta) in zip(MARKET_FUTURES.items(), MARKET_INDICES.items()):
+    for symbol, meta in MARKET_FUTURES.items():
         item = futures_data.get(symbol, {})
-        cash = indices_data.get(cash_symbol, {})
         price = item.get("price")
         change = item.get("change")
-        cash_price = cash.get("price")
-        cash_change = cash.get("change")
         price_text = f"{price:,.2f}" if price is not None else "—"
         change_text = f"{change:+.2f}%" if change is not None else "—"
-        cash_price_text = f"{cash_price:,.2f}" if cash_price is not None else "—"
-        cash_change_text = f"{cash_change:+.2f}%" if cash_change is not None else "—"
         change_class = "positive" if change is not None and change >= 0 else ("negative" if change is not None else "")
-        cash_change_class = "positive" if cash_change is not None and cash_change >= 0 else ("negative" if cash_change is not None else "")
         quote_time = escape(str(item.get("quote_time") or ""), quote=True)
         consensus_label = meta['short'].replace("FUT", "CONSENSUS")
         source_count = int(item.get("source_count") or 1)
@@ -2538,7 +2537,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           <span>{consensus_label}</span>
           <b data-future-price>{price_text}</b>
           <em data-future-change class="{change_class}">{change_text}</em>
-          <small title="{cash_meta['label']} cash index"><i>Cash</i><strong data-market-price="{cash_symbol}">{cash_price_text}</strong><u data-market-change="{cash_symbol}" class="{cash_change_class}">{cash_change_text}</u></small>
         </div>"""
     market_html = f"""
   <div class="card market-card">
@@ -2764,6 +2762,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
+      --market-quote-size:.95rem;--market-change-size:.68rem;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
@@ -2990,17 +2989,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodities-grid{{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}}
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
-    .commodity-price{{font-family:var(--serif);font-size:.9rem;font-weight:400;margin-bottom:1.5px}}
+    .commodity-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:400;margin-bottom:1.5px}}
     .commodity-unit{{font-size:.45rem;color:var(--dim)}}
-    .commodity-change{{font-size:.54rem;margin-top:2.25px}}
+    .commodity-change{{font-size:var(--market-change-size);margin-top:2.25px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}.c-uranium{{color:#7fc87f}}
 
     .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
     .crypto-item{{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .crypto-symbol{{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}}
-    .crypto-price{{font-family:var(--serif);font-size:.95rem;font-weight:400;margin-bottom:2px}}
-    .crypto-change{{font-size:.68rem;margin-top:2px}}
+    .crypto-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:400;margin-bottom:2px}}
+    .crypto-change{{font-size:var(--market-change-size);margin-top:2px}}
 
     .radar-item{{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}}
     .radar-item:last-child{{border-bottom:none}}
@@ -3079,22 +3078,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}}
     .market-future{{display:grid;grid-template-columns:1fr auto;gap:0 7px;align-items:baseline;padding-left:10px;border-left:1px solid var(--border);min-width:0}}
     .market-future span{{grid-column:1/-1;font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
-    .market-future b{{font-family:var(--serif);font-size:.92rem;color:var(--text);font-weight:500;white-space:nowrap}}
-    .market-future em{{font-size:.7332rem;font-style:normal;text-align:right;white-space:nowrap}}
-    .market-future small{{
-      grid-column:1/-1;
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      gap:5px;
-      align-items:baseline;
-      margin-top:2px;
-      color:var(--mute);
-      font-size:.41rem;
-      white-space:nowrap;
-    }}
-    .market-future small i{{font-style:normal;text-transform:uppercase;letter-spacing:.06em}}
-    .market-future small strong{{font-size:.45rem;font-weight:500;color:var(--dim)}}
-    .market-future small u{{font-size:.6396rem;text-decoration:none;text-align:right}}
+    .market-future b{{font-family:var(--serif);font-size:var(--market-quote-size);color:var(--text);font-weight:500;white-space:nowrap}}
+    .market-future em{{font-size:var(--market-change-size);font-style:normal;text-align:right;white-space:nowrap}}
     .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
@@ -3113,9 +3098,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
-    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-primary{{justify-content:flex-start;padding:0}}.market-futures{{width:100%}}.market-future{{grid-template-columns:1fr;text-align:center;padding:0 8px}}.market-future:first-child{{border-left:none;padding-left:0}}.market-future span,.market-future b,.market-future em{{grid-column:1}}.market-future em{{text-align:center}}.market-future small{{grid-template-columns:auto auto;justify-content:center}}.market-future small u{{grid-column:1/-1;text-align:center}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
+    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-primary{{justify-content:flex-start;padding:0}}.market-futures{{width:100%}}.market-future{{grid-template-columns:1fr;text-align:center;padding:0 8px}}.market-future:first-child{{border-left:none;padding-left:0}}.market-future span,.market-future b,.market-future em{{grid-column:1}}.market-future em{{text-align:center}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
-    @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:14px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{grid-template-columns:1fr auto;column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px;text-align:left}}.market-future span{{grid-column:1/-1;text-align:left}}.market-future b{{grid-column:1;text-align:left}}.market-future em{{grid-column:2;text-align:right}}.market-future small{{grid-template-columns:auto 1fr auto;justify-content:stretch;margin-top:5px}}.market-future small u{{grid-column:auto;text-align:right}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
+    @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:14px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{grid-template-columns:1fr auto;column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px;text-align:left}}.market-future span{{grid-column:1/-1;text-align:left}}.market-future b{{grid-column:1;text-align:left}}.market-future em{{grid-column:2;text-align:right}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
@@ -3407,7 +3392,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <details class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="{weekly_as_of}" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">Updated {weekly_as_of}</span></summary>
+    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">Updated on {weekly_updated}</span></summary>
     <div class="signal-accordion-body"><div class="weekly-meta">{weekly_note}</div><div class="weekly-grid">{weekly_rows}</div></div>
   </details>
 
@@ -3441,12 +3426,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   {eco_html}
 
 
-  <!-- DAILY KEYSTONE PRIORITY -->
+  <!-- DAILY KEYSTONE -->
   <div class="card" id="keystone-card">
-    <div class="card-title">🎯 Daily Keystone Priority</div>
-    <div class="updog-intro">Enter one Keystone priority. Signal will return one concrete move.</div>
+    <div class="card-title">🎯 Daily Keystone</div>
+    <div class="updog-intro">Enter today’s priorities, separated by commas. Signal will return one concrete move for each.</div>
     <div class="keystone-row">
-      <input id="keystone-input" class="keystone-input" placeholder="One thing that moves health, wealth, product, or relationships...">
+      <input id="keystone-input" class="keystone-input" placeholder="Vibe code, Anki, TSR clips, clean house...">
       <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
     </div>
     <div id="keystone-status" style="margin-top:10px;color:var(--muted);font-size:.82rem">Keystone streak: 0 days.</div>
@@ -3456,7 +3441,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- DAILY ACTION STEPS -->
   <div class="card updog-action-card" id="updog-action-card">
-    <div class="action-step-heading"><div class="card-title">⚔️ Daily Action Step</div><span class="keystone-streak" id="novaire-keystone-streak">🔥 0 days</span></div>
+    <div class="action-step-heading"><div class="card-title">⚔️ Daily Actions</div><span class="keystone-streak" id="novaire-keystone-streak">🔥 0 days</span></div>
     <div class="action-steps-grid" id="action-steps-grid"></div>
   </div>
 
@@ -3687,7 +3672,7 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     const completeToday = data.doneDates.includes(today);
     status.textContent = completeToday
       ? 'Keystone complete · streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + '.'
-      : (data.isSet ? 'Today’s Keystone is set · complete the action to bank the day.' : 'Keystone streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + ' · set today’s Keystone.');
+      : (data.isSet ? 'Today’s Keystone is set · complete every action to bank the day.' : 'Keystone streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + ' · set today’s Keystone.');
     if (yesterdayBox) yesterdayBox.innerHTML = '';
     localStorage.setItem(key, JSON.stringify(data));
   }}
@@ -3738,34 +3723,68 @@ function renderActionSteps() {{
   function calculateKeystoneStreak(doneDates) {{ const done=new Set(doneDates||[]); let cursor=done.has(today)?today:dayBefore(today),streak=0; while(done.has(cursor)){{streak++;cursor=dayBefore(cursor)}} return streak; }}
   const data=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{"text":"","date":"","history":[]}}'); data.doneDates=Array.isArray(data.doneDates)?data.doneDates:[];
   const streak=calculateKeystoneStreak(data.doneDates); if(streakEl)streakEl.textContent='🔥 '+streak+(streak===1?' day complete':' days complete');
-  const task=data.date===today&&data.isSet?String(data.text||'').trim():'';
-  if(!task){{grid.innerHTML='<div class="action-step-empty">Set today’s Keystone above. One useful move will appear here.</div>';return}}
-  const lower=task.toLowerCase();
-  const priorityLabel='“'+task+'”';
-  function actionFor(){{
-    if(/tweet|x\b|post|thread/.test(lower))return {{title:'Draft the actual post',action:'For '+priorityLabel+', write one post-ready draft with a sharp hook and one clear point.'}};
-    if(/podcast|clip|record|episode|hook/.test(lower))return {{title:'Record the rough version',action:'For '+priorityLabel+', write the thesis, two hooks and three bullets, then record one rough take.'}};
-    if(/relationship|date|romantic|family|friend|conversation/.test(lower))return {{title:'Start the real conversation',action:'Advance '+priorityLabel+' by sending one honest question or message to the person involved.'}};
-    if(/retreat|deposit|villa|mastermind|cohort/.test(lower))return {{title:'Move one buyer closer to yes',action:'Advance '+priorityLabel+' with one direct nudge or proof asset that removes buyer uncertainty.'}};
-    if(/energy|sleep|battery|health|workout|training|food/.test(lower))return {{title:'Do the body move now',action:'Advance '+priorityLabel+' by logging the key metric and completing one concrete recovery or training action.'}};
-    if(/signal|dashboard|novaire|widget|prompt|build|deploy|code|site|app/.test(lower))return {{title:'Ship one verified improvement',action:'For '+priorityLabel+', make the smallest useful change, test it, and capture the live proof.'}};
-    if(/fund|portfolio|stock|uranium|ai|trade|market/.test(lower))return {{title:'Turn the thesis into a rule',action:'For '+priorityLabel+', write one price, risk or evidence threshold that forces a clear decision.'}};
-    if(/email|reply|message|call|contact|send/.test(lower))return {{title:'Send the consequential message',action:'Advance '+priorityLabel+' by drafting and sending the single communication that unlocks the next move.'}};
-    if(/book|read|study|research|learn|review/.test(lower))return {{title:'Extract one decision-grade insight',action:'For '+priorityLabel+', complete one focused 25-minute pass and record the useful conclusion plus source.'}};
-    return {{title:'Create the first proof',action:'Advance '+priorityLabel+' in one 25-minute block and finish one visible artifact that did not exist before.'}};
+  const taskText=data.date===today&&data.isSet?String(data.text||'').trim():'';
+  if(!taskText){{grid.innerHTML='<div class="action-step-empty">Set today’s Keystone above. One useful move will appear for each priority.</div>';return}}
+  const tasks=taskText.split(/[,;\\n]+/).map(value => value.trim()).filter(Boolean).slice(0,8);
+  const feedbackKey='novaire-keystone-feedback-'+today;
+  const feedback=JSON.parse(localStorage.getItem(feedbackKey)||'{{}}');
+  const learning=JSON.parse(localStorage.getItem('novaire-keystone-learning')||'[]');
+  function suggestionsFor(task){{
+    const lower=task.toLowerCase(),label='“'+task+'”';
+    if(/vibe\s*cod|coding/.test(lower))return [
+      {{title:'Run one focused Pomodoro',action:'Run one 25-minute Pomodoro for '+label+': choose one small feature, build only that, then use five minutes to test and note the next move.'}},
+      {{title:'Define the smallest shippable change',action:'Write the one-sentence outcome for '+label+', then build the smallest version that can be tested today.'}},
+      {{title:'Clear the coding runway',action:'Open the project, write the exact first prompt or task, and remove the first blocker before doing anything else.'}}
+    ];
+    if(/anki|flashcard|spaced repetition/.test(lower))return [
+      {{title:'Protect the review window',action:'Do your Anki review at the start of the day, before messages and feeds. If the queue is large, protect ten minutes now.'}},
+      {{title:'Put Anki on the clock',action:'Set a ten-minute timer for '+label+' and clear due cards before adding anything new.'}},
+      {{title:'Make tomorrow easier',action:'Finish today’s due Anki cards, then add or repair only the three cards most worth remembering.'}}
+    ];
+    if(/tsr|clip|short|reel/.test(lower))return [
+      {{title:'Check the source before editing',action:'Do you have the high-quality audio ready? If yes, choose Descript for transcript-led editing or Opus Clip for fast candidate cuts, then produce the first clip.'}},
+      {{title:'Choose the strongest TSR hook',action:'Listen once for the sharpest 15–30 second claim, mark its timestamps, and cut that clip first.'}},
+      {{title:'Prepare the clean TSR master',action:'Find the highest-quality source file, normalize the audio, and export one caption-ready vertical draft.'}}
+    ];
+    if(/clean|house|laundry|vacuum|tidy|chores/.test(lower))return [
+      {{title:'Start the machine task',action:'Start one load of laundry now. While it runs, vacuum the single room that will create the biggest visible improvement.'}},
+      {{title:'Run a ten-minute reset',action:'Set a ten-minute timer, clear visible surfaces, and stop when the timer ends.'}},
+      {{title:'Make one room obviously better',action:'Choose the messiest visible room and complete one pass: rubbish, laundry, surfaces, floor.'}}
+    ];
+    if(/tweet|x\b|post|thread/.test(lower))return [{{title:'Draft the actual post',action:'Write one post-ready draft for '+label+' with a sharp hook and one clear point.'}}];
+    if(/podcast|record|episode|hook/.test(lower))return [{{title:'Record the rough version',action:'Write the thesis, two hooks and three bullets for '+label+', then record one rough take.'}}];
+    if(/relationship|date|romantic|family|friend|conversation/.test(lower))return [{{title:'Start the real conversation',action:'Advance '+label+' by sending one honest question or message to the person involved.'}}];
+    if(/retreat|deposit|villa|mastermind|cohort/.test(lower))return [{{title:'Move one buyer closer to yes',action:'Advance '+label+' with one direct nudge or proof asset that removes buyer uncertainty.'}}];
+    if(/energy|sleep|battery|health|workout|training|food/.test(lower))return [{{title:'Do the body move now',action:'Log the key metric for '+label+' and complete one concrete recovery or training action.'}}];
+    if(/signal|dashboard|novaire|widget|prompt|build|deploy|code|site|app/.test(lower))return [{{title:'Ship one verified improvement',action:'Make the smallest useful change for '+label+', test it, and capture the live proof.'}}];
+    if(/fund|portfolio|stock|uranium|ai|trade|market/.test(lower))return [{{title:'Turn the thesis into a rule',action:'Write one price, risk or evidence threshold for '+label+' that forces a clear decision.'}}];
+    if(/email|reply|message|call|contact|send/.test(lower))return [{{title:'Send the consequential message',action:'Draft and send the single communication that unlocks the next move for '+label+'.'}}];
+    if(/book|read|study|research|learn|review/.test(lower))return [{{title:'Extract one decision-grade insight',action:'Complete one focused 25-minute pass on '+label+' and record the useful conclusion plus source.'}}];
+    return [{{title:'Create the first proof',action:'Advance '+label+' in one 25-minute block and finish one visible artifact that did not exist before.'}},{{title:'Remove its bottleneck',action:'Name the single point of friction in '+label+' and spend 15 focused minutes removing it.'}}];
   }}
-  const moves=[actionFor(),{{title:'Remove its bottleneck',action:'For '+priorityLabel+', name the single point of friction and spend 15 focused minutes removing it.'}},{{title:'Create visible proof',action:'Finish one artifact that proves measurable progress on '+priorityLabel+'.'}}];
-  const indexKey='novaire-keystone-action-index-'+today; let actionIndex=Math.max(0,parseInt(localStorage.getItem(indexKey)||'0',10))%moves.length;
-  const feedbackKey='novaire-keystone-feedback-'+today,feedback=JSON.parse(localStorage.getItem(feedbackKey)||'{{}}'),move=moves[actionIndex],state=feedback[actionIndex]?.status||'';
-  window.recordKeystoneMove=function(status){{
-    if(status==='ricies'){{feedback[actionIndex]={{status:'ricies',task:task,move:move.action,date:today}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));localStorage.setItem(indexKey,String((actionIndex+1)%moves.length));sessionStorage.setItem('novaire-keystone-action-message','Next action generated');renderActionSteps();return}}
-    feedback[actionIndex]={{status:status,task:task,move:move.action,date:today}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));
-    const learning=JSON.parse(localStorage.getItem('novaire-keystone-learning')||'[]');learning.push(feedback[actionIndex]);localStorage.setItem('novaire-keystone-learning',JSON.stringify(learning.slice(-80)));
-    if(status==='completed'){{const keystone=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{}}');keystone.doneDates=Array.isArray(keystone.doneDates)?keystone.doneDates:[];if(!keystone.doneDates.includes(today))keystone.doneDates.push(today);keystone.lastDone=today;localStorage.setItem('novaire-keystone-priority',JSON.stringify(keystone))}}
-    renderActionSteps();
+  const items=tasks.map((task,index)=>{{
+    const id=index+'-'+task.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const rejected=new Set(learning.filter(entry=>entry.status==='ricies'&&String(entry.task||'').toLowerCase()===task.toLowerCase()).map(entry=>entry.action));
+    const options=suggestionsFor(task),move=options.find(option=>!rejected.has(option.action))||options[rejected.size%options.length];
+    return {{id,task,move}};
+  }});
+  window.recordKeystoneMove=function(itemIndex,status){{
+    const item=items[itemIndex]; if(!item)return;
+    const record={{status:status,task:item.task,title:item.move.title,action:item.move.action,date:today}};
+    const history=JSON.parse(localStorage.getItem('novaire-keystone-learning')||'[]');
+    history.push(record); localStorage.setItem('novaire-keystone-learning',JSON.stringify(history.slice(-200)));
+    if(status==='ricies'){{feedback[item.id]={{status:'ricies',suggestion:item.move.action}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));sessionStorage.setItem('novaire-keystone-message-'+item.id,'Avoid this suggestion next time · replacement generated');renderActionSteps();return}}
+    feedback[item.id]={{status:status,suggestion:item.move.action}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));
+    const allCompleted=items.every(item => feedback[item.id]?.status === 'completed');
+    const keystone=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{}}');keystone.doneDates=Array.isArray(keystone.doneDates)?keystone.doneDates:[];
+    if(allCompleted){{if(!keystone.doneDates.includes(today))keystone.doneDates.push(today);keystone.lastDone=today}}else{{keystone.doneDates=keystone.doneDates.filter(date=>date!==today)}}
+    localStorage.setItem('novaire-keystone-priority',JSON.stringify(keystone));renderActionSteps();if(window.refreshKeystoneStatus)window.refreshKeystoneStatus();
   }};
-  const message=sessionStorage.getItem('novaire-keystone-action-message')||'';sessionStorage.removeItem('novaire-keystone-action-message');const cls=state==='completed'?' done':'';
-  grid.innerHTML=`<div class="action-step${{cls}}"><div class="action-step-num">1</div><div class="action-step-copy"><div class="action-step-kicker">From today’s priority</div><div class="action-step-title">${{escapeActionHtml(move.title)}}</div><div class="action-step-ask">${{escapeActionHtml(move.action)}}</div><div class="action-step-actions"><button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove('completed')" ${{state==='completed'?'disabled':''}}>Completed</button><button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove('incomplete')">Didn't complete</button><button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove('ricies')">Ricies</button>${{message?'<span class="updog-status" style="display:inline">'+message+'</span>':''}}</div></div></div>`;
+  grid.innerHTML=items.map((item,index)=>{{
+    const saved=feedback[item.id],state=saved?.suggestion===item.move.action?saved.status:'',cls=state==='completed'?' done':state==='incomplete'?' incomplete':'';
+    const message=sessionStorage.getItem('novaire-keystone-message-'+item.id)||'';sessionStorage.removeItem('novaire-keystone-message-'+item.id);
+    return `<div class="action-step${{cls}}"><div class="action-step-num">${{index+1}}</div><div class="action-step-copy"><div class="action-step-kicker">${{escapeActionHtml(item.task)}}</div><div class="action-step-title">${{escapeActionHtml(item.move.title)}}</div><div class="action-step-ask">${{escapeActionHtml(item.move.action)}}</div><div class="action-step-actions"><button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove(${{index}},'completed')" ${{state==='completed'?'disabled':''}}>Completed</button><button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${{index}},'incomplete')">Didn't complete</button><button class="updog-btn updog-retry" type="button" title="Bad suggestion — teach Signal not to repeat it" onclick="recordKeystoneMove(${{index}},'ricies')">Ricies</button>${{message?'<span class="updog-status" style="display:inline">'+escapeActionHtml(message)+'</span>':''}}</div></div></div>`;
+  }}).join('');
 }}
 renderActionSteps();
 
@@ -3879,11 +3898,6 @@ renderActionSteps();
           if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}}
           if(q.quoteTime)el.setAttribute('data-quote-time',q.quoteTime);
           if(q.sourceCount){{el.setAttribute('data-source-count',q.sourceCount);el.title='Consensus futures signal · '+q.sourceCount+' sources · '+(q.signal||'')}}
-        }});
-        (data.indices||[]).forEach(function(q){{
-          var pe=document.querySelector('[data-market-price="'+q.symbol+'"]'),ce=document.querySelector('[data-market-change="'+q.symbol+'"]');
-          if(pe&&Number.isFinite(Number(q.price)))pe.textContent=Number(q.price).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
-          if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}}
         }});
       }}).catch(function(){{}})
   }}
@@ -4012,6 +4026,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
+      --market-quote-size:.95rem;--market-change-size:.68rem;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}

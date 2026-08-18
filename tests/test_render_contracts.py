@@ -41,14 +41,18 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('class="fed-summary-sentiment"', self.html)
         self.assertIn('Hold 55%', self.html)
 
-    def test_requested_cash_indices_are_present(self):
+    def test_cash_indices_are_tracked_by_api_but_hidden_from_wall_street_card(self):
         for symbol in ("^GSPC", "^IXIC", "^DJI"):
-            self.assertIn(f'data-market-price="{symbol}"', self.html)
-            self.assertIn(f'data-market-change="{symbol}"', self.html)
+            self.assertNotIn(f'data-market-price="{symbol}"', self.html)
+            self.assertNotIn(f'data-market-change="{symbol}"', self.html)
+        self.assertNotIn("<i>Cash</i>", self.html)
 
-    def test_wall_street_daily_change_percentages_are_emphasized(self):
-        self.assertIn(".market-future em{font-size:.7332rem", self.html)
-        self.assertIn(".market-future small u{font-size:.6396rem", self.html)
+    def test_market_quotes_and_percentages_use_shared_sizes(self):
+        self.assertIn("--market-quote-size:.95rem;--market-change-size:.68rem", self.html)
+        for selector in (".market-future b", ".commodity-price", ".crypto-price"):
+            self.assertIn(f"{selector}", self.html)
+        self.assertIn("font-size:var(--market-quote-size)", self.html)
+        self.assertIn("font-size:var(--market-change-size)", self.html)
         self.assertIn("CONSENSUS", self.html)
         self.assertIn("q.sourceCount", self.html)
         self.assertIn("padding:12px 12px", self.html)
@@ -89,19 +93,22 @@ class RenderContractTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, self.html)
         self.assertIn("data.isSet", self.html)
-        self.assertIn("novaire-keystone-action-index-", self.html)
+        self.assertIn(">🎯 Daily Keystone</div>", self.html)
+        self.assertIn(">⚔️ Daily Actions</div>", self.html)
+        self.assertIn("split(/[,;\\n]+/)", self.html)
+        self.assertIn("Run one 25-minute Pomodoro", self.html)
+        self.assertIn("Do your Anki review at the start of the day", self.html)
+        self.assertIn("Do you have the high-quality audio ready?", self.html)
+        self.assertIn("Start one load of laundry", self.html)
         self.assertIn("novaire-keystone-streak", self.html)
         self.assertIn("calculateKeystoneStreak", self.html)
-        self.assertIn("day complete':' days complete", self.html)
-        self.assertIn("Next action generated", self.html)
-        self.assertIn("priorityLabel='“'+task+'”'", self.html)
-        self.assertIn("Ship one verified improvement", self.html)
-        self.assertIn("one 25-minute block", self.html)
-        self.assertIn("localStorage.setItem('novaire-keystone-action-index-' + today, '0')", self.html)
+        self.assertIn("every(item => feedback[item.id]?.status === 'completed')", self.html)
+        self.assertIn("novaire-keystone-learning", self.html)
+        self.assertIn("status:'ricies'", self.html)
+        self.assertIn("Avoid this suggestion next time", self.html)
         self.assertIn("event.key === 'Enter'", self.html)
-        self.assertNotIn("state==='incomplete'?\"Didn't complete\":'Completed'", self.html)
         self.assertIn(">Ricies</button>", self.html)
-        self.assertNotIn("moves.map((move,index)", self.html)
+        self.assertIn("items.map((item,index)", self.html)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts — Top 5 Holdings"
@@ -155,7 +162,9 @@ class RenderContractTests(unittest.TestCase):
         # it must remain a compact accordion.
         if 'id="polymarket-card"' in self.html:
             self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
+        self.assertIn("Updated on Aug 10", self.html)
         self.assertIn("Updated on Aug 17", self.html)
+        self.assertNotIn("Updated 2026-", self.html)
         self.assertIn("nv_weekly_ideas_seen", self.html)
         self.assertIn('data-fingerprint=', self.html)
         self.assertIn("const key = 'nv_catalysts_seen'", self.html)
@@ -228,8 +237,10 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("thailandScore.textContent = 'Viewed'", self.html)
 
     def test_economies_open_once_then_remember_viewed_edition(self):
-        self.assertIn('id="economies-card"', self.html)
-        self.assertIn('data-edition="2026-W34"', self.html)
+        # The biweekly card is intentionally absent outside its scheduled Monday;
+        # persistence machinery remains in every build.
+        if 'id="economies-card"' in self.html:
+            self.assertIn('data-edition="2026-W34"', self.html)
         self.assertIn("nv_economies_seen", self.html)
         self.assertIn("IntersectionObserver", self.html)
 
