@@ -28,6 +28,7 @@ from portfolio_tracker import (
     save_history as save_portfolio_history,
     upsert_daily_snapshot,
 )
+from daily_brief import write_daily
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
@@ -1122,14 +1123,14 @@ def fetch_trending_recs():
 
 
 def fetch_zerohedge():
-    """Fetch ZeroHedge headlines via RSS — timestamp-filtered to last 24h only."""
+    """Fetch the latest ZeroHedge pool for the close-to-close Daily."""
     import xml.etree.ElementTree as ET
     headlines = []
     try:
         headers = {"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)"}
         r = requests.get("https://feeds.feedburner.com/zerohedge/feed", headers=headers, timeout=12)
         root = ET.fromstring(r.text)
-        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=36)
         for item in root.findall(".//item"):
             title_el = item.find("title")
             link_el  = item.find("link")
@@ -1149,11 +1150,11 @@ def fetch_zerohedge():
                     pass
             if len(title) > 20:
                 headlines.append({"title": title, "url": link})
-            if len(headlines) >= 4:
+            if len(headlines) >= 12:
                 break
     except Exception as e:
         headlines = [{"title": f"ZeroHedge unavailable", "url": "#"}]
-    return headlines[:4] if headlines else [{"title": "No headlines in last 24h", "url": "#"}]
+    return headlines[:12] if headlines else [{"title": "No headlines in last 36h", "url": "#"}]
 
 GSHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{PORTFOLIO_SHEET_ID}/export?format=csv&gid={TFSA_GID}"
 
@@ -2007,7 +2008,8 @@ def fetch_alpaca():
             # The live edge endpoint refreshes these fields again in the browser.
             mval = abs(float(p.get("market_value", 0)))
             pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
-            entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval}
+            day_change = float(p.get("change_today", 0) or 0) * 100
+            entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval, "day_change": day_change}
             # Tier 1 = Volume Scalp (executor.py); Tier 2 = Livermore Darvas
             if symbol in tier1_syms or not tier1_syms:
                 tier1_positions.append(entry)
@@ -3074,7 +3076,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .commodities-grid{{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}}
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
-    .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
+    .commodity-name{{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
     .commodity-price{{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text);margin-bottom:1.5px}}
     .commodity-price-value,.commodity-unit{{color:var(--text)}}
     .commodity-unit{{font-family:var(--sans);font-size:.42rem;font-weight:400;letter-spacing:.01em}}
@@ -3166,7 +3168,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .wall-time{{display:block;font-family:var(--serif);font-size:1.248rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
     .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-width:0}}
     .market-future{{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
-    .market-future span{{font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap;margin-bottom:2px}}
+    .market-future span{{font-size:.58rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap;margin-bottom:2px}}
     .market-future b{{font-family:var(--serif);font-size:var(--market-quote-size);color:var(--text);font-weight:var(--market-number-weight);white-space:nowrap}}
     .market-future em{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);font-style:normal;text-align:center;white-space:nowrap}}
     .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:center;padding-top:2px}}
@@ -3661,17 +3663,6 @@ rememberDailySignalCard('weather-card', 'weather-viewed', 'nv_weather_viewed');
 rememberDailySignalCard('world-tour-card','world-tour-viewed','nv_world_tour_viewed');
 rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
 
-(function rememberCatalystsCard() {{
-  const card = document.getElementById('catalysts-card');
-  if (!card) return;
-  const key = 'nv_catalysts_seen';
-  const fingerprint = card.dataset.fingerprint;
-  try {{
-    if (localStorage.getItem(key) === fingerprint) card.removeAttribute('open');
-    else localStorage.setItem(key, fingerprint);
-  }} catch (e) {{}}
-}})();
-
 (function rememberThailandNews() {{
   const card = document.getElementById('thailand-news-card');
   const thailandScore = document.getElementById('thailand-news-viewed');
@@ -3899,27 +3890,17 @@ function renderActionSteps() {{
 }}
 renderActionSteps();
 
-(function manageDailyActionsDisclosure() {{
-  const card = document.getElementById('daily-actions-card');
-  if (!card) return;
-  const today = new Date().toDateString();
-  const seenKey = 'novaire-daily-actions-seen-' + today;
-  let hasBeenVisible = false;
-  try {{ card.open = localStorage.getItem(seenKey) !== '1'; }} catch (e) {{ card.open = true; }}
-  card.addEventListener('toggle', function() {{
-    try {{ if (!card.open) localStorage.setItem(seenKey, '1'); }} catch (e) {{}}
+(function rememberAccordionPreferences() {{
+  document.querySelectorAll('details.signal-accordion[id]').forEach(function(card) {{
+    const key = 'nv_accordion_state_' + card.id;
+    try {{
+      const saved = localStorage.getItem(key);
+      if (saved === 'open' || saved === 'closed') card.open = saved === 'open';
+      card.addEventListener('toggle', function() {{
+        localStorage.setItem(key, card.open ? 'open' : 'closed');
+      }});
+    }} catch (e) {{}}
   }});
-  if (!('IntersectionObserver' in window)) return;
-  const observer = new IntersectionObserver(function(entries) {{
-    const entry = entries[0];
-    if (entry.isIntersecting && entry.intersectionRatio >= .55) {{ hasBeenVisible = true; return; }}
-    if (hasBeenVisible && card.open && entry.boundingClientRect.bottom < 0) {{
-      card.open = false;
-      try {{ localStorage.setItem(seenKey, '1'); }} catch (e) {{}}
-      observer.disconnect();
-    }}
-  }}, {{threshold:[0,.55]}});
-  observer.observe(card);
 }})();
 
 (function renderQuotes() {{
@@ -4654,7 +4635,8 @@ def main():
         )
     else:
         print("    ⚠️  Incomplete Sheet totals; preserving the last verified close")
-    net_worth_tracker_html = render_tracker_html(build_tracker_model(portfolio_history))
+    tracker_model = build_tracker_model(portfolio_history)
+    net_worth_tracker_html = render_tracker_html(tracker_model)
     crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
     print("  🔍 Fetching catalysts (yfinance news)...")
@@ -4664,10 +4646,12 @@ def main():
         reverse=True
     )
     top5 = sorted_holdings[:5]
+    mover_tickers = [ticker for ticker in sorted_holdings if abs(portfolio_data.get(ticker, {}).get("change") or 0) >= 5]
+    catalyst_tickers = list(dict.fromkeys(top5 + mover_tickers))
     try:
-        catalysts = fetch_catalysts(top5)
+        catalysts = fetch_catalysts(catalyst_tickers)
         found = sum(1 for value in catalysts.values() if value)
-        print(f"    ✅ Catalysts for {', '.join(top5)} ({found}/{len(top5)} with verified news ≤14d)")
+        print(f"    ✅ Catalysts for {', '.join(catalyst_tickers)} ({found}/{len(catalyst_tickers)} with verified news ≤14d)")
     except Exception as e:
         print(f"    ❌ {e}")
         catalysts = {}
@@ -4943,6 +4927,7 @@ def main():
     print("  🏛️ Fetching Evolution Fund positions...")
     evo_fund_html = ""
     evo_snapshot = {}
+    evo_daily_positions = []
     try:
         EVO_HOLDINGS = [
             {"ticker": "PHYS",  "name": "Gold (Sprott)",         "shares": 16827, "avg_entry": 36.95},
@@ -4990,11 +4975,18 @@ def main():
             except:
                 price = avg
             value = shares * price
+            try:
+                close_series = _evo_close[sym].dropna() if hasattr(_evo_close, 'columns') and sym in _evo_close.columns else _evo_close[sym].dropna()
+                prior_price = float(close_series.iloc[-2]) if len(close_series) >= 2 else None
+                daily_change = ((price / prior_price) - 1) * 100 if prior_price else None
+            except Exception:
+                daily_change = None
             gl = value - cost
             gl_pct = (gl / cost * 100) if cost > 0 else 0
             evo_total_value += value
             evo_total_cost += cost
             evo_snapshot[sym] = {"price": round(price, 2), "gl": round(gl_pct, 1)}
+            evo_daily_positions.append({"symbol": sym, "value": value, "change": daily_change})
             gl_color = "var(--green)" if gl >= 0 else "var(--red)"
             gl_str = f"+${gl:,.0f}" if gl >= 0 else f"-${abs(gl):,.0f}"
             pct_str = f"+{gl_pct:.1f}%" if gl_pct >= 0 else f"{gl_pct:.1f}%"
@@ -5007,6 +4999,7 @@ def main():
         evo_total_value += btc_value
         evo_total_cost += btc_cost
         evo_snapshot["BTC"] = {"price": round(btc_price, 2), "gl": round(btc_pct, 1)}
+        evo_daily_positions.append({"symbol": "BTC", "value": btc_value, "change": crypto.get("BTC", {}).get("change")})
         btc_color = "var(--green)" if btc_gl >= 0 else "var(--red)"
         btc_gl_str = f"+${btc_gl:,.0f}" if btc_gl >= 0 else f"-${abs(btc_gl):,.0f}"
         btc_pct_str = f"+{btc_pct:.1f}%" if btc_pct >= 0 else f"{btc_pct:.1f}%"
