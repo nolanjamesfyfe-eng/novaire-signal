@@ -48,6 +48,22 @@ async function fetchYahooChart(symbol) {
   return response.json();
 }
 
+async function fetchYahooCoreCommodities() {
+  const symbols = {GOLD:'GC=F', SILVER:'SI=F', COPPER:'HG=F', WTI:'CL=F'};
+  return Promise.all(Object.entries(symbols).map(async ([symbol, ticker]) => {
+    const result = (await fetchYahooChart(ticker))?.chart?.result?.[0];
+    const timestamps = result?.timestamp || [];
+    const closes = result?.indicators?.quote?.[0]?.close || [];
+    const bars = timestamps.map((timestamp, index) => ({timestamp:Number(timestamp), close:Number(closes[index])}))
+      .filter(bar => Number.isFinite(bar.timestamp) && Number.isFinite(bar.close) && bar.close > 0);
+    if (bars.length < 2) throw new Error(`${ticker}: fewer than two sessions`);
+    const previous = bars.at(-2).close, price = bars.at(-1).close;
+    return {symbol, name:INSTRUMENTS.find(item => item[0] === symbol)?.[1], price, previous,
+      change:(price - previous) / previous * 100, source:'Yahoo Finance fallback', period:'futures session',
+      quoteTime:new Date(bars.at(-1).timestamp * 1000).toISOString()};
+  }));
+}
+
 export default async function handler(req) {
   const headers = {'Content-Type':'application/json','Cache-Control':'s-maxage=30, stale-while-revalidate=60'};
   try {
@@ -74,6 +90,17 @@ export default async function handler(req) {
     quotes.push(uranium);
     return new Response(JSON.stringify({ok:true, source:'Investing.com + Trading Economics', fetchedAt:new Date().toISOString(), quotes}), {status:200, headers});
   } catch (error) {
-    return new Response(JSON.stringify({ok:false, source:'Investing.com', quotes:[], error:error.message}), {status:502, headers});
+    try {
+      const quotes = await fetchYahooCoreCommodities();
+      quotes.push(parseDiesel(await fetchYahooChart('HO=F')));
+      const uraniumResponse = await fetch('https://tradingeconomics.com/commodity/uranium', {headers:{'User-Agent':'Mozilla/5.0'}});
+      if (!uraniumResponse.ok) throw new Error(`Uranium HTTP ${uraniumResponse.status}`);
+      const uranium = parseUranium(await uraniumResponse.text());
+      if (!uranium) throw new Error('Uranium quote not parsed');
+      quotes.push(uranium);
+      return new Response(JSON.stringify({ok:true, degraded:true, source:'Yahoo Finance fallback + Trading Economics', fetchedAt:new Date().toISOString(), quotes}), {status:206, headers});
+    } catch (fallbackError) {
+      return new Response(JSON.stringify({ok:false, source:'Investing.com', quotes:[], error:`${error.message}; fallback: ${fallbackError.message}`}), {status:502, headers});
+    }
   }
 }

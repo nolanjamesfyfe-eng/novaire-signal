@@ -68,6 +68,13 @@ class MarketFuturesTests(unittest.TestCase):
         )
         self.assertEqual(generate.MARKET_INDICES["^IXIC"]["label"], "Nasdaq Composite")
 
+    def test_yahoo_commodity_fallback_preserves_all_four_core_quotes(self):
+        quotes = generate.fetch_yahoo_commodity_fallback()
+        self.assertEqual(set(quotes), {"GOLD", "SILVER", "COPPER", "WTI"})
+        for symbol, quote in quotes.items():
+            self.assertGreater(quote["price"], 0, symbol)
+            self.assertEqual(quote["source"], "Yahoo Finance fallback")
+
     def test_commodities_use_six_tile_set_with_diesel(self):
         commodities = generate.fetch_commodities()
         self.assertEqual(

@@ -2,25 +2,26 @@
   "ok": true,
   "count": 11,
   "accountsWithPosts": 11,
-  "fetchedAt": "2026-08-18T05:12:07.684521+00:00",
+  "fetchedAt": "2026-08-18T05:17:27.351743+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "nntaleb",
+    "JoshYoung",
     "wmiddelkoop",
-    "White_Rabbit_OG"
+    "White_Rabbit_OG",
+    "colonelhomsi"
   ],
   "posts": [
     {
-      "id": "2089567206862708953",
-      "text": "⚡📰#China’s new Tianwan #Nuclear Power Plant 1.2GW reactor 7 has now completed #Uranium fuel loading in preparation for initial start-up📶⚛️⚡🇨🇳 on its path to deliver 24/7 #CarbonFree electricity for many decades to come!🤠🐂 #EnergySecurity 🌊🏄 https://www.globaltimes.cn/page/202608/1368448.shtml",
+      "id": "2089578896845074606",
+      "text": "While LT uranium is at an ATH of $95.50/lb., it’ll need to move up +$60/lb. for an inflation-adjusted ATH. The prior peak happened during a raging commodities cycle and a brief financials-driven spot spike + mine flood scare. This cycle’s move is actually sustainable.",
       "author": "quakes99",
       "handle": "quakes99",
-      "createdAt": "2026-08-18T04:16:59+00:00",
-      "createdAtMs": 1787026619000,
+      "createdAt": "2026-08-18T05:03:26+00:00",
+      "createdAtMs": 1787029406000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/quakes99/status/2089567206862708953#m",
+      "url": "https://x.com/uraniuminsider/status/2089578896845074606#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
@@ -42,6 +43,21 @@
       "engagementScore": 0
     },
     {
+      "id": "2089529685533151627",
+      "text": "No I am not blaming @EricTopol who does a great job relaying research. The problem is the paper/journal not revealing absolute total risk.",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-08-18T01:47:53+00:00",
+      "createdAtMs": 1787017673000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/nntaleb/status/2089529685533151627#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 0
+    },
+    {
       "id": "2089520698909692235",
       "text": "Image",
       "author": "SantiagoAuFund",
@@ -53,7 +69,7 @@
       "url": "https://x.com/SantiagoAuFund/status/2089520698909692235#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
+      "slot_order": 4,
       "engagementScore": 0
     },
     {
@@ -68,7 +84,7 @@
       "url": "https://x.com/KobeissiLetter/status/2089507603386896421#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
+      "slot_order": 5,
       "engagementScore": 0
     },
     {
@@ -83,7 +99,7 @@
       "url": "https://x.com/HydroGraphInc/status/2089473168834712021#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
+      "slot_order": 6,
       "engagementScore": 0
     },
     {
@@ -98,7 +114,7 @@
       "url": "https://x.com/HydroGraphInc/status/2089473168834712021#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 7,
       "engagementScore": 0
     },
     {
@@ -111,21 +127,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/WatcherGuru/status/2089466026903679209#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089463915742908747",
-      "text": "By popular request",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-08-17T21:26:32+00:00",
-      "createdAtMs": 1787001992000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/JoshYoung/status/2089463915742908747#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,

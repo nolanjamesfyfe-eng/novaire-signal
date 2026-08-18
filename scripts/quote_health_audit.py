@@ -141,7 +141,7 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     market_nodes = soup.select("[data-market-price], [data-future-price]")
     for name, nodes, expected in (
         ("crypto markup", crypto_nodes, 8),
-        ("commodity markup", commodity_nodes, 7),
+        ("commodity markup", commodity_nodes, 6),
         ("market markup", market_nodes, len(getattr(generate, "MARKET_FUTURES", {}))),
     ):
         values = [node.get_text(" ", strip=True) for node in nodes]

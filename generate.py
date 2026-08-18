@@ -1725,6 +1725,24 @@ def fetch_diesel():
     return parsed
 
 
+def fetch_yahoo_commodity_fallback():
+    """Return core commodity quotes when the canonical Investing feed is down."""
+    mapping = {"GOLD": "GC=F", "SILVER": "SI=F", "COPPER": "HG=F", "WTI": "CL=F"}
+    quotes = {}
+    for key, symbol in mapping.items():
+        response = requests.get(
+            f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(symbol, safe='')}",
+            params={"range": "5d", "interval": "1d"},
+            headers={"User-Agent": "NovaireSignal/1.0"}, timeout=10)
+        response.raise_for_status()
+        parsed = parse_yahoo_chart_quote(response.json())
+        if not parsed or parsed.get("price") is None:
+            raise ValueError(f"{symbol} commodity fallback unavailable")
+        parsed.update({"source": "Yahoo Finance fallback", "period": "futures session"})
+        quotes[key] = parsed
+    return quotes
+
+
 def fetch_commodities():
     """Fetch six resource benchmarks, including barrel-equivalent ULSD diesel."""
     symbols = {
@@ -1764,7 +1782,12 @@ def fetch_commodities():
             if item["price"] is not None:
                 item["quote_time"] = results_quote_time
     except Exception:
-        pass
+        # Firecrawl credits or Investing availability must never blank the card.
+        try:
+            for key, parsed in fetch_yahoo_commodity_fallback().items():
+                results[key].update(parsed)
+        except Exception:
+            pass
 
     # Front-month NY Harbor ULSD, converted from USD/gallon to USD/barrel.
     try:
