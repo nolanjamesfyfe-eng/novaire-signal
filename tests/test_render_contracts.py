@@ -127,6 +127,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(heading, self.html)
         self.assertNotIn(heading, self.portfolio_html)
 
+    def test_crypto_position_weighting_uses_live_kraken_sheet_mix(self):
+        self.assertIn('id="crypto-position-weighting"', self.portfolio_html)
+        self.assertIn("Crypto Position Weighting", self.portfolio_html)
+        self.assertIn("What's Kraken 2025 · % of Fund · live source of truth", self.portfolio_html)
+        self.assertIn('data-allocation-sector="SUI"', self.portfolio_html)
+        self.assertRegex(self.portfolio_html, r"SUI</text><text[^>]+>\d+\.\d% WEIGHT")
+
     def test_portfolio_tickers_open_nine_month_weekly_candles(self):
         self.assertIn('class="ticker chart-ticker"', self.portfolio_html)
         self.assertIn('data-chart-symbol="HG.CN"', self.portfolio_html)

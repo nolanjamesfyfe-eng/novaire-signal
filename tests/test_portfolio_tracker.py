@@ -12,6 +12,9 @@ class PortfolioTrackerTests(unittest.TestCase):
             ["NOTES", "", "Description", "Name", "Exchange", "52w L", "off 52 w L ^", "BUY Price $", "# of CON", "Imargin * Contracts", "Value of fund", "% of Fund", "$ ROI", "ROI %", "CAD"],
             ["", "", "", "", "", "", "", "", "", "", "$1,000", "Live", "", "", "1.38765003"],
             ["", "", "", "", "", "", "", "", "", "Oct 2025", "$7,000", "Inception", "-$6,000.00", "-85.71%", ""],
+            ["10X", "USD", "SUI", "SUI", "$0.65", "", "", "$0.72", "3682", "$2,398", "SUI", "37.81%", "", "", ""],
+            ["10X", "USD", "MIDNIGHT", "NIGHT", "$0.018", "", "", "$0.018", "115139", "$2,094", "BTC", "33.03%", "", "", ""],
+            ["10X", "USD", "Cardano", "ADA", "$0.17", "", "", "$0.16", "8672", "$1,505", "ADA", "29.16%", "", "", ""],
         ]
 
         result = portfolio_tracker.parse_kraken_rows(rows)
@@ -22,6 +25,8 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertEqual(result["sheet_gid"], "338118850")
         self.assertEqual(result["inception_usd"], 7000.0)
         self.assertEqual(result["inception_label"], "Oct 2025")
+        self.assertEqual(result["position_weights_pct"][0], ("SUI", 37.81))
+        self.assertAlmostEqual(result["position_weight_total_pct"], 100.0)
 
     def test_market_close_date_uses_latest_completed_new_york_session(self):
         saturday_utc = datetime(2026, 8, 15, 8, 0, tzinfo=timezone.utc)

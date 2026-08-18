@@ -45,6 +45,17 @@ def parse_kraken_rows(rows: list[list[str]]) -> dict[str, Any]:
     """Read Kraken equity from the row whose status is explicitly `Live`."""
     inception_usd = None
     inception_label = None
+    position_weights = []
+    for raw in rows:
+        row = list(raw) + [""] * max(0, 15 - len(raw))
+        symbol = row[3].strip().upper()
+        weight_text = row[11].strip()
+        try:
+            weight = float(weight_text.replace("%", "").replace(",", ""))
+        except (TypeError, ValueError):
+            continue
+        if symbol and weight > 0:
+            position_weights.append((symbol, weight))
     for raw in rows:
         row = list(raw) + [""] * max(0, 15 - len(raw))
         if row[11].strip().casefold() == "inception":
@@ -70,6 +81,8 @@ def parse_kraken_rows(rows: list[list[str]]) -> dict[str, Any]:
             "source": "Google Sheet · Live value of fund",
             "inception_usd": inception_usd,
             "inception_label": inception_label,
+            "position_weights_pct": sorted(position_weights, key=lambda item: item[1], reverse=True),
+            "position_weight_total_pct": round(sum(weight for _, weight in position_weights), 2),
         }
     return {}
 

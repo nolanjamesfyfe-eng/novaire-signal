@@ -2249,6 +2249,45 @@ def build_sheet_allocation_component(gs_meta):
         f'<div class="allocation-source"><span aria-hidden="true"></span>{source} · live source of truth</div>',
     )
 
+
+def build_kraken_weighting_component(kraken_meta):
+    """Render Kraken position weights from the live Sheet % of Fund column."""
+    weights = (kraken_meta or {}).get("position_weights_pct") or []
+    total = float((kraken_meta or {}).get("position_weight_total_pct") or 0)
+    if not weights or not 99.5 <= total <= 100.5:
+        return '<div class="allocation-unavailable">Crypto weighting awaiting Kraken Sheet sync.</div>'
+
+    allocations = [(symbol, float(percent), "") for symbol, percent in weights]
+    top_symbol, top_weight, _ = allocations[0]
+    donut = build_donut(allocations)
+    for old, new in (
+        ('allocation-gradient-', 'crypto-weight-gradient-'),
+        ('allocation-chart-title', 'crypto-weight-chart-title'),
+        ('allocation-chart-desc', 'crypto-weight-chart-desc'),
+        ('allocation-gloss', 'crypto-weight-gloss'),
+        ('allocation-core', 'crypto-weight-core'),
+        ('allocation-bloom', 'crypto-weight-bloom'),
+    ):
+        donut = donut.replace(old, new)
+    # Restore shared CSS classes changed by the ID namespacing above.
+    donut = donut.replace('class="crypto-weight-gloss"', 'class="allocation-gloss"')
+    donut = donut.replace('class="crypto-weight-core"', 'class="allocation-core"')
+    donut = donut.replace('class="crypto-weight-core-kicker"', 'class="allocation-core-kicker"')
+    donut = donut.replace('class="crypto-weight-core-label"', 'class="allocation-core-label"')
+    donut = donut.replace('PORTFOLIO</text>', f'{escape(top_symbol)}</text>')
+    donut = donut.replace('LIVE SHEET</text>', f'{top_weight:.1f}% WEIGHT</text>')
+    donut = donut.replace('Portfolio allocation from Google Sheet', 'Kraken crypto position weighting from Google Sheet')
+
+    return (
+        '<div class="allocation-section crypto-weighting" id="crypto-position-weighting">'
+        + donut
+        + '<div class="allocation-copy"><div class="allocation-kicker">Crypto Position Weighting</div>'
+          '<div class="allocation-legend">'
+        + build_legend(allocations)
+        + '</div><div class="allocation-source"><span aria-hidden="true"></span>'
+          "What's Kraken 2025 · % of Fund · live source of truth</div></div></div>"
+    )
+
 # ─────────────────────────────────────────────────────────────
 # HTML GENERATION
 # ─────────────────────────────────────────────────────────────
@@ -3121,8 +3160,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     @media(max-width:600px){{
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
-      .commodities-grid{{grid-template-columns:repeat(2,1fr)}}
-      .commodity-item[data-commodity="RBOB_CRACK"]{{grid-column:1/-1}}
+      .commodities-grid{{grid-template-columns:repeat(3,minmax(0,1fr))}}
+      .commodity-item[data-commodity="GOLD"]{{order:1}}
+      .commodity-item[data-commodity="SILVER"]{{order:2}}
+      .commodity-item[data-commodity="WTI"]{{order:3}}
+      .commodity-item[data-commodity="COPPER"]{{order:4}}
+      .commodity-item[data-commodity="BRENT"]{{order:5}}
+      .commodity-item[data-commodity="URANIUM_SPOT"]{{order:6}}
+      .commodity-item[data-commodity="RBOB_CRACK"]{{order:7}}
       .crypto-grid{{grid-template-columns:repeat(4,1fr)}}
       .fx-row{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}}
       .fx-chip{{padding:9px 4px}}
@@ -3938,7 +3983,7 @@ renderActionSteps();
 # MAIN
 # ─────────────────────────────────────────────────────────────
 
-def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html="", net_worth_tracker_html=""):
+def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html="", net_worth_tracker_html="", crypto_weighting_html=""):
     """Render standalone portfolio page at /portfolio"""
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -4303,6 +4348,13 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   <!-- NET WORTH TRACKER — daily Google Sheet closes -->
   {net_worth_tracker_html}
 
+  <!-- KRAKEN CRYPTO POSITION WEIGHTING — live Google Sheet percentages -->
+  <section class="card crypto-weighting-card">
+    <div class="card-title">₿ Kraken Portfolio</div>
+    <div class="tracker-subtitle">Live leveraged-position mix · separate from TFSA sector allocation</div>
+    {crypto_weighting_html}
+  </section>
+
   <!-- ON THE RISE FINANCES — debt progress -->
   <section class="card debt-hub" id="debt-progress">
     <div class="debt-hub-copy">
@@ -4501,6 +4553,7 @@ def main():
     else:
         print("    ⚠️  Incomplete Sheet totals; preserving the last verified close")
     net_worth_tracker_html = render_tracker_html(build_tracker_model(portfolio_history))
+    crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
     print("  🔍 Fetching catalysts (yfinance news)...")
     sorted_holdings = sorted(
@@ -4932,6 +4985,7 @@ def main():
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
         bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html,
         net_worth_tracker_html=net_worth_tracker_html,
+        crypto_weighting_html=crypto_weighting_html,
     )
 
     required_thai_markers = [
