@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { parseRbobCrack } from '../api/commodities.js';
 
-const rbob = {chart:{result:[{timestamp:[100,200,300],indicators:{quote:[{close:[2.5,2.6,2.7]}]}}]}};
-const wti = {chart:{result:[{timestamp:[100,200,300],indicators:{quote:[{close:[80,82,84]}]}}]}};
+const rbob = {chart:{result:[{timestamp:[1786507200,1786593600,1786680000],indicators:{quote:[{close:[2.5,2.6,2.7]}]}}]}};
+const wti = {chart:{result:[{timestamp:[1786507248,1786593648,1786680048],indicators:{quote:[{close:[80,82,84]}]}}]}};
 const quote = parseRbobCrack(rbob, wti);
 assert.equal(quote.symbol, 'RBOB_CRACK');
 assert.ok(Math.abs(quote.price - 29.4) < 1e-9);

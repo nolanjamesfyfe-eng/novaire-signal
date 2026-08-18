@@ -1692,16 +1692,18 @@ def parse_rbob_crack(rbob_payload, wti_payload):
         result = payload["chart"]["result"][0]
         timestamps = result.get("timestamp") or []
         closes = result["indicators"]["quote"][0].get("close") or []
-        return {int(ts): float(close) for ts, close in zip(timestamps, closes)
+        return {datetime.fromtimestamp(int(ts), timezone.utc).date().isoformat(): (int(ts), float(close))
+                for ts, close in zip(timestamps, closes)
                 if close is not None and float(close) > 0}
 
     rbob_bars, wti_bars = bars(rbob_payload), bars(wti_payload)
     common = sorted(set(rbob_bars) & set(wti_bars))
     if len(common) < 2:
-        raise ValueError("Fewer than two aligned RBOB/WTI bars")
-    previous_ts, current_ts = common[-2:]
-    previous = rbob_bars[previous_ts] * 42 - wti_bars[previous_ts]
-    price = rbob_bars[current_ts] * 42 - wti_bars[current_ts]
+        raise ValueError("Fewer than two aligned RBOB/WTI trading dates")
+    previous_day, current_day = common[-2:]
+    previous = rbob_bars[previous_day][1] * 42 - wti_bars[previous_day][1]
+    price = rbob_bars[current_day][1] * 42 - wti_bars[current_day][1]
+    current_ts = max(rbob_bars[current_day][0], wti_bars[current_day][0])
     if previous == 0:
         raise ValueError("Previous crack spread is zero")
     return {"price": price, "previous": previous, "change": (price - previous) / abs(previous) * 100,

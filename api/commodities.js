@@ -31,15 +31,18 @@ export function parseRbobCrack(rbobPayload, wtiPayload) {
     const result = payload?.chart?.result?.[0];
     const timestamps = result?.timestamp || [];
     const closes = result?.indicators?.quote?.[0]?.close || [];
-    return new Map(timestamps.map((timestamp, index) => [Number(timestamp), Number(closes[index])])
-      .filter(([timestamp, close]) => Number.isFinite(timestamp) && Number.isFinite(close) && close > 0));
+    return new Map(timestamps.map((timestamp, index) => [
+      new Date(Number(timestamp) * 1000).toISOString().slice(0, 10),
+      {timestamp:Number(timestamp), close:Number(closes[index])},
+    ]).filter(([, bar]) => Number.isFinite(bar.timestamp) && Number.isFinite(bar.close) && bar.close > 0));
   }
   const rbob = bars(rbobPayload), wti = bars(wtiPayload);
-  const common = [...rbob.keys()].filter(timestamp => wti.has(timestamp)).toSorted((a, b) => a - b);
-  if (common.length < 2) throw new Error('Fewer than two aligned RBOB/WTI bars');
-  const previousTimestamp = common.at(-2), quoteTimestamp = common.at(-1);
-  const previous = rbob.get(previousTimestamp) * 42 - wti.get(previousTimestamp);
-  const price = rbob.get(quoteTimestamp) * 42 - wti.get(quoteTimestamp);
+  const common = [...rbob.keys()].filter(day => wti.has(day)).toSorted();
+  if (common.length < 2) throw new Error('Fewer than two aligned RBOB/WTI trading dates');
+  const previousDay = common.at(-2), quoteDay = common.at(-1);
+  const previous = rbob.get(previousDay).close * 42 - wti.get(previousDay).close;
+  const price = rbob.get(quoteDay).close * 42 - wti.get(quoteDay).close;
+  const quoteTimestamp = Math.max(rbob.get(quoteDay).timestamp, wti.get(quoteDay).timestamp);
   if (!previous) throw new Error('Previous crack spread is zero');
   return {
     symbol:'RBOB_CRACK', name:'RBOB Crack', price, previous,

@@ -75,8 +75,8 @@ class MarketFuturesTests(unittest.TestCase):
         self.assertEqual(commodities["RBOB_CRACK"]["unit"], "/bbl")
 
     def test_rbob_crack_uses_aligned_adjacent_bars_and_42_gallons_per_barrel(self):
-        rbob = {"chart": {"result": [{"timestamp": [100, 200, 300], "indicators": {"quote": [{"close": [2.50, 2.60, 2.70]}]}}]}}
-        wti = {"chart": {"result": [{"timestamp": [100, 200, 300], "indicators": {"quote": [{"close": [80.0, 82.0, 84.0]}]}}]}}
+        rbob = {"chart": {"result": [{"timestamp": [1786507200, 1786593600, 1786680000], "indicators": {"quote": [{"close": [2.50, 2.60, 2.70]}]}}]}}
+        wti = {"chart": {"result": [{"timestamp": [1786507248, 1786593648, 1786680048], "indicators": {"quote": [{"close": [80.0, 82.0, 84.0]}]}}]}}
         quote = generate.parse_rbob_crack(rbob, wti)
         self.assertAlmostEqual(quote["price"], 29.4)
         self.assertAlmostEqual(quote["previous"], 27.2)
