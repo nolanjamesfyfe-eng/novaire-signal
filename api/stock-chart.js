@@ -25,6 +25,31 @@ function marketDateKey(timestamp, timeZone = 'UTC') {
   }).format(new Date(timestamp * 1000));
 }
 
+export function mergeChartPayloads(primaryPayload, fallbackPayload) {
+  const primary = primaryPayload?.chart?.result?.[0];
+  const fallback = fallbackPayload?.chart?.result?.[0];
+  if (!primary) return fallbackPayload;
+  if (!fallback) return primaryPayload;
+  const rows = new Map();
+  for (const result of [fallback, primary]) {
+    const quote = result.indicators?.quote?.[0] || {};
+    (result.timestamp || []).forEach((time, index) => rows.set(Number(time), {
+      time: Number(time), open: quote.open?.[index], high: quote.high?.[index],
+      low: quote.low?.[index], close: quote.close?.[index], volume: quote.volume?.[index],
+    }));
+  }
+  const merged = [...rows.values()].sort((a, b) => a.time - b.time);
+  return { chart: { result: [{
+    ...primary,
+    timestamp: merged.map(row => row.time),
+    indicators: { ...primary.indicators, quote: [{
+      open: merged.map(row => row.open), high: merged.map(row => row.high),
+      low: merged.map(row => row.low), close: merged.map(row => row.close),
+      volume: merged.map(row => row.volume),
+    }] },
+  }] } };
+}
+
 export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now() / 1000) {
   const result = payload?.chart?.result?.[0];
   const quote = result?.indicators?.quote?.[0];
@@ -50,6 +75,9 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
       volume: finite(quote.volume?.[index]) ?? 0,
     };
     if (![row.time, row.open, row.high, row.low, row.close].every(Number.isFinite)) return;
+    // Thin OTC feeds sometimes publish a synthetic all-zero row when no trade
+    // occurred. It is not a closing price and must not distort the candle.
+    if ([row.open, row.high, row.low, row.close].some(value => value <= 0)) return;
     const weekEnd = fridayCloseUtcSeconds(row.time);
     const current = weeks.get(weekEnd);
     if (!current) {
@@ -84,12 +112,19 @@ export default async function handler(req, res) {
   const symbol = String(req.query?.symbol || '').trim().toUpperCase();
   if (!ALLOWED.test(symbol)) return res.status(400).json({ error: 'Invalid symbol' });
   try {
-    const sourceSymbol = HISTORY_ALIASES[symbol] || symbol;
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sourceSymbol)}?range=1y&interval=1d&events=div%2Csplits`;
-    const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 NovaireSignal/1.0' } });
-    if (!response.ok) throw new Error(`Market data HTTP ${response.status}`);
-    const data = aggregateCompletedWeeks(await response.json(), symbol);
-    if (sourceSymbol !== symbol) data.historySource = sourceSymbol;
+    const fetchPayload = async sourceSymbol => {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sourceSymbol)}?range=1y&interval=1d&events=div%2Csplits`;
+      const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 NovaireSignal/1.0' } });
+      if (!response.ok) throw new Error(`Market data HTTP ${response.status}`);
+      return response.json();
+    };
+    const primaryPayload = await fetchPayload(symbol);
+    const historyAlias = HISTORY_ALIASES[symbol];
+    const payload = historyAlias
+      ? mergeChartPayloads(primaryPayload, await fetchPayload(historyAlias))
+      : primaryPayload;
+    const data = aggregateCompletedWeeks(payload, symbol);
+    if (historyAlias) data.historySource = historyAlias;
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
     return res.status(200).json(data);
   } catch (error) {

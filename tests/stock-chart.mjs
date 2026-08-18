@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { aggregateCompletedWeeks } from '../api/stock-chart.js';
+import { aggregateCompletedWeeks, mergeChartPayloads } from '../api/stock-chart.js';
 
 const start = Date.UTC(2025, 0, 6, 16) / 1000;
 const timestamps = Array.from({ length: 45 }, (_, i) => start + i * 7 * 86400);
@@ -48,4 +48,17 @@ partialWeekPayload.chart.result[0].meta.currentTradingPeriod = { regular: { end:
 const afterClose = aggregateCompletedWeeks(partialWeekPayload, 'TEST.CN', Date.UTC(2026, 7, 19, 22) / 1000);
 assert.equal(afterClose.candles.at(-1).close, 99, 'today\'s daily bar becomes official after regular market close');
 assert.equal(afterClose.candles.at(-1).volume, 12999, 'after-close weekly volume includes the completed session');
+
+const zeroRowPayload = structuredClone(payload);
+zeroRowPayload.chart.result[0].timestamp.push(timestamps.at(-1) + 86400);
+for (const key of ['open', 'high', 'low', 'close', 'volume']) zeroRowPayload.chart.result[0].indicators.quote[0][key].push(0);
+const withoutSyntheticZero = aggregateCompletedWeeks(zeroRowPayload, 'OTC', Date.UTC(2026, 0, 2) / 1000);
+assert.equal(withoutSyntheticZero.candles.at(-1).close, 45.5, 'synthetic zero-price OTC rows must be ignored');
+
+const primary = structuredClone(payload), fallback = structuredClone(payload);
+primary.chart.result[0].timestamp = [timestamps.at(-1)];
+for (const key of ['open', 'high', 'low', 'close', 'volume']) primary.chart.result[0].indicators.quote[0][key] = [99];
+const merged = mergeChartPayloads(primary, fallback);
+assert.equal(merged.chart.result[0].timestamp.length, 45, 'fallback history fills older dates');
+assert.equal(merged.chart.result[0].indicators.quote[0].close.at(-1), 99, 'primary listing overrides fallback on overlapping dates');
 console.log('stock-chart: exact 39-candle contract passed');
