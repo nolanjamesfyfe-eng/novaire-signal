@@ -43,4 +43,9 @@ assert.equal(intraweek.candles.at(-1).close, 13, 'current weekly candle closes a
 assert.equal(intraweek.candles.at(-1).high, 14, 'today\'s unfinished bar must be excluded');
 assert.equal(intraweek.candles.at(-1).volume, 3000, 'partial weekly volume aggregates completed days');
 assert.equal(intraweek.candleRule, 'Current weekly candle updated through prior market close');
+
+partialWeekPayload.chart.result[0].meta.currentTradingPeriod = { regular: { end: Date.UTC(2026, 7, 19, 20) / 1000 } };
+const afterClose = aggregateCompletedWeeks(partialWeekPayload, 'TEST.CN', Date.UTC(2026, 7, 19, 22) / 1000);
+assert.equal(afterClose.candles.at(-1).close, 99, 'today\'s daily bar becomes official after regular market close');
+assert.equal(afterClose.candles.at(-1).volume, 12999, 'after-close weekly volume includes the completed session');
 console.log('stock-chart: exact 39-candle contract passed');

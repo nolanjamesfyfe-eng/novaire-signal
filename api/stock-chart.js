@@ -32,11 +32,15 @@ export function aggregateCompletedWeeks(payload, symbol, nowSeconds = Date.now()
   if (!quote || !timestamps.length) throw new Error('No chart data');
   const timeZone = result.meta?.exchangeTimezoneName || 'UTC';
   const today = marketDateKey(nowSeconds, timeZone);
+  const regularSessionEnd = finite(result.meta?.currentTradingPeriod?.regular?.end);
+  const currentSessionIsClosed = regularSessionEnd !== null && nowSeconds >= regularSessionEnd;
   const weeks = new Map();
   timestamps.forEach((time, index) => {
-    // Exclude today's possibly unfinished Yahoo daily bar. The active weekly
-    // candle must always stop at the prior market day's official close.
-    if (marketDateKey(Number(time), timeZone) >= today) return;
+    // Include today's bar only after the exchange's regular session has ended.
+    // This matters in Bangkok, where the latest official North American close
+    // arrives early the next morning while it is still the same date in-market.
+    const rowDate = marketDateKey(Number(time), timeZone);
+    if (rowDate > today || (rowDate === today && !currentSessionIsClosed)) return;
     const row = {
       time: Number(time),
       open: finite(quote.open?.[index]),
