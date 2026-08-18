@@ -1574,8 +1574,77 @@ def parse_yahoo_chart_quote(payload, *, period="futures session"):
         return None
 
 
+def build_futures_consensus(yahoo, investing=None):
+    """Return the median daily move across exchange and derived futures feeds."""
+    investing = investing or {}
+    sources = []
+    if yahoo.get("change") is not None:
+        sources.append({"name": "Yahoo Finance", "price": yahoo.get("price"), "change": float(yahoo["change"])})
+    for kind in ("exchange", "derived"):
+        item = investing.get(kind) or {}
+        if item.get("change") is not None:
+            sources.append({"name": item.get("name") or f"Investing.com {kind.title()}",
+                            "price": item.get("price"), "change": float(item["change"])})
+    changes = sorted(source["change"] for source in sources)
+    if changes:
+        middle = len(changes) // 2
+        consensus_change = changes[middle] if len(changes) % 2 else (changes[middle - 1] + changes[middle]) / 2
+        consensus_change = round(consensus_change, 2)
+    else:
+        consensus_change = None
+    signs = {1 if value > 0 else -1 if value < 0 else 0 for value in changes} - {0}
+    signal = "mixed" if len(signs) > 1 else "bullish" if consensus_change and consensus_change > 0 else "bearish" if consensus_change and consensus_change < 0 else "flat"
+    return {**yahoo,
+            "price": (investing.get("exchange") or {}).get("price") or yahoo.get("price") or (investing.get("derived") or {}).get("price"),
+            "change": consensus_change,
+            "source": "Consensus: Yahoo Finance + Investing.com",
+            "period": "cross-source futures consensus",
+            "signal": signal, "source_count": len(sources), "sources": sources}
+
+
+def parse_investing_futures(markdown):
+    mappings = {
+        "ES=F": {"exchange": "S&P 500", "derived": "US 500"},
+        "NQ=F": {"exchange": "Nasdaq 100", "derived": "US Tech 100"},
+        "YM=F": {"exchange": "Dow Jones", "derived": "US 30"},
+    }
+    lines = [line for line in str(markdown).splitlines() if line.strip().startswith("|")]
+    parsed = {symbol: {} for symbol in mappings}
+    for symbol, names in mappings.items():
+        for kind, name in names.items():
+            row = next((line for line in lines if f"**{name}**" in line and (("derived" in line) == (kind == "derived"))), None)
+            if not row:
+                continue
+            cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+            try:
+                price = float(cells[3].replace(",", ""))
+                change = float(cells[7].replace("%", "").replace("−", "-").replace("+", ""))
+            except (IndexError, ValueError):
+                continue
+            parsed[symbol][kind] = {"price": price, "change": change,
+                                    "name": "Investing.com Exchange" if kind == "exchange" else "Investing.com Derived"}
+    return parsed
+
+
+def fetch_investing_futures():
+    key = os.environ.get("FIRECRAWL_API_KEY")
+    if not key:
+        return {}
+    response = requests.post("https://api.firecrawl.dev/v2/scrape",
+                             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                             json={"url": "https://www.investing.com/indices/indices-futures", "formats": ["markdown"], "onlyMainContent": True},
+                             timeout=20)
+    response.raise_for_status()
+    return parse_investing_futures(response.json().get("data", {}).get("markdown", ""))
+
+
 def fetch_market_futures():
-    """Fetch the three major US index futures from adjacent valid bars."""
+    """Fetch and consolidate Yahoo exchange futures with Investing.com futures/CFDs."""
+    investing = {}
+    try:
+        investing = fetch_investing_futures()
+    except Exception:
+        pass
     results = {}
     for symbol, meta in MARKET_FUTURES.items():
         try:
@@ -1588,10 +1657,11 @@ def fetch_market_futures():
             parsed = parse_yahoo_chart_quote(response.json())
         except Exception:
             parsed = None
-        results[symbol] = {**meta, **(parsed or {
+        yahoo = parsed or {
             "price": None, "previous": None, "change": None,
             "source": "Yahoo Finance", "period": "futures session", "quote_time": None,
-        })}
+        }
+        results[symbol] = {**meta, **build_futures_consensus(yahoo, investing.get(symbol))}
     return results
 
 
@@ -2419,9 +2489,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         change_class = "positive" if change is not None and change >= 0 else ("negative" if change is not None else "")
         cash_change_class = "positive" if cash_change is not None and cash_change >= 0 else ("negative" if cash_change is not None else "")
         quote_time = escape(str(item.get("quote_time") or ""), quote=True)
+        consensus_label = meta['short'].replace("FUT", "CONSENSUS")
+        source_count = int(item.get("source_count") or 1)
+        consensus_title = escape(f"Consensus futures signal · {source_count} source{'s' if source_count != 1 else ''}", quote=True)
         futures_html += f"""
-        <div class="market-future" data-future-symbol="{symbol}" data-quote-time="{quote_time}">
-          <span>{meta['short']}</span>
+        <div class="market-future" data-future-symbol="{symbol}" data-quote-time="{quote_time}" data-source-count="{source_count}" title="{consensus_title}">
+          <span>{consensus_label}</span>
           <b data-future-price>{price_text}</b>
           <em data-future-change class="{change_class}">{change_text}</em>
           <small title="{cash_meta['label']} cash index"><i>Cash</i><strong data-market-price="{cash_symbol}">{cash_price_text}</strong><u data-market-change="{cash_symbol}" class="{cash_change_class}">{cash_change_text}</u></small>
@@ -3761,6 +3834,7 @@ renderActionSteps();
           if(pe&&Number.isFinite(Number(q.price)))pe.textContent=Number(q.price).toLocaleString('en-US',{{minimumFractionDigits:2,maximumFractionDigits:2}});
           if(ce&&Number.isFinite(Number(q.change))){{var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}}
           if(q.quoteTime)el.setAttribute('data-quote-time',q.quoteTime);
+          if(q.sourceCount){{el.setAttribute('data-source-count',q.sourceCount);el.title='Consensus futures signal · '+q.sourceCount+' sources · '+(q.signal||'')}}
         }});
         (data.indices||[]).forEach(function(q){{
           var pe=document.querySelector('[data-market-price="'+q.symbol+'"]'),ce=document.querySelector('[data-market-change="'+q.symbol+'"]');

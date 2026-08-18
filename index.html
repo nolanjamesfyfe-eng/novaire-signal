@@ -540,19 +540,19 @@
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
         <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-08-18T01:51:34Z">
-          <span>S&P FUT</span>
+          <span>S&P CONSENSUS</span>
           <b data-future-price>7,760.25</b>
           <em data-future-change class="negative">-0.57%</em>
           <small title="S&P 500 cash index"><i>Cash</i><strong data-market-price="^GSPC">7,745.06</strong><u data-market-change="^GSPC" class="negative">-0.52%</u></small>
         </div>
         <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-08-18T01:51:33Z">
-          <span>NASDAQ FUT</span>
+          <span>NASDAQ CONSENSUS</span>
           <b data-future-price>30,014.25</b>
           <em data-future-change class="negative">-0.42%</em>
           <small title="Nasdaq Composite cash index"><i>Cash</i><strong data-market-price="^IXIC">26,644.91</strong><u data-market-change="^IXIC" class="negative">-0.32%</u></small>
         </div>
         <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-08-18T01:51:33Z">
-          <span>DOW FUT</span>
+          <span>DOW CONSENSUS</span>
           <b data-future-price>53,528.00</b>
           <em data-future-change class="negative">-0.52%</em>
           <small title="Dow Jones cash index"><i>Cash</i><strong data-market-price="^DJI">53,459.78</strong><u data-market-change="^DJI" class="negative">-0.51%</u></small>
@@ -1510,6 +1510,7 @@ renderActionSteps();
           if(pe&&Number.isFinite(Number(q.price)))pe.textContent=Number(q.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
           if(ce&&Number.isFinite(Number(q.change))){var ch=Number(q.change);ce.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';ce.className=ch>=0?'positive':'negative'}
           if(q.quoteTime)el.setAttribute('data-quote-time',q.quoteTime);
+          if(q.sourceCount){el.setAttribute('data-source-count',q.sourceCount);el.title='Consensus futures signal · '+q.sourceCount+' sources · '+(q.signal||'')}
         });
         (data.indices||[]).forEach(function(q){
           var pe=document.querySelector('[data-market-price="'+q.symbol+'"]'),ce=document.querySelector('[data-market-change="'+q.symbol+'"]');

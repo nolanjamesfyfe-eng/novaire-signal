@@ -38,6 +38,18 @@ class MarketFuturesTests(unittest.TestCase):
         self.assertEqual(quote["period"], "futures session")
         self.assertEqual(quote["quote_time"], "2026-08-14T20:39:27Z")
 
+    def test_consensus_quote_uses_median_across_exchange_and_derived_sources(self):
+        yahoo = {"price": 7747.25, "change": -0.74, "source": "Yahoo Finance"}
+        investing = {
+            "exchange": {"price": 7770.25, "change": 0.02, "name": "Investing.com Exchange"},
+            "derived": {"price": 7748.6, "change": 0.04, "name": "Investing.com Derived"},
+        }
+        quote = generate.build_futures_consensus(yahoo, investing)
+        self.assertEqual(quote["price"], 7770.25)
+        self.assertEqual(quote["change"], 0.02)
+        self.assertEqual(quote["signal"], "mixed")
+        self.assertEqual(quote["source_count"], 3)
+
     def test_fixed_futures_map_is_sp_nasdaq_and_dow(self):
         self.assertEqual(
             list(generate.MARKET_FUTURES),

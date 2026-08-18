@@ -49,6 +49,8 @@ class RenderContractTests(unittest.TestCase):
     def test_wall_street_daily_change_percentages_are_emphasized(self):
         self.assertIn(".market-future em{font-size:.7332rem", self.html)
         self.assertIn(".market-future small u{font-size:.6396rem", self.html)
+        self.assertIn("CONSENSUS", self.html)
+        self.assertIn("q.sourceCount", self.html)
 
     def test_ton_poll_uses_active_gram_pair(self):
         self.assertIn('"TON":"GRAMUSDT"', self.html)
