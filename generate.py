@@ -2762,7 +2762,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
-      --market-quote-size:.95rem;--market-change-size:.68rem;
+      --market-quote-size:.95rem;--market-change-size:.68rem;--market-number-weight:500;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
@@ -2989,17 +2989,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodities-grid{{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}}
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
-    .commodity-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:400;margin-bottom:1.5px}}
+    .commodity-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:1.5px}}
     .commodity-unit{{font-size:.45rem;color:var(--dim)}}
-    .commodity-change{{font-size:var(--market-change-size);margin-top:2.25px}}
+    .commodity-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2.25px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}.c-uranium{{color:#7fc87f}}
 
     .crypto-grid{{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}}
     .crypto-item{{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .crypto-symbol{{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}}
-    .crypto-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:400;margin-bottom:2px}}
-    .crypto-change{{font-size:var(--market-change-size);margin-top:2px}}
+    .crypto-price{{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);margin-bottom:2px}}
+    .crypto-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2px}}
 
     .radar-item{{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}}
     .radar-item:last-child{{border-bottom:none}}
@@ -3071,16 +3071,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .fed-card,.market-card{{display:block;text-align:left;padding:0;overflow:hidden}}
     .market-card .market-clock{{border-bottom:0}}
-    .market-clock{{min-width:0;display:grid;grid-template-columns:minmax(260px,.9fr) minmax(0,2.6fr);grid-template-areas:"primary futures" "calendar calendar";align-items:center;gap:8px 0;border-bottom:1px solid var(--border);padding:12px 12px}}
-    .market-primary{{grid-area:primary;display:flex;align-items:baseline;justify-content:center;gap:16px;min-width:0;padding:0 10px}}
+    .market-clock{{min-width:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-areas:"primary futures futures futures" "calendar calendar calendar calendar";align-items:stretch;gap:6px;border-bottom:1px solid var(--border);padding:12px}}
+    .market-primary{{grid-area:primary;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .market-label{{font-size:.64rem;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap}}
     .wall-time{{display:block;font-family:var(--serif);font-size:1.248rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}}
-    .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-width:0}}
-    .market-future{{display:grid;grid-template-columns:1fr auto;gap:0 7px;align-items:baseline;padding-left:10px;border-left:1px solid var(--border);min-width:0}}
-    .market-future span{{grid-column:1/-1;font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap}}
-    .market-future b{{font-family:var(--serif);font-size:var(--market-quote-size);color:var(--text);font-weight:500;white-space:nowrap}}
-    .market-future em{{font-size:var(--market-change-size);font-style:normal;text-align:right;white-space:nowrap}}
-    .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:right}}
+    .market-futures{{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-width:0}}
+    .market-future{{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
+    .market-future span{{font-size:.49rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap;margin-bottom:2px}}
+    .market-future b{{font-family:var(--serif);font-size:var(--market-quote-size);color:var(--text);font-weight:var(--market-number-weight);white-space:nowrap}}
+    .market-future em{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);font-style:normal;text-align:center;white-space:nowrap}}
+    .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:center;padding-top:2px}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
@@ -3098,9 +3098,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
-    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:flex-start;padding:12px 14px}}.market-primary{{justify-content:flex-start;padding:0}}.market-futures{{width:100%}}.market-future{{grid-template-columns:1fr;text-align:center;padding:0 8px}}.market-future:first-child{{border-left:none;padding-left:0}}.market-future span,.market-future b,.market-future em{{grid-column:1}}.market-future em{{text-align:center}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
+    @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:stretch;padding:12px 14px}}.market-primary{{width:100%;box-sizing:border-box}}.market-futures{{width:100%}}.market-future{{padding:9px 8px}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
-    @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:14px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{grid-template-columns:1fr auto;column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px;text-align:left}}.market-future span{{grid-column:1/-1;text-align:left}}.market-future b{{grid-column:1;text-align:left}}.market-future em{{grid-column:2;text-align:right}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
+    @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:7px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{padding:10px 8px}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
     .eco-table th{{text-align:left;padding:5px 6px;font-size:.58rem;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border)}}
@@ -3440,10 +3440,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
 
   <!-- DAILY ACTION STEPS -->
-  <div class="card updog-action-card" id="updog-action-card">
-    <div class="action-step-heading"><div class="card-title">⚔️ Daily Actions</div><span class="keystone-streak" id="novaire-keystone-streak">🔥 0 days</span></div>
-    <div class="action-steps-grid" id="action-steps-grid"></div>
-  </div>
+  <details class="card updog-action-card signal-accordion" id="daily-actions-card" open>
+    <summary><div class="card-title">⚔️ Daily Actions</div><span class="keystone-streak" id="novaire-keystone-streak">🔥 0 days</span></summary>
+    <div class="signal-accordion-body"><div class="action-steps-grid" id="action-steps-grid"></div></div>
+  </details>
 
 {latest_novaire_html}
 
@@ -3699,9 +3699,12 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     else data.history.push({{date: today, text: text}});
     data.history = data.history.slice(-30);
     localStorage.removeItem('novaire-keystone-feedback-' + today);
+    localStorage.removeItem('novaire-daily-actions-seen-' + today);
     localStorage.setItem('novaire-keystone-action-index-' + today, '0');
     updateStatus();
     if (typeof renderActionSteps === 'function') renderActionSteps();
+    const actionsCard = document.getElementById('daily-actions-card');
+    if (actionsCard) actionsCard.open = true;
   }});
   input.addEventListener('keydown', function(event) {{
     if (event.key === 'Enter') {{ event.preventDefault(); button.click(); }}
@@ -3787,6 +3790,29 @@ function renderActionSteps() {{
   }}).join('');
 }}
 renderActionSteps();
+
+(function manageDailyActionsDisclosure() {{
+  const card = document.getElementById('daily-actions-card');
+  if (!card) return;
+  const today = new Date().toDateString();
+  const seenKey = 'novaire-daily-actions-seen-' + today;
+  let hasBeenVisible = false;
+  try {{ card.open = localStorage.getItem(seenKey) !== '1'; }} catch (e) {{ card.open = true; }}
+  card.addEventListener('toggle', function() {{
+    try {{ if (!card.open) localStorage.setItem(seenKey, '1'); }} catch (e) {{}}
+  }});
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver(function(entries) {{
+    const entry = entries[0];
+    if (entry.isIntersecting && entry.intersectionRatio >= .55) {{ hasBeenVisible = true; return; }}
+    if (hasBeenVisible && card.open && entry.boundingClientRect.bottom < 0) {{
+      card.open = false;
+      try {{ localStorage.setItem(seenKey, '1'); }} catch (e) {{}}
+      observer.disconnect();
+    }}
+  }}, {{threshold:[0,.55]}});
+  observer.observe(card);
+}})();
 
 (function renderQuotes() {{
   const day = new Date().getDate();
@@ -4026,7 +4052,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
-      --market-quote-size:.95rem;--market-change-size:.68rem;
+      --market-quote-size:.95rem;--market-change-size:.68rem;--market-number-weight:500;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}

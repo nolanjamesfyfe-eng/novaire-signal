@@ -24,7 +24,7 @@ class RenderContractTests(unittest.TestCase):
     def test_mobile_market_and_fx_spacing_contract(self):
         self.assertIn('.market-clock{gap:14px;padding-top:16px;padding-bottom:16px}', self.html)
         self.assertIn('.market-futures{grid-template-columns:1fr;gap:10px}', self.html)
-        self.assertIn('column-gap:12px;border-left:none;border-top:1px solid var(--border);padding:10px 0 2px', self.html)
+        self.assertIn('.market-future{padding:10px 8px}', self.html)
         self.assertIn('.fx-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}', self.html)
         self.assertIn('.fx-chip{padding:9px 4px}', self.html)
 
@@ -48,15 +48,20 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("<i>Cash</i>", self.html)
 
     def test_market_quotes_and_percentages_use_shared_sizes(self):
-        self.assertIn("--market-quote-size:.95rem;--market-change-size:.68rem", self.html)
+        self.assertIn("--market-quote-size:.95rem;--market-change-size:.68rem;--market-number-weight:500", self.html)
         for selector in (".market-future b", ".commodity-price", ".crypto-price"):
             self.assertIn(f"{selector}", self.html)
         self.assertIn("font-size:var(--market-quote-size)", self.html)
         self.assertIn("font-size:var(--market-change-size)", self.html)
         self.assertIn("CONSENSUS", self.html)
         self.assertIn("q.sourceCount", self.html)
-        self.assertIn("padding:12px 12px", self.html)
-        self.assertIn("grid-template-columns:minmax(260px,.9fr) minmax(0,2.6fr)", self.html)
+        self.assertIn("grid-template-columns:repeat(4,minmax(0,1fr))", self.html)
+        self.assertIn("grid-template-areas:\"primary futures futures futures\" \"calendar calendar calendar calendar\"", self.html)
+        self.assertIn(".market-primary{grid-area:primary;display:flex;flex-direction:column", self.html)
+        self.assertIn(".market-future{display:flex;flex-direction:column", self.html)
+        self.assertIn("background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center", self.html)
+        self.assertIn(".market-calendar{grid-area:calendar", self.html)
+        self.assertIn("text-align:center", self.html)
 
     def test_ton_poll_uses_active_gram_pair(self):
         self.assertIn('"TON":"GRAMUSDT"', self.html)
@@ -106,6 +111,10 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("novaire-keystone-learning", self.html)
         self.assertIn("status:'ricies'", self.html)
         self.assertIn("Avoid this suggestion next time", self.html)
+        self.assertIn('id="daily-actions-card" open', self.html)
+        self.assertIn("novaire-daily-actions-seen-", self.html)
+        self.assertIn("manageDailyActionsDisclosure", self.html)
+        self.assertIn("entry.boundingClientRect.bottom < 0", self.html)
         self.assertIn("event.key === 'Enter'", self.html)
         self.assertIn(">Ricies</button>", self.html)
         self.assertIn("items.map((item,index)", self.html)
