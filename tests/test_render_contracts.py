@@ -268,6 +268,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn('data-commodity="RBOB_CRACK"', self.html)
         for symbol in ("GOLD", "SILVER", "COPPER", "WTI", "URANIUM_SPOT", "DIESEL"):
             self.assertIn(f'data-commodity="{symbol}"', self.html)
+        self.assertIn('<div class="commodity-name c-oil">Crude Oil</div>', self.html)
+        self.assertNotIn("Crude Oil WTI", self.html)
 
     def test_trading_summary_typography_and_signal_colors_match_fed(self):
         self.assertIn(".accordion-score,.accordion-score b,.fed-summary-rate,.fed-summary-sentiment{font-size:.68rem", self.html)

@@ -1807,7 +1807,7 @@ def fetch_commodities():
         "GOLD": {"name": "Gold",        "unit": "/oz",  "cls": "c-gold"},
         "SILVER": {"name": "Silver",      "unit": "/oz",  "cls": "c-silver"},
         "COPPER": {"name": "Copper",      "unit": "/lb",  "cls": "c-copper"},
-        "WTI": {"name": "Crude Oil WTI", "unit": "/bbl", "cls": "c-oil"},
+        "WTI": {"name": "Crude Oil", "unit": "/bbl", "cls": "c-oil"},
         "URANIUM_SPOT": {"name": "Uranium", "unit": "/lb", "cls": "c-uranium"},
         "DIESEL": {"name": "Diesel", "unit": "/bbl", "cls": "c-gas"},
     }

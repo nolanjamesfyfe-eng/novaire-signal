@@ -3,7 +3,7 @@ export const config = { runtime: 'edge' };
 
 const INSTRUMENTS = [
   ['GOLD', 'Gold'], ['SILVER', 'Silver'], ['COPPER', 'Copper'],
-  ['WTI', 'Crude Oil WTI'],
+  ['WTI', 'Crude Oil'],
 ];
 
 function parseUranium(markdown) {

@@ -83,6 +83,8 @@ class MarketFuturesTests(unittest.TestCase):
         )
         self.assertEqual(commodities["URANIUM_SPOT"]["name"], "Uranium")
         self.assertEqual(commodities["URANIUM_SPOT"]["unit"], "/lb")
+        self.assertEqual(commodities["WTI"]["name"], "Crude Oil")
+        self.assertNotEqual(commodities["WTI"]["name"], "Crude Oil WTI")
         self.assertEqual(commodities["DIESEL"]["name"], "Diesel")
         self.assertEqual(commodities["DIESEL"]["unit"], "/bbl")
 
