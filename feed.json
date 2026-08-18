@@ -1,13 +1,11 @@
 {
   "ok": true,
-  "count": 11,
-  "accountsWithPosts": 11,
-  "fetchedAt": "2026-08-18T07:47:44.522886+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-08-18T08:00:56.784125+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "quakes99",
-    "SantiagoAuFund",
     "White_Rabbit_OG"
   ],
   "posts": [
@@ -42,6 +40,21 @@
       "engagementScore": 0
     },
     {
+      "id": "2089578896845074606",
+      "text": "While LT uranium is at an ATH of $95.50/lb., it’ll need to move up +$60/lb. for an inflation-adjusted ATH. The prior peak happened during a raging commodities cycle and a brief financials-driven spot spike + mine flood scare. This cycle’s move is actually sustainable.",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-08-18T05:03:26+00:00",
+      "createdAtMs": 1787029406000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/uraniuminsider/status/2089578896845074606#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 0
+    },
+    {
       "id": "2089529685533151627",
       "text": "No I am not blaming @EricTopol who does a great job relaying research. The problem is the paper/journal not revealing absolute total risk.",
       "author": "nntaleb",
@@ -53,7 +66,22 @@
       "url": "https://x.com/nntaleb/status/2089529685533151627#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
+      "slot_order": 4,
+      "engagementScore": 0
+    },
+    {
+      "id": "2089520698909692235",
+      "text": "Image",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-08-18T01:12:10+00:00",
+      "createdAtMs": 1787015530000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/SantiagoAuFund/status/2089520698909692235#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 5,
       "engagementScore": 0
     },
     {
@@ -68,7 +96,7 @@
       "url": "https://x.com/KobeissiLetter/status/2089507603386896421#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
+      "slot_order": 6,
       "engagementScore": 0
     },
     {
@@ -83,7 +111,7 @@
       "url": "https://x.com/HydroGraphInc/status/2089473168834712021#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
+      "slot_order": 7,
       "engagementScore": 0
     },
     {
@@ -98,7 +126,7 @@
       "url": "https://x.com/HydroGraphInc/status/2089473168834712021#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 8,
       "engagementScore": 0
     },
     {
@@ -113,7 +141,7 @@
       "url": "https://x.com/WatcherGuru/status/2089466026903679209#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 9,
       "engagementScore": 0
     },
     {
@@ -128,7 +156,7 @@
       "url": "https://x.com/JoshYoung/status/2089463915742908747#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 10,
       "engagementScore": 0
     },
     {
@@ -143,7 +171,7 @@
       "url": "https://x.com/tferriss/status/2089446632555430128#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
+      "slot_order": 11,
       "engagementScore": 0
     },
     {
@@ -158,22 +186,7 @@
       "url": "https://x.com/hkuppy/status/2089421865336885359#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089383753290301850",
-      "text": "Wow, seems like Google is buying Spirit Airlines' enterprise data for $10m (outbidding Mercor at $7.5m). Basically includes every internal document, email, workflow, and codebase for a once $6B company. Honestly, $10m for 34 years of operational data really seems like a steal.",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-08-17T16:08:00+00:00",
-      "createdAtMs": 1786982880000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/abhijaymrana/status/2089383753290301850#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 11,
+      "slot_order": 12,
       "engagementScore": 0
     }
   ]
