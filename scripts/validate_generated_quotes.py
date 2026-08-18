@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parents[1]
 soup = BeautifulSoup((root / 'index.html').read_text(encoding='utf-8'), 'html.parser')
 checks = {
     'crypto': (soup.select('[data-crypto-price]'), 8),
-    'commodities': (soup.select('[data-comm-price]'), 7),
+    'commodities': (soup.select('[data-comm-price]'), 6),
     'futures': (soup.select('[data-future-price]'), 3),
 }
 failures = []

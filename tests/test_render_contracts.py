@@ -257,7 +257,9 @@ class RenderContractTests(unittest.TestCase):
     def test_commodities_are_six_compact_tiles_with_diesel(self):
         self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
         self.assertIn(".commodity-item{background:var(--bg);padding:9px", self.html)
-        self.assertIn(".commodity-name{font-size:.465rem", self.html)
+        self.assertIn(".commodity-name{font-size:.58rem", self.html)
+        self.assertIn(".market-future span{font-size:.58rem", self.html)
+        self.assertIn(".crypto-symbol{font-size:.58rem", self.html)
         self.assertIn(".commodity-price{display:flex;align-items:baseline;justify-content:center", self.html)
         self.assertIn('<span class="commodity-unit">/oz</span>', self.html)
         self.assertNotIn('<div class="commodity-unit">', self.html)

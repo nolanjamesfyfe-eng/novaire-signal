@@ -1152,9 +1152,23 @@ def fetch_zerohedge():
                 headlines.append({"title": title, "url": link})
             if len(headlines) >= 12:
                 break
+        # ZeroHedge's category page retains the 4:15 PM ET market wrap after it
+        # has rolled out of the very fast-moving 25-item RSS window.
+        market_page = requests.get("https://www.zerohedge.com/markets", headers={"User-Agent": "Mozilla/5.0"}, timeout=12)
+        if market_page.ok:
+            soup = BeautifulSoup(market_page.text, "html.parser")
+            seen = {item["url"] for item in headlines}
+            for anchor in soup.select('a[href^="/markets/"]'):
+                title = " ".join(anchor.get_text(" ", strip=True).split())
+                link = "https://www.zerohedge.com" + str(anchor.get("href") or "")
+                if len(title) > 20 and link not in seen:
+                    headlines.append({"title": title, "url": link})
+                    seen.add(link)
+                if len(headlines) >= 40:
+                    break
     except Exception as e:
         headlines = [{"title": f"ZeroHedge unavailable", "url": "#"}]
-    return headlines[:12] if headlines else [{"title": "No headlines in last 36h", "url": "#"}]
+    return headlines[:40] if headlines else [{"title": "No headlines in last 36h", "url": "#"}]
 
 GSHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{PORTFOLIO_SHEET_ID}/export?format=csv&gid={TFSA_GID}"
 
@@ -1450,6 +1464,49 @@ def fetch_portfolio(usdcad=1.365, audusd=0.63):
         except Exception:
             results[ticker] = {"price": None, "change": None, "value": None, "currency": currency, "fallback": False}
     return results, holdings_source, gs_meta
+
+
+def apply_completed_close_changes(portfolio_data, tickers):
+    """Attach official completed-session close/change fields for the Daily."""
+    from zoneinfo import ZoneInfo
+    now = datetime.now(timezone.utc)
+    for ticker in tickers:
+        try:
+            url = f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(ticker)}?range=1y&interval=1d&events=div%2Csplits"
+            payload = requests.get(url, headers={"User-Agent": "Mozilla/5.0 NovaireSignal/1.0"}, timeout=10).json()
+            result = payload["chart"]["result"][0]
+            meta = result.get("meta", {})
+            tz = ZoneInfo(meta.get("exchangeTimezoneName") or "UTC")
+            market_today = now.astimezone(tz).date()
+            session_end = ((meta.get("currentTradingPeriod") or {}).get("regular") or {}).get("end")
+            session_closed = bool(session_end and now.timestamp() >= float(session_end))
+            closes = []
+            quote_rows = result["indicators"]["quote"][0]
+            for index, stamp in enumerate(result.get("timestamp", [])):
+                value = quote_rows.get("close", [])[index]
+                row_date = datetime.fromtimestamp(stamp, timezone.utc).astimezone(tz).date()
+                if row_date > market_today or (row_date == market_today and not session_closed):
+                    continue
+                if not value or value <= 0:
+                    # Yahoo occasionally nulls the latest completed small-cap
+                    # daily bar overnight while retaining its official close
+                    # in meta.previousClose (HG on Aug 17 was C$6.84).
+                    official_close = meta.get("previousClose")
+                    market_time = meta.get("regularMarketTime")
+                    if market_time and datetime.fromtimestamp(float(market_time), timezone.utc).astimezone(tz).date() == row_date:
+                        official_close = meta.get("regularMarketPrice") or official_close
+                    if index == len(result.get("timestamp", [])) - 1 and official_close:
+                        value = official_close
+                    else:
+                        continue
+                closes.append(float(value))
+            if closes:
+                data = portfolio_data.setdefault(ticker, {})
+                data["close_price"] = closes[-1]
+                data["close_change"] = ((closes[-1] / closes[-2]) - 1) * 100 if len(closes) >= 2 else None
+        except Exception as exc:
+            print(f"    ⚠️  Completed-close enrichment failed for {ticker}: {exc}")
+    return portfolio_data
 
 def fetch_catalysts(tickers):
     """Fetch recent verified news for every requested top holding.
@@ -4319,7 +4376,10 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 <body>
 <div class="container">
 
-  <a href="/" class="back-link">← Back to Signal</a>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <a href="/" class="back-link">← Back to Signal</a>
+    <div style="display:flex;gap:7px"><a href="/portfolio/" class="back-link" style="color:var(--gold)">Portfolio</a><a href="/portfolio/daily/" class="back-link">Daily</a></div>
+  </div>
 
   <div class="header-brand">
     <div class="footer-logo">Novaire <span>Signal</span></div>
@@ -4332,6 +4392,11 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <div class="card">
     <div class="card-title">📦 Portfolio</div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings</div>
+    <div><table class="portfolio-table">
+      <thead><tr><th>Ticker</th><th>Name</th><th style="text-align:right">Shares</th><th style="text-align:right">Price</th><th style="text-align:right">24h</th><th style="text-align:right">Value</th></tr></thead>
+      <tbody>{rows_html}</tbody>
+    </table></div>
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Live USD</div>
@@ -4378,19 +4443,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       Unrealized ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
     </div>
 
-    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings</div>
-    <div><table class="portfolio-table">
-      <thead>
-        <tr>
-          <th>Ticker</th><th>Name</th>
-          <th style="text-align:right">Shares</th>
-          <th style="text-align:right">Price</th>
-          <th style="text-align:right">24h</th>
-          <th style="text-align:right">Value</th>
-        </tr>
-      </thead>
-      <tbody>{rows_html}</tbody>
-    </table></div>
+
     <div class="totals-row">
       <div class="total-item">
         <div class="total-label">Live USD</div>
@@ -4611,7 +4664,8 @@ def main():
     holdings_source = HOLDINGS
     try:
         portfolio_data, holdings_source, gs_meta = fetch_portfolio(usdcad=fx["usdcad"], audusd=fx["audusd"])
-        loaded = sum(1 for v in portfolio_data.values() if v.get("price"))
+        apply_completed_close_changes(portfolio_data, [h["ticker"] for h in holdings_source])
+        loaded = sum(1 for v in portfolio_data.values() if v.get("price") is not None)
         print(f"    ✅ {loaded}/{len(holdings_source)} tickers loaded")
         if gs_meta:
             def _fmt_sheet_value(value):
@@ -4646,7 +4700,7 @@ def main():
         reverse=True
     )
     top5 = sorted_holdings[:5]
-    mover_tickers = [ticker for ticker in sorted_holdings if abs(portfolio_data.get(ticker, {}).get("change") or 0) >= 5]
+    mover_tickers = [ticker for ticker in sorted_holdings if abs(portfolio_data.get(ticker, {}).get("close_change") or 0) >= 5]
     catalyst_tickers = list(dict.fromkeys(top5 + mover_tickers))
     try:
         catalysts = fetch_catalysts(catalyst_tickers)
@@ -4946,6 +5000,8 @@ def main():
 
         # Fetch live prices
         evo_tickers = [h["ticker"] for h in EVO_HOLDINGS]
+        _evo_daily = {ticker: {} for ticker in evo_tickers}
+        apply_completed_close_changes(_evo_daily, evo_tickers)
         import yfinance as _yf
         _evo_data = _yf.download(evo_tickers, period="2d", progress=False)
         _evo_close = _evo_data.get("Close", _evo_data.get(("Close",), None))
@@ -4968,19 +5024,16 @@ def main():
             avg = h["avg_entry"]
             cost = shares * avg
             try:
-                if hasattr(_evo_close, 'columns') and sym in _evo_close.columns:
+                if _evo_daily.get(sym, {}).get("close_price") is not None:
+                    price = float(_evo_daily[sym]["close_price"])
+                elif hasattr(_evo_close, "columns") and sym in _evo_close.columns:
                     price = float(_evo_close[sym].dropna().iloc[-1])
                 else:
                     price = float(_evo_close[sym].dropna().iloc[-1]) if sym in str(_evo_close) else avg
             except:
                 price = avg
             value = shares * price
-            try:
-                close_series = _evo_close[sym].dropna() if hasattr(_evo_close, 'columns') and sym in _evo_close.columns else _evo_close[sym].dropna()
-                prior_price = float(close_series.iloc[-2]) if len(close_series) >= 2 else None
-                daily_change = ((price / prior_price) - 1) * 100 if prior_price else None
-            except Exception:
-                daily_change = None
+            daily_change = _evo_daily.get(sym, {}).get("close_change")
             gl = value - cost
             gl_pct = (gl / cost * 100) if cost > 0 else 0
             evo_total_value += value
@@ -5115,8 +5168,22 @@ def main():
     portfolio_path = os.path.join(portfolio_dir, "index.html")
     with open(portfolio_path, "w", encoding="utf-8") as f:
         f.write(portfolio_html)
+    daily_path = os.path.join(portfolio_dir, "daily", "index.html")
+    write_daily(
+        daily_path,
+        portfolio_data=portfolio_data,
+        holdings=holdings_source,
+        tracker_model=tracker_model,
+        kraken_meta=kraken_meta,
+        crypto=crypto,
+        evo_positions=evo_daily_positions,
+        alpaca=alpaca_full,
+        zh_news=zh_news,
+        catalysts=catalysts,
+    )
     print(f"  ✅ HTML saved to {OUTPUT} + {repo_index} ({len(html):,} bytes)")
     print(f"  ✅ Portfolio page saved to {portfolio_path} ({len(portfolio_html):,} bytes)")
+    print(f"  ✅ Portfolio Daily saved to {daily_path}")
 
     # ── Write stats.json for cron Telegram summary ──
     try:

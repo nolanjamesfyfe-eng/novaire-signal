@@ -6,6 +6,7 @@ const root = path.join(__dirname, '..');
 const requiredFiles = [
   'index.html',
   'portfolio/index.html',
+  'portfolio/daily/index.html',
   'feed.json',
 ];
 
@@ -28,6 +29,13 @@ if (failed) process.exit(1);
 
 const portfolioPath = path.join(root, 'portfolio', 'index.html');
 const html = fs.readFileSync(portfolioPath, 'utf8');
+const dailyHtml = fs.readFileSync(path.join(root, 'portfolio', 'daily', 'index.html'), 'utf8');
+for (const marker of ['The Daily.', 'WS TFSA', 'Kraken', 'RRSP', 'Novairecito', 'Portfolio moves · ±5%']) {
+  if (!dailyHtml.includes(marker)) {
+    console.error(`❌ Build guard failed: Daily is missing ${marker}`);
+    process.exit(1);
+  }
+}
 
 // Novaire-approved visual baseline (2026-08-16). Content and live data may
 // change; these markers may change only with Novaire's explicit design approval.
