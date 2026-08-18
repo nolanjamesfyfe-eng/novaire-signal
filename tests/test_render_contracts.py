@@ -138,6 +138,17 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('data-allocation-sector="SUI"', self.portfolio_html)
         self.assertRegex(self.portfolio_html, r"SUI</text><text[^>]+>\d+\.\d% WEIGHT")
 
+    def test_portfolio_summary_uses_honest_return_labels(self):
+        self.assertIn("Unrealized ROI", self.portfolio_html)
+        self.assertIn("Unrealized P&amp;L CAD", self.portfolio_html)
+        self.assertIn("Off ATH", self.portfolio_html)
+        self.assertIn("ATH Gap CAD", self.portfolio_html)
+        self.assertIn("YTD Return", self.portfolio_html)
+        self.assertIn("YTD needs Jan 1 NAV plus dated deposits and withdrawals", self.portfolio_html)
+        self.assertNotIn("ATH (w/ w/d)", self.portfolio_html)
+        self.assertNotIn("ROI Abs.", self.portfolio_html)
+        self.assertNotIn(">+109.0%</div>", self.portfolio_html)
+
     def test_portfolio_tickers_open_nine_month_weekly_candles(self):
         self.assertIn('class="ticker chart-ticker"', self.portfolio_html)
         self.assertIn('data-chart-symbol="HG.CN"', self.portfolio_html)

@@ -2421,13 +2421,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         total_cad = _meta["total_cad"]
     if _meta.get("total_usd"):
         total_usd = _meta["total_usd"]
+    # Sheet col M/TOTAL is gross allocation/exposure (sum of
+    # position weights), not investment return. Preserve it only as exposure.
+    exposure_pct = None
     if _meta.get("roi_pct_str"):
         try:
-            roi_pct = float(_meta["roi_pct_str"].replace("%", "").strip())
-        except: pass
+            exposure_pct = float(_meta["roi_pct_str"].replace("%", "").strip())
+        except (TypeError, ValueError):
+            pass
     port_ath = _meta.get("ath") or PORT_ATH
     port_roi_abs = _meta.get("roi_abs") or PORT_ROI_ABS
     port_basis_cad = (total_cad - port_roi_abs) if _meta.get("roi_abs") else PORT_BASIS_CAD
+    # Current open-position return, not inception or cash-flow-adjusted return.
+    roi_pct = (port_roi_abs / port_basis_cad * 100) if port_basis_cad else 0
+    off_ath_pct = ((total_cad / port_ath) - 1) * 100 if port_ath else 0
+    ath_gap_cad = total_cad - port_ath if port_ath else 0
+    # Jan-1 NAV and a complete external-flow ledger do not yet exist.
+    ytd_display = "—"
 
     # Build holdings rows HTML
     rows_html = ""
@@ -4085,13 +4095,23 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         total_cad = _meta["total_cad"]
     if _meta.get("total_usd"):
         total_usd = _meta["total_usd"]
+    # Sheet col M/TOTAL is gross allocation/exposure (sum of
+    # position weights), not investment return. Preserve it only as exposure.
+    exposure_pct = None
     if _meta.get("roi_pct_str"):
         try:
-            roi_pct = float(_meta["roi_pct_str"].replace("%", "").strip())
-        except: pass
+            exposure_pct = float(_meta["roi_pct_str"].replace("%", "").strip())
+        except (TypeError, ValueError):
+            pass
     port_ath = _meta.get("ath") or PORT_ATH
     port_roi_abs = _meta.get("roi_abs") or PORT_ROI_ABS
     port_basis_cad = (total_cad - port_roi_abs) if _meta.get("roi_abs") else PORT_BASIS_CAD
+    # Current open-position return, not inception or cash-flow-adjusted return.
+    roi_pct = (port_roi_abs / port_basis_cad * 100) if port_basis_cad else 0
+    off_ath_pct = ((total_cad / port_ath) - 1) * 100 if port_ath else 0
+    ath_gap_cad = total_cad - port_ath if port_ath else 0
+    # Jan-1 NAV and a complete external-flow ledger do not yet exist.
+    ytd_display = "—"
 
     # Build holdings rows HTML
     rows_html = ""
@@ -4338,26 +4358,43 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       </div>
       <div class="psum-item">
         <div class="psum-label">Live CAD</div>
-        <div class="psum-value" style="color:var(--green)">${total_cad:,.0f}</div>
+        <div class="psum-value" style="color:var(--green)">C${total_cad:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">ROI</div>
+        <div class="psum-label">Unrealized ROI</div>
         <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}" style="color:{'var(--green)' if roi_pct >= 0 else 'var(--red)'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
       </div>
     </div>
     <div class="portfolio-summary">
       <div class="psum-item">
-        <div class="psum-label">Basis CAD</div>
-        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">${port_basis_cad:,.0f}</div>
+        <div class="psum-label">Cost Basis CAD</div>
+        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">C${port_basis_cad:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">ATH (w/ w/d)</div>
-        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">${port_ath:,}</div>
+        <div class="psum-label">ATH CAD</div>
+        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">C${port_ath:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">ROI Abs.</div>
-        <div class="psum-value" style="color:var(--green);font-size:1.1rem">${port_roi_abs:,.0f}</div>
+        <div class="psum-label">Unrealized P&amp;L CAD</div>
+        <div class="psum-value" style="color:{'var(--green)' if port_roi_abs >= 0 else 'var(--red)'};font-size:1.1rem">{'+' if port_roi_abs >= 0 else '−'}C${abs(port_roi_abs):,.0f}</div>
       </div>
+    </div>
+    <div class="portfolio-summary">
+      <div class="psum-item">
+        <div class="psum-label">Off ATH</div>
+        <div class="psum-value" style="color:{'var(--green)' if off_ath_pct >= 0 else 'var(--red)'};font-size:1.1rem">{off_ath_pct:+.1f}%</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ATH Gap CAD</div>
+        <div class="psum-value" style="color:{'var(--green)' if ath_gap_cad >= 0 else 'var(--red)'};font-size:1.1rem">{'+' if ath_gap_cad >= 0 else '−'}C${abs(ath_gap_cad):,.0f}</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">YTD Return</div>
+        <div class="psum-value" style="color:var(--mute);font-size:1.1rem">{ytd_display}</div>
+      </div>
+    </div>
+    <div style="font-size:.56rem;color:var(--mute);margin:-2px 0 12px;text-align:center;line-height:1.45">
+      Unrealized ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
     </div>
 
     <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings</div>
@@ -4383,15 +4420,15 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         <div class="total-value cad">${total_cad:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">Basis CAD</div>
-        <div class="total-value" style="color:var(--blue)">${port_basis_cad:,.0f}</div>
+        <div class="total-label">Cost Basis CAD</div>
+        <div class="total-value" style="color:var(--blue)">C${port_basis_cad:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">ATH</div>
-        <div class="total-value" style="color:var(--violet)">${port_ath:,}</div>
+        <div class="total-label">ATH CAD</div>
+        <div class="total-value" style="color:var(--violet)">C${port_ath:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">ROI</div>
+        <div class="total-label">Unrealized ROI</div>
         <div class="total-value positive">{'+' if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
       </div>
     </div>
