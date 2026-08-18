@@ -2099,60 +2099,74 @@ def fetch_fx():
 
 
 def fetch_fx_rates():
-    """Fetch live FX rates for display — all pairs as 1 USD = X foreign currency"""
-    try:
-        import yfinance as yf
-    except ImportError:
-        return {}
-
-    pairs = {
-        "CAD": ("CADUSD=X", True,  1.365),    # invert CADUSD=X
-        "THB": ("THBUSD=X", True,  34.5),     # invert THBUSD=X
-        "AUD": ("AUDUSD=X", True,  1.580),    # invert AUDUSD=X
-        "COP": ("COPUSD=X", True,  4150.0),   # invert COPUSD=X
-        "EUR": ("EURUSD=X", True,  0.920),    # invert EURUSD=X
-        "RUB": ("RUBUSD=X", True,  90.0),     # invert RUBUSD=X
-        "KRW": ("KRWUSD=X", True,  1380.0),   # invert KRWUSD=X
-        "JPY": ("JPYUSD=X", True,  150.0),    # invert JPYUSD=X
-    }
-
-    ICONS = {
+    """Fetch 1 USD rates and prior-trading-day moves from one consistent daily source."""
+    currencies = ("CAD", "THB", "AUD", "COP", "EUR", "RUB", "KRW", "JPY")
+    icons = {
         "CAD": "🇨🇦", "THB": "🇹🇭", "AUD": "🇦🇺",
         "COP": "🇨🇴", "EUR": "🇪🇺", "RUB": "🇷🇺", "KRW": "🇰🇷", "JPY": "🇯🇵",
     }
-    SYMBOLS = {
+    symbols = {
         "CAD": "$", "THB": "฿", "AUD": "$",
         "COP": "$", "EUR": "€", "RUB": "₽", "KRW": "₩", "JPY": "¥",
     }
 
-    results = {}
-    for currency, (ticker, invert, fallback) in pairs.items():
-        try:
-            hist = yf.Ticker(ticker).history(period="5d")
-            if len(hist) >= 1:
-                raw = float(hist["Close"].iloc[-1])
-                rate = 1.0 / raw if invert else raw
-            else:
-                rate = fallback
-        except Exception:
-            rate = fallback
-
-        # Format rate
-        if currency in ("KRW", "COP"):
-            fmt = f"{rate:,.0f}"
-        elif currency == "JPY":
-            fmt = f"{rate:.2f}"
+    def fetch_snapshot(version):
+        if version == "latest":
+            urls = (
+                "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json",
+                "https://latest.currency-api.pages.dev/v1/currencies/usd.min.json",
+            )
         else:
-            fmt = f"{rate:.2f}"
+            urls = (
+                f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{version}/v1/currencies/usd.min.json",
+                f"https://{version}.currency-api.pages.dev/v1/currencies/usd.min.json",
+            )
+        last_error = None
+        for url in urls:
+            try:
+                response = requests.get(url, timeout=12, headers={"User-Agent": "NovaireSignal/1.0"})
+                response.raise_for_status()
+                payload = response.json()
+                if payload.get("date") and isinstance(payload.get("usd"), dict):
+                    return payload
+                raise ValueError("Malformed FX snapshot")
+            except Exception as exc:
+                last_error = exc
+        raise last_error or RuntimeError("FX source unavailable")
 
-        results[currency] = {
-            "rate":   rate,
-            "fmt":    fmt,
-            "icon":   ICONS[currency],
-            "symbol": SYMBOLS[currency],
-        }
-
-    return results
+    try:
+        latest = fetch_snapshot("latest")
+        latest_date = datetime.strptime(latest["date"], "%Y-%m-%d").date()
+        weekday = latest_date.weekday()  # Monday=0
+        days_back = 3 if weekday == 0 else 2 if weekday == 6 else 1
+        previous = fetch_snapshot((latest_date - timedelta(days=days_back)).isoformat())
+        results = {}
+        for currency in currencies:
+            key = currency.lower()
+            rate = float(latest["usd"][key])
+            previous_rate = float(previous["usd"][key])
+            if not math.isfinite(rate) or rate <= 0 or not math.isfinite(previous_rate) or previous_rate <= 0:
+                raise ValueError(f"Invalid FX history for {currency}")
+            change = ((rate / previous_rate) - 1.0) * 100.0
+            if rate >= 1000:
+                fmt = f"{rate:,.0f}"
+            elif rate >= 10:
+                fmt = f"{rate:.2f}"
+            else:
+                fmt = f"{rate:.4f}".rstrip("0").rstrip(".")
+            results[currency] = {
+                "rate": rate,
+                "fmt": fmt,
+                "icon": icons[currency],
+                "symbol": symbols[currency],
+                "change": change,
+                "as_of": latest["date"],
+                "comparison_date": previous["date"],
+            }
+        return results
+    except Exception as exc:
+        print(f"    ⚠️ FX daily history unavailable: {exc}")
+        return {}
 
 # ─────────────────────────────────────────────────────────────
 # SVG DONUT CHART
@@ -2534,8 +2548,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 continue
             # Shorten large numbers for compact strip
             val = d['fmt']
+            change = d.get("change")
+            change_html = fmt_pct(change) if change is not None else '<span style="color:var(--dim)">—</span>'
             fx_rates_html += f"""
-      <div class="fx-chip"><div class="fx-ccy">{d['icon']} {ccy}</div><span class="fx-rate" data-fx-rate="{ccy}">{val}</span></div>"""
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">{d['icon']}</span> {ccy}</div><span class="fx-rate" data-fx-rate="{ccy}">{val}</span><span class="fx-change" data-fx-chg="{ccy}">{change_html}</span></div>"""
 
     # ── Weather HTML ──
     import datetime as _dt
@@ -2697,7 +2713,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         comm_html += f"""
         <div class="commodity-item" data-commodity="{sym}"{title_attr}>
           <div class="commodity-name {c['cls']}">{c['name']}</div>
-          <div class="commodity-price {c['cls']}"><span class="commodity-price-value" data-comm-price="{sym}">{price_str}</span><span class="commodity-unit">{c['unit']}</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="{sym}">{price_str}</span><span class="commodity-unit">{c['unit']}</span></div>
           <div class="commodity-change" data-comm-chg="{sym}">{chg_html}</div>
         </div>"""
 
@@ -3050,7 +3066,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .commodity-item{{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .commodity-name{{font-size:.465rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}}
     .commodity-price{{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text);margin-bottom:1.5px}}
-    .commodity-unit{{font-family:var(--sans);font-size:.42rem;font-weight:400;color:var(--dim);letter-spacing:.01em}}
+    .commodity-price-value,.commodity-unit{{color:var(--text)}}
+    .commodity-unit{{font-family:var(--sans);font-size:.42rem;font-weight:400;letter-spacing:.01em}}
     .commodity-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2.25px}}
     .c-gold{{color:#b59662}}.c-silver{{color:#b8b8b8}}.c-copper{{color:#b87333}}
     .c-oil{{color:#8b7355}}.c-gas{{color:#72a8c7}}.c-uranium{{color:#7fc87f}}
@@ -3106,7 +3123,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fx-row{{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:4px}}
     .fx-chip{{text-align:center;min-width:0;flex:1 1 0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:6px 4px}}
     .fx-chip .fx-ccy{{font-size:.54rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);white-space:nowrap}}
+    .fx-chip .fx-flag{{display:inline-block;font-size:1.25em;line-height:1;vertical-align:-.08em}}
     .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--text);margin-top:1px}}
+    .fx-chip .fx-change{{display:block;font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2px}}
 
     .compact-feed-card{{padding:14px 16px}}
     .compact-feed-card .card-title{{margin-bottom:8px}}
@@ -3971,8 +3990,9 @@ renderActionSteps();
   function refreshFx(){{
     fetch('/api/fx-rates?_='+Date.now(),{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}}).then(function(data){{
       Object.keys(data.rates||{{}}).forEach(function(ccy){{
-        var el=document.querySelector('[data-fx-rate="'+ccy+'"]'),rate=Number(data.rates[ccy]);
+        var el=document.querySelector('[data-fx-rate="'+ccy+'"]'),ce=document.querySelector('[data-fx-chg="'+ccy+'"]'),rate=Number(data.rates[ccy]),change=Number((data.changes||{{}})[ccy]);
         if(el&&Number.isFinite(rate))el.textContent=rate>=1000?Math.round(rate).toLocaleString('en-US'):rate>=10?rate.toFixed(2):rate.toFixed(4).replace(/0+$/,'').replace(/\.$/,'');
+        if(ce&&Number.isFinite(change))ce.innerHTML='<span class="'+(change>=0?'positive':'negative')+'">'+(change>=0?'+':'')+change.toFixed(2)+'%</span>';
       }});
     }}).catch(function(){{}})
   }}
