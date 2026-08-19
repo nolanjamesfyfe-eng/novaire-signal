@@ -77,6 +77,8 @@ class RenderContractTests(unittest.TestCase):
     def test_text_is_scaled_without_scaling_logo(self):
         self.assertIn("html{scroll-behavior:smooth;font-size:110%}", self.html)
         self.assertIn("font-size:18.15px", self.html)
+        self.assertIn("@media(min-width:900px){body{zoom:1.1}}", self.html)
+        self.assertIn("@media(min-width:900px){body{zoom:1.1}}", self.portfolio_html)
         self.assertIn(".footer-logo{font-family:var(--serif);font-size:1.6363636rem", self.html)
 
     def test_signal_bolt_is_locked_to_antique_gold_svg(self):

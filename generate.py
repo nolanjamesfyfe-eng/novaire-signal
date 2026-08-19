@@ -2955,6 +2955,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
     body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
+    @media(min-width:900px){{body{{zoom:1.1}}}}
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
@@ -4275,6 +4276,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
     body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
+    @media(min-width:900px){{body{{zoom:1.1}}}}
     .container{{max-width:720px;margin:0 auto}}
     .header-brand{{text-align:center;padding-bottom:20px}}
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
