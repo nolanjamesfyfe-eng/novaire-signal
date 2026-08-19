@@ -22,6 +22,7 @@ except Exception:  # pragma: no cover - Python always has zoneinfo in production
 SHEET_ID = "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak"
 TFSA_GID = "527699504"
 KRAKEN_GID = "338118850"
+RRSP_GID = "164741412"
 HISTORY_PATH = Path(__file__).with_name("portfolio_history.json")
 PERIODS = (("1D", 1), ("1W", 7), ("1M", 30), ("3M", 90), ("6M", 180), ("YTD", "ytd"), ("1Y", 365), ("ALL", "all"))
 
@@ -97,6 +98,81 @@ def fetch_kraken_totals(timeout: int = 20) -> dict[str, Any]:
     except Exception as exc:
         print(f"    ⚠️  Kraken Sheet total unavailable: {exc}")
         return {}
+
+
+def parse_rrsp_rows(rows: list[list[str]], usdcad: float = 1.365) -> dict[str, Any]:
+    """Parse the dedicated RRSP tab; never substitute Evolution Fund data."""
+    positions = []
+    for raw in rows:
+        row = list(raw) + [""] * max(0, 15 - len(raw))
+        currency = row[1].strip().upper()
+        symbol = row[3].strip().upper()
+        price = parse_money(row[5])
+        shares = parse_money(row[8])
+        if currency not in {"CAD", "USD"} or not symbol or not price or not shares:
+            continue
+        value_native = price * shares
+        value_cad = value_native * (usdcad if currency == "USD" else 1.0)
+        positions.append({
+            "symbol": symbol.split(":")[-1],
+            "sheet_symbol": symbol,
+            "name": row[2].strip() or symbol,
+            "currency": currency,
+            "shares": float(shares),
+            "sheet_price": float(price),
+            "value_native": value_native,
+            "value_cad": value_cad,
+        })
+    total_cad = sum(position["value_cad"] for position in positions)
+    for position in positions:
+        position["weight_pct"] = position["value_cad"] / total_cad * 100 if total_cad else 0.0
+    positions.sort(key=lambda position: position["value_cad"], reverse=True)
+    return {
+        "account": "rrsp",
+        "label": "RRSP",
+        "sheet_gid": RRSP_GID,
+        "sheet_name": "RRSP",
+        "source": "Google Sheet · RRSP",
+        "total_cad": total_cad,
+        "positions": positions,
+    }
+
+
+def _fetch_sheet_rows(gid: str, tab_name: str, timeout: int = 20) -> list[list[str]]:
+    """Read a Sheet tab via CSV, then authenticated Sheets API when needed."""
+    url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={gid}&_={int(datetime.now().timestamp())}"
+    try:
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+        rows = list(csv.reader(io.StringIO(response.text)))
+        if any(any(cell.strip() for cell in row) for row in rows):
+            return rows
+    except Exception:
+        pass
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2.credentials import Credentials
+        from googleapiclient.discovery import build
+        token_path = Path.home() / ".hermes" / "google_token.json"
+        credentials = Credentials.from_authorized_user_file(str(token_path))
+        if credentials.expired and credentials.refresh_token:
+            credentials.refresh(Request())
+        service = build("sheets", "v4", credentials=credentials, cache_discovery=False)
+        quoted = tab_name.replace("'", "''")
+        result = service.spreadsheets().values().get(
+            spreadsheetId=SHEET_ID,
+            range=f"'{quoted}'!A1:Z200",
+            valueRenderOption="FORMATTED_VALUE",
+        ).execute()
+        return result.get("values", [])
+    except Exception as exc:
+        print(f"    ⚠️  {tab_name} Sheet unavailable: {exc}")
+        return []
+
+
+def fetch_rrsp_totals(usdcad: float = 1.365, timeout: int = 20) -> dict[str, Any]:
+    rows = _fetch_sheet_rows(RRSP_GID, "RRSP", timeout=timeout)
+    return parse_rrsp_rows(rows, usdcad=usdcad) if rows else {}
 
 
 def _previous_weekday(day: date) -> date:

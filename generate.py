@@ -21,6 +21,7 @@ from portfolio_tracker import (
     HISTORY_PATH as PORTFOLIO_HISTORY_PATH,
     SHEET_ID as PORTFOLIO_SHEET_ID,
     TFSA_GID,
+    fetch_rrsp_totals,
     build_tracker_model,
     fetch_kraken_totals,
     load_history as load_portfolio_history,
@@ -1361,6 +1362,8 @@ def fetch_official_cse_hg_quote():
         return {
             "price": price,
             "change": (price - previous) / previous * 100,
+            "day_high": float(ticker["Days High Price"]) if ticker.get("Days High Price") else None,
+            "day_low": float(ticker["Days Low Price"]) if ticker.get("Days Low Price") else None,
             "volume": ticker.get("Trading Volume"),
             "time": ticker.get("Time"),
             "source": "Canadian Securities Exchange",
@@ -1470,6 +1473,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
     """Attach official completed-session close/change fields for the Daily."""
     from zoneinfo import ZoneInfo
     now = datetime.now(timezone.utc)
+    official_hg = fetch_official_cse_hg_quote() if "HG.CN" in tickers else None
     for ticker in tickers:
         try:
             url = f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(ticker)}?range=1y&interval=1d&events=div%2Csplits"
@@ -1481,6 +1485,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
             session_end = ((meta.get("currentTradingPeriod") or {}).get("regular") or {}).get("end")
             session_closed = bool(session_end and now.timestamp() >= float(session_end))
             closes = []
+            completed_rows = []
             quote_rows = result["indicators"]["quote"][0]
             for index, stamp in enumerate(result.get("timestamp", [])):
                 value = quote_rows.get("close", [])[index]
@@ -1500,10 +1505,23 @@ def apply_completed_close_changes(portfolio_data, tickers):
                     else:
                         continue
                 closes.append(float(value))
+                completed_rows.append({
+                    "close": float(value),
+                    "high": quote_rows.get("high", [None] * len(result.get("timestamp", [])))[index],
+                    "low": quote_rows.get("low", [None] * len(result.get("timestamp", [])))[index],
+                })
             if closes:
                 data = portfolio_data.setdefault(ticker, {})
                 data["close_price"] = closes[-1]
                 data["close_change"] = ((closes[-1] / closes[-2]) - 1) * 100 if len(closes) >= 2 else None
+                data["previous_close"] = closes[-2] if len(closes) >= 2 else None
+                data["day_high"] = completed_rows[-1].get("high")
+                data["day_low"] = completed_rows[-1].get("low")
+                if ticker == "HG.CN" and official_hg:
+                    if not data["day_high"] or data["day_high"] <= 0:
+                        data["day_high"] = official_hg.get("day_high")
+                    if not data["day_low"] or data["day_low"] <= 0:
+                        data["day_low"] = official_hg.get("day_low")
         except Exception as exc:
             print(f"    ⚠️  Completed-close enrichment failed for {ticker}: {exc}")
     return portfolio_data
@@ -1929,6 +1947,7 @@ def fetch_crypto():
             if ticker:
                 results[ticker] = {"price": row.get("current_price"),
                     "change": row.get("price_change_percentage_24h"),
+                    "day_high": row.get("high_24h"), "day_low": row.get("low_24h"),
                     "market_cap": row.get("market_cap") or 0,
                     "source": "CoinGecko", "quote_time": row.get("last_updated")}
     except Exception:
@@ -1943,6 +1962,8 @@ def fetch_crypto():
             if quote_timestamp_is_fresh(d.get("closeTime")):
                 results[ticker]["price"] = float(d["lastPrice"])
                 results[ticker]["change"] = float(d["priceChangePercent"])
+                results[ticker]["day_high"] = float(d["highPrice"])
+                results[ticker]["day_low"] = float(d["lowPrice"])
                 results[ticker]["source"] = "Binance"
                 results[ticker]["quote_time"] = datetime.fromtimestamp(
                     int(d["closeTime"]) / 1000, timezone.utc
@@ -4745,6 +4766,21 @@ def main():
     net_worth_tracker_html = render_tracker_html(tracker_model)
     crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
+    print("  🏦 Fetching RRSP holdings from its Google Sheet tab...")
+    rrsp_meta = fetch_rrsp_totals(usdcad=fx["usdcad"])
+    rrsp_quotes = {}
+    if rrsp_meta.get("positions"):
+        yahoo_to_symbol = {}
+        for position in rrsp_meta["positions"]:
+            yahoo_ticker = EXCHANGE_TO_TICKER.get(position.get("sheet_symbol"), position["symbol"])
+            yahoo_to_symbol[yahoo_ticker] = position["symbol"]
+        yahoo_quotes = {}
+        apply_completed_close_changes(yahoo_quotes, list(yahoo_to_symbol))
+        rrsp_quotes = {yahoo_to_symbol[ticker]: quote_data for ticker, quote_data in yahoo_quotes.items()}
+        print(f"    ✅ {len(rrsp_meta['positions'])} RRSP positions · C${rrsp_meta['total_cad']:,.0f} · largest {rrsp_meta['positions'][0]['symbol']}")
+    else:
+        print("    ⚠️  RRSP tab returned no positions")
+
     print("  🔍 Fetching catalysts (yfinance news)...")
     sorted_holdings = sorted(
         [h["ticker"] for h in (holdings_source or HOLDINGS)],
@@ -5228,8 +5264,11 @@ def main():
         tracker_model=tracker_model,
         kraken_meta=kraken_meta,
         crypto=crypto,
-        evo_positions=evo_daily_positions,
+        rrsp_meta=rrsp_meta,
+        rrsp_quotes=rrsp_quotes,
         alpaca=alpaca_full,
+        gs_meta=gs_meta,
+        fx=fx,
         zh_news=zh_news,
         catalysts=catalysts,
     )

@@ -1,41 +1,40 @@
 {
   "ok": true,
-  "count": 10,
-  "accountsWithPosts": 10,
-  "fetchedAt": "2026-08-19T06:02:11.554139+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-08-19T07:57:33.370863+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "nntaleb",
-    "SantiagoAuFund",
+    "BambroughKevin",
     "White_Rabbit_OG"
   ],
   "posts": [
     {
-      "id": "2089951302394458583",
-      "text": "'Half a century after the gold window closed, the metal is finding its way back into the architecture of financial trust – not through the front door of a formal standard, but through the side door of reserve diversification, collateral practice and, increasingly, redeemability' Gold's return as monetary collateral - OMFIF",
-      "author": "wmiddelkoop",
-      "handle": "wmiddelkoop",
-      "createdAt": "2026-08-19T05:43:14+00:00",
-      "createdAtMs": 1787118194000,
+      "id": "2089978197429420295",
+      "text": "The Case For Britain Backing Its North Sea Oil & Gas Industry https://www.zerohedge.com/energy/case-britain-backing-its-north-sea-oil-gas-industry",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-19T07:30:06+00:00",
+      "createdAtMs": 1787124606000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/wmiddelkoop/status/2089951302394458583#m",
+      "url": "https://x.com/zerohedge/status/2089978197429420295#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
       "engagementScore": 0
     },
     {
-      "id": "2089947491538031080",
-      "text": "Alexander Vindman Suffers Double-Digit Loss To Socialist Angie Nixon In Florida Senate Primary https://www.zerohedge.com/political/alexander-vindman-suffers-double-digit-loss-socialist-angie-nixon-florida-senate-primary",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-19T05:28:05+00:00",
-      "createdAtMs": 1787117285000,
+      "id": "2089973430875476095",
+      "text": "Source: OMFIF - GBI",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-19T07:11:10+00:00",
+      "createdAtMs": 1787123470000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2089947491538031080#m",
+      "url": "https://x.com/wmiddelkoop/status/2089973430875476095#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
@@ -87,6 +86,36 @@
       "engagementScore": 0
     },
     {
+      "id": "2089915300263137384",
+      "text": "Image",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-08-19T03:20:10+00:00",
+      "createdAtMs": 1787109610000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/SantiagoAuFund/status/2089915300263137384#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 6,
+      "engagementScore": 0
+    },
+    {
+      "id": "2089892588853559665",
+      "text": "Nothing to do with the interests of the United States! Just to protect that pathology called Israel.",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-08-19T01:49:56+00:00",
+      "createdAtMs": 1787104196000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/nntaleb/status/2089892588853559665#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 7,
+      "engagementScore": 0
+    },
+    {
       "id": "2089840896732799476",
       "text": "This one was WAY ahead of its time 😂",
       "author": "hkuppy",
@@ -98,7 +127,7 @@
       "url": "https://x.com/ContrarianShort/status/2089840896732799476#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 8,
       "engagementScore": 0
     },
     {
@@ -113,7 +142,7 @@
       "url": "https://x.com/WatcherGuru/status/2089836529061392746#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 9,
       "engagementScore": 0
     },
     {
@@ -128,7 +157,7 @@
       "url": "https://x.com/shak/status/2089800553328992334#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 10,
       "engagementScore": 0
     },
     {
@@ -143,7 +172,7 @@
       "url": "https://x.com/BarbarianCap/status/2089793152655704214#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
+      "slot_order": 11,
       "engagementScore": 0
     },
     {
@@ -158,7 +187,7 @@
       "url": "https://x.com/colonelhomsi/status/2089772325730214011#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
+      "slot_order": 12,
       "engagementScore": 0
     }
   ]
