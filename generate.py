@@ -21,6 +21,7 @@ from portfolio_tracker import (
     HISTORY_PATH as PORTFOLIO_HISTORY_PATH,
     SHEET_ID as PORTFOLIO_SHEET_ID,
     TFSA_GID,
+    _fetch_sheet_rows,
     fetch_rrsp_totals,
     build_tracker_model,
     fetch_kraken_totals,
@@ -1209,21 +1210,9 @@ def fetch_holdings_from_gsheet():
     """Fetch portfolio holdings directly from Google Sheet CSV.
     Returns (holdings_list, meta_dict) or (None, {}) on failure.
     """
-    import csv, io
-    try:
-        cache_bust = int(datetime.now(timezone.utc).timestamp())
-        sep = "&" if "?" in GSHEET_CSV_URL else "?"
-        gsheet_url = f"{GSHEET_CSV_URL}{sep}_t={cache_bust}"
-        r = requests.get(
-            gsheet_url,
-            headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
-            timeout=20,
-        )
-        r.raise_for_status()
-        reader = csv.reader(io.StringIO(r.text))
-        rows = list(reader)
-    except Exception as e:
-        print(f"    ⚠️  Google Sheet fetch failed: {e}")
+    rows = _fetch_sheet_rows(TFSA_GID, "TFSA/WS", timeout=20)
+    if not rows:
+        print("    ⚠️  Google Sheet fetch failed: no TFSA/WS rows returned")
         return None, {}
 
     def parse_price(s):
@@ -3878,6 +3867,13 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
     return streak;
   }}
   function updateStatus() {{
+    // Completion can be written by renderActionSteps; merge that fresh state
+    // before persisting so this closure never restores stale done dates.
+    try {{
+      const latest = JSON.parse(localStorage.getItem(key) || '{{}}');
+      data.doneDates = Array.isArray(latest.doneDates) ? latest.doneDates : data.doneDates;
+      data.lastDone = latest.lastDone || data.lastDone;
+    }} catch (e) {{}}
     data.streak = calculateStreak(data.doneDates);
     const completeToday = data.doneDates.includes(today);
     status.textContent = completeToday
@@ -3959,7 +3955,7 @@ function renderActionSteps() {{
       {{title:'Choose the strongest TSR hook',action:'Listen once for the sharpest 15–30 second claim, mark its timestamps, and cut that clip first.'}},
       {{title:'Prepare the clean TSR master',action:'Find the highest-quality source file, normalize the audio, and export one caption-ready vertical draft.'}}
     ];
-    if(/clean|house|laundry|vacuum|tidy|chores/.test(lower))return [
+    if(/clean\s+(?:the\s+)?(?:house|home|room|apartment)|housework|laundry|vacuum|tidy|chores/.test(lower))return [
       {{title:'Start the machine task',action:'Start one load of laundry now. While it runs, vacuum the single room that will create the biggest visible improvement.'}},
       {{title:'Run a ten-minute reset',action:'Set a ten-minute timer, clear visible surfaces, and stop when the timer ends.'}},
       {{title:'Make one room obviously better',action:'Choose the messiest visible room and complete one pass: rubbish, laundry, surfaces, floor.'}}
@@ -4838,7 +4834,7 @@ def main():
     if not fx:
         fx = {"usdcad": 1.365, "audusd": 0.630}
 
-    # ── Polymarket (Barron147) — top open bets + wins/losses only ──
+    # ── Polymarket (Novairecito) — top open bets + wins/losses only ──
     print("  🎰 Fetching Polymarket positions...")
     poly = fetch_polymarket()
     poly_html = ""
@@ -4853,7 +4849,7 @@ def main():
         settled = pm_wr_summary['wins'] + pm_wr_summary['losses']
         win_rate = (pm_wr_summary['wins'] / settled * 100) if settled else 0
         poly_html = f'''<details class="card signal-accordion trading-accordion" id="polymarket-card">
-  <summary><span class="card-title">🎰 Polymarket — Barron147</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
+  <summary><span class="card-title">🎰 Polymarket — Novairecito</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
     {bets_html}
@@ -4965,7 +4961,7 @@ def main():
     # ── Bot Accounts for Portfolio page (full $ detail) ──
     bot_accounts_html = ""
 
-    # Polymarket — Barron147
+    # Polymarket — Novairecito
     print("  🎰 Calculating Polymarket win rate...")
     pm_wr = fetch_polymarket_win_rate()
     poly_full = fetch_polymarket()
@@ -5013,7 +5009,7 @@ def main():
             pm_inception = 222.00  # confirmed by Novaire Mar 15  # reset 2026-03-03
 
         bot_accounts_html += f"""<div class="card">
-    <div class="card-title">🎰 Polymarket — Barron147</div>
+    <div class="card-title">🎰 Polymarket — Novairecito</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Account: Barron147</span><span>Total: ${pm_total:.2f}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.75rem;border-bottom:1px solid var(--border)"><span>Wins vs Losses</span><span>{pm_wr['wins']}W / {pm_wr['losses']}L · {pm_wr['total']} trades</span></div>
     <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Top 4 Open Bets</div>

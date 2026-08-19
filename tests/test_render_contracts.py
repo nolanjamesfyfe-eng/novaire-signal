@@ -112,6 +112,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("Do your Anki review at the start of the day", self.html)
         self.assertIn("Do you have the high-quality audio ready?", self.html)
         self.assertIn("Start one load of laundry", self.html)
+        self.assertIn("clean\\s+(?:the\\s+)?(?:house|home|room|apartment)", self.html)
+        self.assertNotIn("if(/clean|house|laundry|vacuum|tidy|chores/", self.html)
         self.assertIn("novaire-keystone-streak", self.html)
         self.assertIn("calculateKeystoneStreak", self.html)
         self.assertIn("every(item => feedback[item.id]?.status === 'completed')", self.html)
@@ -198,9 +200,20 @@ class RenderContractTests(unittest.TestCase):
         self.assertFalse(generate.open_early_week(datetime(2026, 8, 23)))
 
     def test_clutter_cards_are_accordions_with_compact_summaries(self):
-        self.assertIn('class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="2026-08-10" open', self.html)
+        self.assertRegex(self.html, r'class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="\d{4}-\d{2}-\d{2}"')
         self.assertIn('class="card signal-accordion" id="catalysts-card" data-edition="2026-W34"', self.html)
         self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
+
+    def test_polymarket_identity_is_novairecito_in_source_and_outputs(self):
+        generator_source = (ROOT / "generate.py").read_text(encoding="utf-8")
+        canonical_label = "Polymarket — Novairecito"
+        stale_label = "Polymarket — Barron147"
+        self.assertIn(canonical_label, generator_source)
+        self.assertNotIn(stale_label, generator_source)
+        self.assertIn(canonical_label, self.html)
+        self.assertNotIn(stale_label, self.html)
+        self.assertIn(canonical_label, self.portfolio_html)
+        self.assertNotIn(stale_label, self.portfolio_html)
 
     def test_alpaca_is_canonical_live_holdings_source_with_weights(self):
         self.assertIn("🦙 Alpaca · Novairecito", self.html)

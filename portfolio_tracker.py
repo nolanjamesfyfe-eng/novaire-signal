@@ -89,15 +89,8 @@ def parse_kraken_rows(rows: list[list[str]]) -> dict[str, Any]:
 
 
 def fetch_kraken_totals(timeout: int = 20) -> dict[str, Any]:
-    url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={KRAKEN_GID}&_={int(datetime.now().timestamp())}"
-    try:
-        response = requests.get(url, timeout=timeout)
-        response.raise_for_status()
-        rows = list(csv.reader(io.StringIO(response.text)))
-        return parse_kraken_rows(rows)
-    except Exception as exc:
-        print(f"    ⚠️  Kraken Sheet total unavailable: {exc}")
-        return {}
+    rows = _fetch_sheet_rows(KRAKEN_GID, "What's Kraken 2025", timeout=timeout)
+    return parse_kraken_rows(rows) if rows else {}
 
 
 def parse_rrsp_rows(rows: list[list[str]], usdcad: float = 1.365) -> dict[str, Any]:
@@ -150,21 +143,32 @@ def _fetch_sheet_rows(gid: str, tab_name: str, timeout: int = 20) -> list[list[s
     except Exception:
         pass
     try:
-        from google.auth.transport.requests import Request
-        from google.oauth2.credentials import Credentials
-        from googleapiclient.discovery import build
+        # Use the stored OAuth token directly so scheduled generation does not
+        # depend on optional Google Python packages being installed.
         token_path = Path.home() / ".hermes" / "google_token.json"
-        credentials = Credentials.from_authorized_user_file(str(token_path))
-        if credentials.expired and credentials.refresh_token:
-            credentials.refresh(Request())
-        service = build("sheets", "v4", credentials=credentials, cache_discovery=False)
+        token = json.loads(token_path.read_text())
+        refresh = requests.post(
+            token.get("token_uri") or "https://oauth2.googleapis.com/token",
+            data={
+                "client_id": token["client_id"],
+                "client_secret": token["client_secret"],
+                "refresh_token": token["refresh_token"],
+                "grant_type": "refresh_token",
+            },
+            timeout=timeout,
+        )
+        refresh.raise_for_status()
+        access_token = refresh.json()["access_token"]
         quoted = tab_name.replace("'", "''")
-        result = service.spreadsheets().values().get(
-            spreadsheetId=SHEET_ID,
-            range=f"'{quoted}'!A1:Z200",
-            valueRenderOption="FORMATTED_VALUE",
-        ).execute()
-        return result.get("values", [])
+        api_url = f"https://sheets.googleapis.com/v4/spreadsheets/{SHEET_ID}/values/'{quoted}'!A1:Z200"
+        response = requests.get(
+            api_url,
+            headers={"Authorization": f"Bearer {access_token}"},
+            params={"valueRenderOption": "FORMATTED_VALUE"},
+            timeout=timeout,
+        )
+        response.raise_for_status()
+        return response.json().get("values", [])
     except Exception as exc:
         print(f"    ⚠️  {tab_name} Sheet unavailable: {exc}")
         return []

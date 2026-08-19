@@ -49,7 +49,7 @@ class FakeResponse:
 
 
 class SheetAllocationTests(unittest.TestCase):
-    @patch.object(generate.requests, "get", return_value=FakeResponse(sheet_csv()))
+    @patch.object(generate, "_fetch_sheet_rows", return_value=SHEET_ROWS)
     def test_sector_allocation_comes_from_sheet_percentages(self, _request):
         _holdings, meta = generate.fetch_holdings_from_gsheet()
 

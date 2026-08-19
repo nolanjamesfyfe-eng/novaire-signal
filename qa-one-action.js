@@ -24,6 +24,13 @@ const { chromium } = require('/root/clawd/novaire-operations-system/node_modules
   if (!reset.includes('Review the uranium portfolio thesis')) throw Error('Enter did not set the new Keystone');
   if (!(await page.locator('.action-step-title').innerText()).includes('thesis into a rule')) throw Error('new Keystone did not reset to tailored first action');
 
+  await page.locator('#keystone-input').fill('Clean up Novairecito OS to show Mizel');
+  await page.locator('#keystone-input').press('Enter');
+  const osAction = await page.locator('.action-step-ask').innerText();
+  if (!osAction.includes('Clean up Novairecito OS to show Mizel')) throw Error('OS action lost the exact Keystone');
+  if (!(await page.locator('.action-step-title').innerText()).includes('verified improvement')) throw Error('OS cleanup was misclassified');
+  if (/laundry|vacuum/i.test(osAction)) throw Error('OS cleanup leaked into the housekeeping playbook');
+
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   if (overflow) throw Error('mobile horizontal overflow');
   await page.screenshot({ path: 'qa-keystone-current-priority-mobile.png', fullPage: true });
@@ -33,6 +40,6 @@ const { chromium } = require('/root/clawd/novaire-operations-system/node_modules
   await page.reload();
   if (!(await page.locator('#novaire-keystone-streak').innerText()).includes('1 day')) throw Error('streak did not persist');
 
-  console.log('PASS: exact-priority action, intent tailoring, Ricies continuity, Enter reset, persistence, mobile overflow');
+  console.log('PASS: exact-priority action, intent tailoring, OS cleanup classification, Ricies continuity, Enter reset, persistence, mobile overflow');
   await browser.close();
 })().catch(error => { console.error(error); process.exit(1); });

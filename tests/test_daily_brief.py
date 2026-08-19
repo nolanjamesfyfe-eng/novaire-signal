@@ -30,10 +30,10 @@ class DailyBriefTests(unittest.TestCase):
         html = render_daily_html(**self.kwargs)
         for label in ("WS TFSA", "Kraken", "RRSP", "Novairecito"):
             self.assertIn(label, html)
-        for label in ("DAY HIGH", "DAY LOW", "DAILY IMPACT", "NET WORTH IMPACT", "HIGH–LOW SWING"):
+        for label in ("LARGEST POSITION", "DAY HIGH", "DAY LOW", "PORTFOLIO DAILY EFFECT", "INTRADAY CASH SWING", "NET WORTH EFFECT"):
             self.assertIn(label, html)
         self.assertIn("Google Sheet · RRSP", html)
-        self.assertIn("Largest · 30.0% of portfolio", html)
+        self.assertIn("30.0% of portfolio", html)
         self.assertNotIn("PHYS", html)
         self.assertIn("C$125,468 tracked net worth", html)
         self.assertIn("HydroGraph announces expansion", html)
@@ -43,7 +43,9 @@ class DailyBriefTests(unittest.TestCase):
         self.assertEqual(html.count('<details class="account"'), 4)
         self.assertEqual(html.count("<summary>"), 4)
         self.assertNotIn('<details class="account" open', html)
-        self.assertIn("grid-template-columns:minmax(0,1fr) auto 14px", html)
+        self.assertIn("grid-template-columns:minmax(0,1fr) minmax(0,auto) 14px", html)
+        self.assertNotIn("position:absolute", html)
+        self.assertIn("overflow-wrap:anywhere", html)
 
     def test_rrsp_parser_uses_dedicated_sheet_values(self):
         rows = [
