@@ -38,6 +38,13 @@ class DailyBriefTests(unittest.TestCase):
         self.assertIn("C$125,468 tracked net worth", html)
         self.assertIn("HydroGraph announces expansion", html)
 
+    def test_accounts_are_compact_collapsed_disclosures(self):
+        html = render_daily_html(**self.kwargs)
+        self.assertEqual(html.count('<details class="account"'), 4)
+        self.assertEqual(html.count("<summary>"), 4)
+        self.assertNotIn('<details class="account" open', html)
+        self.assertIn("grid-template-columns:minmax(0,1fr) auto 14px", html)
+
     def test_rrsp_parser_uses_dedicated_sheet_values(self):
         rows = [
             ["", "CAD", "HydroGraph", "CNSX:HG", "", "$6.25", "", "", "600"],
