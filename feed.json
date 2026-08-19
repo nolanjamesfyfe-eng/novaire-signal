@@ -1,59 +1,74 @@
 {
   "ok": true,
-  "count": 10,
-  "accountsWithPosts": 10,
-  "fetchedAt": "2026-08-19T12:01:21.059391+00:00",
+  "count": 11,
+  "accountsWithPosts": 11,
+  "fetchedAt": "2026-08-19T12:31:27.152007+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "quakes99",
-    "nntaleb",
+    "BambroughKevin",
+    "wmiddelkoop",
     "White_Rabbit_OG"
   ],
   "posts": [
     {
-      "id": "2090040605598482706",
-      "text": "*NEBIUS GROUP SHARES EXTENDED DECLINE TO 7% PREMARKET",
+      "id": "2090049954618200306",
+      "text": "Premarket movers Mag 7 stocks are mixed (Amazon +0.2%, Nvidia +0.2%, Meta +0.1%, Microsoft -0.5%, Apple 0.0%, Tesla -0.2%, Alphabet -0.5%) Estée Lauder (EL) climbs 7% after posting quarterly results that beat estimates. The company ended a run of three straight declines in annual revenue, a sign the beauty conglomerate’s turnaround efforts are gaining momentum. La-Z-Boy (LZB) sinks 16% after the home-furniture maker gave a weaker than expected sales forecast for the current quarter. Mercury Systems (MRCY) falls 9% after the maker of display systems used in combat vehicles posted fiscal fourth quarter adj. EPS that came in a penny shy of expectations. Moderna (MRNA) soars as much as 100% after the company and Merck said their personalized cancer vaccine helped cut the recurrence of melanoma in a large, late-stage trial. Shares of Merck (MRK) are up 8%. Norfolk Southern Corp. (NSC) rises 2% as the company and Union Pacific Corp. can move forward with plans to create the nation’s first coast-to-coast freight network after a federal regulator decided to resume consideration of their joint application. SK Hynix ADRs (SKHY) rise 3% after the South Korean memory-chip maker said it plans to buy back $29 billion of its own shares, in a bid to assuage investors concerns about AI spending durability. Target (TGT) slips 1% despite the retailer’s comparable sales and adjusted EPS topping expectations, while also getting a boost from tariff refunds. Shares have climbed 56% this year through Tuesday’s close. WhiteFiber (WYFI) falls 22% after the artificial intelligence infrastructure firm announced its intention to offer $250 million of convertible senior notes due 2032 in a private placement.",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-08-19T11:38:06+00:00",
-      "createdAtMs": 1787139486000,
+      "createdAt": "2026-08-19T12:15:15+00:00",
+      "createdAtMs": 1787141715000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2090040605598482706#m",
+      "url": "https://x.com/zerohedge/status/2090049954618200306#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
       "engagementScore": 0
     },
     {
-      "id": "2089973430875476095",
-      "text": "Source: OMFIF - GBI",
-      "author": "wmiddelkoop",
-      "handle": "wmiddelkoop",
-      "createdAt": "2026-08-19T07:11:10+00:00",
-      "createdAtMs": 1787123470000,
+      "id": "2090048185859239959",
+      "text": "BREAKING: Moderna stock, $MRNA, surges over +110% after announcing the first ever positive Phase 3 results for a personalized cancer vaccine.",
+      "author": "KobeissiLetter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-08-19T12:08:13+00:00",
+      "createdAtMs": 1787141293000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/wmiddelkoop/status/2089973430875476095#m",
+      "url": "https://x.com/KobeissiLetter/status/2090048185859239959#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
       "engagementScore": 0
     },
     {
-      "id": "2089927254356668900",
-      "text": "BREAKING: Iran has weighed attacking US Military targets in Europe should President Trump escalate the war, per FT. Details include: 1. Iranian forces have reportedly assessed striking US assets in south-eastern European countries such as Bulgaria 2. Cyprus, where a British air base was struck by a drone in March, was also among potential targets for retaliation in the event of any renewed US offensive 3. Iranian forces have also reportedly considered attacking subsea fiber-optic cables in the Strait of Hormuz in the event of an escalation Iran is ready to expand its range of targets should the war escalate again.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-08-19T04:07:41+00:00",
-      "createdAtMs": 1787112461000,
+      "id": "2090022642539495485",
+      "text": "I played along their game. The scammer trying to impersonate me is quite naive.",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-08-19T10:26:43+00:00",
+      "createdAtMs": 1787135203000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/KobeissiLetter/status/2089927254356668900#m",
+      "url": "https://x.com/nntaleb/status/2090022642539495485#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
+      "engagementScore": 0
+    },
+    {
+      "id": "2089926938769162637",
+      "text": "⚡️Denison Mines (TSX: $DML NYSE: $DNN) advances its new Phoenix #Uranium Mine in #Canada's premier-grade Athabasca Basin🇨🇦⚛️🏗️🏭🧑‍🏭 and books a $64M +233% profit on its physical uranium investments made in 2021!💰🎆😲 A top pick in my portfolio.🏅🤠🐂🌊🏄 https://www.mbcradio.com/2026/08/denison-advances-phoenix-mine-books-major-uranium-gain",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-08-19T04:06:25+00:00",
+      "createdAtMs": 1787112385000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/quakes99/status/2089926938769162637#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 4,
       "engagementScore": 0
     },
     {
@@ -68,7 +83,7 @@
       "url": "https://x.com/JoshYoung/status/2089924339517022474#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
+      "slot_order": 5,
       "engagementScore": 0
     },
     {
@@ -83,7 +98,7 @@
       "url": "https://x.com/SantiagoAuFund/status/2089915300263137384#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
+      "slot_order": 6,
       "engagementScore": 0
     },
     {
@@ -98,7 +113,7 @@
       "url": "https://x.com/ContrarianShort/status/2089840896732799476#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 7,
       "engagementScore": 0
     },
     {
@@ -113,7 +128,7 @@
       "url": "https://x.com/WatcherGuru/status/2089836529061392746#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 8,
       "engagementScore": 0
     },
     {
@@ -128,7 +143,7 @@
       "url": "https://x.com/shak/status/2089800553328992334#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 9,
       "engagementScore": 0
     },
     {
@@ -143,7 +158,7 @@
       "url": "https://x.com/BarbarianCap/status/2089793152655704214#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
+      "slot_order": 10,
       "engagementScore": 0
     },
     {
@@ -158,7 +173,7 @@
       "url": "https://x.com/colonelhomsi/status/2089772325730214011#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
+      "slot_order": 11,
       "engagementScore": 0
     }
   ]
