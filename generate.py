@@ -1671,13 +1671,31 @@ def parse_investing_futures(markdown):
 def scrape_page_text(url: str) -> str:
     """Firecrawl first; free extract (direct/Jina/Wayback) when credits are gone."""
     key = os.environ.get("FIRECRAWL_API_KEY")
-    if key:
+    endpoints = []
+    local = (os.environ.get("FIRECRAWL_API_URL") or "").rstrip("/")
+    if not local:
+        try:
+            for raw in open("/root/clawd/.secrets", encoding="utf-8"):
+                if raw.startswith("FIRECRAWL_API_URL="):
+                    local = raw.split("=", 1)[1].strip().strip('"').strip("'").rstrip("/")
+                    break
+        except OSError:
+            pass
+    if local:
+        endpoints.append(local + "/v2/scrape")
+    endpoints.append("https://api.firecrawl.dev/v2/scrape")
+    for endpoint in endpoints:
+        headers = {"Content-Type": "application/json"}
+        if key:
+            headers["Authorization"] = f"Bearer {key}"
+        elif "api.firecrawl.dev" in endpoint:
+            continue
         try:
             response = requests.post(
-                "https://api.firecrawl.dev/v2/scrape",
-                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                endpoint,
+                headers=headers,
                 json={"url": url, "formats": ["markdown"], "onlyMainContent": True},
-                timeout=20,
+                timeout=60,
             )
             if response.status_code == 200:
                 markdown = response.json().get("data", {}).get("markdown", "") or ""
