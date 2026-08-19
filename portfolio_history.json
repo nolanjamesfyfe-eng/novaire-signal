@@ -1122,17 +1122,17 @@
     {
       "accounts": {
         "kraken": {
-          "cad": 1387.43,
+          "cad": 1387.55,
           "usd": 1000.0
         },
         "tfsa_ws": {
-          "cad": 120208.77,
-          "usd": 86641.01
+          "cad": 120209.12,
+          "usd": 86634.08
         }
       },
-      "captured_at_utc": "2026-08-19T07:56:51.430151+00:00",
+      "captured_at_utc": "2026-08-19T08:00:25.889527+00:00",
       "market_date": "2026-08-18",
-      "net_worth_cad": 121596.2,
+      "net_worth_cad": 121596.67,
       "source": "Google Sheet daily close"
     }
   ],
