@@ -4299,7 +4299,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .portfolio-table td{{padding:7px 5px;border-bottom:1px solid rgba(255,255,255,.025)}}
     .portfolio-table tr:hover{{background:rgba(255,255,255,.015)}}
     .ticker{{font-weight:600;color:var(--gold);font-size:.82rem}}
-    .positive{{color:var(--green)}}.negative{{color:var(--red)}}
+    @keyframes finance-green-pulse{{0%,100%{{text-shadow:0 0 4px rgba(86,242,177,.45),0 0 11px rgba(86,242,177,.20);filter:brightness(1)}}50%{{text-shadow:0 0 7px rgba(86,242,177,.92),0 0 19px rgba(86,242,177,.48),0 0 30px rgba(86,242,177,.18);filter:brightness(1.18)}}}}
+    @keyframes finance-red-pulse{{0%,100%{{text-shadow:0 0 4px rgba(255,70,91,.48),0 0 11px rgba(255,70,91,.22);filter:brightness(1)}}50%{{text-shadow:0 0 7px rgba(255,70,91,.96),0 0 19px rgba(255,70,91,.52),0 0 30px rgba(255,70,91,.20);filter:brightness(1.2)}}}}
+    @keyframes chart-green-pulse{{0%,100%{{filter:drop-shadow(0 0 2px rgba(86,242,177,.65)) drop-shadow(0 0 7px rgba(86,242,177,.30))}}50%{{filter:drop-shadow(0 0 4px rgba(86,242,177,1)) drop-shadow(0 0 12px rgba(86,242,177,.68))}}}}
+    @keyframes chart-red-pulse{{0%,100%{{filter:drop-shadow(0 0 2px rgba(255,70,91,.68)) drop-shadow(0 0 7px rgba(255,70,91,.32))}}50%{{filter:drop-shadow(0 0 4px rgba(255,70,91,1)) drop-shadow(0 0 12px rgba(255,70,91,.72))}}}}
+    .positive{{color:#56f2b1;animation:finance-green-pulse 2.8s ease-in-out infinite}}.negative{{color:#ff465b;animation:finance-red-pulse 2.8s ease-in-out infinite}}
+    .psum-value[style*="--green"],.total-value.cad,.total-value.usd{{color:#56f2b1!important;animation:finance-green-pulse 2.8s ease-in-out infinite}}
     .fallback-badge{{font-size:.55rem;color:var(--mute);vertical-align:middle;margin-left:3px}}
     .totals-row{{display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}}
     .total-item{{text-align:center}}
@@ -4344,6 +4349,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-hero-change{{margin-top:3px;font-size:.68rem;font-weight:650;font-variant-numeric:tabular-nums}}
     .tracker-hero-note{{margin-top:3px;max-width:570px;color:var(--mute);font-size:.48rem;line-height:1.35}}
     .tracker-hero-svg{{display:block;width:100%;height:220px;overflow:hidden;touch-action:pan-y}}
+    .tracker-hero-line.is-positive,.tracker-hero-area.is-positive{{stroke:#56f2b1}}.tracker-hero-line.is-negative,.tracker-hero-area.is-negative{{stroke:#ff465b}}
+    .tracker-hero-line.is-positive{{animation:chart-green-pulse 2.8s ease-in-out infinite}}.tracker-hero-line.is-negative{{animation:chart-red-pulse 2.8s ease-in-out infinite}}
     .tracker-crosshair{{stroke:rgba(255,255,255,.18);stroke-width:1;stroke-dasharray:3 5;opacity:0;pointer-events:none}}
     .tracker-dot{{fill:#030407;stroke:#56f2b1;stroke-width:3;opacity:0;pointer-events:none}}
     .tracker-ranges{{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:3px}}
@@ -4378,6 +4385,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-period small{{display:block;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
     .tracker-period--pending strong{{color:var(--mute)}}
     .tracker-foot{{position:relative;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.045);color:var(--mute);font-size:.5rem;line-height:1.4}}
+    @media(prefers-reduced-motion:reduce){{.positive,.negative,.psum-value[style*="--green"],.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative{{animation:none}}}}
     .debt-hub{{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 190px;align-items:center;gap:24px;padding:24px;border-color:rgba(255,126,54,.22);background:radial-gradient(circle at 88% 15%,rgba(255,92,39,.12),transparent 36%),linear-gradient(135deg,rgba(255,184,0,.045),rgba(4,4,7,.4)),var(--surface)}}
     .debt-hub::before{{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.025) 48%,transparent 76%)}}
     .debt-hub-copy,.debt-hub-action{{position:relative}}
