@@ -1,31 +1,74 @@
 {
   "ok": true,
-  "count": 11,
-  "accountsWithPosts": 11,
-  "fetchedAt": "2026-08-19T20:01:03.944585+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-08-19T20:18:27.797303+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "quakes99",
-    "WatcherGuru",
     "White_Rabbit_OG",
+    "colonelhomsi",
     "HydroGraphInc"
   ],
   "posts": [
     {
-      "id": "2090163167120802110",
-      "text": "\"This Only Works For So Long\": Wall Street Reacts To The Treasury's Shocking Buyback Boost https://www.zerohedge.com/markets/only-works-so-long-wall-street-reacts-treasurys-shocking-buyback-boost",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-19T19:45:07+00:00",
-      "createdAtMs": 1787168707000,
+      "id": "2090170511040909620",
+      "text": "BREAKING: 🇺🇸 US national debt officially surpasses $40 trillion.",
+      "author": "WatcherGuru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-08-19T20:14:17+00:00",
+      "createdAtMs": 1787170457000,
       "likes": 0,
       "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2090163167120802110#m",
+      "url": "https://x.com/WatcherGuru/status/2090170511040909620#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
+      "engagementScore": 0
+    },
+    {
+      "id": "2090167191383482691",
+      "text": "Bitcoin & Bullion Explode After Bessent-Bailout, Yield-Curve & Dollar Crushed; Tech Tepid On Momo-Mess https://www.zerohedge.com/markets/bitcoin-bullion-explode-after-bessent-bailout-yield-curve-dollar-crushed-tech-tepid-momo",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-19T20:01:06+00:00",
+      "createdAtMs": 1787169666000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2090167191383482691#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 2,
+      "engagementScore": 0
+    },
+    {
+      "id": "2090161018945302972",
+      "text": "📺👀Just watched an excellent feature interview with @NexGenEnergy_ $NXE CEO Leigh Curyer on @BNNBloomberg 👍discussing discovery, development, financing, construction & First Nations support of new Rook I #Uranium mine & mill in #Saskatchewan.🇨🇦⚛️🏗️🏭Stock is rallying now.📈🤠🐂",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-08-19T19:36:34+00:00",
+      "createdAtMs": 1787168194000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/quakes99/status/2090161018945302972#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 0
+    },
+    {
+      "id": "2090157216267653331",
+      "text": "President Trump: \"We're ensuring that America remains the undisputed leader not only in Bitcoin and crypto, but also technologies like prediction markets, artificial intelligence, and much more.\"",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-19T19:21:28+00:00",
+      "createdAtMs": 1787167288000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/TheInsiderPaper/status/2090157216267653331#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 4,
       "engagementScore": 0
     },
     {
@@ -40,22 +83,7 @@
       "url": "https://x.com/KobeissiLetter/status/2090154582072562169#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 0
-    },
-    {
-      "id": "2090123684333719804",
-      "text": "Here's proof",
-      "author": "wmiddelkoop",
-      "handle": "wmiddelkoop",
-      "createdAt": "2026-08-19T17:08:13+00:00",
-      "createdAtMs": 1787159293000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/wmiddelkoop/status/2090123684333719804#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 3,
+      "slot_order": 5,
       "engagementScore": 0
     },
     {
@@ -70,7 +98,7 @@
       "url": "https://x.com/JoshYoung/status/2090118218358915090#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
+      "slot_order": 6,
       "engagementScore": 0
     },
     {
@@ -85,22 +113,7 @@
       "url": "https://x.com/BarbarianCap/status/2090117531671441718#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 0
-    },
-    {
-      "id": "2090115264553664518",
-      "text": "Supply lines, fortifications, bases - everything is turning into craters. It is only a matter of time. Donbass is returning home - step by step, under fire and without days off. The work of Russian soldiers speaks for itself..",
-      "author": "colonelhomsi",
-      "handle": "colonelhomsi",
-      "createdAt": "2026-08-19T16:34:46+00:00",
-      "createdAtMs": 1787157286000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/colonelhomsi/status/2090115264553664518#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 7,
       "engagementScore": 0
     },
     {
@@ -115,7 +128,7 @@
       "url": "https://x.com/tferriss/status/2090101625373196596#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 8,
       "engagementScore": 0
     },
     {
@@ -130,7 +143,22 @@
       "url": "https://x.com/SantiagoAuFund/status/2090093215256883240#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 9,
+      "engagementScore": 0
+    },
+    {
+      "id": "2090082181708194057",
+      "text": "Yield curve control prep",
+      "author": "BambroughKevin",
+      "handle": "BambroughKevin",
+      "createdAt": "2026-08-19T14:23:18+00:00",
+      "createdAtMs": 1787149398000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/BambroughKevin/status/2090082181708194057#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 10,
       "engagementScore": 0
     },
     {
@@ -145,7 +173,7 @@
       "url": "https://x.com/nntaleb/status/2090022642539495485#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
+      "slot_order": 11,
       "engagementScore": 0
     },
     {
@@ -160,22 +188,7 @@
       "url": "https://x.com/fredsoda/status/2089869420097138733#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089840896732799476",
-      "text": "This one was WAY ahead of its time 😂",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-08-18T22:24:31+00:00",
-      "createdAtMs": 1787091871000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/ContrarianShort/status/2089840896732799476#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 11,
+      "slot_order": 12,
       "engagementScore": 0
     }
   ]
