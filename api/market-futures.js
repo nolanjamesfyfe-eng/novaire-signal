@@ -109,17 +109,25 @@ export default async function handler(req) {
     return new Response(JSON.stringify({ ok: false, error: 'Method not allowed' }), { status: 405, headers });
   }
 
-  const investingPromise = process.env.FIRECRAWL_API_KEY
-    ? fetch('https://api.firecrawl.dev/v2/scrape', {
+  const investingPromise = (async () => {
+    const key = process.env.FIRECRAWL_API_KEY;
+    const url = 'https://www.investing.com/indices/indices-futures';
+    if (key) {
+      const response = await fetch('https://api.firecrawl.dev/v2/scrape', {
         method: 'POST',
-        headers: {'Authorization':`Bearer ${process.env.FIRECRAWL_API_KEY}`,'Content-Type':'application/json'},
-        body: JSON.stringify({url:'https://www.investing.com/indices/indices-futures',formats:['markdown'],onlyMainContent:true}),
-      }).then(async response => {
-        if (!response.ok) throw new Error(`Investing.com Firecrawl HTTP ${response.status}`);
+        headers: {'Authorization':`Bearer ${key}`,'Content-Type':'application/json'},
+        body: JSON.stringify({url, formats:['markdown'], onlyMainContent:true}),
+      });
+      if (response.ok) {
         const payload = await response.json();
-        return parseInvestingFutures(payload?.data?.markdown || '');
-      })
-    : Promise.reject(new Error('FIRECRAWL_API_KEY unavailable'));
+        const markdown = payload?.data?.markdown || '';
+        if (markdown.trim()) return parseInvestingFutures(markdown);
+      }
+    }
+    const live = await fetch(url, {headers:{'User-Agent':'Mozilla/5.0 (compatible; NovaireSignal/1.0)'}});
+    if (!live.ok) throw new Error(`Investing.com direct HTTP ${live.status}`);
+    return parseInvestingFutures(await live.text());
+  })();
 
   const [futureSettled, indexSettled, investingSettled] = await Promise.all([
     Promise.allSettled(FUTURES.map(item => fetchQuote(item, 'futures session'))),

@@ -1,6 +1,27 @@
 // Exact Investing.com commodities screen used as Novaire Signal's reference.
 export const config = { runtime: 'edge' };
 
+const USER_AGENT = 'Mozilla/5.0 (compatible; NovaireSignal/1.0; +https://novairesignal.com)';
+
+async function scrapePage(url) {
+  const key = process.env.FIRECRAWL_API_KEY;
+  if (key) {
+    const response = await fetch('https://api.firecrawl.dev/v2/scrape', {
+      method: 'POST',
+      headers: {'Authorization':`Bearer ${key}`,'Content-Type':'application/json'},
+      body: JSON.stringify({url, formats:['markdown'], onlyMainContent:true}),
+    });
+    if (response.ok) {
+      const payload = await response.json();
+      const markdown = payload?.data?.markdown || '';
+      if (markdown.trim()) return markdown;
+    }
+  }
+  const live = await fetch(url, {headers:{'User-Agent': USER_AGENT, 'Accept':'text/html'}});
+  if (!live.ok) throw new Error(`direct scrape HTTP ${live.status}`);
+  return await live.text();
+}
+
 const INSTRUMENTS = [
   ['GOLD', 'Gold'], ['SILVER', 'Silver'], ['COPPER', 'Copper'],
   ['WTI', 'Crude Oil'],
@@ -67,25 +88,10 @@ async function fetchYahooCoreCommodities() {
 export default async function handler(req) {
   const headers = {'Content-Type':'application/json','Cache-Control':'s-maxage=30, stale-while-revalidate=60'};
   try {
-    if (!process.env.FIRECRAWL_API_KEY) throw new Error('FIRECRAWL_API_KEY unavailable');
-    const response = await fetch('https://api.firecrawl.dev/v2/scrape', {
-      method: 'POST',
-      headers: {'Authorization':`Bearer ${process.env.FIRECRAWL_API_KEY}`,'Content-Type':'application/json'},
-      body: JSON.stringify({url:'https://www.investing.com/commodities/real-time-futures',formats:['markdown'],onlyMainContent:true}),
-    });
-    if (!response.ok) throw new Error(`Firecrawl HTTP ${response.status}`);
-    const payload = await response.json();
-    const quotes = parseInvestingCommodities(payload?.data?.markdown || '');
+    const quotes = parseInvestingCommodities(await scrapePage('https://www.investing.com/commodities/real-time-futures'));
     if (quotes.length !== INSTRUMENTS.length) throw new Error(`Only ${quotes.length}/${INSTRUMENTS.length} quotes parsed`);
     quotes.push(parseDiesel(await fetchYahooChart('HO=F')));
-    const uraniumResponse = await fetch('https://api.firecrawl.dev/v2/scrape', {
-      method: 'POST',
-      headers: {'Authorization':`Bearer ${process.env.FIRECRAWL_API_KEY}`,'Content-Type':'application/json'},
-      body: JSON.stringify({url:'https://tradingeconomics.com/commodity/uranium',formats:['markdown'],onlyMainContent:true}),
-    });
-    if (!uraniumResponse.ok) throw new Error(`Uranium Firecrawl HTTP ${uraniumResponse.status}`);
-    const uraniumPayload = await uraniumResponse.json();
-    const uranium = parseUranium(uraniumPayload?.data?.markdown || '');
+    const uranium = parseUranium(await scrapePage('https://tradingeconomics.com/commodity/uranium'));
     if (!uranium) throw new Error('Uranium quote not parsed');
     quotes.push(uranium);
     return new Response(JSON.stringify({ok:true, source:'Investing.com + Trading Economics', fetchedAt:new Date().toISOString(), quotes}), {status:200, headers});

@@ -1668,16 +1668,37 @@ def parse_investing_futures(markdown):
     return parsed
 
 
-def fetch_investing_futures():
+def scrape_page_text(url: str) -> str:
+    """Firecrawl first; free extract (direct/Jina/Wayback) when credits are gone."""
     key = os.environ.get("FIRECRAWL_API_KEY")
-    if not key:
+    if key:
+        try:
+            response = requests.post(
+                "https://api.firecrawl.dev/v2/scrape",
+                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                json={"url": url, "formats": ["markdown"], "onlyMainContent": True},
+                timeout=20,
+            )
+            if response.status_code == 200:
+                markdown = response.json().get("data", {}).get("markdown", "") or ""
+                if markdown.strip():
+                    return markdown
+        except Exception:
+            pass
+    scripts = "/root/clawd/scripts"
+    if scripts not in sys.path:
+        sys.path.insert(0, scripts)
+    from free_web import extract as free_extract
+
+    hit = free_extract(url)
+    return (hit.get("content") or "") if not hit.get("error") else ""
+
+
+def fetch_investing_futures():
+    markdown = scrape_page_text("https://www.investing.com/indices/indices-futures")
+    if not markdown:
         return {}
-    response = requests.post("https://api.firecrawl.dev/v2/scrape",
-                             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-                             json={"url": "https://www.investing.com/indices/indices-futures", "formats": ["markdown"], "onlyMainContent": True},
-                             timeout=20)
-    response.raise_for_status()
-    return parse_investing_futures(response.json().get("data", {}).get("markdown", ""))
+    return parse_investing_futures(markdown)
 
 
 def fetch_market_futures():
@@ -1815,15 +1836,9 @@ def fetch_commodities():
                      "source": "Investing.com", "period": "daily",
                      "quote_time": None} for key, meta in symbols.items()}
     try:
-        firecrawl_key = os.environ.get("FIRECRAWL_API_KEY")
-        if not firecrawl_key:
-            raise RuntimeError("FIRECRAWL_API_KEY unavailable")
-        r = requests.post("https://api.firecrawl.dev/v2/scrape",
-                          headers={"Authorization": f"Bearer {firecrawl_key}", "Content-Type": "application/json"},
-                          json={"url": "https://www.investing.com/commodities/real-time-futures",
-                                "formats": ["markdown"], "onlyMainContent": True}, timeout=90)
-        r.raise_for_status()
-        markdown = r.json().get("data", {}).get("markdown", "")
+        markdown = scrape_page_text("https://www.investing.com/commodities/real-time-futures")
+        if not markdown:
+            raise RuntimeError("Investing.com scrape empty (Firecrawl + free extract)")
         slugs = {"GOLD": "gold", "SILVER": "silver", "COPPER": "copper",
                  "WTI": "crude-oil"}
         for key, slug in slugs.items():
