@@ -146,6 +146,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("YTD Return", self.portfolio_html)
         self.assertIn("YTD needs Jan 1 NAV plus dated deposits and withdrawals", self.portfolio_html)
         self.assertNotIn("ATH (w/ w/d)", self.portfolio_html)
+
+    def test_portfolio_summary_prioritizes_cad_and_uses_sign_colors(self):
+        first_summary = self.portfolio_html.index('<div class="portfolio-summary">')
+        first_cad = self.portfolio_html.index("Live CAD", first_summary)
+        first_usd = self.portfolio_html.index("Live USD", first_summary)
+        self.assertLess(first_cad, first_usd)
+        self.assertIn('class="total-value cad">C$', self.portfolio_html)
+        self.assertNotIn('style="color:var(--blue)">C$', self.portfolio_html)
+        self.assertNotIn('style="color:var(--violet)">C$', self.portfolio_html)
         self.assertNotIn("ROI Abs.", self.portfolio_html)
         self.assertNotIn(">+109.0%</div>", self.portfolio_html)
 

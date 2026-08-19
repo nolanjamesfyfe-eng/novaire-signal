@@ -4309,7 +4309,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .total-item{{text-align:center}}
     .total-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}}
     .total-value{{font-family:var(--serif);font-size:1.4rem;font-weight:400;margin-top:3px}}
-    .total-value.cad{{color:var(--green)}}.total-value.usd{{color:var(--gold)}}
+    .total-value.cad,.total-value.usd{{color:var(--green)}}
     .allocation-section{{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(140,255,0,.15);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(140,255,0,.09),transparent 38%),radial-gradient(circle at 82% 72%,rgba(0,232,111,.065),transparent 42%),linear-gradient(145deg,rgba(121,247,255,.025),rgba(0,0,0,.2))}}
     .allocation-section::before{{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,255,90,.055) 42%,transparent 68%);pointer-events:none}}
     .pie-chart{{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}}
@@ -4472,12 +4472,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     </table></div>
     <div class="portfolio-summary">
       <div class="psum-item">
-        <div class="psum-label">Live USD</div>
-        <div class="psum-value" style="color:var(--gold)">${total_usd:,.0f}</div>
-      </div>
-      <div class="psum-item">
         <div class="psum-label">Live CAD</div>
         <div class="psum-value" style="color:var(--green)">C${total_cad:,.0f}</div>
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">Live USD</div>
+        <div class="psum-value" style="color:var(--green)">${total_usd:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">Unrealized ROI</div>
@@ -4487,11 +4487,11 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Cost Basis CAD</div>
-        <div class="psum-value" style="color:var(--blue);font-size:1.1rem">C${port_basis_cad:,.0f}</div>
+        <div class="psum-value" style="color:var(--green);font-size:1.1rem">C${port_basis_cad:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ATH CAD</div>
-        <div class="psum-value" style="color:var(--violet);font-size:1.1rem">C${port_ath:,.0f}</div>
+        <div class="psum-value" style="color:var(--green);font-size:1.1rem">C${port_ath:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">Unrealized P&amp;L CAD</div>
@@ -4519,20 +4519,20 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
     <div class="totals-row">
       <div class="total-item">
+        <div class="total-label">Live CAD</div>
+        <div class="total-value cad">C${total_cad:,.0f}</div>
+      </div>
+      <div class="total-item">
         <div class="total-label">Live USD</div>
         <div class="total-value usd">${total_usd:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">Live CAD</div>
-        <div class="total-value cad">${total_cad:,.0f}</div>
-      </div>
-      <div class="total-item">
         <div class="total-label">Cost Basis CAD</div>
-        <div class="total-value" style="color:var(--blue)">C${port_basis_cad:,.0f}</div>
+        <div class="total-value" style="color:var(--green)">C${port_basis_cad:,.0f}</div>
       </div>
       <div class="total-item">
         <div class="total-label">ATH CAD</div>
-        <div class="total-value" style="color:var(--violet)">C${port_ath:,.0f}</div>
+        <div class="total-value" style="color:var(--green)">C${port_ath:,.0f}</div>
       </div>
       <div class="total-item">
         <div class="total-label">Unrealized ROI</div>
@@ -4544,7 +4544,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       <div class="allocation-copy">
         <div class="allocation-kicker">Sector Allocation</div>
         <div class="allocation-legend">
-          {legend_html}
+{legend_html}
         </div>
         {allocation_source_html}
       </div>
