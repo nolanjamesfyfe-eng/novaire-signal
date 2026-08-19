@@ -143,8 +143,10 @@ class RenderContractTests(unittest.TestCase):
         self.assertRegex(self.portfolio_html, r"SUI</text><text[^>]+>\d+\.\d% WEIGHT")
 
     def test_portfolio_summary_uses_honest_return_labels(self):
-        self.assertIn("Unrealized ROI", self.portfolio_html)
-        self.assertIn("Unrealized P&amp;L CAD", self.portfolio_html)
+        self.assertIn(">ROI</div>", self.portfolio_html)
+        self.assertIn(">P&amp;L CAD</div>", self.portfolio_html)
+        self.assertNotIn("Unrealized ROI", self.portfolio_html)
+        self.assertNotIn("Unrealized P&amp;L CAD", self.portfolio_html)
         self.assertIn("Off ATH", self.portfolio_html)
         self.assertIn("ATH Gap CAD", self.portfolio_html)
         self.assertIn("YTD Return", self.portfolio_html)
@@ -156,11 +158,28 @@ class RenderContractTests(unittest.TestCase):
         first_cad = self.portfolio_html.index("Live CAD", first_summary)
         first_usd = self.portfolio_html.index("Live USD", first_summary)
         self.assertLess(first_cad, first_usd)
-        self.assertIn('class="total-value cad">C$', self.portfolio_html)
+        self.assertIn('class="total-value cad">$', self.portfolio_html)
         self.assertNotIn('style="color:var(--blue)">C$', self.portfolio_html)
         self.assertNotIn('style="color:var(--violet)">C$', self.portfolio_html)
         self.assertNotIn("ROI Abs.", self.portfolio_html)
         self.assertNotIn(">+109.0%</div>", self.portfolio_html)
+
+    def test_portfolio_green_and_red_values_share_highlighted_pulses(self):
+        self.assertIn(".positive{color:#56f2b1;animation:finance-green-pulse", self.portfolio_html)
+        self.assertIn(".negative{color:#ff465b;animation:finance-red-pulse", self.portfolio_html)
+        self.assertNotIn('class="psum-value" style="color:var(--green)', self.portfolio_html)
+        self.assertNotIn('class="psum-value" style="color:var(--red)', self.portfolio_html)
+        self.assertNotIn('class="total-value" style="color:var(--green)', self.portfolio_html)
+        self.assertIn('class="psum-value negative"', self.portfolio_html)
+        self.assertGreaterEqual(self.portfolio_html.count('class="psum-value positive"'), 6)
+        self.assertGreaterEqual(self.portfolio_html.count('class="total-value positive"'), 3)
+        for redundant in (
+            'class="psum-value positive">C$',
+            'class="psum-value positive" style="font-size:1.1rem">C$',
+            'class="total-value cad">C$',
+            'class="total-value positive">C$',
+        ):
+            self.assertNotIn(redundant, self.portfolio_html)
 
     def test_portfolio_tickers_open_nine_month_weekly_candles(self):
         self.assertIn('class="ticker chart-ticker"', self.portfolio_html)

@@ -4306,7 +4306,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     @keyframes chart-green-pulse{{0%,100%{{filter:drop-shadow(0 0 2px rgba(86,242,177,.65)) drop-shadow(0 0 7px rgba(86,242,177,.30))}}50%{{filter:drop-shadow(0 0 4px rgba(86,242,177,1)) drop-shadow(0 0 12px rgba(86,242,177,.68))}}}}
     @keyframes chart-red-pulse{{0%,100%{{filter:drop-shadow(0 0 2px rgba(255,70,91,.68)) drop-shadow(0 0 7px rgba(255,70,91,.32))}}50%{{filter:drop-shadow(0 0 4px rgba(255,70,91,1)) drop-shadow(0 0 12px rgba(255,70,91,.72))}}}}
     .positive{{color:#56f2b1;animation:finance-green-pulse 2.8s ease-in-out infinite}}.negative{{color:#ff465b;animation:finance-red-pulse 2.8s ease-in-out infinite}}
-    .psum-value[style*="--green"],.total-value.cad,.total-value.usd{{color:#56f2b1!important;animation:finance-green-pulse 2.8s ease-in-out infinite}}
+    .total-value.cad,.total-value.usd{{color:#56f2b1!important;animation:finance-green-pulse 2.8s ease-in-out infinite}}
     .fallback-badge{{font-size:.55rem;color:var(--mute);vertical-align:middle;margin-left:3px}}
     .totals-row{{display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}}
     .total-item{{text-align:center}}
@@ -4387,7 +4387,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-period small{{display:block;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
     .tracker-period--pending strong{{color:var(--mute)}}
     .tracker-foot{{position:relative;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.045);color:var(--mute);font-size:.5rem;line-height:1.4}}
-    @media(prefers-reduced-motion:reduce){{.positive,.negative,.psum-value[style*="--green"],.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative{{animation:none}}}}
+    @media(prefers-reduced-motion:reduce){{.positive,.negative,.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative{{animation:none}}}}
     .debt-hub{{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 190px;align-items:center;gap:24px;padding:24px;border-color:rgba(255,126,54,.22);background:radial-gradient(circle at 88% 15%,rgba(255,92,39,.12),transparent 36%),linear-gradient(135deg,rgba(255,184,0,.045),rgba(4,4,7,.4)),var(--surface)}}
     .debt-hub::before{{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.025) 48%,transparent 76%)}}
     .debt-hub-copy,.debt-hub-action{{position:relative}}
@@ -4479,39 +4479,39 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Live CAD</div>
-        <div class="psum-value" style="color:var(--green)">C${total_cad:,.0f}</div>
+        <div class="psum-value positive">${total_cad:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">Live USD</div>
-        <div class="psum-value" style="color:var(--green)">${total_usd:,.0f}</div>
+        <div class="psum-value positive">${total_usd:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">Unrealized ROI</div>
-        <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}" style="color:{'var(--green)' if roi_pct >= 0 else 'var(--red)'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
+        <div class="psum-label">ROI</div>
+        <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
       </div>
     </div>
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Cost Basis CAD</div>
-        <div class="psum-value" style="color:var(--green);font-size:1.1rem">C${port_basis_cad:,.0f}</div>
+        <div class="psum-value positive" style="font-size:1.1rem">${port_basis_cad:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ATH CAD</div>
-        <div class="psum-value" style="color:var(--green);font-size:1.1rem">C${port_ath:,.0f}</div>
+        <div class="psum-value positive" style="font-size:1.1rem">${port_ath:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">Unrealized P&amp;L CAD</div>
-        <div class="psum-value" style="color:{'var(--green)' if port_roi_abs >= 0 else 'var(--red)'};font-size:1.1rem">{'+' if port_roi_abs >= 0 else '−'}C${abs(port_roi_abs):,.0f}</div>
+        <div class="psum-label">P&amp;L CAD</div>
+        <div class="psum-value {'positive' if port_roi_abs >= 0 else 'negative'}" style="font-size:1.1rem">{'+' if port_roi_abs >= 0 else '−'}${abs(port_roi_abs):,.0f}</div>
       </div>
     </div>
     <div class="portfolio-summary">
       <div class="psum-item">
         <div class="psum-label">Off ATH</div>
-        <div class="psum-value" style="color:{'var(--green)' if off_ath_pct >= 0 else 'var(--red)'};font-size:1.1rem">{off_ath_pct:+.1f}%</div>
+        <div class="psum-value {'positive' if off_ath_pct >= 0 else 'negative'}" style="font-size:1.1rem">{off_ath_pct:+.1f}%</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ATH Gap CAD</div>
-        <div class="psum-value" style="color:{'var(--green)' if ath_gap_cad >= 0 else 'var(--red)'};font-size:1.1rem">{'+' if ath_gap_cad >= 0 else '−'}C${abs(ath_gap_cad):,.0f}</div>
+        <div class="psum-value {'positive' if ath_gap_cad >= 0 else 'negative'}" style="font-size:1.1rem">{'+' if ath_gap_cad >= 0 else '−'}${abs(ath_gap_cad):,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">YTD Return</div>
@@ -4519,14 +4519,14 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       </div>
     </div>
     <div style="font-size:.56rem;color:var(--mute);margin:-2px 0 12px;text-align:center;line-height:1.45">
-      Unrealized ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
+      ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
     </div>
 
 
     <div class="totals-row">
       <div class="total-item">
         <div class="total-label">Live CAD</div>
-        <div class="total-value cad">C${total_cad:,.0f}</div>
+        <div class="total-value cad">${total_cad:,.0f}</div>
       </div>
       <div class="total-item">
         <div class="total-label">Live USD</div>
@@ -4534,15 +4534,15 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       </div>
       <div class="total-item">
         <div class="total-label">Cost Basis CAD</div>
-        <div class="total-value" style="color:var(--green)">C${port_basis_cad:,.0f}</div>
+        <div class="total-value positive">${port_basis_cad:,.0f}</div>
       </div>
       <div class="total-item">
         <div class="total-label">ATH CAD</div>
-        <div class="total-value" style="color:var(--green)">C${port_ath:,.0f}</div>
+        <div class="total-value positive">${port_ath:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">Unrealized ROI</div>
-        <div class="total-value positive">{'+' if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
+        <div class="total-label">ROI</div>
+        <div class="total-value {'positive' if roi_pct >= 0 else 'negative'}">{'+' if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
       </div>
     </div>
     <div class="allocation-section">
