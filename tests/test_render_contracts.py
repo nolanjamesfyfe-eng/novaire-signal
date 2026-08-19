@@ -29,7 +29,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('.fx-chip{padding:9px 4px}', self.html)
 
     def test_fed_signal_is_immediately_below_top_five_catalysts(self):
-        catalysts = self.html.index("🔍 Catalysts — Top 5 Holdings")
+        catalysts = self.html.index("🔍 Catalysts · Top 5 Holdings")
         fed = self.html.index("🏛️ Fed Signal")
         trading_books = self.html.index("<!-- TRADING BOOKS")
         self.assertLess(catalysts, fed)
@@ -129,7 +129,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("items.map((item,index)", self.html)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
-        heading = "🔍 Catalysts — Top 5 Holdings"
+        heading = "🔍 Catalysts · Top 5 Holdings"
         self.assertIn(heading, self.html)
         self.assertNotIn(heading, self.portfolio_html)
 
@@ -179,6 +179,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("role=\"img\"", self.portfolio_html)
 
     def test_latest_novaire_is_compact_metric_accordion(self):
+        self.assertIn('class="card signal-accordion latest-novaire-card" id="latest-novaire-card"', self.html)
+        self.assertIn('<summary><span class="card-title">✦ Latest from Novaire</span></summary>', self.html)
         self.assertEqual(self.html.count('class="latest-novaire-item"'), 4)
         for label in (
             "INSTAGRAM · LATEST POST",
@@ -206,14 +208,17 @@ class RenderContractTests(unittest.TestCase):
 
     def test_polymarket_identity_is_novairecito_in_source_and_outputs(self):
         generator_source = (ROOT / "generate.py").read_text(encoding="utf-8")
-        canonical_label = "Polymarket — Novairecito"
-        stale_label = "Polymarket — Barron147"
+        canonical_label = "Polymarket · Novairecito"
+        stale_labels = ("Polymarket — Novairecito", "Polymarket — Barron147")
         self.assertIn(canonical_label, generator_source)
-        self.assertNotIn(stale_label, generator_source)
+        for stale_label in stale_labels:
+            self.assertNotIn(stale_label, generator_source)
         self.assertIn(canonical_label, self.html)
-        self.assertNotIn(stale_label, self.html)
+        for stale_label in stale_labels:
+            self.assertNotIn(stale_label, self.html)
         self.assertIn(canonical_label, self.portfolio_html)
-        self.assertNotIn(stale_label, self.portfolio_html)
+        for stale_label in stale_labels:
+            self.assertNotIn(stale_label, self.portfolio_html)
 
     def test_alpaca_is_canonical_live_holdings_source_with_weights(self):
         self.assertIn("🦙 Alpaca · Novairecito", self.html)

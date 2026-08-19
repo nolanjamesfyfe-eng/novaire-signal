@@ -2910,9 +2910,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     latest_novaire_html = f"""
   <!-- LATEST FROM NOVAIRE -->
-  <div class="card latest-novaire-card">
-    <div class="card-title">✦ Latest from Novaire</div>
-    <div class="latest-novaire-stack">
+  <details class="card signal-accordion latest-novaire-card" id="latest-novaire-card">
+    <summary><span class="card-title">✦ Latest from Novaire</span></summary>
+    <div class="signal-accordion-body latest-novaire-stack">
       {latest_social_items}
       <details class="latest-novaire-item">
         <summary>
@@ -2928,7 +2928,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         </div>
       </details>
     </div>
-  </div>"""
+  </details>"""
 
     # Full HTML template
     html = f"""<!DOCTYPE html>
@@ -3603,7 +3603,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
   <details class="card signal-accordion" id="catalysts-card" data-edition="{weekly_edition}" data-fingerprint="{catalyst_fingerprint}" data-items="{catalyst_ids_attr}" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title">🔍 Catalysts — Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
+    <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
     <div class="signal-accordion-body">{cats_html}</div>
   </details>
 
@@ -4849,7 +4849,7 @@ def main():
         settled = pm_wr_summary['wins'] + pm_wr_summary['losses']
         win_rate = (pm_wr_summary['wins'] / settled * 100) if settled else 0
         poly_html = f'''<details class="card signal-accordion trading-accordion" id="polymarket-card">
-  <summary><span class="card-title">🎰 Polymarket — Novairecito</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
+  <summary><span class="card-title">🎰 Polymarket · Novairecito</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
     {bets_html}
@@ -4961,7 +4961,7 @@ def main():
     # ── Bot Accounts for Portfolio page (full $ detail) ──
     bot_accounts_html = ""
 
-    # Polymarket — Novairecito
+    # Polymarket · Novairecito
     print("  🎰 Calculating Polymarket win rate...")
     pm_wr = fetch_polymarket_win_rate()
     poly_full = fetch_polymarket()
@@ -5009,7 +5009,7 @@ def main():
             pm_inception = 222.00  # confirmed by Novaire Mar 15  # reset 2026-03-03
 
         bot_accounts_html += f"""<div class="card">
-    <div class="card-title">🎰 Polymarket — Novairecito</div>
+    <div class="card-title">🎰 Polymarket · Novairecito</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Account: Barron147</span><span>Total: ${pm_total:.2f}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.75rem;border-bottom:1px solid var(--border)"><span>Wins vs Losses</span><span>{pm_wr['wins']}W / {pm_wr['losses']}L · {pm_wr['total']} trades</span></div>
     <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Top 4 Open Bets</div>
