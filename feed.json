@@ -2,15 +2,45 @@
   "ok": true,
   "count": 10,
   "accountsWithPosts": 10,
-  "fetchedAt": "2026-08-19T04:29:53.583095+00:00",
+  "fetchedAt": "2026-08-19T06:01:10.771354+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
+    "nntaleb",
     "SantiagoAuFund",
-    "wmiddelkoop",
     "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2089951302394458583",
+      "text": "'Half a century after the gold window closed, the metal is finding its way back into the architecture of financial trust – not through the front door of a formal standard, but through the side door of reserve diversification, collateral practice and, increasingly, redeemability' Gold's return as monetary collateral - OMFIF",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-08-19T05:43:14+00:00",
+      "createdAtMs": 1787118194000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/wmiddelkoop/status/2089951302394458583#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 0
+    },
+    {
+      "id": "2089947491538031080",
+      "text": "Alexander Vindman Suffers Double-Digit Loss To Socialist Angie Nixon In Florida Senate Primary https://www.zerohedge.com/political/alexander-vindman-suffers-double-digit-loss-socialist-angie-nixon-florida-senate-primary",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-08-19T05:28:05+00:00",
+      "createdAtMs": 1787117285000,
+      "likes": 0,
+      "retweets": 0,
+      "url": "https://x.com/zerohedge/status/2089947491538031080#m",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 2,
+      "engagementScore": 0
+    },
     {
       "id": "2089927254356668900",
       "text": "BREAKING: Iran has weighed attacking US Military targets in Europe should President Trump escalate the war, per FT. Details include: 1. Iranian forces have reportedly assessed striking US assets in south-eastern European countries such as Bulgaria 2. Cyprus, where a British air base was struck by a drone in March, was also among potential targets for retaliation in the event of any renewed US offensive 3. Iranian forces have also reportedly considered attacking subsea fiber-optic cables in the Strait of Hormuz in the event of an escalation Iran is ready to expand its range of targets should the war escalate again.",
@@ -23,7 +53,7 @@
       "url": "https://x.com/KobeissiLetter/status/2089927254356668900#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
+      "slot_order": 3,
       "engagementScore": 0
     },
     {
@@ -38,7 +68,7 @@
       "url": "https://x.com/quakes99/status/2089926938769162637#m",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
+      "slot_order": 4,
       "engagementScore": 0
     },
     {
@@ -51,36 +81,6 @@
       "likes": 0,
       "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2089924339517022474#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089916543257706915",
-      "text": "We're All On Borrowed Time... https://www.zerohedge.com/personal-finance/were-all-borrowed-time",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-08-19T03:25:07+00:00",
-      "createdAtMs": 1787109907000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/zerohedge/status/2089916543257706915#m",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 0
-    },
-    {
-      "id": "2089892588853559665",
-      "text": "Nothing to do with the interests of the United States! Just to protect that pathology called Israel.",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-08-19T01:49:56+00:00",
-      "createdAtMs": 1787104196000,
-      "likes": 0,
-      "retweets": 0,
-      "url": "https://x.com/nntaleb/status/2089892588853559665#m",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
