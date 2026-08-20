@@ -748,6 +748,40 @@ BOOKS_JS = """[
 def day_of_year():
     return datetime.now(timezone.utc).timetuple().tm_yday
 
+
+def daily_signal_edition(value=None):
+    """Return the Bangkok operating day, which rolls over at 07:00 ICT."""
+    current = value or datetime.now(timezone.utc).astimezone(BKK_TZ)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=BKK_TZ)
+    else:
+        current = current.astimezone(BKK_TZ)
+    return (current - timedelta(hours=7)).strftime("%Y-%m-%d")
+
+
+def position_weighted_daily_gain_loss(positions):
+    """Return daily dollar P&L and return from current values plus daily % moves."""
+    current_total = 0.0
+    previous_total = 0.0
+    for position in positions or []:
+        value = position.get("value")
+        change = position.get("change")
+        if value is None or change is None:
+            continue
+        try:
+            value = float(value)
+            change = float(change)
+        except (TypeError, ValueError):
+            continue
+        divisor = 1.0 + change / 100.0
+        if divisor <= 0:
+            continue
+        current_total += value
+        previous_total += value / divisor
+    amount = current_total - previous_total
+    percent = (amount / previous_total * 100.0) if previous_total else 0.0
+    return amount, percent
+
 def show_biweekly_monday_section():
     """Show low-frequency strategic sections only every two weeks on Monday, Bangkok time."""
     bkk = datetime.now(timezone(timedelta(hours=7)))
@@ -2459,7 +2493,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
     gen_time  = now.strftime("%H:%M ICT")
-    daily_edition = now.strftime("%Y-%m-%d")
+    daily_edition = daily_signal_edition(now)
     week_start = now - timedelta(days=now.weekday())
     weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
     weekly_updated_label = week_start.strftime("%b %-d")
@@ -3716,8 +3750,8 @@ const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
   }} catch (e) {{}}
 }})();
 
-function getQuoteForToday(storageKey, quotes) {{
-  const today = new Date().toDateString();
+function getQuoteForToday(storageKey, quotes, edition) {{
+  const today = edition || new Date().toDateString();
   const dayKey  = 'nv_' + storageKey + '_date';
   const idxKey  = 'nv_' + storageKey + '_idx';
   const seenKey = 'nv_' + storageKey + '_seen';
@@ -3780,18 +3814,14 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
 }})();
 
 (function renderDailyMeditation() {{
-  const m = getQuoteForToday("meditation", MEDITATIONS);
   const meditation = document.getElementById('meditation-daily');
   const meditationViewed = document.getElementById('meditation-viewed');
   const meditationCard = document.getElementById('quotes-card');
   const meditationCardViewed = document.getElementById('meditation-card-viewed');
   const quotesDaily = document.getElementById('quotes-daily');
   const meditationCardKey = 'nv_meditation_card_viewed';
-  const localDateKey = function() {{
-    const d = new Date();
-    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-  }};
-  const today = localDateKey();
+  const today = meditationCard.dataset.edition;
+  const m = getQuoteForToday("meditation", MEDITATIONS, today);
   function meditationConsumed() {{
     let meditationDone = false;
     let quoteDone = false;
@@ -5060,8 +5090,10 @@ def main():
         total_realized_str = f"+${total_realized:.2f}" if total_realized >= 0 else f"-${abs(total_realized):.2f}"
 
         bot_accounts_html += f"""<div class="card">
-    <div class="card-title">🦙 Livermore Darvis</div>
+    <div class="card-title">🦙 Alpaca · Novairecito</div>
     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $500.00 · {total_trades} trades</span><span>Unified Alpaca book</span></div>
+    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Positions ({len(all_positions)})</div>
+    <div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
       {rows}
@@ -5069,6 +5101,7 @@ def main():
     </table>
     <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:{total_realized_color};font-weight:600">{total_realized_str}</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: ${total_equity:.2f}</span><span style="color:{total_roi_color}">Inception ROI: {total_roi_str}</span></div>
+    </div>
   </div>"""
 
     # ── Evolution Fund ──
@@ -5157,6 +5190,11 @@ def main():
         evo_roi_color = "var(--green)" if evo_roi >= 0 else "var(--red)"
         evo_roi_str = f"+{evo_roi:.2f}%" if evo_roi >= 0 else f"{evo_roi:.2f}%"
         evo_gl_str = f"+${evo_gl_total:,.0f}" if evo_gl_total >= 0 else f"-${abs(evo_gl_total):,.0f}"
+        evo_daily_gl, evo_daily_pct = position_weighted_daily_gain_loss(evo_daily_positions)
+        evo_daily_class = "positive" if evo_daily_gl >= 0 else "negative"
+        evo_all_time_class = "positive" if evo_gl_total >= 0 else "negative"
+        evo_daily_gl_str = f"+${evo_daily_gl:,.0f}" if evo_daily_gl >= 0 else f"-${abs(evo_daily_gl):,.0f}"
+        evo_daily_pct_str = f"+{evo_daily_pct:.2f}%" if evo_daily_pct >= 0 else f"{evo_daily_pct:.2f}%"
 
         evo_fund_html = f"""<div class="card">
     <div class="card-title">🏛️ Evolution Fund <a href="/portfolio/evolutionfund" style="margin-left:8px;font-size:.5rem;font-weight:600;letter-spacing:.1em;color:#22d3ee;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);padding:2px 8px;border-radius:10px;text-decoration:none;vertical-align:middle">⚡ CC Strategy</a></div>
@@ -5183,12 +5221,13 @@ def main():
         <div class="total-value" style="color:var(--dim)">${evo_total_cost:,.0f}</div>
       </div>
       <div class="total-item">
-        <div class="total-label">Gain/Loss</div>
-        <div class="total-value" style="color:{evo_roi_color}">{evo_gl_str}</div>
+        <div class="total-label">Daily Gain/Loss</div>
+        <div class="total-value {evo_daily_class}">{evo_daily_gl_str}</div>
+        <div class="{evo_daily_class}" style="font-size:.62rem;margin-top:2px">{evo_daily_pct_str} today</div>
       </div>
       <div class="total-item">
-        <div class="total-label">ROI</div>
-        <div class="total-value" style="color:{evo_roi_color}">{evo_roi_str}</div>
+        <div class="total-label">All-Time Gain/Loss</div>
+        <div class="total-value {evo_all_time_class}">{evo_gl_str} <span style="font-size:.72em;white-space:nowrap">· {evo_roi_str} ROI</span></div>
       </div>
     </div>
   </div>"""

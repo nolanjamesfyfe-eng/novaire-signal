@@ -250,6 +250,12 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('class="alpaca-weight"', self.html)
         self.assertIn("data.positions", self.html)
         self.assertIn("portfolioWeight", self.html)
+        self.assertIn("🦙 Alpaca · Novairecito", self.portfolio_html)
+        self.assertNotIn("🦙 Livermore Darvis", self.portfolio_html)
+        alpaca_card = self.portfolio_html.index("🦙 Alpaca · Novairecito")
+        alpaca_positions = self.portfolio_html.index("Positions (", alpaca_card)
+        alpaca_toggle = self.portfolio_html.rfind('class="collapse-toggle"', alpaca_card, alpaca_positions)
+        self.assertGreaterEqual(alpaca_toggle, alpaca_card)
         # Polymarket may be omitted when its live API is rate-limited; if rendered,
         # it must remain a compact accordion.
         if 'id="polymarket-card"' in self.html:
@@ -282,6 +288,25 @@ class RenderContractTests(unittest.TestCase):
         self.assertEqual(item["url"], "https://www.instagram.com/j.novaire/reel/DbfU2zHiXyU/")
         self.assertIn("Sexuality Maxxing", item["title"])
         self.assertEqual(item["published_at"], "2026-08-01")
+
+    def test_evolution_fund_daily_gain_loss_uses_position_weighted_move(self):
+        amount, percent = generate.position_weighted_daily_gain_loss([
+            {"value": 110.0, "change": 10.0},
+            {"value": 95.0, "change": -5.0},
+            {"value": 50.0, "change": None},
+        ])
+        self.assertAlmostEqual(amount, 5.0, places=6)
+        self.assertAlmostEqual(percent, 2.5, places=6)
+
+    def test_daily_signal_edition_resets_at_7am_bangkok(self):
+        self.assertEqual(
+            generate.daily_signal_edition(datetime(2026, 8, 20, 6, 59, tzinfo=generate.BKK_TZ)),
+            "2026-08-19",
+        )
+        self.assertEqual(
+            generate.daily_signal_edition(datetime(2026, 8, 20, 7, 0, tzinfo=generate.BKK_TZ)),
+            "2026-08-20",
+        )
 
     def test_weather_and_world_tour_collapse_to_viewed_for_same_day(self):
         for card_id, score_id, storage_key in (
@@ -331,7 +356,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn('carry one sentence into the day', self.html)
         self.assertIn('class="meditation-collapse"', self.html)
         self.assertIn("nv_meditation_collapsed_date", self.html)
-        self.assertIn("localDateKey", self.html)
+        self.assertIn("const today = meditationCard.dataset.edition", self.html)
+        self.assertIn('getQuoteForToday("meditation", MEDITATIONS, today)', self.html)
         self.assertIn("meditation.open = collapsedDate !== today", self.html)
         self.assertIn('id="meditation-viewed"', self.html)
         self.assertIn("meditationViewed.textContent = 'Viewed'", self.html)

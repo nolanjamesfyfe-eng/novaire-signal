@@ -1157,8 +1157,8 @@ const TWEET_TEMPLATES = [
   } catch (e) {}
 })();
 
-function getQuoteForToday(storageKey, quotes) {
-  const today = new Date().toDateString();
+function getQuoteForToday(storageKey, quotes, edition) {
+  const today = edition || new Date().toDateString();
   const dayKey  = 'nv_' + storageKey + '_date';
   const idxKey  = 'nv_' + storageKey + '_idx';
   const seenKey = 'nv_' + storageKey + '_seen';
@@ -1221,18 +1221,14 @@ rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
 })();
 
 (function renderDailyMeditation() {
-  const m = getQuoteForToday("meditation", MEDITATIONS);
   const meditation = document.getElementById('meditation-daily');
   const meditationViewed = document.getElementById('meditation-viewed');
   const meditationCard = document.getElementById('quotes-card');
   const meditationCardViewed = document.getElementById('meditation-card-viewed');
   const quotesDaily = document.getElementById('quotes-daily');
   const meditationCardKey = 'nv_meditation_card_viewed';
-  const localDateKey = function() {
-    const d = new Date();
-    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-  };
-  const today = localDateKey();
+  const today = meditationCard.dataset.edition;
+  const m = getQuoteForToday("meditation", MEDITATIONS, today);
   function meditationConsumed() {
     let meditationDone = false;
     let quoteDone = false;
