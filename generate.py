@@ -3038,7 +3038,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
     .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
-    .countdown-item{{text-align:center;padding:4px 10px;border-right:1px solid var(--border)}}
+    .countdown-item{{display:block;text-align:center;padding:4px 10px;border-right:1px solid var(--border);color:inherit;text-decoration:none;transition:background .18s ease,border-color .18s ease}}
+    .countdown-item:hover,.countdown-item:focus-visible{{background:rgba(181,150,98,.06);outline:none}}
     .countdown-item:last-child{{border-right:none}}
     .countdown-label{{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}}
     .countdown-days{{font-family:var(--serif);font-size:1.18rem;color:var(--text);line-height:1.15}}
@@ -3408,26 +3409,26 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" open>
     <summary><span class="card-title">🧭 Flâneur Life</span><span class="accordion-score" id="world-tour-viewed">Today</span></summary>
     <div class="signal-accordion-body"><div class="countdown-strip-grid">
-      <div class="countdown-item">
+      <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Tbilisi, Georgia trip page">
         <div class="countdown-label">Tbilisi 🍷</div>
         <div class="countdown-days">{trip_countdown_text}</div>
         <div class="countdown-date">Sep 30 · Georgia</div>
-      </div>
-      <div class="countdown-item">
+      </a>
+      <a class="countdown-item" href="https://thailand.edc.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the EDC Thailand website">
         <div class="countdown-label">EDC PHUKET 🎡</div>
         <div class="countdown-days">{edc_countdown_text}</div>
         <div class="countdown-date">Dec 18</div>
-      </div>
-      <div class="countdown-item">
+      </a>
+      <a class="countdown-item" href="https://manontherise.com/retreat" target="_blank" rel="noopener noreferrer" aria-label="Open the Man On The Rise Retreat landing page">
         <div class="countdown-label">MAN ON THE RISE 🏝️</div>
         <div class="countdown-days">{retreat_countdown_text}</div>
         <div class="countdown-date">Jan 19</div>
-      </div>
-      <div class="countdown-item">
+      </a>
+      <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Soviet Side Quest website">
         <div class="countdown-label">SOVIET SIDE QUEST 🚂</div>
         <div class="countdown-days">{trans_siberian_countdown_text}</div>
         <div class="countdown-date">Sep 2027</div>
-      </div>
+      </a>
     </div></div>
   </details>
 

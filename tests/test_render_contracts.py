@@ -81,6 +81,21 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("@media(min-width:900px){body{zoom:1.1}}", self.portfolio_html)
         self.assertIn(".footer-logo{font-family:var(--serif);font-size:1.6363636rem", self.html)
 
+    def test_each_trip_countdown_links_to_its_landing_page(self):
+        destinations = {
+            "Open the Tbilisi, Georgia trip page": "https://sovietsidequest.com",
+            "Open the EDC Thailand website": "https://thailand.edc.com/en/",
+            "Open the Man On The Rise Retreat landing page": "https://manontherise.com/retreat",
+            "Open the Soviet Side Quest website": "https://sovietsidequest.com",
+        }
+        self.assertEqual(self.html.count('class="countdown-item"'), 4)
+        for label, url in destinations.items():
+            self.assertIn(
+                f'<a class="countdown-item" href="{url}" target="_blank" rel="noopener noreferrer" aria-label="{label}">',
+                self.html,
+            )
+        self.assertIn(".countdown-item:hover,.countdown-item:focus-visible", self.html)
+
     def test_signal_bolt_is_locked_to_antique_gold_svg(self):
         emoji = '<span aria-hidden="true">&#x26A1;&#xFE0F;</span>'
         text_glyph = '<span aria-hidden="true">&#x26A1;&#xFE0E;</span>'
