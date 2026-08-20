@@ -138,6 +138,12 @@ def fetch_user_timeline(username: str, session: requests.Session) -> list:
 
 ENGAGEMENT_MAX_AGE_MS = 24 * 60 * 60 * 1000  # 24h — engagement slots
 SIGNAL_POOL_SIZE = 12
+MIN_PUBLISHABLE_POSTS = 3
+
+
+def is_publishable_feed(feed: list) -> bool:
+    """Return whether a refresh is large enough to replace the live feed."""
+    return len(feed) >= MIN_PUBLISHABLE_POSTS
 
 def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n: int) -> list:
     """
@@ -212,8 +218,8 @@ def main():
     print(f'\n📊 Final feed: {len(feed)} tweets — top engagement only')
 
     # ── Write feed.json ───────────────────────────────────────────────────────
-    if not feed:
-        print('\n⚠️  Nothing to write — keeping existing feed.json')
+    if not is_publishable_feed(feed):
+        print(f'\n⚠️ Only {len(feed)} post(s) fetched; minimum is {MIN_PUBLISHABLE_POSTS} — keeping existing feed.json')
         if errors:
             print(f'Failed accounts: {", ".join(errors)}')
         return

@@ -16,9 +16,15 @@ class LiveNewsRefreshTests(unittest.TestCase):
     def test_signal_pool_keeps_four_ranked_pages_of_three(self):
         module = load_fetch_feed()
         self.assertEqual(module.SIGNAL_POOL_SIZE, 12)
-        source = (ROOT / "scripts" / "fetch_feed.py").read_text(encoding="utf-8")
+        source = (ROOT / "scripts" / "fetch_feed.py").read_text()
         self.assertIn("n=SIGNAL_POOL_SIZE", source)
         self.assertIn("top12_engagement_no_economist", source)
+
+    def test_sparse_signal_refresh_cannot_replace_top_three_pool(self):
+        module = load_fetch_feed()
+        self.assertEqual(module.MIN_PUBLISHABLE_POSTS, 3)
+        self.assertFalse(module.is_publishable_feed([{}, {}]))
+        self.assertTrue(module.is_publishable_feed([{}, {}, {}]))
 
     def test_homepage_has_independent_refresh_controls_for_each_feed(self):
         source = (ROOT / "generate.py").read_text(encoding="utf-8")

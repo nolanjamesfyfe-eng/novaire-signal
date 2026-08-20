@@ -37,9 +37,15 @@ class RenderContractTests(unittest.TestCase):
 
     def test_fed_signal_collapses_to_rate_and_latest_sentiment(self):
         self.assertIn('id="fed-signal-card"', self.html)
+        self.assertIn('<div class="fed-title card-title">🏛️ Fed Signal</div>', self.html)
         self.assertIn('class="fed-summary-rate"', self.html)
         self.assertIn('class="fed-summary-sentiment"', self.html)
         self.assertIn('Hold 55%', self.html)
+
+    def test_signal_feed_rejects_sparse_refreshes(self):
+        self.assertIn("signalJson.posts.length < 3", self.html)
+        self.assertIn("Signal pool must contain at least 3 posts", self.html)
+        self.assertIn("nextBatch(signalPool, signalCursor, 3)", self.html)
 
     def test_cash_indices_are_tracked_by_api_but_hidden_from_wall_street_card(self):
         for symbol in ("^GSPC", "^IXIC", "^DJI"):
@@ -180,8 +186,12 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn(">+109.0%</div>", self.portfolio_html)
 
     def test_portfolio_green_and_red_values_share_highlighted_pulses(self):
-        self.assertIn(".positive{color:#56f2b1;animation:finance-green-pulse", self.portfolio_html)
-        self.assertIn(".negative{color:#ff465b;animation:finance-red-pulse", self.portfolio_html)
+        for html in (self.html, self.portfolio_html):
+            self.assertIn(".positive{color:#56f2b1;animation:finance-green-pulse", html)
+            self.assertIn(".negative{color:#ff465b;animation:finance-red-pulse", html)
+            self.assertIn(".total-value.cad,.total-value.usd{color:#56f2b1!important;animation:finance-green-pulse", html)
+            self.assertIn("@keyframes finance-green-pulse", html)
+            self.assertIn("@keyframes finance-red-pulse", html)
         self.assertNotIn('class="psum-value" style="color:var(--green)', self.portfolio_html)
         self.assertNotIn('class="psum-value" style="color:var(--red)', self.portfolio_html)
         self.assertNotIn('class="total-value" style="color:var(--green)', self.portfolio_html)
