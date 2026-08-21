@@ -288,22 +288,21 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("Updated on Aug 10", self.html)
         self.assertIn("Updated on Aug 17", self.html)
         self.assertNotIn("Updated 2026-", self.html)
-        self.assertIn("nv_weekly_ideas_seen", self.html)
+        self.assertIn("nv_weekly_ideas_state", self.html)
         self.assertIn('data-fingerprint=', self.html)
         self.assertIn("function rememberAccordionPreferences()", self.html)
-        self.assertIn("document.querySelectorAll('details.signal-accordion[id]')", self.html)
+        self.assertIn("document.querySelectorAll('details.signal-accordion[id]:not([data-edition])')", self.html)
         self.assertIn("const key = 'nv_accordion_state_' + card.id", self.html)
         self.assertIn("card.open = saved === 'open'", self.html)
         self.assertIn("localStorage.setItem(key, card.open ? 'open' : 'closed')", self.html)
         self.assertNotIn("const key = 'nv_catalysts_seen'", self.html)
         self.assertNotIn("if (hasBeenVisible && card.open", self.html)
-        self.assertIn("const meditationCardKey = 'nv_meditation_card_viewed'", self.html)
-        self.assertIn("cardDone || (meditationDone && quoteDone)", self.html)
-        self.assertIn("function restoreMeditationShell()", self.html)
-        self.assertIn("restoreMeditationShell();", self.html)
-        self.assertNotIn("if (consumed) meditationCard.removeAttribute('open')", self.html)
-        self.assertIn("if (!meditationCard.open) localStorage.setItem(meditationCardKey, meditationCard.dataset.edition)", self.html)
-        self.assertIn('details.addEventListener(\'toggle\'', self.html)
+        self.assertIn("function rememberEditionAccordion(cardId, storageKey)", self.html)
+        self.assertIn("saved.edition === edition", self.html)
+        self.assertIn("card.open = saved.open", self.html)
+        self.assertIn("edition: card.dataset.edition", self.html)
+        self.assertIn("open: card.open", self.html)
+        self.assertIn("card.addEventListener('toggle'", self.html)
         if 'id="polymarket-card"' in self.html:
             self.assertIn('44W / 34L', self.html)
         self.assertIn('Inception ROI', self.html)
@@ -333,24 +332,27 @@ class RenderContractTests(unittest.TestCase):
             "2026-08-20",
         )
 
-    def test_weather_and_world_tour_collapse_to_viewed_for_same_day(self):
-        for card_id, score_id, storage_key in (
-            ("weather-card", "weather-viewed", "nv_weather_viewed"),
-            ("world-tour-card", "world-tour-viewed", "nv_world_tour_viewed"),
-            ("quotes-daily", "quotes-viewed", "nv_quotes_viewed"),
+    def test_daily_accordions_open_at_bangkok_reset_and_remember_manual_state(self):
+        for card_id, storage_key in (
+            ("weather-card", "nv_weather_state"),
+            ("world-tour-card", "nv_world_tour_state"),
+            ("quotes-card", "nv_meditation_card_state"),
+            ("meditation-daily", "nv_meditation_state"),
+            ("quotes-daily", "nv_quotes_state"),
+            ("thailand-news-card", "nv_thailand_news_state"),
         ):
             self.assertIn(f'id="{card_id}"', self.html)
-            self.assertIn(f'id="{score_id}"', self.html)
             self.assertIn(storage_key, self.html)
-        self.assertIn("rememberDailySignalCard", self.html)
-        self.assertIn("score.textContent = 'Viewed'", self.html)
+        self.assertIn("function scheduleBangkokDailyReset()", self.html)
+        self.assertIn("Date.UTC(", self.html)
+        self.assertIn("details[data-daily-edition]", self.html)
+        self.assertIn("card.open = true", self.html)
+        self.assertNotIn(">Viewed<", self.html)
+        self.assertNotIn("textContent = 'Viewed'", self.html)
+        self.assertNotIn("is-viewed", self.html)
         self.assertIn(".daily-signal-card:not([open]){height:62px;min-height:62px}", self.html)
         self.assertIn(".card.daily-signal-card{padding:0;overflow:hidden}", self.html)
         self.assertIn(".daily-signal-card:not([open])>summary{height:62px;min-height:62px}", self.html)
-        self.assertIn(".daily-signal-card.is-viewed{height:62px;min-height:62px}", self.html)
-        self.assertIn(".daily-signal-card.is-viewed>.signal-accordion-body{display:none}", self.html)
-        self.assertIn("card.classList.add('is-viewed')", self.html)
-        self.assertIn("card.classList.toggle('is-viewed', !card.open)", self.html)
 
     def test_commodities_are_six_compact_tiles_with_diesel(self):
         self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
@@ -375,23 +377,22 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("#f87171", self.html)
         self.assertIn("el.style.color=roi>=0?'var(--green)':'var(--red)'", self.html)
 
-    def test_daily_meditation_reopens_each_new_day_and_remembers_same_day_collapse(self):
-        self.assertIn('id="meditation-daily" class="meditation" open', self.html)
+    def test_daily_meditation_uses_shared_daily_edition_state(self):
+        self.assertIn('id="meditation-daily" class="meditation" data-edition=', self.html)
+        self.assertIn('data-daily-edition open', self.html)
         self.assertNotIn('A short Stoic reset for today', self.html)
         self.assertNotIn('carry one sentence into the day', self.html)
         self.assertIn('class="meditation-collapse"', self.html)
-        self.assertIn("nv_meditation_collapsed_date", self.html)
         self.assertIn("const today = meditationCard.dataset.edition", self.html)
         self.assertIn('getQuoteForToday("meditation", MEDITATIONS, today)', self.html)
-        self.assertIn("meditation.open = collapsedDate !== today", self.html)
-        self.assertIn('id="meditation-viewed"', self.html)
-        self.assertIn("meditationViewed.textContent = 'Viewed'", self.html)
+        self.assertNotIn('id="meditation-viewed"', self.html)
+        self.assertNotIn("nv_meditation_collapsed_date", self.html)
 
-    def test_thailand_news_collapses_to_viewed_for_same_daily_edition(self):
-        self.assertIn('id="thailand-news-card"', self.html)
-        self.assertIn('id="thailand-news-viewed"', self.html)
-        self.assertIn("nv_thailand_news_viewed", self.html)
-        self.assertIn("thailandScore.textContent = 'Viewed'", self.html)
+    def test_thailand_news_uses_shared_daily_edition_state(self):
+        self.assertIn('class="card signal-accordion daily-signal-card" id="thailand-news-card"', self.html)
+        self.assertIn('data-daily-edition', self.html)
+        self.assertIn("nv_thailand_news_state", self.html)
+        self.assertNotIn('id="thailand-news-viewed"', self.html)
 
     def test_net_worth_chart_stays_below_metrics_and_period_tiles_wrap(self):
         html = self.portfolio_html
@@ -403,13 +404,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("minmax(68px,1fr)", html)
         self.assertNotIn(".tracker-hero-svg{display:block;width:100%;height:260px;overflow:visible", html)
 
-    def test_economies_open_once_then_remember_viewed_edition(self):
+    def test_economies_remember_exact_state_per_edition(self):
         # The biweekly card is intentionally absent outside its scheduled Monday;
         # persistence machinery remains in every build.
         if 'id="economies-card"' in self.html:
             self.assertIn('data-edition="2026-W34"', self.html)
-        self.assertIn("nv_economies_seen", self.html)
-        self.assertIn("IntersectionObserver", self.html)
+        self.assertIn("nv_economies_state", self.html)
+        self.assertNotIn("nv_economies_seen", self.html)
 
 
 if __name__ == "__main__":

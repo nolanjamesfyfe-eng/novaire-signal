@@ -3035,9 +3035,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .daily-signal-card>summary{{min-height:62px;box-sizing:border-box;padding:18px 20px}}
     .daily-signal-card:not([open]){{height:62px;min-height:62px}}
     .daily-signal-card:not([open])>summary{{height:62px;min-height:62px}}
-    .daily-signal-card.is-viewed{{height:62px;min-height:62px}}
-    .daily-signal-card.is-viewed>summary{{height:62px;min-height:62px}}
-    .daily-signal-card.is-viewed>.signal-accordion-body{{display:none}}
+
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
     .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}}
@@ -3410,8 +3408,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
   <!-- PERSONAL COUNTDOWNS -->
-  <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" open>
-    <summary><span class="card-title">🧭 Flâneur Life</span><span class="accordion-score" id="world-tour-viewed">Today</span></summary>
+  <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" data-daily-edition open>
+    <summary><span class="card-title">🧭 Flâneur Life</span></summary>
     <div class="signal-accordion-body"><div class="countdown-strip-grid">
       <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Tbilisi, Georgia trip page">
         <div class="countdown-label">Tbilisi 🍷</div>
@@ -3437,21 +3435,21 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </details>
 
   <!-- DAILY MEDITATION + QUOTES (client-side localStorage dedup) -->
-  <details class="card signal-accordion daily-signal-card" id="quotes-card" data-edition="{daily_edition}" open>
-    <summary><span class="card-title">📜 Daily Meditation</span><span class="accordion-score" id="meditation-card-viewed">Today</span></summary>
+  <details class="card signal-accordion daily-signal-card" id="quotes-card" data-edition="{daily_edition}" data-daily-edition open>
+    <summary><span class="card-title">📜 Daily Meditation</span></summary>
     <div class="signal-accordion-body">
-    <details id="meditation-daily" class="meditation" open>
+    <details id="meditation-daily" class="meditation" data-edition="{daily_edition}" data-daily-edition open>
       <summary>
         <div class="meditation-summary-copy"><div class="meditation-title" id="med-title"></div><div class="meditation-meta" id="med-meta"></div></div>
-        <span class="accordion-score" id="meditation-viewed">Today</span>
+
       </summary>
       <div class="meditation-body">
         <div class="meditation-excerpt" id="med-excerpt"></div>
         <button class="meditation-collapse" id="med-collapse" type="button">Collapse meditation ↑</button>
       </div>
     </details>
-    <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="{daily_edition}" open>
-      <summary><span class="card-title">Quotes</span><span class="accordion-score" id="quotes-viewed">Today</span></summary>
+    <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="{daily_edition}" data-daily-edition open>
+      <summary><span class="card-title">Quotes</span></summary>
       <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
         <div class="quote-type" id="qt-type"></div>
         <div class="quote-text" id="qt-text"></div>
@@ -3462,8 +3460,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </details>
 
   <!-- WEATHER + THAILAND NEWS -->
-  <details class="card signal-accordion daily-signal-card" id="weather-card" data-edition="{daily_edition}" open>
-    <summary><span class="card-title">🌤 Weather</span><span class="accordion-score" id="weather-viewed">Today</span></summary>
+  <details class="card signal-accordion daily-signal-card" id="weather-card" data-edition="{daily_edition}" data-daily-edition open>
+    <summary><span class="card-title">🌤 Weather</span></summary>
     <div class="signal-accordion-body"><div class="weather-grid">{weather_html}</div></div>
   </details>
 
@@ -3657,8 +3655,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
 
   <!-- THAILAND NEWS -->
-  <details class="card signal-accordion" id="thailand-news-card" data-edition="{daily_edition}" open>
-    <summary><span class="card-title">🇹🇭 Thailand</span><span class="accordion-score" id="thailand-news-viewed">Today</span></summary>
+  <details class="card signal-accordion daily-signal-card" id="thailand-news-card" data-edition="{daily_edition}" data-daily-edition open>
+    <summary><span class="card-title">🇹🇭 Thailand</span></summary>
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
       <div class="thai-news-compact" style="margin-top:10px">{bkk_html}</div>
@@ -3714,46 +3712,51 @@ const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const MEDITATIONS = {MEDITATIONS_JS};
 const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
-(function rememberWeeklyAccordions() {{
-  [
-    ['weekly-asymmetric-ideas', 'nv_weekly_ideas_seen']
-  ].forEach(function(config) {{
-    const details = document.getElementById(config[0]);
-    if (!details) return;
-    const edition = details.dataset.edition;
-    try {{
-      if (localStorage.getItem(config[1]) === edition) details.removeAttribute('open');
-      details.addEventListener('toggle', function() {{
-        if (!details.open) localStorage.setItem(config[1], edition);
-      }});
-    }} catch (e) {{}}
-  }});
-}})();
-
-(function rememberEconomiesEdition() {{
-  const card = document.getElementById('economies-card');
+function rememberEditionAccordion(cardId, storageKey) {{
+  const card = document.getElementById(cardId);
   if (!card) return;
-  const storageKey = 'nv_economies_seen';
   const edition = card.dataset.edition;
+  card.dataset.editionStateKey = storageKey;
   try {{
-    if (localStorage.getItem(storageKey) === edition) {{
-      card.removeAttribute('open');
-      const score = card.querySelector('.accordion-score');
-      if (score) score.textContent = 'Viewed';
-      return;
-    }}
-    const observer = new IntersectionObserver(function(entries) {{
-      if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.45)) return;
-      window.setTimeout(function() {{
-        const rect = card.getBoundingClientRect();
-        const visible = rect.top < window.innerHeight && rect.bottom > 0;
-        if (visible) localStorage.setItem(storageKey, edition);
-      }}, 1500);
-      observer.disconnect();
-    }}, {{threshold:[0.45]}});
-    observer.observe(card);
-  }} catch (e) {{}}
-}})();
+    let saved = null;
+    try {{ saved = JSON.parse(localStorage.getItem(storageKey) || 'null'); }} catch (e) {{}}
+    if (saved && saved.edition === edition && typeof saved.open === 'boolean') card.open = saved.open;
+    else card.open = true;
+    card.addEventListener('toggle', function() {{
+      localStorage.setItem(storageKey, JSON.stringify({{
+        edition: card.dataset.edition,
+        open: card.open
+      }}));
+    }});
+  }} catch (e) {{ card.open = true; }}
+}}
+
+rememberEditionAccordion('economies-card', 'nv_economies_state');
+rememberEditionAccordion('weekly-asymmetric-ideas', 'nv_weekly_ideas_state');
+rememberEditionAccordion('world-tour-card', 'nv_world_tour_state');
+rememberEditionAccordion('quotes-card', 'nv_meditation_card_state');
+rememberEditionAccordion('meditation-daily', 'nv_meditation_state');
+rememberEditionAccordion('quotes-daily', 'nv_quotes_state');
+rememberEditionAccordion('weather-card', 'nv_weather_state');
+rememberEditionAccordion('thailand-news-card', 'nv_thailand_news_state');
+
+function scheduleBangkokDailyReset() {{
+  const now = new Date();
+  const nextBoundary = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
+  window.setTimeout(function() {{
+    const edition = new Date().toISOString().slice(0, 10);
+    document.querySelectorAll('details[data-daily-edition]').forEach(function(card) {{
+      card.dataset.edition = edition;
+      card.open = true;
+      const storageKey = card.dataset.editionStateKey;
+      if (storageKey) {{
+        try {{ localStorage.setItem(storageKey, JSON.stringify({{edition: edition, open: true}})); }} catch (e) {{}}
+      }}
+    }});
+    scheduleBangkokDailyReset();
+  }}, Math.max(1000, nextBoundary - Date.now() + 100));
+}}
+scheduleBangkokDailyReset();
 
 function getQuoteForToday(storageKey, quotes, edition) {{
   const today = edition || new Date().toDateString();
@@ -3781,92 +3784,14 @@ function getQuoteForToday(storageKey, quotes, edition) {{
   }}
 }}
 
-function rememberDailySignalCard(cardId, scoreId, storageKey) {{
-  const card = document.getElementById(cardId);
-  const score = document.getElementById(scoreId);
-  if (!card || !score) return;
-  const edition = card.dataset.edition;
-  try {{
-    if (localStorage.getItem(storageKey) === edition) {{
-      card.open = false;
-      card.classList.add('is-viewed');
-      score.textContent = 'Viewed';
-    }}
-    card.addEventListener('toggle', function() {{
-      card.classList.toggle('is-viewed', !card.open);
-      if (!card.open) {{ localStorage.setItem(storageKey, edition); score.textContent = 'Viewed'; }}
-      else {{ card.classList.remove('is-viewed'); if (localStorage.getItem(storageKey) !== edition) score.textContent = 'Today'; }}
-    }});
-  }} catch (e) {{}}
-}}
-rememberDailySignalCard('weather-card', 'weather-viewed', 'nv_weather_viewed');
-rememberDailySignalCard('world-tour-card','world-tour-viewed','nv_world_tour_viewed');
-rememberDailySignalCard('quotes-daily','quotes-viewed','nv_quotes_viewed');
-
-(function rememberThailandNews() {{
-  const card = document.getElementById('thailand-news-card');
-  const thailandScore = document.getElementById('thailand-news-viewed');
-  if (!card || !thailandScore) return;
-  const edition = card.dataset.edition;
-  const key = 'nv_thailand_news_viewed';
-  try {{
-    if (localStorage.getItem(key) === edition) {{ card.removeAttribute('open'); thailandScore.textContent = 'Viewed'; }}
-    card.addEventListener('toggle', function() {{
-      if (!card.open) {{ localStorage.setItem(key, edition); thailandScore.textContent = 'Viewed'; }}
-      else if (localStorage.getItem(key) !== edition) thailandScore.textContent = 'Today';
-    }});
-  }} catch (e) {{}}
-}})();
-
 (function renderDailyMeditation() {{
   const meditation = document.getElementById('meditation-daily');
-  const meditationViewed = document.getElementById('meditation-viewed');
   const meditationCard = document.getElementById('quotes-card');
-  const meditationCardViewed = document.getElementById('meditation-card-viewed');
-  const quotesDaily = document.getElementById('quotes-daily');
-  const meditationCardKey = 'nv_meditation_card_viewed';
   const today = meditationCard.dataset.edition;
   const m = getQuoteForToday("meditation", MEDITATIONS, today);
-  function meditationConsumed() {{
-    let meditationDone = false;
-    let quoteDone = false;
-    let cardDone = false;
-    try {{
-      meditationDone = localStorage.getItem('nv_meditation_collapsed_date') === today;
-      quoteDone = localStorage.getItem('nv_quotes_viewed') === meditationCard.dataset.edition;
-      cardDone = localStorage.getItem(meditationCardKey) === meditationCard.dataset.edition;
-    }} catch (e) {{}}
-    return cardDone || (meditationDone && quoteDone);
-  }}
-  function syncMeditationShell() {{
-    if (meditationCardViewed) meditationCardViewed.textContent = meditationConsumed() ? 'Viewed' : 'Today';
-  }}
-  function restoreMeditationShell() {{
-    if (meditationConsumed()) meditationCard.removeAttribute('open');
-    syncMeditationShell();
-  }}
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
   document.getElementById('med-excerpt').textContent = m.excerpt;
-  try {{
-    const collapsedDate = localStorage.getItem('nv_meditation_collapsed_date');
-    meditation.open = collapsedDate !== today;
-    if (collapsedDate === today && meditationViewed) meditationViewed.textContent = 'Viewed';
-    restoreMeditationShell();
-    meditation.addEventListener('toggle', function() {{
-      if (!meditation.open) {{ localStorage.setItem('nv_meditation_collapsed_date', today); if (meditationViewed) meditationViewed.textContent = 'Viewed'; }}
-      else if (localStorage.getItem('nv_meditation_collapsed_date') === today) {{ localStorage.removeItem('nv_meditation_collapsed_date'); if (meditationViewed) meditationViewed.textContent = 'Today'; }}
-      syncMeditationShell();
-    }});
-  }} catch (e) {{ meditation.open = true; }}
-  quotesDaily?.addEventListener('toggle', syncMeditationShell);
-  meditationCard.addEventListener('toggle', function() {{
-    try {{
-      if (!meditationCard.open) localStorage.setItem(meditationCardKey, meditationCard.dataset.edition);
-    }} catch (e) {{}}
-    syncMeditationShell();
-  }});
-  syncMeditationShell();
   document.getElementById('med-collapse').addEventListener('click', function() {{
     meditation.open = false;
     meditation.scrollIntoView({{behavior:'smooth',block:'nearest'}});
@@ -4034,7 +3959,7 @@ function renderActionSteps() {{
 renderActionSteps();
 
 (function rememberAccordionPreferences() {{
-  document.querySelectorAll('details.signal-accordion[id]').forEach(function(card) {{
+  document.querySelectorAll('details.signal-accordion[id]:not([data-edition])').forEach(function(card) {{
     const key = 'nv_accordion_state_' + card.id;
     try {{
       const saved = localStorage.getItem(key);
