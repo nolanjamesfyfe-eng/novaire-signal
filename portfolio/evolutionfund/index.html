@@ -372,18 +372,18 @@ const TIERS = {
 };
 
 const holdings = [
-  { ticker: "PHYS", name: "Sprott Physical Gold", sector: "Gold", shares: 16827, price: 34.32, gl: -7.1, color: "#d4a853" },
-  { ticker: "URNM", name: "Sprott Uranium Miners", sector: "Uranium", shares: 6000, price: 54.05, gl: -20.2, color: "#34d399" },
-  { ticker: "GRID", name: "First Trust Grid Infra", sector: "Grid", shares: 2177, price: 181.16, gl: 2.5, color: "#60a5fa" },
-  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 77389.38, gl: 18.2, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
-  { ticker: "PSLV", name: "Sprott Physical Silver", sector: "Silver", shares: 8545, price: 22.37, gl: -22.9, color: "#a0aec0" },
-  { ticker: "COPP", name: "Sprott Copper ETF", sector: "Copper", shares: 5047, price: 43.06, gl: -1.2, color: "#f97316" },
-  { ticker: "COPX", name: "Global X Copper Miners", sector: "Copper", shares: 2000, price: 89.93, gl: 7.1, color: "#ea580c" },
-  { ticker: "URNJ", name: "Sprott Jr Uranium", sector: "Uranium", shares: 3151, price: 24.18, gl: -30.7, color: "#22d3ee" },
-  { ticker: "SGDJ", name: "Sprott Jr Gold Miners", sector: "Gold", shares: 1002, price: 99.12, gl: -9.7, color: "#fbbf24" },
-  { ticker: "CEG",  name: "Constellation Energy", sector: "Nuclear", shares: 177, price: 272.92, gl: -12.6, color: "#a78bfa" },
-  { ticker: "VST",  name: "Vistra Energy", sector: "Nuclear", shares: 322, price: 138.94, gl: -18.5, color: "#c084fc" },
-  { ticker: "AAPL", name: "Apple Inc.", sector: "Tech", shares: 31, price: 311.30, gl: 19.0, color: "#94a3b8" },
+  { ticker: "PHYS", name: "Sprott Physical Gold", sector: "Gold", shares: 16827, price: 35.00, gl: -5.3, color: "#d4a853" },
+  { ticker: "URNM", name: "Sprott Uranium Miners", sector: "Uranium", shares: 6000, price: 58.19, gl: -14.1, color: "#34d399" },
+  { ticker: "GRID", name: "First Trust Grid Infra", sector: "Grid", shares: 2177, price: 180.93, gl: 2.3, color: "#60a5fa" },
+  { ticker: "BTC", name: "Bitcoin (Cold Storage)", sector: "Bitcoin", units: 6.72, price: 78394.04, gl: 19.7, color: "#fb923c", excludeCC: true, fullLong: true, isBTC: true },
+  { ticker: "PSLV", name: "Sprott Physical Silver", sector: "Silver", shares: 8545, price: 22.84, gl: -21.3, color: "#a0aec0" },
+  { ticker: "COPP", name: "Sprott Copper ETF", sector: "Copper", shares: 5047, price: 45.66, gl: 4.7, color: "#f97316" },
+  { ticker: "COPX", name: "Global X Copper Miners", sector: "Copper", shares: 2000, price: 94.59, gl: 12.7, color: "#ea580c" },
+  { ticker: "URNJ", name: "Sprott Jr Uranium", sector: "Uranium", shares: 3151, price: 26.10, gl: -25.2, color: "#22d3ee" },
+  { ticker: "SGDJ", name: "Sprott Jr Gold Miners", sector: "Gold", shares: 1002, price: 101.30, gl: -7.7, color: "#fbbf24" },
+  { ticker: "CEG",  name: "Constellation Energy", sector: "Nuclear", shares: 177, price: 272.88, gl: -12.6, color: "#a78bfa" },
+  { ticker: "VST",  name: "Vistra Energy", sector: "Nuclear", shares: 322, price: 136.21, gl: -20.1, color: "#c084fc" },
+  { ticker: "AAPL", name: "Apple Inc.", sector: "Tech", shares: 31, price: 309.35, gl: 18.3, color: "#94a3b8" },
 ];
 
 function costBasis(h) { return h.price / (1 + h.gl / 100); }
