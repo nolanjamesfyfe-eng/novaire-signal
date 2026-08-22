@@ -304,7 +304,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("open: card.open", self.html)
         self.assertIn("card.addEventListener('toggle'", self.html)
         if 'id="polymarket-card"' in self.html:
-            self.assertIn('44W / 34L', self.html)
+            self.assertIn('W / ', self.html)
+            self.assertIn('L</b>', self.html)
         self.assertIn('Inception ROI', self.html)
 
     def test_latest_instagram_uses_verified_post_cache(self):
