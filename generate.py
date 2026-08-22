@@ -2212,11 +2212,56 @@ def fetch_alpaca():
             "positions": tier2_positions + tier1_positions,
         }
     except Exception as e:
-        print(f"  ⚠ Alpaca fetch failed: {e}")
-        return {"tier2_positions": [], "tier1_positions": [], "tier2_roi": 0, "tier1_roi": 0,
-                "tier2_equity": 0, "tier1_equity": 0, "tier2_cash": 0, "tier1_cash": 0,
-                "t1_realized": 0, "t2_realized": 0, "t1_trade_count": 0, "t2_trade_count": 0,
-                "inception_roi": 0, "equity": 0, "cash": 0, "funded": False, "positions": []}
+        print(f"  ⚠ Direct Alpaca fetch failed: {e}; trying Novaire Signal live summary")
+        try:
+            # Scheduled generation does not always inherit Alpaca credentials, while the
+            # Vercel endpoint does. Use that canonical live endpoint instead of silently
+            # deleting the Novairecito account from both rendered surfaces.
+            summary = requests.get(
+                "https://novairesignal.com/api/alpaca-summary",
+                headers={"User-Agent": "NovaireSignalGenerator/1.0"},
+                timeout=15,
+            )
+            summary.raise_for_status()
+            payload = summary.json()
+            positions = []
+            for item in payload.get("positions", []):
+                positions.append({
+                    "symbol": item.get("symbol", "?"),
+                    "pct_pnl": float(item.get("pctPnl", 0) or 0),
+                    "side": item.get("side", "long"),
+                    "cost": float(item.get("costBasis", item.get("marketValue", 0)) or 0),
+                    "market_value": float(item.get("marketValue", 0) or 0),
+                    "day_change": float(item.get("dayChange", 0) or 0),
+                    "portfolio_weight": float(item.get("portfolioWeight", 0) or 0),
+                })
+            equity = float(payload.get("equity", 0) or 0)
+            invested = sum(item["market_value"] for item in positions)
+            return {
+                "tier2_positions": positions,
+                "tier1_positions": [],
+                "tier2_roi": float(payload.get("inceptionRoi", 0) or 0),
+                "tier1_roi": 0,
+                "tier2_equity": equity,
+                "tier1_equity": 0,
+                "tier2_cash": max(equity - invested, 0),
+                "tier1_cash": 0,
+                "t1_realized": 0,
+                "t2_realized": 0,
+                "t1_trade_count": int(payload.get("tradeCount", 0) or 0),
+                "t2_trade_count": 0,
+                "inception_roi": float(payload.get("inceptionRoi", 0) or 0),
+                "equity": equity,
+                "cash": max(equity - invested, 0),
+                "funded": bool(payload.get("ok")) and equity > 0,
+                "positions": positions,
+            }
+        except Exception as fallback_error:
+            print(f"  ⚠ Alpaca live-summary fallback failed: {fallback_error}")
+            return {"tier2_positions": [], "tier1_positions": [], "tier2_roi": 0, "tier1_roi": 0,
+                    "tier2_equity": 0, "tier1_equity": 0, "tier2_cash": 0, "tier1_cash": 0,
+                    "t1_realized": 0, "t2_realized": 0, "t1_trade_count": 0, "t2_trade_count": 0,
+                    "inception_roi": 0, "equity": 0, "cash": 0, "funded": False, "positions": []}
 
 def fetch_fx():
     try:
