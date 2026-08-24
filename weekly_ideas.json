@@ -1,17 +1,5 @@
 {
   "as_of": "2026-08-24",
-  "portfolio_note": "One non-duplicate setup survived the cross-account screen; no new resource equity cleared concentration and evidence hurdles.",
-  "ideas": [
-    {
-      "type": "token",
-      "symbol": "NIGHT",
-      "name": "Midnight Network",
-      "action": "WATCH / STARTER ONLY",
-      "snapshot": "$0.01971 USD · $327.2M circulating cap · $472.8M FDV · 16.61B/24B circulating · CoinGecko, Aug 24 04:00 UTC",
-      "thesis": "83% below launch ATH; mainnet is live, NIGHT generates transaction DUST, and Electric Capital tracked 150 average monthly active developers in 2026.",
-      "risk": "Quarterly Glacier Drop thawing runs through Dec 4; 31% of max supply is not circulating, usage is early, and weak DUST demand is the kill shot.",
-      "trigger": "Starter only if explorer activity and production dApps keep rising through unlocks; add after DUST demand proves durable, not on price alone.",
-      "source_url": "https://midnight.network/night"
-    }
-  ]
+  "portfolio_note": "EMPTY — no genuinely new candidate cleared the cross-account concentration, evidence, dilution, and asymmetry hurdles this week. All historical candidates remain permanently ineligible.",
+  "ideas": []
 }
