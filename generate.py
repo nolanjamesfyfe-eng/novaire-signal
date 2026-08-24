@@ -113,20 +113,79 @@ HOLDINGS = [
 FALLBACK_PRICES = {}
 
 WEEKLY_IDEAS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "weekly_ideas.json")
+WEEKLY_IDEAS_HISTORY_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "weekly_ideas_history.json")
 WEEKLY_CATALYSTS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "weekly_catalysts.json")
 
 
-def load_weekly_ideas():
-    """Load the researched weekly slate; frequent builds only render it."""
+def _weekly_idea_aliases(idea):
+    """Return normalized identifiers so renamed prior assets still collide."""
+    aliases = set()
+    values = [
+        idea.get("symbol"), idea.get("ticker"), idea.get("name"),
+        idea.get("canonical_key"), *(idea.get("aliases") or []),
+    ]
+    source_url = str(idea.get("source_url") or "")
+    host_match = re.match(r"https?://(?:www\.)?([^/]+)", source_url, re.I)
+    if host_match:
+        values.append(host_match.group(1))
+    for value in values:
+        normalized = re.sub(r"[^a-z0-9]+", " ", str(value or "").lower()).strip()
+        if normalized:
+            aliases.add(normalized)
+    return aliases
+
+
+def _current_bangkok_monday(now=None):
+    current = (now or datetime.now(BKK_TZ)).astimezone(BKK_TZ)
+    return (current.date() - timedelta(days=current.weekday())).isoformat()
+
+
+def load_weekly_ideas(now=None, ideas_path=WEEKLY_IDEAS_PATH,
+                      history_path=WEEKLY_IDEAS_HISTORY_PATH):
+    """Load only a fresh, never-before-featured weekly slate.
+
+    Frequent builds render the researched JSON, but fail closed to a fresh empty
+    edition when the file is stale or repeats any historical asset.
+    """
+    expected_as_of = _current_bangkok_monday(now)
     try:
-        with open(WEEKLY_IDEAS_PATH, "r", encoding="utf-8") as f:
+        with open(ideas_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         if not isinstance(data, dict) or not isinstance(data.get("ideas"), list):
             raise ValueError("invalid shape")
+
+        with open(history_path, "r", encoding="utf-8") as f:
+            history = json.load(f)
+        historical = history.get("candidates", [])
+        if not isinstance(historical, list):
+            raise ValueError("invalid weekly idea history")
+
+        if data.get("as_of") != expected_as_of:
+            raise ValueError(
+                f"stale edition {data.get('as_of')!r}; expected {expected_as_of}"
+            )
+
+        seen_aliases = set()
+        for candidate in historical:
+            seen_aliases.update(_weekly_idea_aliases(candidate))
+
+        repeated = []
+        edition_aliases = set()
+        for idea in data["ideas"]:
+            aliases = _weekly_idea_aliases(idea)
+            if aliases & (seen_aliases | edition_aliases):
+                repeated.append(idea.get("symbol") or idea.get("ticker") or idea.get("name") or "unknown")
+            edition_aliases.update(aliases)
+        if repeated:
+            raise ValueError(f"repeated prior candidate(s): {', '.join(map(str, repeated))}")
         return data
     except Exception as e:
-        print(f"  ⚠ Weekly asymmetric ideas unavailable: {e}")
-        return {"as_of": None, "ideas": []}
+        print(f"  ⚠ Weekly asymmetric ideas rejected: {e}")
+        return {
+            "as_of": expected_as_of,
+            "portfolio_note": "No new non-duplicate setup cleared the evidence and concentration hurdles this week.",
+            "ideas": [],
+        }
 
 HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"], "display": h.get("display", h["ticker"].split(".")[0])} for h in HOLDINGS}
 SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}

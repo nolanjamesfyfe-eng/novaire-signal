@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "candidates": [
+    {
+      "first_as_of": "2026-08-10",
+      "type": "token",
+      "symbol": "NIGHT",
+      "name": "Midnight Network",
+      "canonical_key": "night|midnight-network",
+      "aliases": [
+        "night",
+        "midnight",
+        "midnight network",
+        "midnight.network"
+      ],
+      "source_url": "https://midnight.network/night"
+    }
+  ]
+}
