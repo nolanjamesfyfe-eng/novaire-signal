@@ -113,6 +113,7 @@ HOLDINGS = [
 FALLBACK_PRICES = {}
 
 WEEKLY_IDEAS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "weekly_ideas.json")
+WEEKLY_CATALYSTS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "weekly_catalysts.json")
 
 
 def load_weekly_ideas():
@@ -1556,14 +1557,26 @@ def fetch_catalysts(tickers):
     gets an exact-company Google News RSS scan. A 14-day window retains useful
     conference and project catalysts without filling the card with old fluff.
     """
-    try:
-        import yfinance as yf
-    except ImportError:
-        return {}
-
     cats = {}
     now = datetime.now(timezone.utc)
     fresh_cutoff = now - timedelta(days=14)
+    curated = {}
+    try:
+        with open(WEEKLY_CATALYSTS_PATH, "r", encoding="utf-8") as handle:
+            researched = json.load(handle)
+        for ticker, item in researched.get("items", {}).items():
+            pub_dt = datetime.fromisoformat(str(item["published"]).replace("Z", "+00:00"))
+            if fresh_cutoff <= pub_dt <= now + timedelta(hours=2) and item.get("title") and item.get("url"):
+                curated[ticker] = {
+                    "title": item["title"], "pub_dt": pub_dt,
+                    "source": item.get("source", "Issuer"), "url": item["url"],
+                }
+    except Exception as exc:
+        print(f"  ⚠ Weekly catalyst research unavailable: {exc}")
+    try:
+        import yfinance as yf
+    except ImportError:
+        yf = None
     fallback_news_map = {}
     news_queries = {
         "HG.CN": "HydroGraph Clean Power",
@@ -1586,8 +1599,8 @@ def fetch_catalysts(tickers):
 
     for ticker in tickers:
         lookup_ticker = fallback_news_map.get(ticker, ticker)
-        candidates = []
-        if not lookup_ticker.startswith("_"):
+        candidates = [curated[ticker]] if ticker in curated else []
+        if ticker not in curated and yf is not None and not lookup_ticker.startswith("_"):
             try:
                 for item in (yf.Ticker(lookup_ticker).news or []):
                     title = item.get("content", {}).get("title") or item.get("title", "")
@@ -1609,7 +1622,7 @@ def fetch_catalysts(tickers):
             except Exception:
                 pass
 
-        query = news_queries.get(ticker)
+        query = None if ticker in curated else news_queries.get(ticker)
         if query:
             try:
                 from urllib.parse import quote_plus
@@ -1985,8 +1998,10 @@ def fetch_crypto():
             if quote_timestamp_is_fresh(d.get("closeTime")):
                 results[ticker]["price"] = float(d["lastPrice"])
                 results[ticker]["change"] = float(d["priceChangePercent"])
-                results[ticker]["day_high"] = float(d["highPrice"])
-                results[ticker]["day_low"] = float(d["lowPrice"])
+                if d.get("highPrice") is not None:
+                    results[ticker]["day_high"] = float(d["highPrice"])
+                if d.get("lowPrice") is not None:
+                    results[ticker]["day_low"] = float(d["lowPrice"])
                 results[ticker]["source"] = "Binance"
                 results[ticker]["quote_time"] = datetime.fromtimestamp(
                     int(d["closeTime"]) / 1000, timezone.utc

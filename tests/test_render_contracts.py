@@ -249,7 +249,7 @@ class RenderContractTests(unittest.TestCase):
 
     def test_clutter_cards_are_accordions_with_compact_summaries(self):
         self.assertRegex(self.html, r'class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="\d{4}-\d{2}-\d{2}"')
-        self.assertIn('class="card signal-accordion" id="catalysts-card" data-edition="2026-W34"', self.html)
+        self.assertIn('class="card signal-accordion" id="catalysts-card" data-edition="2026-W35"', self.html)
         self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
 
     def test_polymarket_identity_is_novairecito_in_source_and_outputs(self):
@@ -285,8 +285,7 @@ class RenderContractTests(unittest.TestCase):
         # it must remain a compact accordion.
         if 'id="polymarket-card"' in self.html:
             self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
-        self.assertIn("Updated on Aug 10", self.html)
-        self.assertIn("Updated on Aug 17", self.html)
+        self.assertIn("Updated on Aug 24", self.html)
         self.assertNotIn("Updated 2026-", self.html)
         self.assertIn("nv_weekly_ideas_state", self.html)
         self.assertIn('data-fingerprint=', self.html)
