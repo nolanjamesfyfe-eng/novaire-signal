@@ -69,6 +69,24 @@ if (missingDesignMarkers.length || boltCount !== 2 || presentForbiddenBoltMarker
   process.exit(1);
 }
 
+const allocationRequired = [
+  'data-allocation-source="google-sheet"',
+  'class="allocation-legend"',
+  'Google Sheet · % of Fund',
+];
+const allocationForbidden = [
+  'Allocation awaiting Google Sheet sync.',
+  'Google Sheet allocation unavailable',
+];
+const missingAllocation = allocationRequired.filter((needle) => !html.includes(needle));
+const brokenAllocation = allocationForbidden.filter((needle) => html.includes(needle));
+if (missingAllocation.length || brokenAllocation.length) {
+  console.error('❌ Build guard failed: portfolio allocation is not backed by a verified Sheet snapshot.');
+  for (const needle of missingAllocation) console.error(`  - Missing allocation marker: ${needle}`);
+  for (const needle of brokenAllocation) console.error(`  - Forbidden offline marker present: ${needle}`);
+  process.exit(1);
+}
+
 const importantButTransient = [
   'Livermore Darvis',
   'Unified Alpaca book',

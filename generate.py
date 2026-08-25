@@ -1267,6 +1267,52 @@ def fetch_zerohedge():
     return headlines[:40] if headlines else [{"title": "No headlines in last 36h", "url": "#"}]
 
 GSHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{PORTFOLIO_SHEET_ID}/export?format=csv&gid={TFSA_GID}"
+SHEET_ALLOCATION_CACHE_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "sheet_allocation_cache.json"
+)
+
+
+def load_sheet_allocation_cache(path=SHEET_ALLOCATION_CACHE_PATH):
+    """Return the last verified Sheet allocation so transient reads never blank the card."""
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            cached = json.load(handle)
+        allocations = cached.get("sector_allocations_pct") or []
+        total = float(cached.get("sector_allocation_total_pct") or 0)
+        if not allocations or not 99.5 <= total <= 100.5:
+            raise ValueError("cached allocation failed integrity bounds")
+        return {
+            "sector_allocations_pct": [(str(label), float(percent)) for label, percent in allocations],
+            "sector_allocation_total_pct": total,
+            "allocation_source": "Google Sheet · % of Fund · last verified",
+            "allocation_fetched_at_utc": cached.get("fetched_at_utc"),
+            "allocation_is_cached": True,
+        }
+    except Exception as exc:
+        print(f"    ⚠️  Verified allocation cache unavailable: {exc}")
+        return {}
+
+
+def save_sheet_allocation_cache(meta, path=SHEET_ALLOCATION_CACHE_PATH):
+    """Atomically persist only integrity-checked live Sheet allocation data."""
+    allocations = meta.get("sector_allocations_pct") or []
+    total = float(meta.get("sector_allocation_total_pct") or 0)
+    if not allocations or not 99.5 <= total <= 100.5:
+        raise ValueError("refusing to cache invalid Sheet allocation")
+    payload = {
+        "sheet_id": PORTFOLIO_SHEET_ID,
+        "sheet_gid": TFSA_GID,
+        "sheet_name": "TFSA/WS",
+        "fetched_at_utc": meta.get("allocation_fetched_at_utc") or datetime.now(timezone.utc).isoformat(),
+        "sector_allocation_total_pct": total,
+        "sector_allocations_pct": allocations,
+    }
+    temp_path = f"{path}.tmp"
+    with open(temp_path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2)
+        handle.write("\n")
+    os.replace(temp_path, path)
+
 
 # Map sheet exchange/ticker strings → Yahoo Finance tickers
 EXCHANGE_TO_TICKER = {
@@ -1306,8 +1352,8 @@ def fetch_holdings_from_gsheet():
     """
     rows = _fetch_sheet_rows(TFSA_GID, "TFSA/WS", timeout=20)
     if not rows:
-        print("    ⚠️  Google Sheet fetch failed: no TFSA/WS rows returned")
-        return None, {}
+        print("    ⚠️  Google Sheet fetch failed: no TFSA/WS rows returned; using last verified allocation")
+        return None, load_sheet_allocation_cache()
 
     def parse_price(s):
         if not s: return None
@@ -1328,11 +1374,23 @@ def fetch_holdings_from_gsheet():
     meta     = {}
     seen     = set()
     allocation_totals = {}
+    in_covered_call_block = False
 
     for row in rows:
         while len(row) < 16:
             row.append("")
+        note = row[0].strip()
         currency = row[1].strip()
+
+        # Covered calls are a contiguous strategy block in the live Sheet. Only
+        # the first row is labelled `CCalls`; following rows carry trade notes
+        # such as `1 - 36 CC`. Treat the whole block as separate until the blank
+        # row that terminates it, rather than trusting one mutable note cell.
+        if currency not in ("CAD", "USD", "AUD"):
+            if in_covered_call_block and not any(cell.strip() for cell in row[:10]):
+                in_covered_call_block = False
+        elif note.casefold() == "ccalls":
+            in_covered_call_block = True
 
         # Portfolio meta: TOTAL row (has "TOTAL" in col 11)
         if row[11].strip() == "TOTAL":
@@ -1352,7 +1410,6 @@ def fetch_holdings_from_gsheet():
         if currency not in ("CAD", "USD", "AUD"):
             continue
 
-        note        = row[0].strip()
         name        = row[2].strip()
         ex_ticker   = row[3].strip()
         price_str   = row[5].strip()
@@ -1376,7 +1433,7 @@ def fetch_holdings_from_gsheet():
         # The Google Sheet's allocation chart covers the primary book only.
         # Covered-call rows are a separate strategy block and are intentionally
         # excluded from the sheet chart even though they remain in holdings.
-        if note.casefold() != "ccalls" and allocation_pct and sector:
+        if not in_covered_call_block and allocation_pct and sector:
             allocation_totals[sector] = allocation_totals.get(sector, 0.0) + allocation_pct
 
         display = DISPLAY_OVERRIDES.get(ticker, ticker.split(".")[0])
@@ -1404,9 +1461,16 @@ def fetch_holdings_from_gsheet():
         if 99.5 <= allocation_total <= 100.5:
             meta["sector_allocations_pct"] = allocations
             meta["sector_allocation_total_pct"] = allocation_total
-            meta["allocation_source"] = "Google Sheet · % of Fund"
+            meta["allocation_source"] = "Google Sheet · % of Fund · live"
+            meta["allocation_fetched_at_utc"] = datetime.now(timezone.utc).isoformat()
+            meta["allocation_is_cached"] = False
+            save_sheet_allocation_cache(meta)
         else:
-            print(f"    ⚠️  Sheet allocation total is {allocation_total:.2f}%; chart withheld")
+            print(f"    ⚠️  Sheet allocation total is {allocation_total:.2f}%; using last verified allocation")
+            meta.update(load_sheet_allocation_cache())
+    else:
+        print("    ⚠️  Sheet allocation rows missing; using last verified allocation")
+        meta.update(load_sheet_allocation_cache())
 
     return holdings, meta
 
@@ -2550,10 +2614,18 @@ def build_sheet_allocation_component(gs_meta):
 
     alloc_list = [(label, float(percent), "") for label, percent in allocations]
     source = escape((gs_meta or {}).get("allocation_source") or "Google Sheet · % of Fund")
+    fetched_at = (gs_meta or {}).get("allocation_fetched_at_utc")
+    fetched_label = ""
+    if fetched_at:
+        try:
+            fetched_dt = datetime.fromisoformat(str(fetched_at).replace("Z", "+00:00")).astimezone(timezone.utc)
+            fetched_label = f" · verified {fetched_dt.strftime('%b %-d %H:%M UTC')}"
+        except (TypeError, ValueError):
+            fetched_label = ""
     return (
         build_donut(alloc_list),
         build_legend(alloc_list),
-        f'<div class="allocation-source"><span aria-hidden="true"></span>{source} · live source of truth</div>',
+        f'<div class="allocation-source"><span aria-hidden="true"></span>{source}{escape(fetched_label)}</div>',
     )
 
 

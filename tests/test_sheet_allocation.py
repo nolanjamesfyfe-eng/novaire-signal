@@ -29,7 +29,7 @@ SHEET_ROWS = [
     ["", "USD", "BOSS ENERGY", "BQSSF", "", "$1.01", "", "", "$1.38", "500", "$505.00", "", "0.58%", "", "", "Uranium"],
     ["", "AUD", "Lotus UR ASX", "ASX:LOT", "", "$0.23", "", "", "$2.40", "956", "$219.88", "", "0.18%", "", "", "Uranium"],
     ["CCalls", "USD", "Sprott Uranium JR", "URNJ", "", "$24.42", "", "", "$29.55", "250", "$6,105.00", "", "6.98%", "", "", "Uranium"],
-    ["CCalls", "USD", "Silver JR", "SILJ", "", "$29.86", "", "", "$30.53", "100", "$2,986.00", "", "2.42%", "", "", "Uranium"],
+    ["1 - 36 CC", "USD", "Silver JR", "SILJ", "", "$29.86", "", "", "$30.53", "100", "$2,986.00", "", "2.42%", "", "", "Uranium"],
 ]
 
 
@@ -49,11 +49,12 @@ class FakeResponse:
 
 
 class SheetAllocationTests(unittest.TestCase):
+    @patch.object(generate, "save_sheet_allocation_cache")
     @patch.object(generate, "_fetch_sheet_rows", return_value=SHEET_ROWS)
-    def test_sector_allocation_comes_from_sheet_percentages(self, _request):
+    def test_sector_allocation_comes_from_sheet_percentages(self, _request, _save_cache):
         _holdings, meta = generate.fetch_holdings_from_gsheet()
 
-        self.assertEqual(meta["allocation_source"], "Google Sheet · % of Fund")
+        self.assertEqual(meta["allocation_source"], "Google Sheet · % of Fund · live")
         self.assertEqual(
             meta["sector_allocations_pct"],
             [
@@ -115,6 +116,39 @@ class SheetAllocationTests(unittest.TestCase):
                 result = generate.fetch_portfolio()
 
         self.assertEqual(result, ({}, holdings, meta))
+    def test_invalid_live_total_uses_last_verified_cache_instead_of_blank_card(self):
+        malformed = [list(row) for row in SHEET_ROWS]
+        malformed[1][12] = "55.00%"
+        cached = {
+            "sector_allocations_pct": [("Graphene", 47.1), ("Uranium", 20.29), ("Gold", 13.21), ("Silver", 8.4), ("Copper", 6.95), ("Molybdenum", 2.43), ("Hydro", 1.65)],
+            "sector_allocation_total_pct": 100.03,
+            "allocation_source": "Google Sheet · % of Fund · last verified",
+            "allocation_is_cached": True,
+        }
+        with patch.object(generate, "_fetch_sheet_rows", return_value=malformed), \
+             patch.object(generate, "load_sheet_allocation_cache", return_value=cached), \
+             patch.object(generate, "save_sheet_allocation_cache"):
+            _holdings, meta = generate.fetch_holdings_from_gsheet()
+
+        self.assertEqual(meta["sector_allocation_total_pct"], 100.03)
+        self.assertTrue(meta["allocation_is_cached"])
+        donut, legend, source = generate.build_sheet_allocation_component(meta)
+        self.assertIn('data-allocation-source="google-sheet"', donut)
+        self.assertIn("Graphene", legend)
+        self.assertIn("last verified", source)
+
+    def test_sheet_outage_uses_last_verified_cache(self):
+        cached = {
+            "sector_allocations_pct": [("Graphene", 100.0)],
+            "sector_allocation_total_pct": 100.0,
+            "allocation_source": "Google Sheet · % of Fund · last verified",
+            "allocation_is_cached": True,
+        }
+        with patch.object(generate, "_fetch_sheet_rows", return_value=None), \
+             patch.object(generate, "load_sheet_allocation_cache", return_value=cached):
+            holdings, meta = generate.fetch_holdings_from_gsheet()
+        self.assertIsNone(holdings)
+        self.assertEqual(meta, cached)
 
 
 if __name__ == "__main__":
