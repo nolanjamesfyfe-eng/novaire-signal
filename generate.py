@@ -204,6 +204,7 @@ SECOND_RENAISSANCE_FEED = (
     "https://www.youtube.com/feeds/videos.xml?"
     "channel_id=UC0-4nIbz6OCjUa08WO0-vFw"
 )
+YOUTUBE_LATEST_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "youtube_latest.json")
 
 
 def _safe_int(value):
@@ -287,6 +288,73 @@ def fetch_live_instagram_metrics(item):
         return item
 
 
+def load_latest_youtube(path=YOUTUBE_LATEST_PATH):
+    """Load the last fully verified clip and episode; never regress to metricless placeholders."""
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            data = json.load(handle)
+        for key in ("clip", "episode"):
+            item = data.get(key) or {}
+            if not str(item.get("url") or "").startswith("https://www.youtube.com/watch?v="):
+                raise ValueError(f"invalid cached YouTube {key} URL")
+            if not item.get("title") or _safe_int(item.get("views")) is None or _safe_int(item.get("likes")) is None:
+                raise ValueError(f"incomplete cached YouTube {key} metrics")
+        return data
+    except Exception as exc:
+        print(f"  ⚠ Verified YouTube cache unavailable: {exc}")
+        return {}
+
+
+def save_latest_youtube(data, path=YOUTUBE_LATEST_PATH):
+    """Atomically save only a complete two-card YouTube snapshot."""
+    payload = {"verified_at": datetime.now(timezone.utc).isoformat()}
+    for key in ("clip", "episode"):
+        item = dict(data.get(key) or {})
+        if not str(item.get("url") or "").startswith("https://www.youtube.com/watch?v="):
+            raise ValueError(f"refusing invalid YouTube {key} URL")
+        item["views"] = _safe_int(item.get("views"))
+        item["likes"] = _safe_int(item.get("likes"))
+        if not item.get("title") or item["views"] is None or item["likes"] is None:
+            raise ValueError(f"refusing incomplete YouTube {key} metrics")
+        payload[key] = item
+    temp_path = f"{path}.tmp"
+    with open(temp_path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2)
+        handle.write("\n")
+    os.replace(temp_path, path)
+
+
+def fetch_youtube_watch_metrics(item):
+    """Refresh public views/likes from the watch page when RSS is stale or unavailable."""
+    if not item or not str(item.get("url") or "").startswith("https://www.youtube.com/watch?v="):
+        return item
+    try:
+        response = requests.get(
+            item["url"],
+            headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "en-US,en;q=0.9"},
+            timeout=15,
+        )
+        response.raise_for_status()
+        page = response.text
+        view_match = re.search(
+            r'"videoViewCountRenderer"\s*:\s*\{.*?"viewCount"\s*:\s*\{\s*"simpleText"\s*:\s*"([0-9,]+)',
+            page,
+            re.S,
+        )
+        like_match = re.search(r'like this video along with ([0-9,]+)', page, re.I)
+        if not like_match:
+            like_match = re.search(r'"accessibilityText"\s*:\s*"([0-9,]+) likes"', page, re.I)
+        refreshed = dict(item)
+        if view_match:
+            refreshed["views"] = _safe_int(view_match.group(1).replace(",", ""))
+        if like_match:
+            refreshed["likes"] = _safe_int(like_match.group(1).replace(",", ""))
+        return refreshed
+    except Exception as exc:
+        print(f"  ⚠ YouTube watch metrics unavailable for {item.get('url')}: {exc}")
+        return item
+
+
 def fetch_latest_novaire_content():
     """Fetch current content and metrics without inventing unavailable data."""
     instagram = fetch_live_instagram_metrics(load_latest_instagram())
@@ -298,9 +366,10 @@ def fetch_latest_novaire_content():
         "comments": _safe_int(os.getenv("IG_LATEST_COMMENTS")) if os.getenv("IG_LATEST_COMMENTS") else instagram.get("comments"),
         "followers": _safe_int(os.getenv("IG_FOLLOWERS")) if os.getenv("IG_FOLLOWERS") else instagram.get("followers"),
     })
+    youtube_cache = load_latest_youtube()
     result = {
-        "clip": None,
-        "episode": {
+        "clip": youtube_cache.get("clip"),
+        "episode": youtube_cache.get("episode") or {
             "title": SECOND_RENAISSANCE["episode_title"],
             "url": SECOND_RENAISSANCE["episode_url"],
             "views": None,
@@ -344,6 +413,21 @@ def fetch_latest_novaire_content():
             )
     except Exception as exc:
         print(f"  ⚠ Latest Novaire social feed unavailable: {exc}")
+
+    # RSS discovery and watch-page metrics fail independently. Preserve cached
+    # metrics for the same video, then refresh each public watch page directly.
+    for key in ("clip", "episode"):
+        item = result.get(key)
+        cached_item = youtube_cache.get(key) or {}
+        if item and item.get("url") == cached_item.get("url"):
+            for metric in ("views", "likes"):
+                if _safe_int(item.get(metric)) is None:
+                    item[metric] = _safe_int(cached_item.get(metric))
+        result[key] = fetch_youtube_watch_metrics(item)
+    try:
+        save_latest_youtube(result)
+    except Exception as exc:
+        print(f"  ⚠ YouTube cache not updated; preserving prior verified snapshot: {exc}")
     return result
 
 # Portfolio basis stats (from spreadsheet)

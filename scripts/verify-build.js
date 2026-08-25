@@ -69,6 +69,20 @@ if (missingDesignMarkers.length || boltCount !== 2 || presentForbiddenBoltMarker
   process.exit(1);
 }
 
+const youtubeCards = ['YOUTUBE · LATEST CLIP', 'YOUTUBE · FULL EPISODE'];
+for (const label of youtubeCards) {
+  const start = mainHtml.indexOf(label);
+  const segment = start >= 0 ? mainHtml.slice(start, start + 1800) : '';
+  if (start < 0 || !/<b>[0-9][0-9.,KM]*<\/b> views<\/span>/.test(segment) || !/<b>[0-9][0-9.,KM]*<\/b> likes<\/span>/.test(segment)) {
+    console.error(`❌ Build guard failed: ${label} is missing verified views or likes.`);
+    process.exit(1);
+  }
+}
+if (mainHtml.includes('<strong>Latest Second Renaissance clip</strong>')) {
+  console.error('❌ Build guard failed: generic YouTube clip placeholder replaced the verified cache.');
+  process.exit(1);
+}
+
 const allocationRequired = [
   'data-allocation-source="google-sheet"',
   'class="allocation-legend"',
