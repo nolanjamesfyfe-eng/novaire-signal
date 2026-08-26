@@ -15,6 +15,7 @@ import time
 import traceback
 from html import escape
 from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
 from urllib.parse import quote, quote_plus
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 from portfolio_tracker import (
@@ -1110,8 +1111,74 @@ def fetch_weather():
         print(f"    ⚠️  Weather cache write failed: {e}")
     return results
 
+THAI_NEWS_FRESH_HOURS = 24
+THAI_NEWS_FALLBACK_HOURS = 48
+
+
+def parse_rss_datetime(item, url=""):
+    """Best-effort UTC timestamp from RSS, Atom, or a dated URL path."""
+    for tag in ("pubDate", "published", "updated", "dc:date"):
+        node = item.find(tag) if item is not None else None
+        raw = node.get_text(" ", strip=True) if node else ""
+        if not raw:
+            continue
+        try:
+            dt = parsedate_to_datetime(raw)
+        except (TypeError, ValueError):
+            try:
+                dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            except ValueError:
+                continue
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    match = re.search(r"/((?:19|20)\d{2})/(\d{2})/(\d{2})/", str(url or ""))
+    if match:
+        year, month, day = map(int, match.groups())
+        try:
+            return datetime(year, month, day, tzinfo=timezone.utc)
+        except ValueError:
+            return None
+    return None
+
+
+def apply_thai_news_recency(headlines, now=None):
+    """Boost last-day stories and demote yesterday's leftovers."""
+    now = now or datetime.now(timezone.utc)
+    ranked = []
+    for item in headlines:
+        published = item.get("published_at")
+        age_hours = 999.0
+        if published is not None:
+            age_hours = max(0.0, (now - published).total_seconds() / 3600)
+        score = int(item.get("score") or 0)
+        if age_hours <= 12:
+            score += 20
+        elif age_hours <= 24:
+            score += 12
+        elif age_hours <= 36:
+            score += 4
+        elif age_hours > 72:
+            score -= 30
+        ranked.append({**item, "age_hours": age_hours, "score": score})
+    return ranked
+
+
+def select_thai_news(headlines, now=None):
+    """Prefer the last 24h; only fall back to 48h if today is empty."""
+    ranked = sorted(apply_thai_news_recency(headlines, now), key=lambda x: x.get("score", 0), reverse=True)
+    relevant = [item for item in ranked if item.get("score", 0) > 0]
+    fresh = [item for item in relevant if item.get("age_hours", 999) <= THAI_NEWS_FRESH_HOURS]
+    if fresh:
+        return fresh[:3]
+    fallback = [item for item in relevant if item.get("age_hours", 999) <= THAI_NEWS_FALLBACK_HOURS]
+    if fallback:
+        return fallback[:3]
+    return relevant[:3] if relevant else ranked[:3]
+
+
 def fetch_bangkok_post():
-    """Return expat-relevant Thailand headlines, not random local filler."""
+    """Return today's expat-relevant Thailand headlines, not leftover local filler."""
     headlines = []
     seen = set()
     headers = {"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)"}
@@ -1144,7 +1211,7 @@ def fetch_bangkok_post():
             points += 2
         return points
 
-    def add_item(title, url, source, summary=""):
+    def add_item(title, url, source, summary="", published_at=None):
         title = " ".join((title or "").split())
         if len(title) < 28:
             return
@@ -1158,6 +1225,7 @@ def fetch_bangkok_post():
             "source": source,
             "summary": " ".join((summary or "").split())[:180],
             "score": score(title, summary),
+            "published_at": published_at,
         })
 
     for source, url in sources:
@@ -1187,7 +1255,7 @@ def fetch_bangkok_post():
                     href = guid_el.get_text(" ", strip=True)
                 raw_summary = desc_el.get_text(" ", strip=True) if desc_el else ""
                 summary = BeautifulSoup(raw_summary, "html.parser").get_text(" ", strip=True)
-                add_item(title, href, source, summary)
+                add_item(title, href, source, summary, parse_rss_datetime(item, str(href or "")))
         except Exception as e:
             print(f"    ⚠️  {source} expat feed unavailable: {e}")
 
@@ -1208,11 +1276,10 @@ def fetch_bangkok_post():
         except Exception as e:
             print(f"    ⚠️  Bangkok Post fallback unavailable: {e}")
 
-    ranked = sorted(headlines, key=lambda x: x.get("score", 0), reverse=True)
-    relevant = [h for h in ranked if h.get("score", 0) > 0]
-    if relevant:
-        return relevant[:3]
-    return ranked[:3] if ranked else [{
+    ranked = select_thai_news(headlines)
+    if ranked:
+        return ranked
+    return [{
         "title": "Thailand expat news feed temporarily unavailable",
         "url": "https://thethaiger.com/",
         "source": "The Thaiger",
@@ -5148,12 +5215,12 @@ def main():
     spanish_word = pick(SPANISH_WORDS, 7)
     motivation = pick(MOTIVATION_QUOTES, 11)
 
-    print("  📡 Refreshing Signal Feed (Nitter RSS → feed.json)...")
+    print("  📡 Refreshing Signal Feed (xurl → feed.json)...")
     try:
         import subprocess, os as _os
         result = subprocess.run(
             ["python3", "scripts/fetch_feed.py"],
-            capture_output=True, text=True, timeout=90,
+            capture_output=True, text=True, timeout=420,
             cwd=_os.path.dirname(_os.path.abspath(__file__))
         )
         if result.returncode == 0:

@@ -1,10 +1,9 @@
 name: Update Signal Feed
 
 on:
-  schedule:
-    # Run every 4 hours
-    - cron: '0 */4 * * *'
-  workflow_dispatch: # Allow manual trigger
+  # Daily Signal Feed is produced by the 07:00 Asia/Bangkok site refresh
+  # (local crontab + generate.py). Keep this workflow for manual recovery.
+  workflow_dispatch:
 
 permissions:
   contents: write

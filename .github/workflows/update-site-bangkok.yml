@@ -1,9 +1,8 @@
 name: Generate Signal Site (Bangkok 7AM)
 
 on:
-  schedule:
-    # 00:00 UTC = 07:00 Asia/Bangkok
-    - cron: '0 0 * * *'
+  # Daily 07:00 Asia/Bangkok refresh is the local crontab
+  # (`0 0 * * *` → refresh_signal.sh). Keep this for manual recovery.
   workflow_dispatch:
 
 permissions:

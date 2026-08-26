@@ -404,6 +404,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("minmax(68px,1fr)", html)
         self.assertNotIn(".tracker-hero-svg{display:block;width:100%;height:260px;overflow:visible", html)
 
+    def test_signal_feed_refresh_is_daily_not_nitter(self):
+        workflow = (ROOT / ".github" / "workflows" / "update-feed.yml").read_text()
+        self.assertNotIn("schedule:", workflow)
+        site = (ROOT / ".github" / "workflows" / "update-site-bangkok.yml").read_text()
+        self.assertNotIn("schedule:", site)
+        fetch = (ROOT / "scripts" / "fetch_feed.py").read_text()
+        self.assertIn("xurl", fetch)
+        self.assertNotIn("nitter.net", fetch)
+
     def test_economies_remember_exact_state_per_edition(self):
         # The biweekly card is intentionally absent outside its scheduled Monday;
         # persistence machinery remains in every build.
