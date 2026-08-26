@@ -2,16 +2,16 @@
   "sheet_id": "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak",
   "sheet_gid": "527699504",
   "sheet_name": "TFSA/WS",
-  "fetched_at_utc": "2026-08-26T02:00:53.156194+00:00",
-  "sector_allocation_total_pct": 100.0,
+  "fetched_at_utc": "2026-08-26T04:00:54.706121+00:00",
+  "sector_allocation_total_pct": 99.98,
   "sector_allocations_pct": [
     [
       "Graphene",
-      46.45
+      46.42
     ],
     [
       "Uranium",
-      21.02
+      21.05
     ],
     [
       "Gold",
@@ -19,7 +19,7 @@
     ],
     [
       "Silver",
-      8.35
+      8.34
     ],
     [
       "Copper",
@@ -35,7 +35,7 @@
     ],
     [
       "Palladium-Platinum",
-      1.77
+      1.76
     ]
   ]
 }
