@@ -2855,7 +2855,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         return f"{abs(days)} days {past_label}"
 
     # ── Personal countdowns ──
-    trip_date = _date(2026, 9, 30)
+    trip_date = _date(2026, 9, 29)
     trans_siberian_date = _date(2027, 9, 1)
     edc_thailand_date = _date(2026, 12, 18)
     mastermind_retreat_date = _date(2027, 1, 19)
@@ -3756,7 +3756,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Tbilisi, Georgia trip page">
         <div class="countdown-label">Tbilisi 🍷</div>
         <div class="countdown-days">{trip_countdown_text}</div>
-        <div class="countdown-date">Sep 30 · Georgia</div>
+        <div class="countdown-date">Sep 29 · 11:50pm</div>
       </a>
       <a class="countdown-item" href="https://thailand.edc.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the EDC Thailand website">
         <div class="countdown-label">EDC PHUKET 🎡</div>

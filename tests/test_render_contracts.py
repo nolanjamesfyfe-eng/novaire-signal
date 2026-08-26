@@ -101,6 +101,11 @@ class RenderContractTests(unittest.TestCase):
                 self.html,
             )
         self.assertIn(".countdown-item:hover,.countdown-item:focus-visible", self.html)
+        self.assertIn("Sep 29 · 11:50pm", self.html)
+        self.assertNotIn("Sep 30 · Georgia", self.html)
+        source = (ROOT / "generate.py").read_text(encoding="utf-8")
+        self.assertIn("trip_date = _date(2026, 9, 29)", source)
+        self.assertNotIn("trip_date = _date(2026, 9, 30)", source)
 
     def test_signal_bolt_is_locked_to_antique_gold_svg(self):
         emoji = '<span aria-hidden="true">&#x26A1;&#xFE0F;</span>'
