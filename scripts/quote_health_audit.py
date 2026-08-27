@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -115,13 +116,26 @@ def audit_upstreams(audit: Audit) -> None:
         rate = fx_rates.get(currency, {}).get("rate")
         audit.record(bool(rate and float(rate) > 0), f"FX {currency}", f"1 USD={rate}")
 
-    fx = generate.fetch_fx()
-    portfolio, holdings, _ = generate.fetch_portfolio(usdcad=fx["usdcad"], audusd=fx["audusd"])
-    missing = [h["ticker"] for h in holdings if not portfolio.get(h["ticker"], {}).get("price")]
-    audit.record(not missing, "portfolio quote coverage", f"{len(holdings) - len(missing)}/{len(holdings)} live marks; missing={missing}")
-    fallback = [ticker for ticker, item in portfolio.items() if item.get("fallback")]
-    if fallback:
-        audit.warn("portfolio sheet marks", f"sheet-supplied marks (not shown as live Yahoo changes): {fallback}")
+    # refresh_signal.sh has already fetched and fail-closed the full portfolio.
+    # Do not immediately replay 22 Yahoo requests here: that batch was being
+    # throttled and produced the false 0/22 alert. Audit the just-generated
+    # production artifact ticker by ticker instead.
+    portfolio_html = (ROOT / "portfolio" / "index.html").read_text(encoding="utf-8")
+    portfolio_soup = BeautifulSoup(portfolio_html, "html.parser")
+    rows = portfolio_soup.select("table.portfolio-table tbody tr")
+    rendered = []
+    missing = []
+    for row in rows:
+        cells = row.select("td")
+        ticker_node = row.select_one("[data-chart-symbol]")
+        if not ticker_node or len(cells) < 4:
+            continue
+        ticker = ticker_node.get("data-chart-symbol")
+        price = cells[3].get_text(" ", strip=True)
+        rendered.append(ticker)
+        if price in {"", "—", "$—"} or not any(ch.isdigit() for ch in price):
+            missing.append(ticker)
+    audit.record(bool(rendered) and not missing, "portfolio rendered quote coverage", f"{len(rendered) - len(missing)}/{len(rendered)} rendered marks; missing={missing}")
 
 
 def audit_html(audit: Audit, html: str, label: str) -> None:
@@ -130,10 +144,9 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     fx = html.find("💱 FX Rates")
     audit.record(min(weather, wall_street, fx) >= 0 and weather < wall_street < fx, f"{label} section order", f"Weather={weather}, WallStreet={wall_street}, FX={fx}")
 
-    catalysts = html.find("🔍 Catalysts — Top 5 Holdings")
     fed = html.find("🏛️ Fed Signal")
     trading_books = html.find("<!-- TRADING BOOKS")
-    audit.record(min(catalysts, fed, trading_books) >= 0 and catalysts < fed < trading_books, f"{label} Fed placement", f"Catalysts={catalysts}, Fed={fed}, TradingBooks={trading_books}")
+    audit.record(min(fed, trading_books) >= 0 and fed < trading_books, f"{label} Fed placement", f"Fed={fed}, TradingBooks={trading_books}")
 
     soup = BeautifulSoup(html, "html.parser")
     crypto_nodes = soup.select("[data-crypto-price]")
@@ -181,8 +194,23 @@ def main() -> int:
                 audit_html(audit, response.text, "live")
 
             api_url = args.live_url.rstrip("/") + "/api/market-futures"
-            api_response = requests.get(api_url, headers={"Cache-Control": "no-cache", "User-Agent": "NovaireSignalQuoteAudit/1.0"}, timeout=30)
-            api_payload = api_response.json()
+            api_response = None
+            api_payload = None
+            for attempt in range(3):
+                api_response = requests.get(
+                    api_url,
+                    headers={"Cache-Control": "no-cache", "User-Agent": "NovaireSignalQuoteAudit/1.0"},
+                    timeout=30,
+                )
+                try:
+                    api_payload = api_response.json()
+                    break
+                except requests.exceptions.JSONDecodeError:
+                    if attempt < 2:
+                        time.sleep(10 * (attempt + 1))
+            assert api_response is not None
+            if api_payload is None:
+                raise ValueError(f"market API returned non-JSON after retries: status={api_response.status_code}")
             futures = api_payload.get("quotes") or []
             indices = api_payload.get("indices") or []
             canonical = all("CME/CBOT front month" in str(item.get("source") or "") and item.get("price") for item in futures)

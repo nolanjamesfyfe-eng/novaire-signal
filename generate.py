@@ -1671,6 +1671,17 @@ def fetch_official_cse_hg_quote():
         return None
 
 
+def yahoo_symbol(ticker):
+    """Translate Google Finance exchange prefixes to Yahoo suffixes."""
+    exchange_suffixes = {"CVE": ".V", "TSE": ".TO", "CNSX": ".CN"}
+    if ":" in ticker:
+        exchange, symbol = ticker.split(":", 1)
+        suffix = exchange_suffixes.get(exchange.upper())
+        if suffix:
+            return symbol + suffix
+    return ticker
+
+
 def fetch_portfolio(usdcad=1.365, audusd=0.63):
     """Fetch Sheet holdings/totals first, then enrich prices with yfinance when available."""
     def to_usd(amount, currency):
@@ -1732,7 +1743,7 @@ def fetch_portfolio(usdcad=1.365, audusd=0.63):
                 continue
 
         try:
-            t = yf.Ticker(ticker)
+            t = yf.Ticker(yahoo_symbol(ticker))
             hist = t.history(period="5d", auto_adjust=True)
             hist = hist[hist["Close"].notna()]
             if len(hist) >= 2:
@@ -1774,7 +1785,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
     official_hg = fetch_official_cse_hg_quote() if "HG.CN" in tickers else None
     for ticker in tickers:
         try:
-            url = f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(ticker)}?range=1y&interval=1d&events=div%2Csplits"
+            url = f"https://query1.finance.yahoo.com/v8/finance/chart/{quote(yahoo_symbol(ticker))}?range=1y&interval=1d&events=div%2Csplits"
             payload = requests.get(url, headers={"User-Agent": "Mozilla/5.0 NovaireSignal/1.0"}, timeout=10).json()
             result = payload["chart"]["result"][0]
             meta = result.get("meta", {})
