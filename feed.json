@@ -2,7 +2,7 @@
   "ok": true,
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-08-27T02:02:35.973205+00:00",
+  "fetchedAt": "2026-08-27T02:05:37.115839+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
@@ -17,13 +17,13 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-08-26T20:29:41+00:00",
       "createdAtMs": 1787776181000,
-      "likes": 9635,
-      "retweets": 931,
+      "likes": 9666,
+      "retweets": 935,
       "url": "https://x.com/KobeissiLetter/status/2092711099262984319",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 10566
+      "engagementScore": 10601
     },
     {
       "id": "2092643800887775336",
@@ -32,13 +32,13 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-08-26T16:02:16+00:00",
       "createdAtMs": 1787760136000,
-      "likes": 7705,
+      "likes": 7711,
       "retweets": 1085,
       "url": "https://x.com/WatcherGuru/status/2092643800887775336",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 8790
+      "engagementScore": 8796
     },
     {
       "id": "2092673079847600254",
@@ -47,13 +47,13 @@
       "handle": "tferriss",
       "createdAt": "2026-08-26T17:58:36+00:00",
       "createdAtMs": 1787767116000,
-      "likes": 918,
+      "likes": 921,
       "retweets": 88,
       "url": "https://x.com/tferriss/status/2092673079847600254",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 1006
+      "engagementScore": 1009
     },
     {
       "id": "2092773181987651607",
@@ -62,13 +62,13 @@
       "handle": "zerohedge",
       "createdAt": "2026-08-27T00:36:23+00:00",
       "createdAtMs": 1787790983000,
-      "likes": 884,
-      "retweets": 57,
+      "likes": 907,
+      "retweets": 59,
       "url": "https://x.com/zerohedge/status/2092773181987651607",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 941
+      "engagementScore": 966
     },
     {
       "id": "2092722828470587662",
@@ -77,13 +77,13 @@
       "handle": "nntaleb",
       "createdAt": "2026-08-26T21:16:17+00:00",
       "createdAtMs": 1787778977000,
-      "likes": 806,
+      "likes": 807,
       "retweets": 66,
       "url": "https://x.com/nntaleb/status/2092722828470587662",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 872
+      "engagementScore": 873
     },
     {
       "id": "2092773631029809663",
@@ -92,13 +92,13 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-08-27T00:38:10+00:00",
       "createdAtMs": 1787791090000,
-      "likes": 269,
+      "likes": 277,
       "retweets": 24,
       "url": "https://x.com/SantiagoAuFund/status/2092773631029809663",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 293
+      "engagementScore": 301
     },
     {
       "id": "2092718333569438072",
@@ -107,13 +107,13 @@
       "handle": "quakes99",
       "createdAt": "2026-08-26T20:58:26+00:00",
       "createdAtMs": 1787777906000,
-      "likes": 102,
+      "likes": 103,
       "retweets": 13,
       "url": "https://x.com/quakes99/status/2092718333569438072",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 115
+      "engagementScore": 116
     },
     {
       "id": "2092688606276050983",
