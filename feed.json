@@ -2,7 +2,7 @@
   "ok": true,
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-09-01T03:23:10.023608+00:00",
+  "fetchedAt": "2026-09-01T07:01:22.156612+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
@@ -17,13 +17,13 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-08-31T14:03:18+00:00",
       "createdAtMs": 1788184998000,
-      "likes": 10249,
-      "retweets": 854,
+      "likes": 10463,
+      "retweets": 864,
       "url": "https://x.com/KobeissiLetter/status/2094425802934833433",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 11103
+      "engagementScore": 11327
     },
     {
       "id": "2094513439427490124",
@@ -32,13 +32,13 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-08-31T19:51:32+00:00",
       "createdAtMs": 1788205892000,
-      "likes": 8744,
-      "retweets": 751,
+      "likes": 9638,
+      "retweets": 822,
       "url": "https://x.com/WatcherGuru/status/2094513439427490124",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 9495
+      "engagementScore": 10460
     },
     {
       "id": "2094448487098187811",
@@ -47,13 +47,13 @@
       "handle": "nntaleb",
       "createdAt": "2026-08-31T15:33:26+00:00",
       "createdAtMs": 1788190406000,
-      "likes": 2224,
-      "retweets": 183,
+      "likes": 2429,
+      "retweets": 201,
       "url": "https://x.com/nntaleb/status/2094448487098187811",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 2407
+      "engagementScore": 2630
     },
     {
       "id": "2094608655391875292",
@@ -62,13 +62,13 @@
       "handle": "zerohedge",
       "createdAt": "2026-09-01T02:09:54+00:00",
       "createdAtMs": 1788228594000,
-      "likes": 985,
-      "retweets": 149,
+      "likes": 1721,
+      "retweets": 267,
       "url": "https://x.com/zerohedge/status/2094608655391875292",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1134
+      "engagementScore": 1988
     },
     {
       "id": "2094462571071893861",
@@ -77,13 +77,13 @@
       "handle": "tferriss",
       "createdAt": "2026-08-31T16:29:24+00:00",
       "createdAtMs": 1788193764000,
-      "likes": 374,
-      "retweets": 14,
+      "likes": 440,
+      "retweets": 18,
       "url": "https://x.com/tferriss/status/2094462571071893861",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 388
+      "engagementScore": 458
     },
     {
       "id": "2094570813999432044",
@@ -92,13 +92,13 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-08-31T23:39:31+00:00",
       "createdAtMs": 1788219571000,
-      "likes": 177,
-      "retweets": 18,
+      "likes": 349,
+      "retweets": 34,
       "url": "https://x.com/colonelhomsi/status/2094570813999432044",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 195
+      "engagementScore": 383
     },
     {
       "id": "2094555939605016666",
@@ -107,13 +107,13 @@
       "handle": "quakes99",
       "createdAt": "2026-08-31T22:40:25+00:00",
       "createdAtMs": 1788216025000,
-      "likes": 177,
-      "retweets": 18,
+      "likes": 241,
+      "retweets": 26,
       "url": "https://x.com/quakes99/status/2094555939605016666",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 195
+      "engagementScore": 267
     },
     {
       "id": "2094454121742921974",
@@ -122,43 +122,13 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-08-31T15:55:50+00:00",
       "createdAtMs": 1788191750000,
-      "likes": 179,
+      "likes": 204,
       "retweets": 9,
       "url": "https://x.com/BambroughKevin/status/2094454121742921974",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 188
-    },
-    {
-      "id": "2094522193426149801",
-      "text": "Europe is going to be like Cuba where your phone is basically useless… https://t.co/z5RRTLQlux",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-08-31T20:26:19+00:00",
-      "createdAtMs": 1788207979000,
-      "likes": 97,
-      "retweets": 4,
-      "url": "https://x.com/hkuppy/status/2094522193426149801",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 101
-    },
-    {
-      "id": "2094582155292856689",
-      "text": "The EIA is having trouble with how it's \"back-end and public-facing systems interact\"\n\nProblems with their numbers?\n\nMajor data revision incoming? https://t.co/f0mCmWswZ2",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-09-01T00:24:35+00:00",
-      "createdAtMs": 1788222275000,
-      "likes": 85,
-      "retweets": 9,
-      "url": "https://x.com/JoshYoung/status/2094582155292856689",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 94
+      "engagementScore": 213
     },
     {
       "id": "2094613088204943517",
@@ -167,28 +137,58 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-09-01T02:27:30+00:00",
       "createdAtMs": 1788229650000,
-      "likes": 84,
-      "retweets": 6,
+      "likes": 164,
+      "retweets": 8,
       "url": "https://x.com/SantiagoAuFund/status/2094613088204943517",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 90
+      "slot_order": 9,
+      "engagementScore": 172
     },
     {
-      "id": "2094541383319142773",
-      "text": "‘They all ended up devaluing their currencies’ https://t.co/Daz3hMSuCS",
+      "id": "2094563523485384730",
+      "text": "Huge confession by former US insider .. https://t.co/vwf5ordQ0e",
       "author": "wmiddelkoop",
       "handle": "wmiddelkoop",
-      "createdAt": "2026-08-31T21:42:35+00:00",
-      "createdAtMs": 1788212555000,
-      "likes": 58,
-      "retweets": 7,
-      "url": "https://x.com/wmiddelkoop/status/2094541383319142773",
+      "createdAt": "2026-08-31T23:10:33+00:00",
+      "createdAtMs": 1788217833000,
+      "likes": 120,
+      "retweets": 29,
+      "url": "https://x.com/wmiddelkoop/status/2094563523485384730",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 10,
+      "engagementScore": 149
+    },
+    {
+      "id": "2094591329313669303",
+      "text": "Best part about visiting my parents in Long Island, is grabbing oysters in Oyster Bay. We don’t have these in PR… https://t.co/nCDUoA99ut",
+      "author": "hkuppy",
+      "handle": "hkuppy",
+      "createdAt": "2026-09-01T01:01:03+00:00",
+      "createdAtMs": 1788224463000,
+      "likes": 93,
+      "retweets": 1,
+      "url": "https://x.com/hkuppy/status/2094591329313669303",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 11,
+      "engagementScore": 94
+    },
+    {
+      "id": "2094634624664084770",
+      "text": "Reminds me of Delta Financial blowing up in 2007. \n\nNot good. https://t.co/jbEltG3Dgu",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-09-01T03:53:05+00:00",
+      "createdAtMs": 1788234785000,
+      "likes": 26,
+      "retweets": 1,
+      "url": "https://x.com/JoshYoung/status/2094634624664084770",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 65
+      "engagementScore": 27
     }
   ]
 }
