@@ -5,15 +5,15 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 30.6,
-    "high": 31.2,
+    "temp": 26.9,
+    "high": 31.4,
     "low": 25.3,
-    "humidity": 69,
-    "condition": "Partly Cloudy ⛅",
-    "aqi": 45,
+    "humidity": 92,
+    "condition": "Overcast ☁️",
+    "aqi": 44,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-01T07:00:08.135917+00:00"
+    "cached_at": "2026-09-01T16:15:04.214268+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -21,15 +21,15 @@
     "lat": 6.2442,
     "lon": -75.5812,
     "tz_offset": -5,
-    "temp": 18.0,
-    "high": 27.9,
-    "low": 17.5,
-    "humidity": 100,
-    "condition": "Overcast ☁️",
-    "aqi": 52,
-    "aqi_label": "Moderate",
+    "temp": 25.6,
+    "high": 28.3,
+    "low": 17.3,
+    "humidity": 61,
+    "condition": "Drizzle 🌦",
+    "aqi": 50,
+    "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-01T07:00:09.213091+00:00"
+    "cached_at": "2026-09-01T16:15:04.552374+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -37,15 +37,15 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 14.6,
-    "high": 25.2,
-    "low": 13.2,
-    "humidity": 71,
+    "temp": 16.6,
+    "high": 24.1,
+    "low": 12.6,
+    "humidity": 62,
     "condition": "Partly Cloudy ⛅",
-    "aqi": 21,
+    "aqi": 22,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-01T07:00:10.225334+00:00"
+    "cached_at": "2026-09-01T16:15:04.892662+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -53,14 +53,14 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 11.8,
+    "temp": 12.1,
     "high": 12.4,
-    "low": 10.9,
-    "humidity": 96,
-    "condition": "Partly Cloudy ⛅",
-    "aqi": 52,
+    "low": 10.5,
+    "humidity": 92,
+    "condition": "Overcast ☁️",
+    "aqi": 54,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-09-01T07:00:11.205332+00:00"
+    "cached_at": "2026-09-01T16:15:05.231338+00:00"
   }
 }
