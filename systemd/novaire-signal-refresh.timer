@@ -1,0 +1,12 @@
+[Unit]
+Description=Timezone-aware Novaire Signal refresh schedule
+
+[Timer]
+OnCalendar=*-*-* 07:00:00 Asia/Bangkok
+OnCalendar=Mon..Fri *-*-* 16:15:00 America/New_York
+Persistent=true
+AccuracySec=1s
+Unit=novaire-signal-refresh.service
+
+[Install]
+WantedBy=timers.target

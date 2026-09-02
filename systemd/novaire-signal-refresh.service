@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh Novaire Signal and verify production freshness
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/clawd/novaire-signal
+ExecStart=/root/clawd/novaire-signal/scripts/refresh_signal.sh
+StandardOutput=append:/root/clawd/logs/novaire-signal-refresh.log
+StandardError=append:/root/clawd/logs/novaire-signal-refresh.log
+TimeoutStartSec=45min

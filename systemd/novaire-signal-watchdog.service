@@ -1,0 +1,12 @@
+[Unit]
+Description=Repair Novaire Signal if the 07:00 Bangkok refresh is stale
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/clawd/novaire-signal
+ExecStart=/root/clawd/novaire-signal/scripts/watchdog_signal.sh
+StandardOutput=append:/root/clawd/logs/novaire-signal-watchdog.log
+StandardError=append:/root/clawd/logs/novaire-signal-watchdog.log
+TimeoutStartSec=45min

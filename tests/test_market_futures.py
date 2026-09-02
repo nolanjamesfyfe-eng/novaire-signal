@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from unittest.mock import patch
 
 import generate
 
@@ -87,6 +88,28 @@ class MarketFuturesTests(unittest.TestCase):
         self.assertNotEqual(commodities["WTI"]["name"], "Crude Oil WTI")
         self.assertEqual(commodities["DIESEL"]["name"], "Diesel")
         self.assertEqual(commodities["DIESEL"]["unit"], "/bbl")
+
+    @patch("generate.fetch_diesel", return_value={"price": 185.0, "change": 1.0})
+    @patch("generate.fetch_yahoo_commodity_fallback")
+    @patch("generate.scrape_page_text", return_value="valid but incomplete table")
+    def test_partial_investing_table_fills_missing_core_quotes(
+        self, _scrape, yahoo_fallback, _diesel
+    ):
+        yahoo_fallback.return_value = {
+            key: {"price": price, "change": 1.0, "source": "Yahoo Finance fallback"}
+            for key, price in {
+                "GOLD": 4400.0,
+                "SILVER": 67.0,
+                "COPPER": 6.7,
+                "WTI": 86.0,
+            }.items()
+        }
+
+        commodities = generate.fetch_commodities()
+
+        for key in ("GOLD", "SILVER", "COPPER", "WTI"):
+            self.assertGreater(commodities[key]["price"], 0, key)
+            self.assertEqual(commodities[key]["source"], "Yahoo Finance fallback")
 
     def test_rbob_crack_uses_aligned_adjacent_bars_and_42_gallons_per_barrel(self):
         rbob = {"chart": {"result": [{"timestamp": [1786507200, 1786593600, 1786680000], "indicators": {"quote": [{"close": [2.50, 2.60, 2.70]}]}}]}}

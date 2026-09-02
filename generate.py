@@ -2212,10 +2212,19 @@ def fetch_commodities():
             if item["price"] is not None:
                 item["quote_time"] = results_quote_time
     except Exception:
-        # Firecrawl credits or Investing availability must never blank the card.
+        pass
+
+    # Investing can return a valid but incomplete table without raising. Fill
+    # every missing core quote individually instead of only falling back when
+    # the entire scrape throws; otherwise a partial page blanks four tiles and
+    # the deploy guard correctly blocks the whole scheduled refresh.
+    missing_core = {key for key in ("GOLD", "SILVER", "COPPER", "WTI")
+                    if results[key]["price"] is None}
+    if missing_core:
         try:
             for key, parsed in fetch_yahoo_commodity_fallback().items():
-                results[key].update(parsed)
+                if key in missing_core:
+                    results[key].update(parsed)
         except Exception:
             pass
 
