@@ -1278,6 +1278,22 @@
       "market_date": "2026-08-31",
       "net_worth_cad": 121697.54,
       "source": "Google Sheet daily close"
+    },
+    {
+      "accounts": {
+        "kraken": {
+          "cad": 2622.28,
+          "usd": 1887.0
+        },
+        "tfsa_ws": {
+          "cad": 116637.82,
+          "usd": 83932.93
+        }
+      },
+      "captured_at_utc": "2026-09-02T00:27:24.780086+00:00",
+      "market_date": "2026-09-01",
+      "net_worth_cad": 119260.1,
+      "source": "Google Sheet daily close"
     }
   ],
   "source": "Google Sheet daily closes \u00b7 TFSA/WS + Kraken"
