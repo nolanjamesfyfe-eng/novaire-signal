@@ -5,6 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
+Environment=HOME=/root
 WorkingDirectory=/root/clawd/novaire-signal
 ExecStart=/root/clawd/novaire-signal/scripts/watchdog_signal.sh
 StandardOutput=append:/root/clawd/logs/novaire-signal-watchdog.log

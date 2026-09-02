@@ -45,6 +45,11 @@ class RefreshResilienceTests(unittest.TestCase):
         self.assertIn("scripts/refresh_signal.sh", watchdog)
         self.assertIn("WATCHDOG repaired", watchdog)
 
+    def test_systemd_services_set_git_credential_home(self):
+        for name in ("novaire-signal-refresh.service", "novaire-signal-watchdog.service"):
+            unit = (ROOT / "systemd" / name).read_text()
+            self.assertIn("Environment=HOME=/root", unit)
+
 
 if __name__ == "__main__":
     unittest.main()
