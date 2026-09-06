@@ -12,6 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Signal ⚡">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/quote-studio/integrated.css">
   <style>
     :root{
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
@@ -484,13 +485,17 @@
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="2026-09-06" data-daily-edition open>
       <summary><span class="card-title">Quotes</span></summary>
       <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
-        <div class="quote-type" id="qt-type"></div>
-        <div class="quote-text" id="qt-text"></div>
-        <div class="quote-author" id="qt-auth"></div>
+        <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type"></div>
+        <div class="quote-text" id="qt-text"></div><div class="quote-author" id="qt-auth"></div></div>
+        <button class="quote-share-trigger" id="quote-share-trigger" type="button" aria-label="Share this quote" title="Share this quote"><img src="/quote-studio/bolt.svg" alt=""></button></div>
       </div></div>
     </details>
     </div>
   </details>
+  <dialog class="quote-share-dialog" id="quote-share-dialog" aria-labelledby="quote-share-title"><div class="quote-share-shell">
+    <div class="quote-share-head"><div><h2 id="quote-share-title">Share this quote</h2><p>Margin composition · quote and author only</p></div><button class="quote-share-close" id="quote-share-close" type="button" aria-label="Close share dialog">×</button></div>
+    <div class="quote-share-layout"><div class="quote-share-preview"><canvas id="quote-share-canvas" width="1600" height="900" aria-label="Quote image preview"></canvas><img id="quote-share-bolt-source" src="/quote-studio/bolt.svg" alt="" hidden></div><div class="quote-share-controls"><div class="quote-share-format" role="group" aria-label="Image format"><button type="button" data-quote-format="x" aria-pressed="true">X · 1600 × 900</button><button type="button" data-quote-format="story" aria-pressed="false">Story · 1080 × 1920</button></div><button id="quote-share-native" type="button" disabled>Share image…</button><button id="quote-share-download" type="button" disabled>Download PNG</button><button id="quote-share-copy" type="button">Copy quote</button><button class="quote-post-review" id="quote-post-review" type="button">Review post to @Novairecito</button><div class="quote-share-status" id="quote-share-status" role="status" aria-live="polite"></div><div class="quote-share-final" id="quote-post-final" hidden><div class="quote-share-auth" id="quote-post-auth" hidden><label for="quote-post-pin">Portfolio PIN</label><input id="quote-post-pin" type="password" inputmode="numeric" autocomplete="current-password"><button id="quote-post-auth-button" type="button">Authenticate</button></div><div class="quote-share-status" id="quote-post-status" role="status" aria-live="polite"></div><button class="quote-share-confirm" id="quote-post-confirm" type="button" disabled>Confirm post to @Novairecito</button></div><small class="quote-share-privacy">Nothing posts without confirmation. The PIN goes only to /api/quote-auth and is not stored.</small></div></div>
+  </div></dialog>
 
   <!-- WEATHER + THAILAND NEWS -->
   <details class="card signal-accordion daily-signal-card" id="weather-card" data-edition="2026-09-06" data-daily-edition open>
@@ -1490,5 +1495,6 @@ renderActionSteps();
   refreshFutures();setInterval(refreshFutures,60000);
 }();
 </script>
+<script src="/quote-studio/integrated.js"></script>
 </body>
 </html>

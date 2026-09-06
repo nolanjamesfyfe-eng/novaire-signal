@@ -1,0 +1,19 @@
+import unittest
+from unittest.mock import patch
+import generate
+
+class QuoteShareGenerationTest(unittest.TestCase):
+    def test_render_html_preserves_integrated_quote_share_hooks(self):
+        holding = [{"ticker":"T.X","display":"T","name":"Fixture","shares":1,"currency":"USD","sector":"Other"}]
+        with patch.object(generate, "fetch_radar_moonshots", return_value={}), \
+             patch.object(generate, "show_biweekly_monday_section", return_value=False), \
+             patch.object(generate, "fetch_live_instagram_metrics", side_effect=lambda item: item):
+            html = generate.render_html({}, [], [], {}, {}, {}, {}, {"usdcad":1.3}, {}, {}, {},
+                holdings_source=holding, market_futures=[], market_indices=[])
+        for hook in ('id="quote-share-trigger"', 'id="quote-share-dialog"', 'id="quote-share-canvas"',
+                     '/quote-studio/integrated.css', '/quote-studio/integrated.js', '/quote-studio/bolt.svg'):
+            self.assertIn(hook, html)
+        self.assertEqual(html.count('M219 44Q217 43 215 44L51 180Q49 183'), 2)
+        self.assertNotIn('STOIC PHILOSOPHER', html)
+
+if __name__ == '__main__': unittest.main()
