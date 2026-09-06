@@ -3,6 +3,12 @@
   "buildCommand": "node scripts/verify-build.js",
   "outputDirectory": ".",
   "functions": {
+    "api/quote-post.js": {
+      "maxDuration": 60
+    },
+    "api/quote-auth.js": {
+      "maxDuration": 10
+    },
     "api/signal-feed.js": {
       "maxDuration": 30
     },
@@ -23,6 +29,13 @@
     }
   },
   "headers": [
+    {
+      "source": "/quote-studio/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Referrer-Policy", "value": "no-referrer" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
