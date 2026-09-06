@@ -43,6 +43,40 @@ function pngDataUrl() {
 const creds = { consumerKey:'ck', consumerSecret:'cs', accessToken:'at', accessTokenSecret:'as' };
 function response(status, body) { return { ok: status >= 200 && status < 300, status, json: async () => body }; }
 
+test('image-only validation still requires PNG and confirmation', () => {
+  const data={text:'',imageDataUrl:pngDataUrl(),confirmation:true,requestId:crypto.randomUUID()};
+  assert.equal(validatePostInput(data).text,'');
+  assert.throws(()=>validatePostInput({...data,imageDataUrl:''}));
+  assert.throws(()=>validatePostInput({...data,confirmation:false}));
+});
+
+test('image-only upload omits text and verifies the exact attached media',async()=>{
+ const calls=[];
+ const client=createXClient({credentials:creds,fetchImpl:async(url,init)=>{
+  calls.push([url,init]);
+  if(url.endsWith('/2/users/me'))return response(200,{data:{id:'42',username:'Novairecito'}});
+  if(url.endsWith('/2/media/upload'))return response(200,{data:{id:'77'}});
+  if(url.endsWith('/2/tweets')){assert.deepEqual(JSON.parse(init.body),{media:{media_ids:['77']}});return response(201,{data:{id:'88'}});}
+  if(url.includes('/2/tweets/88?'))return response(200,{data:{id:'88',author_id:'42',text:'https://t.co/card',attachments:{media_keys:['3_77']},entities:{urls:[{url:'https://t.co/card',expanded_url:'https://x.com/Novairecito/status/88/photo/1'}]}}});
+  throw Error('Unexpected request '+url);
+ }});
+ assert.equal((await client.publish({text:'',png:Buffer.from('mock-png')})).id,'88');
+ assert.equal(calls.length,4);
+});
+
+test('image-only uncertain create cannot reconcile to another image-only post',async()=>{
+ let creates=0;
+ const client=createXClient({credentials:creds,fetchImpl:async(url,init)=>{
+  if(url.endsWith('/2/users/me'))return response(200,{data:{id:'42',username:'Novairecito'}});
+  if(url.endsWith('/2/media/upload'))return response(200,{data:{id:'77'}});
+  if(url.endsWith('/2/tweets')){creates++;throw Error('mock network timeout');}
+  if(url.includes('/2/users/42/tweets?'))return response(200,{data:[{id:'99',author_id:'42',text:'',attachments:{media_keys:['3_66']},created_at:new Date().toISOString()}]});
+  throw Error('Unexpected request '+url);
+ }});
+ await assert.rejects(()=>client.publish({text:'',png:Buffer.from('mock-png')}),e=>e.code==='ambiguous');
+ assert.equal(creates,1);
+});
+
 test('quote session is scoped, signed, and expires', () => {
   const cookie = createSessionCookie('secret', 1000);
   assert.match(cookie, /^quote_session=/);

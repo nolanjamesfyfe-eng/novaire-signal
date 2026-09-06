@@ -93,9 +93,9 @@
     .meditation-title{font-family:var(--serif);font-size:1rem;color:var(--gold);margin-bottom:3px}
     .meditation-meta{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
     .meditation-brief{font-size:.72rem;line-height:1.48;color:var(--dim)}
-    .meditation-body{padding:0 14px 13px}
+    .meditation-body{padding:0 42px 13px 14px;position:relative}
     .meditation-excerpt{font-size:.86rem;line-height:1.62;color:var(--muted)}
-    .meditation-collapse{display:block;margin:11px 0 0 auto;border:0;background:transparent;color:var(--gold);font:600 .5rem var(--sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+
     #quotes-card{padding:0}
     #quotes-card>.signal-accordion-body{padding:0 16px 16px}
     #quotes-card .meditation{margin-top:0}
@@ -479,7 +479,7 @@
       </summary>
       <div class="meditation-body">
         <div class="meditation-excerpt" id="med-excerpt"></div>
-        <button class="meditation-collapse" id="med-collapse" type="button">Collapse meditation ↑</button>
+        <button class="quote-share-trigger" id="med-share-trigger" data-share-kind="meditation" type="button" aria-label="Share this meditation to X" title="Share this meditation to X"><img src="/quote-studio/bolt.svg" alt=""></button>
       </div>
     </details>
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="2026-09-06" data-daily-edition open>
@@ -487,14 +487,14 @@
       <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
         <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type"></div>
         <div class="quote-text" id="qt-text"></div><div class="quote-author" id="qt-auth"></div></div>
-        <button class="quote-share-trigger" id="quote-share-trigger" type="button" aria-label="Share this quote" title="Share this quote"><img src="/quote-studio/bolt.svg" alt=""></button></div>
+        <button class="quote-share-trigger" id="quote-share-trigger" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div>
       </div></div>
     </details>
     </div>
   </details>
   <dialog class="quote-share-dialog" id="quote-share-dialog" aria-labelledby="quote-share-title"><div class="quote-share-shell">
-    <div class="quote-share-head"><div><h2 id="quote-share-title">Share this quote</h2><p>Margin composition · quote and author only</p></div><button class="quote-share-close" id="quote-share-close" type="button" aria-label="Close share dialog">×</button></div>
-    <div class="quote-share-layout"><div class="quote-share-preview"><canvas id="quote-share-canvas" width="1600" height="900" aria-label="Quote image preview"></canvas><img id="quote-share-bolt-source" src="/quote-studio/bolt.svg" alt="" hidden></div><div class="quote-share-controls"><div class="quote-share-format" role="group" aria-label="Image format"><button type="button" data-quote-format="x" aria-pressed="true">X · 1600 × 900</button><button type="button" data-quote-format="story" aria-pressed="false">Story · 1080 × 1920</button></div><button id="quote-share-native" type="button" disabled>Share image…</button><button id="quote-share-download" type="button" disabled>Download PNG</button><button id="quote-share-copy" type="button">Copy quote</button><button class="quote-post-review" id="quote-post-review" type="button">Review post to @Novairecito</button><div class="quote-share-status" id="quote-share-status" role="status" aria-live="polite"></div><div class="quote-share-final" id="quote-post-final" hidden><div class="quote-share-auth" id="quote-post-auth" hidden><label for="quote-post-pin">Portfolio PIN</label><input id="quote-post-pin" type="password" inputmode="numeric" autocomplete="current-password"><button id="quote-post-auth-button" type="button">Authenticate</button></div><div class="quote-share-status" id="quote-post-status" role="status" aria-live="polite"></div><button class="quote-share-confirm" id="quote-post-confirm" type="button" disabled>Confirm post to @Novairecito</button></div><small class="quote-share-privacy">Nothing posts without confirmation. The PIN goes only to /api/quote-auth and is not stored.</small></div></div>
+    <div class="quote-share-head"><div><h2 id="quote-share-title">Share to X?</h2><p>Margin composition · image only</p></div><button class="quote-share-close" id="quote-share-close" type="button" aria-label="Close share dialog">×</button></div>
+    <div class="quote-share-layout"><div class="quote-share-preview"><canvas id="quote-share-canvas" width="1600" height="900" aria-label="Share image preview"></canvas><img id="quote-share-bolt-source" src="/quote-studio/bolt.svg" alt="" hidden></div><div class="quote-share-controls"><div class="quote-post-preview" id="quote-post-preview">Image only · @Novairecito</div><button class="quote-share-confirm" id="quote-post-confirm" type="button" disabled>Yes — post image to @Novairecito</button><div class="quote-share-auth" id="quote-post-auth" hidden><label for="quote-post-pin">NOS PIN</label><input id="quote-post-pin" type="password" inputmode="numeric" autocomplete="current-password"><button id="quote-post-auth-button" type="button">Authenticate</button></div><div class="quote-share-status" id="quote-post-status" role="status" aria-live="polite"></div><div class="quote-share-format" role="group" aria-label="Optional image format"><button type="button" data-quote-format="x" aria-pressed="true">X · 1600 × 900</button><button type="button" data-quote-format="story" aria-pressed="false">Story · 1080 × 1920</button></div><button id="quote-share-native" type="button" disabled>Share image…</button><button id="quote-share-download" type="button" disabled>Download PNG</button><button id="quote-share-copy" type="button">Copy text</button><div class="quote-share-status" id="quote-share-status" role="status" aria-live="polite"></div><small class="quote-share-privacy">Nothing posts until Yes. The PIN goes only to /api/quote-auth and is not stored.</small></div></div>
   </div></dialog>
 
   <!-- WEATHER + THAILAND NEWS -->
@@ -1188,10 +1188,7 @@ function getQuoteForToday(storageKey, quotes, edition) {
   document.getElementById('med-title').textContent = m.title;
   document.getElementById('med-meta').textContent = m.meta;
   document.getElementById('med-excerpt').textContent = m.excerpt;
-  document.getElementById('med-collapse').addEventListener('click', function() {
-    meditation.open = false;
-    meditation.scrollIntoView({behavior:'smooth',block:'nearest'});
-  });
+
 })();
 
 
