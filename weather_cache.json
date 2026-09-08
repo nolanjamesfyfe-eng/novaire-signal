@@ -5,15 +5,15 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 26.7,
+    "temp": 26.4,
     "high": 32.1,
     "low": 26.1,
-    "humidity": 90,
-    "condition": "Overcast ☁️",
-    "aqi": 32,
+    "humidity": 87,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 43,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-07T20:15:05.084194+00:00"
+    "cached_at": "2026-09-08T00:00:08.309790+00:00"
   },
   "Medellín": {
     "name": "Medellín",
