@@ -1,0 +1,69 @@
+{
+  "instagram": {
+    "platform": "instagram",
+    "type": "reel",
+    "title": "The Energy Shock of Our Lives !?💥🛢️",
+    "url": "https://www.instagram.com/reel/DdA1v-lSMAl/",
+    "published_at": "2026-09-08T04:47:16+00:00",
+    "views": null,
+    "likes": null,
+    "comments": 2,
+    "followers": 2513,
+    "verified_at": "2026-09-08T15:49:49.679044+00:00",
+    "source": "Instagram public profile embed",
+    "metrics_status": "Instagram does not expose public views/watches and likes here"
+  },
+  "youtube": {
+    "second_renaissance": {
+      "name": "The Second Renaissance",
+      "url": "https://www.youtube.com/@TheSecondRenaissancePod",
+      "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw",
+      "video": {
+        "title": "The Strait of Hormuz Could Trigger the Energy Shock of Our Lives",
+        "url": "https://www.youtube.com/watch?v=NUIMIrW1TZ0",
+        "published_at": "Sep 7, 2026",
+        "views": 16,
+        "likes": 2,
+        "platform": "youtube",
+        "type": "video",
+        "channel": "The Second Renaissance",
+        "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
+      },
+      "short": null,
+      "short_status": "No public Shorts",
+      "verified_at": "2026-09-08T15:49:51.099838+00:00",
+      "source": "YouTube public channel tabs and watch pages"
+    },
+    "j_novaire": {
+      "name": "J.Novaire",
+      "url": "https://www.youtube.com/@j.novaire",
+      "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g",
+      "video": {
+        "title": "Wisdom of the Elders: John Bole on Debate, Discipline, Marriage & Meaning",
+        "url": "https://www.youtube.com/watch?v=aqSWpqDuEiw",
+        "published_at": "Jul 31, 2026",
+        "views": 38,
+        "likes": 2,
+        "platform": "youtube",
+        "type": "video",
+        "channel": "J.Novaire",
+        "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
+      },
+      "short": {
+        "title": "Why We’ve Forgotten How to Debate—and How Schools Can Fix It",
+        "url": "https://www.youtube.com/shorts/Uzi1DytWUqg",
+        "published_at": "Aug 15, 2026",
+        "views": 1058,
+        "likes": 13,
+        "platform": "youtube",
+        "type": "short",
+        "channel": "J.Novaire",
+        "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
+      },
+      "verified_at": "2026-09-08T15:49:52.858366+00:00",
+      "source": "YouTube public channel tabs and watch pages"
+    }
+  },
+  "refreshed_at": "2026-09-08T15:49:52.859171+00:00",
+  "errors": {}
+}

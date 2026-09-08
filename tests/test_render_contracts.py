@@ -232,11 +232,13 @@ class RenderContractTests(unittest.TestCase):
     def test_latest_novaire_is_compact_metric_accordion(self):
         self.assertIn('class="card signal-accordion latest-novaire-card" id="latest-novaire-card"', self.html)
         self.assertIn('<summary><span class="card-title">✦ Latest from Novaire</span></summary>', self.html)
-        self.assertEqual(self.html.count('class="latest-novaire-item"'), 4)
+        self.assertEqual(self.html.count('class="latest-novaire-item"'), 6)
         for label in (
-            "INSTAGRAM · LATEST POST",
-            "YOUTUBE · LATEST CLIP",
-            "YOUTUBE · FULL EPISODE",
+            "INSTAGRAM · LATEST REEL",
+            "SECOND RENAISSANCE · LATEST VIDEO",
+            "SECOND RENAISSANCE · LATEST SHORT",
+            "J.NOVAIRE · LATEST VIDEO",
+            "J.NOVAIRE · LATEST SHORT",
             "READ · NOVAIRE INK",
         ):
             self.assertIn(label, self.html)

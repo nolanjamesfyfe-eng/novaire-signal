@@ -32,6 +32,7 @@ from portfolio_tracker import (
     upsert_daily_snapshot,
 )
 from daily_brief import write_daily
+from social_discovery import CHANNELS as SOCIAL_CHANNELS, discover_all as discover_social
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
@@ -357,7 +358,19 @@ def fetch_youtube_watch_metrics(item):
 
 
 def fetch_latest_novaire_content():
-    """Fetch current content and metrics without inventing unavailable data."""
+    """Fetch both verified YouTube channels and the newest Instagram media."""
+    try:
+        snapshot = discover_social()
+        youtube = snapshot["youtube"]
+        return {
+            "instagram": snapshot["instagram"],
+            "second_renaissance": youtube["second_renaissance"],
+            "j_novaire": youtube["j_novaire"],
+            "clip": youtube["second_renaissance"].get("short") or youtube["second_renaissance"].get("video"),
+            "episode": youtube["second_renaissance"].get("video"),
+        }
+    except Exception as exc:
+        print(f"  ⚠ Automated social discovery unavailable; using legacy verified cache: {exc}")
     instagram = fetch_live_instagram_metrics(load_latest_instagram())
     instagram.update({
         "title": os.getenv("IG_LATEST_TITLE", instagram["title"]),
@@ -429,6 +442,16 @@ def fetch_latest_novaire_content():
         save_latest_youtube(result)
     except Exception as exc:
         print(f"  ⚠ YouTube cache not updated; preserving prior verified snapshot: {exc}")
+    result["second_renaissance"] = {
+        "name": "The Second Renaissance", "url": SECOND_RENAISSANCE["channel_url"],
+        "video": result.get("episode"), "short": result.get("clip"),
+        "verified_at": youtube_cache.get("verified_at"),
+    }
+    result["j_novaire"] = {
+        "name": "J.Novaire", "url": SOCIAL_CHANNELS["j_novaire"]["url"],
+        "video": None, "short": None, "verified_at": None,
+        "video_status": "Discovery unavailable", "short_status": "Discovery unavailable",
+    }
     return result
 
 # Portfolio basis stats (from spreadsheet)
@@ -3245,15 +3268,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         </div>"""
 
     latest_content = fetch_latest_novaire_content()
-    clip = latest_content["clip"] or {
-        "title": "Latest Second Renaissance clip",
-        "url": SECOND_RENAISSANCE["channel_url"],
-        "views": None,
-        "likes": None,
-    }
-    episode = latest_content["episode"]
     instagram = latest_content["instagram"]
-    measurable = [item.get("likes") for item in (instagram, clip, episode) if item.get("likes") is not None]
+    tsr = latest_content["second_renaissance"]
+    personal = latest_content["j_novaire"]
+    social_media = [instagram] + [item for channel in (tsr, personal) for item in (channel.get("video"), channel.get("short")) if item]
+    measurable = [item.get("likes") for item in social_media if item.get("likes") is not None]
     top_likes = max(measurable) if measurable else None
 
     def compact_count(value):
@@ -3265,7 +3284,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             return f"{value / 1_000:.1f}K"
         return f"{value:,}"
 
-    def social_item(kicker, item, action, extra_metric=""):
+    def social_item(kicker, item, action, extra_metric="", status="", verified_at=""):
+        if not item:
+            item = {"title": status or "No public upload", "url": "#", "views": None, "likes": None}
         views = item.get("views")
         likes = item.get("likes")
         comments = item.get("comments")
@@ -3280,6 +3301,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             visible_metrics.append(f'<span><b>{compact_count(likes)}</b> likes</span>')
         if comments is not None:
             visible_metrics.append(f'<span><b>{compact_count(comments)}</b> comments</span>')
+        verified = item.get("verified_at") or verified_at or ""
+        provenance = " · ".join(part for part in (
+            status or item.get("metrics_status"), f"verified {verified[:10]}" if verified else ""
+        ) if part)
+        if provenance:
+            visible_metrics.append(f'<span>{escape(provenance)}</span>')
+        link = (f'<a href="{escape(item["url"], quote=True)}" target="_blank" rel="noopener">{action} →</a>'
+                if item.get("url") != "#" else '<span class="latest-novaire-unavailable">Unavailable</span>')
         return f'''<details class="latest-novaire-item">
           <summary>
             <span class="latest-novaire-copy">
@@ -3290,18 +3319,21 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           </summary>
           <div class="latest-novaire-detail">
             <div class="latest-novaire-metrics">{"".join(visible_metrics)}{top_badge}</div>
-            <a href="{escape(item["url"], quote=True)}" target="_blank" rel="noopener">{action} →</a>
+            {link}
           </div>
         </details>'''
 
     instagram_followers = (
-        f'<span><b>{compact_count(instagram.get("followers"))}</b> followers</span>'
-        if instagram.get("followers") is not None else ""
+        f'<span><b>{compact_count(instagram.get("followers"))}</b> followers · '
+        f'<a href="{INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener">@j.novaire</a></span>'
+        if instagram.get("followers") is not None else f'<a href="{INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener">@j.novaire</a>'
     )
     latest_social_items = "".join([
-        social_item("INSTAGRAM · LATEST POST", instagram, "Open Instagram", instagram_followers),
-        social_item("YOUTUBE · LATEST CLIP", clip, "Watch clip"),
-        social_item("YOUTUBE · FULL EPISODE", episode, "Play episode"),
+        social_item(f"INSTAGRAM · LATEST {instagram.get('type', 'POST').upper()}", instagram, "Open Instagram", instagram_followers),
+        social_item("SECOND RENAISSANCE · LATEST VIDEO", tsr.get("video"), "Watch video", verified_at=tsr.get("verified_at", "")),
+        social_item("SECOND RENAISSANCE · LATEST SHORT", tsr.get("short"), "Watch Short", status=tsr.get("short_status", ""), verified_at=tsr.get("verified_at", "")),
+        social_item("J.NOVAIRE · LATEST VIDEO", personal.get("video"), "Watch video", verified_at=personal.get("verified_at", "")),
+        social_item("J.NOVAIRE · LATEST SHORT", personal.get("short"), "Watch Short", status=personal.get("short_status", ""), verified_at=personal.get("verified_at", "")),
     ])
 
     latest_novaire_html = f"""
