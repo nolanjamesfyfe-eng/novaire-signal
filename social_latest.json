@@ -8,8 +8,8 @@
     "views": null,
     "likes": null,
     "comments": 2,
-    "followers": 2513,
-    "verified_at": "2026-09-08T15:49:49.679044+00:00",
+    "followers": 2521,
+    "verified_at": "2026-09-08T20:15:59.866953+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -22,7 +22,7 @@
         "title": "The Strait of Hormuz Could Trigger the Energy Shock of Our Lives",
         "url": "https://www.youtube.com/watch?v=NUIMIrW1TZ0",
         "published_at": "Sep 7, 2026",
-        "views": 16,
+        "views": 18,
         "likes": 2,
         "platform": "youtube",
         "type": "video",
@@ -31,7 +31,7 @@
       },
       "short": null,
       "short_status": "No public Shorts",
-      "verified_at": "2026-09-08T15:49:51.099838+00:00",
+      "verified_at": "2026-09-08T20:16:00.630497+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -53,17 +53,17 @@
         "title": "Why We’ve Forgotten How to Debate—and How Schools Can Fix It",
         "url": "https://www.youtube.com/shorts/Uzi1DytWUqg",
         "published_at": "Aug 15, 2026",
-        "views": 1058,
+        "views": 1059,
         "likes": 13,
         "platform": "youtube",
         "type": "short",
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-09-08T15:49:52.858366+00:00",
+      "verified_at": "2026-09-08T20:16:01.745508+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-09-08T15:49:52.859171+00:00",
+  "refreshed_at": "2026-09-08T20:16:01.747291+00:00",
   "errors": {}
 }
