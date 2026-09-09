@@ -9,7 +9,7 @@
     "likes": null,
     "comments": 2,
     "followers": 2521,
-    "verified_at": "2026-09-08T20:15:59.866953+00:00",
+    "verified_at": "2026-09-09T00:01:28.707218+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -31,7 +31,7 @@
       },
       "short": null,
       "short_status": "No public Shorts",
-      "verified_at": "2026-09-08T20:16:00.630497+00:00",
+      "verified_at": "2026-09-09T00:01:32.584686+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -60,10 +60,10 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-09-08T20:16:01.745508+00:00",
+      "verified_at": "2026-09-09T00:01:37.800677+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-09-08T20:16:01.747291+00:00",
+  "refreshed_at": "2026-09-09T00:01:37.802433+00:00",
   "errors": {}
 }

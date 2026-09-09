@@ -5,15 +5,15 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 25.9,
+    "temp": 26.4,
     "high": 32.1,
     "low": 25.8,
-    "humidity": 89,
-    "condition": "Overcast ☁️",
-    "aqi": 35,
+    "humidity": 87,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 31,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-08T20:15:04.094219+00:00"
+    "cached_at": "2026-09-09T00:00:08.370545+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -53,14 +53,14 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 13.1,
+    "temp": 11.6,
     "high": 14.3,
     "low": 6.4,
-    "humidity": 77,
+    "humidity": 76,
     "condition": "Clear Sky ☀️",
-    "aqi": 46,
+    "aqi": 47,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-08T20:15:05.142932+00:00"
+    "cached_at": "2026-09-09T00:00:14.531648+00:00"
   }
 }
