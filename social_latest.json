@@ -8,8 +8,8 @@
     "views": null,
     "likes": null,
     "comments": 2,
-    "followers": 2521,
-    "verified_at": "2026-09-09T20:16:06.709204+00:00",
+    "followers": 2543,
+    "verified_at": "2026-09-10T00:01:18.423924+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -22,7 +22,7 @@
         "title": "The Strait of Hormuz Could Trigger the Energy Shock of Our Lives",
         "url": "https://www.youtube.com/watch?v=NUIMIrW1TZ0",
         "published_at": "Sep 7, 2026",
-        "views": 18,
+        "views": 23,
         "likes": 2,
         "platform": "youtube",
         "type": "video",
@@ -31,7 +31,7 @@
       },
       "short": null,
       "short_status": "No public Shorts",
-      "verified_at": "2026-09-09T00:01:32.584686+00:00",
+      "verified_at": "2026-09-10T00:01:21.820907+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -42,7 +42,7 @@
         "title": "Wisdom of the Elders: John Bole on Debate, Discipline, Marriage & Meaning",
         "url": "https://www.youtube.com/watch?v=aqSWpqDuEiw",
         "published_at": "Jul 31, 2026",
-        "views": 38,
+        "views": 39,
         "likes": 2,
         "platform": "youtube",
         "type": "video",
@@ -60,13 +60,10 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-09-09T00:01:37.800677+00:00",
+      "verified_at": "2026-09-10T00:01:26.676366+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-09-09T20:16:07.714465+00:00",
-  "errors": {
-    "second_renaissance": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DNUIMIrW1TZ0&q=EhAqAkeAAF6f9wAAAAAAAAABGIb9htUGIjDDpec80t1HmST2TEB6hngv8i8ZfeKa1vGt9D_8b3JK_DG8ppyoKfluuL0viipuY3cyAnJSWgFD",
-    "j_novaire": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DaqSWpqDuEiw&q=EhAqAkeAAF6f9wAAAAAAAAABGIf9htUGIjC528phTjVk-DtfgnP_xhQUDYJif5lNXsFGIKcyOZane0vcZJSu2w4AmHcMFP8CWs8yAnJSWgFD"
-  }
+  "refreshed_at": "2026-09-10T00:01:26.677413+00:00",
+  "errors": {}
 }
