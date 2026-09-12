@@ -316,9 +316,9 @@ class RenderContractTests(unittest.TestCase):
 
     def test_latest_instagram_uses_verified_post_cache(self):
         item = generate.load_latest_instagram()
-        self.assertEqual(item["url"], "https://www.instagram.com/j.novaire/reel/DbfU2zHiXyU/")
-        self.assertIn("Sexuality Maxxing", item["title"])
-        self.assertEqual(item["published_at"], "2026-08-01")
+        self.assertEqual(item["url"], "https://www.instagram.com/reel/Dc_InViPcmO/")
+        self.assertEqual(item["title"], "Sexuality Maxxing, Part 2: The Ladyboy Follow-Up")
+        self.assertEqual(item["published_at"], "2026-09-07T12:44:46+00:00")
 
     def test_evolution_fund_daily_gain_loss_uses_position_weighted_move(self):
         amount, percent = generate.position_weighted_daily_gain_loss([
