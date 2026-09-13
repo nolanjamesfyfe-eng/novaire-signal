@@ -1415,10 +1415,10 @@
         },
         "tfsa_ws": {
           "cad": 108868.67,
-          "usd": 78551.65
+          "usd": 78551.66
         }
       },
-      "captured_at_utc": "2026-09-12T00:00:25.334655+00:00",
+      "captured_at_utc": "2026-09-13T00:00:24.304711+00:00",
       "market_date": "2026-09-11",
       "net_worth_cad": 111483.96,
       "source": "Google Sheet daily close"
