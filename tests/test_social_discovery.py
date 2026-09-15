@@ -41,6 +41,20 @@ class SocialDiscoveryTests(unittest.TestCase):
         self.assertEqual(result["instagram"]["verified_at"], "2026-09-08T00:00:00Z")
         self.assertEqual(result["youtube"]["j_novaire"]["video"]["title"], "Verified")
 
+    def test_partial_instagram_listing_cannot_regress_latest_item(self):
+        cached = {"url": "https://www.instagram.com/reel/new/", "published_at": "2026-09-08T04:47:16+00:00"}
+        candidate = {"url": "https://www.instagram.com/reel/old/", "published_at": "2026-09-07T12:44:46+00:00"}
+        selected, regressed = social._keep_newest(candidate, cached)
+        self.assertTrue(regressed)
+        self.assertEqual(selected["url"], cached["url"])
+
+    def test_newer_instagram_item_replaces_cache(self):
+        cached = {"url": "https://www.instagram.com/reel/old/", "published_at": "2026-09-07T12:44:46+00:00"}
+        candidate = {"url": "https://www.instagram.com/reel/new/", "published_at": "2026-09-08T04:47:16+00:00"}
+        selected, regressed = social._keep_newest(candidate, cached)
+        self.assertFalse(regressed)
+        self.assertEqual(selected["url"], candidate["url"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -44,6 +44,28 @@ def _caption_title(text: str | None) -> str:
     return first or "Latest Instagram post"
 
 
+def _published_timestamp(item: dict[str, Any] | None) -> float | None:
+    value = str((item or {}).get("published_at") or "").strip()
+    if not value:
+        return None
+    for fmt in (None, "%b %d, %Y"):
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00")) if fmt is None else datetime.strptime(value, fmt).replace(tzinfo=timezone.utc)
+            return parsed.timestamp()
+        except ValueError:
+            continue
+    return None
+
+
+def _keep_newest(candidate: dict[str, Any], cached: dict[str, Any] | None) -> tuple[dict[str, Any], bool]:
+    """Never let a partial upstream listing replace a known newer item."""
+    candidate_ts = _published_timestamp(candidate)
+    cached_ts = _published_timestamp(cached)
+    if candidate_ts is not None and cached_ts is not None and candidate_ts < cached_ts:
+        return dict(cached or {}), True
+    return candidate, False
+
+
 def discover_instagram(session=requests) -> dict[str, Any]:
     """Discover the newest public post/Reel from Instagram's profile embed."""
     response = session.get(
@@ -186,7 +208,10 @@ def discover_all(path: Path = DEFAULT_CACHE, session=requests) -> dict[str, Any]
     result = {"instagram": cached.get("instagram"), "youtube": dict(cached.get("youtube") or {})}
     errors: dict[str, str] = {}
     try:
-        result["instagram"] = discover_instagram(session=session)
+        instagram, regressed = _keep_newest(discover_instagram(session=session), cached.get("instagram"))
+        result["instagram"] = instagram
+        if regressed:
+            errors["instagram"] = "public profile embed returned older media; retained newer verified item"
     except Exception as exc:
         errors["instagram"] = str(exc)
     for key in CHANNELS:
