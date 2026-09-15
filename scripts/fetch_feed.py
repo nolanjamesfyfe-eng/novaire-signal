@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Novaire Signal — Signal Feed fetcher.
-Runs with the daily 07:00 Asia/Bangkok site refresh. Outputs feed.json.
+Runs with the daily 06:00 Asia/Bangkok site refresh. Outputs feed.json.
 
 Feed spec (up to 12 tweets per run):
   Four consecutive pages of 3 posts, ranked by engagement across the scanner accounts.

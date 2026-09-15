@@ -1,5 +1,5 @@
 [Unit]
-Description=Repair Novaire Signal if the 07:00 Bangkok refresh is stale
+Description=Repair Novaire Signal if the 06:00 Bangkok refresh is stale
 After=network-online.target
 Wants=network-online.target
 

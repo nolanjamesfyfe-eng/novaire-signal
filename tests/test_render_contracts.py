@@ -329,13 +329,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertAlmostEqual(amount, 5.0, places=6)
         self.assertAlmostEqual(percent, 2.5, places=6)
 
-    def test_daily_signal_edition_resets_at_7am_bangkok(self):
+    def test_daily_signal_edition_resets_at_6am_bangkok(self):
         self.assertEqual(
-            generate.daily_signal_edition(datetime(2026, 8, 20, 6, 59, tzinfo=generate.BKK_TZ)),
+            generate.daily_signal_edition(datetime(2026, 8, 20, 5, 59, tzinfo=generate.BKK_TZ)),
             "2026-08-19",
         )
         self.assertEqual(
-            generate.daily_signal_edition(datetime(2026, 8, 20, 7, 0, tzinfo=generate.BKK_TZ)),
+            generate.daily_signal_edition(datetime(2026, 8, 20, 6, 0, tzinfo=generate.BKK_TZ)),
             "2026-08-20",
         )
 

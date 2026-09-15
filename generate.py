@@ -918,13 +918,13 @@ def day_of_year():
 
 
 def daily_signal_edition(value=None):
-    """Return the Bangkok operating day, which rolls over at 07:00 ICT."""
+    """Return the Bangkok operating day, which rolls over at 06:00 ICT."""
     current = value or datetime.now(timezone.utc).astimezone(BKK_TZ)
     if current.tzinfo is None:
         current = current.replace(tzinfo=BKK_TZ)
     else:
         current = current.astimezone(BKK_TZ)
-    return (current - timedelta(hours=7)).strftime("%Y-%m-%d")
+    return (current - timedelta(hours=6)).strftime("%Y-%m-%d")
 
 
 def position_weighted_daily_gain_loss(positions):

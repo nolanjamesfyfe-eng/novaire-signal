@@ -2,7 +2,8 @@
 Description=Novaire Signal post-refresh freshness watchdog
 
 [Timer]
-OnCalendar=*-*-* 07:20:00 Asia/Bangkok
+OnCalendar=*-*-* 06:20:00 Asia/Bangkok
+OnCalendar=*-*-* 06:40:00 Asia/Bangkok
 Persistent=true
 AccuracySec=1s
 Unit=novaire-signal-watchdog.service
