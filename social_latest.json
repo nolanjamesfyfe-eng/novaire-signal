@@ -9,7 +9,7 @@
     "likes": null,
     "comments": 4,
     "followers": 2560,
-    "verified_at": "2026-09-15T20:16:02.438089+00:00",
+    "verified_at": "2026-09-15T22:43:42.826222+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -22,7 +22,7 @@
         "title": "The Strait of Hormuz Could Trigger the Energy Shock of Our Lives",
         "url": "https://www.youtube.com/watch?v=NUIMIrW1TZ0",
         "published_at": "Sep 7, 2026",
-        "views": 29,
+        "views": 30,
         "likes": 2,
         "platform": "youtube",
         "type": "video",
@@ -40,7 +40,7 @@
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-09-15T20:16:03.656342+00:00",
+      "verified_at": "2026-09-15T22:43:44.073397+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -69,10 +69,10 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-09-15T20:16:04.948192+00:00",
+      "verified_at": "2026-09-15T22:43:45.124674+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-09-15T20:16:04.949316+00:00",
+  "refreshed_at": "2026-09-15T22:43:45.125746+00:00",
   "errors": {}
 }
