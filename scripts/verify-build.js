@@ -74,19 +74,29 @@ const youtubeCards = [
   'J.NOVAIRE · LATEST VIDEO',
   'J.NOVAIRE · LATEST SHORT',
 ];
-for (const label of youtubeCards) {
+function cardSegment(label) {
   const start = mainHtml.indexOf(label);
-  const segment = start >= 0 ? mainHtml.slice(start, start + 1800) : '';
-  if (start < 0 || !/<b>[0-9][0-9.,KM]*<\/b> views<\/span>/.test(segment) || !/<b>[0-9][0-9.,KM]*<\/b> likes<\/span>/.test(segment)) {
+  return start >= 0 ? mainHtml.slice(start, start + 1800) : '';
+}
+function hasVerifiedMetrics(segment) {
+  return /<b>[0-9][0-9.,KM]*<\/b> views<\/span>/.test(segment)
+    && /<b>[0-9][0-9.,KM]*<\/b> likes<\/span>/.test(segment);
+}
+for (const label of youtubeCards) {
+  if (!hasVerifiedMetrics(cardSegment(label))) {
     console.error(`❌ Build guard failed: ${label} is missing verified views or likes.`);
     process.exit(1);
   }
+}
+const secondRenaissanceShort = cardSegment('SECOND RENAISSANCE · LATEST SHORT');
+if (!secondRenaissanceShort || (!hasVerifiedMetrics(secondRenaissanceShort) && !secondRenaissanceShort.includes('No public Shorts'))) {
+  console.error('❌ Build guard failed: SECOND RENAISSANCE · LATEST SHORT is neither verified media nor an honest empty state.');
+  process.exit(1);
 }
 for (const marker of [
   'INSTAGRAM · LATEST REEL',
   'Instagram does not expose public views/watches and likes here',
   'SECOND RENAISSANCE · LATEST SHORT',
-  'No public Shorts',
   'verified 2026-',
 ]) {
   if (!mainHtml.includes(marker)) {
