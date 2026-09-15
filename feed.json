@@ -2,7 +2,7 @@
   "ok": true,
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-09-15T22:46:22.821437+00:00",
+  "fetchedAt": "2026-09-15T23:21:16.079847+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
@@ -17,13 +17,13 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-09-15T18:44:53+00:00",
       "createdAtMs": 1789497893000,
-      "likes": 9141,
-      "retweets": 1186,
+      "likes": 9300,
+      "retweets": 1209,
       "url": "https://x.com/WatcherGuru/status/2099932484205240366",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 10327
+      "engagementScore": 10509
     },
     {
       "id": "2099933487566291068",
@@ -32,13 +32,13 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-09-15T18:48:52+00:00",
       "createdAtMs": 1789498132000,
-      "likes": 6144,
-      "retweets": 625,
+      "likes": 6280,
+      "retweets": 638,
       "url": "https://x.com/KobeissiLetter/status/2099933487566291068",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 6769
+      "engagementScore": 6918
     },
     {
       "id": "2099913683216334853",
@@ -47,13 +47,13 @@
       "handle": "tferriss",
       "createdAt": "2026-09-15T17:30:11+00:00",
       "createdAtMs": 1789493411000,
-      "likes": 2084,
-      "retweets": 237,
+      "likes": 2163,
+      "retweets": 251,
       "url": "https://x.com/tferriss/status/2099913683216334853",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 2321
+      "engagementScore": 2414
     },
     {
       "id": "2099979127516274935",
@@ -62,28 +62,13 @@
       "handle": "zerohedge",
       "createdAt": "2026-09-15T21:50:14+00:00",
       "createdAtMs": 1789509014000,
-      "likes": 354,
-      "retweets": 33,
+      "likes": 478,
+      "retweets": 42,
       "url": "https://x.com/zerohedge/status/2099979127516274935",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 387
-    },
-    {
-      "id": "2099911609099649275",
-      "text": "China's oil prices are surging to multi-decade highs https://t.co/o42AbOuvUF",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-09-15T17:21:56+00:00",
-      "createdAtMs": 1789492916000,
-      "likes": 299,
-      "retweets": 39,
-      "url": "https://x.com/JoshYoung/status/2099911609099649275",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 338
+      "engagementScore": 520
     },
     {
       "id": "2099768143539294372",
@@ -92,13 +77,13 @@
       "handle": "nntaleb",
       "createdAt": "2026-09-15T07:51:51+00:00",
       "createdAtMs": 1789458711000,
-      "likes": 297,
+      "likes": 298,
       "retweets": 22,
       "url": "https://x.com/nntaleb/status/2099768143539294372",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 319
+      "slot_order": 5,
+      "engagementScore": 320
     },
     {
       "id": "2099915775679271388",
@@ -107,13 +92,28 @@
       "handle": "hkuppy",
       "createdAt": "2026-09-15T17:38:30+00:00",
       "createdAtMs": 1789493910000,
-      "likes": 195,
+      "likes": 203,
       "retweets": 10,
       "url": "https://x.com/hkuppy/status/2099915775679271388",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 6,
+      "engagementScore": 213
+    },
+    {
+      "id": "2099993254754185530",
+      "text": "Generalists are discovering the energy crisis https://t.co/hf60KtDhgu",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-09-15T22:46:22+00:00",
+      "createdAtMs": 1789512382000,
+      "likes": 93,
+      "retweets": 6,
+      "url": "https://x.com/JoshYoung/status/2099993254754185530",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 205
+      "engagementScore": 99
     },
     {
       "id": "2099928258905346330",
@@ -122,13 +122,28 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-09-15T18:28:06+00:00",
       "createdAtMs": 1789496886000,
-      "likes": 70,
+      "likes": 71,
       "retweets": 4,
       "url": "https://x.com/wmiddelkoop/status/2099928258905346330",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 74
+      "engagementScore": 75
+    },
+    {
+      "id": "2099981603921432635",
+      "text": "When playing poker tournaments, as it moves forward in time, the blinds get raised.  This is done to force action by.  And it favors the bigger stacks at the table. \n\nNow look at Global rates.\n\nAnd the strategy you don’t think exists will start to reveal itself. https://t.co/zGMgTDz6kN",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-09-15T22:00:04+00:00",
+      "createdAtMs": 1789509604000,
+      "likes": 61,
+      "retweets": 4,
+      "url": "https://x.com/SantiagoAuFund/status/2099981603921432635",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 9,
+      "engagementScore": 65
     },
     {
       "id": "2099941284697792529",
@@ -142,23 +157,8 @@
       "url": "https://x.com/quakes99/status/2099941284697792529",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 50
-    },
-    {
-      "id": "2099981603921432635",
-      "text": "When playing poker tournaments, as it moves forward in time, the blinds get raised.  This is done to force action by.  And it favors the bigger stacks at the table. \n\nNow look at Global rates.\n\nAnd the strategy you don’t think exists will start to reveal itself. https://t.co/zGMgTDz6kN",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-09-15T22:00:04+00:00",
-      "createdAtMs": 1789509604000,
-      "likes": 41,
-      "retweets": 3,
-      "url": "https://x.com/SantiagoAuFund/status/2099981603921432635",
-      "avatar": null,
-      "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 44
+      "engagementScore": 50
     },
     {
       "id": "2099886310953492903",
