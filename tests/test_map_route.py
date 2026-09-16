@@ -23,11 +23,16 @@ def test_every_catalog_country_has_real_geometry():
     assert all(f["geometry"]["type"] in {"Polygon", "MultiPolygon"} for f in world["features"])
 
 
-def test_public_answers_start_empty_and_page_is_read_only():
+def test_public_answers_are_valid_and_page_is_read_only():
     visited = json.loads((MAP / "visited.json").read_text())
-    assert visited == {"answers": {}}
+    codes = {c['iso2'] for c in json.loads((MAP / 'countries.json').read_text())}
+    assert set(visited['answers']) <= codes
+    assert all(type(v) is bool for v in visited['answers'].values())
     html = (MAP / "index.html").read_text()
-    assert "fetch(`./visited.json?t=${Date.now()}`" in html
+    assert 'src="/map/d3.min.js"' in html
+    assert "fetch('/map/countries.json')" in html
+    assert "fetch('/map/world.geojson')" in html
+    assert "fetch(`/map/visited.json?t=${Date.now()}`" in html
     assert "cache:'no-store'" in html
     assert "setInterval(loadAnswers,60000)" in html
     assert "fetch(" in html
