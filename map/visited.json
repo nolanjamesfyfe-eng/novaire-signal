@@ -1,8 +1,18 @@
 {
   "answers": {
+    "AD": false,
     "AF": false,
+    "AG": false,
     "AL": true,
+    "AM": false,
+    "AO": false,
+    "AR": false,
+    "AT": true,
+    "AU": false,
+    "AZ": false,
+    "BH": false,
+    "BS": true,
     "DZ": false
   },
-  "updatedAt": "2026-09-16T14:20:20Z"
+  "updatedAt": "2026-09-16T14:22:07Z"
 }
