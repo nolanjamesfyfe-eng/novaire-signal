@@ -10,9 +10,19 @@
     "AT": true,
     "AU": false,
     "AZ": false,
+    "BA": true,
+    "BB": false,
+    "BD": false,
+    "BE": true,
     "BH": false,
+    "BJ": false,
+    "BO": false,
     "BS": true,
+    "BT": false,
+    "BW": false,
+    "BY": false,
+    "BZ": false,
     "DZ": false
   },
-  "updatedAt": "2026-09-16T14:22:07Z"
+  "updatedAt": "2026-09-16T14:24:47Z"
 }
