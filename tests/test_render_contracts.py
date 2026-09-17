@@ -189,6 +189,32 @@ class RenderContractTests(unittest.TestCase):
         globe_painted_height_em = min(1.13 / 22.3, 1.05 / 22.3) * (2 * 10.25 + .8)
         self.assertLess(abs(globe_painted_height_em - bolt_painted_height_em), .002)
 
+    def test_header_icons_keep_geometry_and_use_reduced_motion_safe_illumination(self):
+        source = (ROOT / "generate.py").read_text(encoding="utf-8")
+        locked_markers = (
+            'viewBox="45 38 200 264"',
+            'M219 44Q217 43 215 44L51 180Q49 183 51 185',
+            'viewBox=".85 .85 22.3 22.3"',
+            '.signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px',
+            '.signal-map{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px',
+            '.signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}',
+            '.signal-map-icon{width:1.13em;height:1.05em;display:block}',
+            '.signal-map-land{fill:#b59662}',
+            '.signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}',
+        )
+        for marker in locked_markers:
+            self.assertIn(marker, self.html)
+            source_marker = marker.replace("{", "{{") if marker.startswith(".") else marker
+            self.assertIn(source_marker, source)
+        self.assertIn('@keyframes header-signal-illuminate', self.html)
+        self.assertIn('.header-brand .signal-bolt-icon,.header-brand .signal-map-icon{animation:header-signal-illuminate 4.4s ease-in-out infinite', self.html)
+        self.assertIn('.header-brand .signal-map-icon{animation-delay:1.1s}', self.html)
+        self.assertIn('.header-brand .signal-bolt:hover,.header-brand .signal-map:hover{opacity:1;transform:none}', self.html)
+        self.assertIn('.header-brand .signal-bolt:focus-visible,.header-brand .signal-map:focus-visible{outline:1px solid #b59662', self.html)
+        self.assertIn('@media (prefers-reduced-motion:reduce)', self.html)
+        self.assertIn('.header-brand .signal-bolt-icon,.header-brand .signal-map-icon{animation:none;filter:none;opacity:1}', self.html)
+        self.assertNotIn('scale(', self.html.split('@keyframes header-signal-illuminate', 1)[1].split('.section-bolt', 1)[0])
+
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts · Top 5 Holdings"
         self.assertIn(heading, self.html)
