@@ -128,10 +128,12 @@
     "NZ": true,
     "OM": false,
     "PA": true,
+    "PE": true,
     "PG": false,
     "PH": true,
     "PK": false,
     "PS": false,
+    "PW": false,
     "PY": false,
     "RW": false,
     "SC": false,
@@ -153,5 +155,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T04:01:18Z"
+  "updatedAt": "2026-09-17T04:04:24Z"
 }
