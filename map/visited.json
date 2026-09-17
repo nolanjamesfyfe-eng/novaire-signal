@@ -69,8 +69,17 @@
     "HN": false,
     "HR": true,
     "HT": false,
+    "HU": false,
     "ID": true,
+    "IE": false,
+    "IN": false,
+    "IQ": false,
+    "IR": false,
     "IS": false,
+    "IT": true,
+    "JM": false,
+    "JO": false,
+    "JP": true,
     "KE": false,
     "KH": true,
     "KM": false,
@@ -107,5 +116,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T03:34:08Z"
+  "updatedAt": "2026-09-17T03:38:52Z"
 }
