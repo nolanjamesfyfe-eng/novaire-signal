@@ -36,4 +36,4 @@ git push origin main
 }
 ```
 
-The catalog contains exactly 195 entries: 193 UN members plus the two UN observer states, Palestine and Vatican City. `world.geojson` contains Natural Earth country geometry. Small island nations and microstates also receive visible point markers at world scale.
+The catalog contains 199 tracked destinations: the 195-country baseline (193 UN members plus Palestine and Vatican City), plus Taiwan, Kosovo, Hong Kong, and Macau, explicitly confirmed visited. This is not an exhaustive territories list. The percentage uses this 199-entry atlas. Kosovo uses the user-assigned code XK. Additional geometry is sourced from Natural Earth ne_10m_admin_0_countries.geojson; Hong Kong and Macau also have visible markers. `world.geojson` contains Natural Earth country geometry. Small island nations and microstates also receive visible point markers at world scale.

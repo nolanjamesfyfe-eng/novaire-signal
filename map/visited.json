@@ -71,6 +71,7 @@
     "GT": false,
     "GW": false,
     "GY": false,
+    "HK": true,
     "HN": false,
     "HR": true,
     "HT": false,
@@ -117,6 +118,7 @@
     "ML": false,
     "MM": false,
     "MN": false,
+    "MO": true,
     "MR": false,
     "MT": false,
     "MU": false,
@@ -179,6 +181,7 @@
     "TR": false,
     "TT": false,
     "TV": false,
+    "TW": true,
     "TZ": false,
     "UA": false,
     "UG": false,
@@ -191,10 +194,11 @@
     "VN": true,
     "VU": false,
     "WS": true,
+    "XK": true,
     "YE": false,
     "ZA": false,
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T04:16:00Z"
+  "updatedAt": "2026-09-17T04:24:58Z"
 }

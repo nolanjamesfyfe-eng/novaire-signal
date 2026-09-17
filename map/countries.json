@@ -292,6 +292,10 @@
     "name": "Honduras"
   },
   {
+    "iso2": "HK",
+    "name": "Hong Kong"
+  },
+  {
     "iso2": "HU",
     "name": "Hungary"
   },
@@ -356,6 +360,10 @@
     "name": "Korea, Democratic People's Republic of"
   },
   {
+    "iso2": "XK",
+    "name": "Kosovo"
+  },
+  {
     "iso2": "KW",
     "name": "Kuwait"
   },
@@ -398,6 +406,10 @@
   {
     "iso2": "LU",
     "name": "Luxembourg"
+  },
+  {
+    "iso2": "MO",
+    "name": "Macau"
   },
   {
     "iso2": "MG",
@@ -678,6 +690,10 @@
   {
     "iso2": "SY",
     "name": "Syria"
+  },
+  {
+    "iso2": "TW",
+    "name": "Taiwan"
   },
   {
     "iso2": "TJ",
