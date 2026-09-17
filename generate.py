@@ -3782,7 +3782,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
 
     @media(max-width:600px){{
-      .signal-map{{margin-left:21px}}
+      .signal-map{{margin-left:23px}}
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(3,minmax(0,1fr))}}
       .commodity-item[data-commodity="GOLD"]{{order:1}}
