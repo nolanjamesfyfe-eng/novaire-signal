@@ -157,12 +157,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("items.map((item,index)", self.html)
 
     def test_header_globe_links_to_public_countries_map(self):
-        globe_path = "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"
+        continent_path = "M3.08 8.67 4.2 6.43"
         header = self.html.split("<!-- HEADER BRANDING -->", 1)[1].split("<!-- PERSONAL COUNTDOWNS -->", 1)[0]
         footer = self.html.split("<!-- FOOTER BRANDING -->", 1)[1]
         self.assertEqual(header.count('class="signal-map"'), 1)
         self.assertEqual(header.count('class="signal-map-icon"'), 1)
-        self.assertEqual(header.count(globe_path), 1)
+        self.assertEqual(header.count(continent_path), 1)
+        self.assertNotIn("M2 12h20", header)
         self.assertNotIn('class="signal-map"', footer)
         self.assertIn(
             '<a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">',
@@ -172,7 +173,11 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".header-brand .footer-logo{white-space:nowrap}", self.html)
         self.assertIn("margin-left:6px", self.html)
         self.assertIn("color:#b59662", self.html)
-        self.assertIn(".signal-map-icon{width:.9em;height:.9em;display:block;fill:none;stroke:currentColor;stroke-width:1.35", self.html)
+        self.assertIn(".signal-map-icon{width:.82em;height:1.05em;display:block}", self.html)
+        self.assertIn(".signal-map-ocean{fill:#0a0a0c}", self.html)
+        self.assertIn(".signal-map-land{fill:#b59662}", self.html)
+        self.assertIn(".signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}", self.html)
+        self.assertEqual(self.html.count(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}"), 1)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts · Top 5 Holdings"

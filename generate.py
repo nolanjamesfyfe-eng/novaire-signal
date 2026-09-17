@@ -2873,8 +2873,16 @@ SIGNAL_BOLT_SVG = (
 
 SIGNAL_MAP_SVG = (
     '<svg class="signal-map-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
-    '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/>'
-    '<path d="M2 12h20M12 2c2.6 2.74 4 6.08 4 10s-1.4 7.26-4 10M12 2C9.4 4.74 8 8.08 8 12s1.4 7.26 4 10"/>'
+    '<circle class="signal-map-ocean" cx="12" cy="12" r="10.25"/>'
+    '<g class="signal-map-land">'
+    '<path d="M3.08 8.67 4.2 6.43l1.7-1.67 2.29-1.34 2.03-.68 1.02.42-.43.88-1.61.44-.56.9-1.02.18-.42 1.18-1.12.16-.35 1.2.7 1.14 1.47.49.63.9-.16 1.14-1.02.66-.34 1.14-1.1-.04-.55-1.02-1.28-.5-.7-1.45-1.05-.81-.49-1.07Z"/>'
+    '<path d="m9.12 13.04 1.05-.52 1.39.33.91 1.06-.17 1.36-.78 1.15-.22 1.6-.83 1.13-.31 1.7-.67.69-.73-1.43-.54-1.78-.1-1.47-.67-1.18.58-1.08.2-.86Z"/>'
+    '<path d="m12.45 2.06 1.29-.23 1.06.38-.24.73-1.23.41-.88-.38Z"/>'
+    '<path d="m13.42 5.04 1.08-.83 2.25-.47 2.03.75 1.39 1.23.65 1.17-.63.74-1.46-.27-.83.48-1.18-.53-.93.5-1.05-.31-.86-.98-.98-.17-.43-.65Z"/>'
+    '<path d="m14.26 8.23 1.18-.39 1.24.44.82 1.08-.13 1.56-.72 1.14-.36 1.88-.98 1.77-.9.65-.7-1.03-.23-1.66-.78-1.22.25-1.54-.37-1.2.41-1.04Z"/>'
+    '<path d="m17.57 16.51 1.24-.55 1.28.28.76.82-.24 1.12-1.12.64-1.3-.17-.75-.83Z"/>'
+    '</g>'
+    '<circle class="signal-map-rim" cx="12" cy="12" r="10.25"/>'
     '</svg>'
 )
 
@@ -3401,7 +3409,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .signal-map{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
-    .signal-map-icon{{width:.9em;height:.9em;display:block;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}}
+    .signal-map-icon{{width:.82em;height:1.05em;display:block}}
+    .signal-map-ocean{{fill:#0a0a0c}}
+    .signal-map-land{{fill:#b59662}}
+    .signal-map-rim{{fill:none;stroke:#b59662;stroke-width:.8}}
     .signal-map:hover{{opacity:.7;transform:scale(1.1)}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
