@@ -72,6 +72,7 @@
     "HU": false,
     "ID": true,
     "IE": false,
+    "IL": false,
     "IN": false,
     "IQ": false,
     "IR": false,
@@ -82,9 +83,17 @@
     "JP": true,
     "KE": false,
     "KH": true,
+    "KI": false,
     "KM": false,
+    "KP": false,
+    "KW": false,
+    "KZ": false,
+    "LA": false,
+    "LB": false,
+    "LI": false,
     "LR": false,
     "LS": false,
+    "LV": false,
     "LY": false,
     "MA": false,
     "MG": false,
@@ -116,5 +125,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T03:38:52Z"
+  "updatedAt": "2026-09-17T03:44:46Z"
 }
