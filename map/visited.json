@@ -21,12 +21,22 @@
     "BJ": false,
     "BN": false,
     "BO": false,
+    "BR": false,
     "BS": true,
     "BT": false,
     "BW": false,
     "BY": false,
     "BZ": false,
-    "DZ": false
+    "CA": true,
+    "CF": false,
+    "CL": false,
+    "CM": false,
+    "CN": true,
+    "CO": true,
+    "CV": false,
+    "DZ": false,
+    "KH": true,
+    "TD": false
   },
-  "updatedAt": "2026-09-16T15:35:27Z"
+  "updatedAt": "2026-09-17T03:16:25Z"
 }
