@@ -54,6 +54,7 @@
     "ET": false,
     "FI": false,
     "FJ": true,
+    "FM": false,
     "FR": true,
     "GA": false,
     "GD": false,
@@ -99,11 +100,18 @@
     "LV": false,
     "LY": false,
     "MA": false,
+    "MC": false,
+    "MD": false,
     "MG": false,
+    "MH": false,
     "ML": false,
     "MR": false,
+    "MT": false,
     "MU": false,
+    "MV": false,
     "MW": false,
+    "MX": true,
+    "MY": false,
     "MZ": false,
     "NA": false,
     "NE": false,
@@ -128,5 +136,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T03:48:17Z"
+  "updatedAt": "2026-09-17T03:48:42Z"
 }
