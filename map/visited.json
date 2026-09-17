@@ -100,6 +100,7 @@
     "LV": false,
     "LY": false,
     "MA": false,
+    "MC": false,
     "MD": false,
     "ME": true,
     "MG": false,
@@ -125,6 +126,13 @@
     "NP": false,
     "NR": false,
     "NZ": true,
+    "OM": false,
+    "PA": true,
+    "PG": false,
+    "PH": true,
+    "PK": false,
+    "PS": false,
+    "PY": false,
     "RW": false,
     "SC": false,
     "SD": false,
@@ -145,5 +153,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T03:58:12Z"
+  "updatedAt": "2026-09-17T04:01:18Z"
 }
