@@ -2871,6 +2871,13 @@ SIGNAL_BOLT_SVG = (
     '</svg>'
 )
 
+SIGNAL_MAP_SVG = (
+    '<svg class="signal-map-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+    '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/>'
+    '<path d="M2 12h20M12 2c2.6 2.74 4 6.08 4 10s-1.4 7.26-4 10M12 2C9.4 4.74 8 8.08 8 12s1.4 7.26 4 10"/>'
+    '</svg>'
+)
+
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
@@ -3388,10 +3395,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
+    .header-brand .footer-logo{{white-space:nowrap}}
 
     .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
+    .signal-map{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
+    .signal-map-icon{{width:.9em;height:.9em;display:block;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}}
+    .signal-map:hover{{opacity:.7;transform:scale(1.1)}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
 
@@ -3792,7 +3803,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a><a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 

@@ -156,6 +156,24 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(">Ricies</button>", self.html)
         self.assertIn("items.map((item,index)", self.html)
 
+    def test_header_globe_links_to_public_countries_map(self):
+        globe_path = "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"
+        header = self.html.split("<!-- HEADER BRANDING -->", 1)[1].split("<!-- PERSONAL COUNTDOWNS -->", 1)[0]
+        footer = self.html.split("<!-- FOOTER BRANDING -->", 1)[1]
+        self.assertEqual(header.count('class="signal-map"'), 1)
+        self.assertEqual(header.count('class="signal-map-icon"'), 1)
+        self.assertEqual(header.count(globe_path), 1)
+        self.assertNotIn('class="signal-map"', footer)
+        self.assertIn(
+            '<a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">',
+            header,
+        )
+        self.assertIn(".signal-map{display:inline-flex", self.html)
+        self.assertIn(".header-brand .footer-logo{white-space:nowrap}", self.html)
+        self.assertIn("margin-left:6px", self.html)
+        self.assertIn("color:#b59662", self.html)
+        self.assertIn(".signal-map-icon{width:.9em;height:.9em;display:block;fill:none;stroke:currentColor;stroke-width:1.35", self.html)
+
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts · Top 5 Holdings"
         self.assertIn(heading, self.html)
