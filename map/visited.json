@@ -56,13 +56,21 @@
     "FJ": true,
     "FR": true,
     "GA": false,
+    "GD": false,
     "GE": false,
     "GH": false,
     "GM": false,
     "GN": false,
     "GQ": false,
+    "GR": true,
+    "GT": false,
     "GW": false,
+    "GY": false,
+    "HN": false,
     "HR": true,
+    "HT": false,
+    "ID": true,
+    "IS": false,
     "KE": false,
     "KH": true,
     "KM": false,
@@ -98,5 +106,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T03:26:38Z"
+  "updatedAt": "2026-09-17T03:31:15Z"
 }
