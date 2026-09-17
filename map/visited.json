@@ -82,6 +82,7 @@
     "JO": false,
     "JP": true,
     "KE": false,
+    "KG": false,
     "KH": true,
     "KI": false,
     "KM": false,
@@ -125,5 +126,5 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T03:44:46Z"
+  "updatedAt": "2026-09-17T03:46:54Z"
 }
