@@ -3408,7 +3408,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
-    .signal-map{{display:inline-flex;align-items:center;text-decoration:none;margin-left:24px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
+    .signal-map{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-map-icon{{width:1.13em;height:1.05em;display:block}}
     .signal-map-ocean{{fill:#0a0a0c}}
     .signal-map-land{{fill:#b59662}}
@@ -3782,7 +3782,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
 
     @media(max-width:600px){{
-      .signal-map{{margin-left:23px}}
       .weather-grid{{grid-template-columns:repeat(2,1fr)}}
       .commodities-grid{{grid-template-columns:repeat(3,minmax(0,1fr))}}
       .commodity-item[data-commodity="GOLD"]{{order:1}}
