@@ -1,6 +1,7 @@
 {
   "answers": {
     "AD": false,
+    "AE": false,
     "AF": false,
     "AG": false,
     "AL": true,
@@ -59,6 +60,7 @@
     "FM": false,
     "FR": true,
     "GA": false,
+    "GB": true,
     "GD": false,
     "GE": false,
     "GH": false,
@@ -178,12 +180,20 @@
     "TT": false,
     "TV": false,
     "TZ": false,
+    "UA": false,
     "UG": false,
+    "US": true,
+    "UY": false,
+    "UZ": false,
+    "VA": true,
     "VC": false,
+    "VE": false,
+    "VN": true,
+    "VU": false,
     "WS": true,
     "ZA": false,
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T04:13:13Z"
+  "updatedAt": "2026-09-17T04:14:35Z"
 }
