@@ -173,11 +173,18 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".header-brand .footer-logo{white-space:nowrap}", self.html)
         self.assertIn("margin-left:6px", self.html)
         self.assertIn("color:#b59662", self.html)
-        self.assertIn(".signal-map-icon{width:.82em;height:1.05em;display:block}", self.html)
+        self.assertIn('viewBox=".85 .85 22.3 22.3"', header)
+        self.assertIn(".signal-map-icon{width:1.13em;height:1.05em;display:block}", self.html)
         self.assertIn(".signal-map-ocean{fill:#0a0a0c}", self.html)
         self.assertIn(".signal-map-land{fill:#b59662}", self.html)
         self.assertIn(".signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}", self.html)
         self.assertEqual(self.html.count(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}"), 1)
+
+        # Compare painted artwork, not CSS boxes. SVG preserveAspectRatio scales
+        # the bolt path and globe's outer rim inside differently shaped viewBoxes.
+        bolt_painted_height_em = min(.82 / 200, 1.05 / 264) * 252
+        globe_painted_height_em = min(1.13 / 22.3, 1.05 / 22.3) * (2 * 10.25 + .8)
+        self.assertLess(abs(globe_painted_height_em - bolt_painted_height_em), .002)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts · Top 5 Holdings"

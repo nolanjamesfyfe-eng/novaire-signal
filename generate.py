@@ -2872,7 +2872,7 @@ SIGNAL_BOLT_SVG = (
 )
 
 SIGNAL_MAP_SVG = (
-    '<svg class="signal-map-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+    '<svg class="signal-map-icon" viewBox=".85 .85 22.3 22.3" aria-hidden="true" focusable="false">'
     '<circle class="signal-map-ocean" cx="12" cy="12" r="10.25"/>'
     '<g class="signal-map-land">'
     '<path d="M3.08 8.67 4.2 6.43l1.7-1.67 2.29-1.34 2.03-.68 1.02.42-.43.88-1.61.44-.56.9-1.02.18-.42 1.18-1.12.16-.35 1.2.7 1.14 1.47.49.63.9-.16 1.14-1.02.66-.34 1.14-1.1-.04-.55-1.02-1.28-.5-.7-1.45-1.05-.81-.49-1.07Z"/>'
@@ -3409,7 +3409,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .signal-map{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
-    .signal-map-icon{{width:.82em;height:1.05em;display:block}}
+    .signal-map-icon{{width:1.13em;height:1.05em;display:block}}
     .signal-map-ocean{{fill:#0a0a0c}}
     .signal-map-land{{fill:#b59662}}
     .signal-map-rim{{fill:none;stroke:#b59662;stroke-width:.8}}
