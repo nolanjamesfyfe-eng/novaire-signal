@@ -200,5 +200,9 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-17T04:24:58Z"
+  "updatedAt": "2026-09-17T04:24:58Z",
+  "planned": [
+    "GE",
+    "TR"
+  ]
 }
