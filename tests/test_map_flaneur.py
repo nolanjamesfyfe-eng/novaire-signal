@@ -67,6 +67,8 @@ def test_mobile_uses_full_width_orthographic_globe_with_real_gestures():
     assert "kind:'pinch'" in html
     assert 'globe.zoom=Math.max(1,Math.min(3' in html
     assert 'projection.rotate(globe.rotation).scale(globe.baseScale*globe.zoom)' in html
+    assert 'requestAnimationFrame' in html
+    assert 'scheduleGlobeRedraw()' in html
     assert 'id="reset-view" aria-label="Reset globe view"' in html
 
 
@@ -76,6 +78,7 @@ def test_mobile_globe_focus_and_backside_marker_clipping_are_preserved():
     assert "code in MICRO?MICRO[code]:f&&d3.geoCentroid(f)" in html
     assert "d3.geoDistance([-globe.rotation[0],-globe.rotation[1]],d[1])<=Math.PI/2" in html
     assert "if(mobile&&globe.moved)return;showTip" in html
+    assert "showTip(e,d.properties.iso2);if(!mobile)focusCountry" in html
     assert '<b>Capital:</b>' in html
     assert '<b>Population:</b>' in html
     assert '<b>GDP:</b>' in html
@@ -94,3 +97,5 @@ def test_mobile_pointer_capture_does_not_steal_country_taps():
     gestures = html.split('function bindGlobeGestures()')[1].split('function renderMap()')[0]
     assert 'setPointerCapture' not in gestures.split('node.onpointerdown=')[1].split('node.onpointermove=')[0]
     assert 'node.setPointerCapture(e.pointerId)' in gestures.split('node.onpointermove=')[1]
+    assert 'if(!globe.pointers.size)globe.moved=false' in gestures
+    assert 'if(pts.length>1)globe.moved=true' in gestures
