@@ -248,14 +248,22 @@ def weekly_scan_presentation(weekly):
         except ValueError:
             pass
 
+    formatted_completed_date = None
+    scan_completed_at = weekly.get("scan_completed_at")
+    if isinstance(scan_completed_at, str):
+        try:
+            formatted_completed_date = datetime.fromisoformat(scan_completed_at).astimezone(BKK_TZ).strftime("%b %-d")
+        except ValueError:
+            pass
+
     if state == "completed_empty":
         return {
-            "label": f"Completed {formatted_date}" if formatted_date else "Completed scan",
+            "label": f"Completed {formatted_completed_date}" if formatted_completed_date else "Completed scan",
             "empty_message": "No new candidate cleared the documented evidence, concentration, and asymmetry hurdles.",
         }
     if state == "ideas":
         return {
-            "label": f"Completed {formatted_date}" if formatted_date else "Completed scan",
+            "label": f"Completed {formatted_completed_date}" if formatted_completed_date else "Completed scan",
             "empty_message": "",
         }
     if state == "stale":

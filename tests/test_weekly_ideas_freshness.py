@@ -111,12 +111,16 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
 
     def test_status_copy_never_conflates_unverified_with_completed_empty(self):
         unverified = generate.weekly_scan_presentation({"scan_state": "unverified", "as_of": "2026-08-24"})
-        completed = generate.weekly_scan_presentation({"scan_state": "completed_empty", "as_of": "2026-08-24"})
+        completed = generate.weekly_scan_presentation({
+            "scan_state": "completed_empty",
+            "as_of": "2026-08-24",
+            "scan_completed_at": "2026-08-28T23:30:00+00:00",
+        })
         stale = generate.weekly_scan_presentation({"scan_state": "stale", "as_of": "2026-08-17"})
 
         self.assertEqual(unverified["label"], "Scan unverified")
         self.assertIn("No zero-candidate claim", unverified["empty_message"])
-        self.assertEqual(completed["label"], "Completed Aug 24")
+        self.assertEqual(completed["label"], "Completed Aug 29")
         self.assertIn("No new candidate cleared", completed["empty_message"])
         self.assertEqual(stale["label"], "Stale · last completed Aug 17")
         self.assertNotIn("Aug 24", stale["label"])
