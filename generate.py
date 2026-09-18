@@ -493,6 +493,9 @@ def fetch_fed_signal():
         "next_decision": "October 28, 2026",
         "days_until": days_until,
         "fed_funds_rate": "3.75\u20134.00%",
+        "last_decision": "September 16, 2026",
+        "last_action": "Raised 0.25 percentage points",
+        "last_action_source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
         "next_meeting": "October FOMC",
         "hold_pct": 29,
         "cut_25bps_pct": 0,
@@ -3179,6 +3182,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="signal-accordion-body fed-compact">
       <div class="fed-stats">
         <div class="fed-stat"><span>Rate</span><b class="fed-rate">{fed['fed_funds_rate']}</b></div>
+        <div class="fed-stat fed-last"><span>Last meeting</span><b>{fed['last_decision']}</b><em>{fed['last_action']}</em></div>
         <div class="fed-stat fed-fomc"><span>Next FOMC</span><b>{fed['next_decision']}</b><em>{days_label}</em></div>
         <div class="fed-stat fed-prob"><span>CME FedWatch</span><b><i>Hold {fed['hold_pct']}%</i><i>Cut {fed['cut_25bps_pct']}%</i></b></div>
       </div>
@@ -3746,19 +3750,20 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     #fed-signal-card>summary .fed-title{{margin:0;flex:1}}
     .fed-summary-rate{{font-weight:650;color:var(--text);white-space:nowrap}}
     .fed-summary-sentiment{{font-weight:600;color:var(--green);white-space:nowrap}}
-    .fed-stats{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch}}
+    .fed-stats{{display:grid;grid-template-columns:.9fr 1.2fr 1.2fr 1fr;gap:0;align-items:stretch}}
     .fed-stat{{min-width:0;padding:0 24px;border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center}}
     .fed-stat:first-child{{border-left:0}}
     .fed-stat span{{display:block;font-size:.53rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}}
     .fed-stat b{{display:block;font-family:var(--serif);font-size:1rem;line-height:1.2;font-weight:400;color:var(--text);white-space:nowrap}}
     .fed-stat .fed-rate{{color:var(--gold)}}
     .fed-stat em{{display:block;font-style:normal;font-size:.53rem;color:var(--mute);margin-top:5px}}
+    .fed-fomc{{padding-left:28px}}
     .fed-prob b{{display:flex;gap:18px}}
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
     @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:stretch;padding:12px 14px}}.market-primary{{width:100%;box-sizing:border-box}}.market-futures{{width:100%}}.market-future{{padding:9px 8px}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
-    @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-prob{{grid-column:1/-1;border-left:0;padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
+    @media(max-width:520px){{.fed-stats{{grid-template-columns:1fr 1.6fr}}.fed-fomc{{padding:12px 14px 0;margin-top:11px;border-left:0;border-top:1px solid var(--border)}}.fed-prob{{padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}}}
     @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:7px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{padding:10px 8px}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}

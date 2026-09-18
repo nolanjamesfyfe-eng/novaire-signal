@@ -40,7 +40,21 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('<div class="fed-title card-title">🏛️ Fed Signal</div>', self.html)
         self.assertIn('class="fed-summary-rate"', self.html)
         self.assertIn('class="fed-summary-sentiment"', self.html)
-        self.assertIn('Hold 55%', self.html)
+        self.assertRegex(self.html, r'Hold \d+%')
+
+    def test_fed_signal_shows_sourced_last_meeting_between_rate_and_next_fomc(self):
+        rate = self.html.index('<span>Rate</span>')
+        last = self.html.index('<span>Last meeting</span>')
+        next_fomc = self.html.index('<span>Next FOMC</span>')
+        self.assertLess(rate, last)
+        self.assertLess(last, next_fomc)
+        self.assertIn('<b>September 16, 2026</b><em>Raised 0.25 percentage points</em>', self.html)
+        self.assertEqual(
+            generate.fetch_fed_signal()["last_action_source"],
+            "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+        )
+        self.assertIn('grid-template-columns:.9fr 1.2fr 1.2fr 1fr', self.html)
+        self.assertIn('.fed-fomc{padding-left:28px}', self.html)
 
     def test_signal_feed_rejects_sparse_refreshes(self):
         self.assertIn("signalJson.posts.length < 3", self.html)
