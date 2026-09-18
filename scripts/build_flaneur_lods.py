@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+"""Build topology-clean globe LODs from the canonical world geometry."""
+from __future__ import annotations
+
+import json
+import subprocess
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / "map/world.geojson"
+LEVELS = {
+    "world-globe.geojson": "0.5%",
+    "world-globe-medium.geojson": "1%",
+    "world-globe-detail.geojson": "3%",
+}
+
+
+def reverse_rings(geometry: dict) -> None:
+    polygons = [geometry["coordinates"]] if geometry["type"] == "Polygon" else geometry["coordinates"]
+    for polygon in polygons:
+        for ring in polygon:
+            ring.reverse()  # D3 spherical exterior winding; mapshaper writes RFC 7946 winding.
+
+
+def point_count(value) -> int:
+    if isinstance(value, list):
+        return 1 if value and isinstance(value[0], (int, float)) else sum(point_count(v) for v in value)
+    if isinstance(value, dict):
+        return sum(point_count(v) for v in value.values())
+    return 0
+
+
+def main() -> None:
+    for filename, percentage in LEVELS.items():
+        target = ROOT / "map" / filename
+        temporary = target.with_suffix(".tmp.geojson")
+        subprocess.run([
+            "npx", "--yes", "mapshaper", str(SOURCE), "-clean", "-simplify", percentage,
+            "keep-shapes", "weighted", "-o", "format=geojson", "precision=0.001", str(temporary),
+        ], check=True)
+        data = json.loads(temporary.read_text())
+        if len(data.get("features", [])) != 199:
+            raise RuntimeError(f"{filename}: expected 199 features")
+        for feature in data["features"]:
+            reverse_rings(feature["geometry"])
+        target.write_text(json.dumps(data, separators=(",", ":")) + "\n")
+        temporary.unlink()
+        print(f"{filename}: {point_count(data):,} points, {target.stat().st_size:,} bytes")
+
+
+if __name__ == "__main__":
+    main()

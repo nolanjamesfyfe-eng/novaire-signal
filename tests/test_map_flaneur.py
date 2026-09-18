@@ -50,10 +50,9 @@ def test_flaneur_route_and_legacy_redirect():
     assert {'source': '/flaneur', 'destination': '/map/index.html'} in config['rewrites']
     for path in ['/map', '/map/', '/map/index.html']:
         assert {'source': path, 'destination': '/flaneur', 'permanent': True} in config['redirects']
-    for source in ['index.html', 'generate.py']:
-        content = (ROOT / source).read_text()
-        assert 'href="/flaneur" class="signal-map"' in content
-        assert 'href="/map/" class="signal-map"' not in content
+    assert 'href="/flaneur" class="signal-map"' in (ROOT / 'index.html').read_text()
+    assert 'signal_brand_markup()' in (ROOT / 'generate.py').read_text()
+    assert 'href="/flaneur" class="signal-map"' in (ROOT / 'signal_brand.py').read_text()
 
 
 def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
@@ -67,10 +66,12 @@ def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
     assert 'canvas.onpointerdown=' in html
     assert "kind:'pinch'" in html
     assert 'globe.zoom=Math.max(1,Math.min(3' in html
-    assert 'projection.rotate(globe.rotation).scale(globe.baseScale*globe.zoom)' in html
+    assert '.rotate(globe.rotation).scale(globe.baseScale*globe.zoom)' in html
+    assert 'projection.precision(globe.zoom>=1.8?5:3)' in html
     assert 'requestAnimationFrame' in html
     assert 'scheduleDraw()' in html
-    assert "fetch('/map/world-globe.geojson')" in html
+    assert "fetch('/map/world-globe-medium.geojson')" in html
+    assert "fetch('/map/world-globe-detail.geojson')" in html
     assert 'id="reset-view" aria-label="Reset globe view"' in html
 
 
@@ -107,18 +108,24 @@ def test_canonical_signal_branding_and_copy_removal():
     assert 'touch-action:pan-y' in html
 
 
-def test_interaction_geometry_keeps_all_features_inside_budget():
-    world = json.loads((ROOT / 'map/world-globe.geojson').read_text())
-    points = sum(
-        len(ring)
-        for feature in world['features']
-        for polygon in ([feature['geometry']['coordinates']]
-                        if feature['geometry']['type'] == 'Polygon'
-                        else feature['geometry']['coordinates'])
-        for ring in polygon
-    )
-    assert len(world['features']) == 199
-    assert points <= 5000
+def test_zoom_lods_keep_all_features_and_add_real_detail():
+    levels = [json.loads((ROOT / f'map/world-globe-{name}.geojson').read_text())
+              for name in ('medium', 'detail')]
+    def rings(feature):
+        coords = feature['geometry']['coordinates']
+        return coords if feature['geometry']['type'] == 'Polygon' else [r for p in coords for r in p]
+    def points(world):
+        return sum(len(r) for feature in world['features'] for r in rings(feature))
+    assert [len(world['features']) for world in levels] == [199, 199]
+    assert 5000 < points(levels[0]) < points(levels[1]) < 70000
+    for world in levels:
+        for feature in world['features']:
+            assert all(len(ring) >= 4 and ring[0] == ring[-1] for ring in rings(feature))
+    for code in ('CU', 'HT', 'DO', 'TH', 'JP'):
+        counts = [sum(len(r) for r in rings(next(f for f in world['features']
+                  if f['properties']['iso2'] == code))) for world in levels]
+        assert counts[1] > counts[0], (code, counts)
+    assert 'keep-shapes' in (ROOT / 'scripts/build_flaneur_lods.py').read_text()
 
 
 def test_pointer_capture_only_begins_after_drag_threshold():

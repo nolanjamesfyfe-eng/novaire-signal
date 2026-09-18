@@ -131,6 +131,21 @@ test('canonical branding and globe-only wheel capture', async () => {
   } finally {await browser.close();}
 });
 
+test('zoom selects culled detail geometry without losing painted islands', async () => {
+  const {browser,page}=await open(chromium,false);
+  try {
+    const canvas=page.locator('#globe-canvas');
+    assert.equal(await canvas.getAttribute('data-lod'),'low');
+    await page.fill('#search','Cuba');await page.locator('.country-row[data-code="CU"]').click();
+    await canvas.scrollIntoViewIfNeeded();await page.evaluate(()=>document.querySelector('#zoom-in').click());
+    assert.equal(await canvas.getAttribute('data-lod'),'detail');
+    const visible=Number(await canvas.getAttribute('data-visible-features'));
+    assert.ok(visible>10&&visible<100,`high zoom uses conservative visible-region culling: ${visible}`);
+    const painted=await paintStats(page);assert.ok(painted.land+painted.visited+painted.calling>3000,'detailed Caribbean remains painted');
+    await canvas.screenshot({path:`${artifacts}/chromium-caribbean-detail.png`});
+  } finally {await browser.close();}
+});
+
 async function expectCount(locator,count){assert.equal(await locator.count(),count);}
 
 test.after(()=>assert.deepEqual(errors,[],`browser errors:\n${errors.join('\n')}`));
