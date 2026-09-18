@@ -4211,7 +4211,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a> Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>

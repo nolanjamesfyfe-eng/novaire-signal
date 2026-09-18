@@ -179,7 +179,9 @@ class RenderContractTests(unittest.TestCase):
         self.assertEqual(header.count('class="signal-map-icon"'), 1)
         self.assertEqual(header.count(continent_path), 1)
         self.assertNotIn("M2 12h20", header)
-        self.assertNotIn('class="signal-map"', footer)
+        self.assertEqual(footer.count('class="signal-map"'), 1)
+        self.assertEqual(footer.count(continent_path), 1)
+        self.assertIn('href="/flaneur" class="signal-map"', footer)
         self.assertIn(
             '<a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">',
             header,
