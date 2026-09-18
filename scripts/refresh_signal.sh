@@ -137,7 +137,8 @@ fi
 
 STAGE="live-verification"
 retry 2 30 'live deployment verification' "$PYTHON_BIN" scripts/verify_live_freshness.py --attempts 12 --delay 20
+retry 2 30 'authenticated Daily acceptance verification' /usr/bin/node scripts/verify_daily_live.cjs
 
 STAGE="complete"
 write_state success "commit=$LOCAL_HEAD"
-log "SUCCESS commit=$LOCAL_HEAD live date verified"
+log "SUCCESS commit=$LOCAL_HEAD live date and Daily acceptance verified"

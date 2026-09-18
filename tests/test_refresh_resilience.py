@@ -40,6 +40,7 @@ class RefreshResilienceTests(unittest.TestCase):
             "retry 3 90 'generation and quote validation'",
             "novaire-signal-refresh-state.json",
             "verify_live_freshness.py",
+            "verify_daily_live.cjs",
             "LOCAL_HEAD",
             "REMOTE_HEAD",
         ):
