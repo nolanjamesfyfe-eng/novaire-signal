@@ -1,0 +1,2823 @@
+{
+  "countries": {
+    "AD": {
+      "capital": {
+        "display": "Andorra la Vella",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q228"
+      },
+      "name": "Andorra",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AD/indicator/SP.POP.TOTL?format=json",
+        "value": 82904,
+        "year": 2025
+      }
+    },
+    "AE": {
+      "capital": {
+        "display": "Abu Dhabi",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q878"
+      },
+      "name": "United Arab Emirates",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AE/indicator/SP.POP.TOTL?format=json",
+        "value": 11513149,
+        "year": 2025
+      }
+    },
+    "AF": {
+      "capital": {
+        "display": "Kabul",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q889"
+      },
+      "name": "Afghanistan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AF/indicator/SP.POP.TOTL?format=json",
+        "value": 43844111,
+        "year": 2025
+      }
+    },
+    "AG": {
+      "capital": {
+        "display": "Q36262",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q781"
+      },
+      "name": "Antigua and Barbuda",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AG/indicator/SP.POP.TOTL?format=json",
+        "value": 94209,
+        "year": 2025
+      }
+    },
+    "AL": {
+      "capital": {
+        "display": "Tirana",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q222"
+      },
+      "name": "Albania",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AL/indicator/SP.POP.TOTL?format=json",
+        "value": 2349580,
+        "year": 2025
+      }
+    },
+    "AM": {
+      "capital": {
+        "display": "Yerevan",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q399"
+      },
+      "name": "Armenia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AM/indicator/SP.POP.TOTL?format=json",
+        "value": 3086700,
+        "year": 2025
+      }
+    },
+    "AO": {
+      "capital": {
+        "display": "Luanda",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q916"
+      },
+      "name": "Angola",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AO/indicator/SP.POP.TOTL?format=json",
+        "value": 39040039,
+        "year": 2025
+      }
+    },
+    "AR": {
+      "capital": {
+        "display": "Buenos Aires",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q414"
+      },
+      "name": "Argentina",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AR/indicator/SP.POP.TOTL?format=json",
+        "value": 45851378,
+        "year": 2025
+      }
+    },
+    "AT": {
+      "capital": {
+        "display": "Vienna",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q40"
+      },
+      "name": "Austria",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AT/indicator/SP.POP.TOTL?format=json",
+        "value": 9208163,
+        "year": 2025
+      }
+    },
+    "AU": {
+      "capital": {
+        "display": "Canberra",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q408"
+      },
+      "name": "Australia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AU/indicator/SP.POP.TOTL?format=json",
+        "value": 27614411,
+        "year": 2025
+      }
+    },
+    "AZ": {
+      "capital": {
+        "display": "Baku",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q227"
+      },
+      "name": "Azerbaijan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/AZ/indicator/SP.POP.TOTL?format=json",
+        "value": 10246996,
+        "year": 2025
+      }
+    },
+    "BA": {
+      "capital": {
+        "display": "Sarajevo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q225"
+      },
+      "name": "Bosnia and Herzegovina",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BA/indicator/SP.POP.TOTL?format=json",
+        "value": 3140095,
+        "year": 2025
+      }
+    },
+    "BB": {
+      "capital": {
+        "display": "Bridgetown",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q244"
+      },
+      "name": "Barbados",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BB/indicator/SP.POP.TOTL?format=json",
+        "value": 282623,
+        "year": 2025
+      }
+    },
+    "BD": {
+      "capital": {
+        "display": "Dhaka",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q902"
+      },
+      "name": "Bangladesh",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BD/indicator/SP.POP.TOTL?format=json",
+        "value": 175686899,
+        "year": 2025
+      }
+    },
+    "BE": {
+      "capital": {
+        "display": "Brussels",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q31"
+      },
+      "name": "Belgium",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BE/indicator/SP.POP.TOTL?format=json",
+        "value": 11941781,
+        "year": 2025
+      }
+    },
+    "BF": {
+      "capital": {
+        "display": "Ouagadougou",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q965"
+      },
+      "name": "Burkina Faso",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BF/indicator/SP.POP.TOTL?format=json",
+        "value": 24074580,
+        "year": 2025
+      }
+    },
+    "BG": {
+      "capital": {
+        "display": "Sofia",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q219"
+      },
+      "name": "Bulgaria",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BG/indicator/SP.POP.TOTL?format=json",
+        "value": 6433302,
+        "year": 2025
+      }
+    },
+    "BH": {
+      "capital": {
+        "display": "Manama",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q398"
+      },
+      "name": "Bahrain",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BH/indicator/SP.POP.TOTL?format=json",
+        "value": 1600366,
+        "year": 2025
+      }
+    },
+    "BI": {
+      "capital": {
+        "display": "Gitega",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q967"
+      },
+      "name": "Burundi",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BI/indicator/SP.POP.TOTL?format=json",
+        "value": 14390003,
+        "year": 2025
+      }
+    },
+    "BJ": {
+      "capital": {
+        "display": "Porto-Novo (official); Cotonou (seat of government)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q962"
+      },
+      "name": "Benin",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BJ/indicator/SP.POP.TOTL?format=json",
+        "value": 14814460,
+        "year": 2025
+      }
+    },
+    "BN": {
+      "capital": {
+        "display": "Bandar Seri Begawan",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q921"
+      },
+      "name": "Brunei",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BN/indicator/SP.POP.TOTL?format=json",
+        "value": 466330,
+        "year": 2025
+      }
+    },
+    "BO": {
+      "capital": {
+        "display": "Sucre (constitutional); La Paz (seat of government)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q750"
+      },
+      "name": "Bolivia, Plurinational State of",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BO/indicator/SP.POP.TOTL?format=json",
+        "value": 12581843,
+        "year": 2025
+      }
+    },
+    "BR": {
+      "capital": {
+        "display": "Brasília",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q155"
+      },
+      "name": "Brazil",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BR/indicator/SP.POP.TOTL?format=json",
+        "value": 212812405,
+        "year": 2025
+      }
+    },
+    "BS": {
+      "capital": {
+        "display": "Nassau",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q778"
+      },
+      "name": "Bahamas",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BS/indicator/SP.POP.TOTL?format=json",
+        "value": 403033,
+        "year": 2025
+      }
+    },
+    "BT": {
+      "capital": {
+        "display": "Thimphu",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q917"
+      },
+      "name": "Bhutan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BT/indicator/SP.POP.TOTL?format=json",
+        "value": 796682,
+        "year": 2025
+      }
+    },
+    "BW": {
+      "capital": {
+        "display": "Gaborone",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q963"
+      },
+      "name": "Botswana",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BW/indicator/SP.POP.TOTL?format=json",
+        "value": 2562122,
+        "year": 2025
+      }
+    },
+    "BY": {
+      "capital": {
+        "display": "Minsk",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q184"
+      },
+      "name": "Belarus",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BY/indicator/SP.POP.TOTL?format=json",
+        "value": 9085991,
+        "year": 2025
+      }
+    },
+    "BZ": {
+      "capital": {
+        "display": "Belmopan",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q242"
+      },
+      "name": "Belize",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/BZ/indicator/SP.POP.TOTL?format=json",
+        "value": 422924,
+        "year": 2025
+      }
+    },
+    "CA": {
+      "capital": {
+        "display": "Ottawa",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q16"
+      },
+      "name": "Canada",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CA/indicator/SP.POP.TOTL?format=json",
+        "value": 41651653,
+        "year": 2025
+      }
+    },
+    "CD": {
+      "capital": {
+        "display": "Kinshasa",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q974"
+      },
+      "name": "Democratic Republic of the Congo",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CD/indicator/SP.POP.TOTL?format=json",
+        "value": 112832473,
+        "year": 2025
+      }
+    },
+    "CF": {
+      "capital": {
+        "display": "Bangui",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q929"
+      },
+      "name": "Central African Republic",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CF/indicator/SP.POP.TOTL?format=json",
+        "value": 5513282,
+        "year": 2025
+      }
+    },
+    "CG": {
+      "capital": {
+        "display": "Brazzaville",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q971"
+      },
+      "name": "Republic of the Congo",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CG/indicator/SP.POP.TOTL?format=json",
+        "value": 6484437,
+        "year": 2025
+      }
+    },
+    "CH": {
+      "capital": {
+        "display": "Bern",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q39"
+      },
+      "name": "Switzerland",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CH/indicator/SP.POP.TOTL?format=json",
+        "value": 9092436,
+        "year": 2025
+      }
+    },
+    "CI": {
+      "capital": {
+        "display": "Yamoussoukro",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1008"
+      },
+      "name": "Côte d'Ivoire",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CI/indicator/SP.POP.TOTL?format=json",
+        "value": 32711547,
+        "year": 2025
+      }
+    },
+    "CL": {
+      "capital": {
+        "display": "Santiago",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q298"
+      },
+      "name": "Chile",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CL/indicator/SP.POP.TOTL?format=json",
+        "value": 19859921,
+        "year": 2025
+      }
+    },
+    "CM": {
+      "capital": {
+        "display": "Yaoundé",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1009"
+      },
+      "name": "Cameroon",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CM/indicator/SP.POP.TOTL?format=json",
+        "value": 29879337,
+        "year": 2025
+      }
+    },
+    "CN": {
+      "capital": {
+        "display": "Beijing",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q148"
+      },
+      "name": "China",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CN/indicator/SP.POP.TOTL?format=json",
+        "value": 1406585000,
+        "year": 2025
+      }
+    },
+    "CO": {
+      "capital": {
+        "display": "Bogotá",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q739"
+      },
+      "name": "Colombia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CO/indicator/SP.POP.TOTL?format=json",
+        "value": 53425635,
+        "year": 2025
+      }
+    },
+    "CR": {
+      "capital": {
+        "display": "San José",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q800"
+      },
+      "name": "Costa Rica",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CR/indicator/SP.POP.TOTL?format=json",
+        "value": 5152950,
+        "year": 2025
+      }
+    },
+    "CU": {
+      "capital": {
+        "display": "Havana",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q241"
+      },
+      "name": "Cuba",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CU/indicator/SP.POP.TOTL?format=json",
+        "value": 10937203,
+        "year": 2025
+      }
+    },
+    "CV": {
+      "capital": {
+        "display": "Praia",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1011"
+      },
+      "name": "Cape Verde",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CV/indicator/SP.POP.TOTL?format=json",
+        "value": 527326,
+        "year": 2025
+      }
+    },
+    "CY": {
+      "capital": {
+        "display": "Nicosia",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q644636"
+      },
+      "name": "Cyprus",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CY/indicator/SP.POP.TOTL?format=json",
+        "value": 1370754,
+        "year": 2025
+      }
+    },
+    "CZ": {
+      "capital": {
+        "display": "Prague",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q213"
+      },
+      "name": "Czechia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/CZ/indicator/SP.POP.TOTL?format=json",
+        "value": 10886878,
+        "year": 2025
+      }
+    },
+    "DE": {
+      "capital": {
+        "display": "Berlin",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q183"
+      },
+      "name": "Germany",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/DE/indicator/SP.POP.TOTL?format=json",
+        "value": 83491249,
+        "year": 2025
+      }
+    },
+    "DJ": {
+      "capital": {
+        "display": "Djibouti",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q977"
+      },
+      "name": "Djibouti",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/DJ/indicator/SP.POP.TOTL?format=json",
+        "value": 1184076,
+        "year": 2025
+      }
+    },
+    "DK": {
+      "capital": {
+        "display": "Copenhagen",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q35"
+      },
+      "name": "Denmark",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/DK/indicator/SP.POP.TOTL?format=json",
+        "value": 6009169,
+        "year": 2025
+      }
+    },
+    "DM": {
+      "capital": {
+        "display": "Roseau",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q784"
+      },
+      "name": "Dominica",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/DM/indicator/SP.POP.TOTL?format=json",
+        "value": 65871,
+        "year": 2025
+      }
+    },
+    "DO": {
+      "capital": {
+        "display": "Santo Domingo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q786"
+      },
+      "name": "Dominican Republic",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/DO/indicator/SP.POP.TOTL?format=json",
+        "value": 11520487,
+        "year": 2025
+      }
+    },
+    "DZ": {
+      "capital": {
+        "display": "Algiers",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q262"
+      },
+      "name": "Algeria",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/DZ/indicator/SP.POP.TOTL?format=json",
+        "value": 47435312,
+        "year": 2025
+      }
+    },
+    "EC": {
+      "capital": {
+        "display": "Quito",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q736"
+      },
+      "name": "Ecuador",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/EC/indicator/SP.POP.TOTL?format=json",
+        "value": 18289896,
+        "year": 2025
+      }
+    },
+    "EE": {
+      "capital": {
+        "display": "Tallinn",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q191"
+      },
+      "name": "Estonia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/EE/indicator/SP.POP.TOTL?format=json",
+        "value": 1366475,
+        "year": 2025
+      }
+    },
+    "EG": {
+      "capital": {
+        "display": "Cairo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q79"
+      },
+      "name": "Egypt",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/EG/indicator/SP.POP.TOTL?format=json",
+        "value": 118365995,
+        "year": 2025
+      }
+    },
+    "ER": {
+      "capital": {
+        "display": "Asmara",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q986"
+      },
+      "name": "Eritrea",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ER/indicator/SP.POP.TOTL?format=json",
+        "value": 3607003,
+        "year": 2025
+      }
+    },
+    "ES": {
+      "capital": {
+        "display": "Madrid",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q29"
+      },
+      "name": "Spain",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ES/indicator/SP.POP.TOTL?format=json",
+        "value": 49355143,
+        "year": 2025
+      }
+    },
+    "ET": {
+      "capital": {
+        "display": "Addis Ababa",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q115"
+      },
+      "name": "Ethiopia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ET/indicator/SP.POP.TOTL?format=json",
+        "value": 135472051,
+        "year": 2025
+      }
+    },
+    "FI": {
+      "capital": {
+        "display": "Helsinki",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q33"
+      },
+      "name": "Finland",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/FI/indicator/SP.POP.TOTL?format=json",
+        "value": 5646436,
+        "year": 2025
+      }
+    },
+    "FJ": {
+      "capital": {
+        "display": "Suva",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q712"
+      },
+      "name": "Fiji",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/FJ/indicator/SP.POP.TOTL?format=json",
+        "value": 933154,
+        "year": 2025
+      }
+    },
+    "FM": {
+      "capital": {
+        "display": "Palikir",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q702"
+      },
+      "name": "Micronesia, Federated States of",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/FM/indicator/SP.POP.TOTL?format=json",
+        "value": 113683,
+        "year": 2025
+      }
+    },
+    "FR": {
+      "capital": {
+        "display": "Paris",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q142"
+      },
+      "name": "France",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/FR/indicator/SP.POP.TOTL?format=json",
+        "value": 68720337,
+        "year": 2025
+      }
+    },
+    "GA": {
+      "capital": {
+        "display": "Libreville",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1000"
+      },
+      "name": "Gabon",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GA/indicator/SP.POP.TOTL?format=json",
+        "value": 2593130,
+        "year": 2025
+      }
+    },
+    "GB": {
+      "capital": {
+        "display": "London",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q145"
+      },
+      "name": "United Kingdom",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GB/indicator/SP.POP.TOTL?format=json",
+        "value": 69487000,
+        "year": 2025
+      }
+    },
+    "GD": {
+      "capital": {
+        "display": "St. George's",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q769"
+      },
+      "name": "Grenada",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GD/indicator/SP.POP.TOTL?format=json",
+        "value": 117303,
+        "year": 2025
+      }
+    },
+    "GE": {
+      "capital": {
+        "display": "Tbilisi",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q230"
+      },
+      "name": "Georgia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GE/indicator/SP.POP.TOTL?format=json",
+        "value": 3935766,
+        "year": 2025
+      }
+    },
+    "GH": {
+      "capital": {
+        "display": "Accra",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q117"
+      },
+      "name": "Ghana",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GH/indicator/SP.POP.TOTL?format=json",
+        "value": 35064272,
+        "year": 2025
+      }
+    },
+    "GM": {
+      "capital": {
+        "display": "Banjul",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1005"
+      },
+      "name": "Gambia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GM/indicator/SP.POP.TOTL?format=json",
+        "value": 2822093,
+        "year": 2025
+      }
+    },
+    "GN": {
+      "capital": {
+        "display": "Conakry",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1006"
+      },
+      "name": "Guinea",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GN/indicator/SP.POP.TOTL?format=json",
+        "value": 15099727,
+        "year": 2025
+      }
+    },
+    "GQ": {
+      "capital": {
+        "display": "Ciudad de la Paz",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q983"
+      },
+      "name": "Equatorial Guinea",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GQ/indicator/SP.POP.TOTL?format=json",
+        "value": 1938431,
+        "year": 2025
+      }
+    },
+    "GR": {
+      "capital": {
+        "display": "Athens",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q41"
+      },
+      "name": "Greece",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GR/indicator/SP.POP.TOTL?format=json",
+        "value": 10413962,
+        "year": 2025
+      }
+    },
+    "GT": {
+      "capital": {
+        "display": "Guatemala City",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q774"
+      },
+      "name": "Guatemala",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GT/indicator/SP.POP.TOTL?format=json",
+        "value": 18687881,
+        "year": 2025
+      }
+    },
+    "GW": {
+      "capital": {
+        "display": "Bissau",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1007"
+      },
+      "name": "Guinea-Bissau",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GW/indicator/SP.POP.TOTL?format=json",
+        "value": 2249515,
+        "year": 2025
+      }
+    },
+    "GY": {
+      "capital": {
+        "display": "Georgetown",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q734"
+      },
+      "name": "Guyana",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/GY/indicator/SP.POP.TOTL?format=json",
+        "value": 835986,
+        "year": 2025
+      }
+    },
+    "HK": {
+      "capital": {
+        "display": "Not applicable (special administrative region)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q8646"
+      },
+      "name": "Hong Kong",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/HK/indicator/SP.POP.TOTL?format=json",
+        "value": 7498900,
+        "year": 2025
+      }
+    },
+    "HN": {
+      "capital": {
+        "display": "Tegucigalpa",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q783"
+      },
+      "name": "Honduras",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/HN/indicator/SP.POP.TOTL?format=json",
+        "value": 11005850,
+        "year": 2025
+      }
+    },
+    "HR": {
+      "capital": {
+        "display": "Zagreb",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q224"
+      },
+      "name": "Croatia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/HR/indicator/SP.POP.TOTL?format=json",
+        "value": 3876200,
+        "year": 2025
+      }
+    },
+    "HT": {
+      "capital": {
+        "display": "Port-au-Prince",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q790"
+      },
+      "name": "Haiti",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/HT/indicator/SP.POP.TOTL?format=json",
+        "value": 11906095,
+        "year": 2025
+      }
+    },
+    "HU": {
+      "capital": {
+        "display": "Budapest",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q28"
+      },
+      "name": "Hungary",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/HU/indicator/SP.POP.TOTL?format=json",
+        "value": 9514251,
+        "year": 2025
+      }
+    },
+    "ID": {
+      "capital": {
+        "display": "Nusantara (designated); Jakarta (current government seat)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q252"
+      },
+      "name": "Indonesia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ID/indicator/SP.POP.TOTL?format=json",
+        "value": 285721236,
+        "year": 2025
+      }
+    },
+    "IE": {
+      "capital": {
+        "display": "Dublin",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q27"
+      },
+      "name": "Ireland",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IE/indicator/SP.POP.TOTL?format=json",
+        "value": 5484367,
+        "year": 2025
+      }
+    },
+    "IL": {
+      "capital": {
+        "display": "Jerusalem (status disputed)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q801"
+      },
+      "name": "Israel",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IL/indicator/SP.POP.TOTL?format=json",
+        "value": 10122800,
+        "year": 2025
+      }
+    },
+    "IN": {
+      "capital": {
+        "display": "New Delhi",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q668"
+      },
+      "name": "India",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IN/indicator/SP.POP.TOTL?format=json",
+        "value": 1463865525,
+        "year": 2025
+      }
+    },
+    "IQ": {
+      "capital": {
+        "display": "Baghdad",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q796"
+      },
+      "name": "Iraq",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IQ/indicator/SP.POP.TOTL?format=json",
+        "value": 47020774,
+        "year": 2025
+      }
+    },
+    "IR": {
+      "capital": {
+        "display": "Tehran",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q794"
+      },
+      "name": "Iran, Islamic Republic of",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IR/indicator/SP.POP.TOTL?format=json",
+        "value": 92417681,
+        "year": 2025
+      }
+    },
+    "IS": {
+      "capital": {
+        "display": "Reykjavík",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q189"
+      },
+      "name": "Iceland",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IS/indicator/SP.POP.TOTL?format=json",
+        "value": 392404,
+        "year": 2025
+      }
+    },
+    "IT": {
+      "capital": {
+        "display": "Rome",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q38"
+      },
+      "name": "Italy",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/IT/indicator/SP.POP.TOTL?format=json",
+        "value": 58915656,
+        "year": 2025
+      }
+    },
+    "JM": {
+      "capital": {
+        "display": "Kingston",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q766"
+      },
+      "name": "Jamaica",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/JM/indicator/SP.POP.TOTL?format=json",
+        "value": 2837077,
+        "year": 2025
+      }
+    },
+    "JO": {
+      "capital": {
+        "display": "Amman",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q810"
+      },
+      "name": "Jordan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/JO/indicator/SP.POP.TOTL?format=json",
+        "value": 11520684,
+        "year": 2025
+      }
+    },
+    "JP": {
+      "capital": {
+        "display": "Tokyo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q17"
+      },
+      "name": "Japan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/JP/indicator/SP.POP.TOTL?format=json",
+        "value": 123366734,
+        "year": 2025
+      }
+    },
+    "KE": {
+      "capital": {
+        "display": "Nairobi",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q114"
+      },
+      "name": "Kenya",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KE/indicator/SP.POP.TOTL?format=json",
+        "value": 57532493,
+        "year": 2025
+      }
+    },
+    "KG": {
+      "capital": {
+        "display": "Bishkek",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q813"
+      },
+      "name": "Kyrgyzstan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KG/indicator/SP.POP.TOTL?format=json",
+        "value": 7343064,
+        "year": 2025
+      }
+    },
+    "KH": {
+      "capital": {
+        "display": "Phnom Penh",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q424"
+      },
+      "name": "Cambodia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KH/indicator/SP.POP.TOTL?format=json",
+        "value": 17847982,
+        "year": 2025
+      }
+    },
+    "KI": {
+      "capital": {
+        "display": "South Tarawa",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q710"
+      },
+      "name": "Kiribati",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KI/indicator/SP.POP.TOTL?format=json",
+        "value": 136488,
+        "year": 2025
+      }
+    },
+    "KM": {
+      "capital": {
+        "display": "Moroni",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q970"
+      },
+      "name": "Comoros",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KM/indicator/SP.POP.TOTL?format=json",
+        "value": 882847,
+        "year": 2025
+      }
+    },
+    "KN": {
+      "capital": {
+        "display": "Basseterre",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q763"
+      },
+      "name": "Saint Kitts and Nevis",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KN/indicator/SP.POP.TOTL?format=json",
+        "value": 46922,
+        "year": 2025
+      }
+    },
+    "KP": {
+      "capital": {
+        "display": "Pyongyang",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q423"
+      },
+      "name": "Korea, Democratic People's Republic of",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KP/indicator/SP.POP.TOTL?format=json",
+        "value": 26571036,
+        "year": 2025
+      }
+    },
+    "KR": {
+      "capital": {
+        "display": "Seoul",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q884"
+      },
+      "name": "South Korea",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KR/indicator/SP.POP.TOTL?format=json",
+        "value": 51684564,
+        "year": 2025
+      }
+    },
+    "KW": {
+      "capital": {
+        "display": "Kuwait City",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q817"
+      },
+      "name": "Kuwait",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KW/indicator/SP.POP.TOTL?format=json",
+        "value": 4865298,
+        "year": 2025
+      }
+    },
+    "KZ": {
+      "capital": {
+        "display": "Astana",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q232"
+      },
+      "name": "Kazakhstan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/KZ/indicator/SP.POP.TOTL?format=json",
+        "value": 20843754,
+        "year": 2025
+      }
+    },
+    "LA": {
+      "capital": {
+        "display": "Vientiane",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q819"
+      },
+      "name": "Lao People's Democratic Republic",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LA/indicator/SP.POP.TOTL?format=json",
+        "value": 7873046,
+        "year": 2025
+      }
+    },
+    "LB": {
+      "capital": {
+        "display": "Beirut",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q822"
+      },
+      "name": "Lebanon",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LB/indicator/SP.POP.TOTL?format=json",
+        "value": 5849421,
+        "year": 2025
+      }
+    },
+    "LC": {
+      "capital": {
+        "display": "Castries",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q760"
+      },
+      "name": "Saint Lucia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LC/indicator/SP.POP.TOTL?format=json",
+        "value": 180149,
+        "year": 2025
+      }
+    },
+    "LI": {
+      "capital": {
+        "display": "Vaduz",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q347"
+      },
+      "name": "Liechtenstein",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LI/indicator/SP.POP.TOTL?format=json",
+        "value": 41024,
+        "year": 2025
+      }
+    },
+    "LK": {
+      "capital": {
+        "display": "Sri Jayawardenepura Kotte (legislative); Colombo (executive and judicial)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q854"
+      },
+      "name": "Sri Lanka",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LK/indicator/SP.POP.TOTL?format=json",
+        "value": 21756000,
+        "year": 2025
+      }
+    },
+    "LR": {
+      "capital": {
+        "display": "Monrovia",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1014"
+      },
+      "name": "Liberia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LR/indicator/SP.POP.TOTL?format=json",
+        "value": 5731206,
+        "year": 2025
+      }
+    },
+    "LS": {
+      "capital": {
+        "display": "Maseru",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1013"
+      },
+      "name": "Lesotho",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LS/indicator/SP.POP.TOTL?format=json",
+        "value": 2363325,
+        "year": 2025
+      }
+    },
+    "LT": {
+      "capital": {
+        "display": "Vilnius",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q37"
+      },
+      "name": "Lithuania",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LT/indicator/SP.POP.TOTL?format=json",
+        "value": 2888774,
+        "year": 2025
+      }
+    },
+    "LU": {
+      "capital": {
+        "display": "Luxembourg",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q32"
+      },
+      "name": "Luxembourg",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LU/indicator/SP.POP.TOTL?format=json",
+        "value": 686970,
+        "year": 2025
+      }
+    },
+    "LV": {
+      "capital": {
+        "display": "Riga",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q211"
+      },
+      "name": "Latvia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LV/indicator/SP.POP.TOTL?format=json",
+        "value": 1847785,
+        "year": 2025
+      }
+    },
+    "LY": {
+      "capital": {
+        "display": "Tripoli",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1016"
+      },
+      "name": "Libya",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/LY/indicator/SP.POP.TOTL?format=json",
+        "value": 7458555,
+        "year": 2025
+      }
+    },
+    "MA": {
+      "capital": {
+        "display": "Rabat",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1028"
+      },
+      "name": "Morocco",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MA/indicator/SP.POP.TOTL?format=json",
+        "value": 38430770,
+        "year": 2025
+      }
+    },
+    "MC": {
+      "capital": {
+        "display": "Monaco",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q235"
+      },
+      "name": "Monaco",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MC/indicator/SP.POP.TOTL?format=json",
+        "value": 38341,
+        "year": 2025
+      }
+    },
+    "MD": {
+      "capital": {
+        "display": "Chișinău",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q217"
+      },
+      "name": "Moldova",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MD/indicator/SP.POP.TOTL?format=json",
+        "value": 2360527,
+        "year": 2025
+      }
+    },
+    "ME": {
+      "capital": {
+        "display": "Podgorica",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q236"
+      },
+      "name": "Montenegro",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ME/indicator/SP.POP.TOTL?format=json",
+        "value": 623129,
+        "year": 2025
+      }
+    },
+    "MG": {
+      "capital": {
+        "display": "Antananarivo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1019"
+      },
+      "name": "Madagascar",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MG/indicator/SP.POP.TOTL?format=json",
+        "value": 32740678,
+        "year": 2025
+      }
+    },
+    "MH": {
+      "capital": {
+        "display": "Majuro",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q709"
+      },
+      "name": "Marshall Islands",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MH/indicator/SP.POP.TOTL?format=json",
+        "value": 36282,
+        "year": 2025
+      }
+    },
+    "MK": {
+      "capital": {
+        "display": "Skopje",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q221"
+      },
+      "name": "North Macedonia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MK/indicator/SP.POP.TOTL?format=json",
+        "value": 1820909,
+        "year": 2025
+      }
+    },
+    "ML": {
+      "capital": {
+        "display": "Bamako",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q912"
+      },
+      "name": "Mali",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ML/indicator/SP.POP.TOTL?format=json",
+        "value": 25198821,
+        "year": 2025
+      }
+    },
+    "MM": {
+      "capital": {
+        "display": "Naypyidaw",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q836"
+      },
+      "name": "Myanmar",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MM/indicator/SP.POP.TOTL?format=json",
+        "value": 54850648,
+        "year": 2025
+      }
+    },
+    "MN": {
+      "capital": {
+        "display": "Ulaanbaatar",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q711"
+      },
+      "name": "Mongolia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MN/indicator/SP.POP.TOTL?format=json",
+        "value": 3568978,
+        "year": 2025
+      }
+    },
+    "MO": {
+      "capital": {
+        "display": "Not applicable (special administrative region)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q14773"
+      },
+      "name": "Macau",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MO/indicator/SP.POP.TOTL?format=json",
+        "value": 685900,
+        "year": 2025
+      }
+    },
+    "MR": {
+      "capital": {
+        "display": "Nouakchott",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1025"
+      },
+      "name": "Mauritania",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MR/indicator/SP.POP.TOTL?format=json",
+        "value": 5315065,
+        "year": 2025
+      }
+    },
+    "MT": {
+      "capital": {
+        "display": "Valletta",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q233"
+      },
+      "name": "Malta",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MT/indicator/SP.POP.TOTL?format=json",
+        "value": 579704,
+        "year": 2025
+      }
+    },
+    "MU": {
+      "capital": {
+        "display": "Port Louis",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1027"
+      },
+      "name": "Mauritius",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MU/indicator/SP.POP.TOTL?format=json",
+        "value": 1243741,
+        "year": 2025
+      }
+    },
+    "MV": {
+      "capital": {
+        "display": "Malé",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q826"
+      },
+      "name": "Maldives",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MV/indicator/SP.POP.TOTL?format=json",
+        "value": 529676,
+        "year": 2025
+      }
+    },
+    "MW": {
+      "capital": {
+        "display": "Lilongwe",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1020"
+      },
+      "name": "Malawi",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MW/indicator/SP.POP.TOTL?format=json",
+        "value": 22216120,
+        "year": 2025
+      }
+    },
+    "MX": {
+      "capital": {
+        "display": "Mexico City",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q96"
+      },
+      "name": "Mexico",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MX/indicator/SP.POP.TOTL?format=json",
+        "value": 131946900,
+        "year": 2025
+      }
+    },
+    "MY": {
+      "capital": {
+        "display": "Kuala Lumpur (official); Putrajaya (administrative center)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q833"
+      },
+      "name": "Malaysia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MY/indicator/SP.POP.TOTL?format=json",
+        "value": 35977838,
+        "year": 2025
+      }
+    },
+    "MZ": {
+      "capital": {
+        "display": "Maputo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1029"
+      },
+      "name": "Mozambique",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/MZ/indicator/SP.POP.TOTL?format=json",
+        "value": 35631653,
+        "year": 2025
+      }
+    },
+    "NA": {
+      "capital": {
+        "display": "Windhoek",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1030"
+      },
+      "name": "Namibia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NA/indicator/SP.POP.TOTL?format=json",
+        "value": 3092816,
+        "year": 2025
+      }
+    },
+    "NE": {
+      "capital": {
+        "display": "Niamey",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1032"
+      },
+      "name": "Niger",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NE/indicator/SP.POP.TOTL?format=json",
+        "value": 27917831,
+        "year": 2025
+      }
+    },
+    "NG": {
+      "capital": {
+        "display": "Abuja",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1033"
+      },
+      "name": "Nigeria",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NG/indicator/SP.POP.TOTL?format=json",
+        "value": 237527782,
+        "year": 2025
+      }
+    },
+    "NI": {
+      "capital": {
+        "display": "Managua",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q811"
+      },
+      "name": "Nicaragua",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NI/indicator/SP.POP.TOTL?format=json",
+        "value": 7007502,
+        "year": 2025
+      }
+    },
+    "NL": {
+      "capital": {
+        "display": "Amsterdam (constitutional); The Hague (seat of government)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q55"
+      },
+      "name": "Netherlands",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NL/indicator/SP.POP.TOTL?format=json",
+        "value": 18087633,
+        "year": 2025
+      }
+    },
+    "NO": {
+      "capital": {
+        "display": "Oslo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q20"
+      },
+      "name": "Norway",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NO/indicator/SP.POP.TOTL?format=json",
+        "value": 5610870,
+        "year": 2025
+      }
+    },
+    "NP": {
+      "capital": {
+        "display": "Kathmandu",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q837"
+      },
+      "name": "Nepal",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NP/indicator/SP.POP.TOTL?format=json",
+        "value": 29618118,
+        "year": 2025
+      }
+    },
+    "NR": {
+      "capital": {
+        "display": "Yaren District",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q697"
+      },
+      "name": "Nauru",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NR/indicator/SP.POP.TOTL?format=json",
+        "value": 12025,
+        "year": 2025
+      }
+    },
+    "NZ": {
+      "capital": {
+        "display": "Wellington",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q664"
+      },
+      "name": "New Zealand",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/NZ/indicator/SP.POP.TOTL?format=json",
+        "value": 5324700,
+        "year": 2025
+      }
+    },
+    "OM": {
+      "capital": {
+        "display": "Muscat",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q842"
+      },
+      "name": "Oman",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/OM/indicator/SP.POP.TOTL?format=json",
+        "value": 5494691,
+        "year": 2025
+      }
+    },
+    "PA": {
+      "capital": {
+        "display": "Panama City",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q804"
+      },
+      "name": "Panama",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PA/indicator/SP.POP.TOTL?format=json",
+        "value": 4571189,
+        "year": 2025
+      }
+    },
+    "PE": {
+      "capital": {
+        "display": "Lima",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q419"
+      },
+      "name": "Peru",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PE/indicator/SP.POP.TOTL?format=json",
+        "value": 34576665,
+        "year": 2025
+      }
+    },
+    "PG": {
+      "capital": {
+        "display": "Port Moresby",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q691"
+      },
+      "name": "Papua New Guinea",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PG/indicator/SP.POP.TOTL?format=json",
+        "value": 10762817,
+        "year": 2025
+      }
+    },
+    "PH": {
+      "capital": {
+        "display": "Manila",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q928"
+      },
+      "name": "Philippines",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PH/indicator/SP.POP.TOTL?format=json",
+        "value": 116786962,
+        "year": 2025
+      }
+    },
+    "PK": {
+      "capital": {
+        "display": "Islamabad",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q843"
+      },
+      "name": "Pakistan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PK/indicator/SP.POP.TOTL?format=json",
+        "value": 255219554,
+        "year": 2025
+      }
+    },
+    "PL": {
+      "capital": {
+        "display": "Warsaw",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q36"
+      },
+      "name": "Poland",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PL/indicator/SP.POP.TOTL?format=json",
+        "value": 36435861,
+        "year": 2025
+      }
+    },
+    "PS": {
+      "capital": {
+        "display": "East Jerusalem (claimed); Ramallah (administrative center)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q219060"
+      },
+      "name": "Palestine",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PS/indicator/SP.POP.TOTL?format=json",
+        "value": 5413596,
+        "year": 2025
+      }
+    },
+    "PT": {
+      "capital": {
+        "display": "Lisbon",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q45"
+      },
+      "name": "Portugal",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PT/indicator/SP.POP.TOTL?format=json",
+        "value": 10804871,
+        "year": 2025
+      }
+    },
+    "PW": {
+      "capital": {
+        "display": "Ngerulmud",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q695"
+      },
+      "name": "Palau",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PW/indicator/SP.POP.TOTL?format=json",
+        "value": 17663,
+        "year": 2025
+      }
+    },
+    "PY": {
+      "capital": {
+        "display": "Asunción",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q733"
+      },
+      "name": "Paraguay",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/PY/indicator/SP.POP.TOTL?format=json",
+        "value": 7013078,
+        "year": 2025
+      }
+    },
+    "QA": {
+      "capital": {
+        "display": "Doha",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q846"
+      },
+      "name": "Qatar",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/QA/indicator/SP.POP.TOTL?format=json",
+        "value": 2972215,
+        "year": 2025
+      }
+    },
+    "RO": {
+      "capital": {
+        "display": "Bucharest",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q218"
+      },
+      "name": "Romania",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/RO/indicator/SP.POP.TOTL?format=json",
+        "value": 19020271,
+        "year": 2025
+      }
+    },
+    "RS": {
+      "capital": {
+        "display": "Belgrade",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q403"
+      },
+      "name": "Serbia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/RS/indicator/SP.POP.TOTL?format=json",
+        "value": 6549143,
+        "year": 2025
+      }
+    },
+    "RU": {
+      "capital": {
+        "display": "Moscow",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q159"
+      },
+      "name": "Russia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/RU/indicator/SP.POP.TOTL?format=json",
+        "value": 143513328,
+        "year": 2025
+      }
+    },
+    "RW": {
+      "capital": {
+        "display": "Kigali",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1037"
+      },
+      "name": "Rwanda",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/RW/indicator/SP.POP.TOTL?format=json",
+        "value": 14569341,
+        "year": 2025
+      }
+    },
+    "SA": {
+      "capital": {
+        "display": "Riyadh",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q851"
+      },
+      "name": "Saudi Arabia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SA/indicator/SP.POP.TOTL?format=json",
+        "value": 36973555,
+        "year": 2025
+      }
+    },
+    "SB": {
+      "capital": {
+        "display": "Honiara",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q685"
+      },
+      "name": "Solomon Islands",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SB/indicator/SP.POP.TOTL?format=json",
+        "value": 838645,
+        "year": 2025
+      }
+    },
+    "SC": {
+      "capital": {
+        "display": "Victoria",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1042"
+      },
+      "name": "Seychelles",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SC/indicator/SP.POP.TOTL?format=json",
+        "value": 122730,
+        "year": 2025
+      }
+    },
+    "SD": {
+      "capital": {
+        "display": "Khartoum",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1049"
+      },
+      "name": "Sudan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SD/indicator/SP.POP.TOTL?format=json",
+        "value": 51662147,
+        "year": 2025
+      }
+    },
+    "SE": {
+      "capital": {
+        "display": "Stockholm",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q34"
+      },
+      "name": "Sweden",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SE/indicator/SP.POP.TOTL?format=json",
+        "value": 10596620,
+        "year": 2025
+      }
+    },
+    "SG": {
+      "capital": {
+        "display": "Singapore",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q334"
+      },
+      "name": "Singapore",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SG/indicator/SP.POP.TOTL?format=json",
+        "value": 6111175,
+        "year": 2025
+      }
+    },
+    "SI": {
+      "capital": {
+        "display": "Ljubljana",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q215"
+      },
+      "name": "Slovenia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SI/indicator/SP.POP.TOTL?format=json",
+        "value": 2130986,
+        "year": 2025
+      }
+    },
+    "SK": {
+      "capital": {
+        "display": "Bratislava",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q214"
+      },
+      "name": "Slovakia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SK/indicator/SP.POP.TOTL?format=json",
+        "value": 5413813,
+        "year": 2025
+      }
+    },
+    "SL": {
+      "capital": {
+        "display": "Freetown",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1044"
+      },
+      "name": "Sierra Leone",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SL/indicator/SP.POP.TOTL?format=json",
+        "value": 8819794,
+        "year": 2025
+      }
+    },
+    "SM": {
+      "capital": {
+        "display": "San Marino",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q238"
+      },
+      "name": "San Marino",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SM/indicator/SP.POP.TOTL?format=json",
+        "value": 34109,
+        "year": 2025
+      }
+    },
+    "SN": {
+      "capital": {
+        "display": "Dakar",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1041"
+      },
+      "name": "Senegal",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SN/indicator/SP.POP.TOTL?format=json",
+        "value": 18931966,
+        "year": 2025
+      }
+    },
+    "SO": {
+      "capital": {
+        "display": "Mogadishu",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1045"
+      },
+      "name": "Somalia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SO/indicator/SP.POP.TOTL?format=json",
+        "value": 19654739,
+        "year": 2025
+      }
+    },
+    "SR": {
+      "capital": {
+        "display": "Paramaribo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q730"
+      },
+      "name": "Suriname",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SR/indicator/SP.POP.TOTL?format=json",
+        "value": 639850,
+        "year": 2025
+      }
+    },
+    "SS": {
+      "capital": {
+        "display": "Juba",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q958"
+      },
+      "name": "South Sudan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SS/indicator/SP.POP.TOTL?format=json",
+        "value": 12188788,
+        "year": 2025
+      }
+    },
+    "ST": {
+      "capital": {
+        "display": "São Tomé",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1039"
+      },
+      "name": "Sao Tome and Principe",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ST/indicator/SP.POP.TOTL?format=json",
+        "value": 240254,
+        "year": 2025
+      }
+    },
+    "SV": {
+      "capital": {
+        "display": "San Salvador",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q792"
+      },
+      "name": "El Salvador",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SV/indicator/SP.POP.TOTL?format=json",
+        "value": 6365503,
+        "year": 2025
+      }
+    },
+    "SY": {
+      "capital": {
+        "display": "Damascus",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q858"
+      },
+      "name": "Syria",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SY/indicator/SP.POP.TOTL?format=json",
+        "value": 25620427,
+        "year": 2025
+      }
+    },
+    "SZ": {
+      "capital": {
+        "display": "Mbabane (administrative); Lobamba (royal and legislative)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1050"
+      },
+      "name": "Eswatini",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/SZ/indicator/SP.POP.TOTL?format=json",
+        "value": 1256174,
+        "year": 2025
+      }
+    },
+    "TD": {
+      "capital": {
+        "display": "N'Djamena",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q657"
+      },
+      "name": "Chad",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TD/indicator/SP.POP.TOTL?format=json",
+        "value": 21003705,
+        "year": 2025
+      }
+    },
+    "TG": {
+      "capital": {
+        "display": "Lomé",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q945"
+      },
+      "name": "Togo",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TG/indicator/SP.POP.TOTL?format=json",
+        "value": 8591626,
+        "year": 2025
+      }
+    },
+    "TH": {
+      "capital": {
+        "display": "Bangkok",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q869"
+      },
+      "name": "Thailand",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TH/indicator/SP.POP.TOTL?format=json",
+        "value": 71619863,
+        "year": 2025
+      }
+    },
+    "TJ": {
+      "capital": {
+        "display": "Dushanbe",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q863"
+      },
+      "name": "Tajikistan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TJ/indicator/SP.POP.TOTL?format=json",
+        "value": 10786734,
+        "year": 2025
+      }
+    },
+    "TL": {
+      "capital": {
+        "display": "Dili",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q574"
+      },
+      "name": "Timor-Leste",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TL/indicator/SP.POP.TOTL?format=json",
+        "value": 1418517,
+        "year": 2025
+      }
+    },
+    "TM": {
+      "capital": {
+        "display": "Ashgabat",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q874"
+      },
+      "name": "Turkmenistan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TM/indicator/SP.POP.TOTL?format=json",
+        "value": 7618847,
+        "year": 2025
+      }
+    },
+    "TN": {
+      "capital": {
+        "display": "Tunis",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q948"
+      },
+      "name": "Tunisia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TN/indicator/SP.POP.TOTL?format=json",
+        "value": 12348573,
+        "year": 2025
+      }
+    },
+    "TO": {
+      "capital": {
+        "display": "Nukuʻalofa",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q678"
+      },
+      "name": "Tonga",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TO/indicator/SP.POP.TOTL?format=json",
+        "value": 103742,
+        "year": 2025
+      }
+    },
+    "TR": {
+      "capital": {
+        "display": "Ankara",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q43"
+      },
+      "name": "Türkiye",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TR/indicator/SP.POP.TOTL?format=json",
+        "value": 85878556,
+        "year": 2025
+      }
+    },
+    "TT": {
+      "capital": {
+        "display": "Port of Spain",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q754"
+      },
+      "name": "Trinidad and Tobago",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TT/indicator/SP.POP.TOTL?format=json",
+        "value": 1367764,
+        "year": 2025
+      }
+    },
+    "TV": {
+      "capital": {
+        "display": "Funafuti",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q672"
+      },
+      "name": "Tuvalu",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TV/indicator/SP.POP.TOTL?format=json",
+        "value": 9492,
+        "year": 2025
+      }
+    },
+    "TW": {
+      "capital": {
+        "display": "Taipei",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q865"
+      },
+      "name": "Taiwan",
+      "population": {
+        "source": "UN World Population Prospects 2024",
+        "sourceUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz",
+        "value": 23264288,
+        "year": 2024
+      }
+    },
+    "TZ": {
+      "capital": {
+        "display": "Dodoma",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q924"
+      },
+      "name": "Tanzania",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/TZ/indicator/SP.POP.TOTL?format=json",
+        "value": 70545865,
+        "year": 2025
+      }
+    },
+    "UA": {
+      "capital": {
+        "display": "Kyiv",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q212"
+      },
+      "name": "Ukraine",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/UA/indicator/SP.POP.TOTL?format=json",
+        "value": 38980376,
+        "year": 2025
+      }
+    },
+    "UG": {
+      "capital": {
+        "display": "Kampala",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1036"
+      },
+      "name": "Uganda",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/UG/indicator/SP.POP.TOTL?format=json",
+        "value": 51384894,
+        "year": 2025
+      }
+    },
+    "US": {
+      "capital": {
+        "display": "Washington, D.C.",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q30"
+      },
+      "name": "United States",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/US/indicator/SP.POP.TOTL?format=json",
+        "value": 341784857,
+        "year": 2025
+      }
+    },
+    "UY": {
+      "capital": {
+        "display": "Montevideo",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q77"
+      },
+      "name": "Uruguay",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/UY/indicator/SP.POP.TOTL?format=json",
+        "value": 3384688,
+        "year": 2025
+      }
+    },
+    "UZ": {
+      "capital": {
+        "display": "Tashkent",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q265"
+      },
+      "name": "Uzbekistan",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/UZ/indicator/SP.POP.TOTL?format=json",
+        "value": 37053428,
+        "year": 2025
+      }
+    },
+    "VA": {
+      "capital": {
+        "display": "Vatican City",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q237"
+      },
+      "name": "Vatican City",
+      "population": {
+        "source": "UN World Population Prospects 2024",
+        "sourceUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz",
+        "value": 491,
+        "year": 2024
+      }
+    },
+    "VC": {
+      "capital": {
+        "display": "Kingstown",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q757"
+      },
+      "name": "Saint Vincent and the Grenadines",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/VC/indicator/SP.POP.TOTL?format=json",
+        "value": 99924,
+        "year": 2025
+      }
+    },
+    "VE": {
+      "capital": {
+        "display": "Caracas",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q717"
+      },
+      "name": "Venezuela, Bolivarian Republic of",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/VE/indicator/SP.POP.TOTL?format=json",
+        "value": 28516896,
+        "year": 2025
+      }
+    },
+    "VN": {
+      "capital": {
+        "display": "Hanoi",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q881"
+      },
+      "name": "Vietnam",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/VN/indicator/SP.POP.TOTL?format=json",
+        "value": 101598527,
+        "year": 2025
+      }
+    },
+    "VU": {
+      "capital": {
+        "display": "Port Vila",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q686"
+      },
+      "name": "Vanuatu",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/VU/indicator/SP.POP.TOTL?format=json",
+        "value": 335169,
+        "year": 2025
+      }
+    },
+    "WS": {
+      "capital": {
+        "display": "Apia",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q683"
+      },
+      "name": "Samoa",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/WS/indicator/SP.POP.TOTL?format=json",
+        "value": 219306,
+        "year": 2025
+      }
+    },
+    "XK": {
+      "capital": {
+        "display": "Pristina",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q1246"
+      },
+      "name": "Kosovo",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/XK/indicator/SP.POP.TOTL?format=json",
+        "value": 1576876,
+        "year": 2025
+      }
+    },
+    "YE": {
+      "capital": {
+        "display": "Sanaa (de jure); Aden (temporary seat)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q805"
+      },
+      "name": "Yemen",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/YE/indicator/SP.POP.TOTL?format=json",
+        "value": 41773878,
+        "year": 2025
+      }
+    },
+    "ZA": {
+      "capital": {
+        "display": "Pretoria (executive); Cape Town (legislative); Bloemfontein (judicial)",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q258"
+      },
+      "name": "South Africa",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ZA/indicator/SP.POP.TOTL?format=json",
+        "value": 64747319,
+        "year": 2025
+      }
+    },
+    "ZM": {
+      "capital": {
+        "display": "Lusaka",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q953"
+      },
+      "name": "Zambia",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ZM/indicator/SP.POP.TOTL?format=json",
+        "value": 21913874,
+        "year": 2025
+      }
+    },
+    "ZW": {
+      "capital": {
+        "display": "Harare",
+        "source": "Wikidata",
+        "sourceUrl": "https://www.wikidata.org/entity/Q954"
+      },
+      "name": "Zimbabwe",
+      "population": {
+        "source": "World Bank SP.POP.TOTL",
+        "sourceUrl": "https://api.worldbank.org/v2/country/ZW/indicator/SP.POP.TOTL?format=json",
+        "value": 16950795,
+        "year": 2025
+      }
+    }
+  },
+  "coverage": {
+    "capitalFilled": 199,
+    "mapped": 199,
+    "populationFilled": 199,
+    "retainedFromPreviousOnRegression": {
+      "capital": [],
+      "population": []
+    },
+    "unavailable": {
+      "capital": [],
+      "population": []
+    }
+  },
+  "refreshNote": "refreshedAt is retrieval metadata, not the population reference year",
+  "refreshedAt": "2026-09-18T01:16:36Z",
+  "schemaVersion": 1,
+  "sources": {
+    "capitals": {
+      "name": "Wikidata P36",
+      "queryUrl": "https://query.wikidata.org/sparql?query=SELECT+%3Fcountry+%3Fiso+%3FcapitalLabel+WHERE+%7B%0A++%3Fcountry+wdt%3AP297+%3Fiso.%0A++OPTIONAL+%7B%0A++++%3Fcountry+p%3AP36+%3Fstatement.%0A++++%3Fstatement+ps%3AP36+%3Fcapital.%0A++++FILTER+NOT+EXISTS+%7B+%3Fstatement+pq%3AP582+%3Fend.+%7D%0A++%7D%0A++SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%22.+%7D%0A%7D&format=json",
+      "url": "https://query.wikidata.org/sparql"
+    },
+    "populationFallback": {
+      "name": "UN World Population Prospects 2024",
+      "url": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz"
+    },
+    "populationPrimary": {
+      "name": "World Bank SP.POP.TOTL",
+      "queryUrl": "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json&date=2020:2026&per_page=20000",
+      "sourceUpdated": "2026-07-13",
+      "url": "https://data.worldbank.org/indicator/SP.POP.TOTL"
+    }
+  }
+}

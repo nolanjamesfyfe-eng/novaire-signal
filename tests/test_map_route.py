@@ -38,3 +38,33 @@ def test_public_answers_are_valid_and_page_is_read_only():
     assert "fetch(" in html
     assert "method:'POST'" not in html and 'method: "POST"' not in html
     assert "TOTAL=199" in html
+
+
+def test_every_map_feature_has_sourced_capital_and_population():
+    countries = json.loads((MAP / "countries.json").read_text())
+    world = json.loads((MAP / "world.geojson").read_text())
+    facts = json.loads((MAP / "country_facts.json").read_text())
+    catalog_codes = {c["iso2"] for c in countries}
+    feature_codes = {f["properties"]["iso2"] for f in world["features"]}
+    assert feature_codes == catalog_codes == set(facts["countries"])
+    assert facts["coverage"]["mapped"] == 199
+    assert facts["coverage"]["capitalFilled"] == 199
+    assert facts["coverage"]["populationFilled"] == 199
+    for code, fact in facts["countries"].items():
+        assert fact["capital"]["display"] != "Unavailable", code
+        assert fact["capital"]["sourceUrl"].startswith("https://"), code
+        assert fact["population"]["value"] > 0, code
+        assert 1950 <= fact["population"]["year"] <= 2100, code
+        assert fact["population"]["sourceUrl"].startswith("https://"), code
+
+
+def test_map_tooltip_loads_facts_and_uses_reference_year():
+    html = (MAP / "index.html").read_text()
+    assert "fetch('/map/country_facts.json')" in html
+    assert '<b>Capital:</b>' in html
+    assert '<b>Population:</b>' in html
+    assert "compactPopulation(pop.value)" in html
+    assert "pop.year" in html
+    assert "refreshedAt" not in html
+    assert ".toFixed(1)+'B'" in html
+    assert "Math.round(value/1e6)+'M'" in html
