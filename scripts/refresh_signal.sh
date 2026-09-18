@@ -20,7 +20,7 @@ set -a
 set +a
 
 PYTHON_BIN="${NOVAIRE_SIGNAL_PYTHON:-/usr/local/lib/hermes-agent/venv/bin/python3}"
-ARTIFACTS=(index.html portfolio/index.html portfolio/daily/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json stats.json weather_cache.json social_latest.json fed_signal_cache.json)
+ARTIFACTS=(index.html portfolio/index.html portfolio/daily/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json stats.json weather_cache.json social_latest.json fed_signal_cache.json sheet_allocation_cache.json youtube_latest.json)
 STAGE="startup"
 
 log() { printf '[%s] %s\n' "$(date -Is)" "$*"; }
@@ -119,6 +119,8 @@ if ! /usr/bin/git diff --quiet -- "${ARTIFACTS[@]}"; then
   [ -f weather_cache.json ] && /usr/bin/git add weather_cache.json
   [ -f social_latest.json ] && /usr/bin/git add social_latest.json
   [ -f fed_signal_cache.json ] && /usr/bin/git add fed_signal_cache.json
+  [ -f sheet_allocation_cache.json ] && /usr/bin/git add sheet_allocation_cache.json
+  [ -f youtube_latest.json ] && /usr/bin/git add youtube_latest.json
   /usr/bin/git commit -m "chore: scheduled Signal refresh $(date -u '+%Y-%m-%d %H:%M UTC')"
 else
   log 'No generated artifact changes to commit'
