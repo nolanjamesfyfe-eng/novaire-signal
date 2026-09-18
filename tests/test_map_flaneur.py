@@ -69,7 +69,12 @@ def test_globe_asset_preserves_every_destination_with_bounded_geometry():
 
     assert len(data['features']) == 199
     assert len({feature['properties']['iso2'] for feature in data['features']}) == 199
-    assert sum(point_count(feature['geometry']['coordinates']) for feature in data['features']) <= 10_000
+    assert sum(point_count(feature['geometry']['coordinates']) for feature in data['features']) <= 4_000
+    # D3 spherical polygons require clockwise exterior rings; map simplification must not flip them.
+    indonesia = next(feature for feature in data['features'] if feature['properties']['iso2'] == 'ID')
+    ring = indonesia['geometry']['coordinates'][0][0]
+    winding = sum((ring[index + 1][0] - ring[index][0]) * (ring[index + 1][1] + ring[index][1]) for index in range(len(ring) - 1))
+    assert winding > 0
 
 
 def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
