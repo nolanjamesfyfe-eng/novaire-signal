@@ -63,7 +63,6 @@
   "redirects": [
     { "source": "/map", "destination": "/flaneur", "permanent": true },
     { "source": "/map/", "destination": "/flaneur", "permanent": true },
-    { "source": "/map/index.html", "destination": "/flaneur", "permanent": true },
     { "source": "/flaneur/", "destination": "/flaneur", "permanent": true }
   ],
   "rewrites": [
