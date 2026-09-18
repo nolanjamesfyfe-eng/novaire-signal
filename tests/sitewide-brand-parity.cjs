@@ -11,6 +11,7 @@ const routes=[
   ['/portfolio-lock.html','portfolio-lock.html'],
   ['/portfolio/','portfolio/index.html'],
   ['/portfolio/daily/','portfolio/daily/index.html'],
+  ['/portfolio/evolutionfund/','portfolio/evolutionfund/index.html'],
 ];
 
 test('public and authenticated route artifacts carry two canonical functional brands',()=>{

@@ -32,6 +32,7 @@ from portfolio_tracker import (
     upsert_daily_snapshot,
 )
 from daily_brief import write_daily
+from signal_brand import signal_brand_css, signal_brand_markup, sync_static_brand_page
 from fed_signal import get_fed_data
 from social_discovery import CHANNELS as SOCIAL_CHANNELS, discover_all as discover_social
 import warnings
@@ -5774,6 +5775,7 @@ def main():
     # Keep /portfolio/evolutionfund hardcoded strategy page in sync with daily prices/G-L
     try:
         evo_strategy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "portfolio", "evolutionfund", "index.html")
+        sync_static_brand_page(evo_strategy_path)
         if evo_snapshot and os.path.exists(evo_strategy_path):
             import re
             with open(evo_strategy_path, "r", encoding="utf-8") as f:

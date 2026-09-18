@@ -27,15 +27,42 @@ def signal_brand_markup(*, wordmark_link=True):
 
 def signal_brand_css():
     return """
-.signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.6363636rem;font-weight:300;line-height:1;text-transform:uppercase;color:var(--text)}
-.signal-brand-row .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal;text-decoration:none}
+.signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:28.8px;font-weight:300;line-height:1;text-transform:uppercase;color:var(--text)}
+.signal-brand-row .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:#f0eef8;font-style:normal;text-decoration:none}
 .signal-brand-row .signal-wordmark>span{color:#b59662;font-style:italic}
-.signal-map,.signal-bolt{display:inline-flex;align-items:center;width:1.243em;height:1.155em;color:#b59662;text-decoration:none;line-height:1}
+.signal-brand-row .signal-map,.signal-brand-row .signal-bolt{display:inline-flex;align-items:center;width:1.243em;height:1.155em;color:#b59662;text-decoration:none;line-height:1;font-size:19.36px}
 .signal-map{justify-content:flex-end}.signal-bolt{justify-content:flex-start}
 .signal-map-icon{width:1.243em;height:1.155em;display:block}.signal-map-ocean{fill:#0a0a0c}.signal-map-land{fill:#b59662}.signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}
 .signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.088em)}
 @keyframes signal-gold-shimmer{0%,100%{opacity:.94;filter:brightness(.96) saturate(.95) drop-shadow(0 0 1px rgba(181,150,98,.22))}32%{opacity:1;filter:brightness(1.18) saturate(1.08) drop-shadow(0 0 3px rgba(181,150,98,.58)) drop-shadow(0 0 7px rgba(255,224,164,.22))}46%{opacity:1;filter:brightness(1.42) saturate(.82) drop-shadow(0 0 4px rgba(255,226,169,.76)) drop-shadow(0 0 10px rgba(181,150,98,.3))}61%{opacity:.98;filter:brightness(1.1) saturate(1.04) drop-shadow(0 0 2px rgba(181,150,98,.42))}}
 .signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}.signal-brand-row .signal-map-icon{animation-delay:-.72s}
 .signal-brand-row .signal-bolt:hover,.signal-brand-row .signal-map:hover{opacity:1;transform:none}.signal-brand-row .signal-bolt:focus-visible,.signal-brand-row .signal-map:focus-visible,.signal-brand-row .signal-wordmark:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
+@media(min-width:761px){.signal-brand-row{font-size:31.68px}}
 @media(prefers-reduced-motion:reduce){.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
 """.strip()
+
+
+def sync_static_brand_page(path):
+    """Refresh marked header/footer/CSS blocks in a hand-authored static page."""
+    from pathlib import Path
+
+    target = Path(path)
+    html = target.read_text(encoding="utf-8")
+    replacements = {
+        "CSS": signal_brand_css(),
+        "HEADER": signal_brand_markup(),
+        "FOOTER": signal_brand_markup(),
+    }
+    for name, value in replacements.items():
+        if name == "CSS":
+            start = "/* SIGNAL_BRAND_CSS_START */"
+            end = "/* SIGNAL_BRAND_CSS_END */"
+        else:
+            start = f"<!-- SIGNAL_BRAND_{name}_START -->"
+            end = f"<!-- SIGNAL_BRAND_{name}_END -->"
+        if html.count(start) != 1 or html.count(end) != 1:
+            raise ValueError(f"missing unique {name} brand markers in {target}")
+        before, rest = html.split(start, 1)
+        _, after = rest.split(end, 1)
+        html = f"{before}{start}{value}{end}{after}"
+    target.write_text(html, encoding="utf-8")

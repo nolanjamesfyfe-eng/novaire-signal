@@ -31,7 +31,7 @@ const portfolio = fs.readFileSync(path.join(root, 'portfolio/index.html'), 'utf8
           const animation = el => { const s = getComputedStyle(el); return { name: s.animationName, duration: s.animationDuration, timing: s.animationTimingFunction, delay: s.animationDelay }; };
           return {
             hrefs: [map.getAttribute('href'), wordmark.getAttribute('href'), bolt.getAttribute('href')],
-            wordmark: style(wordmark), signal: style(signal), gap: getComputedStyle(node.querySelector('.footer-logo')).gap,
+            wordmark: style(wordmark), signal: style(signal), gap: getComputedStyle(node.querySelector('.signal-brand-row')).gap,
             animation: [animation(mapIcon), animation(boltIcon)],
             svg: [mapIcon.outerHTML, boltIcon.outerHTML],
           };
@@ -45,7 +45,7 @@ const portfolio = fs.readFileSync(path.join(root, 'portfolio/index.html'), 'utf8
         assert.deepEqual(result.rows[i].signal, home.rows[i].signal, `${viewport.name} row ${i} SIGNAL differs`);
         assert.equal(result.rows[i].gap, home.rows[i].gap);
         assert.deepEqual(result.rows[i].animation, home.rows[i].animation, `${viewport.name} row ${i} animation differs`);
-        assert.deepEqual(result.rows[i].hrefs, ['/flaneur', '/', '/portfolio']);
+        assert.deepEqual(result.rows[i].hrefs, ['/flaneur', '/', '/portfolio/']);
         assert.equal(result.rows[i].wordmark.color, 'rgb(240, 238, 248)');
         assert.equal(result.rows[i].wordmark.fontStyle, 'normal');
         assert.equal(result.rows[i].signal.color, 'rgb(181, 150, 98)');
