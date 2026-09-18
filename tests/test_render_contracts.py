@@ -134,8 +134,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn(f'class="signal-bolt">{text_glyph}', self.html)
         self.assertIn(".signal-bolt{display:inline-flex", self.html)
         self.assertIn("color:#b59662", self.html)
-        self.assertIn(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor}", self.html)
-        self.assertNotIn(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;filter:", self.html)
+        self.assertIn(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.082em)}", self.html)
         self.assertNotIn("signal-bolt-antique-gold", self.html)
         for forbidden in (
             "Daily Updog Vote",
@@ -187,7 +186,8 @@ class RenderContractTests(unittest.TestCase):
             header,
         )
         self.assertIn(".signal-map{display:inline-flex", self.html)
-        self.assertIn(".header-brand .footer-logo{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}", self.html)
+        self.assertIn(".header-brand .footer-logo,.footer .signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}", self.html)
+        self.assertIn('<div class="footer-logo signal-brand-row">', footer)
         self.assertIn(".header-brand .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal}", self.html)
         self.assertIn(".header-brand .signal-wordmark > span{color:var(--gold);font-style:italic}", self.html)
         self.assertIn(".dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}", self.html)
@@ -201,7 +201,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".signal-map-ocean{fill:#0a0a0c}", self.html)
         self.assertIn(".signal-map-land{fill:#b59662}", self.html)
         self.assertIn(".signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}", self.html)
-        self.assertEqual(self.html.count(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor}"), 1)
+        self.assertEqual(self.html.count(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.082em)}"), 1)
 
         self.assertAlmostEqual(1.243 / 1.13, 1.1)
         self.assertAlmostEqual(1.155 / 1.05, 1.1)
@@ -216,7 +216,7 @@ class RenderContractTests(unittest.TestCase):
             'viewBox=".85 .85 22.3 22.3"',
             '.signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.243em;height:1.155em',
             '.signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.243em;height:1.155em',
-            '.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor}',
+            '.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.082em)}',
             '.signal-map-icon{width:1.243em;height:1.155em;display:block}',
             '.signal-map-land{fill:#b59662}',
             '.signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}',
@@ -225,14 +225,14 @@ class RenderContractTests(unittest.TestCase):
             self.assertIn(marker, self.html)
             source_marker = marker.replace("{", "{{") if marker.startswith(".") else marker
             self.assertIn(source_marker, source)
-        self.assertIn('@keyframes header-signal-illuminate', self.html)
-        self.assertIn('.header-brand .signal-bolt-icon,.header-brand .signal-map-icon{animation:header-signal-illuminate 4.4s ease-in-out infinite', self.html)
-        self.assertIn('.header-brand .signal-map-icon{animation-delay:1.1s}', self.html)
-        self.assertIn('.header-brand .signal-bolt:hover,.header-brand .signal-map:hover{opacity:1;transform:none}', self.html)
-        self.assertIn('.header-brand .signal-bolt:focus-visible,.header-brand .signal-map:focus-visible{outline:1px solid #b59662', self.html)
+        self.assertIn('@keyframes signal-gold-shimmer', self.html)
+        self.assertIn('.footer .signal-bolt-icon,.footer .signal-map-icon{animation:signal-gold-shimmer 3.8s', self.html)
+        self.assertIn('.header-brand .signal-map-icon,.footer .signal-map-icon{animation-delay:-.72s}', self.html)
+        self.assertIn('.footer .signal-bolt:hover,.footer .signal-map:hover{opacity:1;transform:none}', self.html)
+        self.assertIn('.footer .signal-bolt:focus-visible,.footer .signal-map:focus-visible{outline:1px solid #b59662', self.html)
         self.assertIn('@media (prefers-reduced-motion:reduce)', self.html)
-        self.assertIn('.header-brand .signal-bolt-icon,.header-brand .signal-map-icon{animation:none;filter:none;opacity:1}', self.html)
-        self.assertNotIn('scale(', self.html.split('@keyframes header-signal-illuminate', 1)[1].split('.section-bolt', 1)[0])
+        self.assertIn('.footer .signal-bolt-icon,.footer .signal-map-icon{animation:none;filter:brightness(1.12)', self.html)
+        self.assertNotIn('scale(', self.html.split('@keyframes signal-gold-shimmer', 1)[1].split('.section-bolt', 1)[0])
 
     def test_header_icons_flank_wordmark_in_equal_visual_slots(self):
         header = self.html.split("<!-- HEADER BRANDING -->", 1)[1].split("<!-- PERSONAL COUNTDOWNS -->", 1)[0]

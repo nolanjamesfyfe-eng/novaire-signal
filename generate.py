@@ -3486,12 +3486,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
-    .header-brand .footer-logo{{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}}
+    .header-brand .footer-logo,.footer .signal-brand-row{{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}}
     .header-brand .signal-wordmark{{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal}}
     .header-brand .signal-wordmark > span{{color:var(--gold);font-style:italic}}
+    .footer .signal-brand-row .signal-wordmark{{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal}}
+    .footer .signal-brand-row .signal-wordmark > span{{color:var(--gold);font-style:italic}}
 
     .signal-bolt{{display:inline-flex;align-items:center;justify-content:flex-start;width:1.243em;height:1.155em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
-    .signal-bolt-icon{{width:.738em;height:.945em;display:block;fill:currentColor}}
+    .signal-bolt-icon{{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.082em)}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
     .signal-map{{display:inline-flex;align-items:center;justify-content:flex-end;width:1.243em;height:1.155em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-map-icon{{width:1.243em;height:1.155em;display:block}}
@@ -3499,17 +3501,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-map-land{{fill:#b59662}}
     .signal-map-rim{{fill:none;stroke:#b59662;stroke-width:.8}}
     .signal-map:hover{{opacity:.7;transform:scale(1.1)}}
-    @keyframes header-signal-illuminate{{
-      0%,100%{{opacity:.88;filter:brightness(.94) drop-shadow(0 0 0 rgba(181,150,98,0))}}
-      45%{{opacity:1;filter:brightness(1.16) drop-shadow(0 0 2px rgba(181,150,98,.34))}}
-      58%{{opacity:.94;filter:brightness(1.02) drop-shadow(0 0 1px rgba(181,150,98,.14))}}
+    @keyframes signal-gold-shimmer{{
+      0%,100%{{opacity:.94;filter:brightness(.96) saturate(.95) drop-shadow(0 0 1px rgba(181,150,98,.22))}}
+      32%{{opacity:1;filter:brightness(1.18) saturate(1.08) drop-shadow(0 0 3px rgba(181,150,98,.58)) drop-shadow(0 0 7px rgba(255,224,164,.22))}}
+      46%{{opacity:1;filter:brightness(1.42) saturate(.82) drop-shadow(0 0 4px rgba(255,226,169,.76)) drop-shadow(0 0 10px rgba(181,150,98,.3))}}
+      61%{{opacity:.98;filter:brightness(1.1) saturate(1.04) drop-shadow(0 0 2px rgba(181,150,98,.42))}}
     }}
-    .header-brand .signal-bolt-icon,.header-brand .signal-map-icon{{animation:header-signal-illuminate 4.4s ease-in-out infinite;will-change:filter,opacity}}
-    .header-brand .signal-map-icon{{animation-delay:1.1s}}
-    .header-brand .signal-bolt:hover,.header-brand .signal-map:hover{{opacity:1;transform:none}}
-    .header-brand .signal-bolt:focus-visible,.header-brand .signal-map:focus-visible{{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}}
+    .header-brand .signal-bolt-icon,.header-brand .signal-map-icon,.footer .signal-bolt-icon,.footer .signal-map-icon{{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}}
+    .header-brand .signal-map-icon,.footer .signal-map-icon{{animation-delay:-.72s}}
+    .header-brand .signal-bolt:hover,.header-brand .signal-map:hover,.footer .signal-bolt:hover,.footer .signal-map:hover{{opacity:1;transform:none}}
+    .header-brand .signal-bolt:focus-visible,.header-brand .signal-map:focus-visible,.footer .signal-bolt:focus-visible,.footer .signal-map:focus-visible{{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}}
     @media (prefers-reduced-motion:reduce){{
-      .header-brand .signal-bolt-icon,.header-brand .signal-map-icon{{animation:none;filter:none;opacity:1}}
+      .header-brand .signal-bolt-icon,.header-brand .signal-map-icon,.footer .signal-bolt-icon,.footer .signal-map-icon{{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
     }}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
@@ -4211,7 +4214,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a> Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
