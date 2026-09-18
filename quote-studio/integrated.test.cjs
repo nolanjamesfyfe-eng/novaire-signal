@@ -2,7 +2,9 @@ const { chromium } = require('/tmp/quote-studio-qa/node_modules/playwright');
 const assert = require('node:assert/strict');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const launchOptions = { headless: true };
+  if (process.env.CHROMIUM_PATH) launchOptions.executablePath = process.env.CHROMIUM_PATH;
+  const browser = await chromium.launch(launchOptions);
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, acceptDownloads: true, permissions: ['clipboard-read', 'clipboard-write'] });
   const page = await context.newPage();
   const errors = [], posts = [];
@@ -44,7 +46,6 @@ const assert = require('node:assert/strict');
   await page.click('[data-quote-format="story"]'); await storyReady;
   const downloadEvent = page.waitForEvent('download'); await page.click('#quote-share-download');
   const download = await downloadEvent; assert.equal(download.suggestedFilename(), 'meditation-margin-1080x1920.png');
-  await download.saveAs('/tmp/novaire-signal-meditation-story.png');
   assert.deepEqual(await page.evaluate(() => [document.querySelector('#quote-share-canvas').width, document.querySelector('#quote-share-canvas').height]), [1080,1920]);
   await page.keyboard.press('Escape');
 
