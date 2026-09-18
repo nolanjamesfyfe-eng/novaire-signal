@@ -154,6 +154,21 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertTrue(ytd["estimated"])
         self.assertIn(">YTD<", portfolio_tracker.render_tracker_html(model))
 
+    def test_interactive_chart_uses_fixed_full_history_ath_baseline(self):
+        history = {"snapshots": [
+            {"market_date": "2025-12-31", "accounts": {"tfsa_ws": {"cad": 150000.0}}},
+            {"market_date": "2026-01-02", "accounts": {"tfsa_ws": {"cad": 120000.0}}},
+            {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 125000.0}}},
+        ]}
+        html = portfolio_tracker.render_tracker_html(portfolio_tracker.build_tracker_model(history))
+        self.assertIn("ath=Math.max(...all.map(p=>p.cad))", html)
+        self.assertIn("delta=point.cad-ath", html)
+        self.assertIn("showAth(p)", html)
+        self.assertIn("showAth(last)", html)
+        self.assertIn("%) · ATH", html)
+        self.assertIn("draw('YTD')", html)
+        self.assertNotIn("%) · '+range", html)
+
 
 if __name__ == "__main__":
     unittest.main()
