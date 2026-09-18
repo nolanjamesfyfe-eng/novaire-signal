@@ -66,15 +66,45 @@ for (const type of [chromium, webkit]) test(`${type.name()} keeps painted status
   } finally {await browser.close();}
 });
 
-test('visible country facts dismiss on page scroll and reopen on country tap', async () => {
+test('country facts require a fresh tap and dismiss on any touch, drag, pinch or scroll', async () => {
   const {browser,page}=await open(chromium);
   try {
-    const canvas=page.locator('#globe-canvas'),box=await canvas.boundingBox();
+    const canvas=page.locator('#globe-canvas'),box=await canvas.boundingBox(),client=await page.context().newCDPSession(page);
     const x=box.x+box.width*.50,y=box.y+box.height*.50;
     await page.touchscreen.tap(x,y);
     const tip=page.locator('.tooltip');
     await assert.doesNotReject(()=>tip.waitFor({state:'visible'}),'country tap opens facts');
     for(const label of ['Capital:','Population:','GDP:'])assert.match(await tip.innerText(),new RegExp(label));
+
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch(20,20,71)]});
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'touchstart anywhere dismisses facts before movement or scroll');
+    await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    await page.waitForTimeout(50);
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'touch release outside globe cannot reopen facts');
+
+    await page.touchscreen.tap(x,y);
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),true,'intentional fresh country tap reopens facts');
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch(x-65,y,72)]});
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'globe pointerdown immediately dismisses facts');
+    for(let i=1;i<=10;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[touch(x-65+i*12,y,72)]});
+    await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    await page.waitForTimeout(50);
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'drag release remains hidden');
+
+    const movedBox=await canvas.boundingBox(),mx=movedBox.x+movedBox.width/2,my=movedBox.y+movedBox.height/2;
+    await page.touchscreen.tap(mx,my);
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),true,'fresh tap after drag reopens facts');
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch(mx-55,my,73),touch(mx+55,my,74)]});
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'pinch start immediately dismisses facts');
+    for(let i=1;i<=8;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[touch(mx-55-i*3,my,73),touch(mx+55+i*3,my,74)]});
+    await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    await page.waitForTimeout(50);
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'pinch release remains hidden');
+    await page.evaluate(({mx,my})=>document.querySelector('#globe-canvas').dispatchEvent(new PointerEvent('pointermove',{pointerId:99,pointerType:'mouse',clientX:mx,clientY:my,bubbles:true})),{mx,my});
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'synthetic mouse hover after touch cannot reopen facts');
+
+    await page.touchscreen.tap(mx,my);
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),true,'fresh tap after pinch reopens facts');
     await page.evaluate(()=>scrollBy(0,Math.max(320,innerHeight*.6)));
     await page.waitForFunction(()=>!document.querySelector('#tooltip').classList.contains('show'));
     assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'page scroll dismisses facts');
@@ -140,12 +170,14 @@ test('canvas pointerup hit testing shows complete facts after consecutive slight
   } finally {await browser.close();}
 });
 
-test('desktop mouse drag, wheel, hover facts, directory focus and draw budget', async () => {
+test('desktop mouse drag, wheel, tap-only facts, directory focus and draw budget', async () => {
   const {browser,page}=await open(chromium,false);
   try {
     const canvas=page.locator('#globe-canvas'),box=await canvas.boundingBox();
     const initial=await paintStats(page);
-    await page.mouse.move(box.x+box.width*.50,box.y+box.height*.52);await page.mouse.down();
+    await page.mouse.move(box.x+box.width*.50,box.y+box.height*.52);
+    assert.equal(await page.locator('.tooltip.show').count(),0,'mouse hover cannot open country facts');
+    await page.mouse.down();
     for(let i=1;i<=60;i++){await page.mouse.move(box.x+box.width*.50+i*3,box.y+box.height*.52+i*.3);await page.waitForTimeout(16);}
     await page.mouse.up();
     const after=await paintStats(page);assert.ok(after.land+after.visited+after.calling>2000,'desktop drag keeps land painted');
