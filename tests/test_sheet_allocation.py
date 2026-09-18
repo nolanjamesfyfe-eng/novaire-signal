@@ -96,6 +96,12 @@ class SheetAllocationTests(unittest.TestCase):
         self.assertIn("49.6%", legend)
         self.assertIn("18.8%", legend)
         self.assertIn('data-allocation-sector="Graphene"', legend)
+        self.assertIn('data-display-percent="49.6%"', chart)
+        self.assertIn('aria-label="Graphene 49.6%"', chart)
+        self.assertEqual(chart.count('class="allocation-slice"'), len(allocations))
+        self.assertEqual(chart.count('tabindex="0" role="button"'), len(allocations))
+        self.assertIn('aria-label="Show Graphene 49.6%"', legend)
+        self.assertIn('data-allocation-default="PORTFOLIO"', chart)
 
     def test_sheet_totals_survive_when_yfinance_is_unavailable(self):
         holdings = [{

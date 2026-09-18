@@ -2826,7 +2826,8 @@ def build_donut(allocations):
         glows.append(f'<circle class="allocation-glow" {geometry}/>' )
         slices.append(
             f'<circle class="allocation-slice" data-sector="{escape(label, quote=True)}" '
-            f'data-percent="{val:.2f}" {geometry}/>'
+            f'data-percent="{val:.2f}" data-display-percent="{val:.1f}%" '
+            f'tabindex="0" role="button" aria-label="{escape(label, quote=True)} {val:.1f}%" {geometry}/>'
         )
         gloss_geometry = geometry.replace(
             f'stroke="url(#{gradient_id})"',
@@ -2864,8 +2865,8 @@ def build_donut(allocations):
         + "".join(slices)
         + f'<g class="allocation-gloss-layer">{"".join(glosses)}</g>'
         + f'<circle class="allocation-core" cx="{cx}" cy="{cy}" r="72"/>'
-          '<text class="allocation-core-kicker" x="160" y="151" text-anchor="middle">PORTFOLIO</text>'
-          '<text class="allocation-core-label" x="160" y="177" text-anchor="middle">LIVE SHEET</text>'
+          '<text class="allocation-core-kicker" data-allocation-default="PORTFOLIO" x="160" y="151" text-anchor="middle">PORTFOLIO</text>'
+          '<text class="allocation-core-label" data-allocation-default="LIVE SHEET" x="160" y="177" text-anchor="middle">LIVE SHEET</text>'
           '</svg>'
     )
 
@@ -2877,7 +2878,8 @@ def build_legend(allocations, total_val=None):
         start, end = ALLOCATION_PALETTES[i % len(ALLOCATION_PALETTES)]
         safe_label = escape(label, quote=True)
         items.append(
-            f'<div class="legend-item" data-allocation-sector="{safe_label}" data-allocation-pct="{val:.2f}">'
+            f'<div class="legend-item" data-allocation-sector="{safe_label}" data-allocation-pct="{val:.2f}" '
+            f'data-display-percent="{val:.1f}%" tabindex="0" role="button" aria-label="Show {safe_label} {val:.1f}%">'
             f'<span class="legend-dot" style="--swatch-start:{start};--swatch-end:{end}"></span>'
             f'<span class="legend-name">{safe_label}</span>'
             f'<span class="legend-pct">{val:.1f}%</span></div>'
@@ -2932,12 +2934,15 @@ def build_kraken_weighting_component(kraken_meta):
     ):
         donut = donut.replace(old, new)
     # Restore shared CSS classes changed by the ID namespacing above.
+    donut = donut.replace('class="crypto-weight-gloss-layer"', 'class="allocation-gloss-layer"')
     donut = donut.replace('class="crypto-weight-gloss"', 'class="allocation-gloss"')
     donut = donut.replace('class="crypto-weight-core"', 'class="allocation-core"')
     donut = donut.replace('class="crypto-weight-core-kicker"', 'class="allocation-core-kicker"')
     donut = donut.replace('class="crypto-weight-core-label"', 'class="allocation-core-label"')
-    donut = donut.replace('PORTFOLIO</text>', f'{escape(top_symbol)}</text>')
-    donut = donut.replace('LIVE SHEET</text>', f'{top_weight:.1f}% WEIGHT</text>')
+    donut = donut.replace('>PORTFOLIO</text>', f'>{escape(top_symbol)}</text>')
+    donut = donut.replace('data-allocation-default="PORTFOLIO"', f'data-allocation-default="{escape(top_symbol, quote=True)}"')
+    donut = donut.replace('>LIVE SHEET</text>', f'>{top_weight:.1f}% WEIGHT</text>')
+    donut = donut.replace('data-allocation-default="LIVE SHEET"', f'data-allocation-default="{top_weight:.1f}% WEIGHT"')
     donut = donut.replace('Portfolio allocation from Google Sheet', 'Kraken crypto position weighting from Google Sheet')
 
     return (
@@ -3679,8 +3684,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}}
     .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
     .allocation-glow{{opacity:.86}}
-    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease}}
-    .allocation-slice:hover{{opacity:.94;filter:saturate(1.55) contrast(1.08) brightness(1.18)}}
+    .allocation-slice{{stroke-linecap:butt;cursor:pointer;outline:none;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease,stroke-width .2s ease}}
+    .allocation-slice:hover,.allocation-slice:focus-visible,.allocation-slice.is-active{{opacity:1;stroke-width:56;filter:saturate(1.62) contrast(1.1) brightness(1.22)}}
     .allocation-gloss-layer{{pointer-events:none;mix-blend-mode:screen}}
     .allocation-gloss{{opacity:.34}}
     .allocation-core{{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}}
@@ -3688,7 +3693,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .allocation-copy{{min-width:0}}
     .allocation-kicker{{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}}
     .allocation-legend{{display:grid;grid-template-columns:1fr;gap:8px}}
-    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem}}
+    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem;cursor:pointer;outline:none;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}}
+    .legend-item:hover,.legend-item:focus-visible,.legend-item.is-active{{border-color:rgba(140,255,0,.32);background:rgba(140,255,0,.065);box-shadow:inset 0 0 18px rgba(140,255,0,.035)}}
     .legend-dot{{width:11px;height:11px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:inset 0 0 4px rgba(255,255,255,.8),0 0 8px var(--swatch-start),0 0 18px color-mix(in srgb,var(--swatch-end) 72%,transparent)}}
     .legend-name{{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}}
     .legend-pct{{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}}
@@ -4799,8 +4805,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .allocation-aura{{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}}
     .allocation-track{{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}}
     .allocation-glow{{opacity:.86}}
-    .allocation-slice{{stroke-linecap:butt;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease}}
-    .allocation-slice:hover{{opacity:.94;filter:saturate(1.55) contrast(1.08) brightness(1.18)}}
+    .allocation-slice{{stroke-linecap:butt;cursor:pointer;outline:none;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease,stroke-width .2s ease}}
+    .allocation-slice:hover,.allocation-slice:focus-visible,.allocation-slice.is-active{{opacity:1;stroke-width:56;filter:saturate(1.62) contrast(1.1) brightness(1.22)}}
     .allocation-gloss-layer{{pointer-events:none;mix-blend-mode:screen}}
     .allocation-gloss{{opacity:.34}}
     .allocation-core{{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}}
@@ -4808,7 +4814,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .allocation-copy{{min-width:0}}
     .allocation-kicker{{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}}
     .allocation-legend{{display:grid;grid-template-columns:1fr;gap:8px}}
-    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem}}
+    .legend-item{{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem;cursor:pointer;outline:none;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}}
+    .legend-item:hover,.legend-item:focus-visible,.legend-item.is-active{{border-color:rgba(140,255,0,.32);background:rgba(140,255,0,.065);box-shadow:inset 0 0 18px rgba(140,255,0,.035)}}
     .legend-dot{{width:11px;height:11px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:inset 0 0 4px rgba(255,255,255,.8),0 0 8px var(--swatch-start),0 0 18px color-mix(in srgb,var(--swatch-end) 72%,transparent)}}
     .legend-name{{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}}
     .legend-pct{{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}}
@@ -5059,6 +5066,19 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   </div>
 </dialog>
 <script>
+!function(){{
+  document.querySelectorAll('.allocation-section').forEach(section=>{{
+    const chart=section.querySelector('.allocation-donut'),slices=[...section.querySelectorAll('.allocation-slice')],items=[...section.querySelectorAll('.legend-item')];
+    if(!chart||!slices.length)return;
+    const kicker=chart.querySelector('.allocation-core-kicker'),label=chart.querySelector('.allocation-core-label');
+    const defaults=[kicker?.dataset.allocationDefault||kicker?.textContent||'',label?.dataset.allocationDefault||label?.textContent||''];
+    let pinned=false;
+    const show=node=>{{const sector=node.dataset.sector||node.dataset.allocationSector,pct=node.dataset.displayPercent;slices.forEach(x=>x.classList.toggle('is-active',x.dataset.sector===sector));items.forEach(x=>x.classList.toggle('is-active',x.dataset.allocationSector===sector));if(kicker){{kicker.textContent=sector;kicker.style.fontSize=sector.length>15?'7px':'9px';}}if(label)label.textContent=pct;}};
+    const reset=()=>{{if(pinned)return;slices.forEach(x=>x.classList.remove('is-active'));items.forEach(x=>x.classList.remove('is-active'));if(kicker){{kicker.textContent=defaults[0];kicker.style.fontSize='';}}if(label)label.textContent=defaults[1];}};
+    [...slices,...items].forEach(node=>{{node.addEventListener('pointerenter',()=>show(node));node.addEventListener('focus',()=>show(node));node.addEventListener('click',event=>{{pinned=event.pointerType==='touch'||matchMedia('(hover:none)').matches;show(node);}});node.addEventListener('keydown',event=>{{if(event.key==='Enter'||event.key===' '){{event.preventDefault();pinned=true;show(node);}}if(event.key==='Escape'){{pinned=false;reset();node.blur();}}}});}});
+    chart.addEventListener('pointerleave',()=>{{if(!pinned)reset();}});section.querySelector('.allocation-legend')?.addEventListener('pointerleave',()=>{{if(!pinned)reset();}});document.addEventListener('pointerdown',event=>{{if(pinned&&!section.contains(event.target)){{pinned=false;reset();}}}});
+  }});
+}}();
 document.querySelectorAll('.collapse-toggle').forEach(t => {{
   const content = t.nextElementSibling;
   if(content) content.style.display = 'none';
