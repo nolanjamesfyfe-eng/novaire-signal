@@ -74,7 +74,8 @@ class DailyBriefTests(unittest.TestCase):
         self.assertIn("grid-template-columns:minmax(0,1fr) minmax(0,auto) 14px", html)
         self.assertNotIn("position:absolute", html)
         self.assertIn("overflow-wrap:anywhere", html)
-        self.assertIn("min-height:34px", html)
+        self.assertIn("min-height:32px", html)
+        self.assertIn("summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto) 14px;align-items:center;gap:10px;min-height:32px;padding:7px 12px", html)
         self.assertIn("padding:7px 8px", html)
 
     def test_compact_daily_header_reuses_approved_brand_navigation(self):

@@ -38,9 +38,10 @@ function secret(name) {
       assert.equal(response.status(), 200, `${viewport.name}: HTTP status`);
       assert.ok(!page.url().includes('portfolio-lock'), `${viewport.name}: auth gate remained`);
       const result = await page.evaluate(() => {
-        const text = document.body.innerText;
         const cards = [...document.querySelectorAll('.accounts .account')];
         cards.forEach(card => card.open = true);
+        const text = document.body.innerText;
+        cards.forEach(card => card.open = false);
         const compactHeights = cards.map(card => card.getBoundingClientRect().height);
         const style = document.createElement('style');
         style.id = 'prior-daily-card-baseline';
@@ -82,7 +83,7 @@ function secret(name) {
       assert.equal(result.hasTruthfulRangeLabel, true, `${viewport.name}: truthful position-range label`);
       assert.equal(result.hasCompletedSessionDate, true, `${viewport.name}: completed-session disclosure`);
       assert.equal(result.hasInvalidNumber, false, `${viewport.name}: invalid numeric output`);
-      result.reductions.forEach((value, index) => assert.ok(value >= 0.25, `${viewport.name}: card ${index + 1} is only ${(value * 100).toFixed(1)}% shorter than baseline`));
+      result.reductions.forEach((value, index) => assert.ok(value >= 0.25, `${viewport.name}: collapsed card ${index + 1} is only ${(value * 100).toFixed(1)}% shorter than baseline`));
       observations.push({ viewport: viewport.name, url: EXACT_URL, deployment: response.headers()['x-vercel-id'] || null, ...result });
       await context.close();
     }
