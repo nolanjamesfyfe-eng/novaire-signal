@@ -1,5 +1,10 @@
 {
+  "schema_version": 1,
   "as_of": "2026-09-14",
-  "portfolio_note": "EMPTY — no genuinely new candidate cleared the cross-account concentration, evidence, dilution, and asymmetry hurdles this week. All historical candidates remain permanently ineligible.",
+  "scan_status": "incomplete",
+  "scan_completed_at": null,
+  "status_message": "No auditable source or candidate-review evidence was recorded for the September 14 scan, so its empty result is unverified.",
+  "portfolio_note": "Research is incomplete or lacks required provenance. No claim is being made that zero candidates qualified.",
+  "evidence": null,
   "ideas": []
 }

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://novairesignal.com/schemas/weekly_ideas.schema.json",
+  "title": "Novaire Signal Weekly Asymmetry Scan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "as_of", "scan_status", "scan_completed_at", "status_message", "portfolio_note", "evidence", "ideas"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "as_of": {"type": "string", "format": "date", "description": "Monday edition actually researched; never advance this date on load failure."},
+    "scan_status": {"enum": ["incomplete", "completed"]},
+    "scan_completed_at": {"type": ["string", "null"], "format": "date-time"},
+    "status_message": {"type": "string", "minLength": 1},
+    "portfolio_note": {"type": "string", "minLength": 1},
+    "evidence": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["methodology", "accounts_checked", "sources", "candidates_reviewed"],
+      "properties": {
+        "methodology": {"type": "string", "minLength": 1},
+        "accounts_checked": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url", "checked_at"],
+            "properties": {
+              "url": {"type": "string", "format": "uri"},
+              "checked_at": {"type": "string", "format": "date-time"},
+              "note": {"type": "string"}
+            }
+          }
+        },
+        "candidates_reviewed": {"type": "integer", "minimum": 0}
+      }
+    },
+    "ideas": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["symbol", "name", "source_url", "thesis", "risk", "trigger"],
+        "properties": {
+          "symbol": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "source_url": {"type": "string", "format": "uri"},
+          "thesis": {"type": "string", "minLength": 1},
+          "risk": {"type": "string", "minLength": 1},
+          "trigger": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"scan_status": {"const": "completed"}}},
+      "then": {
+        "properties": {
+          "scan_completed_at": {"type": "string", "format": "date-time"},
+          "evidence": {"type": "object"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"scan_status": {"const": "incomplete"}}},
+      "then": {
+        "properties": {
+          "scan_completed_at": {"type": "null"},
+          "evidence": {"type": "null"},
+          "ideas": {"maxItems": 0}
+        }
+      }
+    }
+  ]
+}

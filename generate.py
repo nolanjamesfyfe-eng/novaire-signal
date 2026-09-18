@@ -144,17 +144,64 @@ def _current_bangkok_monday(now=None):
 
 def load_weekly_ideas(now=None, ideas_path=WEEKLY_IDEAS_PATH,
                       history_path=WEEKLY_IDEAS_HISTORY_PATH):
-    """Load only a fresh, never-before-featured weekly slate.
-
-    Frequent builds render the researched JSON, but fail closed to a fresh empty
-    edition when the file is stale or repeats any historical asset.
-    """
+    """Load a weekly slate without manufacturing freshness or scan results."""
     expected_as_of = _current_bangkok_monday(now)
+    data = {}
+
+    def rejected(reason, state="unverified"):
+        print(f"  ⚠ Weekly asymmetric ideas rejected: {reason}")
+        return {
+            "schema_version": 1,
+            "as_of": data.get("as_of"),
+            "scan_state": state,
+            "status_message": str(reason),
+            "portfolio_note": (
+                "No verified completed scan is available for this edition. "
+                "No claim is being made that zero candidates qualified."
+            ),
+            "ideas": [],
+        }
+
     try:
         with open(ideas_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         if not isinstance(data, dict) or not isinstance(data.get("ideas"), list):
-            raise ValueError("invalid shape")
+            raise ValueError("invalid shape: ideas must be a list")
+        if data.get("schema_version") != 1:
+            raise ValueError("schema_version must be 1")
+        if data.get("scan_status") != "completed":
+            return rejected(data.get("status_message") or "scan_status is not completed")
+        if not isinstance(data.get("scan_completed_at"), str):
+            raise ValueError("scan_completed_at is required")
+        try:
+            edition_date = datetime.strptime(data.get("as_of", ""), "%Y-%m-%d").date()
+            completed_at = datetime.fromisoformat(data["scan_completed_at"])
+        except (TypeError, ValueError):
+            raise ValueError("as_of and scan_completed_at must be ISO dates")
+        if completed_at.tzinfo is None:
+            raise ValueError("scan_completed_at must include a timezone")
+        if not 0 <= (completed_at.astimezone(BKK_TZ).date() - edition_date).days <= 6:
+            raise ValueError("scan_completed_at must belong to the edition week")
+
+        evidence = data.get("evidence")
+        if not isinstance(evidence, dict):
+            raise ValueError("evidence is required")
+        if not isinstance(evidence.get("methodology"), str) or not evidence["methodology"].strip():
+            raise ValueError("evidence.methodology is required")
+        if not isinstance(evidence.get("accounts_checked"), list) or not evidence["accounts_checked"]:
+            raise ValueError("evidence.accounts_checked must be non-empty")
+        if not isinstance(evidence.get("sources"), list) or not evidence["sources"]:
+            raise ValueError("evidence.sources must be non-empty")
+        for source in evidence["sources"]:
+            if not isinstance(source, dict) or not source.get("url") or not source.get("checked_at"):
+                raise ValueError("each evidence source requires url and checked_at")
+        reviewed = evidence.get("candidates_reviewed")
+        if not isinstance(reviewed, int) or isinstance(reviewed, bool) or reviewed < len(data["ideas"]):
+            raise ValueError("evidence.candidates_reviewed must cover the published ideas")
+        required_idea_fields = ("symbol", "name", "source_url", "thesis", "risk", "trigger")
+        for idea in data["ideas"]:
+            if not isinstance(idea, dict) or any(not str(idea.get(field) or "").strip() for field in required_idea_fields):
+                raise ValueError(f"each idea requires {', '.join(required_idea_fields)}")
 
         with open(history_path, "r", encoding="utf-8") as f:
             history = json.load(f)
@@ -163,8 +210,9 @@ def load_weekly_ideas(now=None, ideas_path=WEEKLY_IDEAS_PATH,
             raise ValueError("invalid weekly idea history")
 
         if data.get("as_of") != expected_as_of:
-            raise ValueError(
-                f"stale edition {data.get('as_of')!r}; expected {expected_as_of}"
+            return rejected(
+                f"stale completed scan from {data.get('as_of')!r}; expected {expected_as_of}",
+                state="stale",
             )
 
         seen_aliases = set()
@@ -180,14 +228,45 @@ def load_weekly_ideas(now=None, ideas_path=WEEKLY_IDEAS_PATH,
             edition_aliases.update(aliases)
         if repeated:
             raise ValueError(f"repeated prior candidate(s): {', '.join(map(str, repeated))}")
-        return data
+
+        result = dict(data)
+        result["scan_state"] = "ideas" if data["ideas"] else "completed_empty"
+        result["status_message"] = "Verified completed weekly scan."
+        return result
     except Exception as e:
-        print(f"  ⚠ Weekly asymmetric ideas rejected: {e}")
+        return rejected(e)
+
+
+def weekly_scan_presentation(weekly):
+    """Return honest status copy for the derived weekly scan state."""
+    state = weekly.get("scan_state", "unverified")
+    as_of = weekly.get("as_of")
+    formatted_date = None
+    if isinstance(as_of, str):
+        try:
+            formatted_date = datetime.strptime(as_of[:10], "%Y-%m-%d").strftime("%b %-d")
+        except ValueError:
+            pass
+
+    if state == "completed_empty":
         return {
-            "as_of": expected_as_of,
-            "portfolio_note": "No new non-duplicate setup cleared the evidence and concentration hurdles this week.",
-            "ideas": [],
+            "label": f"Completed {formatted_date}" if formatted_date else "Completed scan",
+            "empty_message": "No new candidate cleared the documented evidence, concentration, and asymmetry hurdles.",
         }
+    if state == "ideas":
+        return {
+            "label": f"Completed {formatted_date}" if formatted_date else "Completed scan",
+            "empty_message": "",
+        }
+    if state == "stale":
+        return {
+            "label": f"Stale · last completed {formatted_date}" if formatted_date else "Stale scan",
+            "empty_message": "The last completed scan is stale. No current-week candidate claim is displayed.",
+        }
+    return {
+        "label": "Scan unverified",
+        "empty_message": "Research is incomplete or lacks required provenance. No zero-candidate claim is being made.",
+    }
 
 HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"], "display": h.get("display", h["ticker"].split(".")[0])} for h in HOLDINGS}
 SECTORS      = {h["ticker"]: h["sector"] for h in HOLDINGS}
@@ -3076,15 +3155,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             <div class="weekly-trigger"><b>Go</b><span>{trigger}</span></div>
           </div>
         </div>"""
+    weekly_presentation = weekly_scan_presentation(weekly)
     if not weekly_rows:
-        weekly_rows = '<div class="weekly-empty">Weekly scan awaiting verified data. No counterfeit conviction.</div>'
-    weekly_as_of_raw = str(weekly.get("as_of") or "awaiting scan")
+        weekly_rows = f'<div class="weekly-empty">{escape(weekly_presentation["empty_message"])}</div>'
+    weekly_as_of_raw = str(weekly.get("as_of") or weekly.get("scan_state") or "unverified")
     weekly_as_of = escape(weekly_as_of_raw)
-    try:
-        weekly_updated = datetime.strptime(weekly_as_of_raw[:10], "%Y-%m-%d").strftime("%b %-d")
-    except ValueError:
-        weekly_updated = weekly_as_of_raw
-    weekly_updated = escape(weekly_updated)
+    weekly_updated = escape(weekly_presentation["label"])
     weekly_note = escape(str(weekly.get("portfolio_note") or "Screened against current holdings and trading accounts."))
 
     # ── FX Rates HTML ──
@@ -4074,7 +4150,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <details class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="{weekly_as_of}" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">Updated on {weekly_updated}</span></summary>
+    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">{weekly_updated}</span></summary>
     <div class="signal-accordion-body"><div class="weekly-meta">{weekly_note}</div><div class="weekly-grid">{weekly_rows}</div></div>
   </details>
 
