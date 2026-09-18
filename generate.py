@@ -5005,6 +5005,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .collapse-toggle{{cursor:pointer;user-select:none;transition:opacity .15s;display:block;padding:10px 0 6px;margin:-2px 0}}
     .collapse-toggle:hover{{opacity:.7;background:rgba(181,150,98,0.05);border-radius:4px}}
     .collapse-toggle::after{{content:' ▾';font-size:.65rem;color:var(--mute);margin-left:4px}}
+    .holdings-toggle{{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;border:0;background:none;font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:8px 0;margin:0 0 22px;min-height:44px}}
+    .holdings-toggle::before{{content:'';order:2;flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}}
+    .holdings-toggle::after{{content:'⌄';order:1;font-size:1rem;color:var(--gold);margin:0;line-height:1;transition:transform .15s}}
+    .holdings-toggle[aria-expanded="true"]::after{{transform:rotate(180deg)}}
+    .holdings-toggle:focus-visible{{outline:1px solid var(--gold);outline-offset:5px}}
+    .holdings-content:not([style*="display: none"]){{margin-bottom:22px}}
   </style>
 </head>
 <body>
@@ -5026,8 +5032,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <div class="card">
     <div class="card-title">📦 Portfolio</div>
-    <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Holdings</div>
-    <div><table class="portfolio-table">
+    <button type="button" class="collapse-toggle holdings-toggle" aria-expanded="false" aria-controls="holdings-table">Holdings</button>
+    <div id="holdings-table" class="holdings-content"><table class="portfolio-table">
       <thead><tr><th>Ticker</th><th>Name</th><th style="text-align:right">Shares</th><th style="text-align:right">Price</th><th style="text-align:right">24h</th><th style="text-align:right">Value</th></tr></thead>
       <tbody>{rows_html}</tbody>
     </table></div>
@@ -5139,6 +5145,7 @@ document.querySelectorAll('.collapse-toggle').forEach(t => {{
     if(!content) return;
     const hidden = content.style.display === 'none';
     content.style.display = hidden ? 'block' : 'none';
+    if(t.classList.contains('holdings-toggle')) t.setAttribute('aria-expanded', String(hidden));
     t.style.opacity = hidden ? '0.7' : '1';
   }});
 }});
