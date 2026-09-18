@@ -2,44 +2,44 @@
   "sheet_id": "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak",
   "sheet_gid": "527699504",
   "sheet_name": "TFSA/WS",
-  "fetched_at_utc": "2026-08-31T00:03:55.782391+00:00",
-  "sector_allocation_total_pct": 100.01,
+  "fetched_at_utc": "2026-09-18T20:09:41.903691+00:00",
+  "sector_allocation_total_pct": 99.99,
   "sector_allocations_pct": [
     [
       "Graphene",
-      46.02
+      45.07
     ],
     [
       "Uranium",
-      20.65
+      20.19
     ],
     [
       "Gold",
-      13.07
+      13.17
     ],
     [
       "Silver",
-      8.33
+      8.52
     ],
     [
       "Copper",
-      4.73
+      4.58
     ],
     [
       "Molybdenum",
-      2.52
-    ],
-    [
-      "Palladium-Platinum",
-      1.68
+      2.74
     ],
     [
       "Hydro",
-      1.68
+      2.15
     ],
     [
       "YEG RS",
-      1.33
+      1.92
+    ],
+    [
+      "Palladium-Platinum",
+      1.65
     ]
   ]
 }

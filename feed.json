@@ -2,7 +2,7 @@
   "ok": true,
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-09-18T20:04:34.369428+00:00",
+  "fetchedAt": "2026-09-18T20:10:20.975818+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
@@ -17,13 +17,13 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-09-18T12:11:05+00:00",
       "createdAtMs": 1789733465000,
-      "likes": 17901,
-      "retweets": 3068,
+      "likes": 17972,
+      "retweets": 3079,
       "url": "https://x.com/KobeissiLetter/status/2100920542572265739",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 20969
+      "engagementScore": 21051
     },
     {
       "id": "2100945875103338963",
@@ -32,13 +32,13 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-09-18T13:51:44+00:00",
       "createdAtMs": 1789739504000,
-      "likes": 7643,
-      "retweets": 1054,
+      "likes": 7664,
+      "retweets": 1055,
       "url": "https://x.com/WatcherGuru/status/2100945875103338963",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 8697
+      "engagementScore": 8719
     },
     {
       "id": "2100782375219175527",
@@ -47,13 +47,13 @@
       "handle": "tferriss",
       "createdAt": "2026-09-18T03:02:03+00:00",
       "createdAtMs": 1789700523000,
-      "likes": 2711,
+      "likes": 2720,
       "retweets": 253,
       "url": "https://x.com/tferriss/status/2100782375219175527",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 2964
+      "engagementScore": 2973
     },
     {
       "id": "2101026500845703634",
@@ -62,13 +62,13 @@
       "handle": "zerohedge",
       "createdAt": "2026-09-18T19:12:07+00:00",
       "createdAtMs": 1789758727000,
-      "likes": 730,
-      "retweets": 64,
+      "likes": 802,
+      "retweets": 67,
       "url": "https://x.com/zerohedge/status/2101026500845703634",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 794
+      "engagementScore": 869
     },
     {
       "id": "2100925767442198628",
@@ -77,13 +77,13 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-09-18T12:31:50+00:00",
       "createdAtMs": 1789734710000,
-      "likes": 570,
-      "retweets": 69,
+      "likes": 578,
+      "retweets": 70,
       "url": "https://x.com/wmiddelkoop/status/2100925767442198628",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 639
+      "engagementScore": 648
     },
     {
       "id": "2100981331198951456",
@@ -92,13 +92,13 @@
       "handle": "nntaleb",
       "createdAt": "2026-09-18T16:12:38+00:00",
       "createdAtMs": 1789747958000,
-      "likes": 261,
+      "likes": 262,
       "retweets": 29,
       "url": "https://x.com/nntaleb/status/2100981331198951456",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 290
+      "engagementScore": 291
     },
     {
       "id": "2101010394437362062",
@@ -107,13 +107,13 @@
       "handle": "JoshYoung",
       "createdAt": "2026-09-18T18:08:07+00:00",
       "createdAtMs": 1789754887000,
-      "likes": 256,
+      "likes": 263,
       "retweets": 6,
       "url": "https://x.com/JoshYoung/status/2101010394437362062",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 262
+      "engagementScore": 269
     },
     {
       "id": "2100863625711993330",
@@ -137,13 +137,13 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-09-18T14:27:30+00:00",
       "createdAtMs": 1789741650000,
-      "likes": 70,
+      "likes": 71,
       "retweets": 0,
       "url": "https://x.com/SantiagoAuFund/status/2100954874460405955",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 70
+      "engagementScore": 71
     },
     {
       "id": "2101007415063855529",
@@ -182,13 +182,13 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-09-18T16:40:28+00:00",
       "createdAtMs": 1789749628000,
-      "likes": 4,
+      "likes": 5,
       "retweets": 0,
       "url": "https://x.com/BarbarianCap/status/2100988337133646066",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 4
+      "engagementScore": 5
     }
   ]
 }
