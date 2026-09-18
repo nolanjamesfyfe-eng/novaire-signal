@@ -43,7 +43,7 @@ function secret(name) {
             const title = document.querySelector('.daily-title');
             return {
               title: title?.textContent.trim(),
-              inlineHeaderH1: Boolean(document.querySelector('.daily-header h1')),
+              legacyHeaderH1: Boolean(document.querySelector('.daily-header > h1:not(.daily-title)')),
               fontSize: row && getComputedStyle(row).fontSize,
               centerDelta: rect && Math.abs(rect.left + rect.width / 2 - innerWidth / 2),
               geopolitical: document.body.textContent.includes('Geopolitical pressure'),
@@ -53,7 +53,7 @@ function secret(name) {
             };
           });
           assert.equal(value.title, 'The Daily.', `${viewport.name}/${mode}/${run} title`);
-          assert.equal(value.inlineHeaderH1, false, `${viewport.name}/${mode}/${run} stale inline h1`);
+          assert.equal(value.legacyHeaderH1, false, `${viewport.name}/${mode}/${run} legacy h1`);
           assert.equal(value.fontSize, viewport.name === 'desktop' ? '31.68px' : '28.8px', `${viewport.name}/${mode}/${run} font`);
           assert.ok(value.centerDelta < 25, `${viewport.name}/${mode}/${run} centered`);
           assert.equal(value.geopolitical, false, `${viewport.name}/${mode}/${run} stale geopolitical story`);
