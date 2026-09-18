@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import datetime
+import json
 import unittest
 
 import generate
@@ -50,7 +51,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertLess(last, next_fomc)
         self.assertIn('<b>September 16, 2026</b><em>Raised 0.25 percentage points</em>', self.html)
         self.assertEqual(
-            generate.fetch_fed_signal()["last_action_source"],
+            json.loads((ROOT / "fed_signal_cache.json").read_text())["last_action_source"],
             "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
         )
         self.assertIn('grid-template-columns:.9fr 1.2fr 1.2fr 1fr', self.html)

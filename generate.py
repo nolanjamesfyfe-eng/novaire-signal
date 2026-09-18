@@ -32,6 +32,7 @@ from portfolio_tracker import (
     upsert_daily_snapshot,
 )
 from daily_brief import write_daily
+from fed_signal import get_fed_data
 from social_discovery import CHANNELS as SOCIAL_CHANNELS, discover_all as discover_social
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
@@ -575,19 +576,13 @@ RADAR_STATIC_FALLBACK = [
 ]
 
 def fetch_fed_signal():
-    """Hardcoded Fed Signal data. Update when FOMC decisions change."""
-    from datetime import date as _date
+    """Official Fed meeting facts plus separately maintained FedWatch values."""
     today = datetime.now(timezone.utc).date()
-    fomc_date = _date(2026, 10, 28)
+    official = get_fed_data(today=today)
+    fomc_date = datetime.fromisoformat(official["next_meeting_date"]).date()
     days_until = (fomc_date - today).days
-    return {
-        "next_decision": "October 28, 2026",
+    return official | {
         "days_until": days_until,
-        "fed_funds_rate": "3.75\u20134.00%",
-        "last_decision": "September 16, 2026",
-        "last_action": "Raised 0.25 percentage points",
-        "last_action_source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-        "next_meeting": "October FOMC",
         "hold_pct": 29,
         "cut_25bps_pct": 0,
     }
