@@ -4,11 +4,11 @@ import struct
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-ICON_LINK = '<link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg?v=1">'
-TOUCH_LINK = '<link rel="apple-touch-icon" href="/portfolio/apple-touch-icon.png?v=1">'
+ICON_LINK = '<link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg?v=2">'
+TOUCH_LINK = '<link rel="apple-touch-icon" href="/portfolio/apple-touch-icon.png?v=2">'
 
 
-def test_all_portfolio_pages_use_the_silver_dollar_favicon():
+def test_all_portfolio_pages_use_the_gold_dollar_favicon():
     for relative in (
         'portfolio/index.html',
         'portfolio/daily/index.html',
@@ -29,7 +29,13 @@ def test_portfolio_icon_is_custom_vector_art_not_text_or_emoji():
     assert all(path.attrib.get('stroke') is None for path in paths)
     background = icon.find('{*}rect')
     assert background is not None
-    assert background.attrib['fill'] == '#050506'
+    assert background.attrib['fill'] == '#000000'
+    group = icon.find('{*}g')
+    assert group is not None
+    assert group.attrib['stroke'] == '#b59662'
+    assert not icon.findall('.//{*}linearGradient')
+    assert 'silver' not in ET.tostring(icon, encoding='unicode').lower()
+    assert paths[0].attrib['d'] == 'M50 10V25M50 79V92'
 
 
 def test_touch_icon_is_180_pixel_png():
