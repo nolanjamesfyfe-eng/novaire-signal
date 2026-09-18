@@ -5,15 +5,15 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 28.3,
-    "high": 29.5,
-    "low": 25.1,
-    "humidity": 82,
-    "condition": "Overcast ☁️",
-    "aqi": 29,
+    "temp": 25.3,
+    "high": 29.1,
+    "low": 24.8,
+    "humidity": 96,
+    "condition": "Drizzle 🌦",
+    "aqi": 32,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-18T01:56:25.512309+00:00"
+    "cached_at": "2026-09-18T20:03:47.320134+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -21,15 +21,15 @@
     "lat": 6.2442,
     "lon": -75.5812,
     "tz_offset": -5,
-    "temp": 20.8,
-    "high": 29.2,
-    "low": 16.5,
-    "humidity": 81,
-    "condition": "Clear Sky ☀️",
-    "aqi": 51,
+    "temp": 28.7,
+    "high": 29.6,
+    "low": 15.5,
+    "humidity": 44,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 54,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-09-18T01:56:25.848086+00:00"
+    "cached_at": "2026-09-18T20:03:47.668417+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -37,15 +37,15 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 17.8,
-    "high": 21.7,
-    "low": 6.9,
-    "humidity": 52,
-    "condition": "Clear Sky ☀️",
-    "aqi": 35,
-    "aqi_label": "Good",
+    "temp": 19.3,
+    "high": 20.2,
+    "low": 7.2,
+    "humidity": 51,
+    "condition": "Mainly Clear 🌤",
+    "aqi": 51,
+    "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-09-18T01:56:26.184306+00:00"
+    "cached_at": "2026-09-18T20:03:48.014131+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -54,13 +54,13 @@
     "lon": -56.1645,
     "tz_offset": -3,
     "temp": 15.2,
-    "high": 18.9,
-    "low": 8.7,
+    "high": 16.6,
+    "low": 11.6,
     "humidity": 78,
-    "condition": "Clear Sky ☀️",
-    "aqi": 58,
+    "condition": "Overcast ☁️",
+    "aqi": 52,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-09-18T01:56:26.520207+00:00"
+    "cached_at": "2026-09-18T20:03:48.358504+00:00"
   }
 }
