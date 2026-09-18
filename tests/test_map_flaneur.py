@@ -37,8 +37,7 @@ def test_tooltip_omits_negative_status_but_preserves_facts():
     tip = html.split('function showTip(')[1].split('function hideTip')[0]
     assert 'Not visited' not in tip
     assert '<small>Visited</small>' not in tip
-    assert 'class="signal-brand-row"' in html
-    assert 'href="/" class="signal-wordmark"' in html
+    assert html.count('href="/" class="signal-wordmark" aria-label="Novaire Signal home"') == 2
     assert 'Novaire Signal · World Atlas' not in html
     assert 'statusLabel(code)' not in tip
     assert '<small>Upcoming</small>' in tip
@@ -53,8 +52,6 @@ def test_flaneur_route_and_legacy_redirect():
         assert {'source': path, 'destination': '/flaneur', 'permanent': True} in config['redirects']
     for source in ['index.html', 'generate.py']:
         content = (ROOT / source).read_text()
-        if source == 'generate.py':
-            content += (ROOT / 'signal_brand.py').read_text()
         assert 'href="/flaneur" class="signal-map"' in content
         assert 'href="/map/" class="signal-map"' not in content
 
@@ -94,8 +91,34 @@ def test_desktop_orthographic_rotation_and_wheel_zoom_are_available():
     html = (ROOT / 'map/index.html').read_text()
     assert ":Math.max(1,Math.min((width-48)/2,(height-73)/2))" in html
     assert "canvas.onwheel=" in html
+    assert "if(!insideGlobe(e))return;e.preventDefault()" in html
     assert "globe.rotation=[globe.gesture.rotation[0]+dx*.28/globe.zoom" in html
     assert "mobile?1.35:1.5" in html
+
+
+def test_canonical_signal_branding_and_copy_removal():
+    html = (ROOT / 'map/index.html').read_text()
+    assert html.count('class="signal-map-icon" viewBox=".85 .85 22.3 22.3"') == 2
+    assert html.count('class="signal-bolt-icon" viewBox="45 38 200 264"') == 2
+    assert html.count('href="/portfolio/" class="signal-bolt"') == 2
+    assert html.count('href="/flaneur" class="signal-map"') == 2
+    assert 'gap:12px' in html
+    assert 'A living record · 195 countries + 4 destinations' not in html
+    assert 'touch-action:pan-y' in html
+
+
+def test_interaction_geometry_keeps_all_features_inside_budget():
+    world = json.loads((ROOT / 'map/world-globe.geojson').read_text())
+    points = sum(
+        len(ring)
+        for feature in world['features']
+        for polygon in ([feature['geometry']['coordinates']]
+                        if feature['geometry']['type'] == 'Polygon'
+                        else feature['geometry']['coordinates'])
+        for ring in polygon
+    )
+    assert len(world['features']) == 199
+    assert points <= 5000
 
 
 def test_pointer_capture_only_begins_after_drag_threshold():

@@ -105,4 +105,32 @@ test('desktop mouse drag, wheel, hover facts, directory focus and draw budget', 
   } finally {await browser.close();}
 });
 
+test('canonical branding and globe-only wheel capture', async () => {
+  const {browser,page}=await open(chromium,false);
+  try {
+    const header=page.locator('.topbar .signal-brand-row'),footer=page.locator('footer .signal-brand-row');
+    for(const row of [header,footer]){
+      await expectCount(row.locator('.signal-map-icon'),1);
+      await expectCount(row.locator('.signal-bolt-icon'),1);
+      assert.equal(await row.locator('.signal-map').getAttribute('href'),'/flaneur');
+      assert.equal(await row.locator('.signal-bolt').getAttribute('href'),'/portfolio/');
+      assert.equal(await row.evaluate(e=>getComputedStyle(e).gap),'12px');
+    }
+    assert.ok(!await page.locator('body').innerText().then(t=>t.includes('A living record · 195 countries + 4 destinations')),'removed descriptive edition copy');
+    const canvas=page.locator('#globe-canvas'),box=await canvas.boundingBox();
+    const initialZoom=await canvas.getAttribute('data-zoom');
+    await page.mouse.move(box.x+8,box.y+box.height/2);await page.mouse.wheel(0,500);await page.waitForTimeout(100);
+    assert.ok(await page.evaluate(()=>scrollY)>0,'wheel in side gutter scrolls page');
+    assert.equal(await canvas.getAttribute('data-zoom'),initialZoom,'side gutter does not zoom globe');
+    await page.evaluate(()=>scrollTo(0,0));
+    await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.wheel(0,-400);await page.waitForTimeout(100);
+    assert.ok(Number(await canvas.getAttribute('data-zoom'))>Number(initialZoom),'wheel over projected sphere zooms globe');
+    assert.equal(await page.evaluate(()=>scrollY),0,'sphere wheel is captured from page scroll');
+    await page.locator('.topbar').screenshot({path:`${artifacts}/chromium-desktop-header.png`});
+    await page.locator('footer').screenshot({path:`${artifacts}/chromium-desktop-footer.png`});
+  } finally {await browser.close();}
+});
+
+async function expectCount(locator,count){assert.equal(await locator.count(),count);}
+
 test.after(()=>assert.deepEqual(errors,[],`browser errors:\n${errors.join('\n')}`));
