@@ -77,6 +77,25 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertEqual(updated["snapshots"][-1]["accounts"], {"tfsa_ws": {"cad": 121390.06}})
         self.assertEqual(updated["snapshots"][-1]["net_worth_cad"], 121390.06)
 
+    def test_live_session_cannot_overwrite_prior_completed_close(self):
+        prior_close = {
+            "market_date": "2026-08-17",
+            "captured_at_utc": "2026-08-18T01:55:00+00:00",
+            "accounts": {"tfsa_ws": {"cad": 121000.0}},
+            "net_worth_cad": 121000.0,
+        }
+        history = {"snapshots": [prior_close]}
+
+        updated = portfolio_tracker.upsert_daily_snapshot(
+            history,
+            {"total_cad": 119000.0},
+            {},
+            # Tuesday 11:00 ET: sheet prices are live Tuesday marks, not Monday close.
+            now=datetime(2026, 8, 18, 15, 0, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(updated["snapshots"], [prior_close])
+
     def test_render_tracker_omits_unavailable_performance_rows_and_periods(self):
         history = {"snapshots": [
             {

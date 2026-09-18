@@ -260,6 +260,12 @@ def upsert_daily_snapshot(
         ),
         None,
     )
+    local_now = now.astimezone(NEW_YORK)
+    session_is_open = local_now.weekday() < 5 and (local_now.hour, local_now.minute) >= (9, 30) and (local_now.hour, local_now.minute) < (16, 0)
+    if existing_same_date and session_is_open and market_date != local_now.date().isoformat():
+        # The sheet is live-valued. During the next session it no longer represents
+        # the prior completed close, so preserve the verified overnight snapshot.
+        return history
     merged_accounts = {
         key: value for key, value in dict((existing_same_date or {}).get("accounts") or {}).items()
         if key in ACTIVE_NET_WORTH_ACCOUNTS
@@ -360,8 +366,17 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
         "kraken": {"label": "Kraken", "currency": "USD"},
     }
     accounts = {}
+    daily_accounts = {}
     active_keys = []
     kraken_reference = history.get("kraken_reference") if isinstance(history.get("kraken_reference"), dict) else None
+    for key in account_defs:
+        series = [
+            {"market_date": item["market_date"], "cad": _account_value(item, key),
+             "usd": ((item.get("accounts") or {}).get(key) or {}).get("usd")}
+            for item in snapshots if _account_value(item, key) is not None
+        ]
+        if series:
+            daily_accounts[key] = {"series": series}
     for key in ACTIVE_NET_WORTH_ACCOUNTS:
         definition = account_defs[key]
         account_data = (current.get("accounts") or {}).get(key)
@@ -437,6 +452,7 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
         "captured_at_utc": current.get("captured_at_utc"),
         "current_total_cad": current_total,
         "accounts": accounts,
+        "daily_accounts": daily_accounts,
         "combined_periods": combined_periods,
         "total_series": total_series,
         "periods": [label for label, _ in PERIODS],

@@ -1928,6 +1928,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
                 closes.append(float(value))
                 completed_rows.append({
                     "date": str(row_date),
+                    "market_date": row_date.isoformat(),
                     "close": float(value),
                     "high": quote_rows.get("high", [None] * len(result.get("timestamp", [])))[index],
                     "low": quote_rows.get("low", [None] * len(result.get("timestamp", [])))[index],
@@ -1935,6 +1936,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
             if closes:
                 data = portfolio_data.setdefault(ticker, {})
                 data["close_price"] = closes[-1]
+                data["completed_market_date"] = completed_rows[-1]["market_date"]
                 data["close_change"] = ((closes[-1] / closes[-2]) - 1) * 100 if len(closes) >= 2 else None
                 data["previous_close"] = closes[-2] if len(closes) >= 2 else None
                 data["close_session_date"] = completed_rows[-1]["date"]
@@ -2677,6 +2679,7 @@ def fetch_alpaca():
             "t2_trade_count": t2_trade_count,
             "inception_roi": inception_roi,
             "equity": equity,
+            "last_equity": float(acct["last_equity"]) if acct.get("last_equity") is not None else None,
             "cash": cash,
             "funded": equity > 0,
             # Legacy compat
@@ -2723,6 +2726,7 @@ def fetch_alpaca():
                 "t2_trade_count": 0,
                 "inception_roi": float(payload.get("inceptionRoi", 0) or 0),
                 "equity": equity,
+                "last_equity": float(payload["lastEquity"]) if payload.get("lastEquity") is not None else None,
                 "cash": max(equity - invested, 0),
                 "funded": bool(payload.get("ok")) and equity > 0,
                 "positions": positions,
