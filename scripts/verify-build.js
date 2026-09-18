@@ -50,7 +50,7 @@ const lockedDesignMarkers = [
   '--bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;',
   '--gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);',
   "--sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;",
-  'body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}',
+  'body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:0 16px 32px;font-size:18.15px;line-height:1.5}',
   '.container{max-width:720px;margin:0 auto}',
   '.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}',
   '.footer-logo{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}',
