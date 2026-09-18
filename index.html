@@ -22,11 +22,11 @@
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }
     html{scroll-behavior:smooth;font-size:110%}
-    body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}
+    body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:0 16px 32px;font-size:18.15px;line-height:1.5}
     @media(min-width:900px){body{zoom:1.1}}
     .container{max-width:720px;margin:0 auto}
 
-    .header-brand{text-align:center;padding-bottom:20px}
+    .header-brand{display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 0 20px}
     .signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:28.8px;font-weight:300;line-height:1;text-transform:uppercase;color:var(--text)}
 .signal-brand-row .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:#f0eef8;font-style:normal;text-decoration:none}
 .signal-brand-row .signal-wordmark>span{color:#b59662;font-style:italic}
@@ -39,6 +39,7 @@
 .signal-brand-row .signal-bolt:hover,.signal-brand-row .signal-map:hover{opacity:1;transform:none}.signal-brand-row .signal-bolt:focus-visible,.signal-brand-row .signal-map:focus-visible,.signal-brand-row .signal-wordmark:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
 @media(min-width:761px){.signal-brand-row{font-size:31.68px}}
 @media(prefers-reduced-motion:reduce){.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
+    @media(min-width:900px){.header-brand .signal-brand-row,.footer .signal-brand-row{transform:scale(.9090909);transform-origin:center top}}
     .section-bolt{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}
     @keyframes neon-flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.8}94%{opacity:1}96%{opacity:.9}97%{opacity:1}}
 
@@ -399,7 +400,7 @@
 
     @media(min-width:761px){
       html{font-size:121%}
-      body{font-size:19.965px;padding:35px 18px}
+      body{font-size:19.965px;padding:0 18px 35px}
       .container{max-width:792px}
       .card{padding:22px;margin-bottom:15px}
       .podcast-mini img{min-width:141px}
@@ -512,40 +513,40 @@
     <summary><span class="card-title">🌤 Weather</span></summary>
     <div class="signal-accordion-body"><div class="weather-grid">
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:44</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:58</div>
           <div class="city">🇹🇭 Bangkok</div>
           <div class="temp">25°C</div>
           <div class="weather-range"><span>H 29°</span><span>L 25°</span></div>
           <div class="condition">Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 95% · AQI 32 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 96% · AQI 32 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">14:44</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">14:58</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">29°C</div>
           <div class="weather-range"><span>H 30°</span><span>L 16°</span></div>
-          <div class="condition">Mainly Clear 🌤</div>
+          <div class="condition">Partly Cloudy ⛅</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 42% · AQI 54 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 43% · AQI 54 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:44</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:58</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">19°C</div>
           <div class="weather-range"><span>H 20°</span><span>L 7°</span></div>
-          <div class="condition">Clear Sky ☀️</div>
+          <div class="condition">Mainly Clear 🌤</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Autumn</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 53% · AQI 51 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 52% · AQI 51 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">16:44</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">16:58</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">15°C</div>
           <div class="weather-range"><span>H 17°</span><span>L 12°</span></div>
           <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 76% · AQI 54 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 77% · AQI 54 (Moderate)</div>
         </div></div></div>
   </details>
 
@@ -555,20 +556,20 @@
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
-        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-09-18T19:33:39Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
+        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-09-18T19:47:31Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
           <span>S&amp;P 500</span>
-          <b data-future-price>7,704.75</b>
-          <em data-future-change class="positive">+0.85%</em>
+          <b data-future-price>7,713.75</b>
+          <em data-future-change class="positive">+0.97%</em>
         </div>
-        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-09-18T19:33:38Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
+        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-09-18T19:47:31Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
           <span>NASDAQ 100</span>
-          <b data-future-price>29,825.50</b>
-          <em data-future-change class="positive">+1.29%</em>
+          <b data-future-price>29,862.00</b>
+          <em data-future-change class="positive">+1.41%</em>
         </div>
-        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-09-18T19:33:36Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
+        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-09-18T19:47:32Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
           <span>DOW JONES</span>
-          <b data-future-price>52,076.00</b>
-          <em data-future-change class="positive">+0.52%</em>
+          <b data-future-price>52,116.00</b>
+          <em data-future-change class="positive">+0.60%</em>
         </div></div>
       <div class="market-calendar">NYSE Thanksgiving · Nov 26 <span>·</span> TSX Thanksgiving · Oct 12</div>
     </div>
@@ -582,21 +583,21 @@
         <div class="commodity-item" data-commodity="GOLD">
           <div class="commodity-name c-gold">Gold</div>
           <div class="commodity-price"><span class="commodity-price-value" data-comm-price="GOLD">$4,419</span><span class="commodity-unit">/oz</span></div>
-          <div class="commodity-change" data-comm-chg="GOLD"><span class="positive">+0.45%</span></div>
+          <div class="commodity-change" data-comm-chg="GOLD"><span class="positive">+0.44%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SILVER">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="SILVER">$66.98</span><span class="commodity-unit">/oz</span></div>
-          <div class="commodity-change" data-comm-chg="SILVER"><span class="positive">+1.34%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="SILVER">$66.92</span><span class="commodity-unit">/oz</span></div>
+          <div class="commodity-change" data-comm-chg="SILVER"><span class="positive">+1.24%</span></div>
         </div>
         <div class="commodity-item" data-commodity="COPPER">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="COPPER">$6.7113</span><span class="commodity-unit">/lb</span></div>
-          <div class="commodity-change" data-comm-chg="COPPER"><span class="positive">+0.75%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="COPPER">$6.7120</span><span class="commodity-unit">/lb</span></div>
+          <div class="commodity-change" data-comm-chg="COPPER"><span class="positive">+0.76%</span></div>
         </div>
         <div class="commodity-item" data-commodity="WTI">
           <div class="commodity-name c-oil">Crude Oil</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="WTI">$99.87</span><span class="commodity-unit">/bbl</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="WTI">$99.67</span><span class="commodity-unit">/bbl</span></div>
           <div class="commodity-change" data-comm-chg="WTI"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
@@ -606,8 +607,8 @@
         </div>
         <div class="commodity-item" data-commodity="DIESEL" title="Front-month NY Harbor ULSD futures × 42 gallons">
           <div class="commodity-name c-gas">Diesel</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="DIESEL">$203.04</span><span class="commodity-unit">/bbl</span></div>
-          <div class="commodity-change" data-comm-chg="DIESEL"><span class="negative">-5.47%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="DIESEL">$203.28</span><span class="commodity-unit">/bbl</span></div>
+          <div class="commodity-change" data-comm-chg="DIESEL"><span class="negative">-5.36%</span></div>
         </div>
     </div>
   </div>
@@ -619,43 +620,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC">$81,210</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+6.06%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC">$81,208</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+6.11%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH">$2,638</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+7.68%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH">$2,639</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+7.73%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL">$113.93</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+12.94%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL">$114.02</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+13.06%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC">$1,486</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-0.02%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC">$1,474</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-1.16%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA">$0.2228</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+10.52%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA">$0.2218</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+10.07%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON">$1.3720</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+2.31%</span></div>
+          <div class="crypto-price" data-crypto-price="TON">$1.3680</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.94%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI">$0.8093</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+10.64%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI">$0.8088</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+10.52%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT">$0.0241</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+10.82%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT">$0.0240</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+10.60%</span></div>
         </div>
     </div>
   </div>
@@ -845,7 +846,7 @@
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W38" data-fingerprint="2a02e51c60f85b0a" data-items="[&quot;ff4a2af590296271&quot;,&quot;3e289fc3f8af6133&quot;,&quot;312780a06c12bdff&quot;,&quot;c0db2bc49e76d3cc&quot;]" >
+  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W38" data-fingerprint="96ac2c5c46353bfd" data-items="[&quot;ff4a2af590296271&quot;,&quot;312780a06c12bdff&quot;,&quot;3e289fc3f8af6133&quot;,&quot;c0db2bc49e76d3cc&quot;]" >
     <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on Sep 14</span></summary>
     <div class="signal-accordion-body">
             <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZ0Y1am9TWHVWNFJrWU8tNHBlT1Z1VkV0bW5wUWdTSGpBM20tSWZwV2x3YTg2TDIxekJHalJBb3d5ZHVGTnNVUEwzZUEwQW44Ty12bmRzQ1dEMHEzRk5rd2Jld19BT3NmTjdLTVh1eDRyelk3VlpieUlwNUVCNkZpWEJIQk5rY25FbDdsZkJZbnhlRThiQTZOUVpLNU9jYk0wVmI4X0VMWFo?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open HG catalyst article">
@@ -855,19 +856,19 @@
               <span class="catalyst-sep"> — </span>
               <span class="catalyst-headline">Why Did HydroGraph Clean Power (CN:HG) Surge 10.968% on 18 September 2026? - kalkine.ca</span>
             </a>
-            <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNVjB3Yy0yaUZ4b1JFR2Zvc2xtazNGN3oxdHlLSEdpMUt0dVhSTWwzYXI1LUNDd053b2hFNjc5WmxCTTRPcEdBcDl4OFgyMVZqUmhzd2EtM2sxYlJ6cVJLWDNqa1NPTXE2aWkzNlhsOVBUdGZyOFNvZC1uRl9hUFZDZWJlaWJEY2o4SlRFV3hfajR4NWFTT2g2TlBlYjBWbHJKN0N4OWpXTmJxMXAzUnV6S2ZRbHkzUk5yYUhlbzhVbm9Gc0tVVWZF?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open URNJ catalyst article">
-              <span class="catalyst-ticker">URNJ</span>
-              <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Sep 13 · Stock Traders Daily</span>
-              <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">(URNJ) and the Role of Price-Sensitive Allocations - Stock Traders Daily</span>
-            </a>
             <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMimAFBVV95cUxNbkFqVm91MjhUbklkQjJQOENkaHU5QWpEd0ZGWDhPdTJ3YzVsbUNQQ09WOTRDLUNPS3hGbVBGODM3bG5uaGJrSnVQU056SmZnUU9Odm9kZHB3U1QyTmRnVkNoSXlBa0U2N3JDbjlHX3hDWVlfdFNDWm4xMkxPUGJwWXFHcWlqaHlzUmhJd190Vk42WGJjOFJyVA?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open GLO catalyst article">
               <span class="catalyst-ticker">GLO</span>
               <span class="catalyst-sep"> · </span>
               <span class="catalyst-badge">Sep 17 · Benin Web TV</span>
               <span class="catalyst-sep"> — </span>
               <span class="catalyst-headline">Niger: $414.2 million for the Dasa uranium mine, contingent on conditions - Benin Web TV</span>
+            </a>
+            <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNVjB3Yy0yaUZ4b1JFR2Zvc2xtazNGN3oxdHlLSEdpMUt0dVhSTWwzYXI1LUNDd053b2hFNjc5WmxCTTRPcEdBcDl4OFgyMVZqUmhzd2EtM2sxYlJ6cVJLWDNqa1NPTXE2aWkzNlhsOVBUdGZyOFNvZC1uRl9hUFZDZWJlaWJEY2o4SlRFV3hfajR4NWFTT2g2TlBlYjBWbHJKN0N4OWpXTmJxMXAzUnV6S2ZRbHkzUk5yYUhlbzhVbm9Gc0tVVWZF?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open URNJ catalyst article">
+              <span class="catalyst-ticker">URNJ</span>
+              <span class="catalyst-sep"> · </span>
+              <span class="catalyst-badge">Sep 13 · Stock Traders Daily</span>
+              <span class="catalyst-sep"> — </span>
+              <span class="catalyst-headline">(URNJ) and the Role of Price-Sensitive Allocations - Stock Traders Daily</span>
             </a>
             <a class="catalyst-item catalyst-link" href="https://investors.bannermanenergy.com/announcements/7728189" target="_blank" rel="noopener noreferrer" aria-label="Open BNNLF catalyst article">
               <span class="catalyst-ticker">BNNLF</span>
@@ -911,11 +912,11 @@
 </details>
 
 <details class="card signal-accordion trading-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-2.1%</b></span></summary>
+    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-1.7%</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · 0 trades · Since Feb 24, 2026</div>
       <div data-alpaca-positions>
-      <div data-alpaca-symbol="URNJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ <span class="alpaca-weight" style="color:var(--mute)">· 35.7% weight</span></span><span style="font-weight:600;color:var(--red)">-26.0%</span></div><div data-alpaca-symbol="EXK" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK <span class="alpaca-weight" style="color:var(--mute)">· 31.2% weight</span></span><span style="font-weight:600;color:var(--green)">+19.0%</span></div><div data-alpaca-symbol="SILJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ <span class="alpaca-weight" style="color:var(--mute)">· 24.6% weight</span></span><span style="font-weight:600;color:var(--green)">+4.9%</span></div><div data-alpaca-symbol="SMR" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR <span class="alpaca-weight" style="color:var(--mute)">· 8.5% weight</span></span><span style="font-weight:600;color:var(--red)">-32.8%</span></div>
+      <div data-alpaca-symbol="URNJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ <span class="alpaca-weight" style="color:var(--mute)">· 35.8% weight</span></span><span style="font-weight:600;color:var(--red)">-25.5%</span></div><div data-alpaca-symbol="EXK" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK <span class="alpaca-weight" style="color:var(--mute)">· 31.2% weight</span></span><span style="font-weight:600;color:var(--green)">+19.5%</span></div><div data-alpaca-symbol="SILJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ <span class="alpaca-weight" style="color:var(--mute)">· 24.6% weight</span></span><span style="font-weight:600;color:var(--green)">+5.3%</span></div><div data-alpaca-symbol="SMR" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR <span class="alpaca-weight" style="color:var(--mute)">· 8.4% weight</span></span><span style="font-weight:600;color:var(--red)">-33.1%</span></div>
       </div>
     </div>
   </details><script>document.getElementById("darvas-card")?.removeAttribute("open");</script>
@@ -927,7 +928,7 @@
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
       <div class="thai-news-compact" style="margin-top:10px"><div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="26" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/09/18/anutin-urged-officials-to-expel-undesirable-foreigners-on-cemeteries-the-pm-urged-them-to-die-at-home/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Sep 19, 02:44 BKK</div>
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Sep 19, 02:58 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/09/18/anutin-urged-officials-to-expel-undesirable-foreigners-on-cemeteries-the-pm-urged-them-to-die-at-home/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Anutin urged officials to expel undesirable foreigners. On cemeteries, the PM urged them to die at home</a>
           <div class="thai-news-summary">Anutin tells governors to use new deportation powers without hesitation as Thailand targets troublesome foreigners, illegal businesses, nominee firms and landholding while warning:</div>
           <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 26.</div>

@@ -31,12 +31,14 @@ function secret(name) {
     for (const viewport of [{ name: 'desktop', width: 1280, height: 900 }, { name: 'mobile', width: 390, height: 844 }]) {
       const context = await browser.newContext({ viewport, extraHTTPHeaders: { Cookie: cookie } });
       report[viewport.name] = {};
+      let baseline;
       for (const route of routes) {
         const page = await context.newPage();
         const url = `${BASE}${route}?brand_verify=${Date.now()}`;
         const nav = await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
         assert.equal(nav.status(), 200, `${route} returned ${nav.status()}`);
         assert.ok(!page.url().includes('portfolio-lock'), `${route} unexpectedly showed auth gate`);
+        await page.evaluate(() => document.fonts.ready);
         const value = await page.locator('.signal-brand-row').first().evaluate(row => {
           const wordmark = row.querySelector('.signal-wordmark');
           const signal = wordmark.querySelector(':scope > span');
@@ -46,8 +48,10 @@ function secret(name) {
           return {
             text: wordmark.textContent.replace(/\s+/g, ' ').trim(),
             fontSize: getComputedStyle(row).fontSize,
+            fontFamily: getComputedStyle(wordmark).fontFamily,
             gap: getComputedStyle(row).gap,
             centerDelta: Math.abs(rect.left + rect.width / 2 - innerWidth / 2),
+            geometry: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
             novaireColor: getComputedStyle(wordmark).color,
             novaireStyle: getComputedStyle(wordmark).fontStyle,
             signalColor: getComputedStyle(signal).color,
@@ -72,6 +76,15 @@ function secret(name) {
         assert.equal(value.boltAnimation, 'signal-gold-shimmer', `${route} bolt animation`);
         assert.equal(value.boltDelay, '0s', `${route} bolt phase`);
         assert.deepEqual(value.links, ['/flaneur', '/', '/portfolio/'], `${route} brand links`);
+        if (!baseline) baseline = value;
+        else {
+          for (const key of ['x', 'y', 'width', 'height']) {
+            assert.ok(Math.abs(value.geometry[key] - baseline.geometry[key]) <= 0.75,
+              `${route} ${key} parity: ${value.geometry[key]} vs ${baseline.geometry[key]}`);
+          }
+          assert.equal(value.fontFamily, baseline.fontFamily, `${route} font family parity`);
+          assert.equal(value.fontSize, baseline.fontSize, `${route} font size parity`);
+        }
         if (route === '/portfolio/daily/') {
           const daily = await page.evaluate(() => ({
             title: document.querySelector('.daily-title')?.textContent.trim(),

@@ -3543,12 +3543,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
+    body{{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:0 16px 32px;font-size:18.15px;line-height:1.5}}
     @media(min-width:900px){{body{{zoom:1.1}}}}
     .container{{max-width:720px;margin:0 auto}}
 
-    .header-brand{{text-align:center;padding-bottom:20px}}
+    .header-brand{{display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 0 20px}}
     {signal_brand_css()}
+    @media(min-width:900px){{.header-brand .signal-brand-row,.footer .signal-brand-row{{transform:scale(.9090909);transform-origin:center top}}}}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
 
@@ -3909,7 +3910,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     @media(min-width:761px){{
       html{{font-size:121%}}
-      body{{font-size:19.965px;padding:35px 18px}}
+      body{{font-size:19.965px;padding:0 18px 35px}}
       .container{{max-width:792px}}
       .card{{padding:22px;margin-bottom:15px}}
       .podcast-mini img{{min-width:141px}}
@@ -4807,7 +4808,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
-    body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
+    body{{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:0 16px 32px;font-size:18.15px;line-height:1.5}}
     @media(min-width:900px){{body{{zoom:1.1}}}}
     .container{{max-width:980px;margin:0 auto}}
     .header-brand{{text-align:center;padding-bottom:20px}}
@@ -4940,31 +4941,9 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .catalyst-sep{{color:var(--dim);font-size:.8rem}}
     .catalyst-badge{{color:var(--gold);font-size:.75rem;opacity:.8;white-space:nowrap}}
     .catalyst-headline{{font-size:.8rem;color:var(--text);line-height:1.4}}
-    .header-brand{{text-align:center;padding-bottom:20px}}
-    .header-brand .signal-brand-row,.footer .signal-brand-row{{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}}
-    .header-brand .signal-wordmark,.footer .signal-brand-row .signal-wordmark{{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal;text-decoration:none}}
-    .header-brand .signal-wordmark > span,.footer .signal-brand-row .signal-wordmark > span{{color:var(--gold);font-style:italic}}
-    .signal-bolt{{display:inline-flex;align-items:center;justify-content:flex-start;width:1.243em;height:1.155em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
-    .signal-bolt-icon{{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.088em)}}
-    .signal-map{{display:inline-flex;align-items:center;justify-content:flex-end;width:1.243em;height:1.155em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
-    .signal-map-icon{{width:1.243em;height:1.155em;display:block}}
-    .signal-map-ocean{{fill:#0a0a0c}}
-    .signal-map-land{{fill:#b59662}}
-    .signal-map-rim{{fill:none;stroke:#b59662;stroke-width:.8}}
-    @keyframes signal-gold-shimmer{{
-      0%,100%{{opacity:.94;filter:brightness(.96) saturate(.95) drop-shadow(0 0 1px rgba(181,150,98,.22))}}
-      32%{{opacity:1;filter:brightness(1.18) saturate(1.08) drop-shadow(0 0 3px rgba(181,150,98,.58)) drop-shadow(0 0 7px rgba(255,224,164,.22))}}
-      46%{{opacity:1;filter:brightness(1.42) saturate(.82) drop-shadow(0 0 4px rgba(255,226,169,.76)) drop-shadow(0 0 10px rgba(181,150,98,.3))}}
-      61%{{opacity:.98;filter:brightness(1.1) saturate(1.04) drop-shadow(0 0 2px rgba(181,150,98,.42))}}
-    }}
-    .header-brand .signal-bolt-icon,.header-brand .signal-map-icon,.footer .signal-bolt-icon,.footer .signal-map-icon{{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}}
-    .header-brand .signal-map-icon,.footer .signal-map-icon{{animation-delay:-.72s}}
-    .header-brand .signal-bolt:hover,.header-brand .signal-map:hover,.footer .signal-bolt:hover,.footer .signal-map:hover{{opacity:1;transform:none}}
-    .header-brand .signal-bolt:focus-visible,.header-brand .signal-map:focus-visible,.header-brand .signal-wordmark:focus-visible,.footer .signal-bolt:focus-visible,.footer .signal-map:focus-visible,.footer .signal-wordmark:focus-visible{{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}}
-    @media(min-width:761px){{.header-brand .signal-brand-row,.footer .signal-brand-row{{font-size:1.8rem}}}}
-    @media (prefers-reduced-motion:reduce){{
-      .header-brand .signal-bolt-icon,.header-brand .signal-map-icon,.footer .signal-bolt-icon,.footer .signal-map-icon{{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
-    }}
+    .header-brand{{display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 0 20px}}
+    {signal_brand_css()}
+    @media(min-width:900px){{.header-brand .signal-brand-row,.footer .signal-brand-row{{transform:scale(.9090909);transform-origin:center top}}}}
     .footer{{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}}
     .footer-logo{{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
     .footer-logo span{{color:var(--gold);font-style:italic}}
@@ -5024,13 +5003,13 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 <body>
 <div class="container">
 
-  <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap">
-    <div style="display:flex;gap:7px"><a href="/portfolio/daily/" class="back-link daily-nav-link"><svg class="daily-nav-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.25 2.5h8.5v10.25H3.5c-.69 0-1.25-.56-1.25-1.25v-9Zm8.5 2h3v7c0 .69-.56 1.25-1.25 1.25h-1.75V4.5ZM4.25 4.25h4.5v2h-4.5v-2Zm0 3.5h4.5m-4.5 2h4.5" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Daily</span></a></div>
-  </div>
-
   <div class="header-brand">
     {signal_brand_markup()}
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap">
+    <div style="display:flex;gap:7px"><a href="/portfolio/daily/" class="back-link daily-nav-link"><svg class="daily-nav-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.25 2.5h8.5v10.25H3.5c-.69 0-1.25-.56-1.25-1.25v-9Zm8.5 2h3v7c0 .69-.56 1.25-1.25 1.25h-1.75V4.5ZM4.25 4.25h4.5v2h-4.5v-2Zm0 3.5h4.5m-4.5 2h4.5" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Daily</span></a></div>
   </div>
 
   <div class="dateline">
