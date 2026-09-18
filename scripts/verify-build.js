@@ -48,7 +48,10 @@ const lockedDesignMarkers = [
   '.container{max-width:720px;margin:0 auto}',
   '.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}',
   '.footer-logo{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}',
-  '.signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}',
+  '.header-brand .footer-logo{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;letter-spacing:0}',
+  '.header-brand .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em}',
+  '.signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}',
+  '.signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}',
   '.signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}',
   'M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z',
 ];
