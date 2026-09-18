@@ -1,10 +1,33 @@
 {
   "schema_version": 1,
   "as_of": "2026-09-14",
-  "scan_status": "incomplete",
-  "scan_completed_at": null,
-  "status_message": "No auditable source or candidate-review evidence was recorded for the September 14 scan, so its empty result is unverified.",
-  "portfolio_note": "Research is incomplete or lacks required provenance. No claim is being made that zero candidates qualified.",
-  "evidence": null,
-  "ideas": []
+  "scan_status": "completed",
+  "scan_completed_at": "2026-09-18T08:18:37+07:00",
+  "status_message": "Independent scan completed: 16 candidates reviewed; 0 execution-ready, 4 watch, 12 screened out.",
+  "portfolio_note": "Independent scan: 16 candidates (8 tokens, 8 equities). No execution-ready idea; four remain conditional WATCH candidates and twelve were screened out. Evidence gaps are not presented as economic failures.",
+  "evidence": {
+    "methodology": "Screened eight tokens and eight natural-resource equities against published-history exclusions, portfolio concentration, valuation compression, dilution or supply, holder value capture, catalyst quality, and primary-source support. WATCH means follow-up is required, not a buy signal.",
+    "accounts_checked": ["private exposure set A", "private exposure set B", "private exposure set C", "private exposure set D"],
+    "sources": [
+      {"url": "https://api.coingecko.com/api/v3/coins/markets", "checked_at": "2026-09-18T08:16:20+07:00", "note": "Structured token quote, capitalization and supply snapshot."},
+      {"url": "https://query1.finance.yahoo.com/v8/finance/chart/IVN.TO", "checked_at": "2026-09-18T08:18:37+07:00", "note": "Structured equity quote and one-year price series; peer symbols were checked through the same endpoint."},
+      {"url": "https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/Tokenomics", "checked_at": "2026-09-18T08:18:37+07:00", "note": "Official emissions and vesting mechanics."},
+      {"url": "https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE", "checked_at": "2026-09-18T08:18:37+07:00", "note": "Official sPENDLE fee distribution and withdrawal mechanics."}
+    ],
+    "candidates_reviewed": 16,
+    "public_ledger_path": "weekly_scan_ledger.json"
+  },
+  "ideas": [
+    {
+      "type": "token",
+      "symbol": "PENDLE",
+      "name": "Pendle",
+      "action": "WATCH",
+      "snapshot": "US$2.34 at 2026-09-18 01:16 UTC; US$406m market cap / US$658m FDV; -54.8% over one year; 61.7% of reported total supply circulating.",
+      "thesis": "Official documentation describes sPENDLE fee-linked buybacks and lower terminal emissions, making holder economics worth measuring rather than assuming.",
+      "risk": "Not execution-ready: current fee-dollar run-rate, venue-specific executable slippage and a dated rerating catalyst were not independently verified. sPENDLE also has withdrawal constraints, including a 14-day standard withdrawal or a 5% instant-withdrawal fee.",
+      "trigger": "Upgrade only after verifying a current fee run-rate, the latest distribution, and executable slippage at the intended size; require a dated catalyst before any action.",
+      "source_url": "https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE"
+    }
+  ]
 }

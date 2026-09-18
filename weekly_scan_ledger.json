@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "edition_as_of": "2026-09-14",
+  "scan_completed_at": "2026-09-18T08:18:37+07:00",
+  "universe": {
+    "total": 16,
+    "tokens": 8,
+    "equities": 8
+  },
+  "outcomes": {
+    "execution_ready": 0,
+    "watch": 4,
+    "screened_out": 12
+  },
+  "candidates": [
+    {"type":"token","symbol":"PENDLE","status":"watch","reason":"Direct sPENDLE fee-linked buyback mechanics are documented, but current fee run-rate, executable slippage and a dated catalyst were not verified."},
+    {"type":"token","symbol":"TIA","status":"watch","reason":"Depressed valuation and lower inflation merit follow-up; current blob-fee revenue and remaining locked supply need primary-source verification."},
+    {"type":"token","symbol":"ENA","status":"watch","reason":"Protocol economics merit follow-up; binding ENA fee distribution and the next 12 months of unlocks remain unverified."},
+    {"type":"equity","symbol":"IVN.TO","status":"watch","reason":"Operating recovery is visible, but current fully diluted capitalization and material project risks need resolution."},
+    {"type":"token","symbol":"ARB","status":"screened_out","reason":"No verified direct sequencer-fee claim offsets ongoing unlock overhang."},
+    {"type":"token","symbol":"STRK","status":"screened_out","reason":"No verified holder cash-flow claim offsets remaining supply overhang."},
+    {"type":"token","symbol":"ATOM","status":"screened_out","reason":"Persistent issuance and weak value capture lack a specific verified rerating catalyst."},
+    {"type":"token","symbol":"OP","status":"screened_out","reason":"Low circulation and no verified direct Superchain revenue claim fail the value-capture hurdle."},
+    {"type":"token","symbol":"IMX","status":"screened_out","reason":"Low circulation plus incomplete fee-capture and usage evidence fail the dilution hurdle."},
+    {"type":"equity","symbol":"LAC","status":"screened_out","reason":"Known and price-dependent dilution leaves permanent-loss risk insufficiently bounded."},
+    {"type":"equity","symbol":"UEC","status":"screened_out","reason":"Existing uranium concentration is decisive; current fully diluted capitalization also remains incomplete."},
+    {"type":"equity","symbol":"NXE.TO","status":"screened_out","reason":"Pre-production single-project exposure compounds existing uranium concentration without complete financing evidence."},
+    {"type":"equity","symbol":"UUUU","status":"screened_out","reason":"Resource concentration worsens and current fully diluted capitalization is incomplete."},
+    {"type":"equity","symbol":"CCO.TO","status":"screened_out","reason":"The entry is not sufficiently depressed and would add to existing uranium concentration."},
+    {"type":"equity","symbol":"SGML","status":"screened_out","reason":"Governance, operating and lithium-cycle risks lack current audited cash, debt and dilution support."},
+    {"type":"equity","symbol":"FCX","status":"screened_out","reason":"Strong copper exposure does not compensate for failing the depressed-entry screen."}
+  ],
+  "notes": [
+    "Screened out includes both decisive economic failures and candidates withheld because evidence was incomplete; candidate reasons preserve that distinction.",
+    "History exclusions use published prior editions only.",
+    "No private holdings, account names, position sizes or trade data are included.",
+    "No trade was placed."
+  ]
+}

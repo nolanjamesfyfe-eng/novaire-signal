@@ -121,6 +121,23 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         self.assertEqual(stale["label"], "Stale · last completed Aug 17")
         self.assertNotIn("Aug 24", stale["label"])
 
+    def test_public_scan_ledger_has_declared_breadth_and_outcomes(self):
+        root = Path(generate.__file__).resolve().parent
+        weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
+        ledger = json.loads((root / weekly["evidence"]["public_ledger_path"]).read_text(encoding="utf-8"))
+
+        self.assertEqual(weekly["as_of"], "2026-09-14")
+        self.assertEqual(weekly["scan_status"], "completed")
+        self.assertEqual(weekly["evidence"]["candidates_reviewed"], 16)
+        self.assertEqual(ledger["universe"], {"total": 16, "tokens": 8, "equities": 8})
+        self.assertEqual(ledger["outcomes"], {"execution_ready": 0, "watch": 4, "screened_out": 12})
+        self.assertEqual(len(ledger["candidates"]), 16)
+        self.assertEqual(sum(row["status"] == "watch" for row in ledger["candidates"]), 4)
+        self.assertEqual(sum(row["status"] == "screened_out" for row in ledger["candidates"]), 12)
+        pendle = next(row for row in ledger["candidates"] if row["symbol"] == "PENDLE")
+        self.assertEqual(pendle["status"], "watch")
+        self.assertEqual(weekly["ideas"][0]["action"], "WATCH")
+
 
 if __name__ == "__main__":
     unittest.main()

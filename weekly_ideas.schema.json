@@ -33,7 +33,12 @@
             }
           }
         },
-        "candidates_reviewed": {"type": "integer", "minimum": 0}
+        "candidates_reviewed": {"type": "integer", "minimum": 0},
+        "public_ledger_path": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._/-]+\\.json$",
+          "description": "Public-safe candidate ledger; must not contain private account or position data."
+        }
       }
     },
     "ideas": {
