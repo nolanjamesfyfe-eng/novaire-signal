@@ -1,11 +1,12 @@
 {
   "ok": true,
-  "count": 12,
-  "accountsWithPosts": 12,
-  "fetchedAt": "2026-09-18T20:17:32.991363+00:00",
+  "count": 11,
+  "accountsWithPosts": 11,
+  "fetchedAt": "2026-09-18T20:33:13.833814+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
+    "quakes99",
     "White_Rabbit_OG",
     "HydroGraphInc"
   ],
@@ -17,13 +18,13 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-09-18T12:11:05+00:00",
       "createdAtMs": 1789733465000,
-      "likes": 18032,
-      "retweets": 3089,
+      "likes": 18170,
+      "retweets": 3123,
       "url": "https://x.com/KobeissiLetter/status/2100920542572265739",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 21121
+      "engagementScore": 21293
     },
     {
       "id": "2100945875103338963",
@@ -32,13 +33,13 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-09-18T13:51:44+00:00",
       "createdAtMs": 1789739504000,
-      "likes": 7691,
-      "retweets": 1056,
+      "likes": 7726,
+      "retweets": 1061,
       "url": "https://x.com/WatcherGuru/status/2100945875103338963",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 8747
+      "engagementScore": 8787
     },
     {
       "id": "2100782375219175527",
@@ -47,28 +48,13 @@
       "handle": "tferriss",
       "createdAt": "2026-09-18T03:02:03+00:00",
       "createdAtMs": 1789700523000,
-      "likes": 2730,
+      "likes": 2742,
       "retweets": 254,
       "url": "https://x.com/tferriss/status/2100782375219175527",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 2984
-    },
-    {
-      "id": "2101026500845703634",
-      "text": "*TRUMP BANS CNN, MS NOW, POLITICO FROM WHITE HOUSE",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-09-18T19:12:07+00:00",
-      "createdAtMs": 1789758727000,
-      "likes": 873,
-      "retweets": 69,
-      "url": "https://x.com/zerohedge/status/2101026500845703634",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 942
+      "engagementScore": 2996
     },
     {
       "id": "2100925767442198628",
@@ -77,13 +63,28 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-09-18T12:31:50+00:00",
       "createdAtMs": 1789734710000,
-      "likes": 591,
-      "retweets": 73,
+      "likes": 627,
+      "retweets": 76,
       "url": "https://x.com/wmiddelkoop/status/2100925767442198628",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 4,
+      "engagementScore": 703
+    },
+    {
+      "id": "2101034954050117712",
+      "text": "Congressional Democrats: Crypto shall not pass\nSEC: Hold my beer https://t.co/grOLwhIEDU",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-09-18T19:45:43+00:00",
+      "createdAtMs": 1789760743000,
+      "likes": 302,
+      "retweets": 26,
+      "url": "https://x.com/zerohedge/status/2101034954050117712",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 664
+      "engagementScore": 328
     },
     {
       "id": "2100981331198951456",
@@ -92,13 +93,13 @@
       "handle": "nntaleb",
       "createdAt": "2026-09-18T16:12:38+00:00",
       "createdAtMs": 1789747958000,
-      "likes": 271,
+      "likes": 275,
       "retweets": 31,
       "url": "https://x.com/nntaleb/status/2100981331198951456",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 302
+      "engagementScore": 306
     },
     {
       "id": "2101010394437362062",
@@ -107,13 +108,13 @@
       "handle": "JoshYoung",
       "createdAt": "2026-09-18T18:08:07+00:00",
       "createdAtMs": 1789754887000,
-      "likes": 274,
+      "likes": 290,
       "retweets": 6,
       "url": "https://x.com/JoshYoung/status/2101010394437362062",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 280
+      "engagementScore": 296
     },
     {
       "id": "2100863625711993330",
@@ -131,19 +132,19 @@
       "engagementScore": 155
     },
     {
-      "id": "2100954874460405955",
-      "text": "@AndreasSteno This is exactly what will keep Europe alive. A beautiful and historic place in which the rest of the world can visit and spend their excess savings.",
+      "id": "2101038182804398289",
+      "text": "https://t.co/Mb3DN5KrjY https://t.co/xp0zE46AfT",
       "author": "SantiagoAuFund",
       "handle": "SantiagoAuFund",
-      "createdAt": "2026-09-18T14:27:30+00:00",
-      "createdAtMs": 1789741650000,
-      "likes": 73,
-      "retweets": 0,
-      "url": "https://x.com/SantiagoAuFund/status/2100954874460405955",
+      "createdAt": "2026-09-18T19:58:32+00:00",
+      "createdAtMs": 1789761512000,
+      "likes": 52,
+      "retweets": 1,
+      "url": "https://x.com/SantiagoAuFund/status/2101038182804398289",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 73
+      "engagementScore": 53
     },
     {
       "id": "2101007415063855529",
@@ -152,28 +153,13 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-09-18T17:56:17+00:00",
       "createdAtMs": 1789754177000,
-      "likes": 19,
+      "likes": 25,
       "retweets": 0,
       "url": "https://x.com/BambroughKevin/status/2101007415063855529",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 19
-    },
-    {
-      "id": "2100960902526726582",
-      "text": "@RichardRusk007 400GW from US reactors 🎯🇺🇸 alongside over 800GW of installed Nuclear capacity in the rest of the world.🎯🌏 Cheers!",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-09-18T14:51:27+00:00",
-      "createdAtMs": 1789743087000,
-      "likes": 6,
-      "retweets": 1,
-      "url": "https://x.com/quakes99/status/2100960902526726582",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 7
+      "engagementScore": 25
     },
     {
       "id": "2100988337133646066",
@@ -182,13 +168,13 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-09-18T16:40:28+00:00",
       "createdAtMs": 1789749628000,
-      "likes": 5,
-      "retweets": 0,
+      "likes": 6,
+      "retweets": 1,
       "url": "https://x.com/BarbarianCap/status/2100988337133646066",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 12,
-      "engagementScore": 5
+      "slot_order": 11,
+      "engagementScore": 7
     }
   ]
 }

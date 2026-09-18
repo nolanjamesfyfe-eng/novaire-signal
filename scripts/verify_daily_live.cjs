@@ -60,7 +60,7 @@ function secret(name) {
         const reductions = compactHeights.map((height, index) => 1 - height / baselineHeights[index]);
         return {
           title: document.querySelector('.daily-title')?.textContent.trim(),
-          brandBeforeTitle: Boolean(document.querySelector('.daily-header > .signal-brand-row + .daily-title')),
+          brandBeforeTitle: Boolean(document.querySelector('.daily-header > .signal-brand-row') && document.querySelector('.daily-header + .daily-title')),
           storyCount: document.querySelectorAll('.story').length,
           accountCards: cards.length,
           accountLabels: cards.map(card => card.querySelector('.account-kicker')?.textContent.trim()),
