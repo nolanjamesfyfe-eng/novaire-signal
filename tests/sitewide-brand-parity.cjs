@@ -12,7 +12,25 @@ const routes=[
   ['/portfolio/','portfolio/index.html'],
   ['/portfolio/daily/','portfolio/daily/index.html'],
   ['/portfolio/evolutionfund/','portfolio/evolutionfund/index.html'],
+  ['/portfolio/evolutionfund/philosophy.html','portfolio/evolutionfund/philosophy.html'],
+  ['/portfolio/finances/','portfolio/finances/index.html'],
+  ['/quote-studio/','quote-studio/index.html'],
 ];
+
+const excludedHtmlArtifacts = new Set([
+  'quote-studio/bolt.html', // source artwork/export artifact, not a page
+  'videoOS/index.html', // zero-second private-tailnet redirect shim, not site content
+]);
+
+test('route inventory covers every user-facing HTML artifact',()=>{
+  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>{
+    const absolute=path.join(dir,entry.name);
+    if(entry.isDirectory() && !['.git','node_modules','qa-artifacts'].includes(entry.name)) return walk(absolute);
+    return entry.isFile() && entry.name.endsWith('.html') ? [path.relative(ROOT,absolute)] : [];
+  });
+  const inventoried=new Set(routes.map(([,file])=>file));
+  assert.deepEqual(walk(ROOT).filter(file=>!excludedHtmlArtifacts.has(file)&&file!=='quote-studio/bolt.html').sort(),[...inventoried].sort());
+});
 
 test('public and authenticated route artifacts carry two canonical functional brands',()=>{
   for(const [route,file] of routes){

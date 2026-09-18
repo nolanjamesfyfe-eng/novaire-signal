@@ -55,6 +55,24 @@ def test_flaneur_route_and_legacy_redirect():
     assert 'href="/flaneur" class="signal-map"' in (ROOT / 'signal_brand.py').read_text()
 
 
+def test_globe_asset_preserves_every_destination_with_bounded_geometry():
+    data = json.loads((ROOT / 'map/world-globe.geojson').read_text())
+
+    def point_count(value):
+        if isinstance(value, list) and value and isinstance(value[0], (int, float)):
+            return 1
+        return sum(point_count(item) for item in value) if isinstance(value, list) else 0
+
+    assert len(data['features']) == 199
+    assert len({feature['properties']['iso2'] for feature in data['features']}) == 199
+    assert sum(point_count(feature['geometry']['coordinates']) for feature in data['features']) <= 4_000
+    # D3 spherical polygons require clockwise exterior rings; map simplification must not flip them.
+    indonesia = next(feature for feature in data['features'] if feature['properties']['iso2'] == 'ID')
+    ring = indonesia['geometry']['coordinates'][0][0]
+    winding = sum((ring[index + 1][0] - ring[index][0]) * (ring[index + 1][1] + ring[index][1]) for index in range(len(ring) - 1))
+    assert winding > 0
+
+
 def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
     html = (ROOT / 'map/index.html').read_text()
     assert "matchMedia('(max-width:760px)')" in html
