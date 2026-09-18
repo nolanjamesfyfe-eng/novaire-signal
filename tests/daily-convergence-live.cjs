@@ -6,12 +6,41 @@ const { chromium, request } = require('/root/clawd/novaire-operations-system/nod
 
 const BASE = (process.env.NOVAIRE_SIGNAL_BASE_URL || 'https://novairesignal.com').replace(/\/$/, '');
 const RUNS = Number(process.env.DAILY_VERIFY_RUNS || 3);
+const FAILURE_DIR = process.env.DAILY_VERIFY_FAILURE_DIR || 'qa-artifacts/daily-convergence-failures';
 function secret(name) {
   if (process.env[name]) return process.env[name];
   const file = process.env.NOVAIRE_SIGNAL_SECRETS || '/root/clawd/.secrets';
   if (!fs.existsSync(file)) return '';
   const row = fs.readFileSync(file, 'utf8').split(/\r?\n/).find(line => line.startsWith(`${name}=`));
   return row ? row.slice(name.length + 1).trim() : '';
+}
+function safeStamp() { return new Date().toISOString().replace(/[:.]/g, '-'); }
+async function recordFailure({ page, response, label, requestedUrl, value, error }) {
+  fs.mkdirSync(FAILURE_DIR, { recursive: true });
+  const stem = `${safeStamp()}-${label.replace(/[^a-z0-9-]+/gi, '-')}`;
+  const html = await page.content().catch(() => '<!-- page.content() unavailable -->');
+  const htmlPath = `${FAILURE_DIR}/${stem}.html`;
+  const jsonPath = `${FAILURE_DIR}/${stem}.json`;
+  fs.writeFileSync(htmlPath, html);
+  const headers = response ? response.headers() : {};
+  fs.writeFileSync(jsonPath, JSON.stringify({
+    label,
+    requestedUrl,
+    finalUrl: page.url(),
+    status: response?.status() ?? null,
+    headers: {
+      'content-type': headers['content-type'] || null,
+      'cache-control': headers['cache-control'] || null,
+      'location': headers.location || null,
+      'server': headers.server || null,
+      'x-vercel-id': headers['x-vercel-id'] || null,
+    },
+    value: value || null,
+    error: error?.message || String(error),
+    htmlPath,
+    capturedAt: new Date().toISOString(),
+  }, null, 2) + '\n');
+  console.error(`Daily convergence failure recorded: ${jsonPath} ${htmlPath}`);
 }
 
 (async () => {
@@ -34,10 +63,16 @@ function secret(name) {
         for (const mode of ['ordinary', 'cache-busted']) {
           const page = await context.newPage();
           const suffix = mode === 'cache-busted' ? `?daily_verify=${Date.now()}-${viewport.name}-${run}` : '';
-          const response = await page.goto(`${BASE}/portfolio/daily/${suffix}`, { waitUntil: 'networkidle', timeout: 60000 });
-          assert.equal(response.status(), 200, `${viewport.name}/${mode}/${run} status`);
-          assert.ok(!page.url().includes('portfolio-lock'), `${viewport.name}/${mode}/${run} auth gate`);
-          const value = await page.evaluate(() => {
+          const requestedUrl = `${BASE}/portfolio/daily/${suffix}`;
+          let response;
+          let value;
+          const label = `${viewport.name}/${mode}/${run}`;
+          try {
+            response = await page.goto(requestedUrl, { waitUntil: 'networkidle', timeout: 60000 });
+            assert.ok(response, `${label} missing navigation response`);
+            assert.equal(response.status(), 200, `${label} status`);
+            assert.ok(!page.url().includes('portfolio-lock'), `${label} auth gate`);
+            value = await page.evaluate(() => {
             const row = document.querySelector('.daily-header .signal-brand-row');
             const rect = row?.getBoundingClientRect();
             const title = document.querySelector('.daily-title');
@@ -52,15 +87,20 @@ function secret(name) {
               movers: document.querySelectorAll('.movers .mover').length,
             };
           });
-          assert.equal(value.title, 'The Daily.', `${viewport.name}/${mode}/${run} title`);
-          assert.equal(value.legacyHeaderH1, false, `${viewport.name}/${mode}/${run} legacy h1`);
-          assert.equal(value.fontSize, viewport.name === 'desktop' ? '31.68px' : '28.8px', `${viewport.name}/${mode}/${run} font`);
-          assert.ok(value.centerDelta < 25, `${viewport.name}/${mode}/${run} centered`);
-          assert.equal(value.geopolitical, false, `${viewport.name}/${mode}/${run} stale geopolitical story`);
-          assert.equal(value.storyCount, 0, `${viewport.name}/${mode}/${run} stale stories`);
-          assert.ok(value.accountCards > 0, `${viewport.name}/${mode}/${run} account cards preserved`);
-          observations.push({ viewport: viewport.name, mode, run, deployment: response.headers()['x-vercel-id'] || null, ...value });
-          await page.close();
+            assert.equal(value.title, 'The Daily.', `${label} title`);
+            assert.equal(value.legacyHeaderH1, false, `${label} legacy h1`);
+            assert.equal(value.fontSize, viewport.name === 'desktop' ? '31.68px' : '28.8px', `${label} font`);
+            assert.ok(value.centerDelta < 25, `${label} centered`);
+            assert.equal(value.geopolitical, false, `${label} stale geopolitical story`);
+            assert.equal(value.storyCount, 0, `${label} stale stories`);
+            assert.equal(value.accountCards, 3, `${label} account cards preserved`);
+            observations.push({ viewport: viewport.name, mode, run, url: page.url(), deployment: response.headers()['x-vercel-id'] || null, ...value });
+          } catch (error) {
+            await recordFailure({ page, response, label, requestedUrl, value, error });
+            throw error;
+          } finally {
+            await page.close();
+          }
         }
       }
       await context.close();
