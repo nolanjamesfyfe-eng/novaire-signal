@@ -86,6 +86,42 @@ test('visible country facts dismiss on page scroll and reopen on country tap', a
   } finally {await browser.close();}
 });
 
+test('trusted mobile routing dismisses stale facts, scrolls vertically, rotates horizontally and pinches', async () => {
+  const {browser,page}=await open(chromium);
+  try {
+    const canvas=page.locator('#globe-canvas'),box=await canvas.boundingBox(),client=await page.context().newCDPSession(page);
+    const cx=box.x+box.width/2,cy=box.y+box.height/2;
+    await page.touchscreen.tap(cx,cy);
+    assert.equal(await page.locator('.tooltip.show').count(),1,'country facts are visible before a new gesture');
+
+    const rotationBeforeScroll=await canvas.getAttribute('data-rotation');
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch(cx,cy+70,41)]});
+    await page.waitForTimeout(20);
+    assert.equal(await page.locator('.tooltip.show').count(),0,'touchstart immediately dismisses stale country facts');
+    for(let i=1;i<=10;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[touch(cx,cy+70-i*14,41)]});
+    await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+    await page.waitForTimeout(100);
+    assert.ok(await page.evaluate(()=>scrollY)>40,'vertical swipe over globe routes to page scroll');
+    assert.equal(await canvas.getAttribute('data-rotation'),rotationBeforeScroll,'vertical page swipe does not also rotate globe');
+
+    await canvas.scrollIntoViewIfNeeded();const routedBox=await canvas.boundingBox(),routedY=routedBox.y+routedBox.height/2;
+    const scrollBeforeDrag=await page.evaluate(()=>scrollY),rotationBeforeDrag=await canvas.getAttribute('data-rotation');
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch(routedBox.x+100,routedY,51)]});
+    for(let i=1;i<=16;i++){await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[touch(routedBox.x+100+i*8,routedY+i*.35,51)]});await page.waitForTimeout(16);}
+    await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(50);
+    assert.notEqual(await canvas.getAttribute('data-rotation'),rotationBeforeDrag,'horizontal swipe rotates globe');
+    assert.equal(await page.evaluate(()=>scrollY),scrollBeforeDrag,'horizontal globe drag does not scroll page');
+
+    const zoomBefore=Number(await canvas.getAttribute('data-zoom'));
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch(routedBox.x+140,routedY,61),touch(routedBox.x+250,routedY,62)]});
+    for(let i=1;i<=12;i++){await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[touch(routedBox.x+140-i*3,routedY,61),touch(routedBox.x+250+i*3,routedY,62)]});await page.waitForTimeout(16);}
+    await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(50);
+    assert.ok(Number(await canvas.getAttribute('data-zoom'))>zoomBefore*1.4,'two-finger pinch zoom remains responsive');
+    assert.equal(await page.locator('.tooltip.show').count(),0,'pinch cannot leave stale facts over page content');
+    await page.screenshot({path:`${artifacts}/chromium-mobile-routing.png`,fullPage:true});
+  } finally {await browser.close();}
+});
+
 test('canvas pointerup hit testing shows complete facts after consecutive slight taps', async () => {
   const {browser,page}=await open(chromium);
   try {
