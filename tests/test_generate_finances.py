@@ -33,7 +33,11 @@ class FinancesGeneratorTests(unittest.TestCase):
             self.assertIn('class="flame-core"', html)
             self.assertIn("@keyframes tongue-flicker", html)
             self.assertNotIn("transform:rotate(45deg)", html)
-            self.assertIn("window.OnTheRiseFinances", html)
+            assert "window.OnTheRiseFinances" in html
+            assert html.count('class="signal-brand-row"') == 2
+            assert html.count('href="/flaneur" class="signal-map"') == 2
+            assert html.count('viewBox="45 38 200 264"') == 2
+            assert '#b59662' in html
             self.assertIn("setCurrentPeriod", html)
             self.assertIn("prefers-reduced-motion", html)
             self.assertNotIn("<script src=", html)
