@@ -4999,6 +4999,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .eco-link:hover{{opacity:1}}
     .back-link{{display:inline-block;margin-bottom:20px;font-size:.7rem;color:var(--dim);text-decoration:none;letter-spacing:.08em}}
     .back-link:hover{{color:var(--gold)}}
+    .daily-nav-link{{display:inline-flex;align-items:center;gap:4px}}
+    .daily-nav-icon{{width:12px;height:12px;display:block;flex:none;color:var(--gold)}}
     @media(max-width:600px){{
       .portfolio-summary{{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}}
       .psum-item:last-child{{grid-column:1/-1}}
@@ -5047,7 +5049,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 <div class="container">
 
   <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap">
-    <div style="display:flex;gap:7px"><a href="/portfolio/" class="back-link" style="color:var(--gold)">Portfolio</a><a href="/portfolio/daily/" class="back-link">Daily</a></div>
+    <div style="display:flex;gap:7px"><a href="/portfolio/" class="back-link" style="color:var(--gold)">Portfolio</a><a href="/portfolio/daily/" class="back-link daily-nav-link"><svg class="daily-nav-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.25 2.5h8.5v10.25H3.5c-.69 0-1.25-.56-1.25-1.25v-9Zm8.5 2h3v7c0 .69-.56 1.25-1.25 1.25h-1.75V4.5ZM4.25 4.25h4.5v2h-4.5v-2Zm0 3.5h4.5m-4.5 2h4.5" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Daily</span></a></div>
   </div>
 
   <div class="header-brand">
