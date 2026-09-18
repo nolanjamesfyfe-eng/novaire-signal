@@ -115,6 +115,29 @@ test('a burst of pointer moves is coalesced to one globe render per frame', asyn
   } finally { await browser.close(); }
 });
 
+test('gesture completion and cancellation cannot leave only the grid and dots', async () => {
+  const browser = await chromium.launch({headless: true});
+  try {
+    const page = await openMobile(browser);
+    const result = await page.evaluate(async () => {
+      const svg=document.querySelector('#map'), b=svg.getBoundingClientRect();
+      const event=(type,id,x,y)=>svg.dispatchEvent(new PointerEvent(type,{pointerId:id,pointerType:'touch',button:0,clientX:x,clientY:y,bubbles:true}));
+      const visible=()=>({countries:[...document.querySelectorAll('.country')].filter(n=>getComputedStyle(n).display!=='none'&&n.getAttribute('d')).length,gesture:getComputedStyle(document.querySelector('.gesture-land')).display});
+      event('pointerdown',201,b.left+90,b.top+220);event('pointermove',201,b.left+230,b.top+230);event('pointerup',201,b.left+230,b.top+230);
+      await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);
+      const afterUp=visible();
+      event('pointerdown',202,b.left+120,b.top+220);event('pointermove',202,b.left+210,b.top+220);event('pointercancel',202,b.left+210,b.top+220);
+      await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);
+      return {afterUp,afterCancel:visible(),tip:document.querySelectorAll('.tooltip.show').length};
+    });
+    for (const state of [result.afterUp,result.afterCancel]) {
+      assert.ok(state.countries > 100, 'full country geometry is visible after the gesture settles');
+      assert.equal(state.gesture, 'none', 'temporary simplified land layer is hidden after settle');
+    }
+    assert.equal(result.tip, 0, 'pointer cancellation does not select a country');
+  } finally { await browser.close(); }
+});
+
 test('desktop globe rotates on mouse drag without a stray click', async () => {
   const browser = await chromium.launch({headless: true});
   try {

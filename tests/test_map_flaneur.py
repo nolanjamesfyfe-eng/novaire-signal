@@ -78,7 +78,9 @@ def test_mobile_globe_focus_and_backside_marker_clipping_are_preserved():
     assert "code in MICRO?MICRO[code]:f&&d3.geoCentroid(f)" in html
     assert "d3.geoDistance([-globe.rotation[0],-globe.rotation[1]],d[1])<=Math.PI/2" in html
     assert "if(globe.moved)return;showTip" in html
-    assert "if(!globe.moved&&ended?.code){showTip(e,ended.code)" in html
+    assert "if(!cancelled&&!globe.moved&&ended?.code){showTip(e,ended.code)" in html
+    assert "cancelAnimationFrame(globe.frame);globe.frame=0" in html
+    assert "node.onpointercancel=e=>end(e,true)" in html
     assert '<b>Capital:</b>' in html
     assert '<b>Population:</b>' in html
     assert '<b>GDP:</b>' in html
