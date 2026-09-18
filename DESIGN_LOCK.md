@@ -26,7 +26,8 @@
 - Preserve the displayed size and alignment beside `Signal`.
 - Deterministic inline SVG with `fill: currentColor`.
 - Exactly two instances on the main page: header and footer.
-- Never substitute a Unicode emoji, Font Awesome/generic bolt, alternate SVG, recolor filter, glow, or drop shadow.
+- Never substitute a Unicode emoji, Font Awesome/generic bolt, alternate SVG, or recolor filter.
+- Novaire explicitly approved the September 18 champagne-gold shimmer/drop-shadow lighting on both header and footer icons, including the fixed optical baseline correction; preserve the original path, dimensions, and `#b59662` base color.
 
 Canonical path:
 
