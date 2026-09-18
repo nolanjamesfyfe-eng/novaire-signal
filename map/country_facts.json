@@ -44,7 +44,7 @@
     },
     "AG": {
       "capital": {
-        "display": "Q36262",
+        "display": "St. John's",
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q781"
       },
@@ -1838,7 +1838,7 @@
       "capital": {
         "display": "Amsterdam (constitutional); The Hague (seat of government)",
         "source": "Wikidata",
-        "sourceUrl": "https://www.wikidata.org/entity/Q29999"
+        "sourceUrl": "https://www.wikidata.org/entity/Q55"
       },
       "name": "Netherlands",
       "population": {
@@ -2801,12 +2801,12 @@
     }
   },
   "refreshNote": "refreshedAt is retrieval metadata, not the population reference year",
-  "refreshedAt": "2026-09-18T01:20:04Z",
+  "refreshedAt": "2026-09-18T01:25:17Z",
   "schemaVersion": 1,
   "sources": {
     "capitals": {
       "name": "Wikidata P36",
-      "queryUrl": "https://query.wikidata.org/sparql?query=SELECT+%3Fcountry+%3Fiso+%3FcapitalLabel+WHERE+%7B%0A++%3Fcountry+wdt%3AP297+%3Fiso.%0A++OPTIONAL+%7B%0A++++%3Fcountry+p%3AP36+%3Fstatement.%0A++++%3Fstatement+ps%3AP36+%3Fcapital.%0A++++FILTER+NOT+EXISTS+%7B+%3Fstatement+pq%3AP582+%3Fend.+%7D%0A++%7D%0A++SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%22.+%7D%0A%7D&format=json",
+      "queryUrl": "https://query.wikidata.org/sparql?query=SELECT+%3Fcountry+%3Fiso+%3FcapitalLabel+WHERE+%7B%0A++%3Fcountry+wdt%3AP297+%3Fiso.%0A++OPTIONAL+%7B%0A++++%23+The+truthy+P36+path+returns+Wikidata%27s+best-ranked+statements%2C+avoiding%0A++++%23+normal-ranked+historical+capitals+when+a+preferred+current+value+exists.%0A++++%3Fcountry+wdt%3AP36+%3Fcapital.%0A++%7D%0A++SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%2Cmul%2Cen-gb%22.+%7D%0A%7D&format=json",
       "url": "https://query.wikidata.org/sparql"
     },
     "populationFallback": {

@@ -1,8 +1,21 @@
 import json
+import importlib.util
+import re
+from copy import deepcopy
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 MAP = ROOT / "map"
+
+
+def load_refresh_module():
+    spec = importlib.util.spec_from_file_location("refresh_country_facts", MAP / "refresh_country_facts.py")
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def test_catalog_is_exactly_199_unique_sorted_countries():
@@ -51,11 +64,23 @@ def test_every_map_feature_has_sourced_capital_and_population():
     assert facts["coverage"]["capitalFilled"] == 199
     assert facts["coverage"]["populationFilled"] == 199
     for code, fact in facts["countries"].items():
-        assert fact["capital"]["display"] != "Unavailable", code
+        display = fact["capital"]["display"]
+        assert display and display != "Unavailable", code
+        assert not re.search(r"(?<![A-Za-z0-9])Q\d+(?![A-Za-z0-9])", display), code
+        assert not display.startswith(("http://", "https://")), code
         assert fact["capital"]["sourceUrl"].startswith("https://"), code
         assert fact["population"]["value"] > 0, code
         assert 1950 <= fact["population"]["year"] <= 2100, code
         assert fact["population"]["sourceUrl"].startswith("https://"), code
+
+
+def test_refresh_validator_rejects_unresolved_wikidata_capital_ids():
+    refresh = load_refresh_module()
+    payload = json.loads((MAP / "country_facts.json").read_text())
+    broken = deepcopy(payload)
+    broken["countries"]["AG"]["capital"]["display"] = "Q36262"
+    with pytest.raises(AssertionError, match="AG: invalid capital display"):
+        refresh.validate(broken, set(payload["countries"]))
 
 
 def test_map_tooltip_loads_facts_and_uses_reference_year():

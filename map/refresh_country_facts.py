@@ -17,6 +17,7 @@ import gzip
 import io
 import json
 import os
+import re
 import tempfile
 import urllib.parse
 import urllib.request
@@ -36,6 +37,7 @@ USER_AGENT = "NovaireSignalMap/1.0 (+https://novairesignal.com/map/)"
 # Display labels explain arrangements that a bare P36 list cannot represent honestly.
 # Every override remains linked to the country's Wikidata entity returned by the query.
 CAPITAL_OVERRIDES = {
+    "AG": "St. John's",
     "BJ": "Porto-Novo (official); Cotonou (seat of government)",
     "BO": "Sucre (constitutional); La Paz (seat of government)",
     "HK": "Not applicable (special administrative region)",
@@ -65,11 +67,11 @@ def fetch_capitals() -> tuple[dict[str, dict], str]:
 SELECT ?country ?iso ?capitalLabel WHERE {
   ?country wdt:P297 ?iso.
   OPTIONAL {
-    ?country p:P36 ?statement.
-    ?statement ps:P36 ?capital.
-    FILTER NOT EXISTS { ?statement pq:P582 ?end. }
+    # The truthy P36 path returns Wikidata's best-ranked statements, avoiding
+    # normal-ranked historical capitals when a preferred current value exists.
+    ?country wdt:P36 ?capital.
   }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,mul,en-gb". }
 }
 """.strip()
     url = WIKIDATA_ENDPOINT + "?" + urllib.parse.urlencode({"query": query, "format": "json"})
@@ -80,7 +82,7 @@ SELECT ?country ?iso ?capitalLabel WHERE {
         entity = binding["country"]["value"].replace("http://www.wikidata.org/", "https://www.wikidata.org/")
         row = rows.setdefault(code, {"names": [], "url": entity})
         name = binding.get("capitalLabel", {}).get("value")
-        if name and not name.startswith("http") and name not in row["names"]:
+        if valid_capital_display(name) and name not in row["names"]:
             row["names"].append(name)
     return rows, url
 
@@ -120,11 +122,22 @@ def fetch_un_fallback(codes: set[str], year: int = 2024) -> dict[str, tuple[int,
     return result
 
 
+def valid_capital_display(value: object) -> bool:
+    """Reject missing placeholders, entity IDs, and unresolved entity URLs."""
+    return (
+        isinstance(value, str)
+        and bool(value.strip())
+        and value != "Unavailable"
+        and not value.startswith(("http://", "https://"))
+        and re.search(r"(?<![A-Za-z0-9])Q\d+(?![A-Za-z0-9])", value) is None
+    )
+
+
 def validate(payload: dict, codes: set[str]) -> None:
     facts = payload.get("countries", {})
     assert set(facts) == codes, f"country coverage mismatch: missing={sorted(codes-set(facts))} extra={sorted(set(facts)-codes)}"
     for code, fact in facts.items():
-        assert fact.get("capital", {}).get("display"), f"{code}: missing capital display"
+        assert valid_capital_display(fact.get("capital", {}).get("display")), f"{code}: invalid capital display"
         assert fact["capital"].get("sourceUrl", "").startswith("https://"), f"{code}: missing capital source"
         population = fact.get("population", {})
         assert isinstance(population.get("value"), int) and population["value"] > 0, f"{code}: invalid population"
@@ -164,7 +177,7 @@ def build(previous: dict) -> tuple[dict, dict]:
         display = CAPITAL_OVERRIDES.get(code) or "; ".join(names)
         if display:
             capital = {"display": display, "source": "Wikidata", "sourceUrl": cap_row.get("url", WIKIDATA_ENDPOINT)}
-        elif old.get(code, {}).get("capital", {}).get("display"):
+        elif valid_capital_display(old.get(code, {}).get("capital", {}).get("display")):
             capital = old[code]["capital"]
             retained["capital"].append(code)
         else:

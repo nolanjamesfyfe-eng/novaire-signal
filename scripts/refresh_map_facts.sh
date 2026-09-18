@@ -50,7 +50,7 @@ for attempt in $(/usr/bin/seq 1 20); do
   facts=$(/usr/bin/curl -fsS "https://novairesignal.com/map/country_facts.json?t=$stamp" || true)
   html=$(/usr/bin/curl -fsS "https://novairesignal.com/map/?t=$stamp" || true)
   if FACTS="$facts" HTML="$html" /usr/bin/python3 - <<'PY'
-import json, os
+import json, os, re
 try:
     data = json.loads(os.environ['FACTS'])
 except Exception:
@@ -58,6 +58,13 @@ except Exception:
 assert data['coverage']['mapped'] == 199
 assert data['coverage']['capitalFilled'] == 199
 assert data['coverage']['populationFilled'] == 199
+for code, fact in data['countries'].items():
+    display = fact['capital']['display']
+    assert display and display != 'Unavailable', code
+    assert not re.search(r'(?<![A-Za-z0-9])Q\d+(?![A-Za-z0-9])', display), code
+    assert not display.startswith(('http://', 'https://')), code
+    assert isinstance(fact['population']['value'], int) and fact['population']['value'] > 0, code
+    assert isinstance(fact['population']['year'], int) and 1950 <= fact['population']['year'] <= 2100, code
 assert set(data['countries']) == {row['iso2'] for row in json.load(open('map/countries.json'))}
 assert "fetch('/map/country_facts.json')" in os.environ['HTML']
 assert '<b>Capital:</b>' in os.environ['HTML'] and '<b>Population:</b>' in os.environ['HTML']
