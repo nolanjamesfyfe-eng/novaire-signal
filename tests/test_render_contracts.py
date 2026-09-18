@@ -321,7 +321,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('<summary><span class="card-title">✦ Latest from Novaire</span></summary>', self.html)
         self.assertEqual(self.html.count('class="latest-novaire-item"'), 6)
         for label in (
-            "INSTAGRAM · LATEST REEL",
+            "INSTAGRAM · PERSONAL LATEST VIDEO",
             "SECOND RENAISSANCE · LATEST VIDEO",
             "SECOND RENAISSANCE · LATEST SHORT",
             "J.NOVAIRE · LATEST VIDEO",
@@ -332,8 +332,17 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("views</span>", self.html)
         self.assertIn("likes</span>", self.html)
         self.assertIn("Top engagement", self.html)
-        self.assertIn("https://www.instagram.com/j.novaire/", self.html)
+        self.assertIn("https://www.instagram.com/reel/Dc_InViPcmO/", self.html)
         self.assertNotIn('class="latest-novaire-grid"', self.html)
+
+    def test_instagram_card_has_only_requested_engagement_metrics(self):
+        start = self.html.index("INSTAGRAM · PERSONAL LATEST VIDEO")
+        end = self.html.index("</details>", start)
+        card = self.html[start:end]
+        self.assertIn("views", card)
+        self.assertIn("likes", card)
+        self.assertNotIn("followers", card)
+        self.assertNotIn("comments", card)
 
     def test_weekly_sections_open_only_monday_and_tuesday(self):
         self.assertTrue(generate.open_early_week(datetime(2026, 8, 17)))

@@ -2,16 +2,18 @@
   "instagram": {
     "platform": "instagram",
     "type": "reel",
-    "title": "The Energy Shock of Our Lives !?💥🛢️",
-    "url": "https://www.instagram.com/reel/DdA1v-lSMAl/",
-    "published_at": "2026-09-08T04:47:16+00:00",
-    "views": null,
-    "likes": null,
-    "comments": 2,
-    "followers": 2513,
-    "verified_at": "2026-09-08T15:49:49.679044+00:00",
+    "owner_id": "5776730090",
+    "owner_username": "j.novaire",
+    "title": "Sexuality Maxxing, Part 2: The Ladyboy Follow-Up",
+    "url": "https://www.instagram.com/reel/Dc_InViPcmO/",
+    "published_at": "2026-09-07T12:44:46+00:00",
+    "views": 28441,
+    "likes": 554,
+    "verified_at": "2026-09-18T01:30:53.660875+00:00",
     "source": "Instagram public profile embed",
-    "metrics_status": "Instagram does not expose public views/watches and likes here"
+    "metrics_status": "public metrics available",
+    "metrics_verified_at": "2026-09-18T01:16:00+00:00",
+    "metrics_source": "Instagram public GraphQL media endpoint"
   },
   "youtube": {
     "second_renaissance": {
@@ -40,7 +42,7 @@
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-09-17T23:01:10.396790+00:00",
+      "verified_at": "2026-09-18T01:30:55.148224+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -69,12 +71,10 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-09-17T23:01:11.692688+00:00",
+      "verified_at": "2026-09-18T01:30:56.709429+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-09-17T23:01:11.693692+00:00",
-  "errors": {
-    "instagram": "public profile embed returned older media; retained newer verified item"
-  }
+  "refreshed_at": "2026-09-18T01:30:56.711342+00:00",
+  "errors": {}
 }

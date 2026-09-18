@@ -12,6 +12,8 @@ import requests
 
 INSTAGRAM_PROFILE_URL = "https://www.instagram.com/j.novaire/"
 INSTAGRAM_EMBED_URL = f"{INSTAGRAM_PROFILE_URL}embed/"
+INSTAGRAM_OWNER_ID = "5776730090"
+INSTAGRAM_USERNAME = "j.novaire"
 CHANNELS = {
     "second_renaissance": {
         "name": "The Second Renaissance",
@@ -58,16 +60,38 @@ def _published_timestamp(item: dict[str, Any] | None) -> float | None:
 
 
 def _keep_newest(candidate: dict[str, Any], cached: dict[str, Any] | None) -> tuple[dict[str, Any], bool]:
-    """Never let a partial upstream listing replace a known newer item."""
+    """Never let a partial upstream listing replace a known newer owned video."""
+    if not _valid_instagram_item(cached):
+        return candidate, False
     candidate_ts = _published_timestamp(candidate)
     cached_ts = _published_timestamp(cached)
     if candidate_ts is not None and cached_ts is not None and candidate_ts < cached_ts:
         return dict(cached or {}), True
+    cached_item = cached or {}
+    if candidate.get("url") == cached_item.get("url"):
+        candidate = dict(candidate)
+        for field in ("views", "likes", "metrics_verified_at", "metrics_source"):
+            if candidate.get(field) is None and cached_item.get(field) is not None:
+                candidate[field] = cached_item[field]
+        if candidate.get("views") is not None and candidate.get("likes") is not None:
+            candidate["metrics_status"] = "public metrics available"
     return candidate, False
 
 
+def _valid_instagram_item(item: dict[str, Any] | None) -> bool:
+    """Accept only a video owned by the personal account as a fallback."""
+    item = item or {}
+    return (
+        item.get("type") == "reel"
+        and str(item.get("owner_id") or "") == INSTAGRAM_OWNER_ID
+        and item.get("owner_username") == INSTAGRAM_USERNAME
+        and str(item.get("url") or "").startswith("https://www.instagram.com/reel/")
+        and bool(item.get("verified_at"))
+    )
+
+
 def discover_instagram(session=requests) -> dict[str, Any]:
-    """Discover the newest public post/Reel from Instagram's profile embed."""
+    """Discover the newest video owned by the personal Instagram account."""
     response = session.get(
         INSTAGRAM_EMBED_URL,
         headers={"User-Agent": "facebookexternalhit/1.1", "Accept-Language": "en-US,en;q=0.9"},
@@ -79,27 +103,29 @@ def discover_instagram(session=requests) -> dict[str, Any]:
         raise ValueError("Instagram embed omitted profile context")
     context_json = json.loads('"' + match.group(1) + '"')
     context = json.loads(context_json)["context"]
-    if context.get("username") != "j.novaire" or str(context.get("owner_id")) != "5776730090":
+    if context.get("username") != INSTAGRAM_USERNAME or str(context.get("owner_id")) != INSTAGRAM_OWNER_ID:
         raise ValueError("Instagram profile identity mismatch")
     media = [wrapper.get("shortcode_media") or {} for wrapper in context.get("graphql_media") or []]
-    media = [item for item in media if item.get("shortcode") and _int(item.get("taken_at_timestamp"))]
+    media = [item for item in media if item.get("shortcode") and _int(item.get("taken_at_timestamp"))
+             and item.get("is_video") is True
+             and str((item.get("owner") or {}).get("id") or "") == INSTAGRAM_OWNER_ID
+             and (item.get("owner") or {}).get("username") == INSTAGRAM_USERNAME]
     if not media:
-        raise ValueError("Instagram embed contained no public media")
+        raise ValueError("Instagram embed contained no owned public video")
     latest = max(media, key=lambda item: _int(item.get("taken_at_timestamp")) or 0)
     caption_edges = (latest.get("edge_media_to_caption") or {}).get("edges") or []
     caption = ((caption_edges[0].get("node") or {}).get("text") if caption_edges else "") or ""
     ts = datetime.fromtimestamp(_int(latest["taken_at_timestamp"]) or 0, tz=timezone.utc)
-    is_video = bool(latest.get("is_video"))
     item = {
         "platform": "instagram",
-        "type": "reel" if is_video else "post",
+        "type": "reel",
+        "owner_id": INSTAGRAM_OWNER_ID,
+        "owner_username": INSTAGRAM_USERNAME,
         "title": _caption_title(caption),
-        "url": f"https://www.instagram.com/{'reel' if is_video else 'p'}/{latest['shortcode']}/",
+        "url": f"https://www.instagram.com/reel/{latest['shortcode']}/",
         "published_at": ts.isoformat(),
         "views": _int(latest.get("video_play_count") or latest.get("video_view_count")),
         "likes": _int((latest.get("edge_media_preview_like") or {}).get("count")),
-        "comments": _int((latest.get("edge_media_to_comment") or {}).get("count")),
-        "followers": _int(context.get("followers_count")),
         "verified_at": _now(),
         "source": "Instagram public profile embed",
     }
@@ -175,7 +201,7 @@ def discover_youtube_channel(key: str, session=requests) -> dict[str, Any]:
 
 def _valid_snapshot(data: dict[str, Any]) -> bool:
     instagram = data.get("instagram") or {}
-    if not str(instagram.get("url") or "").startswith("https://www.instagram.com/") or not instagram.get("verified_at"):
+    if not _valid_instagram_item(instagram):
         return False
     for key, expected in CHANNELS.items():
         channel = (data.get("youtube") or {}).get(key) or {}

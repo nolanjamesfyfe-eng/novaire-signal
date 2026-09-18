@@ -98,9 +98,13 @@ if (!secondRenaissanceShort || (!hasVerifiedMetrics(secondRenaissanceShort) && !
   console.error('❌ Build guard failed: SECOND RENAISSANCE · LATEST SHORT is neither verified media nor an honest empty state.');
   process.exit(1);
 }
+const instagramCard = cardSegment('INSTAGRAM · PERSONAL LATEST VIDEO');
+if (!instagramCard || (!hasVerifiedMetrics(instagramCard) && !instagramCard.includes('Instagram does not expose public'))) {
+  console.error('❌ Build guard failed: personal Instagram video lacks metrics or an honest unavailable state.');
+  process.exit(1);
+}
 for (const marker of [
-  'INSTAGRAM · LATEST REEL',
-  'Instagram does not expose public views/watches and likes here',
+  'INSTAGRAM · PERSONAL LATEST VIDEO',
   'SECOND RENAISSANCE · LATEST SHORT',
   'verified 2026-',
 ]) {

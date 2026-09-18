@@ -345,7 +345,10 @@ def fetch_live_instagram_metrics(item):
         if not items:
             return item
         media = items[0]
-        current = {**item, "likes": _safe_int(media.get("like_count")), "comments": _safe_int(media.get("comment_count"))}
+        owner = media.get("user") or {}
+        if str(owner.get("pk") or owner.get("id") or "") != "5776730090" or owner.get("username") != "j.novaire":
+            raise ValueError("Instagram media owner mismatch")
+        current = {**item, "owner_id": "5776730090", "owner_username": "j.novaire", "likes": _safe_int(media.get("like_count"))}
         current["views"] = _safe_int(media.get("play_count") or media.get("view_count"))
         if current["views"] is None and (media.get("user") or {}).get("pk"):
             clips_vars = {"data": {"include_feed_video": True, "page_size": 12, "target_user_id": str(media["user"]["pk"])}}
@@ -361,8 +364,9 @@ def fetch_live_instagram_metrics(item):
                 if candidate.get("code") == shortcode:
                     current["views"] = _safe_int(candidate.get("play_count") or candidate.get("view_count"))
                     current["likes"] = _safe_int(candidate.get("like_count")) or current["likes"]
-                    current["comments"] = _safe_int(candidate.get("comment_count")) or current["comments"]
                     break
+        missing = [label for field, label in (("views", "views"), ("likes", "likes")) if current.get(field) is None]
+        current["metrics_status"] = (f"Instagram does not expose public {' and '.join(missing)} here" if missing else "public metrics available")
         return current
     except Exception as exc:
         print(f"  ⚠ Live Instagram metrics unavailable; using verified cache: {exc}")
@@ -442,7 +446,7 @@ def fetch_latest_novaire_content():
         snapshot = discover_social()
         youtube = snapshot["youtube"]
         return {
-            "instagram": snapshot["instagram"],
+            "instagram": fetch_live_instagram_metrics(snapshot["instagram"]),
             "second_renaissance": youtube["second_renaissance"],
             "j_novaire": youtube["j_novaire"],
             "clip": youtube["second_renaissance"].get("short") or youtube["second_renaissance"].get("video"),
@@ -3384,7 +3388,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             item = {"title": status or "No public upload", "url": "#", "views": None, "likes": None}
         views = item.get("views")
         likes = item.get("likes")
-        comments = item.get("comments")
         is_top = likes is not None and likes == top_likes and len(measurable) > 1
         top_badge = '<span class="metric-winner">Top engagement</span>' if is_top else ""
         visible_metrics = []
@@ -3394,8 +3397,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             visible_metrics.append(f'<span><b>{compact_count(views)}</b> views</span>')
         if likes is not None:
             visible_metrics.append(f'<span><b>{compact_count(likes)}</b> likes</span>')
-        if comments is not None:
-            visible_metrics.append(f'<span><b>{compact_count(comments)}</b> comments</span>')
         verified = item.get("verified_at") or verified_at or ""
         provenance = " · ".join(part for part in (
             status or item.get("metrics_status"), f"verified {verified[:10]}" if verified else ""
@@ -3418,13 +3419,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           </div>
         </details>'''
 
-    instagram_followers = (
-        f'<span><b>{compact_count(instagram.get("followers"))}</b> followers · '
-        f'<a href="{INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener">@j.novaire</a></span>'
-        if instagram.get("followers") is not None else f'<a href="{INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener">@j.novaire</a>'
-    )
     latest_social_items = "".join([
-        social_item(f"INSTAGRAM · LATEST {instagram.get('type', 'POST').upper()}", instagram, "Open Instagram", instagram_followers),
+        social_item("INSTAGRAM · PERSONAL LATEST VIDEO", instagram, "Open Instagram"),
         social_item("SECOND RENAISSANCE · LATEST VIDEO", tsr.get("video"), "Watch video", verified_at=tsr.get("verified_at", "")),
         social_item("SECOND RENAISSANCE · LATEST SHORT", tsr.get("short"), "Watch Short", status=tsr.get("short_status", ""), verified_at=tsr.get("verified_at", "")),
         social_item("J.NOVAIRE · LATEST VIDEO", personal.get("video"), "Watch video", verified_at=personal.get("verified_at", "")),
