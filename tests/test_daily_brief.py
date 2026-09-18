@@ -72,6 +72,17 @@ class DailyBriefTests(unittest.TestCase):
         self.assertNotIn("position:absolute", html)
         self.assertIn("overflow-wrap:anywhere", html)
 
+    def test_compact_daily_header_reuses_approved_brand_navigation(self):
+        html = render_daily_html(**self.kwargs)
+        self.assertIn('<header class="daily-header"><h1>The Daily.</h1>', html)
+        self.assertIn("font-size:1.15rem", html)
+        self.assertIn('href="/" class="signal-wordmark"', html)
+        self.assertIn('href="/flaneur" class="signal-map"', html)
+        self.assertIn('href="/portfolio/" class="signal-bolt"', html)
+        self.assertIn('viewBox=".85 .85 22.3 22.3"', html)
+        self.assertIn('viewBox="45 38 200 264"', html)
+        self.assertIn("#b59662", html)
+
     def test_daily_keeps_geo_story_and_compacts_qualifying_moves(self):
         html = render_daily_html(**self.kwargs)
         self.assertNotIn("Market mover · ZeroHedge", html)
