@@ -273,11 +273,23 @@ class RenderContractTests(unittest.TestCase):
         first_cad = self.portfolio_html.index("Live CAD", first_summary)
         first_usd = self.portfolio_html.index("Live USD", first_summary)
         self.assertLess(first_cad, first_usd)
-        self.assertIn('class="total-value cad">$', self.portfolio_html)
+        self.assertIn('class="psum-value positive">$', self.portfolio_html)
+        self.assertNotIn('class="total-value cad">$', self.portfolio_html)
         self.assertNotIn('style="color:var(--blue)">C$', self.portfolio_html)
         self.assertNotIn('style="color:var(--violet)">C$', self.portfolio_html)
         self.assertNotIn("ROI Abs.", self.portfolio_html)
         self.assertNotIn(">+109.0%</div>", self.portfolio_html)
+
+    def test_portfolio_summary_flows_directly_from_roi_note_to_sector_allocation(self):
+        note = "ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals"
+        note_start = self.portfolio_html.index(note)
+        allocation_start = self.portfolio_html.index('<div class="allocation-section">', note_start)
+        between = self.portfolio_html[note_start + len(note):allocation_start]
+
+        self.assertNotIn('<div class="totals-row">', between)
+        self.assertNotIn('<div class="total-item">', between)
+        self.assertRegex(between, r"\s*</div>\s*$")
+        self.assertIn('<div class="allocation-kicker">Sector Allocation</div>', self.portfolio_html[allocation_start:])
 
     def test_portfolio_green_and_red_values_share_highlighted_pulses(self):
         for html in (self.html, self.portfolio_html):
@@ -291,7 +303,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn('class="total-value" style="color:var(--green)', self.portfolio_html)
         self.assertIn('class="psum-value negative"', self.portfolio_html)
         self.assertGreaterEqual(self.portfolio_html.count('class="psum-value positive"'), 6)
-        self.assertGreaterEqual(self.portfolio_html.count('class="total-value positive"'), 3)
+        self.assertGreaterEqual(self.portfolio_html.count('class="total-value positive"'), 1)
         for redundant in (
             'class="psum-value positive">C$',
             'class="psum-value positive" style="font-size:1.1rem">C$',

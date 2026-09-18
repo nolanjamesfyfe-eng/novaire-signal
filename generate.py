@@ -5001,30 +5001,6 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     <div style="font-size:.56rem;color:var(--mute);margin:-2px 0 12px;text-align:center;line-height:1.45">
       ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
     </div>
-
-
-    <div class="totals-row">
-      <div class="total-item">
-        <div class="total-label">Live CAD</div>
-        <div class="total-value cad">${total_cad:,.0f}</div>
-      </div>
-      <div class="total-item">
-        <div class="total-label">Live USD</div>
-        <div class="total-value usd">${total_usd:,.0f}</div>
-      </div>
-      <div class="total-item">
-        <div class="total-label">Cost Basis CAD</div>
-        <div class="total-value positive">${port_basis_cad:,.0f}</div>
-      </div>
-      <div class="total-item">
-        <div class="total-label">ATH CAD</div>
-        <div class="total-value positive">${port_ath:,.0f}</div>
-      </div>
-      <div class="total-item">
-        <div class="total-label">ROI</div>
-        <div class="total-value {'positive' if roi_pct >= 0 else 'negative'}">{'+' if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
-      </div>
-    </div>
     <div class="allocation-section">
       {donut_svg}
       <div class="allocation-copy">
