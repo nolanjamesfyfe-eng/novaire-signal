@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd /root/clawd/novaire-signal
+cd "${NOVAIRE_SIGNAL_ROOT:-/root/clawd/novaire-signal}"
 PYTHON_BIN="${NOVAIRE_SIGNAL_PYTHON:-/usr/local/lib/hermes-agent/venv/bin/python3}"
 printf '[%s] WATCHDOG checking canonical freshness\n' "$(date -Is)"
 if "$PYTHON_BIN" scripts/verify_live_freshness.py --attempts 1 --delay 0; then
