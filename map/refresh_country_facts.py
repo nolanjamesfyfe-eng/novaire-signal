@@ -171,14 +171,21 @@ def build(previous: dict) -> tuple[dict, dict]:
             capital = {"display": "Unavailable", "source": "Unavailable", "sourceUrl": capital_query}
             unavailable["capital"].append(code)
 
+        candidate = None
         if code in wb:
             year, value = wb[code]
-            population = {"value": value, "year": year, "source": "World Bank SP.POP.TOTL", "sourceUrl": f"{WB_API}/country/{code}/indicator/{WB_INDICATOR}?format=json"}
+            candidate = {"value": value, "year": year, "source": "World Bank SP.POP.TOTL", "sourceUrl": f"{WB_API}/country/{code}/indicator/{WB_INDICATOR}?format=json"}
         elif code in un:
             year, value = un[code]
-            population = {"value": value, "year": year, "source": "UN World Population Prospects 2024", "sourceUrl": UN_WPP}
-        elif old.get(code, {}).get("population", {}).get("value"):
-            population = old[code]["population"]
+            candidate = {"value": value, "year": year, "source": "UN World Population Prospects 2024", "sourceUrl": UN_WPP}
+        old_population = old.get(code, {}).get("population", {})
+        if candidate and old_population.get("value") and old_population.get("year", 0) > candidate["year"]:
+            population = old_population
+            retained["population"].append(code)
+        elif candidate:
+            population = candidate
+        elif old_population.get("value"):
+            population = old_population
             retained["population"].append(code)
         else:
             population = {"value": None, "year": None, "source": "Unavailable", "sourceUrl": WB_SOURCE}
