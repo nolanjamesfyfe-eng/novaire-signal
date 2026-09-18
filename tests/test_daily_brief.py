@@ -47,6 +47,27 @@ class DailyBriefTests(unittest.TestCase):
         self.assertNotIn("position:absolute", html)
         self.assertIn("overflow-wrap:anywhere", html)
 
+    def test_daily_keeps_geo_story_and_compacts_qualifying_moves(self):
+        html = render_daily_html(**self.kwargs)
+        self.assertNotIn("Market mover · ZeroHedge", html)
+        self.assertNotIn("https://example.com/market", html)
+        self.assertIn("Geopolitical pressure", html)
+        self.assertIn('href="https://example.com/geo"', html)
+        self.assertIn('<section class="movers"><div class="section-label">Portfolio moves · ±5%</div>', html)
+        self.assertIn('class="mover" href="https://example.com/hg"', html)
+        self.assertIn("grid-template-columns:repeat(2,minmax(0,1fr))", html)
+        self.assertIn(".section-label{grid-column:1/-1", html)
+        self.assertIn("@media(max-width:760px){.accounts,.movers{grid-template-columns:1fr}", html)
+
+    def test_sub_five_percent_move_stays_excluded(self):
+        kwargs = dict(self.kwargs)
+        kwargs["portfolio_data"] = {
+            "HG.CN": {**self.kwargs["portfolio_data"]["HG.CN"], "close_change": 4.99}
+        }
+        html = render_daily_html(**kwargs)
+        self.assertNotIn("HydroGraph announces expansion", html)
+        self.assertIn("No portfolio position moved ±5% at the latest close.", html)
+
     def test_rrsp_parser_uses_dedicated_sheet_values(self):
         rows = [
             ["", "CAD", "HydroGraph", "CNSX:HG", "", "$6.25", "", "", "600"],
