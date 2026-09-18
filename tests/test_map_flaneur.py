@@ -54,3 +54,35 @@ def test_flaneur_route_and_legacy_redirect():
         content = (ROOT / source).read_text()
         assert 'href="/flaneur" class="signal-map"' in content
         assert 'href="/map/" class="signal-map"' not in content
+
+
+def test_mobile_uses_full_width_orthographic_globe_with_real_gestures():
+    html = (ROOT / 'map/index.html').read_text()
+    assert "matchMedia('(max-width:760px)')" in html
+    assert 'd3.geoOrthographic().clipAngle(90)' in html
+    assert 'globe.baseScale=Math.max(1,(width-16)/2)' in html
+    assert '.map-frame{width:calc(100% + 28px);margin-left:-14px' in html
+    assert '.map-canvas{height:clamp(430px,123vw,480px);min-height:430px}' in html
+    assert 'node.onpointerdown=' in html
+    assert "kind:'pinch'" in html
+    assert 'globe.zoom=Math.max(1,Math.min(3' in html
+    assert 'projection.rotate(globe.rotation).scale(globe.baseScale*globe.zoom)' in html
+    assert 'id="reset-view" aria-label="Reset globe view"' in html
+
+
+def test_mobile_globe_focus_and_backside_marker_clipping_are_preserved():
+    html = (ROOT / 'map/index.html').read_text()
+    assert 'globe.rotation=[-coords[0],-coords[1],0]' in html
+    assert "code in MICRO?MICRO[code]:f&&d3.geoCentroid(f)" in html
+    assert "d3.geoDistance([-globe.rotation[0],-globe.rotation[1]],d[1])<=Math.PI/2" in html
+    assert "if(mobile&&globe.moved)return;showTip" in html
+    assert '<b>Capital:</b>' in html
+    assert '<b>Population:</b>' in html
+    assert '<b>GDP:</b>' in html
+
+
+def test_desktop_natural_earth_behavior_remains_available():
+    html = (ROOT / 'map/index.html').read_text()
+    assert 'd3.geoNaturalEarth1().fitExtent([[24,45],[width-24,height-28]],geo)' in html
+    assert "zoom=d3.zoom().scaleExtent([1,10])" in html
+    assert "svg.transition().duration(550).call(zoom.transform" in html
