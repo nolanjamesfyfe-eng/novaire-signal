@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /root/clawd/novaire-signal
+cd "${NOVAIRE_SIGNAL_ROOT:-/root/clawd/novaire-signal}"
 
 LOG_DIR=/root/clawd/logs
 STATE_FILE="$LOG_DIR/novaire-signal-refresh-state.json"
@@ -89,12 +89,12 @@ generate_and_validate() {
 }
 
 sync_and_push() {
-  if /usr/bin/git push origin main; then
+  if /usr/bin/git push origin HEAD:main; then
     return 0
   fi
   log 'Push rejected; synchronizing once before retry'
   /usr/bin/git pull --rebase --autostash origin main
-  /usr/bin/git push origin main
+  /usr/bin/git push origin HEAD:main
 }
 
 write_state running 'refresh started'
