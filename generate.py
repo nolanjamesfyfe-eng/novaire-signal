@@ -3403,12 +3403,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
-    .header-brand .footer-logo{{white-space:nowrap}}
+    .header-brand .footer-logo{{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;letter-spacing:0}}
+    .header-brand .signal-wordmark{{display:inline-block;letter-spacing:.18em;margin-right:-.18em}}
 
-    .signal-bolt{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
+    .signal-bolt{{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
     .signal-bolt:hover{{opacity:.7;transform:scale(1.1)}}
-    .signal-map{{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px;vertical-align:baseline;position:relative;top:-1px;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
+    .signal-map{{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-map-icon{{width:1.13em;height:1.05em;display:block}}
     .signal-map-ocean{{fill:#0a0a0c}}
     .signal-map-land{{fill:#b59662}}
@@ -3826,7 +3827,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span> <a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a><a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a></div>
+    <div class="footer-logo"><a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 

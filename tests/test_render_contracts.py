@@ -170,9 +170,10 @@ class RenderContractTests(unittest.TestCase):
             header,
         )
         self.assertIn(".signal-map{display:inline-flex", self.html)
-        self.assertIn(".header-brand .footer-logo{white-space:nowrap}", self.html)
-        self.assertIn(".signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px", self.html)
-        self.assertIn(".signal-map{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px", self.html)
+        self.assertIn(".header-brand .footer-logo{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;letter-spacing:0}", self.html)
+        self.assertIn(".header-brand .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em}", self.html)
+        self.assertIn(".signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em", self.html)
+        self.assertIn(".signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em", self.html)
         self.assertNotIn(".signal-map{margin-left:23px}", self.html)
         self.assertNotIn(".signal-map{margin-left:24px", self.html)
         self.assertIn("color:#b59662", self.html)
@@ -195,8 +196,8 @@ class RenderContractTests(unittest.TestCase):
             'viewBox="45 38 200 264"',
             'M219 44Q217 43 215 44L51 180Q49 183 51 185',
             'viewBox=".85 .85 22.3 22.3"',
-            '.signal-bolt{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px',
-            '.signal-map{display:inline-flex;align-items:center;text-decoration:none;margin-left:6px',
+            '.signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em',
+            '.signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em',
             '.signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}',
             '.signal-map-icon{width:1.13em;height:1.05em;display:block}',
             '.signal-map-land{fill:#b59662}',
@@ -214,6 +215,17 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('@media (prefers-reduced-motion:reduce)', self.html)
         self.assertIn('.header-brand .signal-bolt-icon,.header-brand .signal-map-icon{animation:none;filter:none;opacity:1}', self.html)
         self.assertNotIn('scale(', self.html.split('@keyframes header-signal-illuminate', 1)[1].split('.section-bolt', 1)[0])
+
+    def test_header_icons_flank_wordmark_in_equal_visual_slots(self):
+        header = self.html.split("<!-- HEADER BRANDING -->", 1)[1].split("<!-- PERSONAL COUNTDOWNS -->", 1)[0]
+        globe = header.index('class="signal-map"')
+        wordmark = header.index('class="signal-wordmark"')
+        bolt = header.index('class="signal-bolt"')
+        self.assertLess(globe, wordmark)
+        self.assertLess(wordmark, bolt)
+        self.assertEqual(header.count('class="signal-wordmark"'), 1)
+        self.assertIn("gap:6px", self.html)
+        self.assertIn("margin-right:-.18em", self.html)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
         heading = "🔍 Catalysts · Top 5 Holdings"
