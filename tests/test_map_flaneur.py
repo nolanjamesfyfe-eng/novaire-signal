@@ -59,6 +59,19 @@ def test_flaneur_route_and_legacy_redirect():
         assert 'href="/map/" class="signal-map"' not in content
 
 
+def test_globe_asset_preserves_every_destination_with_bounded_geometry():
+    data = json.loads((ROOT / 'map/world-globe.geojson').read_text())
+
+    def point_count(value):
+        if isinstance(value, list) and value and isinstance(value[0], (int, float)):
+            return 1
+        return sum(point_count(item) for item in value) if isinstance(value, list) else 0
+
+    assert len(data['features']) == 199
+    assert len({feature['properties']['iso2'] for feature in data['features']}) == 199
+    assert sum(point_count(feature['geometry']['coordinates']) for feature in data['features']) <= 10_000
+
+
 def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
     html = (ROOT / 'map/index.html').read_text()
     assert "matchMedia('(max-width:760px)')" in html
