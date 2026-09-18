@@ -66,6 +66,26 @@ for (const type of [chromium, webkit]) test(`${type.name()} keeps painted status
   } finally {await browser.close();}
 });
 
+test('visible country facts dismiss on page scroll and reopen on country tap', async () => {
+  const {browser,page}=await open(chromium);
+  try {
+    const canvas=page.locator('#globe-canvas'),box=await canvas.boundingBox();
+    const x=box.x+box.width*.50,y=box.y+box.height*.50;
+    await page.touchscreen.tap(x,y);
+    const tip=page.locator('.tooltip');
+    await assert.doesNotReject(()=>tip.waitFor({state:'visible'}),'country tap opens facts');
+    for(const label of ['Capital:','Population:','GDP:'])assert.match(await tip.innerText(),new RegExp(label));
+    await page.evaluate(()=>scrollBy(0,Math.max(320,innerHeight*.6)));
+    await page.waitForFunction(()=>!document.querySelector('#tooltip').classList.contains('show'));
+    assert.equal(await tip.evaluate(el=>el.classList.contains('show')),false,'page scroll dismisses facts');
+    await canvas.scrollIntoViewIfNeeded();
+    const reopenedBox=await canvas.boundingBox();
+    await page.touchscreen.tap(reopenedBox.x+reopenedBox.width*.50,reopenedBox.y+reopenedBox.height*.50);
+    await assert.doesNotReject(()=>tip.waitFor({state:'visible'}),'country tap reopens facts after scroll dismissal');
+    assert.match(await tip.innerText(),/Capital: .+/);
+  } finally {await browser.close();}
+});
+
 test('canvas pointerup hit testing shows complete facts after consecutive slight taps', async () => {
   const {browser,page}=await open(chromium);
   try {
