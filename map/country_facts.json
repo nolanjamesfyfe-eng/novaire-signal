@@ -578,7 +578,7 @@
       "capital": {
         "display": "Nicosia",
         "source": "Wikidata",
-        "sourceUrl": "https://www.wikidata.org/entity/Q644636"
+        "sourceUrl": "https://www.wikidata.org/entity/Q229"
       },
       "name": "Cyprus",
       "population": {
@@ -1838,7 +1838,7 @@
       "capital": {
         "display": "Amsterdam (constitutional); The Hague (seat of government)",
         "source": "Wikidata",
-        "sourceUrl": "https://www.wikidata.org/entity/Q55"
+        "sourceUrl": "https://www.wikidata.org/entity/Q29999"
       },
       "name": "Netherlands",
       "population": {
@@ -2801,7 +2801,7 @@
     }
   },
   "refreshNote": "refreshedAt is retrieval metadata, not the population reference year",
-  "refreshedAt": "2026-09-18T01:16:36Z",
+  "refreshedAt": "2026-09-18T01:20:04Z",
   "schemaVersion": 1,
   "sources": {
     "capitals": {
