@@ -5016,9 +5016,6 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     </div>
   </div>
 
-  <!-- NET WORTH TRACKER — daily Google Sheet closes -->
-  {net_worth_tracker_html}
-
   <!-- KRAKEN CRYPTO POSITION WEIGHTING — live Google Sheet percentages -->
   <section class="card crypto-weighting-card">
     <div class="card-title">₿ Kraken Portfolio</div>
@@ -5211,21 +5208,23 @@ def main():
         portfolio_data = {}
         gs_meta = {}
 
-    print("  ⚡ Updating net-worth close history (TFSA/WS + Kraken)...")
+    print("  ⚡ Updating net-worth close history (active accounts: TFSA/WS)...")
     kraken_meta = fetch_kraken_totals()
     portfolio_history = load_portfolio_history(PORTFOLIO_HISTORY_PATH)
-    if gs_meta.get("total_cad") and kraken_meta.get("total_cad") is not None:
+    if gs_meta.get("total_cad"):
         portfolio_history = upsert_daily_snapshot(portfolio_history, gs_meta, kraken_meta)
         save_portfolio_history(portfolio_history, PORTFOLIO_HISTORY_PATH)
         print(
             f"    ✅ TFSA C${gs_meta['total_cad']:,.2f} · "
-            f"Kraken US${kraken_meta['total_usd']:,.2f} · "
+            "Kraken inactive (historical records preserved) · "
             f"{len(portfolio_history.get('snapshots', []))} daily closes"
         )
     else:
         print("    ⚠️  Incomplete Sheet totals; preserving the last verified close")
     tracker_model = build_tracker_model(portfolio_history)
-    net_worth_tracker_html = render_tracker_html(tracker_model)
+    # Keep calculating and recording history in the background, but the
+    # balance/performance panel is intentionally absent from /portfolio.
+    net_worth_tracker_html = ""
     crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
     print("  🏦 Fetching RRSP holdings from its Google Sheet tab...")

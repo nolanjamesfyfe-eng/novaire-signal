@@ -25,6 +25,9 @@ KRAKEN_GID = "338118850"
 RRSP_GID = "164741412"
 HISTORY_PATH = Path(__file__).with_name("portfolio_history.json")
 PERIODS = (("1D", 1), ("1W", 7), ("1M", 30), ("3M", 90), ("6M", 180), ("YTD", "ytd"), ("1Y", 365), ("ALL", "all"))
+# Kraken is retained in historical snapshots, but its closed account must not
+# contribute to current net-worth/ATH calculations until it is reactivated.
+ACTIVE_NET_WORTH_ACCOUNTS = ("tfsa_ws",)
 
 
 def parse_money(value: Any) -> float | None:
@@ -239,7 +242,7 @@ def upsert_daily_snapshot(
         accounts["tfsa_ws"] = account
 
     kraken_cad = kraken_meta.get("total_cad")
-    if isinstance(kraken_cad, (int, float)) and kraken_cad >= 0:
+    if "kraken" in ACTIVE_NET_WORTH_ACCOUNTS and isinstance(kraken_cad, (int, float)) and kraken_cad >= 0:
         account = {"cad": round(float(kraken_cad), 2)}
         if isinstance(kraken_meta.get("total_usd"), (int, float)):
             account["usd"] = round(float(kraken_meta["total_usd"]), 2)
@@ -257,7 +260,10 @@ def upsert_daily_snapshot(
         ),
         None,
     )
-    merged_accounts = dict((existing_same_date or {}).get("accounts") or {})
+    merged_accounts = {
+        key: value for key, value in dict((existing_same_date or {}).get("accounts") or {}).items()
+        if key in ACTIVE_NET_WORTH_ACCOUNTS
+    }
     merged_accounts.update(accounts)
     snapshot = {
         "market_date": market_date,
@@ -274,7 +280,7 @@ def upsert_daily_snapshot(
     snapshots.append(snapshot)
     snapshots.sort(key=lambda item: item.get("market_date", ""))
     history["schema_version"] = 1
-    history["source"] = "Google Sheet daily closes · TFSA/WS + Kraken"
+    history["source"] = "Google Sheet daily closes · active net-worth accounts"
     if isinstance(kraken_meta.get("inception_usd"), (int, float)):
         history["kraken_reference"] = {
             "date": "2025-10-01",
@@ -356,7 +362,8 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     accounts = {}
     active_keys = []
     kraken_reference = history.get("kraken_reference") if isinstance(history.get("kraken_reference"), dict) else None
-    for key, definition in account_defs.items():
+    for key in ACTIVE_NET_WORTH_ACCOUNTS:
+        definition = account_defs[key]
         account_data = (current.get("accounts") or {}).get(key)
         if not isinstance(account_data, dict) or not isinstance(account_data.get("cad"), (int, float)):
             continue
@@ -597,13 +604,13 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         '<section class="card net-worth-tracker" id="net-worth-tracker">'
         '<div class="tracker-head">'
         '<div><div class="card-title">⚡ Net Worth Tracker</div>'
-        '<div class="tracker-subtitle">Google Sheet daily closes · TFSA/WS + Kraken</div></div>'
+        '<div class="tracker-subtitle">Google Sheet daily closes · active accounts</div></div>'
         f'<div class="tracker-asof"><span></span>{date_label} close</div></div>'
         '<div class="tracker-total-label">Combined Net Worth</div>'
         f'<div class="tracker-total">C${model["current_total_cad"]:,.0f}</div>'
         + _interactive_chart_html(model)
         + '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
         + performance_html
-        + '<div class="tracker-foot"><strong>Account-value return, not pure investment return.</strong> Deposits, withdrawals and Kraken leverage affect these percentages. Kraken YTD is an approximate capital-path reference from the spreadsheet’s Oct 2025 US$7,000 inception balance; future closes will sharpen it automatically.</div>'
+        + '<div class="tracker-foot"><strong>Account-value return, not pure investment return.</strong> Deposits and withdrawals affect these percentages; future closes will sharpen them automatically.</div>'
         '</section>'
     )

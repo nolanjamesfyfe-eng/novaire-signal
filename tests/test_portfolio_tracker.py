@@ -54,12 +54,28 @@ class PortfolioTrackerTests(unittest.TestCase):
 
         model = portfolio_tracker.build_tracker_model(history)
 
-        self.assertAlmostEqual(model["current_total_cad"], 122777.71, places=2)
+        self.assertAlmostEqual(model["current_total_cad"], 121390.06, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1D"]["amount"], 1390.06, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["1W"]["amount"], 2390.06, places=2)
         self.assertAlmostEqual(model["accounts"]["tfsa_ws"]["periods"]["3M"]["amount"], 11390.06, places=2)
-        self.assertIsNone(model["accounts"]["kraken"]["periods"]["1D"])
-        self.assertIsNone(model["combined_periods"]["1D"])
+        self.assertNotIn("kraken", model["accounts"])
+        self.assertAlmostEqual(model["combined_periods"]["1D"]["amount"], 1390.06, places=2)
+
+    def test_closed_kraken_is_removed_from_current_snapshot_without_rewriting_history(self):
+        old = {"market_date": "2026-08-13", "accounts": {"tfsa_ws": {"cad": 120000.0}, "kraken": {"cad": 1400.0}}}
+        same_day = {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 121000.0}, "kraken": {"cad": 1387.65}}}
+        history = {"snapshots": [old, same_day]}
+
+        updated = portfolio_tracker.upsert_daily_snapshot(
+            history,
+            {"total_cad": 121390.06},
+            {"total_cad": 1387.65, "total_usd": 1000.0},
+            now=datetime(2026, 8, 14, 22, 0, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(updated["snapshots"][0], old)
+        self.assertEqual(updated["snapshots"][-1]["accounts"], {"tfsa_ws": {"cad": 121390.06}})
+        self.assertEqual(updated["snapshots"][-1]["net_worth_cad"], 121390.06)
 
     def test_render_tracker_omits_unavailable_performance_rows_and_periods(self):
         history = {"snapshots": [
@@ -83,32 +99,29 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn('id="net-worth-tracker"', html)
         self.assertIn("Net Worth Tracker", html)
         self.assertIn("Wealthsimple TFSA", html)
-        self.assertIn("Kraken", html)
+        self.assertNotIn("Kraken", html)
         self.assertIn(">1D<", html)
         self.assertIn(">YTD<", html)
 
-        self.assertIn("C$122,778", html)
+        self.assertIn("C$121,390", html)
         self.assertIn("Account-value return, not pure investment return", html)
         self.assertNotIn("Building", html)
-        self.assertNotIn("Total Net Worth", html)
+        self.assertIn("Total Net Worth", html)
         self.assertIn('data-range="ALL"', html)
         self.assertIn("Interactive total net worth history", html)
         soup = BeautifulSoup(html, "html.parser")
         performance_names = [node.get_text(" ", strip=True) for node in soup.select(".tracker-performance-name")]
-        self.assertEqual(performance_names, ["Wealthsimple TFSA"])
+        self.assertEqual(performance_names, ["Total Net Worth", "Wealthsimple TFSA"])
         self.assertEqual(len(soup.select(".tracker-hero")), 1)
 
-    def test_kraken_inception_reference_renders_separate_chart_and_estimated_ytd(self):
+    def test_kraken_inception_reference_remains_historical_but_is_not_active(self):
         history = {"kraken_reference": {"date": "2025-10-01", "label": "Oct 2025", "usd": 7000.0}, "snapshots": [
             {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 121000.0}, "kraken": {"cad": 1386.0, "usd": 1000.0}}}
         ]}
         model = portfolio_tracker.build_tracker_model(history)
-        html = portfolio_tracker.render_tracker_html(model)
-        self.assertAlmostEqual(model["accounts"]["kraken"]["periods"]["YTD"]["percent"], -85.714, places=2)
-        self.assertIn("US$1,000", html)
-        self.assertIn("−85.7%", html)
-        self.assertIn("≈−US$6,000", html)
-        self.assertIn("Account-value return, not pure investment return", html)
+        self.assertNotIn("kraken", model["accounts"])
+        self.assertEqual(history["kraken_reference"]["usd"], 7000.0)
+        self.assertEqual(history["snapshots"][0]["accounts"]["kraken"]["usd"], 1000.0)
 
     def test_ytd_uses_first_verified_current_year_close_when_january_is_unavailable(self):
         history = {"snapshots": [
