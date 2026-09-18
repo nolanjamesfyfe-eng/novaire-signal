@@ -1,6 +1,12 @@
 # Travel map data
 
-`visited.json` is the canonical public record used by `/map`. The page reloads it with `cache: no-store` on initial load and every 60 seconds. There is no browser write endpoint.
+`visited.json` is the canonical public record used by `/flaneur`. Legacy `/map`, `/map/`, and `/map/index.html` redirect permanently to `/flaneur`; source and data assets remain in `map/`. The page reloads visited data with `cache: no-store` on initial load and every 60 seconds. There is no browser write endpoint.
+
+## Personal wishlist
+
+The single-column ranking is separate from orange upcoming trips. `wishlist.js` stores validated ISO codes and lock state in `localStorage` under `novaire.flaneur.wishlist.v1`. Edit ranking unlocks rank/country cells, up/down and remove controls, plus the bottom add-country row. Each valid edit saves immediately; Save & Lock hides editing controls and persists the lock. Additional countries extend the list and its heading count. Data persists only on the same browser/origin, not across devices, and never changes the public visited/planned record. Storage failures do not claim a successful save or lock.
+
+The approved heading is `Flâneur Happenings`, with circumflex, one line, 15% smaller desktop type than the initial version, no supporting paragraph. Browser testing must cover 320px/390px mobile widths, rank changes, country additions/replacements, duplicates, save/lock/reload, and blocked storage. Run `node --test tests/wishlist.test.cjs` plus `python -m pytest tests/test_map_route.py tests/test_map_flaneur.py`.
 
 ## Record answers safely
 

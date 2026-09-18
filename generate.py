@@ -3917,7 +3917,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo"><a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 

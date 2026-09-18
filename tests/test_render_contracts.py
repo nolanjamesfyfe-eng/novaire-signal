@@ -180,7 +180,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("M2 12h20", header)
         self.assertNotIn('class="signal-map"', footer)
         self.assertIn(
-            '<a href="/map/" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">',
+            '<a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">',
             header,
         )
         self.assertIn(".signal-map{display:inline-flex", self.html)
