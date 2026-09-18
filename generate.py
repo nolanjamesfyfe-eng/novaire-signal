@@ -3391,7 +3391,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             return f"{value / 1_000:.1f}K"
         return f"{value:,}"
 
-    def social_item(kicker, item, action, extra_metric="", status="", verified_at=""):
+    def social_item(kicker, item, action, extra_metric="", status="", verified_at="", hide_positive_metrics_status=False):
         if not item:
             item = {"title": status or "No public upload", "url": "#", "views": None, "likes": None}
         views = item.get("views")
@@ -3406,8 +3406,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         if likes is not None:
             visible_metrics.append(f'<span><b>{compact_count(likes)}</b> likes</span>')
         verified = item.get("verified_at") or verified_at or ""
+        metrics_status = status or item.get("metrics_status") or ""
+        if hide_positive_metrics_status and metrics_status == "public metrics available":
+            metrics_status = ""
+        verified_label = f"verified on {verified[:10]}" if hide_positive_metrics_status and verified else (f"verified {verified[:10]}" if verified else "")
         provenance = " · ".join(part for part in (
-            status or item.get("metrics_status"), f"verified {verified[:10]}" if verified else ""
+            metrics_status, verified_label
         ) if part)
         if provenance:
             visible_metrics.append(f'<span>{escape(provenance)}</span>')
@@ -3428,7 +3432,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         </details>'''
 
     latest_social_items = "".join([
-        social_item("INSTAGRAM · PERSONAL LATEST VIDEO", instagram, "Open Instagram"),
+        social_item("INSTAGRAM · PERSONAL LATEST VIDEO", instagram, "Open Instagram", hide_positive_metrics_status=True),
         social_item("SECOND RENAISSANCE · LATEST VIDEO", tsr.get("video"), "Watch video", verified_at=tsr.get("verified_at", "")),
         social_item("SECOND RENAISSANCE · LATEST SHORT", tsr.get("short"), "Watch Short", status=tsr.get("short_status", ""), verified_at=tsr.get("verified_at", "")),
         social_item("J.NOVAIRE · LATEST VIDEO", personal.get("video"), "Watch video", verified_at=personal.get("verified_at", "")),
