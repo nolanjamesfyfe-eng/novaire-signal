@@ -111,9 +111,9 @@
     ctx.beginPath();path({type:'Sphere'});ctx.fillStyle='#0a0f0c';ctx.fill();ctx.strokeStyle='#1b2520';ctx.lineWidth=1;ctx.stroke();
     ctx.beginPath();path(d3.geoGraticule10());ctx.strokeStyle='#26352d';ctx.lineWidth=.45;ctx.stroke();
     const groups=new Map;for(const feature of geo.features){const code=feature.properties.iso2,fill=colour(code);if(!groups.has(fill))groups.set(fill,[]);groups.get(fill).push(feature.geometry)}
-    for(const [fill,geometries] of groups){ctx.beginPath();path({type:'GeometryCollection',geometries});ctx.fillStyle=fill;ctx.fill()}
+    for(const [fill,geometries] of groups){ctx.beginPath();path({type:'GeometryCollection',geometries});ctx.fillStyle=fill;ctx.fill('evenodd')}
     ctx.beginPath();path({type:'GeometryCollection',geometries:geo.features.map(feature=>feature.geometry)});ctx.strokeStyle='#111713';ctx.lineWidth=.35;ctx.stroke();
-    if(hoverCode){const feature=featureByCode.get(hoverCode);if(feature){ctx.beginPath();path(feature);ctx.strokeStyle='#99a29d';ctx.lineWidth=.8;ctx.stroke()}}
+    if(hoverCode){const feature=geo.features.find(item=>item.properties.iso2===hoverCode);if(feature){ctx.beginPath();path(feature);ctx.strokeStyle='#99a29d';ctx.lineWidth=.8;ctx.stroke()}}
     for(const [code,coords] of Object.entries(MICRO)){if(d3.geoDistance([-globe.rotation[0],-globe.rotation[1]],coords)>Math.PI/2)continue;const p=projection(coords);ctx.beginPath();ctx.arc(p[0],p[1],2.7,0,Math.PI*2);ctx.fillStyle=colour(code);ctx.fill();ctx.strokeStyle='#c7cec9';ctx.lineWidth=.55;ctx.stroke()}
     perf.last=performance.now()-started;perf.draws.push(perf.last);if(perf.draws.length>600)perf.draws.shift();
   }
