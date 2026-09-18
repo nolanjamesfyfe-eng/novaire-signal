@@ -30,9 +30,15 @@ if (failed) process.exit(1);
 const portfolioPath = path.join(root, 'portfolio', 'index.html');
 const html = fs.readFileSync(portfolioPath, 'utf8');
 const dailyHtml = fs.readFileSync(path.join(root, 'portfolio', 'daily', 'index.html'), 'utf8');
-for (const marker of ['The Daily.', 'WS TFSA', 'Kraken', 'RRSP', 'Novairecito', 'Portfolio moves · ±5%']) {
+for (const marker of ['The Daily.', 'WS TFSA', 'RRSP', 'Novairecito', 'Portfolio moves · ±5%']) {
   if (!dailyHtml.includes(marker)) {
     console.error(`❌ Build guard failed: Daily is missing ${marker}`);
+    process.exit(1);
+  }
+}
+for (const forbidden of ['Geopolitical pressure', 'Market mover · ZeroHedge', 'account-kicker\">Kraken']) {
+  if (dailyHtml.includes(forbidden)) {
+    console.error(`❌ Build guard failed: Daily contains retired module/account ${forbidden}`);
     process.exit(1);
   }
 }
