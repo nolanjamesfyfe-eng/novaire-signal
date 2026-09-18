@@ -72,23 +72,29 @@ class DailyBriefTests(unittest.TestCase):
         self.assertNotIn("position:absolute", html)
         self.assertIn("overflow-wrap:anywhere", html)
 
-    def test_compact_daily_header_reuses_approved_brand_navigation(self):
+    def test_daily_places_white_sans_title_below_canonical_brand(self):
         html = render_daily_html(**self.kwargs)
-        self.assertIn('<header class="daily-header"><h1>The Daily.</h1>', html)
-        self.assertIn("font-size:1.15rem", html)
+        self.assertIn('<header class="daily-header"><div class="signal-brand-row"', html)
+        self.assertIn('<h1 class="daily-title">The Daily.</h1>', html)
+        self.assertLess(html.index('class="signal-brand-row"'), html.index('class="daily-title"'))
+        self.assertIn("font-size:1.6363636rem", html)
+        self.assertIn("font-family:Inter,system-ui,sans-serif", html)
+        self.assertIn("color:#fff", html)
+        self.assertIn("margin:42px 0 18px", html)
         self.assertIn('href="/" class="signal-wordmark"', html)
         self.assertIn('href="/flaneur" class="signal-map"', html)
         self.assertIn('href="/portfolio/" class="signal-bolt"', html)
         self.assertIn('viewBox=".85 .85 22.3 22.3"', html)
         self.assertIn('viewBox="45 38 200 264"', html)
-        self.assertIn("#b59662", html)
+        self.assertIn("animation:signal-gold-shimmer 3.8s", html)
+        self.assertIn("animation-delay:-.72s", html)
 
-    def test_daily_keeps_geo_story_and_compacts_qualifying_moves(self):
+    def test_daily_removes_all_news_and_keeps_qualifying_moves(self):
         html = render_daily_html(**self.kwargs)
         self.assertNotIn("Market mover · ZeroHedge", html)
+        self.assertNotIn("Geopolitical pressure", html)
         self.assertNotIn("https://example.com/market", html)
-        self.assertIn("Geopolitical pressure", html)
-        self.assertIn('href="https://example.com/geo"', html)
+        self.assertNotIn("https://example.com/geo", html)
         self.assertIn('<section class="movers"><div class="section-label">Portfolio moves · ±5%</div>', html)
         self.assertIn('class="mover" href="https://example.com/hg"', html)
         self.assertIn("grid-template-columns:repeat(2,minmax(0,1fr))", html)

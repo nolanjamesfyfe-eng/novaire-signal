@@ -1,0 +1,106 @@
+{
+  "desktop": {
+    "home": {
+      "fontSize": "31.68px",
+      "centerDelta": 0,
+      "novaireColor": "rgb(240, 238, 248)",
+      "novaireStyle": "normal",
+      "signalColor": "rgb(181, 150, 98)",
+      "signalStyle": "italic",
+      "globeAnimation": "signal-gold-shimmer",
+      "boltAnimation": "signal-gold-shimmer",
+      "globeDelay": "-0.72s",
+      "boltDelay": "0s",
+      "title": null,
+      "geo": false,
+      "newsLinks": 0
+    },
+    "portfolio": {
+      "fontSize": "31.68px",
+      "centerDelta": 0,
+      "novaireColor": "rgb(240, 238, 248)",
+      "novaireStyle": "normal",
+      "signalColor": "rgb(181, 150, 98)",
+      "signalStyle": "italic",
+      "globeAnimation": "signal-gold-shimmer",
+      "boltAnimation": "signal-gold-shimmer",
+      "globeDelay": "-0.72s",
+      "boltDelay": "0s",
+      "title": null,
+      "geo": false,
+      "newsLinks": 0
+    },
+    "daily": {
+      "fontSize": "31.68px",
+      "centerDelta": 0.0078125,
+      "novaireColor": "rgb(240, 238, 248)",
+      "novaireStyle": "normal",
+      "signalColor": "rgb(181, 150, 98)",
+      "signalStyle": "italic",
+      "globeAnimation": "signal-gold-shimmer",
+      "boltAnimation": "signal-gold-shimmer",
+      "globeDelay": "-0.72s",
+      "boltDelay": "0s",
+      "title": {
+        "color": "rgb(255, 255, 255)",
+        "family": "Inter, system-ui, sans-serif",
+        "top": 118.578125,
+        "brandBottom": 71.578125
+      },
+      "geo": false,
+      "newsLinks": 0
+    }
+  },
+  "mobile": {
+    "home": {
+      "fontSize": "28.8px",
+      "centerDelta": 8.90625,
+      "novaireColor": "rgb(240, 238, 248)",
+      "novaireStyle": "normal",
+      "signalColor": "rgb(181, 150, 98)",
+      "signalStyle": "italic",
+      "globeAnimation": "signal-gold-shimmer",
+      "boltAnimation": "signal-gold-shimmer",
+      "globeDelay": "-0.72s",
+      "boltDelay": "0s",
+      "title": null,
+      "geo": false,
+      "newsLinks": 0
+    },
+    "portfolio": {
+      "fontSize": "28.8px",
+      "centerDelta": 20.640625,
+      "novaireColor": "rgb(240, 238, 248)",
+      "novaireStyle": "normal",
+      "signalColor": "rgb(181, 150, 98)",
+      "signalStyle": "italic",
+      "globeAnimation": "signal-gold-shimmer",
+      "boltAnimation": "signal-gold-shimmer",
+      "globeDelay": "-0.72s",
+      "boltDelay": "0s",
+      "title": null,
+      "geo": false,
+      "newsLinks": 0
+    },
+    "daily": {
+      "fontSize": "28.8px",
+      "centerDelta": 6.84375,
+      "novaireColor": "rgb(240, 238, 248)",
+      "novaireStyle": "normal",
+      "signalColor": "rgb(181, 150, 98)",
+      "signalStyle": "italic",
+      "globeAnimation": "signal-gold-shimmer",
+      "boltAnimation": "signal-gold-shimmer",
+      "globeDelay": "-0.72s",
+      "boltDelay": "0s",
+      "title": {
+        "color": "rgb(255, 255, 255)",
+        "family": "Inter, system-ui, sans-serif",
+        "top": 111.25,
+        "brandBottom": 65.25
+      },
+      "geo": false,
+      "newsLinks": 0
+    }
+  }
+}

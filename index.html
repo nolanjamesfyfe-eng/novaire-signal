@@ -55,6 +55,17 @@
     @media (prefers-reduced-motion:reduce){
       .header-brand .signal-bolt-icon,.header-brand .signal-map-icon,.footer .signal-bolt-icon,.footer .signal-map-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}
     }
+    .signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.6363636rem;font-weight:300;line-height:1;text-transform:uppercase;color:var(--text)}
+.signal-brand-row .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:#f0eef8;font-style:normal;text-decoration:none}
+.signal-brand-row .signal-wordmark>span{color:#b59662;font-style:italic}
+.signal-map,.signal-bolt{display:inline-flex;align-items:center;width:1.243em;height:1.155em;color:#b59662;text-decoration:none;line-height:1}
+.signal-map{justify-content:flex-end}.signal-bolt{justify-content:flex-start}
+.signal-map-icon{width:1.243em;height:1.155em;display:block}.signal-map-ocean{fill:#0a0a0c}.signal-map-land{fill:#b59662}.signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}
+.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.088em)}
+@keyframes signal-gold-shimmer{0%,100%{opacity:.94;filter:brightness(.96) saturate(.95) drop-shadow(0 0 1px rgba(181,150,98,.22))}32%{opacity:1;filter:brightness(1.18) saturate(1.08) drop-shadow(0 0 3px rgba(181,150,98,.58)) drop-shadow(0 0 7px rgba(255,224,164,.22))}46%{opacity:1;filter:brightness(1.42) saturate(.82) drop-shadow(0 0 4px rgba(255,226,169,.76)) drop-shadow(0 0 10px rgba(181,150,98,.3))}61%{opacity:.98;filter:brightness(1.1) saturate(1.04) drop-shadow(0 0 2px rgba(181,150,98,.42))}}
+.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}.signal-brand-row .signal-map-icon{animation-delay:-.72s}
+.signal-brand-row .signal-bolt:hover,.signal-brand-row .signal-map:hover{opacity:1;transform:none}.signal-brand-row .signal-bolt:focus-visible,.signal-brand-row .signal-map:focus-visible,.signal-brand-row .signal-wordmark:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
+@media(prefers-reduced-motion:reduce){.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
     .section-bolt{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}
     @keyframes neon-flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.8}94%{opacity:1}96%{opacity:.9}97%{opacity:1}}
 
@@ -214,14 +225,14 @@
     @keyframes finance-green-pulse{0%,100%{text-shadow:0 0 4px rgba(86,242,177,.45),0 0 11px rgba(86,242,177,.20);filter:brightness(1)}50%{text-shadow:0 0 7px rgba(86,242,177,.92),0 0 19px rgba(86,242,177,.48),0 0 30px rgba(86,242,177,.18);filter:brightness(1.18)}}
     @keyframes finance-red-pulse{0%,100%{text-shadow:0 0 4px rgba(255,70,91,.45),0 0 11px rgba(255,70,91,.20);filter:brightness(1)}50%{text-shadow:0 0 7px rgba(255,70,91,.92),0 0 19px rgba(255,70,91,.48),0 0 30px rgba(255,70,91,.18);filter:brightness(1.18)}}
 
-    .allocation-section{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(140,255,0,.15);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 18% 35%,rgba(140,255,0,.09),transparent 38%),radial-gradient(circle at 82% 72%,rgba(0,232,111,.065),transparent 42%),linear-gradient(145deg,rgba(121,247,255,.025),rgba(0,0,0,.2))}
+    .allocation-section{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);align-items:center;gap:clamp(20px,4vw,42px);margin-top:22px;padding:24px;border:1px solid rgba(140,255,0,.15);border-radius:16px;overflow:hidden;-webkit-tap-highlight-color:transparent;background:radial-gradient(circle at 18% 35%,rgba(140,255,0,.09),transparent 38%),radial-gradient(circle at 82% 72%,rgba(0,232,111,.065),transparent 42%),linear-gradient(145deg,rgba(121,247,255,.025),rgba(0,0,0,.2))}
     .allocation-section::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 12%,rgba(245,255,90,.055) 42%,transparent 68%);pointer-events:none}
     .pie-chart{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;justify-self:center;overflow:visible;flex-shrink:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.46))}
     .allocation-aura{fill:rgba(9,10,14,.76);stroke:rgba(140,255,0,.14);stroke-width:1}
     .allocation-track{fill:none;stroke:rgba(255,255,255,.045);stroke-width:52}
     .allocation-glow{opacity:.86}
-    .allocation-slice{stroke-linecap:butt;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease}
-    .allocation-slice:hover{opacity:.94;filter:saturate(1.55) contrast(1.08) brightness(1.18)}
+    .allocation-slice{stroke-linecap:butt;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;filter:saturate(1.42) contrast(1.07) brightness(1.1);transition:opacity .2s ease,filter .2s ease,stroke-width .2s ease}
+    .allocation-slice:hover,.allocation-slice:focus-visible,.allocation-slice.is-active{opacity:1;stroke-width:56;filter:saturate(1.62) contrast(1.1) brightness(1.22)}
     .allocation-gloss-layer{pointer-events:none;mix-blend-mode:screen}
     .allocation-gloss{opacity:.34}
     .allocation-core{fill:url(#allocation-core);stroke:rgba(121,247,255,.17);stroke-width:1.25}
@@ -229,7 +240,8 @@
     .allocation-copy{min-width:0}
     .allocation-kicker{margin-bottom:12px;color:var(--gold);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
     .allocation-legend{display:grid;grid-template-columns:1fr;gap:8px}
-    .legend-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem}
+    .legend-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:9px 10px;border:1px solid rgba(140,255,0,.075);border-radius:9px;background:rgba(4,4,7,.34);font-size:.7rem;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease}
+    .legend-item:hover,.legend-item:focus-visible,.legend-item.is-active{border-color:rgba(140,255,0,.32);background:rgba(140,255,0,.065);box-shadow:inset 0 0 18px rgba(140,255,0,.035)}
     .legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--swatch-start),var(--swatch-end));box-shadow:inset 0 0 4px rgba(255,255,255,.8),0 0 8px var(--swatch-start),0 0 18px color-mix(in srgb,var(--swatch-end) 72%,transparent)}
     .legend-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
     .legend-pct{color:#d8d3e2;margin-left:auto;font-variant-numeric:tabular-nums;font-weight:500}
@@ -456,13 +468,13 @@
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map"><svg class="signal-map-icon" viewBox=".85 .85 22.3 22.3" aria-hidden="true" focusable="false"><circle class="signal-map-ocean" cx="12" cy="12" r="10.25"/><g class="signal-map-land"><path d="M3.08 8.67 4.2 6.43l1.7-1.67 2.29-1.34 2.03-.68 1.02.42-.43.88-1.61.44-.56.9-1.02.18-.42 1.18-1.12.16-.35 1.2.7 1.14 1.47.49.63.9-.16 1.14-1.02.66-.34 1.14-1.1-.04-.55-1.02-1.28-.5-.7-1.45-1.05-.81-.49-1.07Z"/><path d="m9.12 13.04 1.05-.52 1.39.33.91 1.06-.17 1.36-.78 1.15-.22 1.6-.83 1.13-.31 1.7-.67.69-.73-1.43-.54-1.78-.1-1.47-.67-1.18.58-1.08.2-.86Z"/><path d="m12.45 2.06 1.29-.23 1.06.38-.24.73-1.23.41-.88-.38Z"/><path d="m13.42 5.04 1.08-.83 2.25-.47 2.03.75 1.39 1.23.65 1.17-.63.74-1.46-.27-.83.48-1.18-.53-.93.5-1.05-.31-.86-.98-.98-.17-.43-.65Z"/><path d="m14.26 8.23 1.18-.39 1.24.44.82 1.08-.13 1.56-.72 1.14-.36 1.88-.98 1.77-.9.65-.7-1.03-.23-1.66-.78-1.22.25-1.54-.37-1.2.41-1.04Z"/><path d="m17.57 16.51 1.24-.55 1.28.28.76.82-.24 1.12-1.12.64-1.3-.17-.75-.83Z"/></g><circle class="signal-map-rim" cx="12" cy="12" r="10.25"/></svg></a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg class="signal-bolt-icon" viewBox="45 38 200 264" aria-hidden="true" focusable="false"><path fill="currentColor" d="M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z"/></svg></a></div>
+    <div class="signal-brand-row" aria-label="Novaire Signal navigation"><a href="/flaneur" class="signal-map" title="Flâneur happenings" aria-label="Flâneur happenings"><svg class="signal-map-icon" viewBox=".85 .85 22.3 22.3" aria-hidden="true" focusable="false"><circle class="signal-map-ocean" cx="12" cy="12" r="10.25"/><g class="signal-map-land"><path d="M3.08 8.67 4.2 6.43l1.7-1.67 2.29-1.34 2.03-.68 1.02.42-.43.88-1.61.44-.56.9-1.02.18-.42 1.18-1.12.16-.35 1.2.7 1.14 1.47.49.63.9-.16 1.14-1.02.66-.34 1.14-1.1-.04-.55-1.02-1.28-.5-.7-1.45-1.05-.81-.49-1.07Z"/><path d="m9.12 13.04 1.05-.52 1.39.33.91 1.06-.17 1.36-.78 1.15-.22 1.6-.83 1.13-.31 1.7-.67.69-.73-1.43-.54-1.78-.1-1.47-.67-1.18.58-1.08.2-.86Z"/><path d="m12.45 2.06 1.29-.23 1.06.38-.24.73-1.23.41-.88-.38Z"/><path d="m13.42 5.04 1.08-.83 2.25-.47 2.03.75 1.39 1.23.65 1.17-.63.74-1.46-.27-.83.48-1.18-.53-.93.5-1.05-.31-.86-.98-.98-.17-.43-.65Z"/><path d="m14.26 8.23 1.18-.39 1.24.44.82 1.08-.13 1.56-.72 1.14-.36 1.88-.98 1.77-.9.65-.7-1.03-.23-1.66-.78-1.22.25-1.54-.37-1.2.41-1.04Z"/><path d="m17.57 16.51 1.24-.55 1.28.28.76.82-.24 1.12-1.12.64-1.3-.17-.75-.83Z"/></g><circle class="signal-map-rim" cx="12" cy="12" r="10.25"/></svg></a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio"><svg class="signal-bolt-icon" viewBox="45 38 200 264" aria-hidden="true" focusable="false"><path fill="currentColor" d="M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z"/></svg></a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
   <!-- DATE / GENERATION LINE -->
   <div class="dateline">
-    <div class="date">Friday, September 18, 2026</div>
+    <div class="date">Saturday, September 19, 2026</div>
     <!-- removed generated timestamp -->
   </div>
 
@@ -472,22 +484,22 @@
     <div class="signal-accordion-body"><div class="countdown-strip-grid">
       <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Tbilisi, Georgia trip page">
         <div class="countdown-label">Tbilisi 🍷</div>
-        <div class="countdown-days">11 days</div>
+        <div class="countdown-days">10 days</div>
         <div class="countdown-date">Sep 29 · 11:50pm</div>
       </a>
       <a class="countdown-item" href="https://thailand.edc.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the EDC Thailand website">
         <div class="countdown-label">EDC PHUKET 🎡</div>
-        <div class="countdown-days">91 days</div>
+        <div class="countdown-days">90 days</div>
         <div class="countdown-date">Dec 18</div>
       </a>
       <a class="countdown-item" href="https://manontherise.com/retreat" target="_blank" rel="noopener noreferrer" aria-label="Open the Man On The Rise Retreat landing page">
         <div class="countdown-label">MAN ON THE RISE 🏝️</div>
-        <div class="countdown-days">123 days</div>
+        <div class="countdown-days">122 days</div>
         <div class="countdown-date">Jan 19</div>
       </a>
       <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Soviet Side Quest website">
         <div class="countdown-label">SOVIET SIDE QUEST 🚂</div>
-        <div class="countdown-days">348 days</div>
+        <div class="countdown-days">347 days</div>
         <div class="countdown-date">Sep 2027</div>
       </a>
     </div></div>
@@ -527,40 +539,40 @@
     <summary><span class="card-title">🌤 Weather</span></summary>
     <div class="signal-accordion-body"><div class="weather-grid">
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">08:57</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:24</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">28°C</div>
-          <div class="weather-range"><span>H 30°</span><span>L 25°</span></div>
-          <div class="condition">Overcast ☁️</div>
+          <div class="temp">25°C</div>
+          <div class="weather-range"><span>H 31°</span><span>L 24°</span></div>
+          <div class="condition">Drizzle 🌦</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Rainy Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 82% · AQI 29 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 97% · AQI 32 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">20:57</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">14:24</div>
           <div class="city">🇨🇴 Medellín</div>
-          <div class="temp">21°C</div>
-          <div class="weather-range"><span>H 29°</span><span>L 16°</span></div>
-          <div class="condition">Clear Sky ☀️</div>
+          <div class="temp">30°C</div>
+          <div class="weather-range"><span>H 30°</span><span>L 16°</span></div>
+          <div class="condition">Mainly Clear 🌤</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 81% · AQI 51 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 40% · AQI 54 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">19:57</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">13:24</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">18°C</div>
-          <div class="weather-range"><span>H 22°</span><span>L 7°</span></div>
+          <div class="weather-range"><span>H 20°</span><span>L 8°</span></div>
           <div class="condition">Clear Sky ☀️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Autumn</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 52% · AQI 35 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 55% · AQI 51 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">22:57</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">16:24</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">15°C</div>
-          <div class="weather-range"><span>H 19°</span><span>L 9°</span></div>
-          <div class="condition">Clear Sky ☀️</div>
+          <div class="weather-range"><span>H 17°</span><span>L 12°</span></div>
+          <div class="condition">Overcast ☁️</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 78% · AQI 58 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 76% · AQI 54 (Moderate)</div>
         </div></div></div>
   </details>
 
@@ -570,20 +582,20 @@
     <div class="market-clock">
       <div class="market-primary"><span class="market-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz-offset="-4"></b></div>
       <div class="market-futures" aria-label="Live major US index futures">
-        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-09-18T01:46:55Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
+        <div class="market-future" data-future-symbol="ES=F" data-quote-time="2026-09-18T19:13:50Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
           <span>S&amp;P 500</span>
-          <b data-future-price>7,699.00</b>
-          <em data-future-change class="positive">+1.89%</em>
+          <b data-future-price>7,708.75</b>
+          <em data-future-change class="positive">+0.90%</em>
         </div>
-        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-09-18T01:46:54Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
+        <div class="market-future" data-future-symbol="NQ=F" data-quote-time="2026-09-18T19:13:49Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
           <span>NASDAQ 100</span>
-          <b data-future-price>29,672.50</b>
-          <em data-future-change class="positive">+2.45%</em>
+          <b data-future-price>29,836.50</b>
+          <em data-future-change class="positive">+1.32%</em>
         </div>
-        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-09-18T01:46:55Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
+        <div class="market-future" data-future-symbol="YM=F" data-quote-time="2026-09-18T19:13:50Z" title="CME/CBOT front-month future · Yahoo Finance · CME/CBOT front month">
           <span>DOW JONES</span>
-          <b data-future-price>52,204.00</b>
-          <em data-future-change class="positive">+1.35%</em>
+          <b data-future-price>52,113.00</b>
+          <em data-future-change class="positive">+0.59%</em>
         </div></div>
       <div class="market-calendar">NYSE Thanksgiving · Nov 26 <span>·</span> TSX Thanksgiving · Oct 12</div>
     </div>
@@ -596,23 +608,23 @@
       
         <div class="commodity-item" data-commodity="GOLD">
           <div class="commodity-name c-gold">Gold</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="GOLD">$4,389</span><span class="commodity-unit">/oz</span></div>
-          <div class="commodity-change" data-comm-chg="GOLD"><span style="color:var(--dim)">—</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="GOLD">$4,420</span><span class="commodity-unit">/oz</span></div>
+          <div class="commodity-change" data-comm-chg="GOLD"><span class="positive">+0.47%</span></div>
         </div>
         <div class="commodity-item" data-commodity="SILVER">
           <div class="commodity-name c-silver">Silver</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="SILVER">$66.08</span><span class="commodity-unit">/oz</span></div>
-          <div class="commodity-change" data-comm-chg="SILVER"><span class="positive">+2.79%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="SILVER">$67.02</span><span class="commodity-unit">/oz</span></div>
+          <div class="commodity-change" data-comm-chg="SILVER"><span class="positive">+1.39%</span></div>
         </div>
         <div class="commodity-item" data-commodity="COPPER">
           <div class="commodity-name c-copper">Copper</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="COPPER">$6.6230</span><span class="commodity-unit">/lb</span></div>
-          <div class="commodity-change" data-comm-chg="COPPER"><span class="positive">+2.98%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="COPPER">$6.6993</span><span class="commodity-unit">/lb</span></div>
+          <div class="commodity-change" data-comm-chg="COPPER"><span class="positive">+0.57%</span></div>
         </div>
         <div class="commodity-item" data-commodity="WTI">
           <div class="commodity-name c-oil">Crude Oil</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="WTI">$101.00</span><span class="commodity-unit">/bbl</span></div>
-          <div class="commodity-change" data-comm-chg="WTI"><span class="negative">-1.40%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="WTI">$99.79</span><span class="commodity-unit">/bbl</span></div>
+          <div class="commodity-change" data-comm-chg="WTI"><span style="color:var(--dim)">—</span></div>
         </div>
         <div class="commodity-item" data-commodity="URANIUM_SPOT">
           <div class="commodity-name c-uranium">Uranium</div>
@@ -621,8 +633,8 @@
         </div>
         <div class="commodity-item" data-commodity="DIESEL" title="Front-month NY Harbor ULSD futures × 42 gallons">
           <div class="commodity-name c-gas">Diesel</div>
-          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="DIESEL">$203.90</span><span class="commodity-unit">/bbl</span></div>
-          <div class="commodity-change" data-comm-chg="DIESEL"><span class="negative">-7.47%</span></div>
+          <div class="commodity-price"><span class="commodity-price-value" data-comm-price="DIESEL">$202.67</span><span class="commodity-unit">/bbl</span></div>
+          <div class="commodity-change" data-comm-chg="DIESEL"><span class="negative">-5.64%</span></div>
         </div>
     </div>
   </div>
@@ -634,43 +646,43 @@
       
         <div class="crypto-item" data-coin="BTC">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC">$76,726</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.46%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC">$81,150</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+5.96%</span></div>
         </div>
         <div class="crypto-item" data-coin="ETH">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH">$2,458</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+1.19%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH">$2,628</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+7.14%</span></div>
         </div>
         <div class="crypto-item" data-coin="SOL">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL">$102.43</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+3.17%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL">$113.70</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+12.56%</span></div>
         </div>
         <div class="crypto-item" data-coin="ZEC">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC">$1,481</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+8.34%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC">$1,465</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="negative">-0.91%</span></div>
         </div>
         <div class="crypto-item" data-coin="ADA">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
-          <div class="crypto-price" data-crypto-price="ADA">$0.2090</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+6.42%</span></div>
+          <div class="crypto-price" data-crypto-price="ADA">$0.2224</div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+10.21%</span></div>
         </div>
         <div class="crypto-item" data-coin="TON">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
-          <div class="crypto-price" data-crypto-price="TON">$1.3410</div>
-          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+1.98%</span></div>
+          <div class="crypto-price" data-crypto-price="TON">$1.3730</div>
+          <div class="crypto-change" data-crypto-chg="TON"><span class="positive">+2.39%</span></div>
         </div>
         <div class="crypto-item" data-coin="SUI">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI">$0.7613</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+5.99%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI">$0.8089</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+10.52%</span></div>
         </div>
         <div class="crypto-item" data-coin="NIGHT">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT">$0.0223</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+8.01%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT">$0.0239</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+9.37%</span></div>
         </div>
     </div>
   </div>
@@ -680,14 +692,14 @@
     <div class="card-title">💱 FX Rates — 1 USD =</div>
     <div class="fx-row">
       
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇨🇦</span> CAD</div><span class="fx-rate" data-fx-rate="CAD">1.399</span><span class="fx-change" data-fx-chg="CAD"><span class="positive">+0.42%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇹🇭</span> THB</div><span class="fx-rate" data-fx-rate="THB">33.42</span><span class="fx-change" data-fx-chg="THB"><span class="positive">+0.45%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇦🇺</span> AUD</div><span class="fx-rate" data-fx-rate="AUD">1.4069</span><span class="fx-change" data-fx-chg="AUD"><span class="positive">+0.28%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇨🇴</span> COP</div><span class="fx-rate" data-fx-rate="COP">3,136</span><span class="fx-change" data-fx-chg="COP"><span class="positive">+0.49%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇪🇺</span> EUR</div><span class="fx-rate" data-fx-rate="EUR">0.8724</span><span class="fx-change" data-fx-chg="EUR"><span class="positive">+0.69%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇷🇺</span> RUB</div><span class="fx-rate" data-fx-rate="RUB">84.23</span><span class="fx-change" data-fx-chg="RUB"><span class="positive">+0.04%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇰🇷</span> KRW</div><span class="fx-rate" data-fx-rate="KRW">1,380</span><span class="fx-change" data-fx-chg="KRW"><span class="positive">+1.13%</span></span></div>
-      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇯🇵</span> JPY</div><span class="fx-rate" data-fx-rate="JPY">156.09</span><span class="fx-change" data-fx-chg="JPY"><span class="positive">+0.47%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇨🇦</span> CAD</div><span class="fx-rate" data-fx-rate="CAD">1.3977</span><span class="fx-change" data-fx-chg="CAD"><span class="negative">-0.09%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇹🇭</span> THB</div><span class="fx-rate" data-fx-rate="THB">33.26</span><span class="fx-change" data-fx-chg="THB"><span class="negative">-0.48%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇦🇺</span> AUD</div><span class="fx-rate" data-fx-rate="AUD">1.4015</span><span class="fx-change" data-fx-chg="AUD"><span class="negative">-0.38%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇨🇴</span> COP</div><span class="fx-rate" data-fx-rate="COP">3,169</span><span class="fx-change" data-fx-chg="COP"><span class="positive">+1.06%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇪🇺</span> EUR</div><span class="fx-rate" data-fx-rate="EUR">0.8702</span><span class="fx-change" data-fx-chg="EUR"><span class="negative">-0.25%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇷🇺</span> RUB</div><span class="fx-rate" data-fx-rate="RUB">84.50</span><span class="fx-change" data-fx-chg="RUB"><span class="positive">+0.32%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇰🇷</span> KRW</div><span class="fx-rate" data-fx-rate="KRW">1,385</span><span class="fx-change" data-fx-chg="KRW"><span class="positive">+0.38%</span></span></div>
+      <div class="fx-chip"><div class="fx-ccy"><span class="fx-flag">🇯🇵</span> JPY</div><span class="fx-rate" data-fx-rate="JPY">157.01</span><span class="fx-change" data-fx-chg="JPY"><span class="positive">+0.59%</span></span></div>
     </div>
   </div>
 
@@ -701,15 +713,15 @@
     <div id="zerohedge-feed">
         <div class="headline">
           <span class="headline-num">1</span>
-          <a href="https://www.zerohedge.com/political/we-are-not-recession-so-why-are-we-borrowing-it" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">We Are Not In A Recession... So Why Are We Borrowing Like It?</a>
+          <a href="https://www.zerohedge.com/technology/barclays-sees-two-key-drivers-potential-tesla-q3-delivery-beat" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Barclays Sees Two Key Drivers Behind A Potential Tesla Q3 Delivery Beat</a>
         </div>
         <div class="headline">
           <span class="headline-num">2</span>
-          <a href="https://www.zerohedge.com/geopolitical/turkish-state-takes-near-total-control-us-sanctioned-bank-over-irgc-ties" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Turkish State Takes Near-Total Control Of US-Sanctioned Bank Over IRGC Ties</a>
+          <a href="https://www.zerohedge.com/markets/k-shaped-economy-reality-or-media-driven-perception" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">K-Shaped Economy: Reality Or Media-Driven Perception</a>
         </div>
         <div class="headline">
           <span class="headline-num">3</span>
-          <a href="https://www.zerohedge.com/political/apparently-not-criminal-damage" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Apparently This Is Not Criminal Damage...</a>
+          <a href="https://www.zerohedge.com/markets/auto-stocks-slide-vw-cuts-outlook-industry-urges-trump-keep-byd-cars-out" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">Auto Stocks Slide As VW Cuts Outlook, Industry Urges Trump To Keep BYD Cars Out</a>
         </div></div>
   </div>
 
@@ -728,7 +740,7 @@
   <script>
   (function() {
     let signalPool = [];
-    let zhPool = [{"title": "We Are Not In A Recession... So Why Are We Borrowing Like It?", "url": "https://www.zerohedge.com/political/we-are-not-recession-so-why-are-we-borrowing-it"}, {"title": "Turkish State Takes Near-Total Control Of US-Sanctioned Bank Over IRGC Ties", "url": "https://www.zerohedge.com/geopolitical/turkish-state-takes-near-total-control-us-sanctioned-bank-over-irgc-ties"}, {"title": "Apparently This Is Not Criminal Damage...", "url": "https://www.zerohedge.com/political/apparently-not-criminal-damage"}, {"title": "Belarus Gets Partial US Sanctions Relief After Freeing More Political Prisoners", "url": "https://www.zerohedge.com/geopolitical/belarus-gets-partial-us-sanctions-relief-after-freeing-more-political-prisoners"}, {"title": "Britain's Speech Police: How The State Learned To Fear Its People", "url": "https://www.zerohedge.com/political/britains-speech-police-how-state-learned-fear-its-people"}, {"title": "Russian Frigate Fires Flares At Danish Military Helicopter,\u00a0Copenhagen Summons Ambassador", "url": "https://www.zerohedge.com/geopolitical/russian-frigate-fires-flares-danish-military-helicopter-copenhagen-summons-ambassador"}, {"title": "Turkey Takes On Houthis? Any Support To Saudis Faces Huge Blowback", "url": "https://www.zerohedge.com/geopolitical/turkey-takes-houthis-any-support-saudis-faces-huge-blowback"}, {"title": "9 Terrifying Truths About Long-Term Economic Crises", "url": "https://www.zerohedge.com/personal-finance/9-terrifying-truths-about-long-term-economic-crises"}, {"title": "J-50 Designers Reveal \"Leapfrog\" Technology For China's Next-Gen Stealth Fighter", "url": "https://www.zerohedge.com/military/j-50-designers-reveal-leapfrog-technology-chinas-next-gen-stealth-fighter"}, {"title": "How Trump's Iran Operation Turned Into A Forever War", "url": "https://www.zerohedge.com/geopolitical/how-trumps-iran-operation-turned-forever-war"}, {"title": "Paramount Eyes California Exit, Hunts Nashville Offices As \"Insane Communist Wackos\" Ruin State", "url": "https://www.zerohedge.com/political/paramount-eyes-california-exit-hunts-nashville-offices-insane-communist-wackos-ruin-state"}, {"title": "Kirk Family Plans Wrongful Death Suit Against Utah Valley University, Others", "url": "https://www.zerohedge.com/political/kirk-family-plans-wrongful-death-suit-against-utah-valley-university-others"}, {"title": "JPMorgan Admits It No Longer Has Any Idea What Happens Next In The Iran War", "url": "https://www.zerohedge.com/markets/jpmorgan-admits-it-no-longer-has-any-idea-what-happens-next-iran-war"}, {"title": "McElligott's Thoughts On The Doomsday Scenario", "url": "https://www.zerohedge.com/markets/mcelligotts-thoughts-doomsday-scenario-ahead"}, {"title": "USDA Says Crackdown On SNAP Fraud Prevented $5.8 Billion In Taxpayer Losses", "url": "https://www.zerohedge.com/markets/usda-says-crackdown-snap-fraud-prevented-58-billion-taxpayer-losses"}, {"title": "US stocks gained in a reversal of the post-FOMC moves amid Fed credibility boost and lower oil prices - Newsquawk Daily Asia-Pac Market Open", "url": "https://www.zerohedge.com/markets/us-stocks-gained-reversal-post-fomc-moves-amid-fed-credibility-boost-and-lower-oil-prices"}, {"title": "Most Crowded Hedge Fund Stocks And Themes: September Update", "url": "https://www.zerohedge.com/markets/most-crowded-hedge-fund-stocks-and-themes-september-update"}, {"title": "Why Warsh Will Have To Hike Over 200bps In The Next 12 Months To Contain Inflation", "url": "https://www.zerohedge.com/markets/why-warsh-has-hike-over-200bps-next-12-months-contain-inflation"}, {"title": "AI-Fueled Global Earnings Boom At Risk As Dems Push Data-Center Moratoriums", "url": "https://www.zerohedge.com/markets/ai-fuels-global-earnings-boom-dems-push-data-center-moratoriums-could-spark-global-stock"}, {"title": "Forget AIpocalypse, Death Of The Basis-Trade Could Kill The Long-Bond", "url": "https://www.zerohedge.com/markets/forget-aipocalypse-death-basis-trade-could-kill-long-bond"}, {"title": "Goldman Throws In The Towel Again, Lists 3 Reasons Why Warsh Will Hike Again Next Month", "url": "https://www.zerohedge.com/markets/goldman-throws-towel-again-lists-3-reasons-why-warsh-will-hike-again-next-month"}, {"title": "Even Higher Rates Than Priced Are Needed To End Inflation", "url": "https://www.zerohedge.com/markets/even-higher-rates-priced-are-needed-end-inflation"}, {"title": "Jobless Claims Tumble To 57-Year Lows", "url": "https://www.zerohedge.com/markets/jobless-claims-tumble-57-year-lows"}, {"title": "Housing Starts & Permits Plunge In August As Homebuilder Confidence Nears COVID Lows", "url": "https://www.zerohedge.com/markets/housing-starts-permits-plunge-august-homebuilder-confidence-nears-covid-lows"}, {"title": "\"Everything Rally\" As Futures Rebound From Post-Fed Selloff; Yields And Oil Drop", "url": "https://www.zerohedge.com/markets/everything-rally-futures-rebound-post-fed-selloff-yields-and-oil-drop"}, {"title": "UK Gilt Yields Tumble As BoE Scraps Bond Sales, Holds Rates (As Expected)", "url": "https://www.zerohedge.com/markets/uk-gilt-yields-tumble-boe-scraps-bond-sales-holds-rates-expected"}, {"title": "Generac Surges Most On Record As Amazon's Generator Deal Electrifies Data Centers", "url": "https://www.zerohedge.com/markets/generac-surges-most-record-amazons-generator-deal-electrifies-data-centers"}, {"title": "DXY holds near post-FOMC highs; GBP awaits the BoE later - Newsquawk US Market Open", "url": "https://www.zerohedge.com/markets/dxy-holds-near-post-fomc-highs-gbp-awaits-boe-later-newsquawk-us-market-open"}, {"title": "Wall Street Reacts To Fed's First Hike Since 2023: A \"Dose Of Accommodation\" Out, A Dose Of Selling In", "url": "https://www.zerohedge.com/markets/wall-street-reacts-feds-first-hike-2023-dose-selling-dose-accommodation-out"}];
+    let zhPool = [{"title": "Barclays Sees Two Key Drivers Behind A Potential Tesla Q3 Delivery Beat", "url": "https://www.zerohedge.com/technology/barclays-sees-two-key-drivers-potential-tesla-q3-delivery-beat"}, {"title": "K-Shaped Economy: Reality Or Media-Driven Perception", "url": "https://www.zerohedge.com/markets/k-shaped-economy-reality-or-media-driven-perception"}, {"title": "Auto Stocks Slide As VW Cuts Outlook, Industry Urges Trump To Keep BYD Cars Out", "url": "https://www.zerohedge.com/markets/auto-stocks-slide-vw-cuts-outlook-industry-urges-trump-keep-byd-cars-out"}, {"title": "Yen Jumps On Report Of BOJ \"Rate Check\" But It's \"Too Little Too Late\"", "url": "https://www.zerohedge.com/markets/yen-plunges-after-two-dissenters-upstage-bojs-rate-hike-full-wall-street-reaction"}, {"title": "Chinese DRAM Giant Enters Booming Flash Memory Market To Take On Samsung, SanDisk", "url": "https://www.zerohedge.com/markets/chinese-dram-giant-enter-booming-flash-memory-market-take-samsung-sanddisk"}, {"title": "\"Good Manners\" Have Never Been An Effective Strategy For Retaining Sovereignty", "url": "https://www.zerohedge.com/markets/good-manners-have-never-been-effective-strategy-retaining-sovereignty"}, {"title": "Ukrainian Drone Hits Russian Nuclear Plant Days After Trump Energy Truce Plea", "url": "https://www.zerohedge.com/geopolitical/ukrainian-drones-hit-russian-nuclear-plant-days-after-trump-energy-truce-plea"}, {"title": "Researchers Used Claude To Hack OpenAI Employee Accounts", "url": "https://www.zerohedge.com/ai/researchers-used-claude-hack-openai-employee-accounts"}, {"title": "South Korean President Announces No Military Support To US Hormuz Mission", "url": "https://www.zerohedge.com/geopolitical/south-korean-president-announces-no-military-support-us-hormuz-mission"}, {"title": "AfD Preps Talks With Moscow To Reopen Cheap Gas Flows To Germany", "url": "https://www.zerohedge.com/energy/afd-germany-first-mandate-preps-moscow-talks-reopen-cheap-gas-pipeline"}, {"title": "The Purge: Princeton Faculty Reach Perfect Zero Support For Republicans", "url": "https://www.zerohedge.com/markets/purge-princeton-faculty-reach-perfect-zero-support-republicans"}, {"title": "Treasury Sanctions Crypto Exchange Behind Iran's Bitcoin Tolls On Hormuz Ships", "url": "https://www.zerohedge.com/crypto/treasury-sanctions-crypto-exchange-behind-irans-bitcoin-tolls-hormuz-ships"}, {"title": "Amid 2nd Largest OpEx In History, Citadel Securities Chief Strategist Warns 'September Weakness May Not Be Finished'", "url": "https://www.zerohedge.com/markets/amid-2nd-largest-opex-history-citadel-securities-chief-strategist-warns-september-weakness"}, {"title": "'Positioning Cleaner After Deleveraging Event': Top Goldman Macro Traders Reflect On A Central-Bank-Heavy Week", "url": "https://www.zerohedge.com/markets/positioning-cleaner-after-deleveraging-event-top-goldman-macro-traders-reflect-central-bank"}, {"title": "A Tightening In Global Financial Conditions Is Truly Underway", "url": "https://www.zerohedge.com/markets/tightening-global-financial-conditions-truly-underway"}, {"title": "McElligott's Thoughts On The Doomsday Scenario", "url": "https://www.zerohedge.com/markets/mcelligotts-thoughts-doomsday-scenario-ahead"}, {"title": "JPMorgan Admits It No Longer Has Any Idea What Happens Next In The Iran War", "url": "https://www.zerohedge.com/markets/jpmorgan-admits-it-no-longer-has-any-idea-what-happens-next-iran-war"}, {"title": "Panic Index Jumps, Sentiment Slumps; Goldman Flows Gurus Warn CTAs Are Sellers In All Scenarios Next Week", "url": "https://www.zerohedge.com/markets/panic-index-jumps-sentiment-slumps-goldman-flows-gurus-warn-ctas-are-sellers-all-scenarios"}, {"title": "Defense Stocks Fall Out Of Favor. Polymarket Might Have The Answer As To Why", "url": "https://www.zerohedge.com/markets/defense-stocks-fall-out-favor-polymarket-might-have-answer-why"}, {"title": "Futures Flat Ahead Of Massive $7 Trillion Quad-Witching As Yields Resume Rise", "url": "https://www.zerohedge.com/markets/futures-flat-ahead-massive-7-trillion-quad-witching-yields-resume-rise"}, {"title": "BoJ lifts rates by 25bps, but Ueda strikes a dovish tone, leading to JPY pressure; US equity futures are firmer - Newsquawk US Market Open", "url": "https://www.zerohedge.com/markets/boj-lifts-rates-25bps-ueda-strikes-dovish-tone-leading-jpy-pressure-us-equity-futures-are"}, {"title": "APAC stocks were mostly higher as the region took impetus from the gains on Wall Street; USD/JPY rises post-BoJ - Newsquawk EU Market Open", "url": "https://www.zerohedge.com/markets/apac-stocks-were-mostly-higher-region-took-impetus-gains-wall-street-usdjpy-rises-post-boj"}, {"title": "USDA Says Crackdown On SNAP Fraud Prevented $5.8 Billion In Taxpayer Losses", "url": "https://www.zerohedge.com/markets/usda-says-crackdown-snap-fraud-prevented-58-billion-taxpayer-losses"}, {"title": "US stocks gained in a reversal of the post-FOMC moves amid Fed credibility boost and lower oil prices - Newsquawk Daily Asia-Pac Market Open", "url": "https://www.zerohedge.com/markets/us-stocks-gained-reversal-post-fomc-moves-amid-fed-credibility-boost-and-lower-oil-prices"}, {"title": "Most Crowded Hedge Fund Stocks And Themes: September Update", "url": "https://www.zerohedge.com/markets/most-crowded-hedge-fund-stocks-and-themes-september-update"}];
     let signalCursor = 0;
     let zhCursor = 0;
 
@@ -860,22 +872,15 @@
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W38" data-fingerprint="d7981b2ad31abbdc" data-items="[&quot;731a6e71d7ecb13f&quot;,&quot;312780a06c12bdff&quot;,&quot;3e289fc3f8af6133&quot;,&quot;c0db2bc49e76d3cc&quot;]" >
+  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W38" data-fingerprint="2a02e51c60f85b0a" data-items="[&quot;ff4a2af590296271&quot;,&quot;3e289fc3f8af6133&quot;,&quot;312780a06c12bdff&quot;,&quot;c0db2bc49e76d3cc&quot;]" >
     <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on Sep 14</span></summary>
     <div class="signal-accordion-body">
-            <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMi4AFBVV95cUxPZFZ6U2hLcWlmTTc4TEVaNGR5M0hkYWhGVktsZFB0N0NLYjIyODZ1N0JIUHpIY0s0b05iWC1UZ2Y4WHk2VGhSZlhLdDZUQmlDUXZSd2lqNWREdXNkamJSSFZrUF9QRG9qNG5UTVZSQlhwVmUxLXpfZU5CeVZfMDBwM3o3MmxJbXpfaWkwbVFmUlZhWjcyX2xhY0dYWlMxVXhWUVNkUVU3OVNFRlFMU0FSd2FFTVpoc0lEbXJoVVhUcDA1Tk15dEVUejJST1pwQTB0QmhMUkpPQkdfeGVHaHV3TQ?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open HG catalyst article">
+            <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZ0Y1am9TWHVWNFJrWU8tNHBlT1Z1VkV0bW5wUWdTSGpBM20tSWZwV2x3YTg2TDIxekJHalJBb3d5ZHVGTnNVUEwzZUEwQW44Ty12bmRzQ1dEMHEzRk5rd2Jld19BT3NmTjdLTVh1eDRyelk3VlpieUlwNUVCNkZpWEJIQk5rY25FbDdsZkJZbnhlRThiQTZOUVpLNU9jYk0wVmI4X0VMWFo?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open HG catalyst article">
               <span class="catalyst-ticker">HG</span>
               <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Sep 10 · kalkine.ca</span>
+              <span class="catalyst-badge">Sep 18 · kalkine.ca</span>
               <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">HydroGraph Clean Power Stock Faces Fresh Pressure as Graphene Commercialization Uncertainty Raises Downside Risk - kalkine.ca</span>
-            </a>
-            <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMimAFBVV95cUxNbkFqVm91MjhUbklkQjJQOENkaHU5QWpEd0ZGWDhPdTJ3YzVsbUNQQ09WOTRDLUNPS3hGbVBGODM3bG5uaGJrSnVQU056SmZnUU9Odm9kZHB3U1QyTmRnVkNoSXlBa0U2N3JDbjlHX3hDWVlfdFNDWm4xMkxPUGJwWXFHcWlqaHlzUmhJd190Vk42WGJjOFJyVA?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open GLO catalyst article">
-              <span class="catalyst-ticker">GLO</span>
-              <span class="catalyst-sep"> · </span>
-              <span class="catalyst-badge">Sep 17 · Benin Web TV</span>
-              <span class="catalyst-sep"> — </span>
-              <span class="catalyst-headline">Niger: $414.2 million for the Dasa uranium mine, contingent on conditions - Benin Web TV</span>
+              <span class="catalyst-headline">Why Did HydroGraph Clean Power (CN:HG) Surge 10.968% on 18 September 2026? - kalkine.ca</span>
             </a>
             <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNVjB3Yy0yaUZ4b1JFR2Zvc2xtazNGN3oxdHlLSEdpMUt0dVhSTWwzYXI1LUNDd053b2hFNjc5WmxCTTRPcEdBcDl4OFgyMVZqUmhzd2EtM2sxYlJ6cVJLWDNqa1NPTXE2aWkzNlhsOVBUdGZyOFNvZC1uRl9hUFZDZWJlaWJEY2o4SlRFV3hfajR4NWFTT2g2TlBlYjBWbHJKN0N4OWpXTmJxMXAzUnV6S2ZRbHkzUk5yYUhlbzhVbm9Gc0tVVWZF?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open URNJ catalyst article">
               <span class="catalyst-ticker">URNJ</span>
@@ -883,6 +888,13 @@
               <span class="catalyst-badge">Sep 13 · Stock Traders Daily</span>
               <span class="catalyst-sep"> — </span>
               <span class="catalyst-headline">(URNJ) and the Role of Price-Sensitive Allocations - Stock Traders Daily</span>
+            </a>
+            <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMimAFBVV95cUxNbkFqVm91MjhUbklkQjJQOENkaHU5QWpEd0ZGWDhPdTJ3YzVsbUNQQ09WOTRDLUNPS3hGbVBGODM3bG5uaGJrSnVQU056SmZnUU9Odm9kZHB3U1QyTmRnVkNoSXlBa0U2N3JDbjlHX3hDWVlfdFNDWm4xMkxPUGJwWXFHcWlqaHlzUmhJd190Vk42WGJjOFJyVA?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open GLO catalyst article">
+              <span class="catalyst-ticker">GLO</span>
+              <span class="catalyst-sep"> · </span>
+              <span class="catalyst-badge">Sep 17 · Benin Web TV</span>
+              <span class="catalyst-sep"> — </span>
+              <span class="catalyst-headline">Niger: $414.2 million for the Dasa uranium mine, contingent on conditions - Benin Web TV</span>
             </a>
             <a class="catalyst-item catalyst-link" href="https://investors.bannermanenergy.com/announcements/7728189" target="_blank" rel="noopener noreferrer" aria-label="Open BNNLF catalyst article">
               <span class="catalyst-ticker">BNNLF</span>
@@ -921,16 +933,16 @@
   <summary><span class="card-title">🎰 Polymarket · Novairecito</span><span class="accordion-score"><b>45W / 34L</b> · 57% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:var(--green)">+41.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin reach $110,000 by December ...</span><span style="font-weight:600;color:var(--green)">+4.0%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Bitcoin have the best performance i...</span><span style="font-weight:600;color:var(--red)">-2.6%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:var(--green)">+41.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">No · Will Bitcoin reach $110,000 by December ...</span><span style="font-weight:600;color:var(--red)">-1.7%</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will Bitcoin have the best performance i...</span><span style="font-weight:600;color:var(--green)">+2.6%</span></div>
   </div>
 </details>
 
 <details class="card signal-accordion trading-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-0.0%</b></span></summary>
+    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-1.9%</b></span></summary>
     <div class="signal-accordion-body">
-      <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · 3 trades · Since Feb 24, 2026</div>
+      <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · 0 trades · Since Feb 24, 2026</div>
       <div data-alpaca-positions>
-      <div data-alpaca-symbol="URNJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ <span class="alpaca-weight" style="color:var(--mute)">· 36.4% weight</span></span><span style="font-weight:600;color:var(--red)">-23.0%</span></div><div data-alpaca-symbol="EXK" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK <span class="alpaca-weight" style="color:var(--mute)">· 30.5% weight</span></span><span style="font-weight:600;color:var(--green)">+18.7%</span></div><div data-alpaca-symbol="SILJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ <span class="alpaca-weight" style="color:var(--mute)">· 24.1% weight</span></span><span style="font-weight:600;color:var(--green)">+5.0%</span></div><div data-alpaca-symbol="SMR" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR <span class="alpaca-weight" style="color:var(--mute)">· 9.0% weight</span></span><span style="font-weight:600;color:var(--red)">-27.5%</span></div>
+      <div data-alpaca-symbol="URNJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 URNJ <span class="alpaca-weight" style="color:var(--mute)">· 35.8% weight</span></span><span style="font-weight:600;color:var(--red)">-25.8%</span></div><div data-alpaca-symbol="EXK" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 EXK <span class="alpaca-weight" style="color:var(--mute)">· 31.2% weight</span></span><span style="font-weight:600;color:var(--green)">+19.0%</span></div><div data-alpaca-symbol="SILJ" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SILJ <span class="alpaca-weight" style="color:var(--mute)">· 24.5% weight</span></span><span style="font-weight:600;color:var(--green)">+4.9%</span></div><div data-alpaca-symbol="SMR" style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">🟢 SMR <span class="alpaca-weight" style="color:var(--mute)">· 8.5% weight</span></span><span style="font-weight:600;color:var(--red)">-32.5%</span></div>
       </div>
     </div>
   </details><script>document.getElementById("darvas-card")?.removeAttribute("open");</script>
@@ -941,11 +953,11 @@
     <summary><span class="card-title">🇹🇭 Thailand</span></summary>
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
-      <div class="thai-news-compact" style="margin-top:10px"><div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="34" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/09/18/anutin-urged-officials-to-expel-undesirable-foreigners-on-cemeteries-the-pm-urged-them-to-die-at-home/">
-          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Sep 18, 08:57 BKK</div>
+      <div class="thai-news-compact" style="margin-top:10px"><div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="26" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/09/18/anutin-urged-officials-to-expel-undesirable-foreigners-on-cemeteries-the-pm-urged-them-to-die-at-home/">
+          <div class="thai-news-source">Thai Examiner · Expat-relevant · Verified Sep 19, 02:24 BKK</div>
           <a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/09/18/anutin-urged-officials-to-expel-undesirable-foreigners-on-cemeteries-the-pm-urged-them-to-die-at-home/" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">Anutin urged officials to expel undesirable foreigners. On cemeteries, the PM urged them to die at home</a>
           <div class="thai-news-summary">Anutin tells governors to use new deportation powers without hesitation as Thailand targets troublesome foreigners, illegal businesses, nominee firms and landholding while warning:</div>
-          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 34.</div>
+          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score 26.</div>
         </div></div>
     </div>
   </details>
@@ -984,13 +996,13 @@
           <summary>
             <span class="latest-novaire-copy">
               <span class="latest-novaire-kicker">INSTAGRAM · PERSONAL LATEST VIDEO</span>
-              <strong>Sexuality Maxxing, Part 2: The Ladyboy Follow-Up</strong>
+              <strong>You&#x27;re the Star. And the Product. #tiktok #attentioneconomy #socialmediaaddiction</strong>
             </span>
             <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div class="latest-novaire-detail">
-            <div class="latest-novaire-metrics"><span><b>28.4K</b> views</span><span><b>554</b> likes</span><span>verified on 2026-09-18</span><span class="metric-winner">Top engagement</span></div>
-            <a href="https://www.instagram.com/reel/Dc_InViPcmO/" target="_blank" rel="noopener">Open Instagram →</a>
+            <div class="latest-novaire-metrics"><span>Instagram does not expose public views/watches and likes here · verified on 2026-09-18</span></div>
+            <a href="https://www.instagram.com/reel/DdanX-ns1Xe/" target="_blank" rel="noopener">Open Instagram →</a>
           </div>
         </details><details class="latest-novaire-item">
           <summary>
@@ -1001,20 +1013,20 @@
             <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div class="latest-novaire-detail">
-            <div class="latest-novaire-metrics"><span><b>31</b> views</span><span><b>2</b> likes</span><span>verified 2026-09-18</span></div>
+            <div class="latest-novaire-metrics"><span><b>33</b> views</span><span><b>2</b> likes</span><span>verified 2026-09-18</span></div>
             <a href="https://www.youtube.com/watch?v=NUIMIrW1TZ0" target="_blank" rel="noopener">Watch video →</a>
           </div>
         </details><details class="latest-novaire-item">
           <summary>
             <span class="latest-novaire-copy">
               <span class="latest-novaire-kicker">SECOND RENAISSANCE · LATEST SHORT</span>
-              <strong>TikTok Makes You the Star. What Does It Take? #tiktok #agency  #influencerculture</strong>
+              <strong>This Is Water #ThisIsWater #Philosophy #SelfAwareness</strong>
             </span>
             <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div class="latest-novaire-detail">
-            <div class="latest-novaire-metrics"><span><b>1.2K</b> views</span><span><b>5</b> likes</span><span>verified 2026-09-18</span></div>
-            <a href="https://www.youtube.com/shorts/-z9O2YVzUu4" target="_blank" rel="noopener">Watch Short →</a>
+            <div class="latest-novaire-metrics"><span><b>19</b> views</span><span>verified 2026-09-18</span></div>
+            <a href="https://www.youtube.com/shorts/HWwuod_cktY" target="_blank" rel="noopener">Watch Short →</a>
           </div>
         </details><details class="latest-novaire-item">
           <summary>
@@ -1037,7 +1049,7 @@
             <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div class="latest-novaire-detail">
-            <div class="latest-novaire-metrics"><span><b>1.1K</b> views</span><span><b>13</b> likes</span><span>verified 2026-09-18</span></div>
+            <div class="latest-novaire-metrics"><span><b>1.1K</b> views</span><span><b>13</b> likes</span><span>verified 2026-09-18</span><span class="metric-winner">Top engagement</span></div>
             <a href="https://www.youtube.com/shorts/Uzi1DytWUqg" target="_blank" rel="noopener">Watch Short →</a>
           </div>
         </details>

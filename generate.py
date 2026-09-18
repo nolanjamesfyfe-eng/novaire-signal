@@ -3034,6 +3034,9 @@ SIGNAL_MAP_SVG = (
     '</svg>'
 )
 
+# Shared canonical branding overrides the legacy inline constants above.
+from signal_brand import SIGNAL_BOLT_SVG, SIGNAL_MAP_SVG, signal_brand_css, signal_brand_markup
+
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
@@ -3515,6 +3518,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </details>"""
 
+    brand_css = signal_brand_css()
+    header_brand = signal_brand_markup(wordmark_link=False)
+
     # Full HTML template
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -3573,6 +3579,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     @media (prefers-reduced-motion:reduce){{
       .header-brand .signal-bolt-icon,.header-brand .signal-map-icon,.footer .signal-bolt-icon,.footer .signal-map-icon{{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
     }}
+    {brand_css}
     .section-bolt{{display:inline-block;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols 2',sans-serif;font-size:1em;line-height:1;vertical-align:-.04em}}
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
 
@@ -3975,7 +3982,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    {header_brand}
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -4689,6 +4696,8 @@ renderActionSteps();
 
 def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, gs_meta=None, bot_accounts_html="", evo_fund_html="", net_worth_tracker_html="", crypto_weighting_html=""):
     """Render standalone portfolio page at /portfolio"""
+    brand_css = signal_brand_css()
+    portfolio_brand = signal_brand_markup()
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
     gen_time  = now.strftime("%H:%M ICT")
@@ -4831,10 +4840,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }}
     html{{scroll-behavior:smooth;font-size:110%}}
+    @media(min-width:761px){{html{{font-size:121%}}}}
     body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
     @media(min-width:900px){{body{{zoom:1.1}}}}
     .container{{max-width:980px;margin:0 auto}}
     .header-brand{{text-align:center;padding-bottom:20px}}
+    {brand_css}
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
     .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}}
     .card{{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}}
@@ -5021,14 +5032,14 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 <body>
 <div class="container">
 
+  <div class="header-brand">
+    {portfolio_brand}
+    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
+  </div>
+
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
     <a href="/" class="back-link">← Back to Signal</a>
     <div style="display:flex;gap:7px"><a href="/portfolio/" class="back-link" style="color:var(--gold)">Portfolio</a><a href="/portfolio/daily/" class="back-link">Daily</a></div>
-  </div>
-
-  <div class="header-brand">
-    <div class="footer-logo">Novaire <span>Signal</span></div>
-    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
   </div>
 
   <div class="dateline">
@@ -5111,7 +5122,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <!-- ECOSYSTEM LINKS -->
   <div class="footer">
-    <div class="footer-logo">Novaire <span>Signal</span></div>
+    {portfolio_brand}
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novairesignal.com" class="eco-link">Novaire Signal</a>
