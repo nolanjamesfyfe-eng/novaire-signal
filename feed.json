@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "count": 10,
-  "accountsWithPosts": 10,
-  "fetchedAt": "2026-09-17T23:01:05.288601+00:00",
+  "count": 9,
+  "accountsWithPosts": 9,
+  "fetchedAt": "2026-09-18T01:57:19.788394+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
@@ -18,13 +18,13 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-09-17T13:00:26+00:00",
       "createdAtMs": 1789650026000,
-      "likes": 7636,
-      "retweets": 946,
+      "likes": 7807,
+      "retweets": 959,
       "url": "https://x.com/WatcherGuru/status/2100570577035747588",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 8582
+      "engagementScore": 8766
     },
     {
       "id": "2100628440911163393",
@@ -33,13 +33,28 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-09-17T16:50:22+00:00",
       "createdAtMs": 1789663822000,
-      "likes": 5110,
-      "retweets": 568,
+      "likes": 5607,
+      "retweets": 617,
       "url": "https://x.com/KobeissiLetter/status/2100628440911163393",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 5678
+      "engagementScore": 6224
+    },
+    {
+      "id": "2100754039449206963",
+      "text": "One of the largest diesel refineries in the Midwest is offline https://t.co/JSwuHrNfBw",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-09-18T01:09:27+00:00",
+      "createdAtMs": 1789693767000,
+      "likes": 946,
+      "retweets": 201,
+      "url": "https://x.com/zerohedge/status/2100754039449206963",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 1147
     },
     {
       "id": "2100552021052948729",
@@ -48,43 +63,28 @@
       "handle": "nntaleb",
       "createdAt": "2026-09-17T11:46:42+00:00",
       "createdAtMs": 1789645602000,
-      "likes": 718,
+      "likes": 746,
       "retweets": 10,
       "url": "https://x.com/nntaleb/status/2100552021052948729",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 728
+      "slot_order": 4,
+      "engagementScore": 756
     },
     {
-      "id": "2100650232417562880",
-      "text": "JP Morgan throws in the towel on oil https://t.co/kxJKHamBTg",
+      "id": "2100694489576710252",
+      "text": "Is Iran striking an oil tanker a day at this point?\n\nAt what point will we run out of tankers willing to risk transiting the Strait of Hormuz? https://t.co/p05qF6CwhA",
       "author": "JoshYoung",
       "handle": "JoshYoung",
-      "createdAt": "2026-09-17T18:16:58+00:00",
-      "createdAtMs": 1789669018000,
-      "likes": 617,
-      "retweets": 34,
-      "url": "https://x.com/JoshYoung/status/2100650232417562880",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 651
-    },
-    {
-      "id": "2100701358621872217",
-      "text": "Judge Refers Soros-Backed Philly DA For Criminal Probe https://t.co/CzoGUicQQs",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-09-17T21:40:07+00:00",
-      "createdAtMs": 1789681207000,
-      "likes": 146,
-      "retweets": 31,
-      "url": "https://x.com/zerohedge/status/2100701358621872217",
+      "createdAt": "2026-09-17T21:12:49+00:00",
+      "createdAtMs": 1789679569000,
+      "likes": 263,
+      "retweets": 11,
+      "url": "https://x.com/JoshYoung/status/2100694489576710252",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 177
+      "engagementScore": 274
     },
     {
       "id": "2100624328228278775",
@@ -93,13 +93,13 @@
       "handle": "quakes99",
       "createdAt": "2026-09-17T16:34:02+00:00",
       "createdAtMs": 1789662842000,
-      "likes": 79,
-      "retweets": 20,
+      "likes": 92,
+      "retweets": 23,
       "url": "https://x.com/quakes99/status/2100624328228278775",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 99
+      "engagementScore": 115
     },
     {
       "id": "2100598505588871368",
@@ -108,43 +108,28 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-09-17T14:51:25+00:00",
       "createdAtMs": 1789656685000,
-      "likes": 77,
+      "likes": 84,
       "retweets": 12,
       "url": "https://x.com/BambroughKevin/status/2100598505588871368",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 89
+      "engagementScore": 96
     },
     {
-      "id": "2100581731984175395",
-      "text": "@cognosmundi @scientificecon ???\nfinally come around?\nfor years I've said the Fed is not independent and it was only a matter of time before a merger...if it not done officially.",
+      "id": "2100738840193388748",
+      "text": "When the Fed creates money out of thin air, they are essentially counterfeiting money, stealing the purchasing power of US citizens, and they should be stopped from doing this.",
       "author": "SantiagoAuFund",
       "handle": "SantiagoAuFund",
-      "createdAt": "2026-09-17T13:44:46+00:00",
-      "createdAtMs": 1789652686000,
-      "likes": 11,
-      "retweets": 0,
-      "url": "https://x.com/SantiagoAuFund/status/2100581731984175395",
+      "createdAt": "2026-09-18T00:09:03+00:00",
+      "createdAtMs": 1789690143000,
+      "likes": 30,
+      "retweets": 4,
+      "url": "https://x.com/SantiagoAuFund/status/2100738840193388748",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 11
-    },
-    {
-      "id": "2100379787487269148",
-      "text": "Generac’s stock soars more than 30% after Amazon deal cements company’s status as an AI-power player $GNRC https://t.co/fwN8XLPiKY",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-09-17T00:22:19+00:00",
-      "createdAtMs": 1789604539000,
-      "likes": 3,
-      "retweets": 1,
-      "url": "https://x.com/BarbarianCap/status/2100379787487269148",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 4
+      "engagementScore": 34
     },
     {
       "id": "2100674190974288292",
@@ -158,7 +143,7 @@
       "url": "https://x.com/hkuppy/status/2100674190974288292",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
+      "slot_order": 9,
       "engagementScore": 1
     }
   ]
