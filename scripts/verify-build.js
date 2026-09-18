@@ -54,7 +54,7 @@ const lockedDesignMarkers = [
   '.dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}',
   '.signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.243em;height:1.155em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}',
   '.signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.243em;height:1.155em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}',
-  '.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.082em)}',
+  '.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.088em)}',
   '@keyframes signal-gold-shimmer{',
   '.footer .signal-bolt-icon,.footer .signal-map-icon{animation:signal-gold-shimmer 3.8s',
   'M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z',
