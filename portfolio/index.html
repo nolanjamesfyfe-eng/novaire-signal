@@ -19,17 +19,18 @@
     html{scroll-behavior:smooth;font-size:110%}
     body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}
     @media(min-width:900px){body{zoom:1.1}}
-    .container{max-width:720px;margin:0 auto}
+    .container{max-width:980px;margin:0 auto}
     .header-brand{text-align:center;padding-bottom:20px}
     .dateline{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}
     .dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
     .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
     .card-title{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
     .card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}
-    .portfolio-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
-    .psum-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}
-    .psum-label{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
-    .psum-value{font-family:var(--serif);font-size:1.35rem;font-weight:400}
+    .portfolio-summary{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-bottom:12px}
+    .psum-item{min-width:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 5px;text-align:center}
+    .psum-label{font-size:.47rem;color:var(--dim);text-transform:uppercase;letter-spacing:.075em;margin-bottom:3px;white-space:nowrap}
+    .psum-value{font-family:var(--serif);font-size:1.05rem;font-weight:400;white-space:nowrap}
+    .psum-value.unavailable{color:var(--mute)}
     .portfolio-table{width:100%;border-collapse:collapse;font-size:.78rem}
     .chart-ticker{cursor:pointer;text-decoration:underline;text-decoration-color:rgba(181,150,98,.38);text-underline-offset:3px}
     .chart-ticker:hover,.chart-ticker:focus-visible{color:#dfc48f;outline:none;text-decoration-color:currentColor}
@@ -160,7 +161,8 @@
     .back-link{display:inline-block;margin-bottom:20px;font-size:.7rem;color:var(--dim);text-decoration:none;letter-spacing:.08em}
     .back-link:hover{color:var(--gold)}
     @media(max-width:600px){
-      .portfolio-summary{grid-template-columns:repeat(3,1fr)}
+      .portfolio-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+      .psum-item:last-child{grid-column:1/-1}
       .totals-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}
       .totals-row .total-item{text-align:left;min-width:0}
       .totals-row .total-value{font-size:1.05rem;white-space:nowrap}
@@ -209,7 +211,7 @@
   </div>
 
   <div class="dateline">
-    <div class="date">Friday, September 18, 2026</div>
+    <div class="date">Saturday, September 19, 2026</div>
   </div>
 
   <div class="card">
@@ -221,106 +223,114 @@
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="HG.CN" data-chart-name="Hydrograph" tabindex="0" role="button" aria-label="Open HG price chart">HG</td>
             <td style="color:var(--dim);font-size:.8em">Hydrograph</td>
-            <td style="text-align:right">10,507</td>
-            <td style="text-align:right">$5.22</td>
-            <td style="text-align:right"><span class="positive">+11.78%</span></td>
-            <td style="text-align:right;font-weight:600">$39,213</td>
+            <td style="text-align:right">10,607</td>
+            <td style="text-align:right">$4.95</td>
+            <td style="text-align:right"><span class="negative">-5.17%</span></td>
+            <td style="text-align:right;font-weight:600">$37,525</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="FVL.TO" data-chart-name="FreeGold Ventures" tabindex="0" role="button" aria-label="Open FVL price chart">FVL</td>
             <td style="color:var(--dim);font-size:.8em">FreeGold Ventures</td>
             <td style="text-align:right">12,450</td>
             <td style="text-align:right">$1.23</td>
-            <td style="text-align:right"><span class="positive">+6.03%</span></td>
-            <td style="text-align:right;font-weight:600">$10,948</td>
-          </tr>
-          <tr>
-            <td class="ticker chart-ticker" data-chart-symbol="GLO.TO" data-chart-name="Global Atomic" tabindex="0" role="button" aria-label="Open GLO price chart">GLO</td>
-            <td style="color:var(--dim);font-size:.8em">Global Atomic</td>
-            <td style="text-align:right">21,000</td>
-            <td style="text-align:right">$0.60</td>
-            <td style="text-align:right"><span class="negative">-15.49%</span></td>
-            <td style="text-align:right;font-weight:600">$9,008</td>
+            <td style="text-align:right"><span class="negative">-0.41%</span></td>
+            <td style="text-align:right;font-weight:600">$10,900</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="URNJ" data-chart-name="Sprott Uranium JR" tabindex="0" role="button" aria-label="Open URNJ price chart">URNJ</td>
             <td style="color:var(--dim);font-size:.8em">Sprott Uranium JR</td>
             <td style="text-align:right">400</td>
-            <td style="text-align:right">$22.03</td>
-            <td style="text-align:right"><span class="negative">-0.23%</span></td>
-            <td style="text-align:right;font-weight:600">$8,812</td>
+            <td style="text-align:right">$22.08</td>
+            <td style="text-align:right"><span class="negative">-2.15%</span></td>
+            <td style="text-align:right;font-weight:600">$8,834</td>
+          </tr>
+          <tr>
+            <td class="ticker chart-ticker" data-chart-symbol="GLO.TO" data-chart-name="Global Atomic" tabindex="0" role="button" aria-label="Open GLO price chart">GLO</td>
+            <td style="color:var(--dim);font-size:.8em">Global Atomic</td>
+            <td style="text-align:right">21,000</td>
+            <td style="text-align:right">$0.56</td>
+            <td style="text-align:right"><span class="negative">-5.83%</span></td>
+            <td style="text-align:right;font-weight:600">$8,480</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="BNNLF" data-chart-name="Bannerman UR ASX" tabindex="0" role="button" aria-label="Open BNNLF price chart">BNNLF</td>
             <td style="color:var(--dim);font-size:.8em">Bannerman UR ASX</td>
             <td style="text-align:right">1,300</td>
-            <td style="text-align:right">$2.57</td>
-            <td style="text-align:right"><span class="negative">-4.46%</span></td>
-            <td style="text-align:right;font-weight:600">$3,341</td>
+            <td style="text-align:right">$2.68</td>
+            <td style="text-align:right"><span class="positive">+4.28%</span></td>
+            <td style="text-align:right;font-weight:600">$3,484</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="SILJ" data-chart-name="Silver JR" tabindex="0" role="button" aria-label="Open SILJ price chart">SILJ</td>
             <td style="color:var(--dim);font-size:.8em">Silver JR</td>
             <td style="text-align:right">100</td>
-            <td style="text-align:right">$28.62</td>
-            <td style="text-align:right"><span class="negative">-1.92%</span></td>
-            <td style="text-align:right;font-weight:600">$2,862</td>
+            <td style="text-align:right">$30.09</td>
+            <td style="text-align:right"><span class="negative">-0.02%</span></td>
+            <td style="text-align:right;font-weight:600">$3,009</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="VZLA.TO" data-chart-name="Vizsla Silver" tabindex="0" role="button" aria-label="Open VZLA price chart">VZLA</td>
             <td style="color:var(--dim);font-size:.8em">Vizsla Silver</td>
             <td style="text-align:right">600</td>
-            <td style="text-align:right">$5.59</td>
-            <td style="text-align:right"><span class="positive">+8.54%</span></td>
-            <td style="text-align:right;font-weight:600">$2,398</td>
+            <td style="text-align:right">$5.68</td>
+            <td style="text-align:right"><span class="positive">+1.70%</span></td>
+            <td style="text-align:right;font-weight:600">$2,438</td>
+          </tr>
+          <tr>
+            <td class="ticker chart-ticker" data-chart-symbol="MOLY.TO" data-chart-name="GreenLand Resources" tabindex="0" role="button" aria-label="Open MOLY price chart">MOLY</td>
+            <td style="color:var(--dim);font-size:.8em">GreenLand Resources</td>
+            <td style="text-align:right">1,900</td>
+            <td style="text-align:right">$1.66</td>
+            <td style="text-align:right"><span class="positive">+7.10%</span></td>
+            <td style="text-align:right;font-weight:600">$2,254</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="DML.TO" data-chart-name="Denison" tabindex="0" role="button" aria-label="Open DML price chart">DML</td>
             <td style="color:var(--dim);font-size:.8em">Denison</td>
             <td style="text-align:right">750</td>
-            <td style="text-align:right">$4.05</td>
-            <td style="text-align:right"><span class="positive">+3.05%</span></td>
-            <td style="text-align:right;font-weight:600">$2,172</td>
-          </tr>
-          <tr>
-            <td class="ticker chart-ticker" data-chart-symbol="SVE.V" data-chart-name="Silver One" tabindex="0" role="button" aria-label="Open SVE price chart">SVE</td>
-            <td style="color:var(--dim);font-size:.8em">Silver One</td>
-            <td style="text-align:right">6,000</td>
-            <td style="text-align:right">$0.46</td>
-            <td style="text-align:right"><span class="positive">+9.52%</span></td>
-            <td style="text-align:right;font-weight:600">$1,973</td>
+            <td style="text-align:right">$3.97</td>
+            <td style="text-align:right"><span class="negative">-1.98%</span></td>
+            <td style="text-align:right;font-weight:600">$2,128</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="AAG.V" data-chart-name="Aftermath Silver" tabindex="0" role="button" aria-label="Open AAG price chart">AAG</td>
             <td style="color:var(--dim);font-size:.8em">Aftermath Silver</td>
             <td style="text-align:right">4,000</td>
-            <td style="text-align:right">$0.69</td>
-            <td style="text-align:right"><span class="positive">+7.81%</span></td>
-            <td style="text-align:right;font-weight:600">$1,973</td>
+            <td style="text-align:right">$0.70</td>
+            <td style="text-align:right"><span class="positive">+1.45%</span></td>
+            <td style="text-align:right;font-weight:600">$2,001</td>
+          </tr>
+          <tr>
+            <td class="ticker chart-ticker" data-chart-symbol="SVE.V" data-chart-name="Silver One" tabindex="0" role="button" aria-label="Open SVE price chart">SVE</td>
+            <td style="color:var(--dim);font-size:.8em">Silver One</td>
+            <td style="text-align:right">6,000</td>
+            <td style="text-align:right">$0.44</td>
+            <td style="text-align:right"><span class="negative">-4.35%</span></td>
+            <td style="text-align:right;font-weight:600">$1,887</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="MAXX.CN" data-chart-name="Power Mining Corp" tabindex="0" role="button" aria-label="Open MAXX price chart">MAXX</td>
             <td style="color:var(--dim);font-size:.8em">Power Mining Corp</td>
             <td style="text-align:right">700</td>
-            <td style="text-align:right">$3.70</td>
-            <td style="text-align:right"><span class="positive">+7.56%</span></td>
-            <td style="text-align:right;font-weight:600">$1,852</td>
+            <td style="text-align:right">$3.56</td>
+            <td style="text-align:right"><span class="positive">+3.49%</span></td>
+            <td style="text-align:right;font-weight:600">$1,781</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="PNPN.V" data-chart-name="Power Nickel" tabindex="0" role="button" aria-label="Open PNPN price chart">PNPN</td>
             <td style="color:var(--dim);font-size:.8em">Power Nickel</td>
             <td style="text-align:right">2,000</td>
-            <td style="text-align:right">$1.23</td>
-            <td style="text-align:right"><span class="positive">+5.13%</span></td>
-            <td style="text-align:right;font-weight:600">$1,759</td>
+            <td style="text-align:right">$1.22</td>
+            <td style="text-align:right"><span class="negative">-0.81%</span></td>
+            <td style="text-align:right;font-weight:600">$1,744</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="CAPT.V" data-chart-name="Capitan Silver Corp" tabindex="0" role="button" aria-label="Open CAPT price chart">CAPT</td>
             <td style="color:var(--dim);font-size:.8em">Capitan Silver Corp</td>
             <td style="text-align:right">1,000</td>
-            <td style="text-align:right">$2.20</td>
-            <td style="text-align:right"><span class="positive">+5.77%</span></td>
-            <td style="text-align:right;font-weight:600">$1,573</td>
+            <td style="text-align:right">$2.23</td>
+            <td style="text-align:right"><span class="positive">+1.36%</span></td>
+            <td style="text-align:right;font-weight:600">$1,594</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="CVE:YEG" data-chart-name="Yorkton YEG RS" tabindex="0" role="button" aria-label="Open CVE:YEG price chart">CVE:YEG</td>
@@ -347,115 +357,92 @@
             <td style="text-align:right;font-weight:600">$1,058</td>
           </tr>
           <tr>
-            <td class="ticker chart-ticker" data-chart-symbol="MOLY.TO" data-chart-name="GreenLand Resources" tabindex="0" role="button" aria-label="Open MOLY price chart">MOLY</td>
-            <td style="color:var(--dim);font-size:.8em">GreenLand Resources</td>
-            <td style="text-align:right">900</td>
-            <td style="text-align:right">$1.55</td>
-            <td style="text-align:right"><span class="positive">+1.31%</span></td>
-            <td style="text-align:right;font-weight:600">$997</td>
-          </tr>
-          <tr>
             <td class="ticker chart-ticker" data-chart-symbol="AEU.AX" data-chart-name="Atomic Eagle" tabindex="0" role="button" aria-label="Open AEU price chart">AEU</td>
             <td style="color:var(--dim);font-size:.8em">Atomic Eagle</td>
             <td style="text-align:right">2,027</td>
-            <td style="text-align:right">$0.47</td>
-            <td style="text-align:right"><span class="positive">+8.05%</span></td>
-            <td style="text-align:right;font-weight:600">$678</td>
-          </tr>
-          <tr>
-            <td class="ticker chart-ticker" data-chart-symbol="EU.V" data-chart-name="ENCORE energy" tabindex="0" role="button" aria-label="Open EU price chart">EU</td>
-            <td style="color:var(--dim);font-size:.8em">ENCORE energy</td>
-            <td style="text-align:right">625</td>
-            <td style="text-align:right">$1.38</td>
-            <td style="text-align:right"><span class="positive">+10.40%</span></td>
-            <td style="text-align:right;font-weight:600">$617</td>
+            <td style="text-align:right">$0.44</td>
+            <td style="text-align:right"><span class="positive">+0.00%</span></td>
+            <td style="text-align:right;font-weight:600">$628</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="BQSSF" data-chart-name="BOSS ENERGY" tabindex="0" role="button" aria-label="Open BQSSF price chart">BQSSF</td>
             <td style="color:var(--dim);font-size:.8em">BOSS ENERGY</td>
             <td style="text-align:right">500</td>
-            <td style="text-align:right">$1.05</td>
-            <td style="text-align:right"><span class="negative">-4.55%</span></td>
-            <td style="text-align:right;font-weight:600">$525</td>
+            <td style="text-align:right">$1.18</td>
+            <td style="text-align:right"><span class="positive">+12.10%</span></td>
+            <td style="text-align:right;font-weight:600">$589</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="MANU.V" data-chart-name="Manhattan Uranium" tabindex="0" role="button" aria-label="Open MANU price chart">MANU</td>
             <td style="color:var(--dim);font-size:.8em">Manhattan Uranium</td>
             <td style="text-align:right">2,660</td>
-            <td style="text-align:right">$0.23</td>
-            <td style="text-align:right"><span class="positive">+2.17%</span></td>
-            <td style="text-align:right;font-weight:600">$447</td>
+            <td style="text-align:right">$0.28</td>
+            <td style="text-align:right"><span class="positive">+14.58%</span></td>
+            <td style="text-align:right;font-weight:600">$523</td>
+          </tr>
+          <tr>
+            <td class="ticker chart-ticker" data-chart-symbol="EU.V" data-chart-name="ENCORE energy" tabindex="0" role="button" aria-label="Open EU price chart">EU</td>
+            <td style="color:var(--dim);font-size:.8em">ENCORE energy</td>
+            <td style="text-align:right">625</td>
+            <td style="text-align:right">$1.17</td>
+            <td style="text-align:right"><span class="negative">-15.22%</span></td>
+            <td style="text-align:right;font-weight:600">$523</td>
           </tr>
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="LOT.AX" data-chart-name="Lotus UR ASX" tabindex="0" role="button" aria-label="Open LOT price chart">LOT</td>
             <td style="color:var(--dim);font-size:.8em">Lotus UR ASX</td>
             <td style="text-align:right">956</td>
-            <td style="text-align:right">$0.21</td>
-            <td style="text-align:right"><span class="negative">-3.64%</span></td>
-            <td style="text-align:right;font-weight:600">$144</td>
+            <td style="text-align:right">$0.23</td>
+            <td style="text-align:right"><span class="positive">+4.55%</span></td>
+            <td style="text-align:right;font-weight:600">$157</td>
           </tr></tbody>
     </table></div>
-    <div class="portfolio-summary">
+    <div class="portfolio-summary" data-summary-tiles="7" data-daily-basis="previous-completed-session-close">
       <div class="psum-item">
         <div class="psum-label">Live CAD</div>
-        <div class="psum-value positive">$117,274</div>
+        <div class="psum-value positive">$115,904</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">Live USD</div>
-        <div class="psum-value positive">$83,841</div>
+        <div class="psum-value positive">$82,815</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">ROI</div>
-        <div class="psum-value positive">+34.7%</div>
-      </div>
-    </div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Cost Basis CAD</div>
-        <div class="psum-value positive" style="font-size:1.1rem">$87,074</div>
+        <div class="psum-label">Daily ROI</div>
+        <div class="psum-value positive">+1.8%</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">ATH CAD</div>
-        <div class="psum-value positive" style="font-size:1.1rem">$167,029</div>
+        <div class="psum-value positive">$167,029</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">P&amp;L CAD</div>
-        <div class="psum-value positive" style="font-size:1.1rem">+$30,200</div>
-      </div>
-    </div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Off ATH</div>
-        <div class="psum-value negative" style="font-size:1.1rem">-29.8%</div>
+        <div class="psum-label">Daily P&amp;L CAD</div>
+        <div class="psum-value positive">+$2,303</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">ATH Gap CAD</div>
-        <div class="psum-value negative" style="font-size:1.1rem">−$49,755</div>
+        <div class="psum-label">Off ATH (%)</div>
+        <div class="psum-value negative">-30.6%</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">YTD Return</div>
-        <div class="psum-value" style="color:var(--mute);font-size:1.1rem">—</div>
+        <div class="psum-label">$ off ATH CAD</div>
+        <div class="psum-value negative">−$51,125</div>
       </div>
-    </div>
-    <div style="font-size:.56rem;color:var(--mute);margin:-2px 0 12px;text-align:center;line-height:1.45">
-      ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
     </div>
     <div class="allocation-section">
-      <svg class="pie-chart allocation-donut" viewBox="0 0 320 320" role="img" aria-labelledby="allocation-chart-title allocation-chart-desc" data-allocation-source="google-sheet"><title id="allocation-chart-title">Portfolio allocation from Google Sheet</title><desc id="allocation-chart-desc">Graphene 46.8%, Uranium 20.5%, Gold 13.1%, Silver 8.4%, Copper 4.5%, Hydro 2.2%, YEG RS 1.9%, Palladium-Platinum 1.6%, Molybdenum 1.2%</desc><defs><linearGradient id="allocation-gradient-0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F5FF5A"/><stop offset="100%" stop-color="#8CFF00"/></linearGradient><linearGradient id="allocation-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#63FF9B"/><stop offset="100%" stop-color="#00E86F"/></linearGradient><linearGradient id="allocation-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE66B"/><stop offset="100%" stop-color="#FFB000"/></linearGradient><linearGradient id="allocation-gradient-3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#79F7FF"/><stop offset="100%" stop-color="#3D8BFF"/></linearGradient><linearGradient id="allocation-gradient-4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF875F"/><stop offset="100%" stop-color="#FF315D"/></linearGradient><linearGradient id="allocation-gradient-5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C57CFF"/><stop offset="100%" stop-color="#6E52FF"/></linearGradient><linearGradient id="allocation-gradient-6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#33FFF3"/><stop offset="100%" stop-color="#00B9FF"/></linearGradient><linearGradient id="allocation-gradient-7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF69F5"/><stop offset="100%" stop-color="#755CFF"/></linearGradient><linearGradient id="allocation-gradient-8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F8FF7A"/><stop offset="100%" stop-color="#FF6B8C"/></linearGradient><radialGradient id="allocation-gloss" cx="24%" cy="18%" r="84%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".62"/><stop offset="38%" stop-color="#ffffff" stop-opacity=".18"/><stop offset="72%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="allocation-core" cx="44%" cy="38%" r="75%"><stop offset="0%" stop-color="#191921"/><stop offset="72%" stop-color="#0b0b10"/><stop offset="100%" stop-color="#060608"/></radialGradient><filter id="allocation-bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter></defs><circle class="allocation-aura" cx="160" cy="160" r="126"/><circle class="allocation-track" cx="160" cy="160" r="108"/><g filter="url(#allocation-bloom)"><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-0)" stroke-width="52" stroke-dasharray="314.31 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-1)" stroke-width="52" stroke-dasharray="135.81 678.58" stroke-dashoffset="-317.31" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-2)" stroke-width="52" stroke-dasharray="85.61 678.58" stroke-dashoffset="-456.12" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-3)" stroke-width="52" stroke-dasharray="53.92 678.58" stroke-dashoffset="-544.73" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-4)" stroke-width="52" stroke-dasharray="27.19 678.58" stroke-dashoffset="-601.65" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-5)" stroke-width="52" stroke-dasharray="11.99 678.58" stroke-dashoffset="-631.84" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-6)" stroke-width="52" stroke-dasharray="9.75 678.58" stroke-dashoffset="-646.83" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-7)" stroke-width="52" stroke-dasharray="7.92 678.58" stroke-dashoffset="-659.59" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-8)" stroke-width="52" stroke-dasharray="5.07 678.58" stroke-dashoffset="-670.51" transform="rotate(-90 160 160)"/></g><circle class="allocation-slice" data-sector="Graphene" data-percent="46.77" data-display-percent="46.8%" tabindex="0" role="button" aria-label="Graphene 46.8%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-0)" stroke-width="52" stroke-dasharray="314.31 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Uranium" data-percent="20.46" data-display-percent="20.5%" tabindex="0" role="button" aria-label="Uranium 20.5%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-1)" stroke-width="52" stroke-dasharray="135.81 678.58" stroke-dashoffset="-317.31" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Gold" data-percent="13.06" data-display-percent="13.1%" tabindex="0" role="button" aria-label="Gold 13.1%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-2)" stroke-width="52" stroke-dasharray="85.61 678.58" stroke-dashoffset="-456.12" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Silver" data-percent="8.39" data-display-percent="8.4%" tabindex="0" role="button" aria-label="Silver 8.4%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-3)" stroke-width="52" stroke-dasharray="53.92 678.58" stroke-dashoffset="-544.73" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Copper" data-percent="4.45" data-display-percent="4.5%" tabindex="0" role="button" aria-label="Copper 4.5%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-4)" stroke-width="52" stroke-dasharray="27.19 678.58" stroke-dashoffset="-601.65" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Hydro" data-percent="2.21" data-display-percent="2.2%" tabindex="0" role="button" aria-label="Hydro 2.2%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-5)" stroke-width="52" stroke-dasharray="11.99 678.58" stroke-dashoffset="-631.84" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="YEG RS" data-percent="1.88" data-display-percent="1.9%" tabindex="0" role="button" aria-label="YEG RS 1.9%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-6)" stroke-width="52" stroke-dasharray="9.75 678.58" stroke-dashoffset="-646.83" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Palladium-Platinum" data-percent="1.61" data-display-percent="1.6%" tabindex="0" role="button" aria-label="Palladium-Platinum 1.6%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-7)" stroke-width="52" stroke-dasharray="7.92 678.58" stroke-dashoffset="-659.59" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Molybdenum" data-percent="1.19" data-display-percent="1.2%" tabindex="0" role="button" aria-label="Molybdenum 1.2%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-8)" stroke-width="52" stroke-dasharray="5.07 678.58" stroke-dashoffset="-670.51" transform="rotate(-90 160 160)"/><g class="allocation-gloss-layer"><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="314.31 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="135.81 678.58" stroke-dashoffset="-317.31" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="85.61 678.58" stroke-dashoffset="-456.12" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="53.92 678.58" stroke-dashoffset="-544.73" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="27.19 678.58" stroke-dashoffset="-601.65" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="11.99 678.58" stroke-dashoffset="-631.84" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="9.75 678.58" stroke-dashoffset="-646.83" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="7.92 678.58" stroke-dashoffset="-659.59" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="5.07 678.58" stroke-dashoffset="-670.51" transform="rotate(-90 160 160)"/></g><circle class="allocation-core" cx="160" cy="160" r="72"/><text class="allocation-core-kicker" data-allocation-default="PORTFOLIO" x="160" y="151" text-anchor="middle">PORTFOLIO</text><text class="allocation-core-label" data-allocation-default="LIVE SHEET" x="160" y="177" text-anchor="middle">LIVE SHEET</text></svg>
+      <svg class="pie-chart allocation-donut" viewBox="0 0 320 320" role="img" aria-labelledby="allocation-chart-title allocation-chart-desc" data-allocation-source="google-sheet"><title id="allocation-chart-title">Portfolio allocation from Google Sheet</title><desc id="allocation-chart-desc">Graphene 45.3%, Uranium 20.1%, Gold 13.2%, Silver 8.5%, Copper 4.5%, Molybdenum 2.7%, Hydro 2.2%, YEG RS 1.9%, Palladium-Platinum 1.6%</desc><defs><linearGradient id="allocation-gradient-0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F5FF5A"/><stop offset="100%" stop-color="#8CFF00"/></linearGradient><linearGradient id="allocation-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#63FF9B"/><stop offset="100%" stop-color="#00E86F"/></linearGradient><linearGradient id="allocation-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE66B"/><stop offset="100%" stop-color="#FFB000"/></linearGradient><linearGradient id="allocation-gradient-3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#79F7FF"/><stop offset="100%" stop-color="#3D8BFF"/></linearGradient><linearGradient id="allocation-gradient-4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF875F"/><stop offset="100%" stop-color="#FF315D"/></linearGradient><linearGradient id="allocation-gradient-5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C57CFF"/><stop offset="100%" stop-color="#6E52FF"/></linearGradient><linearGradient id="allocation-gradient-6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#33FFF3"/><stop offset="100%" stop-color="#00B9FF"/></linearGradient><linearGradient id="allocation-gradient-7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF69F5"/><stop offset="100%" stop-color="#755CFF"/></linearGradient><linearGradient id="allocation-gradient-8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F8FF7A"/><stop offset="100%" stop-color="#FF6B8C"/></linearGradient><radialGradient id="allocation-gloss" cx="24%" cy="18%" r="84%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".62"/><stop offset="38%" stop-color="#ffffff" stop-opacity=".18"/><stop offset="72%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="allocation-core" cx="44%" cy="38%" r="75%"><stop offset="0%" stop-color="#191921"/><stop offset="72%" stop-color="#0b0b10"/><stop offset="100%" stop-color="#060608"/></radialGradient><filter id="allocation-bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter></defs><circle class="allocation-aura" cx="160" cy="160" r="126"/><circle class="allocation-track" cx="160" cy="160" r="108"/><g filter="url(#allocation-bloom)"><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-0)" stroke-width="52" stroke-dasharray="304.37 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-1)" stroke-width="52" stroke-dasharray="133.59 678.58" stroke-dashoffset="-307.37" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-2)" stroke-width="52" stroke-dasharray="86.63 678.58" stroke-dashoffset="-443.95" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-3)" stroke-width="52" stroke-dasharray="54.54 678.58" stroke-dashoffset="-533.59" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-4)" stroke-width="52" stroke-dasharray="27.80 678.58" stroke-dashoffset="-591.12" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-5)" stroke-width="52" stroke-dasharray="15.05 678.58" stroke-dashoffset="-621.93" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-6)" stroke-width="52" stroke-dasharray="11.66 678.58" stroke-dashoffset="-639.98" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-7)" stroke-width="52" stroke-dasharray="9.89 678.58" stroke-dashoffset="-654.63" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-8)" stroke-width="52" stroke-dasharray="8.06 678.58" stroke-dashoffset="-667.52" transform="rotate(-90 160 160)"/></g><circle class="allocation-slice" data-sector="Graphene" data-percent="45.30" data-display-percent="45.3%" tabindex="0" role="button" aria-label="Graphene 45.3%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-0)" stroke-width="52" stroke-dasharray="304.37 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Uranium" data-percent="20.13" data-display-percent="20.1%" tabindex="0" role="button" aria-label="Uranium 20.1%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-1)" stroke-width="52" stroke-dasharray="133.59 678.58" stroke-dashoffset="-307.37" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Gold" data-percent="13.21" data-display-percent="13.2%" tabindex="0" role="button" aria-label="Gold 13.2%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-2)" stroke-width="52" stroke-dasharray="86.63 678.58" stroke-dashoffset="-443.95" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Silver" data-percent="8.48" data-display-percent="8.5%" tabindex="0" role="button" aria-label="Silver 8.5%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-3)" stroke-width="52" stroke-dasharray="54.54 678.58" stroke-dashoffset="-533.59" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Copper" data-percent="4.54" data-display-percent="4.5%" tabindex="0" role="button" aria-label="Copper 4.5%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-4)" stroke-width="52" stroke-dasharray="27.80 678.58" stroke-dashoffset="-591.12" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Molybdenum" data-percent="2.66" data-display-percent="2.7%" tabindex="0" role="button" aria-label="Molybdenum 2.7%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-5)" stroke-width="52" stroke-dasharray="15.05 678.58" stroke-dashoffset="-621.93" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Hydro" data-percent="2.16" data-display-percent="2.2%" tabindex="0" role="button" aria-label="Hydro 2.2%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-6)" stroke-width="52" stroke-dasharray="11.66 678.58" stroke-dashoffset="-639.98" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="YEG RS" data-percent="1.90" data-display-percent="1.9%" tabindex="0" role="button" aria-label="YEG RS 1.9%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-7)" stroke-width="52" stroke-dasharray="9.89 678.58" stroke-dashoffset="-654.63" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="Palladium-Platinum" data-percent="1.63" data-display-percent="1.6%" tabindex="0" role="button" aria-label="Palladium-Platinum 1.6%" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gradient-8)" stroke-width="52" stroke-dasharray="8.06 678.58" stroke-dashoffset="-667.52" transform="rotate(-90 160 160)"/><g class="allocation-gloss-layer"><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="304.37 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="133.59 678.58" stroke-dashoffset="-307.37" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="86.63 678.58" stroke-dashoffset="-443.95" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="54.54 678.58" stroke-dashoffset="-533.59" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="27.80 678.58" stroke-dashoffset="-591.12" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="15.05 678.58" stroke-dashoffset="-621.93" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="11.66 678.58" stroke-dashoffset="-639.98" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="9.89 678.58" stroke-dashoffset="-654.63" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#allocation-gloss)" stroke-width="52" stroke-dasharray="8.06 678.58" stroke-dashoffset="-667.52" transform="rotate(-90 160 160)"/></g><circle class="allocation-core" cx="160" cy="160" r="72"/><text class="allocation-core-kicker" data-allocation-default="PORTFOLIO" x="160" y="151" text-anchor="middle">PORTFOLIO</text><text class="allocation-core-label" data-allocation-default="LIVE SHEET" x="160" y="177" text-anchor="middle">LIVE SHEET</text></svg>
       <div class="allocation-copy">
         <div class="allocation-kicker">Sector Allocation</div>
         <div class="allocation-legend">
-<div class="legend-item" data-allocation-sector="Graphene" data-allocation-pct="46.77" data-display-percent="46.8%" tabindex="0" role="button" aria-label="Show Graphene 46.8%"><span class="legend-dot" style="--swatch-start:#F5FF5A;--swatch-end:#8CFF00"></span><span class="legend-name">Graphene</span><span class="legend-pct">46.8%</span></div>
-<div class="legend-item" data-allocation-sector="Uranium" data-allocation-pct="20.46" data-display-percent="20.5%" tabindex="0" role="button" aria-label="Show Uranium 20.5%"><span class="legend-dot" style="--swatch-start:#63FF9B;--swatch-end:#00E86F"></span><span class="legend-name">Uranium</span><span class="legend-pct">20.5%</span></div>
-<div class="legend-item" data-allocation-sector="Gold" data-allocation-pct="13.06" data-display-percent="13.1%" tabindex="0" role="button" aria-label="Show Gold 13.1%"><span class="legend-dot" style="--swatch-start:#FFE66B;--swatch-end:#FFB000"></span><span class="legend-name">Gold</span><span class="legend-pct">13.1%</span></div>
-<div class="legend-item" data-allocation-sector="Silver" data-allocation-pct="8.39" data-display-percent="8.4%" tabindex="0" role="button" aria-label="Show Silver 8.4%"><span class="legend-dot" style="--swatch-start:#79F7FF;--swatch-end:#3D8BFF"></span><span class="legend-name">Silver</span><span class="legend-pct">8.4%</span></div>
-<div class="legend-item" data-allocation-sector="Copper" data-allocation-pct="4.45" data-display-percent="4.5%" tabindex="0" role="button" aria-label="Show Copper 4.5%"><span class="legend-dot" style="--swatch-start:#FF875F;--swatch-end:#FF315D"></span><span class="legend-name">Copper</span><span class="legend-pct">4.5%</span></div>
-<div class="legend-item" data-allocation-sector="Hydro" data-allocation-pct="2.21" data-display-percent="2.2%" tabindex="0" role="button" aria-label="Show Hydro 2.2%"><span class="legend-dot" style="--swatch-start:#C57CFF;--swatch-end:#6E52FF"></span><span class="legend-name">Hydro</span><span class="legend-pct">2.2%</span></div>
-<div class="legend-item" data-allocation-sector="YEG RS" data-allocation-pct="1.88" data-display-percent="1.9%" tabindex="0" role="button" aria-label="Show YEG RS 1.9%"><span class="legend-dot" style="--swatch-start:#33FFF3;--swatch-end:#00B9FF"></span><span class="legend-name">YEG RS</span><span class="legend-pct">1.9%</span></div>
-<div class="legend-item" data-allocation-sector="Palladium-Platinum" data-allocation-pct="1.61" data-display-percent="1.6%" tabindex="0" role="button" aria-label="Show Palladium-Platinum 1.6%"><span class="legend-dot" style="--swatch-start:#FF69F5;--swatch-end:#755CFF"></span><span class="legend-name">Palladium-Platinum</span><span class="legend-pct">1.6%</span></div>
-<div class="legend-item" data-allocation-sector="Molybdenum" data-allocation-pct="1.19" data-display-percent="1.2%" tabindex="0" role="button" aria-label="Show Molybdenum 1.2%"><span class="legend-dot" style="--swatch-start:#F8FF7A;--swatch-end:#FF6B8C"></span><span class="legend-name">Molybdenum</span><span class="legend-pct">1.2%</span></div>
+<div class="legend-item" data-allocation-sector="Graphene" data-allocation-pct="45.30" data-display-percent="45.3%" tabindex="0" role="button" aria-label="Show Graphene 45.3%"><span class="legend-dot" style="--swatch-start:#F5FF5A;--swatch-end:#8CFF00"></span><span class="legend-name">Graphene</span><span class="legend-pct">45.3%</span></div>
+<div class="legend-item" data-allocation-sector="Uranium" data-allocation-pct="20.13" data-display-percent="20.1%" tabindex="0" role="button" aria-label="Show Uranium 20.1%"><span class="legend-dot" style="--swatch-start:#63FF9B;--swatch-end:#00E86F"></span><span class="legend-name">Uranium</span><span class="legend-pct">20.1%</span></div>
+<div class="legend-item" data-allocation-sector="Gold" data-allocation-pct="13.21" data-display-percent="13.2%" tabindex="0" role="button" aria-label="Show Gold 13.2%"><span class="legend-dot" style="--swatch-start:#FFE66B;--swatch-end:#FFB000"></span><span class="legend-name">Gold</span><span class="legend-pct">13.2%</span></div>
+<div class="legend-item" data-allocation-sector="Silver" data-allocation-pct="8.48" data-display-percent="8.5%" tabindex="0" role="button" aria-label="Show Silver 8.5%"><span class="legend-dot" style="--swatch-start:#79F7FF;--swatch-end:#3D8BFF"></span><span class="legend-name">Silver</span><span class="legend-pct">8.5%</span></div>
+<div class="legend-item" data-allocation-sector="Copper" data-allocation-pct="4.54" data-display-percent="4.5%" tabindex="0" role="button" aria-label="Show Copper 4.5%"><span class="legend-dot" style="--swatch-start:#FF875F;--swatch-end:#FF315D"></span><span class="legend-name">Copper</span><span class="legend-pct">4.5%</span></div>
+<div class="legend-item" data-allocation-sector="Molybdenum" data-allocation-pct="2.66" data-display-percent="2.7%" tabindex="0" role="button" aria-label="Show Molybdenum 2.7%"><span class="legend-dot" style="--swatch-start:#C57CFF;--swatch-end:#6E52FF"></span><span class="legend-name">Molybdenum</span><span class="legend-pct">2.7%</span></div>
+<div class="legend-item" data-allocation-sector="Hydro" data-allocation-pct="2.16" data-display-percent="2.2%" tabindex="0" role="button" aria-label="Show Hydro 2.2%"><span class="legend-dot" style="--swatch-start:#33FFF3;--swatch-end:#00B9FF"></span><span class="legend-name">Hydro</span><span class="legend-pct">2.2%</span></div>
+<div class="legend-item" data-allocation-sector="YEG RS" data-allocation-pct="1.90" data-display-percent="1.9%" tabindex="0" role="button" aria-label="Show YEG RS 1.9%"><span class="legend-dot" style="--swatch-start:#FF69F5;--swatch-end:#755CFF"></span><span class="legend-name">YEG RS</span><span class="legend-pct">1.9%</span></div>
+<div class="legend-item" data-allocation-sector="Palladium-Platinum" data-allocation-pct="1.63" data-display-percent="1.6%" tabindex="0" role="button" aria-label="Show Palladium-Platinum 1.6%"><span class="legend-dot" style="--swatch-start:#F8FF7A;--swatch-end:#FF6B8C"></span><span class="legend-name">Palladium-Platinum</span><span class="legend-pct">1.6%</span></div>
         </div>
-        <div class="allocation-source"><span aria-hidden="true"></span>Google Sheet · % of Fund · live · verified Sep 18 01:56 UTC</div>
+        <div class="allocation-source"><span aria-hidden="true"></span>Google Sheet · % of Fund · live · verified Sep 18 18:29 UTC</div>
       </div>
     </div>
     <div style="font-size:.6rem;color:var(--mute);margin-top:10px;text-align:center">
@@ -467,10 +454,10 @@
   <section class="card crypto-weighting-card">
     <div class="card-title">₿ Kraken Portfolio</div>
     <div class="tracker-subtitle">Live leveraged-position mix · separate from TFSA sector allocation</div>
-    <div class="allocation-section crypto-weighting" id="crypto-position-weighting"><svg class="pie-chart allocation-donut" viewBox="0 0 320 320" role="img" aria-labelledby="crypto-weight-chart-title crypto-weight-chart-desc" data-allocation-source="google-sheet"><title id="crypto-weight-chart-title">Kraken crypto position weighting from Google Sheet</title><desc id="crypto-weight-chart-desc">SUI 34.3%, NIGHT 30.9%, ADA 25.1%, TON 9.7%</desc><defs><linearGradient id="crypto-weight-gradient-0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F5FF5A"/><stop offset="100%" stop-color="#8CFF00"/></linearGradient><linearGradient id="crypto-weight-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#63FF9B"/><stop offset="100%" stop-color="#00E86F"/></linearGradient><linearGradient id="crypto-weight-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE66B"/><stop offset="100%" stop-color="#FFB000"/></linearGradient><linearGradient id="crypto-weight-gradient-3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#79F7FF"/><stop offset="100%" stop-color="#3D8BFF"/></linearGradient><radialGradient id="crypto-weight-gloss" cx="24%" cy="18%" r="84%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".62"/><stop offset="38%" stop-color="#ffffff" stop-opacity=".18"/><stop offset="72%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="crypto-weight-core" cx="44%" cy="38%" r="75%"><stop offset="0%" stop-color="#191921"/><stop offset="72%" stop-color="#0b0b10"/><stop offset="100%" stop-color="#060608"/></radialGradient><filter id="crypto-weight-bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter></defs><circle class="allocation-aura" cx="160" cy="160" r="126"/><circle class="allocation-track" cx="160" cy="160" r="108"/><g filter="url(#crypto-weight-bloom)"><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-0)" stroke-width="52" stroke-dasharray="229.71 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-1)" stroke-width="52" stroke-dasharray="206.57 678.58" stroke-dashoffset="-232.71" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-2)" stroke-width="52" stroke-dasharray="167.21 678.58" stroke-dashoffset="-442.28" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-3)" stroke-width="52" stroke-dasharray="63.10 678.58" stroke-dashoffset="-612.48" transform="rotate(-90 160 160)"/></g><circle class="allocation-slice" data-sector="SUI" data-percent="34.29" data-display-percent="34.3%" tabindex="0" role="button" aria-label="SUI 34.3%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-0)" stroke-width="52" stroke-dasharray="229.71 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="NIGHT" data-percent="30.88" data-display-percent="30.9%" tabindex="0" role="button" aria-label="NIGHT 30.9%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-1)" stroke-width="52" stroke-dasharray="206.57 678.58" stroke-dashoffset="-232.71" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="ADA" data-percent="25.08" data-display-percent="25.1%" tabindex="0" role="button" aria-label="ADA 25.1%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-2)" stroke-width="52" stroke-dasharray="167.21 678.58" stroke-dashoffset="-442.28" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="TON" data-percent="9.74" data-display-percent="9.7%" tabindex="0" role="button" aria-label="TON 9.7%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-3)" stroke-width="52" stroke-dasharray="63.10 678.58" stroke-dashoffset="-612.48" transform="rotate(-90 160 160)"/><g class="allocation-gloss-layer"><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="229.71 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="206.57 678.58" stroke-dashoffset="-232.71" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="167.21 678.58" stroke-dashoffset="-442.28" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="63.10 678.58" stroke-dashoffset="-612.48" transform="rotate(-90 160 160)"/></g><circle class="allocation-core" cx="160" cy="160" r="72"/><text class="allocation-core-kicker" data-allocation-default="SUI" x="160" y="151" text-anchor="middle">SUI</text><text class="allocation-core-label" data-allocation-default="34.3% WEIGHT" x="160" y="177" text-anchor="middle">34.3% WEIGHT</text></svg><div class="allocation-copy"><div class="allocation-kicker">Crypto Position Weighting</div><div class="allocation-legend"><div class="legend-item" data-allocation-sector="SUI" data-allocation-pct="34.29" data-display-percent="34.3%" tabindex="0" role="button" aria-label="Show SUI 34.3%"><span class="legend-dot" style="--swatch-start:#F5FF5A;--swatch-end:#8CFF00"></span><span class="legend-name">SUI</span><span class="legend-pct">34.3%</span></div>
-<div class="legend-item" data-allocation-sector="NIGHT" data-allocation-pct="30.88" data-display-percent="30.9%" tabindex="0" role="button" aria-label="Show NIGHT 30.9%"><span class="legend-dot" style="--swatch-start:#63FF9B;--swatch-end:#00E86F"></span><span class="legend-name">NIGHT</span><span class="legend-pct">30.9%</span></div>
-<div class="legend-item" data-allocation-sector="ADA" data-allocation-pct="25.08" data-display-percent="25.1%" tabindex="0" role="button" aria-label="Show ADA 25.1%"><span class="legend-dot" style="--swatch-start:#FFE66B;--swatch-end:#FFB000"></span><span class="legend-name">ADA</span><span class="legend-pct">25.1%</span></div>
-<div class="legend-item" data-allocation-sector="TON" data-allocation-pct="9.74" data-display-percent="9.7%" tabindex="0" role="button" aria-label="Show TON 9.7%"><span class="legend-dot" style="--swatch-start:#79F7FF;--swatch-end:#3D8BFF"></span><span class="legend-name">TON</span><span class="legend-pct">9.7%</span></div></div><div class="allocation-source"><span aria-hidden="true"></span>What's Kraken 2025 · % of Fund · live source of truth</div></div></div>
+    <div class="allocation-section crypto-weighting" id="crypto-position-weighting"><svg class="pie-chart allocation-donut" viewBox="0 0 320 320" role="img" aria-labelledby="crypto-weight-chart-title crypto-weight-chart-desc" data-allocation-source="google-sheet"><title id="crypto-weight-chart-title">Kraken crypto position weighting from Google Sheet</title><desc id="crypto-weight-chart-desc">SUI 35.0%, NIGHT 29.9%, ADA 25.7%, TON 9.4%</desc><defs><linearGradient id="crypto-weight-gradient-0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F5FF5A"/><stop offset="100%" stop-color="#8CFF00"/></linearGradient><linearGradient id="crypto-weight-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#63FF9B"/><stop offset="100%" stop-color="#00E86F"/></linearGradient><linearGradient id="crypto-weight-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE66B"/><stop offset="100%" stop-color="#FFB000"/></linearGradient><linearGradient id="crypto-weight-gradient-3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#79F7FF"/><stop offset="100%" stop-color="#3D8BFF"/></linearGradient><radialGradient id="crypto-weight-gloss" cx="24%" cy="18%" r="84%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".62"/><stop offset="38%" stop-color="#ffffff" stop-opacity=".18"/><stop offset="72%" stop-color="#ffffff" stop-opacity="0"/></radialGradient><radialGradient id="crypto-weight-core" cx="44%" cy="38%" r="75%"><stop offset="0%" stop-color="#191921"/><stop offset="72%" stop-color="#0b0b10"/><stop offset="100%" stop-color="#060608"/></radialGradient><filter id="crypto-weight-bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter></defs><circle class="allocation-aura" cx="160" cy="160" r="126"/><circle class="allocation-track" cx="160" cy="160" r="108"/><g filter="url(#crypto-weight-bloom)"><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-0)" stroke-width="52" stroke-dasharray="234.23 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-1)" stroke-width="52" stroke-dasharray="199.83 678.58" stroke-dashoffset="-237.23" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-2)" stroke-width="52" stroke-dasharray="171.53 678.58" stroke-dashoffset="-440.06" transform="rotate(-90 160 160)"/><circle class="allocation-glow" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-3)" stroke-width="52" stroke-dasharray="60.99 678.58" stroke-dashoffset="-614.59" transform="rotate(-90 160 160)"/></g><circle class="allocation-slice" data-sector="SUI" data-percent="34.96" data-display-percent="35.0%" tabindex="0" role="button" aria-label="SUI 35.0%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-0)" stroke-width="52" stroke-dasharray="234.23 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="NIGHT" data-percent="29.89" data-display-percent="29.9%" tabindex="0" role="button" aria-label="NIGHT 29.9%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-1)" stroke-width="52" stroke-dasharray="199.83 678.58" stroke-dashoffset="-237.23" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="ADA" data-percent="25.72" data-display-percent="25.7%" tabindex="0" role="button" aria-label="ADA 25.7%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-2)" stroke-width="52" stroke-dasharray="171.53 678.58" stroke-dashoffset="-440.06" transform="rotate(-90 160 160)"/><circle class="allocation-slice" data-sector="TON" data-percent="9.43" data-display-percent="9.4%" tabindex="0" role="button" aria-label="TON 9.4%" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gradient-3)" stroke-width="52" stroke-dasharray="60.99 678.58" stroke-dashoffset="-614.59" transform="rotate(-90 160 160)"/><g class="allocation-gloss-layer"><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="234.23 678.58" stroke-dashoffset="-0.00" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="199.83 678.58" stroke-dashoffset="-237.23" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="171.53 678.58" stroke-dashoffset="-440.06" transform="rotate(-90 160 160)"/><circle class="allocation-gloss" r="108" cx="160" cy="160" fill="none" stroke="url(#crypto-weight-gloss)" stroke-width="52" stroke-dasharray="60.99 678.58" stroke-dashoffset="-614.59" transform="rotate(-90 160 160)"/></g><circle class="allocation-core" cx="160" cy="160" r="72"/><text class="allocation-core-kicker" data-allocation-default="SUI" x="160" y="151" text-anchor="middle">SUI</text><text class="allocation-core-label" data-allocation-default="35.0% WEIGHT" x="160" y="177" text-anchor="middle">35.0% WEIGHT</text></svg><div class="allocation-copy"><div class="allocation-kicker">Crypto Position Weighting</div><div class="allocation-legend"><div class="legend-item" data-allocation-sector="SUI" data-allocation-pct="34.96" data-display-percent="35.0%" tabindex="0" role="button" aria-label="Show SUI 35.0%"><span class="legend-dot" style="--swatch-start:#F5FF5A;--swatch-end:#8CFF00"></span><span class="legend-name">SUI</span><span class="legend-pct">35.0%</span></div>
+<div class="legend-item" data-allocation-sector="NIGHT" data-allocation-pct="29.89" data-display-percent="29.9%" tabindex="0" role="button" aria-label="Show NIGHT 29.9%"><span class="legend-dot" style="--swatch-start:#63FF9B;--swatch-end:#00E86F"></span><span class="legend-name">NIGHT</span><span class="legend-pct">29.9%</span></div>
+<div class="legend-item" data-allocation-sector="ADA" data-allocation-pct="25.72" data-display-percent="25.7%" tabindex="0" role="button" aria-label="Show ADA 25.7%"><span class="legend-dot" style="--swatch-start:#FFE66B;--swatch-end:#FFB000"></span><span class="legend-name">ADA</span><span class="legend-pct">25.7%</span></div>
+<div class="legend-item" data-allocation-sector="TON" data-allocation-pct="9.43" data-display-percent="9.4%" tabindex="0" role="button" aria-label="Show TON 9.4%"><span class="legend-dot" style="--swatch-start:#79F7FF;--swatch-end:#3D8BFF"></span><span class="legend-name">TON</span><span class="legend-pct">9.4%</span></div></div><div class="allocation-source"><span aria-hidden="true"></span>What's Kraken 2025 · % of Fund · live source of truth</div></div></div>
   </section>
 
   <!-- ON THE RISE FINANCES — debt progress -->
@@ -497,12 +484,12 @@
         <th style="text-align:right">G/L $</th>
         <th style="text-align:right">G/L %</th>
       </tr></thead>
-      <tbody><tr><td class="ticker">PHYS</td><td style="font-size:.78rem">Gold (Sprott)</td><td style="text-align:right;font-size:.78rem">16,827</td><td style="text-align:right;font-size:.78rem">$32.81</td><td style="text-align:right;font-size:.78rem">$552,094</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$69,664</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-11.2%</td></tr><tr><td class="ticker">URNM</td><td style="font-size:.78rem">Uranium</td><td style="text-align:right;font-size:.78rem">6,000</td><td style="text-align:right;font-size:.78rem">$51.31</td><td style="text-align:right;font-size:.78rem">$307,860</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$98,460</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-24.2%</td></tr><tr><td class="ticker">GRID</td><td style="font-size:.78rem">Grid Infrastructure</td><td style="text-align:right;font-size:.78rem">2,177</td><td style="text-align:right;font-size:.78rem">$176.84</td><td style="text-align:right;font-size:.78rem">$384,981</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$65</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+0.0%</td></tr><tr><td class="ticker">PSLV</td><td style="font-size:.78rem">Silver (Sprott)</td><td style="text-align:right;font-size:.78rem">8,545</td><td style="text-align:right;font-size:.78rem">$21.22</td><td style="text-align:right;font-size:.78rem">$181,325</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$66,651</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-26.9%</td></tr><tr><td class="ticker">COPX</td><td style="font-size:.78rem">Copper Miners</td><td style="text-align:right;font-size:.78rem">2,000</td><td style="text-align:right;font-size:.78rem">$86.61</td><td style="text-align:right;font-size:.78rem">$173,220</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$5,300</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+3.2%</td></tr><tr><td class="ticker">COPP</td><td style="font-size:.78rem">Copper</td><td style="text-align:right;font-size:.78rem">5,047</td><td style="text-align:right;font-size:.78rem">$42.29</td><td style="text-align:right;font-size:.78rem">$213,438</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$6,612</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-3.0%</td></tr><tr><td class="ticker">URNJ</td><td style="font-size:.78rem">Jr Uranium</td><td style="text-align:right;font-size:.78rem">3,151</td><td style="text-align:right;font-size:.78rem">$22.57</td><td style="text-align:right;font-size:.78rem">$71,118</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$38,883</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-35.3%</td></tr><tr><td class="ticker">SGDJ</td><td style="font-size:.78rem">Gold Miners</td><td style="text-align:right;font-size:.78rem">1,002</td><td style="text-align:right;font-size:.78rem">$95.12</td><td style="text-align:right;font-size:.78rem">$95,310</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$14,639</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-13.3%</td></tr><tr><td class="ticker">AAPL</td><td style="font-size:.78rem">Apple</td><td style="text-align:right;font-size:.78rem">31</td><td style="text-align:right;font-size:.78rem">$337.00</td><td style="text-align:right;font-size:.78rem">$10,447</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$2,339</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+28.8%</td></tr><tr><td class="ticker">CEG</td><td style="font-size:.78rem">Constellation Energy</td><td style="text-align:right;font-size:.78rem">177</td><td style="text-align:right;font-size:.78rem">$262.80</td><td style="text-align:right;font-size:.78rem">$46,516</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$8,762</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-15.9%</td></tr><tr><td class="ticker">VST</td><td style="font-size:.78rem">Vistra Energy</td><td style="text-align:right;font-size:.78rem">322</td><td style="text-align:right;font-size:.78rem">$143.56</td><td style="text-align:right;font-size:.78rem">$46,226</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$8,688</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-15.8%</td></tr><tr><td class="ticker">BTC</td><td style="font-size:.78rem">Bitcoin (8% alloc)</td><td style="text-align:right;font-size:.78rem">6.72</td><td style="text-align:right;font-size:.78rem">$76,659.67</td><td style="text-align:right;font-size:.78rem">$515,153</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$74,993</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+17.0%</td></tr></tbody>
+      <tbody><tr><td class="ticker">PHYS</td><td style="font-size:.78rem">Gold (Sprott)</td><td style="text-align:right;font-size:.78rem">16,827</td><td style="text-align:right;font-size:.78rem">$32.81</td><td style="text-align:right;font-size:.78rem">$552,094</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$69,664</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-11.2%</td></tr><tr><td class="ticker">URNM</td><td style="font-size:.78rem">Uranium</td><td style="text-align:right;font-size:.78rem">6,000</td><td style="text-align:right;font-size:.78rem">$51.31</td><td style="text-align:right;font-size:.78rem">$307,860</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$98,460</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-24.2%</td></tr><tr><td class="ticker">GRID</td><td style="font-size:.78rem">Grid Infrastructure</td><td style="text-align:right;font-size:.78rem">2,177</td><td style="text-align:right;font-size:.78rem">$176.84</td><td style="text-align:right;font-size:.78rem">$384,981</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$65</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+0.0%</td></tr><tr><td class="ticker">PSLV</td><td style="font-size:.78rem">Silver (Sprott)</td><td style="text-align:right;font-size:.78rem">8,545</td><td style="text-align:right;font-size:.78rem">$21.22</td><td style="text-align:right;font-size:.78rem">$181,325</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$66,651</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-26.9%</td></tr><tr><td class="ticker">COPX</td><td style="font-size:.78rem">Copper Miners</td><td style="text-align:right;font-size:.78rem">2,000</td><td style="text-align:right;font-size:.78rem">$86.61</td><td style="text-align:right;font-size:.78rem">$173,220</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$5,300</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+3.2%</td></tr><tr><td class="ticker">COPP</td><td style="font-size:.78rem">Copper</td><td style="text-align:right;font-size:.78rem">5,047</td><td style="text-align:right;font-size:.78rem">$42.29</td><td style="text-align:right;font-size:.78rem">$213,438</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$6,612</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-3.0%</td></tr><tr><td class="ticker">URNJ</td><td style="font-size:.78rem">Jr Uranium</td><td style="text-align:right;font-size:.78rem">3,151</td><td style="text-align:right;font-size:.78rem">$22.57</td><td style="text-align:right;font-size:.78rem">$71,118</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$38,883</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-35.3%</td></tr><tr><td class="ticker">SGDJ</td><td style="font-size:.78rem">Gold Miners</td><td style="text-align:right;font-size:.78rem">1,002</td><td style="text-align:right;font-size:.78rem">$95.12</td><td style="text-align:right;font-size:.78rem">$95,310</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$14,639</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-13.3%</td></tr><tr><td class="ticker">AAPL</td><td style="font-size:.78rem">Apple</td><td style="text-align:right;font-size:.78rem">31</td><td style="text-align:right;font-size:.78rem">$337.00</td><td style="text-align:right;font-size:.78rem">$10,447</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$2,339</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+28.8%</td></tr><tr><td class="ticker">CEG</td><td style="font-size:.78rem">Constellation Energy</td><td style="text-align:right;font-size:.78rem">177</td><td style="text-align:right;font-size:.78rem">$262.80</td><td style="text-align:right;font-size:.78rem">$46,516</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$8,762</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-15.9%</td></tr><tr><td class="ticker">VST</td><td style="font-size:.78rem">Vistra Energy</td><td style="text-align:right;font-size:.78rem">322</td><td style="text-align:right;font-size:.78rem">$143.56</td><td style="text-align:right;font-size:.78rem">$46,226</td><td style="text-align:right;font-size:.78rem;color:var(--red)">-$8,688</td><td style="text-align:right;font-size:.78rem;color:var(--red);font-weight:600">-15.8%</td></tr><tr><td class="ticker">BTC</td><td style="font-size:.78rem">Bitcoin (8% alloc)</td><td style="text-align:right;font-size:.78rem">6.72</td><td style="text-align:right;font-size:.78rem">$80,981.61</td><td style="text-align:right;font-size:.78rem">$544,196</td><td style="text-align:right;font-size:.78rem;color:var(--green)">+$104,036</td><td style="text-align:right;font-size:.78rem;color:var(--green);font-weight:600">+23.6%</td></tr></tbody>
     </table></div>
     <div class="totals-row">
       <div class="total-item">
         <div class="total-label">Total Value</div>
-        <div class="total-value usd">$2,597,687</div>
+        <div class="total-value usd">$2,626,731</div>
       </div>
       <div class="total-item">
         <div class="total-label">Total Cost</div>
@@ -510,12 +497,12 @@
       </div>
       <div class="total-item">
         <div class="total-label">Daily Gain/Loss</div>
-        <div class="total-value positive">+$49,256</div>
-        <div class="positive" style="font-size:.62rem;margin-top:2px">+1.93% today</div>
+        <div class="total-value positive">+$75,385</div>
+        <div class="positive" style="font-size:.62rem;margin-top:2px">+2.95% today</div>
       </div>
       <div class="total-item">
         <div class="total-label">All-Time Gain/Loss</div>
-        <div class="total-value negative">-$229,661 <span style="font-size:.72em;white-space:nowrap">· -8.12% ROI</span></div>
+        <div class="total-value negative">-$200,617 <span style="font-size:.72em;white-space:nowrap">· -7.10% ROI</span></div>
       </div>
     </div>
   </div>
@@ -523,26 +510,26 @@
   <!-- BOT TRADING ACCOUNTS -->
   <div class="card">
     <div class="card-title">🎰 Polymarket · Novairecito</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Account: Barron147</span><span>Total: $14.72</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Account: Barron147</span><span>Total: $14.56</span></div>
     <div style="display:flex;justify-content:space-between;padding:4px 0 8px;font-size:.75rem;border-bottom:1px solid var(--border)"><span>Wins vs Losses</span><span>45W / 34L · 79 trades</span></div>
     <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Top 4 Open Bets</div>
     <div><table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Contract</th><th style="text-align:right">Open ROI</th></tr>
-      <tr><td style="font-size:.75rem">Yes · Will the Edmonton Oilers be named the 2026-27 NHL St...</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+41.7%</td></tr><tr><td style="font-size:.75rem">No · Will Bitcoin reach $110,000 by December 31, 2026?</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+4.0%</td></tr><tr><td style="font-size:.75rem">Yes · Will Bitcoin have the best performance in 2026?</td><td style="text-align:right;font-size:.75rem;color:var(--red);font-weight:600">-2.6%</td></tr>
+      <tr><td style="font-size:.75rem">Yes · Will the Edmonton Oilers be named the 2026-27 NHL St...</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+41.7%</td></tr><tr><td style="font-size:.75rem">No · Will Bitcoin reach $110,000 by December 31, 2026?</td><td style="text-align:right;font-size:.75rem;color:var(--red);font-weight:600">-1.7%</td></tr><tr><td style="font-size:.75rem">Yes · Will Bitcoin have the best performance in 2026?</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+2.6%</td></tr>
       <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td style="text-align:right;font-size:.75rem;padding-top:6px">$0.00</td></tr>
     </table></div>
   </div><div class="card">
     <div class="card-title">🦙 Alpaca · Novairecito</div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $500.00 · 3 trades</span><span>Unified Alpaca book</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.7rem;color:var(--mute)"><span>Inception: $500.00 · 0 trades</span><span>Unified Alpaca book</span></div>
     <div class="collapse-toggle" style="font-size:.65rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">Positions (4)</div>
     <div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="font-size:.65rem;color:var(--mute);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px 0">Position</th><th style="text-align:right">Cost</th><th style="text-align:right">Value</th><th style="text-align:right">P&L</th></tr>
-      <tr><td style="font-size:.75rem">Long · URNJ</td><td style="text-align:right;font-size:.75rem">$236.31</td><td style="text-align:right;font-size:.75rem">$181.92</td><td style="text-align:right;font-size:.75rem;color:var(--red);font-weight:600">-23.0%</td></tr><tr><td style="font-size:.75rem">Long · EXK</td><td style="text-align:right;font-size:.75rem">$128.35</td><td style="text-align:right;font-size:.75rem">$152.40</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+18.7%</td></tr><tr><td style="font-size:.75rem">Long · SILJ</td><td style="text-align:right;font-size:.75rem">$114.68</td><td style="text-align:right;font-size:.75rem">$120.40</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+5.0%</td></tr><tr><td style="font-size:.75rem">Long · SMR</td><td style="text-align:right;font-size:.75rem">$62.03</td><td style="text-align:right;font-size:.75rem">$45.00</td><td style="text-align:right;font-size:.75rem;color:var(--red);font-weight:600">-27.5%</td></tr>
-      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">$0.03</td><td></td></tr>
+      <tr><td style="font-size:.75rem">Long · URNJ</td><td style="text-align:right;font-size:.75rem">$176.68</td><td style="text-align:right;font-size:.75rem">$176.68</td><td style="text-align:right;font-size:.75rem;color:var(--red);font-weight:600">-25.2%</td></tr><tr><td style="font-size:.75rem">Long · EXK</td><td style="text-align:right;font-size:.75rem">$153.38</td><td style="text-align:right;font-size:.75rem">$153.38</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+19.5%</td></tr><tr><td style="font-size:.75rem">Long · SILJ</td><td style="text-align:right;font-size:.75rem">$120.46</td><td style="text-align:right;font-size:.75rem">$120.46</td><td style="text-align:right;font-size:.75rem;color:var(--green);font-weight:600">+5.0%</td></tr><tr><td style="font-size:.75rem">Long · SMR</td><td style="text-align:right;font-size:.75rem">$41.45</td><td style="text-align:right;font-size:.75rem">$41.45</td><td style="text-align:right;font-size:.75rem;color:var(--red);font-weight:600">-33.2%</td></tr>
+      <tr style="border-top:1px solid var(--border)"><td style="font-size:.75rem;padding-top:6px">💵 Cash</td><td></td><td style="text-align:right;font-size:.75rem;padding-top:6px">$0.04</td><td></td></tr>
     </table>
-    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:var(--green);font-weight:600">+$3.92</span></div>
-    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: $499.75</span><span style="color:var(--red)">Inception ROI: -0.0%</span></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0 0;border-top:1px solid var(--border);font-size:.75rem"><span style="color:var(--mute)">Realized P&amp;L</span><span style="color:var(--green);font-weight:600">+$0.00</span></div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 0;font-size:.85rem;font-weight:700"><span>Total: $492.00</span><span style="color:var(--red)">Inception ROI: -1.6%</span></div>
     </div>
   </div>
 

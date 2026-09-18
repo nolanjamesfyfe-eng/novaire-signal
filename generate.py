@@ -1927,6 +1927,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
                         continue
                 closes.append(float(value))
                 completed_rows.append({
+                    "date": str(row_date),
                     "close": float(value),
                     "high": quote_rows.get("high", [None] * len(result.get("timestamp", [])))[index],
                     "low": quote_rows.get("low", [None] * len(result.get("timestamp", [])))[index],
@@ -1936,6 +1937,7 @@ def apply_completed_close_changes(portfolio_data, tickers):
                 data["close_price"] = closes[-1]
                 data["close_change"] = ((closes[-1] / closes[-2]) - 1) * 100 if len(closes) >= 2 else None
                 data["previous_close"] = closes[-2] if len(closes) >= 2 else None
+                data["close_session_date"] = completed_rows[-1]["date"]
                 data["day_high"] = completed_rows[-1].get("high")
                 data["day_low"] = completed_rows[-1].get("low")
                 if ticker == "HG.CN" and official_hg:
@@ -1946,6 +1948,54 @@ def apply_completed_close_changes(portfolio_data, tickers):
         except Exception as exc:
             print(f"    ⚠️  Completed-close enrichment failed for {ticker}: {exc}")
     return portfolio_data
+
+
+def calculate_portfolio_daily_metrics(portfolio_data, holdings, fx):
+    """Calculate CAD performance from live prices vs adjacent completed closes.
+
+    Fail closed unless every holding has a valid live price and prior completed
+    session close. A partial-book return would be materially misleading.
+    """
+    try:
+        usdcad = float(fx["usdcad"])
+        audusd = float(fx["audusd"])
+        if not all(math.isfinite(value) and value > 0 for value in (usdcad, audusd)):
+            return None
+    except (KeyError, TypeError, ValueError):
+        return None
+
+    rates = {"CAD": 1.0, "USD": usdcad, "AUD": audusd * usdcad}
+    live_cad = previous_cad = 0.0
+    session_dates = set()
+    if not holdings:
+        return None
+    for holding in holdings:
+        data = portfolio_data.get(holding.get("ticker"), {})
+        try:
+            shares = float(holding["shares"])
+            live = float(data["price"])
+            previous = float(data["previous_close"])
+            rate = rates[holding.get("currency", "CAD")]
+            if not all(math.isfinite(value) and value > 0 for value in (shares, live, previous, rate)):
+                return None
+        except (KeyError, TypeError, ValueError):
+            return None
+        live_cad += shares * live * rate
+        previous_cad += shares * previous * rate
+        if data.get("close_session_date"):
+            session_dates.add(str(data["close_session_date"]))
+
+    if previous_cad <= 0:
+        return None
+    pnl_cad = live_cad - previous_cad
+    return {
+        "pnl_cad": pnl_cad,
+        "roi_pct": pnl_cad / previous_cad * 100.0,
+        "previous_value_cad": previous_cad,
+        "session_dates": sorted(session_dates),
+        "source": "adjacent valid completed-session daily bars",
+    }
+
 
 def fetch_catalysts(tickers):
     """Fetch recent verified news for every requested top holding.
@@ -4688,6 +4738,22 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     # Jan-1 NAV and a complete external-flow ledger do not yet exist.
     ytd_display = "—"
 
+    daily_metrics = calculate_portfolio_daily_metrics(
+        portfolio_data, holdings_source or HOLDINGS, fx
+    )
+    if daily_metrics:
+        daily_roi_html = (
+            f'<div class="psum-value {"positive" if daily_metrics["roi_pct"] >= 0 else "negative"}">'
+            f'{daily_metrics["roi_pct"]:+.1f}%</div>'
+        )
+        daily_pnl_html = (
+            f'<div class="psum-value {"positive" if daily_metrics["pnl_cad"] >= 0 else "negative"}">'
+            f'{"+" if daily_metrics["pnl_cad"] >= 0 else "−"}${abs(daily_metrics["pnl_cad"]):,.0f}</div>'
+        )
+    else:
+        daily_roi_html = '<div class="psum-value unavailable">—</div>'
+        daily_pnl_html = '<div class="psum-value unavailable">—</div>'
+
     # Build holdings rows HTML
     rows_html = ""
     for ticker, h, price, value, change, is_fallback in port_sorted:
@@ -4763,17 +4829,18 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     html{{scroll-behavior:smooth;font-size:110%}}
     body{{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:32px 16px;font-size:18.15px;line-height:1.5}}
     @media(min-width:900px){{body{{zoom:1.1}}}}
-    .container{{max-width:720px;margin:0 auto}}
+    .container{{max-width:980px;margin:0 auto}}
     .header-brand{{text-align:center;padding-bottom:20px}}
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
     .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}}
     .card{{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}}
     .card-title{{font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}}
     .card-title::after{{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-mid),transparent)}}
-    .portfolio-summary{{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}}
-    .psum-item{{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}}
-    .psum-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}}
-    .psum-value{{font-family:var(--serif);font-size:1.35rem;font-weight:400}}
+    .portfolio-summary{{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-bottom:12px}}
+    .psum-item{{min-width:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 5px;text-align:center}}
+    .psum-label{{font-size:.47rem;color:var(--dim);text-transform:uppercase;letter-spacing:.075em;margin-bottom:3px;white-space:nowrap}}
+    .psum-value{{font-family:var(--serif);font-size:1.05rem;font-weight:400;white-space:nowrap}}
+    .psum-value.unavailable{{color:var(--mute)}}
     .portfolio-table{{width:100%;border-collapse:collapse;font-size:.78rem}}
     .chart-ticker{{cursor:pointer;text-decoration:underline;text-decoration-color:rgba(181,150,98,.38);text-underline-offset:3px}}
     .chart-ticker:hover,.chart-ticker:focus-visible{{color:#dfc48f;outline:none;text-decoration-color:currentColor}}
@@ -4904,7 +4971,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .back-link{{display:inline-block;margin-bottom:20px;font-size:.7rem;color:var(--dim);text-decoration:none;letter-spacing:.08em}}
     .back-link:hover{{color:var(--gold)}}
     @media(max-width:600px){{
-      .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
+      .portfolio-summary{{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}}
+      .psum-item:last-child{{grid-column:1/-1}}
       .totals-row{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
       .totals-row .total-item{{text-align:left;min-width:0}}
       .totals-row .total-value{{font-size:1.05rem;white-space:nowrap}}
@@ -4963,7 +5031,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       <thead><tr><th>Ticker</th><th>Name</th><th style="text-align:right">Shares</th><th style="text-align:right">Price</th><th style="text-align:right">24h</th><th style="text-align:right">Value</th></tr></thead>
       <tbody>{rows_html}</tbody>
     </table></div>
-    <div class="portfolio-summary">
+    <div class="portfolio-summary" data-summary-tiles="7" data-daily-basis="previous-completed-session-close">
       <div class="psum-item">
         <div class="psum-label">Live CAD</div>
         <div class="psum-value positive">${total_cad:,.0f}</div>
@@ -4973,40 +5041,25 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         <div class="psum-value positive">${total_usd:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">ROI</div>
-        <div class="psum-value {'positive' if roi_pct >= 0 else 'negative'}">{'+'if roi_pct>=0 else ''}{roi_pct:.1f}%</div>
-      </div>
-    </div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Cost Basis CAD</div>
-        <div class="psum-value positive" style="font-size:1.1rem">${port_basis_cad:,.0f}</div>
+        <div class="psum-label">Daily ROI</div>
+        {daily_roi_html}
       </div>
       <div class="psum-item">
         <div class="psum-label">ATH CAD</div>
-        <div class="psum-value positive" style="font-size:1.1rem">${port_ath:,.0f}</div>
+        <div class="psum-value positive">${port_ath:,.0f}</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">P&amp;L CAD</div>
-        <div class="psum-value {'positive' if port_roi_abs >= 0 else 'negative'}" style="font-size:1.1rem">{'+' if port_roi_abs >= 0 else '−'}${abs(port_roi_abs):,.0f}</div>
-      </div>
-    </div>
-    <div class="portfolio-summary">
-      <div class="psum-item">
-        <div class="psum-label">Off ATH</div>
-        <div class="psum-value {'positive' if off_ath_pct >= 0 else 'negative'}" style="font-size:1.1rem">{off_ath_pct:+.1f}%</div>
+        <div class="psum-label">Daily P&amp;L CAD</div>
+        {daily_pnl_html}
       </div>
       <div class="psum-item">
-        <div class="psum-label">ATH Gap CAD</div>
-        <div class="psum-value {'positive' if ath_gap_cad >= 0 else 'negative'}" style="font-size:1.1rem">{'+' if ath_gap_cad >= 0 else '−'}${abs(ath_gap_cad):,.0f}</div>
+        <div class="psum-label">Off ATH (%)</div>
+        <div class="psum-value {'positive' if off_ath_pct >= 0 else 'negative'}">{off_ath_pct:+.1f}%</div>
       </div>
       <div class="psum-item">
-        <div class="psum-label">YTD Return</div>
-        <div class="psum-value" style="color:var(--mute);font-size:1.1rem">{ytd_display}</div>
+        <div class="psum-label">$ off ATH CAD</div>
+        <div class="psum-value {'positive' if ath_gap_cad >= 0 else 'negative'}">{'+' if ath_gap_cad >= 0 else '−'}${abs(ath_gap_cad):,.0f}</div>
       </div>
-    </div>
-    <div style="font-size:.56rem;color:var(--mute);margin:-2px 0 12px;text-align:center;line-height:1.45">
-      ROI = open-position P&amp;L ÷ current cost basis · YTD needs Jan 1 NAV plus dated deposits and withdrawals
     </div>
     <div class="allocation-section">
       {donut_svg}
