@@ -19,7 +19,7 @@ class DailyBriefTests(unittest.TestCase):
             crypto={"SUI": {"price": 3.0, "change": -2.0, "day_high": 3.2, "day_low": 2.8}},
             rrsp_meta={"total_cad": 12500, "positions": [{"symbol": "HG", "currency": "CAD", "shares": 600, "value_cad": 3750, "weight_pct": 30.0}]},
             rrsp_quotes={"HG": {"close_price": 6.25, "close_change": -8.6, "day_high": 6.90, "day_low": 6.10}},
-            alpaca={"tier1_positions": [{"symbol": "ABCD", "market_value": 300, "day_change": 3, "portfolio_weight": 60}], "tier2_positions": [], "cash": 200, "equity": 500, "last_equity": 490},
+            alpaca={"tier1_positions": [{"symbol": "ABCD", "market_value": 300, "day_change": 0, "close_change": 3, "day_high": 12, "day_low": 10, "completed_market_date": "2026-08-17", "qty": 25, "portfolio_weight": 60}], "tier2_positions": [], "cash": 200, "equity": 500, "last_equity": 490},
             gs_meta={"total_cad": 100000},
             fx={"usdcad": 1.365, "audusd": .63},
             zh_news=[{"title": "Stocks Rally As Yields Fall", "url": "https://example.com/market"}, {"title": "China Tariff Tensions Rise", "url": "https://example.com/geo"}],
@@ -28,15 +28,16 @@ class DailyBriefTests(unittest.TestCase):
 
     def test_daily_has_source_correct_accounts_and_impact_snapshot(self):
         html = render_daily_html(**self.kwargs)
-        for label in ("WS TFSA", "Kraken", "RRSP", "Novairecito"):
+        for label in ("WS TFSA", "RRSP", "Novairecito"):
             self.assertIn(label, html)
-        for label in ("LARGEST POSITION", "DAY HIGH", "DAY LOW", "PORTFOLIO DAILY EFFECT", "INTRADAY SWING", "NET WORTH EFFECT"):
+        self.assertNotIn("Kraken", html)
+        for label in ("LARGEST POSITION", "DAY HIGH", "DAY LOW", "PORTFOLIO DAILY EFFECT", "POSITION SESSION RANGE", "NET WORTH EFFECT"):
             self.assertIn(label, html)
         self.assertNotIn("INTRADAY CASH SWING", html)
         self.assertIn("Google Sheet · RRSP", html)
         self.assertIn("30.0% of portfolio", html)
         self.assertNotIn("PHYS", html)
-        self.assertIn("C$125,468 tracked net worth", html)
+        self.assertIn("C$113,182 tracked net worth", html)
         self.assertIn("HydroGraph announces expansion", html)
 
     def test_daily_effect_is_whole_account_close_delta_not_largest_holding(self):
@@ -44,33 +45,37 @@ class DailyBriefTests(unittest.TestCase):
         # TFSA history moved C$10,000; the largest holding's isolated move is only ~C$2,471.
         self.assertIn("+C$10,000", html)
         self.assertNotIn("+C$2,471", html)
-        # Kraken history moved US$1,000, converted at the supplied close FX.
-        self.assertIn("+C$1,365", html)
         # Alpaca exposes broker prior equity, so its whole-book delta is US$10.
         self.assertIn("+C$14", html)
+        self.assertIn("+3.0%", html)
+        self.assertIn("US$12.00", html)
+        self.assertIn("US$10.00", html)
+        self.assertIn("Largest-position high to low; not whole-account swing", html)
 
-    def test_intraday_swing_is_unavailable_without_time_aligned_account_series(self):
+    def test_position_range_is_not_mislabeled_as_account_intraday_swing(self):
         html = render_daily_html(**self.kwargs)
-        self.assertEqual(html.count("Full-account synchronized series unavailable"), 4)
-        self.assertNotIn("+C$8,500", html)  # largest-position high/low is not account swing
+        self.assertEqual(html.count("Largest-position high to low; not whole-account swing"), 3)
+        self.assertNotIn("INTRADAY SWING", html)
 
-    def test_time_aligned_account_series_drives_intraday_swing(self):
+    def test_time_aligned_account_series_is_not_summed_into_position_range(self):
         kwargs = dict(self.kwargs)
         kwargs["account_intraday"] = {
             "tfsa_ws": [{"timestamp": "14:30", "cad": 99000}, {"timestamp": "14:35", "cad": 101250}, {"timestamp": "14:40", "cad": 100000}],
         }
         html = render_daily_html(**kwargs)
-        self.assertIn("+C$2,250", html)
-        self.assertIn("Synchronized full-account valuations", html)
+        self.assertNotIn("+C$2,250", html)
+        self.assertIn("+C$8,500", html)
 
     def test_accounts_are_compact_collapsed_disclosures(self):
         html = render_daily_html(**self.kwargs)
-        self.assertEqual(html.count('<details class="account"'), 4)
-        self.assertEqual(html.count("<summary>"), 4)
+        self.assertEqual(html.count('<details class="account"'), 3)
+        self.assertEqual(html.count("<summary>"), 3)
         self.assertNotIn('<details class="account" open', html)
         self.assertIn("grid-template-columns:minmax(0,1fr) minmax(0,auto) 14px", html)
         self.assertNotIn("position:absolute", html)
         self.assertIn("overflow-wrap:anywhere", html)
+        self.assertIn("min-height:34px", html)
+        self.assertIn("padding:7px 8px", html)
 
     def test_compact_daily_header_reuses_approved_brand_navigation(self):
         html = render_daily_html(**self.kwargs)

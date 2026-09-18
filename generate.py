@@ -2567,23 +2567,24 @@ def fetch_alpaca():
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 return _json.loads(resp.read())
 
-        def close_based_price(symbol, fallback):
-            """Alpaca positions can show stale marks after-hours; prefer daily close/latest trade."""
-            candidates = []
+        def completed_bar_metrics(symbol):
+            """Return adjacent completed Alpaca daily bars for the Daily page."""
             try:
-                bars = alpaca_get(f"{DATA_BASE}/v2/stocks/{symbol}/bars?timeframe=1Day&limit=1&adjustment=raw", timeout=6)
-                for bar in bars.get("bars", []):
-                    if bar.get("c"):
-                        candidates.append(float(bar["c"]))
+                payload = alpaca_get(f"{DATA_BASE}/v2/stocks/{symbol}/bars?timeframe=1Day&limit=3&adjustment=raw", timeout=6)
+                bars = [bar for bar in payload.get("bars", []) if all(bar.get(key) for key in ("c", "h", "l", "t"))]
+                if len(bars) < 2:
+                    return {}
+                prior, latest = bars[-2], bars[-1]
+                prior_close = float(prior["c"])
+                close = float(latest["c"])
+                return {
+                    "close_change": (close / prior_close - 1) * 100,
+                    "day_high": float(latest["h"]),
+                    "day_low": float(latest["l"]),
+                    "completed_market_date": str(latest["t"])[:10],
+                }
             except Exception:
-                pass
-            try:
-                trade = alpaca_get(f"{DATA_BASE}/v2/stocks/{symbol}/trades/latest", timeout=6).get("trade", {})
-                if trade.get("p"):
-                    candidates.append(float(trade["p"]))
-            except Exception:
-                pass
-            return candidates[0] if candidates else fallback
+                return {}
 
         # Account info
         acct = alpaca_get(f"{BASE}/v2/account")
@@ -2617,7 +2618,8 @@ def fetch_alpaca():
             mval = abs(float(p.get("market_value", 0)))
             pct_pnl = float(p.get("unrealized_plpc", 0)) * 100
             day_change = float(p.get("change_today", 0) or 0) * 100
-            entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval, "day_change": day_change}
+            entry = {"symbol": symbol, "pct_pnl": pct_pnl, "side": side, "cost": cost, "market_value": mval, "day_change": day_change, "qty": abs(float(p.get("qty", 0) or 0))}
+            entry.update(completed_bar_metrics(symbol))
             # Tier 1 = Volume Scalp (executor.py); Tier 2 = Livermore Darvas
             if symbol in tier1_syms or not tier1_syms:
                 tier1_positions.append(entry)
@@ -5571,6 +5573,16 @@ def main():
 
     # Alpaca — unified Livermore Darvis view
     alpaca_full = fetch_alpaca()
+    alpaca_positions = (alpaca_full.get("tier1_positions", []) + alpaca_full.get("tier2_positions", [])) if alpaca_full else []
+    missing_alpaca_bars = [position["symbol"] for position in alpaca_positions if not position.get("completed_market_date")]
+    if missing_alpaca_bars:
+        alpaca_daily_quotes = {}
+        apply_completed_close_changes(alpaca_daily_quotes, missing_alpaca_bars)
+        for position in alpaca_positions:
+            quote_data = alpaca_daily_quotes.get(position["symbol"], {})
+            if quote_data:
+                position.update({key: quote_data.get(key) for key in ("close_change", "day_high", "day_low", "completed_market_date")})
+                position["daily_quote_source"] = "Yahoo completed daily bar"
     if alpaca_full.get("funded"):
         all_positions = (alpaca_full.get("tier2_positions", []) + alpaca_full.get("tier1_positions", []))
         all_positions.sort(key=lambda p: float(p.get("market_value", 0)), reverse=True)
