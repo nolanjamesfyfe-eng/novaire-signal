@@ -134,8 +134,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn(f'class="signal-bolt">{text_glyph}', self.html)
         self.assertIn(".signal-bolt{display:inline-flex", self.html)
         self.assertIn("color:#b59662", self.html)
-        self.assertIn(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}", self.html)
-        self.assertNotIn(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor;filter:", self.html)
+        self.assertIn(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor}", self.html)
+        self.assertNotIn(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;filter:", self.html)
         self.assertNotIn("signal-bolt-antique-gold", self.html)
         for forbidden in (
             "Daily Updog Vote",
@@ -191,23 +191,22 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".header-brand .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal}", self.html)
         self.assertIn(".header-brand .signal-wordmark > span{color:var(--gold);font-style:italic}", self.html)
         self.assertIn(".dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}", self.html)
-        self.assertIn(".signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em", self.html)
-        self.assertIn(".signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em", self.html)
+        self.assertIn(".signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.243em;height:1.155em", self.html)
+        self.assertIn(".signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.243em;height:1.155em", self.html)
         self.assertNotIn(".signal-map{margin-left:23px}", self.html)
         self.assertNotIn(".signal-map{margin-left:24px", self.html)
         self.assertIn("color:#b59662", self.html)
         self.assertIn('viewBox=".85 .85 22.3 22.3"', header)
-        self.assertIn(".signal-map-icon{width:1.13em;height:1.05em;display:block}", self.html)
+        self.assertIn(".signal-map-icon{width:1.243em;height:1.155em;display:block}", self.html)
         self.assertIn(".signal-map-ocean{fill:#0a0a0c}", self.html)
         self.assertIn(".signal-map-land{fill:#b59662}", self.html)
         self.assertIn(".signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}", self.html)
-        self.assertEqual(self.html.count(".signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}"), 1)
+        self.assertEqual(self.html.count(".signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor}"), 1)
 
-        # Compare painted artwork, not CSS boxes. SVG preserveAspectRatio scales
-        # the bolt path and globe's outer rim inside differently shaped viewBoxes.
-        bolt_painted_height_em = min(.82 / 200, 1.05 / 264) * 252
-        globe_painted_height_em = min(1.13 / 22.3, 1.05 / 22.3) * (2 * 10.25 + .8)
-        self.assertLess(abs(globe_painted_height_em - bolt_painted_height_em), .002)
+        self.assertAlmostEqual(1.243 / 1.13, 1.1)
+        self.assertAlmostEqual(1.155 / 1.05, 1.1)
+        self.assertAlmostEqual(.738 / .82, .9)
+        self.assertAlmostEqual(.945 / 1.05, .9)
 
     def test_header_icons_keep_geometry_and_use_reduced_motion_safe_illumination(self):
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
@@ -215,10 +214,10 @@ class RenderContractTests(unittest.TestCase):
             'viewBox="45 38 200 264"',
             'M219 44Q217 43 215 44L51 180Q49 183 51 185',
             'viewBox=".85 .85 22.3 22.3"',
-            '.signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em',
-            '.signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em',
-            '.signal-bolt-icon{width:.82em;height:1.05em;display:block;fill:currentColor}',
-            '.signal-map-icon{width:1.13em;height:1.05em;display:block}',
+            '.signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.243em;height:1.155em',
+            '.signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.243em;height:1.155em',
+            '.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor}',
+            '.signal-map-icon{width:1.243em;height:1.155em;display:block}',
             '.signal-map-land{fill:#b59662}',
             '.signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}',
         )
