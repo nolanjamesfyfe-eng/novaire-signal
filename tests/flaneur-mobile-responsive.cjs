@@ -111,19 +111,53 @@ test('a burst of pointer moves is coalesced to one globe render per frame', asyn
       return {synchronousWrites,totalWrites:writes,countries:document.querySelectorAll('.country').length};
     });
     assert.equal(result.synchronousWrites, 0, 'move handlers defer geometry work to animation frames');
-    assert.ok(result.totalWrites <= result.countries + 3, `one coalesced render, got ${result.totalWrites} path writes for ${result.countries} countries`);
+    assert.ok(result.totalWrites <= 2*(result.countries + 3), `one coalesced move render plus one full-fidelity settle, got ${result.totalWrites} path writes for ${result.countries} countries`);
   } finally { await browser.close(); }
 });
 
-test('desktop zoom button keeps original 1.5 scale and metrics match mobile fields', async () => {
+test('desktop globe rotates on mouse drag without a stray click', async () => {
+  const browser = await chromium.launch({headless: true});
+  try {
+    const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
+    await page.goto(base, {waitUntil: 'domcontentloaded'});await page.waitForSelector('.sphere');
+    const sphere=await page.locator('.sphere').evaluate(n=>{const b=n.getBBox(),v=n.ownerSVGElement.viewBox.baseVal;return {x:b.x,y:b.y,w:b.width,h:b.height,vw:v.width,vh:v.height}});
+    assert.ok(sphere.x>=0&&sphere.y>=0&&sphere.x+sphere.w<=sphere.vw&&sphere.y+sphere.h<=sphere.vh,'default desktop globe fully fits canvas');
+    assert.ok(Math.abs(sphere.w-sphere.h)<1,'desktop projection is circular');
+    const before=await page.locator('.country[data-code="CN"]').getAttribute('d');
+    const b=await page.locator('#map').boundingBox(), from={x:b.x+b.width*.42,y:b.y+b.height*.52}, to={x:from.x+180,y:from.y+35};
+    await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(to.x,to.y,{steps:14});await page.mouse.up();await page.waitForTimeout(100);
+    assert.notEqual(await page.locator('.country[data-code="CN"]').getAttribute('d'),before,'real mouse drag rotates projected geometry');
+    assert.equal(await page.locator('.tooltip.show').count(),0,'drag release does not create a country click');
+  } finally { await browser.close(); }
+});
+
+test('desktop wheel and controls zoom both ways, then reset view', async () => {
+  const browser = await chromium.launch({headless: true});
+  try {
+    const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
+    await page.goto(base, {waitUntil: 'domcontentloaded'});await page.waitForSelector('.sphere');
+    const diameter=()=>page.locator('.sphere').evaluate(n=>n.getBBox().width);
+    const initial=await diameter(), b=await page.locator('#map').boundingBox();
+    await page.mouse.move(b.x+b.width/2,b.y+b.height/2);await page.mouse.wheel(0,-500);await page.waitForTimeout(100);
+    const wheelIn=await diameter();assert.ok(wheelIn>initial*1.1,'wheel up zooms in');
+    await page.mouse.wheel(0,700);await page.waitForTimeout(100);assert.ok(await diameter()<wheelIn,'wheel down zooms out');
+    await page.locator('#reset-view').dispatchEvent('click');
+    await page.locator('#zoom-in').dispatchEvent('click');assert.ok(Math.abs(await diameter()-initial*1.5)<1,'desktop + keeps 1.5 zoom semantics');
+    await page.locator('#zoom-out').dispatchEvent('click');assert.ok(Math.abs(await diameter()-initial)<1,'desktop − zooms back out');
+    await page.locator('#reset-view').dispatchEvent('click');assert.ok(Math.abs(await diameter()-initial)<1,'reset restores default scale');
+  } finally { await browser.close(); }
+});
+
+test('desktop hover metrics are complete and directory focus rotates globe', async () => {
   const browser = await chromium.launch({headless: true});
   try {
     const page = await browser.newPage({viewport: {width: 1440, height: 1000}});
     await page.goto(base, {waitUntil: 'domcontentloaded'});await page.waitForSelector('.country');
-    await page.locator('.country').first().dispatchEvent('pointermove',{clientX:500,clientY:400,pointerType:'mouse'});
+    await page.locator('.country[data-code="BR"]').dispatchEvent('pointermove',{clientX:600,clientY:420,pointerType:'mouse'});
     const text=await page.locator('.tooltip.show').innerText();
-    for (const label of ['Capital:', 'Population:', 'GDP:']) assert.match(text,new RegExp(label));
-    await page.click('#zoom-in');await page.waitForTimeout(500);
-    assert.match(await page.locator('#map > g').getAttribute('transform'), /scale\(1\.5\)/);
+    assert.match(text,/Capital: .+/);assert.match(text,/Population: .+ \(\d{4}\) · #\d+/);assert.match(text,/GDP: .+ \(\d{4}\) · #\d+/);
+    const before=await page.locator('.country[data-code="JP"]').getAttribute('d');
+    await page.fill('#search','Japan');await page.locator('.country-row[data-code="JP"]').click();await page.waitForTimeout(100);
+    assert.notEqual(await page.locator('.country[data-code="JP"]').getAttribute('d'),before,'directory selection rotates country to the front');
   } finally { await browser.close(); }
 });
