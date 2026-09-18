@@ -60,7 +60,7 @@ def test_mobile_uses_full_width_orthographic_globe_with_real_gestures():
     html = (ROOT / 'map/index.html').read_text()
     assert "matchMedia('(max-width:760px)')" in html
     assert 'd3.geoOrthographic().clipAngle(90)' in html
-    assert 'globe.baseScale=Math.max(1,(width-16)/2)' in html
+    assert 'globe.baseScale=Math.max(1,Math.min((width-16)/2,(height-106)/2))' in html
     assert '.map-frame{width:calc(100% + 28px);margin-left:-14px' in html
     assert '.map-canvas{height:clamp(430px,123vw,480px);min-height:430px}' in html
     assert 'node.onpointerdown=' in html
@@ -86,3 +86,11 @@ def test_desktop_natural_earth_behavior_remains_available():
     assert 'd3.geoNaturalEarth1().fitExtent([[24,45],[width-24,height-28]],geo)' in html
     assert "zoom=d3.zoom().scaleExtent([1,10])" in html
     assert "svg.transition().duration(550).call(zoom.transform" in html
+    assert "mobile?1.35:1.5" in html
+
+
+def test_mobile_pointer_capture_does_not_steal_country_taps():
+    html = (ROOT / 'map/index.html').read_text()
+    gestures = html.split('function bindGlobeGestures()')[1].split('function renderMap()')[0]
+    assert 'setPointerCapture' not in gestures.split('node.onpointerdown=')[1].split('node.onpointermove=')[0]
+    assert 'node.setPointerCapture(e.pointerId)' in gestures.split('node.onpointermove=')[1]
