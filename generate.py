@@ -5045,12 +5045,12 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         {daily_roi_html}
       </div>
       <div class="psum-item">
-        <div class="psum-label">ATH CAD</div>
-        <div class="psum-value positive">${port_ath:,.0f}</div>
-      </div>
-      <div class="psum-item">
         <div class="psum-label">Daily P&amp;L CAD</div>
         {daily_pnl_html}
+      </div>
+      <div class="psum-item">
+        <div class="psum-label">ATH CAD</div>
+        <div class="psum-value positive">${port_ath:,.0f}</div>
       </div>
       <div class="psum-item">
         <div class="psum-label">Off ATH (%)</div>

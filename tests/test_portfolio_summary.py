@@ -56,8 +56,8 @@ def test_generated_portfolio_has_exactly_seven_compact_summary_tiles():
     assert len(summary.select(":scope > .psum-item")) == 7
     labels = [node.get_text(" ", strip=True) for node in summary.select(".psum-label")]
     assert labels == [
-        "Live CAD", "Live USD", "Daily ROI", "ATH CAD",
-        "Daily P&L CAD", "Off ATH (%)", "$ off ATH CAD",
+        "Live CAD", "Live USD", "Daily ROI", "Daily P&L CAD",
+        "ATH CAD", "Off ATH (%)", "$ off ATH CAD",
     ]
     assert "Cost Basis CAD" not in summary.get_text(" ", strip=True)
     assert "YTD Return" not in summary.get_text(" ", strip=True)
