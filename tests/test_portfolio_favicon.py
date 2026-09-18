@@ -4,8 +4,8 @@ import struct
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-ICON_LINK = '<link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg?v=2">'
-TOUCH_LINK = '<link rel="apple-touch-icon" href="/portfolio/apple-touch-icon.png?v=2">'
+ICON_LINK = '<link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg?v=3">'
+TOUCH_LINK = '<link rel="apple-touch-icon" href="/portfolio/apple-touch-icon.png?v=3">'
 
 
 def test_all_portfolio_pages_use_the_gold_dollar_favicon():
@@ -22,20 +22,21 @@ def test_all_portfolio_pages_use_the_gold_dollar_favicon():
 
 def test_portfolio_icon_is_custom_vector_art_not_text_or_emoji():
     icon = ET.fromstring((ROOT / 'portfolio/favicon.svg').read_text())
-    assert icon.attrib['viewBox'] == '0 0 100 100'
+    assert icon.attrib['viewBox'] == '0 0 64 64'
     assert not icon.findall('.//{*}text')
     paths = icon.findall('.//{*}path')
-    assert len(paths) == 2
+    assert len(paths) == 1
     assert all(path.attrib.get('stroke') is None for path in paths)
     background = icon.find('{*}rect')
     assert background is not None
-    assert background.attrib['fill'] == '#000000'
-    group = icon.find('{*}g')
-    assert group is not None
-    assert group.attrib['stroke'] == '#b59662'
+    assert background.attrib['fill'] == '#090909'
+    assert background.attrib.get('rx') is None
+    assert paths[0].attrib['fill'] == '#b59662'
     assert not icon.findall('.//{*}linearGradient')
     assert 'silver' not in ET.tostring(icon, encoding='unicode').lower()
-    assert paths[0].attrib['d'] == 'M50 10V25M50 79V92'
+    assert paths[0].attrib['d'].startswith('M14.5 21.557126')
+    assert 'V6H33.461625' in paths[0].attrib['d']
+    assert 'V58H29.116253' in paths[0].attrib['d']
 
 
 def test_touch_icon_is_180_pixel_png():
