@@ -2,6 +2,7 @@
 set -euo pipefail
 
 REPO=/root/clawd/novaire-signal
+PYTHON_BIN=${NOVAIRE_SIGNAL_PYTHON:-/usr/local/lib/hermes-agent/venv/bin/python3}
 LOCK=/run/lock/novaire-signal-map-facts.lock
 MODE=${1:-publish}
 exec 9>"$LOCK"
@@ -9,7 +10,7 @@ exec 9>"$LOCK"
 
 if [[ "$MODE" == "--dry-run" ]]; then
   cd "$REPO"
-  exec /usr/bin/python3 map/refresh_country_facts.py --dry-run
+  exec "$PYTHON_BIN" map/refresh_country_facts.py --dry-run
 fi
 if [[ "$MODE" != "publish" ]]; then
   printf 'Usage: %s [--dry-run]\n' "$0" >&2
@@ -26,9 +27,9 @@ trap cleanup EXIT
 /usr/bin/git -C "$REPO" fetch origin main
 /usr/bin/git -C "$REPO" worktree add --detach "$WORKTREE" origin/main
 cd "$WORKTREE"
-/usr/bin/python3 map/refresh_country_facts.py
-/usr/bin/python3 map/refresh_country_facts.py --check
-/usr/bin/python3 -m pytest -q tests/test_map_route.py
+"$PYTHON_BIN" map/refresh_country_facts.py
+"$PYTHON_BIN" map/refresh_country_facts.py --check
+"$PYTHON_BIN" -m pytest -q tests/test_map_route.py
 
 if /usr/bin/git diff --quiet -- map/country_facts.json; then
   printf 'Map facts unchanged; nothing to publish\n'
