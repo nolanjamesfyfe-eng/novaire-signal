@@ -36,6 +36,9 @@ def test_tooltip_omits_negative_status_but_preserves_facts():
     html = (ROOT / 'map/index.html').read_text()
     tip = html.split('function showTip(')[1].split('function hideTip')[0]
     assert 'Not visited' not in tip
+    assert '<small>Visited</small>' not in tip
+    assert '<a class="brand" href="/">The Novaire <em>Signal</em></a>' in html
+    assert 'Novaire Signal · World Atlas' not in html
     assert 'statusLabel(code)' not in tip
     assert '<small>Upcoming</small>' in tip
     assert '<b>Capital:</b>' in tip
