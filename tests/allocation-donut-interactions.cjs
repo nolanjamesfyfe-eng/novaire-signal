@@ -40,6 +40,9 @@ async function verifySection(page, section, name, mobile) {
     assert.equal(await section.locator('.allocation-core-label').textContent(), value.pct, `${name} real arc pointer percentage`);
     assert(await slice.evaluate((node) => node.classList.contains('is-active')), `${name} arc active`);
     assert(await item.evaluate((node) => node.classList.contains('is-active')), `${name} synchronized legend`);
+    await item.focus();
+    assert.equal(await section.locator('.allocation-core-kicker').textContent(), value.sector, `${name} legend keyboard focus`);
+    assert.equal(await section.locator('.allocation-core-label').textContent(), value.pct, `${name} legend focus percentage`);
     if (mobile) await page.locator('body').dispatchEvent('pointerdown');
   }
   const firstSlice = slices.first();
