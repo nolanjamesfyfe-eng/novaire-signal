@@ -74,8 +74,9 @@ class DailyBriefTests(unittest.TestCase):
 
     def test_compact_daily_header_reuses_approved_brand_navigation(self):
         html = render_daily_html(**self.kwargs)
-        self.assertIn('<header class="daily-header"><h1>The Daily.</h1>', html)
-        self.assertIn("font-size:1.15rem", html)
+        self.assertIn('<header class="daily-header"><div class="signal-brand-row"', html)
+        self.assertIn('<h1 class="daily-title">The Daily.</h1>', html)
+        self.assertIn("margin:42px 0 18px", html)
         self.assertIn('href="/" class="signal-wordmark"', html)
         self.assertIn('href="/flaneur" class="signal-map"', html)
         self.assertIn('href="/portfolio/" class="signal-bolt"', html)
@@ -83,12 +84,13 @@ class DailyBriefTests(unittest.TestCase):
         self.assertIn('viewBox="45 38 200 264"', html)
         self.assertIn("#b59662", html)
 
-    def test_daily_keeps_geo_story_and_compacts_qualifying_moves(self):
+    def test_daily_has_only_accounts_and_qualifying_moves(self):
         html = render_daily_html(**self.kwargs)
         self.assertNotIn("Market mover · ZeroHedge", html)
         self.assertNotIn("https://example.com/market", html)
-        self.assertIn("Geopolitical pressure", html)
-        self.assertIn('href="https://example.com/geo"', html)
+        self.assertNotIn("Geopolitical pressure", html)
+        self.assertNotIn('href="https://example.com/geo"', html)
+        self.assertNotIn('class="story"', html)
         self.assertIn('<section class="movers"><div class="section-label">Portfolio moves · ±5%</div>', html)
         self.assertIn('class="mover" href="https://example.com/hg"', html)
         self.assertIn("grid-template-columns:repeat(2,minmax(0,1fr))", html)
