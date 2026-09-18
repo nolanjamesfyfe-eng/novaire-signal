@@ -3975,7 +3975,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo"><a href="/flaneur" class="signal-map" title="Countries visited map" aria-label="Open countries visited map">{SIGNAL_MAP_SVG}</a><a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a><a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -4274,7 +4274,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><span class="signal-wordmark">Novaire <span>Signal</span></span><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a><a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
@@ -5051,7 +5051,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   </div>
 
   <div class="header-brand">
-    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a><a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
   </div>
 
@@ -5135,7 +5135,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <!-- ECOSYSTEM LINKS -->
   <div class="footer">
-    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a><a href="/portfolio" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
+    <div class="footer-logo signal-brand-row"><a href="/flaneur" class="signal-map" title="Flâneur Happenings" aria-label="Open Flâneur Happenings">{SIGNAL_MAP_SVG}</a><a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a><a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novairesignal.com" class="eco-link">Novaire Signal</a>

@@ -37,7 +37,8 @@ def test_tooltip_omits_negative_status_but_preserves_facts():
     tip = html.split('function showTip(')[1].split('function hideTip')[0]
     assert 'Not visited' not in tip
     assert '<small>Visited</small>' not in tip
-    assert '<a class="brand" href="/">Novaire <em>Signal</em></a>' in html
+    assert 'class="signal-brand-row"' in html
+    assert 'href="/" class="signal-wordmark"' in html
     assert 'Novaire Signal · World Atlas' not in html
     assert 'statusLabel(code)' not in tip
     assert '<small>Upcoming</small>' in tip
@@ -52,6 +53,8 @@ def test_flaneur_route_and_legacy_redirect():
         assert {'source': path, 'destination': '/flaneur', 'permanent': True} in config['redirects']
     for source in ['index.html', 'generate.py']:
         content = (ROOT / source).read_text()
+        if source == 'generate.py':
+            content += (ROOT / 'signal_brand.py').read_text()
         assert 'href="/flaneur" class="signal-map"' in content
         assert 'href="/map/" class="signal-map"' not in content
 
