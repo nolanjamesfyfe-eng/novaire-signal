@@ -30,6 +30,7 @@ cd "$WORKTREE"
 "$PYTHON_BIN" map/refresh_country_facts.py
 "$PYTHON_BIN" map/refresh_country_facts.py --check
 "$PYTHON_BIN" -m pytest -q tests/test_map_route.py
+/usr/bin/node --test tests/map-fact-format.test.cjs
 
 if /usr/bin/git diff --quiet -- map/country_facts.json; then
   printf 'Map facts unchanged; nothing to publish\n'
@@ -58,6 +59,10 @@ except Exception:
 assert data['coverage']['mapped'] == 199
 assert data['coverage']['capitalFilled'] == 199
 assert data['coverage']['populationFilled'] == 199
+assert data['coverage']['populationRankUniverse'] >= 200
+assert data['coverage']['gdpFilled'] >= 185
+assert data['sources']['gdpNominal']['referenceYear'] == 2025
+assert data['sources']['gdpNominal']['unit'] == 'Billions of U.S. dollars'
 for code, fact in data['countries'].items():
     display = fact['capital']['display']
     assert display and display != 'Unavailable', code
@@ -65,9 +70,13 @@ for code, fact in data['countries'].items():
     assert not display.startswith(('http://', 'https://')), code
     assert isinstance(fact['population']['value'], int) and fact['population']['value'] > 0, code
     assert isinstance(fact['population']['year'], int) and 1950 <= fact['population']['year'] <= 2100, code
+    assert isinstance(fact['population']['rank'], int) and fact['population']['rank'] > 0, code
+    if fact['gdp']['value'] is not None:
+        assert fact['gdp']['year'] == 2025 and fact['gdp']['rank'] > 0, code
 assert set(data['countries']) == {row['iso2'] for row in json.load(open('map/countries.json'))}
 assert "fetch('/map/country_facts.json')" in os.environ['HTML']
 assert '<b>Capital:</b>' in os.environ['HTML'] and '<b>Population:</b>' in os.environ['HTML']
+assert '<b>GDP:</b>' in os.environ['HTML'] and 'nominal current USD' in os.environ['HTML']
 PY
   then
     printf 'Published and verified map facts commit=%s\n' "$COMMIT"

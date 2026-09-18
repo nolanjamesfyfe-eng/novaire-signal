@@ -44,12 +44,22 @@ git push origin main
 
 The catalog contains 199 tracked destinations: the 195-country baseline (193 UN members plus Palestine and Vatican City), plus Taiwan, Kosovo, Hong Kong, and Macau, explicitly confirmed visited. This is not an exhaustive territories list. The percentage uses this 199-entry atlas. Kosovo uses the user-assigned code XK. Additional geometry is sourced from Natural Earth ne_10m_admin_0_countries.geojson; Hong Kong and Macau also have visible markers. `world.geojson` contains Natural Earth country geometry. Small island nations and microstates also receive visible point markers at world scale.
 
-## Capital and population facts
+## Capital, population, and GDP facts
 
 `country_facts.json` covers the same 199 codes as the catalog and geometry. Each
-entry stores its capital source URL and the population source URL, value, and
-actual reference year. `refreshedAt` records retrieval time only and is never
-shown as the population year.
+entry stores its capital source URL and the population source URL, unrounded
+value, actual reference year, and rank across 219 non-aggregate World Bank/UN
+economies. Taiwan and Vatican City use UN WPP 2024 because World Bank has no
+series; other population observations currently use 2025. `refreshedAt` is
+retrieval metadata, never an observation year.
+
+Nominal GDP is IMF WEO `NGDPD`, current U.S. dollars (source units: USD
+billions), reference year 2025. Values are estimates in the April 2026 WEO
+vintage. GDP ranks cover the 193 IMF country/economy codes with a 2025 value;
+regional and analytical aggregates are excluded using the IMF countries
+endpoint. Missing IMF coverage renders `N/A` with no invented rank. Refreshes
+retain a prior complete ranked snapshot on upstream failure rather than mixing
+fresh values with stale ranks.
 
 Refresh and validate without writing:
 

@@ -1,5 +1,5 @@
 [Unit]
-Description=Refresh sourced capital and population facts for Novaire Signal map
+Description=Refresh sourced capital, population, and nominal GDP facts for Novaire Signal map
 After=network-online.target
 Wants=network-online.target
 

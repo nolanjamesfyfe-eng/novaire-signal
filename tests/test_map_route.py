@@ -71,7 +71,28 @@ def test_every_map_feature_has_sourced_capital_and_population():
         assert fact["capital"]["sourceUrl"].startswith("https://"), code
         assert fact["population"]["value"] > 0, code
         assert 1950 <= fact["population"]["year"] <= 2100, code
+        assert fact["population"]["rank"] > 0, code
         assert fact["population"]["sourceUrl"].startswith("https://"), code
+        gdp = fact["gdp"]
+        if gdp["value"] is None:
+            assert gdp["rank"] is None, code
+        else:
+            assert gdp["value"] > 0 and gdp["year"] == 2025 and gdp["rank"] > 0, code
+            assert gdp["indicator"] == "NGDPD"
+            assert gdp["unit"] == "billions current U.S. dollars"
+
+    assert facts["coverage"]["populationRankUniverse"] == 219
+    assert facts["coverage"]["gdpFilled"] == 191
+    assert facts["coverage"]["gdpUnavailable"] == ["CU", "ER", "KP", "LK", "MC", "PS", "SY", "VA"]
+    assert facts["countries"]["IN"]["population"]["rank"] == 1
+    assert facts["countries"]["CN"]["population"]["rank"] == 2
+    assert facts["countries"]["US"]["gdp"]["rank"] == 1
+    assert facts["countries"]["CN"]["gdp"]["rank"] == 2
+    assert facts["countries"]["IN"]["gdp"]["rank"] == 6
+    assert facts["countries"]["CA"]["gdp"]["rank"] == 10
+    assert facts["sources"]["gdpNominal"]["vintage"] == "World Economic Outlook (April 2026)"
+    assert facts["sources"]["gdpNominal"]["unit"] == "Billions of U.S. dollars"
+    assert facts["sources"]["gdpNominal"]["rankUniverse"] == 193
 
 
 def test_refresh_validator_rejects_unresolved_wikidata_capital_ids():
@@ -88,8 +109,19 @@ def test_map_tooltip_loads_facts_and_uses_reference_year():
     assert "fetch('/map/country_facts.json')" in html
     assert '<b>Capital:</b>' in html
     assert '<b>Population:</b>' in html
+    assert '<b>GDP:</b>' in html
     assert "compactPopulation(pop.value)" in html
+    assert "compactGDP(gdp.value)" in html
+    assert "pop.rank" in html and "gdp.rank" in html
     assert "pop.year" in html
     assert "refreshedAt" not in html
-    assert ".toFixed(1)+'B'" in html
-    assert "Math.round(value/1e6)+'M'" in html
+    assert "nominal current USD · 2025 estimates" in html
+
+
+def test_competition_rank_ties_and_old_year_regression_contract():
+    refresh = load_refresh_module()
+    assert refresh.ranked({"A": 10, "B": 10, "C": 8}) == {"A": 1, "B": 1, "C": 3}
+    facts = json.loads((MAP / "country_facts.json").read_text())
+    assert facts["countries"]["TW"]["population"]["year"] == 2024
+    assert facts["countries"]["VA"]["population"]["year"] == 2024
+    assert all(fact["population"]["year"] == 2025 for code, fact in facts["countries"].items() if code not in {"TW", "VA"})

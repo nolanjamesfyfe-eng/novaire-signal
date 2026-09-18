@@ -6,8 +6,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q228"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 164,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 4.491,
+        "year": 2025
+      },
       "name": "Andorra",
       "population": {
+        "rank": 198,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AD/indicator/SP.POP.TOTL?format=json",
         "value": 82904,
@@ -20,8 +31,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q878"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 31,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 571.643,
+        "year": 2025
+      },
       "name": "United Arab Emirates",
       "population": {
+        "rank": 86,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AE/indicator/SP.POP.TOTL?format=json",
         "value": 11513149,
@@ -34,8 +56,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q889"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 133,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 19.662,
+        "year": 2025
+      },
       "name": "Afghanistan",
       "population": {
+        "rank": 36,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AF/indicator/SP.POP.TOTL?format=json",
         "value": 43844111,
@@ -48,8 +81,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q781"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 175,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.273,
+        "year": 2025
+      },
       "name": "Antigua and Barbuda",
       "population": {
+        "rank": 196,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AG/indicator/SP.POP.TOTL?format=json",
         "value": 94209,
@@ -62,8 +106,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q222"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 114,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 30.279,
+        "year": 2025
+      },
       "name": "Albania",
       "population": {
+        "rank": 147,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AL/indicator/SP.POP.TOTL?format=json",
         "value": 2349580,
@@ -76,8 +131,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q399"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 116,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 29.243,
+        "year": 2025
+      },
       "name": "Armenia",
       "population": {
+        "rank": 138,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AM/indicator/SP.POP.TOTL?format=json",
         "value": 3086700,
@@ -90,8 +156,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q916"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 63,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 141.728,
+        "year": 2025
+      },
       "name": "Angola",
       "population": {
+        "rank": 39,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AO/indicator/SP.POP.TOTL?format=json",
         "value": 39040039,
@@ -104,8 +181,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q414"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 25,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 681.485,
+        "year": 2025
+      },
       "name": "Argentina",
       "population": {
+        "rank": 35,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AR/indicator/SP.POP.TOTL?format=json",
         "value": 45851378,
@@ -118,8 +206,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q40"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 29,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 579.928,
+        "year": 2025
+      },
       "name": "Austria",
       "population": {
+        "rank": 98,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AT/indicator/SP.POP.TOTL?format=json",
         "value": 9208163,
@@ -132,8 +231,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q408"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 14,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1839.961,
+        "year": 2025
+      },
       "name": "Australia",
       "population": {
+        "rank": 55,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AU/indicator/SP.POP.TOTL?format=json",
         "value": 27614411,
@@ -146,8 +256,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q227"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 88,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 75.938,
+        "year": 2025
+      },
       "name": "Azerbaijan",
       "population": {
+        "rank": 95,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/AZ/indicator/SP.POP.TOTL?format=json",
         "value": 10246996,
@@ -160,8 +281,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q225"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 111,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 32.962,
+        "year": 2025
+      },
       "name": "Bosnia and Herzegovina",
       "population": {
+        "rank": 136,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BA/indicator/SP.POP.TOTL?format=json",
         "value": 3140095,
@@ -174,8 +306,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q244"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 153,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 8.017,
+        "year": 2025
+      },
       "name": "Barbados",
       "population": {
+        "rank": 180,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BB/indicator/SP.POP.TOTL?format=json",
         "value": 282623,
@@ -188,8 +331,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q902"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 37,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 457.904,
+        "year": 2025
+      },
       "name": "Bangladesh",
       "population": {
+        "rank": 8,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BD/indicator/SP.POP.TOTL?format=json",
         "value": 175686899,
@@ -202,8 +356,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q31"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 23,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 724.917,
+        "year": 2025
+      },
       "name": "Belgium",
       "population": {
+        "rank": 82,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BE/indicator/SP.POP.TOTL?format=json",
         "value": 11941781,
@@ -216,8 +381,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q965"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 120,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 27.14,
+        "year": 2025
+      },
       "name": "Burkina Faso",
       "population": {
+        "rank": 59,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BF/indicator/SP.POP.TOTL?format=json",
         "value": 24074580,
@@ -230,8 +406,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q219"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 65,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 131.024,
+        "year": 2025
+      },
       "name": "Bulgaria",
       "population": {
+        "rank": 112,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BG/indicator/SP.POP.TOTL?format=json",
         "value": 6433302,
@@ -244,8 +431,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q398"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 99,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 47.538,
+        "year": 2025
+      },
       "name": "Bahrain",
       "population": {
+        "rank": 153,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BH/indicator/SP.POP.TOTL?format=json",
         "value": 1600366,
@@ -258,8 +456,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q967"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 157,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 6.918,
+        "year": 2025
+      },
       "name": "Burundi",
       "population": {
+        "rank": 78,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BI/indicator/SP.POP.TOTL?format=json",
         "value": 14390003,
@@ -272,8 +481,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q962"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 124,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 24.382,
+        "year": 2025
+      },
       "name": "Benin",
       "population": {
+        "rank": 76,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BJ/indicator/SP.POP.TOTL?format=json",
         "value": 14814460,
@@ -286,8 +506,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q921"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 142,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 15.942,
+        "year": 2025
+      },
       "name": "Brunei",
       "population": {
+        "rank": 174,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BN/indicator/SP.POP.TOTL?format=json",
         "value": 466330,
@@ -300,8 +531,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q750"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 90,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 64.25,
+        "year": 2025
+      },
       "name": "Bolivia, Plurinational State of",
       "population": {
+        "rank": 79,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BO/indicator/SP.POP.TOTL?format=json",
         "value": 12581843,
@@ -314,8 +556,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q155"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 11,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2279.918,
+        "year": 2025
+      },
       "name": "Brazil",
       "population": {
+        "rank": 7,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BR/indicator/SP.POP.TOTL?format=json",
         "value": 212812405,
@@ -328,8 +581,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q778"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 139,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 16.508,
+        "year": 2025
+      },
       "name": "Bahamas",
       "population": {
+        "rank": 176,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BS/indicator/SP.POP.TOTL?format=json",
         "value": 403033,
@@ -342,8 +606,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q917"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 166,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 3.474,
+        "year": 2025
+      },
       "name": "Bhutan",
       "population": {
+        "rank": 166,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BT/indicator/SP.POP.TOTL?format=json",
         "value": 796682,
@@ -356,8 +631,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q963"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 135,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 19.533,
+        "year": 2025
+      },
       "name": "Botswana",
       "population": {
+        "rank": 144,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BW/indicator/SP.POP.TOTL?format=json",
         "value": 2562122,
@@ -370,8 +656,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q184"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 81,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 92.766,
+        "year": 2025
+      },
       "name": "Belarus",
       "population": {
+        "rank": 100,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BY/indicator/SP.POP.TOTL?format=json",
         "value": 9085991,
@@ -384,8 +681,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q242"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 167,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 3.327,
+        "year": 2025
+      },
       "name": "Belize",
       "population": {
+        "rank": 175,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/BZ/indicator/SP.POP.TOTL?format=json",
         "value": 422924,
@@ -398,8 +706,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q16"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 10,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2319.9,
+        "year": 2025
+      },
       "name": "Canada",
       "population": {
+        "rank": 38,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CA/indicator/SP.POP.TOTL?format=json",
         "value": 41651653,
@@ -412,8 +731,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q974"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 80,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 92.833,
+        "year": 2025
+      },
       "name": "Democratic Republic of the Congo",
       "population": {
+        "rank": 15,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CD/indicator/SP.POP.TOTL?format=json",
         "value": 112832473,
@@ -426,8 +756,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q929"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 168,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 3.192,
+        "year": 2025
+      },
       "name": "Central African Republic",
       "population": {
+        "rank": 120,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CF/indicator/SP.POP.TOTL?format=json",
         "value": 5513282,
@@ -440,8 +781,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q971"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 143,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 15.592,
+        "year": 2025
+      },
       "name": "Republic of the Congo",
       "population": {
+        "rank": 111,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CG/indicator/SP.POP.TOTL?format=json",
         "value": 6484437,
@@ -454,8 +806,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q39"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 20,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1043.544,
+        "year": 2025
+      },
       "name": "Switzerland",
       "population": {
+        "rank": 99,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CH/indicator/SP.POP.TOTL?format=json",
         "value": 9092436,
@@ -468,8 +831,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1008"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 78,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 98.885,
+        "year": 2025
+      },
       "name": "Côte d'Ivoire",
       "population": {
+        "rank": 50,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CI/indicator/SP.POP.TOTL?format=json",
         "value": 32711547,
@@ -482,8 +856,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q298"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 46,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 355.346,
+        "year": 2025
+      },
       "name": "Chile",
       "population": {
+        "rank": 66,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CL/indicator/SP.POP.TOTL?format=json",
         "value": 19859921,
@@ -496,8 +881,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1009"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 92,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 59.282,
+        "year": 2025
+      },
       "name": "Cameroon",
       "population": {
+        "rank": 51,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CM/indicator/SP.POP.TOTL?format=json",
         "value": 29879337,
@@ -510,8 +906,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q148"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 2,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 19626.247,
+        "year": 2025
+      },
       "name": "China",
       "population": {
+        "rank": 2,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CN/indicator/SP.POP.TOTL?format=json",
         "value": 1406585000,
@@ -524,8 +931,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q739"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 38,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 457.41,
+        "year": 2025
+      },
       "name": "Colombia",
       "population": {
+        "rank": 28,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CO/indicator/SP.POP.TOTL?format=json",
         "value": 53425635,
@@ -538,8 +956,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q800"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 74,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 102.902,
+        "year": 2025
+      },
       "name": "Costa Rica",
       "population": {
+        "rank": 127,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CR/indicator/SP.POP.TOTL?format=json",
         "value": 5152950,
@@ -552,8 +981,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q241"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Cuba",
       "population": {
+        "rank": 88,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CU/indicator/SP.POP.TOTL?format=json",
         "value": 10937203,
@@ -566,8 +1006,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1011"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 169,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 3.081,
+        "year": 2025
+      },
       "name": "Cape Verde",
       "population": {
+        "rank": 173,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CV/indicator/SP.POP.TOTL?format=json",
         "value": 527326,
@@ -580,8 +1031,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q229"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 103,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 41.019,
+        "year": 2025
+      },
       "name": "Cyprus",
       "population": {
+        "rank": 156,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CY/indicator/SP.POP.TOTL?format=json",
         "value": 1370754,
@@ -594,8 +1056,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q213"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 43,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 389.02,
+        "year": 2025
+      },
       "name": "Czechia",
       "population": {
+        "rank": 89,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/CZ/indicator/SP.POP.TOTL?format=json",
         "value": 10886878,
@@ -608,8 +1081,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q183"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 3,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 5048.059,
+        "year": 2025
+      },
       "name": "Germany",
       "population": {
+        "rank": 19,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/DE/indicator/SP.POP.TOTL?format=json",
         "value": 83491249,
@@ -622,8 +1106,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q977"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 165,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 4.378,
+        "year": 2025
+      },
       "name": "Djibouti",
       "population": {
+        "rank": 161,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/DJ/indicator/SP.POP.TOTL?format=json",
         "value": 1184076,
@@ -636,8 +1131,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q35"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 36,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 461.718,
+        "year": 2025
+      },
       "name": "Denmark",
       "population": {
+        "rank": 115,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/DK/indicator/SP.POP.TOTL?format=json",
         "value": 6009169,
@@ -650,8 +1156,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q784"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 186,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.744,
+        "year": 2025
+      },
       "name": "Dominica",
       "population": {
+        "rank": 200,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/DM/indicator/SP.POP.TOTL?format=json",
         "value": 65871,
@@ -664,8 +1181,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q786"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 67,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 127.895,
+        "year": 2025
+      },
       "name": "Dominican Republic",
       "population": {
+        "rank": 85,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/DO/indicator/SP.POP.TOTL?format=json",
         "value": 11520487,
@@ -678,8 +1206,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q262"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 52,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 285.724,
+        "year": 2025
+      },
       "name": "Algeria",
       "population": {
+        "rank": 33,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/DZ/indicator/SP.POP.TOTL?format=json",
         "value": 47435312,
@@ -692,8 +1231,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q736"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 66,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 130.321,
+        "year": 2025
+      },
       "name": "Ecuador",
       "population": {
+        "rank": 71,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/EC/indicator/SP.POP.TOTL?format=json",
         "value": 18289896,
@@ -706,8 +1256,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q191"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 100,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 47.004,
+        "year": 2025
+      },
       "name": "Estonia",
       "population": {
+        "rank": 158,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/EE/indicator/SP.POP.TOTL?format=json",
         "value": 1366475,
@@ -720,8 +1281,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q79"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 45,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 364.64,
+        "year": 2025
+      },
       "name": "Egypt",
       "population": {
+        "rank": 13,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/EG/indicator/SP.POP.TOTL?format=json",
         "value": 118365995,
@@ -734,8 +1306,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q986"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Eritrea",
       "population": {
+        "rank": 132,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ER/indicator/SP.POP.TOTL?format=json",
         "value": 3607003,
@@ -748,8 +1331,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q29"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 12,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1903.826,
+        "year": 2025
+      },
       "name": "Spain",
       "population": {
+        "rank": 32,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ES/indicator/SP.POP.TOTL?format=json",
         "value": 49355143,
@@ -762,8 +1356,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q115"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 71,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 109.109,
+        "year": 2025
+      },
       "name": "Ethiopia",
       "population": {
+        "rank": 10,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ET/indicator/SP.POP.TOTL?format=json",
         "value": 135472051,
@@ -776,8 +1381,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q33"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 49,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 316.86,
+        "year": 2025
+      },
       "name": "Finland",
       "population": {
+        "rank": 118,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/FI/indicator/SP.POP.TOTL?format=json",
         "value": 5646436,
@@ -790,8 +1406,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q712"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 158,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 6.041,
+        "year": 2025
+      },
       "name": "Fiji",
       "population": {
+        "rank": 162,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/FJ/indicator/SP.POP.TOTL?format=json",
         "value": 933154,
@@ -804,8 +1431,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q702"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 188,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.502,
+        "year": 2025
+      },
       "name": "Micronesia, Federated States of",
       "population": {
+        "rank": 191,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/FM/indicator/SP.POP.TOTL?format=json",
         "value": 113683,
@@ -818,8 +1456,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q142"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 7,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 3368.925,
+        "year": 2025
+      },
       "name": "France",
       "population": {
+        "rank": 23,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/FR/indicator/SP.POP.TOTL?format=json",
         "value": 68720337,
@@ -832,8 +1481,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1000"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 130,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 21.624,
+        "year": 2025
+      },
       "name": "Gabon",
       "population": {
+        "rank": 143,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GA/indicator/SP.POP.TOTL?format=json",
         "value": 2593130,
@@ -846,8 +1506,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q145"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 5,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 4003.022,
+        "year": 2025
+      },
       "name": "United Kingdom",
       "population": {
+        "rank": 22,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GB/indicator/SP.POP.TOTL?format=json",
         "value": 69487000,
@@ -860,8 +1531,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q769"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 180,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.42,
+        "year": 2025
+      },
       "name": "Grenada",
       "population": {
+        "rank": 190,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GD/indicator/SP.POP.TOTL?format=json",
         "value": 117303,
@@ -874,8 +1556,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q230"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 107,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 38.216,
+        "year": 2025
+      },
       "name": "Georgia",
       "population": {
+        "rank": 130,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GE/indicator/SP.POP.TOTL?format=json",
         "value": 3935766,
@@ -888,8 +1581,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q117"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 70,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 114.708,
+        "year": 2025
+      },
       "name": "Ghana",
       "population": {
+        "rank": 47,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GH/indicator/SP.POP.TOTL?format=json",
         "value": 35064272,
@@ -902,8 +1606,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1005"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 173,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.584,
+        "year": 2025
+      },
       "name": "Gambia",
       "population": {
+        "rank": 142,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GM/indicator/SP.POP.TOTL?format=json",
         "value": 2822093,
@@ -916,8 +1631,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1006"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 119,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 27.215,
+        "year": 2025
+      },
       "name": "Guinea",
       "population": {
+        "rank": 75,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GN/indicator/SP.POP.TOTL?format=json",
         "value": 15099727,
@@ -930,8 +1656,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q983"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 147,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 12.484,
+        "year": 2025
+      },
       "name": "Equatorial Guinea",
       "population": {
+        "rank": 150,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GQ/indicator/SP.POP.TOTL?format=json",
         "value": 1938431,
@@ -944,8 +1681,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q41"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 53,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 280.476,
+        "year": 2025
+      },
       "name": "Greece",
       "population": {
+        "rank": 94,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GR/indicator/SP.POP.TOTL?format=json",
         "value": 10413962,
@@ -958,8 +1706,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q774"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 69,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 121.113,
+        "year": 2025
+      },
       "name": "Guatemala",
       "population": {
+        "rank": 70,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GT/indicator/SP.POP.TOTL?format=json",
         "value": 18687881,
@@ -972,8 +1731,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1007"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 172,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.648,
+        "year": 2025
+      },
       "name": "Guinea-Bissau",
       "population": {
+        "rank": 148,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GW/indicator/SP.POP.TOTL?format=json",
         "value": 2249515,
@@ -986,8 +1756,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q734"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 121,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 27.097,
+        "year": 2025
+      },
       "name": "Guyana",
       "population": {
+        "rank": 165,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/GY/indicator/SP.POP.TOTL?format=json",
         "value": 835986,
@@ -1000,8 +1781,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q8646"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 40,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 427.31,
+        "year": 2025
+      },
       "name": "Hong Kong",
       "population": {
+        "rank": 105,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/HK/indicator/SP.POP.TOTL?format=json",
         "value": 7498900,
@@ -1014,8 +1806,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q783"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 105,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 39.694,
+        "year": 2025
+      },
       "name": "Honduras",
       "population": {
+        "rank": 87,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/HN/indicator/SP.POP.TOTL?format=json",
         "value": 11005850,
@@ -1028,8 +1831,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q224"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 73,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 106.055,
+        "year": 2025
+      },
       "name": "Croatia",
       "population": {
+        "rank": 131,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/HR/indicator/SP.POP.TOTL?format=json",
         "value": 3876200,
@@ -1042,8 +1856,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q790"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 113,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 32.102,
+        "year": 2025
+      },
       "name": "Haiti",
       "population": {
+        "rank": 83,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/HT/indicator/SP.POP.TOTL?format=json",
         "value": 11906095,
@@ -1056,8 +1881,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q28"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 56,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 246.891,
+        "year": 2025
+      },
       "name": "Hungary",
       "population": {
+        "rank": 97,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/HU/indicator/SP.POP.TOTL?format=json",
         "value": 9514251,
@@ -1070,8 +1906,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q252"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 17,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1445.642,
+        "year": 2025
+      },
       "name": "Indonesia",
       "population": {
+        "rank": 4,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ID/indicator/SP.POP.TOTL?format=json",
         "value": 285721236,
@@ -1084,8 +1931,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q27"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 24,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 718.14,
+        "year": 2025
+      },
       "name": "Ireland",
       "population": {
+        "rank": 122,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IE/indicator/SP.POP.TOTL?format=json",
         "value": 5484367,
@@ -1098,8 +1956,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q801"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 27,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 610.778,
+        "year": 2025
+      },
       "name": "Israel",
       "population": {
+        "rank": 96,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IL/indicator/SP.POP.TOTL?format=json",
         "value": 10122800,
@@ -1112,8 +1981,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q668"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 6,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 3916.312,
+        "year": 2025
+      },
       "name": "India",
       "population": {
+        "rank": 1,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IN/indicator/SP.POP.TOTL?format=json",
         "value": 1463865525,
@@ -1126,8 +2006,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q796"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 54,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 264.167,
+        "year": 2025
+      },
       "name": "Iraq",
       "population": {
+        "rank": 34,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IQ/indicator/SP.POP.TOTL?format=json",
         "value": 47020774,
@@ -1140,8 +2031,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q794"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 44,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 371.196,
+        "year": 2025
+      },
       "name": "Iran, Islamic Republic of",
       "population": {
+        "rank": 17,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IR/indicator/SP.POP.TOTL?format=json",
         "value": 92417681,
@@ -1154,8 +2056,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q189"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 106,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 38.583,
+        "year": 2025
+      },
       "name": "Iceland",
       "population": {
+        "rank": 177,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IS/indicator/SP.POP.TOTL?format=json",
         "value": 392404,
@@ -1168,8 +2081,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q38"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 9,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2550.111,
+        "year": 2025
+      },
       "name": "Italy",
       "population": {
+        "rank": 25,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/IT/indicator/SP.POP.TOTL?format=json",
         "value": 58915656,
@@ -1182,8 +2106,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q766"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 126,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 22.313,
+        "year": 2025
+      },
       "name": "Jamaica",
       "population": {
+        "rank": 141,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/JM/indicator/SP.POP.TOTL?format=json",
         "value": 2837077,
@@ -1196,8 +2131,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q810"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 91,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 61.692,
+        "year": 2025
+      },
       "name": "Jordan",
       "population": {
+        "rank": 84,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/JO/indicator/SP.POP.TOTL?format=json",
         "value": 11520684,
@@ -1210,8 +2156,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q17"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 4,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 4435.163,
+        "year": 2025
+      },
       "name": "Japan",
       "population": {
+        "rank": 12,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/JP/indicator/SP.POP.TOTL?format=json",
         "value": 123366734,
@@ -1224,8 +2181,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q114"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 64,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 136.455,
+        "year": 2025
+      },
       "name": "Kenya",
       "population": {
+        "rank": 26,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KE/indicator/SP.POP.TOTL?format=json",
         "value": 57532493,
@@ -1238,8 +2206,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q813"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 131,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 21.567,
+        "year": 2025
+      },
       "name": "Kyrgyzstan",
       "population": {
+        "rank": 107,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KG/indicator/SP.POP.TOTL?format=json",
         "value": 7343064,
@@ -1252,8 +2231,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q424"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 97,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 49.288,
+        "year": 2025
+      },
       "name": "Cambodia",
       "population": {
+        "rank": 73,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KH/indicator/SP.POP.TOTL?format=json",
         "value": 17847982,
@@ -1266,8 +2256,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q710"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 189,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.349,
+        "year": 2025
+      },
       "name": "Kiribati",
       "population": {
+        "rank": 188,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KI/indicator/SP.POP.TOTL?format=json",
         "value": 136488,
@@ -1280,8 +2281,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q970"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 179,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.609,
+        "year": 2025
+      },
       "name": "Comoros",
       "population": {
+        "rank": 163,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KM/indicator/SP.POP.TOTL?format=json",
         "value": 882847,
@@ -1294,8 +2306,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q763"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 184,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.082,
+        "year": 2025
+      },
       "name": "Saint Kitts and Nevis",
       "population": {
+        "rank": 204,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KN/indicator/SP.POP.TOTL?format=json",
         "value": 46922,
@@ -1308,8 +2331,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q423"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Korea, Democratic People's Republic of",
       "population": {
+        "rank": 56,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KP/indicator/SP.POP.TOTL?format=json",
         "value": 26571036,
@@ -1322,8 +2356,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q884"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 13,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1872.375,
+        "year": 2025
+      },
       "name": "South Korea",
       "population": {
+        "rank": 29,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KR/indicator/SP.POP.TOTL?format=json",
         "value": 51684564,
@@ -1336,8 +2381,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q817"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 60,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 157.835,
+        "year": 2025
+      },
       "name": "Kuwait",
       "population": {
+        "rank": 128,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KW/indicator/SP.POP.TOTL?format=json",
         "value": 4865298,
@@ -1350,8 +2406,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q232"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 50,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 302.746,
+        "year": 2025
+      },
       "name": "Kazakhstan",
       "population": {
+        "rank": 65,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/KZ/indicator/SP.POP.TOTL?format=json",
         "value": 20843754,
@@ -1364,8 +2431,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q819"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 137,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 17.822,
+        "year": 2025
+      },
       "name": "Lao People's Democratic Republic",
       "population": {
+        "rank": 103,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LA/indicator/SP.POP.TOTL?format=json",
         "value": 7873046,
@@ -1378,8 +2456,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q822"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 110,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 34.497,
+        "year": 2025
+      },
       "name": "Lebanon",
       "population": {
+        "rank": 116,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LB/indicator/SP.POP.TOTL?format=json",
         "value": 5849421,
@@ -1392,8 +2481,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q760"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 171,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.651,
+        "year": 2025
+      },
       "name": "Saint Lucia",
       "population": {
+        "rank": 184,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LC/indicator/SP.POP.TOTL?format=json",
         "value": 180149,
@@ -1406,8 +2506,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q347"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 152,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 8.991,
+        "year": 2025
+      },
       "name": "Liechtenstein",
       "population": {
+        "rank": 209,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LI/indicator/SP.POP.TOTL?format=json",
         "value": 41024,
@@ -1420,8 +2531,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q854"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Sri Lanka",
       "population": {
+        "rank": 63,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LK/indicator/SP.POP.TOTL?format=json",
         "value": 21756000,
@@ -1434,8 +2556,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1014"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 160,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 5.216,
+        "year": 2025
+      },
       "name": "Liberia",
       "population": {
+        "rank": 117,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LR/indicator/SP.POP.TOTL?format=json",
         "value": 5731206,
@@ -1448,8 +2581,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1013"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 170,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.854,
+        "year": 2025
+      },
       "name": "Lesotho",
       "population": {
+        "rank": 145,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LS/indicator/SP.POP.TOTL?format=json",
         "value": 2363325,
@@ -1462,8 +2606,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q37"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 79,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 94.927,
+        "year": 2025
+      },
       "name": "Lithuania",
       "population": {
+        "rank": 140,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LT/indicator/SP.POP.TOTL?format=json",
         "value": 2888774,
@@ -1476,8 +2631,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q32"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 75,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 101.1,
+        "year": 2025
+      },
       "name": "Luxembourg",
       "population": {
+        "rank": 167,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LU/indicator/SP.POP.TOTL?format=json",
         "value": 686970,
@@ -1490,8 +2656,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q211"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 98,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 48.591,
+        "year": 2025
+      },
       "name": "Latvia",
       "population": {
+        "rank": 151,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LV/indicator/SP.POP.TOTL?format=json",
         "value": 1847785,
@@ -1504,8 +2681,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1016"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 102,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 44.732,
+        "year": 2025
+      },
       "name": "Libya",
       "population": {
+        "rank": 106,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/LY/indicator/SP.POP.TOTL?format=json",
         "value": 7458555,
@@ -1518,8 +2706,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1028"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 59,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 182.587,
+        "year": 2025
+      },
       "name": "Morocco",
       "population": {
+        "rank": 41,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MA/indicator/SP.POP.TOTL?format=json",
         "value": 38430770,
@@ -1532,8 +2731,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q235"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Monaco",
       "population": {
+        "rank": 212,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MC/indicator/SP.POP.TOTL?format=json",
         "value": 38341,
@@ -1546,8 +2756,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q217"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 132,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 20.342,
+        "year": 2025
+      },
       "name": "Moldova",
       "population": {
+        "rank": 146,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MD/indicator/SP.POP.TOTL?format=json",
         "value": 2360527,
@@ -1560,8 +2781,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q236"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 151,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 9.228,
+        "year": 2025
+      },
       "name": "Montenegro",
       "population": {
+        "rank": 170,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ME/indicator/SP.POP.TOTL?format=json",
         "value": 623129,
@@ -1574,8 +2806,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1019"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 134,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 19.556,
+        "year": 2025
+      },
       "name": "Madagascar",
       "population": {
+        "rank": 49,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MG/indicator/SP.POP.TOTL?format=json",
         "value": 32740678,
@@ -1588,8 +2831,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q709"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 191,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.308,
+        "year": 2025
+      },
       "name": "Marshall Islands",
       "population": {
+        "rank": 213,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MH/indicator/SP.POP.TOTL?format=json",
         "value": 36282,
@@ -1602,8 +2856,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q221"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 136,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 19.142,
+        "year": 2025
+      },
       "name": "North Macedonia",
       "population": {
+        "rank": 152,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MK/indicator/SP.POP.TOTL?format=json",
         "value": 1820909,
@@ -1616,8 +2881,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q912"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 115,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 30.05,
+        "year": 2025
+      },
       "name": "Mali",
       "population": {
+        "rank": 58,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ML/indicator/SP.POP.TOTL?format=json",
         "value": 25198821,
@@ -1630,8 +2906,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q836"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 85,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 82.4,
+        "year": 2025
+      },
       "name": "Myanmar",
       "population": {
+        "rank": 27,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MM/indicator/SP.POP.TOTL?format=json",
         "value": 54850648,
@@ -1644,8 +2931,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q711"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 123,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 25.37,
+        "year": 2025
+      },
       "name": "Mongolia",
       "population": {
+        "rank": 133,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MN/indicator/SP.POP.TOTL?format=json",
         "value": 3568978,
@@ -1658,8 +2956,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q14773"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 95,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 52.061,
+        "year": 2025
+      },
       "name": "Macau",
       "population": {
+        "rank": 168,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MO/indicator/SP.POP.TOTL?format=json",
         "value": 685900,
@@ -1672,8 +2981,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1025"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 149,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 12.289,
+        "year": 2025
+      },
       "name": "Mauritania",
       "population": {
+        "rank": 126,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MR/indicator/SP.POP.TOTL?format=json",
         "value": 5315065,
@@ -1686,8 +3006,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q233"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 118,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 27.756,
+        "year": 2025
+      },
       "name": "Malta",
       "population": {
+        "rank": 171,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MT/indicator/SP.POP.TOTL?format=json",
         "value": 579704,
@@ -1700,8 +3031,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1027"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 140,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 16.126,
+        "year": 2025
+      },
       "name": "Mauritius",
       "population": {
+        "rank": 160,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MU/indicator/SP.POP.TOTL?format=json",
         "value": 1243741,
@@ -1714,8 +3056,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q826"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 156,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 7.665,
+        "year": 2025
+      },
       "name": "Maldives",
       "population": {
+        "rank": 172,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MV/indicator/SP.POP.TOTL?format=json",
         "value": 529676,
@@ -1728,8 +3081,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1020"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 144,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 15.047,
+        "year": 2025
+      },
       "name": "Malawi",
       "population": {
+        "rank": 61,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MW/indicator/SP.POP.TOTL?format=json",
         "value": 22216120,
@@ -1742,8 +3106,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q96"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 15,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1832.641,
+        "year": 2025
+      },
       "name": "Mexico",
       "population": {
+        "rank": 11,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MX/indicator/SP.POP.TOTL?format=json",
         "value": 131946900,
@@ -1756,8 +3131,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q833"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 35,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 472.193,
+        "year": 2025
+      },
       "name": "Malaysia",
       "population": {
+        "rank": 45,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MY/indicator/SP.POP.TOTL?format=json",
         "value": 35977838,
@@ -1770,8 +3156,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1029"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 125,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 22.338,
+        "year": 2025
+      },
       "name": "Mozambique",
       "population": {
+        "rank": 46,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/MZ/indicator/SP.POP.TOTL?format=json",
         "value": 35631653,
@@ -1784,8 +3181,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1030"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 145,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 14.826,
+        "year": 2025
+      },
       "name": "Namibia",
       "population": {
+        "rank": 137,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NA/indicator/SP.POP.TOTL?format=json",
         "value": 3092816,
@@ -1798,8 +3206,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1032"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 129,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 21.836,
+        "year": 2025
+      },
       "name": "Niger",
       "population": {
+        "rank": 54,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NE/indicator/SP.POP.TOTL?format=json",
         "value": 27917831,
@@ -1812,8 +3231,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1033"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 51,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 290.491,
+        "year": 2025
+      },
       "name": "Nigeria",
       "population": {
+        "rank": 6,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NG/indicator/SP.POP.TOTL?format=json",
         "value": 237527782,
@@ -1826,8 +3256,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q811"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 127,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 22.237,
+        "year": 2025
+      },
       "name": "Nicaragua",
       "population": {
+        "rank": 109,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NI/indicator/SP.POP.TOTL?format=json",
         "value": 7007502,
@@ -1840,8 +3281,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q55"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 18,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1332.24,
+        "year": 2025
+      },
       "name": "Netherlands",
       "population": {
+        "rank": 72,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NL/indicator/SP.POP.TOTL?format=json",
         "value": 18087633,
@@ -1854,8 +3306,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q20"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 32,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 530.756,
+        "year": 2025
+      },
       "name": "Norway",
       "population": {
+        "rank": 119,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NO/indicator/SP.POP.TOTL?format=json",
         "value": 5610870,
@@ -1868,8 +3331,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q837"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 101,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 44.81,
+        "year": 2025
+      },
       "name": "Nepal",
       "population": {
+        "rank": 52,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NP/indicator/SP.POP.TOTL?format=json",
         "value": 29618118,
@@ -1882,8 +3356,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q697"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 192,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.176,
+        "year": 2025
+      },
       "name": "Nauru",
       "population": {
+        "rank": 217,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NR/indicator/SP.POP.TOTL?format=json",
         "value": 12025,
@@ -1896,8 +3381,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q664"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 55,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 258.832,
+        "year": 2025
+      },
       "name": "New Zealand",
       "population": {
+        "rank": 125,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/NZ/indicator/SP.POP.TOTL?format=json",
         "value": 5324700,
@@ -1910,8 +3406,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q842"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 72,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 106.127,
+        "year": 2025
+      },
       "name": "Oman",
       "population": {
+        "rank": 121,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/OM/indicator/SP.POP.TOTL?format=json",
         "value": 5494691,
@@ -1924,8 +3431,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q804"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 82,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 90.463,
+        "year": 2025
+      },
       "name": "Panama",
       "population": {
+        "rank": 129,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PA/indicator/SP.POP.TOTL?format=json",
         "value": 4571189,
@@ -1938,8 +3456,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q419"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 48,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 341.025,
+        "year": 2025
+      },
       "name": "Peru",
       "population": {
+        "rank": 48,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PE/indicator/SP.POP.TOTL?format=json",
         "value": 34576665,
@@ -1952,8 +3481,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q691"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 112,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 32.491,
+        "year": 2025
+      },
       "name": "Papua New Guinea",
       "population": {
+        "rank": 92,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PG/indicator/SP.POP.TOTL?format=json",
         "value": 10762817,
@@ -1966,8 +3506,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q928"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 34,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 487.161,
+        "year": 2025
+      },
       "name": "Philippines",
       "population": {
+        "rank": 14,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PH/indicator/SP.POP.TOTL?format=json",
         "value": 116786962,
@@ -1980,8 +3531,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q843"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 42,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 407.786,
+        "year": 2025
+      },
       "name": "Pakistan",
       "population": {
+        "rank": 5,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PK/indicator/SP.POP.TOTL?format=json",
         "value": 255219554,
@@ -1994,8 +3556,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q36"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 21,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1035.586,
+        "year": 2025
+      },
       "name": "Poland",
       "population": {
+        "rank": 44,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PL/indicator/SP.POP.TOTL?format=json",
         "value": 36435861,
@@ -2008,8 +3581,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q219060"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Palestine",
       "population": {
+        "rank": 124,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PS/indicator/SP.POP.TOTL?format=json",
         "value": 5413596,
@@ -2022,8 +3606,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q45"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 47,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 346.412,
+        "year": 2025
+      },
       "name": "Portugal",
       "population": {
+        "rank": 90,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PT/indicator/SP.POP.TOTL?format=json",
         "value": 10804871,
@@ -2036,8 +3631,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q695"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 190,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.345,
+        "year": 2025
+      },
       "name": "Palau",
       "population": {
+        "rank": 216,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PW/indicator/SP.POP.TOTL?format=json",
         "value": 17663,
@@ -2050,8 +3656,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q733"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 96,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 49.358,
+        "year": 2025
+      },
       "name": "Paraguay",
       "population": {
+        "rank": 108,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/PY/indicator/SP.POP.TOTL?format=json",
         "value": 7013078,
@@ -2064,8 +3681,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q846"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 57,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 221.229,
+        "year": 2025
+      },
       "name": "Qatar",
       "population": {
+        "rank": 139,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/QA/indicator/SP.POP.TOTL?format=json",
         "value": 2972215,
@@ -2078,8 +3706,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q218"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 39,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 427.941,
+        "year": 2025
+      },
       "name": "Romania",
       "population": {
+        "rank": 68,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/RO/indicator/SP.POP.TOTL?format=json",
         "value": 19020271,
@@ -2092,8 +3731,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q403"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 76,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 99.953,
+        "year": 2025
+      },
       "name": "Serbia",
       "population": {
+        "rank": 110,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/RS/indicator/SP.POP.TOTL?format=json",
         "value": 6549143,
@@ -2106,8 +3756,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q159"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 8,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2587.938,
+        "year": 2025
+      },
       "name": "Russia",
       "population": {
+        "rank": 9,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/RU/indicator/SP.POP.TOTL?format=json",
         "value": 143513328,
@@ -2120,8 +3781,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1037"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 141,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 15.973,
+        "year": 2025
+      },
       "name": "Rwanda",
       "population": {
+        "rank": 77,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/RW/indicator/SP.POP.TOTL?format=json",
         "value": 14569341,
@@ -2134,8 +3806,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q851"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 19,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1276.943,
+        "year": 2025
+      },
       "name": "Saudi Arabia",
       "population": {
+        "rank": 43,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SA/indicator/SP.POP.TOTL?format=json",
         "value": 36973555,
@@ -2148,8 +3831,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q685"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 178,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.704,
+        "year": 2025
+      },
       "name": "Solomon Islands",
       "population": {
+        "rank": 164,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SB/indicator/SP.POP.TOTL?format=json",
         "value": 838645,
@@ -2162,8 +3856,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1042"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 174,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.318,
+        "year": 2025
+      },
       "name": "Seychelles",
       "population": {
+        "rank": 189,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SC/indicator/SP.POP.TOTL?format=json",
         "value": 122730,
@@ -2176,8 +3881,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1049"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 104,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 39.718,
+        "year": 2025
+      },
       "name": "Sudan",
       "population": {
+        "rank": 30,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SD/indicator/SP.POP.TOTL?format=json",
         "value": 51662147,
@@ -2190,8 +3906,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q34"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 26,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 668.999,
+        "year": 2025
+      },
       "name": "Sweden",
       "population": {
+        "rank": 93,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SE/indicator/SP.POP.TOTL?format=json",
         "value": 10596620,
@@ -2204,8 +3931,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q334"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 28,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 603.87,
+        "year": 2025
+      },
       "name": "Singapore",
       "population": {
+        "rank": 114,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SG/indicator/SP.POP.TOTL?format=json",
         "value": 6111175,
@@ -2218,8 +3956,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q215"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 86,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 79.603,
+        "year": 2025
+      },
       "name": "Slovenia",
       "population": {
+        "rank": 149,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SI/indicator/SP.POP.TOTL?format=json",
         "value": 2130986,
@@ -2232,8 +3981,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q214"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 61,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 154.442,
+        "year": 2025
+      },
       "name": "Slovakia",
       "population": {
+        "rank": 123,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SK/indicator/SP.POP.TOTL?format=json",
         "value": 5413813,
@@ -2246,8 +4006,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1044"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 155,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 7.71,
+        "year": 2025
+      },
       "name": "Sierra Leone",
       "population": {
+        "rank": 101,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SL/indicator/SP.POP.TOTL?format=json",
         "value": 8819794,
@@ -2260,8 +4031,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q238"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 176,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.251,
+        "year": 2025
+      },
       "name": "San Marino",
       "population": {
+        "rank": 214,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SM/indicator/SP.POP.TOTL?format=json",
         "value": 34109,
@@ -2274,8 +4056,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1041"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 109,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 37.116,
+        "year": 2025
+      },
       "name": "Senegal",
       "population": {
+        "rank": 69,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SN/indicator/SP.POP.TOTL?format=json",
         "value": 18931966,
@@ -2288,8 +4081,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1045"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 146,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 12.956,
+        "year": 2025
+      },
       "name": "Somalia",
       "population": {
+        "rank": 67,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SO/indicator/SP.POP.TOTL?format=json",
         "value": 19654739,
@@ -2302,8 +4106,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q730"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 162,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 4.664,
+        "year": 2025
+      },
       "name": "Suriname",
       "population": {
+        "rank": 169,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SR/indicator/SP.POP.TOTL?format=json",
         "value": 639850,
@@ -2316,8 +4131,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q958"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 159,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 5.733,
+        "year": 2025
+      },
       "name": "South Sudan",
       "population": {
+        "rank": 81,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SS/indicator/SP.POP.TOTL?format=json",
         "value": 12188788,
@@ -2330,8 +4156,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1039"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 185,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.981,
+        "year": 2025
+      },
       "name": "Sao Tome and Principe",
       "population": {
+        "rank": 182,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ST/indicator/SP.POP.TOTL?format=json",
         "value": 240254,
@@ -2344,8 +4181,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q792"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 108,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 37.268,
+        "year": 2025
+      },
       "name": "El Salvador",
       "population": {
+        "rank": 113,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SV/indicator/SP.POP.TOTL?format=json",
         "value": 6365503,
@@ -2358,8 +4206,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q858"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Syria",
       "population": {
+        "rank": 57,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SY/indicator/SP.POP.TOTL?format=json",
         "value": 25620427,
@@ -2372,8 +4231,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1050"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 161,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 5.166,
+        "year": 2025
+      },
       "name": "Eswatini",
       "population": {
+        "rank": 159,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/SZ/indicator/SP.POP.TOTL?format=json",
         "value": 1256174,
@@ -2386,8 +4256,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q657"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 128,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 22.092,
+        "year": 2025
+      },
       "name": "Chad",
       "population": {
+        "rank": 64,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TD/indicator/SP.POP.TOTL?format=json",
         "value": 21003705,
@@ -2400,8 +4281,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q945"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 150,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 11.899,
+        "year": 2025
+      },
       "name": "Togo",
       "population": {
+        "rank": 102,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TG/indicator/SP.POP.TOTL?format=json",
         "value": 8591626,
@@ -2414,8 +4306,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q869"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 30,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 577.01,
+        "year": 2025
+      },
       "name": "Thailand",
       "population": {
+        "rank": 20,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TH/indicator/SP.POP.TOTL?format=json",
         "value": 71619863,
@@ -2428,8 +4331,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q863"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 138,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 17.542,
+        "year": 2025
+      },
       "name": "Tajikistan",
       "population": {
+        "rank": 91,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TJ/indicator/SP.POP.TOTL?format=json",
         "value": 10786734,
@@ -2442,8 +4356,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q574"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 177,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 2.064,
+        "year": 2025
+      },
       "name": "Timor-Leste",
       "population": {
+        "rank": 155,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TL/indicator/SP.POP.TOTL?format=json",
         "value": 1418517,
@@ -2456,8 +4381,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q874"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 87,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 77.398,
+        "year": 2025
+      },
       "name": "Turkmenistan",
       "population": {
+        "rank": 104,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TM/indicator/SP.POP.TOTL?format=json",
         "value": 7618847,
@@ -2470,8 +4406,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q948"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 93,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 57.589,
+        "year": 2025
+      },
       "name": "Tunisia",
       "population": {
+        "rank": 80,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TN/indicator/SP.POP.TOTL?format=json",
         "value": 12348573,
@@ -2484,8 +4431,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q678"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 187,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.68,
+        "year": 2025
+      },
       "name": "Tonga",
       "population": {
+        "rank": 194,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TO/indicator/SP.POP.TOTL?format=json",
         "value": 103742,
@@ -2498,8 +4456,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q43"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 16,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1597.301,
+        "year": 2025
+      },
       "name": "Türkiye",
       "population": {
+        "rank": 18,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TR/indicator/SP.POP.TOTL?format=json",
         "value": 85878556,
@@ -2512,8 +4481,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q754"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 122,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 25.932,
+        "year": 2025
+      },
       "name": "Trinidad and Tobago",
       "population": {
+        "rank": 157,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TT/indicator/SP.POP.TOTL?format=json",
         "value": 1367764,
@@ -2526,8 +4506,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q672"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 193,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 0.058,
+        "year": 2025
+      },
       "name": "Tuvalu",
       "population": {
+        "rank": 218,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TV/indicator/SP.POP.TOTL?format=json",
         "value": 9492,
@@ -2540,8 +4531,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q865"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 22,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 920.05,
+        "year": 2025
+      },
       "name": "Taiwan",
       "population": {
+        "rank": 60,
         "source": "UN World Population Prospects 2024",
         "sourceUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz",
         "value": 23264288,
@@ -2554,8 +4556,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q924"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 83,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 87.344,
+        "year": 2025
+      },
       "name": "Tanzania",
       "population": {
+        "rank": 21,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/TZ/indicator/SP.POP.TOTL?format=json",
         "value": 70545865,
@@ -2568,8 +4581,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q212"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 58,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 212.927,
+        "year": 2025
+      },
       "name": "Ukraine",
       "population": {
+        "rank": 40,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/UA/indicator/SP.POP.TOTL?format=json",
         "value": 38980376,
@@ -2582,8 +4606,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1036"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 89,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 66.014,
+        "year": 2025
+      },
       "name": "Uganda",
       "population": {
+        "rank": 31,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/UG/indicator/SP.POP.TOTL?format=json",
         "value": 51384894,
@@ -2596,8 +4631,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q30"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 1,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 30767.075,
+        "year": 2025
+      },
       "name": "United States",
       "population": {
+        "rank": 3,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/US/indicator/SP.POP.TOTL?format=json",
         "value": 341784857,
@@ -2610,8 +4656,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q77"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 84,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 85.575,
+        "year": 2025
+      },
       "name": "Uruguay",
       "population": {
+        "rank": 134,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/UY/indicator/SP.POP.TOTL?format=json",
         "value": 3384688,
@@ -2624,8 +4681,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q265"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 62,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 147.069,
+        "year": 2025
+      },
       "name": "Uzbekistan",
       "population": {
+        "rank": 42,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/UZ/indicator/SP.POP.TOTL?format=json",
         "value": 37053428,
@@ -2638,8 +4706,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q237"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": null,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": null,
+        "year": 2025
+      },
       "name": "Vatican City",
       "population": {
+        "rank": 219,
         "source": "UN World Population Prospects 2024",
         "sourceUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz",
         "value": 491,
@@ -2652,8 +4731,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q757"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 183,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.176,
+        "year": 2025
+      },
       "name": "Saint Vincent and the Grenadines",
       "population": {
+        "rank": 195,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/VC/indicator/SP.POP.TOTL?format=json",
         "value": 99924,
@@ -2666,8 +4756,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q717"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 77,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 99.661,
+        "year": 2025
+      },
       "name": "Venezuela, Bolivarian Republic of",
       "population": {
+        "rank": 53,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/VE/indicator/SP.POP.TOTL?format=json",
         "value": 28516896,
@@ -2680,8 +4781,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q881"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 33,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 494.046,
+        "year": 2025
+      },
       "name": "Vietnam",
       "population": {
+        "rank": 16,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/VN/indicator/SP.POP.TOTL?format=json",
         "value": 101598527,
@@ -2694,8 +4806,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q686"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 181,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.316,
+        "year": 2025
+      },
       "name": "Vanuatu",
       "population": {
+        "rank": 178,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/VU/indicator/SP.POP.TOTL?format=json",
         "value": 335169,
@@ -2708,8 +4831,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q683"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 182,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 1.288,
+        "year": 2025
+      },
       "name": "Samoa",
       "population": {
+        "rank": 183,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/WS/indicator/SP.POP.TOTL?format=json",
         "value": 219306,
@@ -2722,8 +4856,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q1246"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 148,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 12.449,
+        "year": 2025
+      },
       "name": "Kosovo",
       "population": {
+        "rank": 154,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/XK/indicator/SP.POP.TOTL?format=json",
         "value": 1576876,
@@ -2736,8 +4881,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q805"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 154,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 7.897,
+        "year": 2025
+      },
       "name": "Yemen",
       "population": {
+        "rank": 37,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/YE/indicator/SP.POP.TOTL?format=json",
         "value": 41773878,
@@ -2750,8 +4906,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q258"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 41,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 427.141,
+        "year": 2025
+      },
       "name": "South Africa",
       "population": {
+        "rank": 24,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ZA/indicator/SP.POP.TOTL?format=json",
         "value": 64747319,
@@ -2764,8 +4931,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q953"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 117,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 28.88,
+        "year": 2025
+      },
       "name": "Zambia",
       "population": {
+        "rank": 62,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ZM/indicator/SP.POP.TOTL?format=json",
         "value": 21913874,
@@ -2778,8 +4956,19 @@
         "source": "Wikidata",
         "sourceUrl": "https://www.wikidata.org/entity/Q954"
       },
+      "gdp": {
+        "estimate": true,
+        "indicator": "NGDPD",
+        "rank": 94,
+        "source": "World Economic Outlook (April 2026)",
+        "sourceUrl": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+        "unit": "billions current U.S. dollars",
+        "value": 53.474,
+        "year": 2025
+      },
       "name": "Zimbabwe",
       "population": {
+        "rank": 74,
         "source": "World Bank SP.POP.TOTL",
         "sourceUrl": "https://api.worldbank.org/v2/country/ZW/indicator/SP.POP.TOTL?format=json",
         "value": 16950795,
@@ -2789,25 +4978,60 @@
   },
   "coverage": {
     "capitalFilled": 199,
+    "gdpFilled": 191,
+    "gdpUnavailable": [
+      "CU",
+      "ER",
+      "KP",
+      "LK",
+      "MC",
+      "PS",
+      "SY",
+      "VA"
+    ],
     "mapped": 199,
     "populationFilled": 199,
+    "populationRankRule": "Latest available World Bank SP.POP.TOTL observation per non-aggregate economy, plus UN WPP 2024 for Taiwan and Vatican City; unrounded values; mixed reference years are stored per economy",
+    "populationRankUniverse": 219,
     "retainedFromPreviousOnRegression": {
       "capital": [],
+      "gdp": [],
       "population": []
     },
     "unavailable": {
       "capital": [],
+      "gdp": [
+        "CU",
+        "ER",
+        "KP",
+        "MC",
+        "PS",
+        "LK",
+        "SY",
+        "VA"
+      ],
       "population": []
     }
   },
   "refreshNote": "refreshedAt is retrieval metadata, not the population reference year",
-  "refreshedAt": "2026-09-18T01:25:17Z",
-  "schemaVersion": 1,
+  "refreshedAt": "2026-09-18T10:29:57Z",
+  "schemaVersion": 2,
   "sources": {
     "capitals": {
       "name": "Wikidata P36",
       "queryUrl": "https://query.wikidata.org/sparql?query=SELECT+%3Fcountry+%3Fiso+%3FcapitalLabel+WHERE+%7B%0A++%3Fcountry+wdt%3AP297+%3Fiso.%0A++OPTIONAL+%7B%0A++++%23+The+truthy+P36+path+returns+Wikidata%27s+best-ranked+statements%2C+avoiding%0A++++%23+normal-ranked+historical+capitals+when+a+preferred+current+value+exists.%0A++++%3Fcountry+wdt%3AP36+%3Fcapital.%0A++%7D%0A++SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%2Cmul%2Cen-gb%22.+%7D%0A%7D&format=json",
       "url": "https://query.wikidata.org/sparql"
+    },
+    "gdpNominal": {
+      "apiUrl": "https://www.imf.org/external/datamapper/api/v1/NGDPD",
+      "name": "IMF World Economic Outlook (April 2026) NGDPD",
+      "rankRule": "IMF country/economy codes with a 2025 NGDPD value; IMF analytical and regional aggregates excluded",
+      "rankUniverse": 193,
+      "referenceYear": 2025,
+      "sourceLastModified": "2026-04-08 16:07:35",
+      "unit": "Billions of U.S. dollars",
+      "url": "https://www.imf.org/external/datamapper/NGDPD@WEO/WEOWORLD",
+      "vintage": "World Economic Outlook (April 2026)"
     },
     "populationFallback": {
       "name": "UN World Population Prospects 2024",
