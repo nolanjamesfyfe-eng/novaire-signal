@@ -3483,8 +3483,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .container{{max-width:720px;margin:0 auto}}
 
     .header-brand{{text-align:center;padding-bottom:20px}}
-    .header-brand .footer-logo{{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;letter-spacing:0}}
-    .header-brand .signal-wordmark{{display:inline-block;letter-spacing:.18em;margin-right:-.18em}}
+    .header-brand .footer-logo{{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}}
+    .header-brand .signal-wordmark{{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal}}
+    .header-brand .signal-wordmark > span{{color:var(--gold);font-style:italic}}
 
     .signal-bolt{{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em;text-decoration:none;transition:all .3s ease;font-size:1.1rem;color:#b59662;line-height:1}}
     .signal-bolt-icon{{width:.82em;height:1.05em;display:block;fill:currentColor}}
@@ -3511,7 +3512,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     @keyframes neon-flicker{{0%,100%{{opacity:1}}92%{{opacity:1}}93%{{opacity:.8}}94%{{opacity:1}}96%{{opacity:.9}}97%{{opacity:1}}}}
 
     .dateline{{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}}
-    .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}}
+    .dateline .date{{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}}
     .dateline .gen{{font-size:.6rem;color:var(--mute);margin-top:3px}}
 
     .card{{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}}

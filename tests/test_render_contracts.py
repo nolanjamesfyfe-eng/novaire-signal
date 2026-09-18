@@ -184,8 +184,10 @@ class RenderContractTests(unittest.TestCase):
             header,
         )
         self.assertIn(".signal-map{display:inline-flex", self.html)
-        self.assertIn(".header-brand .footer-logo{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;letter-spacing:0}", self.html)
-        self.assertIn(".header-brand .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em}", self.html)
+        self.assertIn(".header-brand .footer-logo{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0}", self.html)
+        self.assertIn(".header-brand .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:var(--text);font-style:normal}", self.html)
+        self.assertIn(".header-brand .signal-wordmark > span{color:var(--gold);font-style:italic}", self.html)
+        self.assertIn(".dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}", self.html)
         self.assertIn(".signal-bolt{display:inline-flex;align-items:center;justify-content:flex-start;width:1.13em;height:1.05em", self.html)
         self.assertIn(".signal-map{display:inline-flex;align-items:center;justify-content:flex-end;width:1.13em;height:1.05em", self.html)
         self.assertNotIn(".signal-map{margin-left:23px}", self.html)
@@ -238,7 +240,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertLess(globe, wordmark)
         self.assertLess(wordmark, bolt)
         self.assertEqual(header.count('class="signal-wordmark"'), 1)
-        self.assertIn("gap:6px", self.html)
+        self.assertIn("gap:12px", self.html)
         self.assertIn("margin-right:-.18em", self.html)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
