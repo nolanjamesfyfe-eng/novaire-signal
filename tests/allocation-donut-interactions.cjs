@@ -29,6 +29,16 @@ async function verifySection(page, section, name, mobile) {
   })));
   assert(expected.length > 0, `${name} must have Sheet-backed allocations`);
   assert.equal(await slices.count(), expected.length, `${name} slice and legend counts`);
+  if (mobile) {
+    for (const target of [slices.first(), items.first()]) {
+      const styles = await target.evaluate((node) => {
+        const style = getComputedStyle(node);
+        return { tapHighlight: style.webkitTapHighlightColor, touchAction: style.touchAction };
+      });
+      assert.equal(styles.tapHighlight, 'rgba(0, 0, 0, 0)', `${name} suppresses native full-element tap flash`);
+      assert.equal(styles.touchAction, 'manipulation', `${name} uses immediate touch interaction`);
+    }
+  }
   for (let index = 0; index < expected.length; index += 1) {
     const slice = slices.nth(index);
     const item = items.nth(index);
