@@ -4910,18 +4910,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-chart svg{{display:block;width:100%;height:auto;border:1px solid rgba(255,255,255,.045);border-radius:10px;background:rgba(3,3,6,.34)}}
     .tracker-chart-axis{{display:flex;justify-content:space-between;gap:8px;margin:4px 2px 0;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
     .tracker-chart-empty{{position:relative;padding:28px 16px;margin:4px 0 16px;border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;color:var(--mute);font-size:.62rem}}
-    .tracker-performance-title{{position:relative;margin:2px 0 8px;padding-top:11px;border-top:1px solid rgba(255,255,255,.055);color:var(--gold);font-size:.55rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase}}
-    .tracker-performance{{position:relative;display:grid;gap:6px}}
-    .tracker-performance-row{{display:grid;grid-template-columns:108px minmax(0,1fr);align-items:stretch;gap:8px}}
-    .tracker-performance-name{{display:flex;align-items:center;padding:0 9px;border:1px solid rgba(255,255,255,.05);border-radius:8px;background:rgba(2,2,5,.2);color:var(--dim);font-size:.57rem;line-height:1.25;letter-spacing:.04em}}
-    .tracker-performance-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;min-width:0}}
-    .tracker-performance-grid>div{{min-width:0;padding:6px 7px;border:1px solid rgba(255,255,255,.05);border-radius:8px;background:rgba(2,2,5,.3);text-align:right}}
-    .tracker-performance-grid--single>div{{text-align:center}}
-    .tracker-performance-grid em{{display:block;color:var(--mute);font-size:.48rem;font-style:normal;letter-spacing:.1em}}
-    .tracker-period strong{{display:block;margin-top:2px;font-size:.64rem;font-variant-numeric:tabular-nums}}
-    .tracker-period small{{display:block;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
-    .tracker-period--pending strong{{color:var(--mute)}}
-    .tracker-foot{{position:relative;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.045);color:var(--mute);font-size:.5rem;line-height:1.4}}
+
     @media(prefers-reduced-motion:reduce){{.positive,.negative,.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative{{animation:none}}}}
     .debt-hub{{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 190px;align-items:center;gap:24px;padding:24px;border-color:rgba(255,126,54,.22);background:radial-gradient(circle at 88% 15%,rgba(255,92,39,.12),transparent 36%),linear-gradient(135deg,rgba(255,184,0,.045),rgba(4,4,7,.4)),var(--surface)}}
     .debt-hub::before{{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.025) 48%,transparent 76%)}}
@@ -4979,12 +4968,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
       .tracker-account{{padding:8px 9px}}
       .tracker-account-value{{font-size:1.08rem}}
       .tracker-charts{{grid-template-columns:1fr}}
-      .tracker-performance{{overflow:visible;padding-bottom:0;gap:8px}}
-      .tracker-performance-row{{grid-template-columns:1fr;gap:4px}}
-      .tracker-performance-grid{{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}}
-      .tracker-performance-grid>div{{text-align:center}}
-      .tracker-performance-grid>div:last-child:nth-child(odd){{grid-column:1/-1}}
-      .tracker-performance-name{{min-height:24px;padding:4px 7px}}
+
       .debt-hub{{grid-template-columns:1fr;padding:20px}}
       .debt-hub-link{{width:100%}}
     }}

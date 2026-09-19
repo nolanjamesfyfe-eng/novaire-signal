@@ -119,18 +119,18 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertIn("Net Worth Tracker", html)
         self.assertIn("Wealthsimple TFSA", html)
         self.assertNotIn("Kraken", html)
-        self.assertIn(">1D<", html)
-        self.assertIn(">YTD<", html)
-
         self.assertIn("C$121,390", html)
-        self.assertIn("Account-value return, not pure investment return", html)
         self.assertNotIn("Building", html)
-        self.assertIn("Total Net Worth", html)
         self.assertIn('data-range="ALL"', html)
         self.assertIn("Interactive total net worth history", html)
         soup = BeautifulSoup(html, "html.parser")
-        performance_names = [node.get_text(" ", strip=True) for node in soup.select(".tracker-performance-name")]
-        self.assertEqual(performance_names, ["Total Net Worth", "Wealthsimple TFSA"])
+        self.assertFalse(soup.select(".tracker-performance-title, .tracker-performance, .tracker-foot"))
+        self.assertNotIn("Close-to-close performance", html)
+        self.assertNotIn("Account-value return, not pure investment return", html)
+        self.assertEqual(
+            [node.get_text(" ", strip=True) for node in soup.select(".tracker-account-name")],
+            ["Wealthsimple TFSA"],
+        )
         self.assertEqual(len(soup.select(".tracker-hero")), 1)
 
     def test_kraken_inception_reference_remains_historical_but_is_not_active(self):
@@ -152,7 +152,7 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertAlmostEqual(ytd["percent"], 12.5)
         self.assertEqual(ytd["baseline_date"], "2026-04-10")
         self.assertTrue(ytd["estimated"])
-        self.assertIn(">YTD<", portfolio_tracker.render_tracker_html(model))
+        self.assertNotIn("tracker-performance", portfolio_tracker.render_tracker_html(model))
 
     def test_interactive_chart_prefers_recorded_sheet_ath_baseline(self):
         history = {"snapshots": [

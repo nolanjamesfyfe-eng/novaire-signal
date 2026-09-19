@@ -525,18 +525,6 @@ def _charts_html(accounts: dict[str, Any]) -> str:
     ) + '</div>'
 
 
-def _format_period_cell(change: dict[str, Any]) -> str:
-    positive = change["amount"] >= 0
-    sign = "+" if positive else "−"
-    cls = "positive" if positive else "negative"
-    return (
-        f'<div class="tracker-period {cls}">'
-        f'<strong>{sign}{abs(change["percent"]):.1f}%</strong>'
-        f'<small>{"≈" if change.get("estimated") else ""}{sign}{"US$" if change.get("currency") == "USD" else "C$"}{abs(change["amount"]):,.0f}</small>'
-        '</div>'
-    )
-
-
 def _interactive_chart_html(model: dict[str, Any]) -> str:
     """Render a Wealthsimple-style dependency-free interactive net-worth chart."""
     series = model.get("total_series") or []
@@ -580,7 +568,6 @@ def render_tracker_html(model: dict[str, Any]) -> str:
     market_date = date.fromisoformat(model["market_date"])
     date_label = market_date.strftime("%b %-d, %Y")
     account_cards = []
-    performance_rows = []
     for key in ("tfsa_ws", "kraken"):
         account = model["accounts"].get(key)
         if not account:
@@ -598,47 +585,6 @@ def render_tracker_html(model: dict[str, Any]) -> str:
             f'<div class="tracker-account-secondary">{secondary}</div>'
             '</div>'
         )
-        available_periods = [
-            (label, account["periods"].get(label))
-            for label in model["periods"]
-            if account["periods"].get(label) is not None
-        ]
-        if available_periods:
-            cells = "".join(
-                f'<div><em>{label}</em>{_format_period_cell(change)}</div>'
-                for label, change in available_periods
-            )
-            performance_rows.append(
-                f'<div class="tracker-performance-row"><div class="tracker-performance-name">{escape(account["label"])}</div>'
-                f'<div class="tracker-performance-grid{" tracker-performance-grid--single" if len(available_periods) == 1 else ""}" '
-                f'style="--period-count:{len(available_periods)}">{cells}</div></div>'
-            )
-
-    available_combined_periods = [
-        (label, model["combined_periods"].get(label))
-        for label in model["periods"]
-        if model["combined_periods"].get(label) is not None
-    ]
-    if available_combined_periods:
-        combined_cells = "".join(
-            f'<div><em>{label}</em>{_format_period_cell(change)}</div>'
-            for label, change in available_combined_periods
-        )
-        performance_rows.insert(
-            0,
-            '<div class="tracker-performance-row tracker-performance-row--total">'
-            '<div class="tracker-performance-name">Total Net Worth</div>'
-            f'<div class="tracker-performance-grid{" tracker-performance-grid--single" if len(available_combined_periods) == 1 else ""}" '
-            f'style="--period-count:{len(available_combined_periods)}">{combined_cells}</div></div>',
-        )
-
-    performance_html = ""
-    if performance_rows:
-        performance_html = (
-            '<div class="tracker-performance-title">Close-to-close performance</div>'
-            '<div class="tracker-performance">' + "".join(performance_rows) + '</div>'
-        )
-
     return (
         '<section class="card net-worth-tracker" id="net-worth-tracker">'
         '<div class="tracker-head">'
@@ -649,7 +595,5 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         f'<div class="tracker-total">C${model["current_total_cad"]:,.0f}</div>'
         + _interactive_chart_html(model)
         + '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
-        + performance_html
-        + '<div class="tracker-foot"><strong>Account-value return, not pure investment return.</strong> Deposits and withdrawals affect these percentages; future closes will sharpen them automatically.</div>'
         '</section>'
     )

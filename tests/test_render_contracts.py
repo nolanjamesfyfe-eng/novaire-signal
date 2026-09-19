@@ -15,9 +15,17 @@ class RenderContractTests(unittest.TestCase):
         cls.html = (ROOT / "index.html").read_text(encoding="utf-8")
         cls.portfolio_html = (ROOT / "portfolio" / "index.html").read_text(encoding="utf-8")
 
-    def test_portfolio_includes_balance_and_close_performance_panel(self):
+    def test_portfolio_keeps_tracker_but_omits_close_performance_section(self):
         for marker in ('id="net-worth-tracker"', "Net Worth Tracker", "Combined Net Worth", 'class="tracker-accounts"'):
             self.assertIn(marker, self.portfolio_html)
+        for marker in (
+            "Close-to-close performance",
+            'class="tracker-performance"',
+            'class="tracker-performance-title"',
+            'class="tracker-foot"',
+            "Account-value return, not pure investment return",
+        ):
+            self.assertNotIn(marker, self.portfolio_html)
         self.assertIn('data-ath-source="Google Sheet · TFSA/WS · ATH row"', self.portfolio_html)
         self.assertIn("Sector Allocation", self.portfolio_html)
         self.assertIn("Kraken Portfolio", self.portfolio_html)
