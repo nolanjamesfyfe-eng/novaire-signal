@@ -18,6 +18,20 @@ async function open(type, mobile = true) {
   await page.waitForSelector('#globe-canvas[data-ready="true"]');
   return {browser,page};
 }
+async function openDesktopAt(type,{width=1298,height=929,deviceScaleFactor=2,reducedMotion='no-preference'}={}) {
+  const browser=await type.launch({headless:true});
+  const context=await browser.newContext({viewport:{width,height},deviceScaleFactor,reducedMotion});
+  const page=await context.newPage();
+  page.on('pageerror',e=>errors.push(`${type.name()}: pageerror: ${e.message}`));
+  page.on('console',m=>{if(m.type()==='error')errors.push(`${type.name()}: console: ${m.text()}`)});
+  await page.goto(base,{waitUntil:'domcontentloaded'});await page.waitForSelector('#globe-canvas[data-ready="true"]');
+  return {browser,page};
+}
+async function tapFocusedCountry(page,canvas,code){
+  await canvas.scrollIntoViewIfNeeded();const box=await canvas.boundingBox(),cx=box.x+box.width/2,cy=box.y+(45+box.height-28)/2;
+  for(let radius=0;radius<=50;radius+=10)for(let dy=-radius;dy<=radius;dy+=10)for(let dx=-radius;dx<=radius;dx+=10){await page.mouse.click(cx+dx,cy+dy);if(await page.locator('#selection-canvas').getAttribute('data-selected')===code)return}
+  assert.fail(`could not tap focused ${code}`);
+}
 async function paintStats(page) {
   return page.locator('#globe-canvas').evaluate(canvas => {
     const ctx=canvas.getContext('2d'), d=ctx.getImageData(0,0,canvas.width,canvas.height).data;
@@ -30,6 +44,7 @@ async function paintStats(page) {
     return {land,visited,calling,width:canvas.width,height:canvas.height};
   });
 }
+async function selectionPixels(page){return page.locator('#selection-canvas').evaluate(c=>{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let n=0;for(let i=3;i<d.length;i+=4)if(d[i])n++;return n})}
 
 for (const type of [chromium, webkit]) test(`${type.name()} keeps painted status land through trusted touch gestures`, async t => {
   let session;
@@ -223,7 +238,7 @@ test('zoom selects culled detail geometry without losing painted islands', async
   const {browser,page}=await open(chromium,false);
   try {
     const canvas=page.locator('#globe-canvas');
-    assert.equal(await canvas.getAttribute('data-lod'),'low');
+    assert.equal(await canvas.getAttribute('data-lod'),'medium','standard desktop gets scale-appropriate medium geometry');
     await page.fill('#search','Cuba');await page.locator('.country-row[data-code="CU"]').click();
     await canvas.scrollIntoViewIfNeeded();await page.evaluate(()=>document.querySelector('#zoom-in').click());
     assert.equal(await canvas.getAttribute('data-lod'),'detail');
@@ -232,6 +247,42 @@ test('zoom selects culled detail geometry without losing painted islands', async
     const painted=await paintStats(page);assert.ok(painted.land+painted.visited+painted.calling>3000,'detailed Caribbean remains painted');
     await canvas.screenshot({path:`${artifacts}/chromium-caribbean-detail.png`});
   } finally {await browser.close();}
+});
+
+test('effective projected scale selects settled detail without wheel zoom at user desktop scale', async () => {
+  const {browser,page}=await openDesktopAt(chromium);
+  try {
+    const canvas=page.locator('#globe-canvas');
+    assert.equal(await canvas.getAttribute('data-zoom'),'1.0000','test begins without relative wheel zoom');
+    assert.equal(await canvas.getAttribute('data-lod'),'detail','large DPR viewport receives detail geometry immediately');
+    assert.ok(Number(await canvas.getAttribute('data-projected-scale'))>=600,'LOD uses effective projected raster scale');
+    await page.waitForTimeout(250);
+    const pixels=await paintStats(page);assert.ok(pixels.land+pixels.visited+pixels.calling>10000,'settled high-quality frame retains painted geography');
+    await page.screenshot({path:`${artifacts}/user-scale-asia-pacific-detail.png`,fullPage:true});
+  } finally {await browser.close()}
+});
+
+for(const reducedMotion of ['no-preference','reduce'])test(`country selection highlight replaces, persists and clears (${reducedMotion})`,async()=>{
+  const {browser,page}=await openDesktopAt(chromium,{reducedMotion});
+  try{
+    const canvas=page.locator('#globe-canvas'),overlay=page.locator('#selection-canvas');
+    await page.fill('#search','Japan');await page.locator('.country-row[data-code="JP"]').click();await page.waitForTimeout(50);
+    await tapFocusedCountry(page,canvas,'JP');
+    assert.equal(await overlay.getAttribute('data-selected'),'JP','tap highlights selected country');
+    assert.ok(await selectionPixels(page)>500,'selected country overlay paints a visible highlight');
+    assert.equal(await page.locator('.tooltip.show').count(),1,'highlight persists while facts are open');
+    assert.equal(await overlay.getAttribute('data-motion'),reducedMotion==='reduce'?'static':'pulse','motion preference controls initial highlight');
+    if(reducedMotion==='no-preference'){await page.waitForTimeout(1000);assert.equal(await overlay.getAttribute('data-motion'),'settled','pulse settles to persistent outline')}
+    await page.mouse.click(4,4);assert.equal(await overlay.getAttribute('data-selected'),'','facts dismissal clears highlight');
+    await page.fill('#search','Australia');await page.locator('.country-row[data-code="AU"]').click();await page.waitForTimeout(50);await tapFocusedCountry(page,canvas,'AU');
+    assert.equal(await overlay.getAttribute('data-selected'),'AU','next tap replaces selected country');
+    if(reducedMotion==='no-preference')await page.screenshot({path:`${artifacts}/user-scale-australia-selected.png`,fullPage:true});
+  }finally{await browser.close()}
+});
+
+test('tiny country selection receives an identifiable marker highlight',async()=>{
+  const {browser,page}=await openDesktopAt(chromium);
+  try{const canvas=page.locator('#globe-canvas');await page.fill('#search','Singapore');await page.locator('.country-row[data-code="SG"]').click();await page.waitForTimeout(50);await tapFocusedCountry(page,canvas,'SG');assert.equal(await page.locator('#selection-canvas').getAttribute('data-selected'),'SG');assert.ok(await selectionPixels(page)>80,'microstate marker paints visible pixels')}finally{await browser.close()}
 });
 
 async function expectCount(locator,count){assert.equal(await locator.count(),count);}
