@@ -1,4 +1,10 @@
-"""Canonical Novaire Signal brand markup and styles shared by generated pages."""
+"""Canonical Novaire Signal brand markup, fonts, and styles shared by generated pages."""
+
+SIGNAL_BRAND_FONT_LINK = (
+    '<link href="https://fonts.googleapis.com/css2?'
+    'family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500'
+    '&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">'
+)
 
 SIGNAL_BOLT_SVG = (
     '<svg class="signal-bolt-icon" viewBox="45 38 200 264" aria-hidden="true" focusable="false">'
@@ -23,6 +29,11 @@ SIGNAL_MAP_SVG = (
 def signal_brand_markup(*, wordmark_link=True):
     wordmark = '<a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a>' if wordmark_link else '<span class="signal-wordmark">Novaire <span>Signal</span></span>'
     return f'<div class="signal-brand-row" aria-label="Novaire Signal navigation"><a href="/flaneur" class="signal-map" title="Flâneur happenings" aria-label="Flâneur happenings">{SIGNAL_MAP_SVG}</a>{wordmark}<a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>'
+
+
+def signal_brand_font_link():
+    """Return the homepage's exact webfont request for generated subpages."""
+    return SIGNAL_BRAND_FONT_LINK
 
 
 def signal_brand_css():

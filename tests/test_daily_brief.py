@@ -81,6 +81,7 @@ class DailyBriefTests(unittest.TestCase):
     def test_compact_daily_header_reuses_approved_brand_navigation(self):
         html = render_daily_html(**self.kwargs)
         self.assertIn('<header class="daily-header"><div class="signal-brand-row"', html)
+        self.assertIn('family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500', html)
         self.assertIn('<h1 class="daily-title">The Daily.</h1>', html)
         self.assertIn("margin:49px 0 18px", html)
         self.assertIn("margin-top:56.765625px", html)
