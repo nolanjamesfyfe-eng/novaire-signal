@@ -11,7 +11,9 @@ SOURCE = ROOT / "map/world.geojson"
 LEVELS = {
     "world-globe.geojson": "0.5%",
     "world-globe-medium.geojson": "1%",
-    "world-globe-detail.geojson": "3%",
+    # High zoom is viewport-culled before drawing, so spend the saved frame
+    # budget on coastline fidelity instead of reusing the overview geometry.
+    "world-globe-detail.geojson": "12%",
 }
 
 

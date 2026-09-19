@@ -85,7 +85,7 @@ def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
     assert "kind:'pinch'" in html
     assert 'globe.zoom=Math.max(1,Math.min(3' in html
     assert '.rotate(globe.rotation).scale(globe.baseScale*globe.zoom)' in html
-    assert 'projection.precision(globe.zoom>=1.8?5:3)' in html
+    assert 'projection.precision(globe.zoom>=1.8?1.5:3)' in html
     assert 'requestAnimationFrame' in html
     assert 'scheduleDraw()' in html
     assert "fetch('/map/world-globe-medium.geojson')" in html
@@ -135,7 +135,7 @@ def test_zoom_lods_keep_all_features_and_add_real_detail():
     def points(world):
         return sum(len(r) for feature in world['features'] for r in rings(feature))
     assert [len(world['features']) for world in levels] == [199, 199]
-    assert 5000 < points(levels[0]) < points(levels[1]) < 70000
+    assert 5000 < points(levels[0]) < 40000 < points(levels[1]) < 100000
     for world in levels:
         for feature in world['features']:
             assert all(len(ring) >= 4 and ring[0] == ring[-1] for ring in rings(feature))
@@ -144,6 +144,7 @@ def test_zoom_lods_keep_all_features_and_add_real_detail():
                   if f['properties']['iso2'] == code))) for world in levels]
         assert counts[1] > counts[0], (code, counts)
     assert 'keep-shapes' in (ROOT / 'scripts/build_flaneur_lods.py').read_text()
+    assert '"world-globe-detail.geojson": "12%"' in (ROOT / 'scripts/build_flaneur_lods.py').read_text()
 
 
 def test_pointer_capture_only_begins_after_drag_threshold():
