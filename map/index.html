@@ -119,7 +119,7 @@
     return data.features.filter(feature=>d3.geoDistance(center,feature._cap[0])<=viewAngle+feature._cap[1]+.025)
   }
   function draw(){
-    const started=performance.now();projection.precision(globe.zoom>=1.8?1.5:3).rotate(globe.rotation).scale(globe.baseScale*globe.zoom);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#090d0b';ctx.fillRect(0,0,width,height);
+    const started=performance.now();projection.precision(3).rotate(globe.rotation).scale(globe.baseScale*globe.zoom);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#090d0b';ctx.fillRect(0,0,width,height);
     ctx.beginPath();path({type:'Sphere'});ctx.fillStyle='#0a0f0c';ctx.fill();ctx.strokeStyle='#1b2520';ctx.lineWidth=1;ctx.stroke();
     ctx.beginPath();path(graticule);ctx.strokeStyle='#26352d';ctx.lineWidth=.45;ctx.stroke();
     const active=activeGeometry(),visible=visibleFeatures(active);for(const fill of ['#66706b','#237a4e','#a65f2e']){const features=visible.filter(feature=>colour(feature.properties.iso2)===fill);if(!features.length)continue;ctx.beginPath();path({type:'FeatureCollection',features});ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle='#111713';ctx.lineWidth=.35;ctx.stroke()}if(hoverCode){const feature=active.features.find(f=>f.properties.iso2===hoverCode);if(feature){ctx.beginPath();path(feature);ctx.strokeStyle='#99a29d';ctx.lineWidth=.8;ctx.stroke()}}

@@ -13,7 +13,7 @@ LEVELS = {
     "world-globe-medium.geojson": "1%",
     # High zoom is viewport-culled before drawing, so spend the saved frame
     # budget on coastline fidelity instead of reusing the overview geometry.
-    "world-globe-detail.geojson": "12%",
+    "world-globe-detail.geojson": "4.5%",
 }
 
 
