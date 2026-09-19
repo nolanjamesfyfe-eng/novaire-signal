@@ -24,6 +24,23 @@ const athText = (value, ath) => {
     const value = hero.locator('.tracker-hero-value');
     assert.equal(await change.textContent(), athText(latest.cad, ath));
     assert.equal(await hero.locator('.tracker-range.is-active').getAttribute('data-range'), 'YTD');
+    const tracker = page.locator('#net-worth-tracker');
+    assert.equal(await tracker.getByText('Google Sheet daily closes · active accounts', {exact: true}).count(), 0);
+    assert.equal(await tracker.getByText('Combined Net Worth', {exact: true}).count(), 0);
+    assert.equal(await tracker.locator('.tracker-total').count(), 0);
+    assert.equal(await tracker.locator('.tracker-hero-value').count(), 1);
+
+    for (const viewport of [{width: 1280, height: 900}, {width: 390, height: 844}]) {
+      await page.setViewportSize(viewport);
+      const active = hero.locator('.tracker-range.is-active');
+      const geometry = await active.evaluate(el => {
+        const pseudo = getComputedStyle(el, '::before');
+        const box = el.getBoundingClientRect();
+        return {width: parseFloat(pseudo.width), height: parseFloat(pseudo.height), center: box.left + box.width / 2};
+      });
+      assert.ok(Math.abs(geometry.width - geometry.height) < 0.05, JSON.stringify(geometry));
+      assert.ok(Math.abs(geometry.width - 32) < 0.05, JSON.stringify(geometry));
+    }
 
     await hero.locator('[data-range="ALL"]').click();
     assert.equal(await change.textContent(), athText(latest.cad, ath));
@@ -38,6 +55,9 @@ const athText = (value, ath) => {
     await hoverIndex(lowerIndex);
     assert.equal(await value.textContent(), `C$${series[lowerIndex].cad.toLocaleString('en-CA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
     assert.equal(await change.textContent(), athText(series[lowerIndex].cad, ath));
+    const dotBox = await hero.locator('.tracker-dot').boundingBox();
+    assert.ok(dotBox);
+    assert.ok(Math.abs(dotBox.width - dotBox.height) < 0.25, JSON.stringify(dotBox));
 
     await page.mouse.move(box.x - 10, box.y - 10);
     assert.equal(await value.textContent(), `C$${latest.cad.toLocaleString('en-CA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);

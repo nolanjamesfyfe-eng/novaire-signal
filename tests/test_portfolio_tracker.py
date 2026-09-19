@@ -132,6 +132,10 @@ class PortfolioTrackerTests(unittest.TestCase):
             ["Wealthsimple TFSA"],
         )
         self.assertEqual(len(soup.select(".tracker-hero")), 1)
+        self.assertEqual(len(soup.select(".tracker-hero-value")), 1)
+        self.assertNotIn("Google Sheet daily closes · active accounts", html)
+        self.assertNotIn("Combined Net Worth", html)
+        self.assertEqual(len(soup.select(".tracker-total")), 0)
 
     def test_kraken_inception_reference_remains_historical_but_is_not_active(self):
         history = {"kraken_reference": {"date": "2025-10-01", "label": "Oct 2025", "usd": 7000.0}, "snapshots": [
