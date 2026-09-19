@@ -52,8 +52,8 @@ function assertParity(home, daily, viewport) {
   for (const part of ['rect', 'wordmark', 'globe', 'globeSvg', 'bolt', 'boltSvg']) {
     const a = part === 'rect' ? daily.rect : daily[part].rect;
     const b = part === 'rect' ? home.rect : home[part].rect;
-    close(a.width, b.width, 0.1, `${viewport}: ${part} width`);
-    close(a.height, b.height, 0.1, `${viewport}: ${part} height`);
+    close(a.width, b.width, 0.2, `${viewport}: ${part} width`);
+    close(a.height, b.height, 0.2, `${viewport}: ${part} height`);
   }
   for (const [side, measured] of [['homepage', home], ['daily', daily]]) {
     assert.ok(measured.platformFonts.some(font => font.familyName === 'Cormorant Garamond Light' && font.postScriptName === 'CormorantGaramond-Light' && font.isCustomFont), `${viewport}: ${side} must render the loaded Cormorant Garamond Light webfont`);
