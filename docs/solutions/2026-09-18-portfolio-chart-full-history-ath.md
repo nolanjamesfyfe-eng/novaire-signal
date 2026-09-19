@@ -7,7 +7,7 @@ tags: [novaire-signal, portfolio, generated-dashboard, chart, ath]
 
 ## Acceptance criteria
 
-- The chart summary shows the current value's signed CAD difference and percentage difference from the maximum CAD value in the full available series, labeled `ATH`.
+- The chart summary shows the current value's signed CAD difference and percentage difference from the explicit user-entered `ATH` row in the authoritative TFSA/WS Sheet, labeled `ATH`.
 - Hovering any point updates the displayed C$ value and both ATH differences for that point.
 - Hovering the peak shows `C$0 (0.00%) · ATH`.
 - Pointer leave restores the latest value and its ATH differences.
@@ -16,4 +16,4 @@ tags: [novaire-signal, portfolio, generated-dashboard, chart, ath]
 
 ## Lesson
 
-Compute the ATH once from the unfiltered series before range rendering. Range-filtered points may control geometry and line color, but must never supply the comparison baseline. Route initial render, hover, range changes, and pointer-leave restoration through one formatter so dollar and percentage values cannot drift apart.
+Persist the explicit Sheet ATH alongside close history and prefer it over snapshot maxima. If it is unavailable, use the maximum available recorded close only with an honest `Available recorded close history · reconstructed` label; never imply reconstructed holdings or cash-flow-adjusted performance. Range-filtered points may control geometry and line color, but must never supply the comparison baseline. Route initial render, hover, range changes, and pointer-leave restoration through one formatter so dollar and percentage values cannot drift apart.

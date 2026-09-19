@@ -154,20 +154,43 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertTrue(ytd["estimated"])
         self.assertIn(">YTD<", portfolio_tracker.render_tracker_html(model))
 
-    def test_interactive_chart_uses_fixed_full_history_ath_baseline(self):
+    def test_interactive_chart_prefers_recorded_sheet_ath_baseline(self):
         history = {"snapshots": [
             {"market_date": "2025-12-31", "accounts": {"tfsa_ws": {"cad": 150000.0}}},
             {"market_date": "2026-01-02", "accounts": {"tfsa_ws": {"cad": 120000.0}}},
             {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 125000.0}}},
-        ]}
-        html = portfolio_tracker.render_tracker_html(portfolio_tracker.build_tracker_model(history))
-        self.assertIn("ath=Math.max(...all.map(p=>p.cad))", html)
+        ], "ath_reference": {"cad": 155000.0, "source": "Google Sheet · TFSA/WS · ATH row"}}
+        model = portfolio_tracker.build_tracker_model(history)
+        html = portfolio_tracker.render_tracker_html(model)
+        self.assertEqual(model["ath_cad"], 155000.0)
+        self.assertFalse(model["ath_is_reconstructed"])
+        self.assertIn('data-ath-cad="155000.00"', html)
+        self.assertIn('data-ath-source="Google Sheet · TFSA/WS · ATH row"', html)
+        self.assertIn("ath=Number(root.dataset.athCad)", html)
         self.assertIn("delta=point.cad-ath", html)
         self.assertIn("showAth(p)", html)
         self.assertIn("showAth(last)", html)
         self.assertIn("%) · ATH", html)
         self.assertIn("draw('YTD')", html)
         self.assertNotIn("%) · '+range", html)
+
+    def test_tracker_labels_reconstructed_ath_when_sheet_reference_is_unavailable(self):
+        history = {"snapshots": [
+            {"market_date": "2026-01-02", "accounts": {"tfsa_ws": {"cad": 120000.0}}},
+            {"market_date": "2026-08-14", "accounts": {"tfsa_ws": {"cad": 125000.0}}},
+        ]}
+        model = portfolio_tracker.build_tracker_model(history)
+        self.assertEqual(model["ath_cad"], 125000.0)
+        self.assertTrue(model["ath_is_reconstructed"])
+        self.assertIn("Available recorded close history · reconstructed", portfolio_tracker.render_tracker_html(model))
+
+    def test_upsert_persists_user_entered_sheet_ath_reference(self):
+        history = portfolio_tracker.upsert_daily_snapshot(
+            {"snapshots": []}, {"total_cad": 121000.0, "ath": 152500.0}, {},
+            now=datetime(2026, 8, 14, 22, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(history["ath_reference"]["cad"], 152500.0)
+        self.assertEqual(history["ath_reference"]["source"], "Google Sheet · TFSA/WS · ATH row")
 
 
 if __name__ == "__main__":

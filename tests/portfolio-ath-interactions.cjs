@@ -17,7 +17,8 @@ const athText = (value, ath) => {
     await page.goto(url, {waitUntil: 'networkidle'});
     const hero = page.locator('.tracker-hero');
     const series = JSON.parse(await hero.getAttribute('data-series'));
-    const ath = Math.max(...series.map(point => point.cad));
+    const ath = Number(await hero.getAttribute('data-ath-cad'));
+    assert.equal(await hero.getAttribute('data-ath-source'), 'Google Sheet · TFSA/WS · ATH row');
     const latest = series.at(-1);
     const change = hero.locator('.tracker-hero-change');
     const value = hero.locator('.tracker-hero-value');
@@ -28,7 +29,6 @@ const athText = (value, ath) => {
     assert.equal(await change.textContent(), athText(latest.cad, ath));
     const box = await hero.locator('svg').boundingBox();
     assert.ok(box);
-    const peakIndex = series.findIndex(point => point.cad === ath);
     const lowerIndex = series.reduce((best, point, index) => point.cad < series[best].cad ? index : best, 0);
     const hoverIndex = async index => {
       const chartX = 18 + (920 - 36) * index / Math.max(series.length - 1, 1);
@@ -38,10 +38,6 @@ const athText = (value, ath) => {
     await hoverIndex(lowerIndex);
     assert.equal(await value.textContent(), `C$${series[lowerIndex].cad.toLocaleString('en-CA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
     assert.equal(await change.textContent(), athText(series[lowerIndex].cad, ath));
-
-    await hoverIndex(peakIndex);
-    assert.equal(await value.textContent(), `C$${ath.toLocaleString('en-CA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
-    assert.equal(await change.textContent(), 'C$0 (0.00%) · ATH');
 
     await page.mouse.move(box.x - 10, box.y - 10);
     assert.equal(await value.textContent(), `C$${latest.cad.toLocaleString('en-CA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);

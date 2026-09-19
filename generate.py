@@ -5067,6 +5067,9 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     </div>
   </div>
 
+  <!-- NET WORTH TRACKER — recorded closes with Sheet ATH reference -->
+  {net_worth_tracker_html}
+
   <!-- KRAKEN CRYPTO POSITION WEIGHTING — live Google Sheet percentages -->
   <section class="card crypto-weighting-card">
     <div class="card-title">₿ Kraken Portfolio</div>
@@ -5287,9 +5290,7 @@ def main():
     else:
         print("    ⚠️  Incomplete Sheet totals; preserving the last verified close")
     tracker_model = build_tracker_model(portfolio_history)
-    # Keep calculating and recording history in the background, but the
-    # balance/performance panel is intentionally absent from /portfolio.
-    net_worth_tracker_html = ""
+    net_worth_tracker_html = render_tracker_html(tracker_model)
     crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
     print("  🏦 Fetching RRSP holdings from its Google Sheet tab...")

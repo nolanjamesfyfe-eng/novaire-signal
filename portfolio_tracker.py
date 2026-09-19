@@ -287,6 +287,13 @@ def upsert_daily_snapshot(
     snapshots.sort(key=lambda item: item.get("market_date", ""))
     history["schema_version"] = 1
     history["source"] = "Google Sheet daily closes · active net-worth accounts"
+    sheet_ath = tfsa_meta.get("ath")
+    if isinstance(sheet_ath, (int, float)) and math.isfinite(sheet_ath) and sheet_ath > 0:
+        history["ath_reference"] = {
+            "cad": round(float(sheet_ath), 2),
+            "source": "Google Sheet · TFSA/WS · ATH row",
+            "captured_at_utc": now.astimezone(timezone.utc).isoformat(),
+        }
     if isinstance(kraken_meta.get("inception_usd"), (int, float)):
         history["kraken_reference"] = {
             "date": "2025-10-01",
@@ -446,6 +453,16 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
                 "cad": round(sum(values), 2),
                 "complete": len(values) == len(active_keys),
             })
+    recorded_ath = history.get("ath_reference") if isinstance(history.get("ath_reference"), dict) else {}
+    recorded_ath_cad = recorded_ath.get("cad")
+    if isinstance(recorded_ath_cad, (int, float)) and math.isfinite(recorded_ath_cad) and recorded_ath_cad > 0:
+        ath_cad = float(recorded_ath_cad)
+        ath_source = recorded_ath.get("source") or "Google Sheet · recorded ATH"
+        ath_is_reconstructed = False
+    else:
+        ath_cad = max((float(point["cad"]) for point in total_series), default=current_total)
+        ath_source = "Available recorded close history · reconstructed"
+        ath_is_reconstructed = True
     return {
         "available": True,
         "market_date": current["market_date"],
@@ -455,6 +472,9 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
         "daily_accounts": daily_accounts,
         "combined_periods": combined_periods,
         "total_series": total_series,
+        "ath_cad": ath_cad,
+        "ath_source": ath_source,
+        "ath_is_reconstructed": ath_is_reconstructed,
         "periods": [label for label, _ in PERIODS],
         "snapshot_count": len(snapshots),
     }
@@ -527,7 +547,9 @@ def _interactive_chart_html(model: dict[str, Any]) -> str:
         f'<button type="button" data-range="{label}" class="tracker-range{" is-active" if label == "YTD" else ""}">{label}</button>'
         for label, _ in PERIODS
     )
-    return f'''<div class="tracker-hero" data-series="{payload}">
+    ath_cad = float(model.get("ath_cad") or max(float(point["cad"]) for point in series))
+    ath_source = escape(str(model.get("ath_source") or "Available recorded close history · reconstructed"), quote=True)
+    return f'''<div class="tracker-hero" data-series="{payload}" data-ath-cad="{ath_cad:.2f}" data-ath-source="{ath_source}">
       <div class="tracker-hero-metric"><div class="tracker-hero-value">C${model["current_total_cad"]:,.2f}</div><div class="tracker-hero-change" aria-live="polite"></div><div class="tracker-hero-note"></div></div>
       <svg class="tracker-hero-svg" viewBox="0 0 920 330" preserveAspectRatio="none" role="img" aria-label="Interactive total net worth history">
         <defs><linearGradient id="netWorthFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56f2b1" stop-opacity=".24"/><stop offset="1" stop-color="#56f2b1" stop-opacity="0"/></linearGradient><linearGradient id="netWorthFillRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff465b" stop-opacity=".24"/><stop offset="1" stop-color="#ff465b" stop-opacity="0"/></linearGradient></defs>
@@ -537,10 +559,10 @@ def _interactive_chart_html(model: dict[str, Any]) -> str:
     <script>(function(){{
       const root=document.currentScript.previousElementSibling;if(!root||root.dataset.ready)return;root.dataset.ready='1';
       const all=JSON.parse(root.dataset.series),svg=root.querySelector('svg'),line=root.querySelector('.tracker-hero-line'),area=root.querySelector('.tracker-hero-area'),dot=root.querySelector('.tracker-dot'),cross=root.querySelector('.tracker-crosshair'),change=root.querySelector('.tracker-hero-change'),note=root.querySelector('.tracker-hero-note');
-      const W=920,H=330,P=18,cut={{'1D':1,'1W':7,'1M':30,'3M':90,'6M':180,'YTD':'ytd','1Y':365,'ALL':'all'}},ath=Math.max(...all.map(p=>p.cad));let shown=[];
+      const W=920,H=330,P=18,cut={{'1D':1,'1W':7,'1M':30,'3M':90,'6M':180,'YTD':'ytd','1Y':365,'ALL':'all'}},ath=Number(root.dataset.athCad),athSource=root.dataset.athSource;let shown=[];
       const money=n=>'C$'+Math.abs(n).toLocaleString('en-CA',{{maximumFractionDigits:0}});
       function showAth(point){{const delta=point.cad-ath,pct=ath?delta/ath*100:0,pos=delta>=0,sign=delta<0?'−':delta>0?'+':'';change.className='tracker-hero-change '+(pos?'positive':'negative');change.textContent=(sign?sign+' ':'')+money(delta)+' ('+(sign||'')+Math.abs(pct).toFixed(2)+'%) · ATH';}}
-      function draw(range){{const end=new Date(all.at(-1).market_date+'T00:00:00Z');let start;if(cut[range]==='all')start=new Date('1900-01-01');else if(cut[range]==='ytd')start=new Date(Date.UTC(end.getUTCFullYear(),0,1));else start=new Date(end-cut[range]*86400000);shown=all.filter(p=>new Date(p.market_date+'T00:00:00Z')>=start);if(shown.length<2)shown=all.slice(-2);const vals=shown.map(p=>p.cad),lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max((hi-lo)*.13,1),min=lo-pad,max=hi+pad,pts=shown.map((p,i)=>[P+(W-2*P)*(i/Math.max(shown.length-1,1)),P+(H-2*P)*(1-(p.cad-min)/(max-min))]),d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');const first=shown[0],last=shown.at(-1),rangeDelta=last.cad-first.cad,pos=rangeDelta>=0,state=pos?'is-positive':'is-negative';line.setAttribute('d',d);line.setAttribute('class','tracker-hero-line '+state);area.setAttribute('d',d+' L '+pts.at(-1)[0]+' '+(H-P)+' L '+pts[0][0]+' '+(H-P)+' Z');area.setAttribute('class','tracker-hero-area '+state);area.setAttribute('fill',pos?'url(#netWorthFill)':'url(#netWorthFillRed)');showAth(last);note.textContent=(shown.length===all.length&&range!=='ALL'?'Available history begins ':'Close history from ')+new Date(first.market_date+'T00:00:00Z').toLocaleDateString('en-CA',{{month:'short',day:'numeric',year:'numeric'}})+(shown.some(p=>!p.complete)?' · earlier points exclude accounts not yet tracked':'');dot.style.opacity=cross.style.opacity=0;}}
+      function draw(range){{const end=new Date(all.at(-1).market_date+'T00:00:00Z');let start;if(cut[range]==='all')start=new Date('1900-01-01');else if(cut[range]==='ytd')start=new Date(Date.UTC(end.getUTCFullYear(),0,1));else start=new Date(end-cut[range]*86400000);shown=all.filter(p=>new Date(p.market_date+'T00:00:00Z')>=start);if(shown.length<2)shown=all.slice(-2);const vals=shown.map(p=>p.cad),lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max((hi-lo)*.13,1),min=lo-pad,max=hi+pad,pts=shown.map((p,i)=>[P+(W-2*P)*(i/Math.max(shown.length-1,1)),P+(H-2*P)*(1-(p.cad-min)/(max-min))]),d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');const first=shown[0],last=shown.at(-1),rangeDelta=last.cad-first.cad,pos=rangeDelta>=0,state=pos?'is-positive':'is-negative';line.setAttribute('d',d);line.setAttribute('class','tracker-hero-line '+state);area.setAttribute('d',d+' L '+pts.at(-1)[0]+' '+(H-P)+' L '+pts[0][0]+' '+(H-P)+' Z');area.setAttribute('class','tracker-hero-area '+state);area.setAttribute('fill',pos?'url(#netWorthFill)':'url(#netWorthFillRed)');showAth(last);note.textContent=athSource+' · '+(shown.length===all.length&&range!=='ALL'?'Available history begins ':'Close history from ')+new Date(first.market_date+'T00:00:00Z').toLocaleDateString('en-CA',{{month:'short',day:'numeric',year:'numeric'}})+(shown.some(p=>!p.complete)?' · earlier points exclude accounts not yet tracked':'');dot.style.opacity=cross.style.opacity=0;}}
       root.querySelectorAll('.tracker-range').forEach(b=>b.addEventListener('click',()=>{{root.querySelectorAll('.tracker-range').forEach(x=>x.classList.remove('is-active'));b.classList.add('is-active');draw(b.dataset.range)}}));
       svg.addEventListener('pointermove',e=>{{const r=svg.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*W,i=Math.max(0,Math.min(shown.length-1,Math.round((x-P)/(W-2*P)*(shown.length-1)))),p=shown[i],vals=shown.map(q=>q.cad),lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max((hi-lo)*.13,1),cx=P+(W-2*P)*(i/Math.max(shown.length-1,1)),cy=P+(H-2*P)*(1-(p.cad-(lo-pad))/((hi+pad)-(lo-pad)));dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);cross.setAttribute('x1',cx);cross.setAttribute('x2',cx);dot.style.opacity=cross.style.opacity=1;root.querySelector('.tracker-hero-value').textContent='C$'+p.cad.toLocaleString('en-CA',{{minimumFractionDigits:2,maximumFractionDigits:2}});showAth(p);note.textContent=new Date(p.market_date+'T00:00:00Z').toLocaleDateString('en-CA',{{month:'long',day:'numeric',year:'numeric'}})}});svg.addEventListener('pointerleave',()=>{{root.querySelector('.tracker-hero-value').textContent='C$'+all.at(-1).cad.toLocaleString('en-CA',{{minimumFractionDigits:2,maximumFractionDigits:2}});draw(root.querySelector('.tracker-range.is-active').dataset.range)}});draw('YTD');
     }})();</script>'''
