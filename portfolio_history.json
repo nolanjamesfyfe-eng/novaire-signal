@@ -1,7 +1,7 @@
 {
   "ath_reference": {
     "cad": 167029.0,
-    "captured_at_utc": "2026-09-20T23:00:21.685646+00:00",
+    "captured_at_utc": "2026-09-21T00:14:43.955219+00:00",
     "source": "Google Sheet \u00b7 TFSA/WS \u00b7 ATH row"
   },
   "kraken_reference": {
@@ -1478,30 +1478,26 @@
     },
     {
       "accounts": {
-        "kraken": {
-          "cad": 2639.48,
-          "usd": 1887.0
-        },
         "tfsa_ws": {
-          "cad": 117274.06,
-          "usd": 83840.85
+          "cad": 116337.56,
+          "usd": 83125.57
         }
       },
-      "captured_at_utc": "2026-09-18T01:56:39.789463+00:00",
+      "captured_at_utc": "2026-09-18T18:32:31.961027+00:00",
       "market_date": "2026-09-17",
-      "net_worth_cad": 119913.54,
+      "net_worth_cad": 116337.56,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
         "tfsa_ws": {
-          "cad": 115714.76,
-          "usd": 82712.18
+          "cad": 115716.13,
+          "usd": 82696.61
         }
       },
-      "captured_at_utc": "2026-09-20T23:00:21.685646+00:00",
+      "captured_at_utc": "2026-09-21T00:14:43.955219+00:00",
       "market_date": "2026-09-18",
-      "net_worth_cad": 115714.76,
+      "net_worth_cad": 115716.13,
       "source": "Google Sheet daily close"
     }
   ],
