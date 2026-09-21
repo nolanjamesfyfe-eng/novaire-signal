@@ -2,8 +2,8 @@
   "sheet_id": "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak",
   "sheet_gid": "527699504",
   "sheet_name": "TFSA/WS",
-  "fetched_at_utc": "2026-09-21T00:50:14.933912+00:00",
-  "sector_allocation_total_pct": 99.98,
+  "fetched_at_utc": "2026-09-21T02:01:39.497575+00:00",
+  "sector_allocation_total_pct": 99.99,
   "sector_allocations_pct": [
     [
       "Graphene",
@@ -11,7 +11,7 @@
     ],
     [
       "Uranium",
-      21.12
+      21.13
     ],
     [
       "Gold",
