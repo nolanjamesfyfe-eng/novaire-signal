@@ -1,39 +1,121 @@
 {
   "schema_version": 1,
-  "edition_as_of": "2026-09-14",
-  "scan_completed_at": "2026-09-18T08:18:37+07:00",
-  "universe": {
-    "total": 16,
-    "tokens": 8,
-    "equities": 8
-  },
+  "edition_as_of": "2026-09-21",
+  "scan_completed_at": "2026-09-21T07:04:22+07:00",
+  "universe": {"total": 16, "tokens": 8, "equities": 8},
   "outcomes": {
-    "execution_ready": 0,
-    "watch": 4,
-    "screened_out": 12
+    "qualified": 0,
+    "watch": 2,
+    "economic_rejection": 11,
+    "portfolio_concentration": 1,
+    "evidence_blocked": 2
   },
   "candidates": [
-    {"type":"token","symbol":"PENDLE","status":"watch","reason":"Direct sPENDLE fee-linked buyback mechanics are documented, but current fee run-rate, executable slippage and a dated catalyst were not verified."},
-    {"type":"token","symbol":"TIA","status":"watch","reason":"Depressed valuation and lower inflation merit follow-up; current blob-fee revenue and remaining locked supply need primary-source verification."},
-    {"type":"token","symbol":"ENA","status":"watch","reason":"Protocol economics merit follow-up; binding ENA fee distribution and the next 12 months of unlocks remain unverified."},
-    {"type":"equity","symbol":"IVN.TO","status":"watch","reason":"Operating recovery is visible, but current fully diluted capitalization and material project risks need resolution."},
-    {"type":"token","symbol":"ARB","status":"screened_out","reason":"No verified direct sequencer-fee claim offsets ongoing unlock overhang."},
-    {"type":"token","symbol":"STRK","status":"screened_out","reason":"No verified holder cash-flow claim offsets remaining supply overhang."},
-    {"type":"token","symbol":"ATOM","status":"screened_out","reason":"Persistent issuance and weak value capture lack a specific verified rerating catalyst."},
-    {"type":"token","symbol":"OP","status":"screened_out","reason":"Low circulation and no verified direct Superchain revenue claim fail the value-capture hurdle."},
-    {"type":"token","symbol":"IMX","status":"screened_out","reason":"Low circulation plus incomplete fee-capture and usage evidence fail the dilution hurdle."},
-    {"type":"equity","symbol":"LAC","status":"screened_out","reason":"Known and price-dependent dilution leaves permanent-loss risk insufficiently bounded."},
-    {"type":"equity","symbol":"UEC","status":"screened_out","reason":"Existing uranium concentration is decisive; current fully diluted capitalization also remains incomplete."},
-    {"type":"equity","symbol":"NXE.TO","status":"screened_out","reason":"Pre-production single-project exposure compounds existing uranium concentration without complete financing evidence."},
-    {"type":"equity","symbol":"UUUU","status":"screened_out","reason":"Resource concentration worsens and current fully diluted capitalization is incomplete."},
-    {"type":"equity","symbol":"CCO.TO","status":"screened_out","reason":"The entry is not sufficiently depressed and would add to existing uranium concentration."},
-    {"type":"equity","symbol":"SGML","status":"screened_out","reason":"Governance, operating and lithium-cycle risks lack current audited cash, debt and dilution support."},
-    {"type":"equity","symbol":"FCX","status":"screened_out","reason":"Strong copper exposure does not compensate for failing the depressed-entry screen."}
+    {
+      "type": "token", "symbol": "AAVE", "canonical_key": "aave|aave", "status": "watch",
+      "checked_at": "2026-09-21T07:03:31+07:00", "source_url": "https://governance.aave.com/t/aave-dao-funding-insights/24192",
+      "quote": "US$137.60; US$2.122b market cap / US$2.201b FDV; -53.8% one year; 15.43m/16.00m circulating; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "Near-full circulation and documented DAO buybacks are attractive, but the budget was proposed lower and later governance evidence indicates interruptions; this is not a clean current cash-return claim.",
+      "missing_fields": ["current executed weekly buyback rate", "current borrow-fee run-rate", "venue-specific slippage", "dated 3–12 month catalyst"]
+    },
+    {
+      "type": "token", "symbol": "AKT", "canonical_key": "akt|akash-network", "status": "watch",
+      "checked_at": "2026-09-21T07:03:31+07:00", "source_url": "https://akash.network/blog/akash-network-q1-2026-report/",
+      "quote": "US$0.5817; US$172.3m market cap / US$172.3m FDV; -49.3% one year; US$4.6m reported 24h volume; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "BME now links compute demand to AKT market purchases and burns, while official reports show real compute spend and a December 2026 migration milestone. Net economics and execution remain unproven enough for WATCH only.",
+      "missing_fields": ["three months current net AKT burn", "current recurring compute-spend trend", "complete emissions/unlock schedule", "venue-specific slippage"]
+    },
+    {
+      "type": "token", "symbol": "SKY", "canonical_key": "sky|sky-ecosystem", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+      "quote": "US$0.0710; US$1.662b market cap / US$1.665b FDV; +1.5% one year; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "Near-full circulation is positive, but the entry is not depressed and no candidate-specific 3–12 month rerating event cleared the asymmetry hurdle.", "missing_fields": []
+    },
+    {
+      "type": "token", "symbol": "JITOSOL", "canonical_key": "jitosol|jito-staked-sol", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+      "quote": "US$144.72; US$1.151b market cap; -51.1% one year; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "A liquid-staking receipt is primarily leveraged underlying SOL exposure, not the distinct 10–30x value-capture setup required for this scan.", "missing_fields": []
+    },
+    {
+      "type": "token", "symbol": "INJ", "canonical_key": "inj|injective", "status": "evidence_blocked",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+      "quote": "US$7.78; US$778.1m market cap/FDV; -44.1% one year; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "The quote and supply are complete, but current fee burn, recurring usage and a dated catalyst were not independently established, so price compression cannot be called opportunity.",
+      "missing_fields": ["current fee-dollar burn", "recurring usage trend", "dated catalyst"]
+    },
+    {
+      "type": "token", "symbol": "CRV", "canonical_key": "crv|curve-dao", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+      "quote": "US$0.3543; US$553.4m market cap / US$857.5m FDV; -56.0% one year; 1.562b/3.030b max circulating; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "Only about half of maximum supply is circulating; the remaining dilution and governance dependence overwhelm the drawdown signal.", "missing_fields": []
+    },
+    {
+      "type": "token", "symbol": "LDO", "canonical_key": "ldo|lido-dao", "status": "evidence_blocked",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+      "quote": "US$0.4192; US$349.7m market cap / US$419.3m FDV; -67.1% one year; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "The drawdown is large, but a binding current holder claim on protocol fees and a dated catalyst were not verified.",
+      "missing_fields": ["binding holder fee distribution", "current fee run-rate", "dated catalyst", "execution slippage"]
+    },
+    {
+      "type": "token", "symbol": "RPL", "canonical_key": "rpl|rocket-pool", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+      "quote": "US$1.83; US$41.8m market cap/FDV; -70.6% one year; US$0.9m reported 24h volume; CoinGecko 2026-09-21 00:00 UTC.",
+      "reason": "Sub-US$1m reported daily volume fails executable-liquidity discipline before tokenomics can justify a position.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "ERO.TO", "canonical_key": "ero|ero-copper", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/ERO.TO",
+      "quote": "C$48.05 close on 2026-09-18; +107.6% across adjacent one-year valid bars; 1.34m shares volume.",
+      "reason": "Operating copper exposure is liquid, but a doubling over the screened year fails the depressed-entry requirement.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "NGEX.TO", "canonical_key": "ngex|ngex-minerals", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/NGEX.TO",
+      "quote": "C$25.39 close on 2026-09-18; +12.8% across adjacent one-year valid bars; 313,900 shares volume.",
+      "reason": "Lunahuasi drilling remains strong, but discovery valuation and single-project exploration risk do not offer a sufficiently depressed entry.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "LUN.TO", "canonical_key": "lun|lundin-mining", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/LUN.TO",
+      "quote": "C$33.55 close on 2026-09-18; +102.7% across adjacent one-year valid bars; 2.49m shares volume.",
+      "reason": "Liquidity is excellent, but the one-year rerating removes the asymmetric entry.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "ARG.TO", "canonical_key": "arg|amerigo-resources", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/ARG.TO",
+      "quote": "C$8.93 close on 2026-09-18; +280.0% across adjacent one-year valid bars; 1.40m shares volume.",
+      "reason": "A 280% one-year rerating decisively fails the depressed-entry filter.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "UROY", "canonical_key": "uroy|uranium-royalty-corp", "status": "portfolio_concentration",
+      "checked_at": "2026-09-21T07:02:26+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/UROY",
+      "quote": "US$4.56 close on 2026-09-18; +22.9% across adjacent one-year valid bars; 32.42m shares volume.",
+      "reason": "The live books already contain broad and issuer-specific uranium exposure; adding another uranium vehicle worsens concentration.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "CS.TO", "canonical_key": "cs|capstone-copper", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:03:02+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/CS.TO",
+      "quote": "C$14.49 close on 2026-09-18; +45.5% across adjacent one-year valid bars; 6.07m shares volume.",
+      "reason": "High liquidity and growth are offset by a 45% rerating and heavy 2026 capital spending; the entry is not asymmetric enough.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "TKO.TO", "canonical_key": "tko|taseko-mines", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:03:02+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TKO.TO",
+      "quote": "C$12.10 close on 2026-09-18; +139.6% across adjacent one-year valid bars; 1.54m shares volume.",
+      "reason": "Florence commissioning is tangible, but the 140% one-year rerating prices away the depressed setup.", "missing_fields": []
+    },
+    {
+      "type": "equity", "symbol": "ALS.TO", "canonical_key": "als|altius-minerals", "status": "economic_rejection",
+      "checked_at": "2026-09-21T07:03:02+07:00", "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/ALS.TO",
+      "quote": "C$67.83 close on 2026-09-18; +116.0% across adjacent one-year valid bars; 2.16m shares volume.",
+      "reason": "Royalty diversification is attractive, but a 116% one-year gain fails the entry filter.", "missing_fields": []
+    }
   ],
   "notes": [
-    "Screened out includes both decisive economic failures and candidates withheld because evidence was incomplete; candidate reasons preserve that distinction.",
-    "History exclusions use published prior editions only.",
-    "No private holdings, account names, position sizes or trade data are included.",
+    "Candidate quote changes use the latest valid bar versus the first valid bar in the requested one-year series; they are explicitly one-year changes, not yesterday moves.",
+    "History exclusions use published prior editions only; unsurfaced rejects do not become permanent exclusions.",
+    "Live account screening was completed without publishing account values, quantities or private position data.",
     "No trade was placed."
   ]
 }

@@ -14,6 +14,18 @@
         "midnight.network"
       ],
       "source_url": "https://midnight.network/night"
+    },
+    {
+      "first_as_of": "2026-09-14",
+      "type": "token",
+      "symbol": "PENDLE",
+      "name": "Pendle",
+      "canonical_key": "pendle|pendle",
+      "aliases": [
+        "pendle",
+        "pendle finance"
+      ],
+      "source_url": "https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE"
     }
   ]
 }

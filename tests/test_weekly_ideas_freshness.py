@@ -130,16 +130,25 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
         ledger = json.loads((root / weekly["evidence"]["public_ledger_path"]).read_text(encoding="utf-8"))
 
-        self.assertEqual(weekly["as_of"], "2026-09-14")
+        self.assertEqual(weekly["as_of"], "2026-09-21")
         self.assertEqual(weekly["scan_status"], "completed")
         self.assertEqual(weekly["evidence"]["candidates_reviewed"], 16)
         self.assertEqual(ledger["universe"], {"total": 16, "tokens": 8, "equities": 8})
-        self.assertEqual(ledger["outcomes"], {"execution_ready": 0, "watch": 4, "screened_out": 12})
+        self.assertEqual(ledger["outcomes"], {
+            "qualified": 0,
+            "watch": 2,
+            "economic_rejection": 11,
+            "portfolio_concentration": 1,
+            "evidence_blocked": 2,
+        })
         self.assertEqual(len(ledger["candidates"]), 16)
-        self.assertEqual(sum(row["status"] == "watch" for row in ledger["candidates"]), 4)
-        self.assertEqual(sum(row["status"] == "screened_out" for row in ledger["candidates"]), 12)
-        pendle = next(row for row in ledger["candidates"] if row["symbol"] == "PENDLE")
-        self.assertEqual(pendle["status"], "watch")
+        self.assertEqual(sum(row["status"] == "watch" for row in ledger["candidates"]), 2)
+        self.assertEqual(sum(row["status"] == "economic_rejection" for row in ledger["candidates"]), 11)
+        self.assertEqual(sum(row["status"] == "portfolio_concentration" for row in ledger["candidates"]), 1)
+        self.assertEqual(sum(row["status"] == "evidence_blocked" for row in ledger["candidates"]), 2)
+        akt = next(row for row in ledger["candidates"] if row["symbol"] == "AKT")
+        self.assertEqual(akt["status"], "watch")
+        self.assertEqual(weekly["ideas"][0]["symbol"], "AKT")
         self.assertEqual(weekly["ideas"][0]["action"], "WATCH")
 
 
