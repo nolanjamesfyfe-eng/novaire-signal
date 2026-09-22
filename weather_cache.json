@@ -5,15 +5,15 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 25.5,
-    "high": 30.8,
-    "low": 25.3,
-    "humidity": 93,
-    "condition": "Overcast ☁️",
-    "aqi": 64,
+    "temp": 24.7,
+    "high": 31.5,
+    "low": 24.5,
+    "humidity": 95,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 79,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-09-22T00:50:03.838679+00:00"
+    "cached_at": "2026-09-22T20:15:05.289986+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -21,15 +21,15 @@
     "lat": 6.2442,
     "lon": -75.5812,
     "tz_offset": -5,
-    "temp": 20.8,
-    "high": 28.7,
-    "low": 18.0,
-    "humidity": 82,
-    "condition": "Overcast ☁️",
-    "aqi": 40,
+    "temp": 25.3,
+    "high": 28.4,
+    "low": 17.1,
+    "humidity": 67,
+    "condition": "Light Drizzle 🌦",
+    "aqi": 50,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-22T00:50:04.177151+00:00"
+    "cached_at": "2026-09-22T20:15:05.630744+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -37,15 +37,15 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": 22.3,
-    "high": 25.5,
+    "temp": 17.9,
+    "high": 18.5,
     "low": 10.4,
-    "humidity": 50,
+    "humidity": 41,
     "condition": "Clear Sky ☀️",
-    "aqi": 32,
+    "aqi": 28,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-22T00:50:04.515935+00:00"
+    "cached_at": "2026-09-22T20:15:05.970286+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -53,14 +53,14 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 11.7,
-    "high": 14.5,
-    "low": 11.2,
-    "humidity": 74,
-    "condition": "Overcast ☁️",
-    "aqi": 32,
+    "temp": 10.4,
+    "high": 11.0,
+    "low": 9.1,
+    "humidity": 58,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 28,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-09-22T00:50:04.852639+00:00"
+    "cached_at": "2026-09-22T20:15:06.311851+00:00"
   }
 }
