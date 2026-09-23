@@ -9,7 +9,7 @@
     "published_at": "2026-09-23T10:30:36+00:00",
     "views": null,
     "likes": null,
-    "verified_at": "2026-09-23T20:16:09.883677+00:00",
+    "verified_at": "2026-09-23T23:01:02.794218+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -23,7 +23,7 @@
         "url": "https://www.youtube.com/watch?v=NUIMIrW1TZ0",
         "published_at": "Sep 7, 2026",
         "views": 38,
-        "likes": 2,
+        "likes": 3,
         "platform": "youtube",
         "type": "video",
         "channel": "The Second Renaissance",
@@ -40,7 +40,7 @@
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-09-23T20:16:11.183086+00:00",
+      "verified_at": "2026-09-23T23:01:04.054583+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -69,10 +69,10 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-09-23T20:16:12.401263+00:00",
+      "verified_at": "2026-09-23T23:01:05.298068+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-09-23T20:16:12.404944+00:00",
+  "refreshed_at": "2026-09-23T23:01:05.300197+00:00",
   "errors": {}
 }
