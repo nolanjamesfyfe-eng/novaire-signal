@@ -8,6 +8,22 @@ The single-column ranking is separate from orange upcoming trips. `wishlist.js` 
 
 The approved heading is `Flâneur Happenings`, with circumflex, one line, 15% smaller desktop type than the initial version, no supporting paragraph. Browser testing must cover 320px/390px mobile widths, rank changes, country additions/replacements, duplicates, save/lock/reload, and blocked storage. Run `node --test tests/wishlist.test.cjs` plus `python -m pytest tests/test_map_route.py tests/test_map_flaneur.py`.
 
+## Globe detail and navigation
+
+The canvas uses four topology-clean Natural Earth 1:10m LODs. The 20% high tier
+(`world-globe-high.geojson`) is fetched only at 3× zoom, cached after success,
+and cancelled if an unfinished request is no longer needed. The previous tier
+stays painted during loading or failure. The finite 72× ceiling makes compact
+jurisdictions such as Monaco distinguishable, but this remains regional/coastline
+detail—not street, parcel, or surveyed boundary data. World-scale small-place
+circles are location markers and disappear before boundary-level zoom.
+
+Yaw is deliberately unbounded for repeated full turns; pitch stops at ±89.5°.
+Overview touch keeps vertical page scrolling, while zoomed touch captures both
+axes for globe rotation. Wheel and pinch zoom remain anchored under the pointer
+or pinch midpoint. Search `Hawaii` for the explicitly labelled US place focus;
+Hong Kong and Monaco remain jurisdiction features in the 199-entry atlas.
+
 ## Record answers safely
 
 From the repository root:

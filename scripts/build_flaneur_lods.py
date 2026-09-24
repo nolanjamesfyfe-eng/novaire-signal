@@ -9,11 +9,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "map/world.geojson"
 LEVELS = {
-    "world-globe.geojson": "0.5%",
-    "world-globe-medium.geojson": "1%",
+    "world-globe.geojson": ("0.5%", "0.001"),
+    "world-globe-medium.geojson": ("1%", "0.001"),
     # High zoom is viewport-culled before drawing, so spend the saved frame
     # budget on coastline fidelity instead of reusing the overview geometry.
-    "world-globe-detail.geojson": "4.5%",
+    "world-globe-detail.geojson": ("4.5%", "0.001"),
+    # Loaded only after 3x zoom. Natural Earth 1:10m detail keeps Hawaiian
+    # coastlines and compact jurisdictions useful without a token-gated tile API.
+    "world-globe-high.geojson": ("20%", "0.0001"),
 }
 
 
@@ -33,12 +36,12 @@ def point_count(value) -> int:
 
 
 def main() -> None:
-    for filename, percentage in LEVELS.items():
+    for filename, (percentage, precision) in LEVELS.items():
         target = ROOT / "map" / filename
         temporary = target.with_suffix(".tmp.geojson")
         subprocess.run([
             "npx", "--yes", "mapshaper", str(SOURCE), "-clean", "-simplify", percentage,
-            "keep-shapes", "weighted", "-o", "format=geojson", "precision=0.001", str(temporary),
+            "keep-shapes", "weighted", "-o", "format=geojson", f"precision={precision}", str(temporary),
         ], check=True)
         data = json.loads(temporary.read_text())
         if len(data.get("features", [])) != 199:

@@ -83,7 +83,8 @@ def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
     assert '<canvas id="globe-canvas"' in html
     assert 'canvas.onpointerdown=' in html
     assert "kind:'pinch'" in html
-    assert 'globe.zoom=Math.max(1,Math.min(3' in html
+    assert 'MAX_ZOOM=72' in html
+    assert 'setZoomValue(' in html
     assert '.rotate(globe.rotation).scale(globe.baseScale*globe.zoom)' in html
     assert 'projection.precision(3)' in html
     assert 'requestAnimationFrame' in html
@@ -111,7 +112,7 @@ def test_desktop_orthographic_rotation_and_wheel_zoom_are_available():
     assert ":Math.max(1,Math.min((width-48)/2,(height-73)/2))" in html
     assert "canvas.onwheel=" in html
     assert "if(!insideGlobe(e))return;e.preventDefault()" in html
-    assert "globe.rotation=[globe.gesture.rotation[0]+dx*.28/globe.zoom" in html
+    assert "globe.rotation=[globe.gesture.rotation[0]+moveX*sensitivity" in html
     assert "mobile?1.35:1.5" in html
 
 
@@ -128,14 +129,14 @@ def test_canonical_signal_branding_and_copy_removal():
 
 def test_zoom_lods_keep_all_features_and_add_real_detail():
     levels = [json.loads((ROOT / f'map/world-globe-{name}.geojson').read_text())
-              for name in ('medium', 'detail')]
+              for name in ('medium', 'detail', 'high')]
     def rings(feature):
         coords = feature['geometry']['coordinates']
         return coords if feature['geometry']['type'] == 'Polygon' else [r for p in coords for r in p]
     def points(world):
         return sum(len(r) for feature in world['features'] for r in rings(feature))
-    assert [len(world['features']) for world in levels] == [199, 199]
-    assert 5000 < points(levels[0]) < 20000 < points(levels[1]) < 40000
+    assert [len(world['features']) for world in levels] == [199, 199, 199]
+    assert 5000 < points(levels[0]) < 20000 < points(levels[1]) < 40000 < points(levels[2]) < 150000
     for world in levels:
         for feature in world['features']:
             assert all(len(ring) >= 4 and ring[0] == ring[-1] for ring in rings(feature))
@@ -144,7 +145,12 @@ def test_zoom_lods_keep_all_features_and_add_real_detail():
                   if f['properties']['iso2'] == code))) for world in levels]
         assert counts[1] > counts[0], (code, counts)
     assert 'keep-shapes' in (ROOT / 'scripts/build_flaneur_lods.py').read_text()
-    assert '"world-globe-detail.geojson": "4.5%"' in (ROOT / 'scripts/build_flaneur_lods.py').read_text()
+    build = (ROOT / 'scripts/build_flaneur_lods.py').read_text()
+    assert '"world-globe-detail.geojson": ("4.5%"' in build
+    assert '"world-globe-high.geojson": ("20%"' in build
+    for code in ('US', 'HK'):
+        counts = [sum(len(r) for r in rings(next(f for f in world['features'] if f['properties']['iso2'] == code))) for world in levels]
+        assert counts[2] > counts[1], (code, counts)
 
 
 def test_pointer_capture_only_begins_after_drag_threshold():
@@ -153,4 +159,14 @@ def test_pointer_capture_only_begins_after_drag_threshold():
     assert 'setPointerCapture' not in gestures.split('canvas.onpointerdown=')[1].split('canvas.onpointermove=')[0]
     assert 'canvas.setPointerCapture(e.pointerId)' in gestures.split('canvas.onpointermove=')[1]
     assert 'if(!globe.pointers.size)globe.moved=false' in gestures
-    assert 'if(pts.length>1)globe.moved=true' in gestures
+    assert "if(pts.length>1){globe.moved=true" in gestures
+
+
+def test_deep_zoom_is_progressive_attributed_and_accessible():
+    html = (ROOT / 'map/index.html').read_text()
+    assert "fetch('/map/world-globe-high.geojson'" in html
+    assert 'AbortController' in html and 'cancelHighGeometry()' in html
+    assert 'Natural Earth 1:10m' in html
+    assert 'data-place="${key}"' in html and "name:'Hawaii'" in html
+    assert 'tabindex="0"' in html and 'canvas.onkeydown=' in html
+    assert "Math.max(-89.5,Math.min(89.5" in html
