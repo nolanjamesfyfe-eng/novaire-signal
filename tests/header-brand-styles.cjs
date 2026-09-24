@@ -15,6 +15,7 @@ const { chromium } = require('/root/clawd/novaire-operations-system/node_modules
         const signal = wordmark.querySelector(':scope > span');
         const date = document.querySelector('.dateline .date');
         const globe = document.querySelector('.header-brand .signal-map').getBoundingClientRect();
+        const text = wordmark.getBoundingClientRect();
         const bolt = document.querySelector('.header-brand .signal-bolt').getBoundingClientRect();
         const logo = document.querySelector('.header-brand .footer-logo');
         const pick = (el) => { const style = getComputedStyle(el); return { color: style.color, fontStyle: style.fontStyle }; };
