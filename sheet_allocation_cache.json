@@ -2,16 +2,16 @@
   "sheet_id": "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak",
   "sheet_gid": "527699504",
   "sheet_name": "TFSA/WS",
-  "fetched_at_utc": "2026-09-23T23:00:19.835288+00:00",
+  "fetched_at_utc": "2026-09-24T00:50:14.341813+00:00",
   "sector_allocation_total_pct": 100.03,
   "sector_allocations_pct": [
     [
       "Graphene",
-      44.39
+      44.4
     ],
     [
       "Uranium",
-      19.67
+      19.65
     ],
     [
       "Gold",
@@ -27,7 +27,7 @@
     ],
     [
       "Molybdenum",
-      2.94
+      2.95
     ],
     [
       "Hydro",
