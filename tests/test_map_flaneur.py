@@ -105,6 +105,9 @@ def test_globe_hit_testing_cancel_and_metrics_are_preserved():
     assert '<b>Capital:</b>' in html
     assert '<b>Population:</b>' in html
     assert '<b>GDP:</b>' in html
+    assert "selectedCode=code" in html
+    assert "ctx.strokeStyle='#f0d9a2'" in html
+    assert "if(wasShown&&selectedCode){selectedCode='';scheduleDraw()}" in html
 
 
 def test_desktop_orthographic_rotation_and_wheel_zoom_are_available():

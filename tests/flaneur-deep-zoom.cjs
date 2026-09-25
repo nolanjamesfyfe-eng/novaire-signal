@@ -28,7 +28,7 @@ async function dragTurns(page,canvas,count,vertical=false){
     await page.mouse.move(vertical?sx:box.x+box.width*.75,vertical?box.y+box.height*.72:sy,{steps:8});await page.mouse.up();
   }
 }
-async function nonBackgroundPixels(canvas){return canvas.evaluate(c=>{const x=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let n=0;for(let i=0;i<x.length;i+=4)if((x[i]===102&&x[i+1]===112&&x[i+2]===107)||(x[i]===35&&x[i+1]===122&&x[i+2]===78)||(x[i]===166&&x[i+1]===95&&x[i+2]===46))n++;return n})}
+async function nonBackgroundPixels(canvas){return canvas.evaluate(c=>{const x=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let n=0;for(let i=0;i<x.length;i+=4)if((x[i]===102&&x[i+1]===112&&x[i+2]===107)||(x[i]===35&&x[i+1]===122&&x[i+2]===78)||(x[i]===166&&x[i+1]===95&&x[i+2]===46)||(x[i]>=70&&x[i]<=85&&x[i+1]>=135&&x[i+1]<=145&&x[i+2]>=90&&x[i+2]<=100))n++;return n})}
 
 test('desktop supports successive full yaw rotations at overview and deep zoom',async()=>{const {browser,page,errors}=await open({width:1440,height:1000});try{
   const canvas=page.locator('#globe-canvas');let before=yaw(await canvas.getAttribute('data-rotation'));await dragTurns(page,canvas,4);let after=yaw(await canvas.getAttribute('data-rotation'));assert.ok(after-before>360,`overview yaw ${before} -> ${after}`);

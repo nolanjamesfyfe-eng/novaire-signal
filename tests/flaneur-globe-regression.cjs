@@ -193,6 +193,27 @@ test('desktop mouse drag, wheel, tap-only facts, directory focus and draw budget
   } finally {await browser.close();}
 });
 
+test('country selection highlight persists, swaps by identity and clears with facts', async () => {
+  for (const mobile of [false,true]) {
+    const {browser,page}=await open(chromium,mobile);
+    try {
+      const canvas=page.locator('#globe-canvas');
+      for (const [name,code] of [['Japan','JP'],['Hong Kong','HK'],['Monaco','MC']]) {
+        await page.fill('#search',name);await page.locator(`.country-row[data-code="${code}"]`).click();await page.waitForTimeout(30);
+        if(code==='HK'||code==='MC')await page.waitForFunction(()=>document.querySelector('#globe-canvas').dataset.lod==='high');
+        assert.equal(await canvas.getAttribute('data-selected-code'),code,`${mobile?'mobile':'desktop'} directory selection pins ${name} by ISO identity`);
+        assert.equal(await page.locator('.tooltip.show').count(),1,`${name} selection displays facts`);
+        if(!mobile){const box=await canvas.boundingBox();await page.mouse.move(box.x+2,box.y+2);assert.equal(await canvas.getAttribute('data-selected-code'),code,'mouseleave does not discard pinned selection');}
+        await canvas.evaluate(c=>{for(const key of ['ArrowRight','+'])c.dispatchEvent(new KeyboardEvent('keydown',{key,bubbles:true}))});await page.waitForTimeout(30);
+        assert.equal(await canvas.getAttribute('data-selected-code'),code,`${name} survives keyboard rotation, zoom and redraw updates`);
+      }
+      await page.locator('h1').click();await page.waitForTimeout(30);
+      assert.equal(await page.locator('.tooltip.show').count(),0,'outside contact closes facts');
+      assert.equal(await canvas.getAttribute('data-selected-code'),'','closing facts clears selected highlight');
+    } finally {await browser.close();}
+  }
+});
+
 test('canonical branding and globe-only wheel capture', async () => {
   const {browser,page}=await open(chromium,false);
   try {
