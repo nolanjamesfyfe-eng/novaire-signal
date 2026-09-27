@@ -4251,7 +4251,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    {signal_brand_markup()}
+    {signal_brand_markup(health_link=True)}
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
@@ -4990,7 +4990,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 <div class="container">
 
   <div class="header-brand">
-    {signal_brand_markup()}
+    {signal_brand_markup(health_link=True)}
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
   </div>
 
@@ -5081,7 +5081,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <!-- ECOSYSTEM LINKS -->
   <div class="footer">
-    {signal_brand_markup()}
+    {signal_brand_markup(health_link=True)}
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novairesignal.com" class="eco-link">Novaire Signal</a>
