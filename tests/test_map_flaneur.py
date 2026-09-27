@@ -173,3 +173,24 @@ def test_deep_zoom_is_progressive_attributed_and_accessible():
     assert 'data-place="${key}"' in html and "name:'Hawaii'" in html
     assert 'tabindex="0"' in html and 'canvas.onkeydown=' in html
     assert "Math.max(-89.5,Math.min(89.5" in html
+
+
+def test_zoom_aware_geography_labels_preserve_visual_hierarchy():
+    html = (ROOT / 'map/index.html').read_text()
+    assert "name:'Africa',coords:[20,2]" in html
+    assert "name:'Indian Ocean',coords:[78,-20]" in html
+    assert "name:'Suez Canal',coords:[32.35,30.45]" in html
+    assert "name:'Panama Canal',coords:[-79.68,9.08]" in html
+    assert "name:'Strait of Hormuz',coords:[56.35,26.55]" in html
+    assert "kind:'continent',min:1,max:2.8" in html
+    assert "kind:'waterway',min:1.45,max:72" in html
+    assert 'd3.geoDistance(viewCenter,label.coords)>=Math.PI/2-.035' in html
+    assert 'Math.min(label.cap' in html
+    assert "canvas.dataset.labelContinents" in html
+    assert "canvas.dataset.labelOceans" in html
+    assert "canvas.dataset.labelWaterways" in html
+    assert "canvas.dataset.labels=drawn.join('|')" in html
+    assert 'ctx.arc(...projection.translate(),globe.baseScale*globe.zoom' in html
+    # Labels are painted after countries as quiet context, without adding any DOM hit target.
+    draw_body = html.split('function draw(){', 1)[1].split('function scheduleDraw()', 1)[0]
+    assert draw_body.index("for(const fill of ['#66706b'") < draw_body.index('drawGeographyLabels()')
