@@ -12,7 +12,7 @@ export const BRAIN_PARTS={
   brainstem:{name:'Brainstem',group:'Brainstem',view:'Inferior',description:'The stalk-like structure connecting the brain with the spinal cord.'}
 };
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,Number(n)||0));
-export function expressiveLevel(entry){const a=entry?.answers;if(!a)return null;return (clamp(a.energy,0,10)+clamp(a.focus,0,10)+Math.min(clamp(a.sleep,0,12)/8,1)*10)/30}
+export function expressiveLevel(entry){const a=entry?.answers;if(!a)return null;const values=[a.energy,a.focus].filter(Number.isFinite).map(n=>clamp(n,0,10));const sleep=entry?.foundations?.sleepHours??a.sleep;if(Number.isFinite(sleep))values.push(Math.min(clamp(sleep,0,24)/8,1)*10);return values.length?values.reduce((s,n)=>s+n,0)/(values.length*10):null}
 export function latestLocalEntry(storage=globalThis.localStorage){try{const entries=JSON.parse(storage?.getItem(BRAIN_STORAGE_KEY)||'[]');return Array.isArray(entries)&&entries.length?entries.filter(e=>e?.answers).sort((a,b)=>String(a.date).localeCompare(String(b.date))).at(-1)||null:null}catch{return null}}
 
 const root=typeof document==='undefined'?null:document.querySelector('[data-brain-atlas]');
