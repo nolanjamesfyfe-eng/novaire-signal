@@ -3480,7 +3480,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
               <span class="latest-novaire-kicker">{kicker}</span>
               <strong>{escape(item["title"])}</strong>
             </span>
-            <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
+            <span class="latest-novaire-chevron" aria-hidden="true"></span>
           </summary>
           <div class="latest-novaire-detail">
             <div class="latest-novaire-metrics">{"".join(visible_metrics)}{top_badge}</div>
@@ -3508,7 +3508,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             <span class="latest-novaire-kicker">READ · NOVAIRE INK</span>
             <strong>When You Don't Write, You Are Wrong</strong>
           </span>
-          <span class="latest-novaire-chevron" aria-hidden="true">⌄</span>
+          <span class="latest-novaire-chevron" aria-hidden="true"></span>
         </summary>
         <div class="latest-novaire-detail latest-novaire-ink-detail">
           <span>Latest essay · <b id="ink-unique-views">—</b> unique readers</span>
@@ -3564,7 +3564,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-accordion>summary{{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;cursor:pointer}}
     .signal-accordion>summary::-webkit-details-marker{{display:none}}
     .signal-accordion>summary .card-title{{margin:0;flex:1}}
-    .signal-accordion>summary::after{{content:'⌄';color:var(--gold);font-size:1rem;transition:transform .15s}}
+    .signal-accordion>summary::after{{content:'';width:10px;height:6px;flex:none;align-self:center;background:var(--gold);clip-path:polygon(0 0,50% 70%,100% 0,100% 30%,50% 100%,0 30%);transition:transform .15s;transform-origin:center}}
     .signal-accordion[open]>summary::after{{transform:rotate(180deg)}}
     .signal-accordion-body{{padding:0 20px 20px}}
     .accordion-score,.accordion-score b,.fed-summary-rate,.fed-summary-sentiment{{font-size:.68rem;line-height:1.2}}
@@ -3809,7 +3809,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .latest-novaire-copy{{display:flex;min-width:0;flex-direction:column}}
     .latest-novaire-kicker{{font-size:.49rem;color:var(--gold);letter-spacing:.14em;margin-bottom:3px}}
     .latest-novaire-copy strong{{font-family:var(--serif);font-size:.94rem;font-weight:500;color:var(--text);line-height:1.14;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .latest-novaire-chevron{{flex:none;color:var(--gold);font-size:1rem;transition:transform .15s}}
+    .latest-novaire-chevron{{width:10px;height:6px;flex:none;align-self:center;background:var(--gold);clip-path:polygon(0 0,50% 70%,100% 0,100% 30%,50% 100%,0 30%);transition:transform .15s;transform-origin:center}}
     .latest-novaire-item[open] .latest-novaire-chevron{{transform:rotate(180deg)}}
     .latest-novaire-detail{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 13px 11px;font-size:.57rem;color:var(--dim)}}
     .latest-novaire-detail>a{{flex:none;color:var(--gold);text-decoration:none;letter-spacing:.07em;text-transform:uppercase}}

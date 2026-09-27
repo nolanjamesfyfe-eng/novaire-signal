@@ -486,6 +486,23 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".card.daily-signal-card{padding:0;overflow:hidden}", self.html)
         self.assertIn(".daily-signal-card:not([open])>summary{height:62px;min-height:62px}", self.html)
 
+    def test_main_page_disclosure_chevrons_use_centered_fixed_geometry(self):
+        chevron_geometry = (
+            "width:10px;height:6px;flex:none;align-self:center;background:var(--gold);"
+            "clip-path:polygon(0 0,50% 70%,100% 0,100% 30%,50% 100%,0 30%);"
+            "transition:transform .15s;transform-origin:center"
+        )
+        self.assertIn(f".signal-accordion>summary::after{{content:'';{chevron_geometry}}}", self.html)
+        self.assertIn(f".latest-novaire-chevron{{{chevron_geometry}}}", self.html)
+        self.assertNotIn("content:'⌄'", self.html)
+        self.assertNotIn('aria-hidden="true">⌄</span>', self.html)
+        for card_id in (
+            "world-tour-card", "quotes-card", "weather-card",
+            "weekly-asymmetric-ideas", "thailand-news-card",
+            "latest-novaire-card", "daily-actions-card",
+        ):
+            self.assertIn(f'id="{card_id}"', self.html)
+
     def test_commodities_are_six_compact_tiles_with_diesel(self):
         self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
         self.assertIn(".commodity-item{background:var(--bg);padding:9px", self.html)
