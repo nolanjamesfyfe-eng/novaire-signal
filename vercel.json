@@ -67,6 +67,7 @@
     { "source": "/flaneur/", "destination": "/flaneur", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/health", "destination": "/health/index.html" },
     { "source": "/flaneur", "destination": "/map/index.html" },
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
