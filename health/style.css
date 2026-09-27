@@ -11,3 +11,9 @@ footer a{color:var(--cyan)}
 
 .skip{clip-path:inset(100%)}.skip:focus-visible{clip-path:none}
 @media(max-width:600px){.view-controls{top:170px}.stage #viewport{inset:200px 0 160px}}
+
+/* 1.0 composition and loading polish */
+.load-progress{position:absolute;z-index:5;left:50%;top:50%;width:min(240px,62vw);transform:translate(-50%,-50%);font:600 9px var(--sans);letter-spacing:.2em;color:#bdeef4;text-align:center;transition:opacity .45s ease}.load-progress b{display:block;height:1px;margin-top:12px;background:#26383b;overflow:hidden}.load-progress i{display:block;width:0;height:100%;background:#72efff;box-shadow:0 0 12px #50eaff;transition:width .16s ease}.load-progress.done{opacity:0}
+#viewport:focus-visible{outline:1px solid rgba(123,238,255,.72);outline-offset:-4px}.inspector{box-shadow:0 20px 70px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.025)}
+@media(min-width:601px){#viewport{top:88px;bottom:76px;height:auto}.hint{bottom:28px}.view-controls{bottom:28px}.zoom-controls{right:32px}.intro{top:18%}.inspector{bottom:32px}}
+@media(max-width:600px){.stage{height:844px;min-height:844px}.intro{top:72px}.intro h1{font-size:28px;max-width:245px}.stage #viewport{inset:176px 0 168px}.view-controls{top:148px}.inspector{bottom:10px;max-height:176px;padding:13px 16px}.inspector h2{font-size:21px}.zoom-controls{top:45%}.load-progress{top:46%}}

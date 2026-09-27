@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050708"><meta name="description" content="An interactive educational 3D atlas of major superficial human muscles.">
-  <base href="/health/"><title>SOMA — Interactive Muscle Atlas</title><link rel="stylesheet" href="./style.css">
+  <base href="/health/"><title>SOMA — Interactive Muscle Atlas</title><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./energy.css">
 </head>
 <body>
   <a class="skip" href="#directory">Skip 3D atlas</a>
@@ -12,7 +12,7 @@
     <section class="stage" aria-labelledby="atlas-title">
       <div class="intro"><p class="eyebrow">INTERACTIVE ANATOMY / 01</p><h1 id="atlas-title">THE HUMAN<br><em>MUSCLE SYSTEM</em></h1><p class="lede">Explore the body in three dimensions. Rotate, zoom and select a structure to inspect its anatomy.</p></div>
       <div id="viewport" aria-label="Interactive 3D human muscle model. Drag to rotate, pinch or scroll to zoom, and select a muscle." role="application" tabindex="0">
-        <canvas id="atlas-canvas"></canvas><div class="scanline"></div><div class="axis-label top">SUPERIOR</div><div class="axis-label bottom">INFERIOR</div>
+        <canvas id="atlas-canvas"></canvas><div id="load-progress" class="load-progress" role="status"><span>LOADING ANATOMY · 0%</span><b><i></i></b></div><div class="scanline"></div><div class="axis-label top">SUPERIOR</div><div class="axis-label bottom">INFERIOR</div>
         <div id="tooltip" role="status"></div><div id="webgl-fallback" hidden>3D rendering is unavailable. Use the accessible muscle directory below.</div>
       </div>
       <div class="view-controls" aria-label="Model controls">
@@ -24,11 +24,33 @@
         <button id="close-inspector" aria-label="Close muscle details">×</button><p class="eyebrow">SELECTED STRUCTURE</p><div class="number" id="muscle-number">00</div><h2 id="muscle-name">Select a muscle</h2><p id="muscle-meta">Touch the illuminated body to begin.</p><div class="data-row"><span>REGION</span><b id="muscle-region">—</b></div><div class="data-row"><span>VIEW</span><b id="muscle-view">—</b></div><button id="focus-button" disabled>FOCUS STRUCTURE <span>↗</span></button>
       </aside>
     </section>
+    <section class="energy" aria-labelledby="energy-title">
+      <div class="energy-inner">
+        <p class="energy-kicker">NOVAIRE&nbsp; / &nbsp;HEALTH</p>
+        <h2 id="energy-title">The daily battery</h2>
+        <p class="energy-intro">One glance. Know how much to spend.</p>
+        <div class="energy-tabs" role="tablist" aria-label="Energy period">
+          <button role="tab" aria-selected="true" data-view="day">DAY</button><button role="tab" aria-selected="false" data-view="week">WEEK</button><button role="tab" aria-selected="false" data-view="month">MONTH</button>
+        </div>
+        <div class="energy-panel" role="tabpanel" aria-live="polite">
+          <div class="energy-battery-wrap" aria-hidden="true"><div class="energy-battery"><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i><i class="energy-segment"></i></div><i class="energy-cap"></i></div>
+          <div class="energy-reading"><strong class="energy-percent">—</strong><span class="energy-label">NO CHECK-IN DATA</span><p class="energy-coverage">Nothing logged today.</p></div>
+          <div class="energy-empty">No score yet. Add an explicit check-in to create a transparent self-report estimate; week and month views only average days you actually log.</div>
+        </div>
+        <div class="energy-actions"><button class="energy-checkin-open" type="button">20-SECOND CHECK-IN&nbsp; →</button><p class="energy-note">Stored only in this browser. Self-report estimate — not a medical metric or WHOOP score.</p></div>
+      </div>
+      <dialog class="energy-dialog"><form class="energy-form" method="dialog"><header><div><h3>Energy check-in</h3><p>Rate how you feel right now. You can update today later.</p></div><button class="energy-close" type="button" aria-label="Close">×</button></header><div class="energy-fields">
+        <div class="energy-field"><label for="energy-level">Energy</label><output for="energy-level">3</output><input id="energy-level" name="energy" type="range" min="1" max="5" value="3"><span class="energy-scale"><b>DEPLETED</b><b>CHARGED</b></span></div>
+        <div class="energy-field"><label for="focus-level">Focus</label><output for="focus-level">3</output><input id="focus-level" name="focus" type="range" min="1" max="5" value="3"><span class="energy-scale"><b>SCATTERED</b><b>SHARP</b></span></div>
+        <div class="energy-field"><label for="stress-level">Stress</label><output for="stress-level">3</output><input id="stress-level" name="stress" type="range" min="1" max="5" value="3"><span class="energy-scale"><b>CALM</b><b>HEAVY</b></span></div>
+        <div class="energy-field"><label for="soreness-level">Soreness</label><output for="soreness-level">3</output><input id="soreness-level" name="soreness" type="range" min="1" max="5" value="3"><span class="energy-scale"><b>FRESH</b><b>SORE</b></span></div>
+      </div><button class="energy-save" type="submit">SAVE TODAY’S CHECK-IN</button><p class="energy-feedback" aria-live="polite"></p></form></dialog>
+    </section>
     <section id="directory" class="directory" aria-labelledby="directory-title">
       <div><p class="eyebrow">ACCESSIBLE REFERENCE</p><h2 id="directory-title">Muscle directory</h2><p>Major superficial muscles shown in the atlas. Search or select any entry to focus it in the model.</p></div>
       <div class="directory-content"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search muscle or region" aria-label="Search muscle directory"></label><div class="filters" role="group" aria-label="Filter by body region"><button class="active" data-filter="all">ALL</button><button data-filter="torso">TORSO</button><button data-filter="upper">UPPER LIMB</button><button data-filter="lower">LOWER LIMB</button></div><div id="muscle-list" class="muscle-list"></div></div>
     </section>
   </main>
   <footer><span>SOMA / VISUAL REFERENCE</span><p>Educational anatomy reference — not medical advice or diagnosis.<br><a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a> © DBCLS, CC BY-SA 2.1 Japan.</p><span>© NOVAIRE SIGNAL</span></footer>
-  <script type="module" src="./atlas.js"></script>
+  <script type="module" src="./atlas.js"></script><script type="module" src="./energy.js"></script>
 </body></html>
