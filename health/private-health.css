@@ -1,0 +1,22 @@
+.health-private {
+  max-width: 760px;
+  margin: 1.5rem auto;
+  padding: 1.25rem;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, Canvas 94%, transparent);
+  color: CanvasText;
+}
+.health-private__title { margin: 0 0 .4rem; font-size: 1.25rem; }
+.health-private__status { margin: 0 0 1rem; opacity: .75; }
+.health-private__form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .65rem; align-items: end; }
+.health-private__form label { grid-column: 1 / -1; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; }
+.health-private input, .health-private button { min-height: 44px; border: 1px solid currentColor; border-radius: 9px; padding: .65rem .85rem; font: inherit; }
+.health-private input { min-width: 0; background: Canvas; color: CanvasText; }
+.health-private button { cursor: pointer; background: CanvasText; color: Canvas; }
+.health-private button:disabled { cursor: wait; opacity: .6; }
+.health-private__content { overflow-wrap: anywhere; }
+.health-private__content h3 { margin: 1rem 0 .35rem; }
+.health-private__content p, .health-private__content ul { margin: 0; line-height: 1.55; }
+.health-private__logout { margin-top: 1.25rem; }
+@media (max-width: 520px) { .health-private { margin: 1rem; } .health-private__form { grid-template-columns: 1fr; } }
