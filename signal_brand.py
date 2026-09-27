@@ -25,10 +25,18 @@ SIGNAL_MAP_SVG = (
     '</g><circle class="signal-map-rim" cx="12" cy="12" r="10.25"/></svg>'
 )
 
+SIGNAL_HEALTH_SVG = (
+    '<svg class="signal-health-icon" viewBox="0 0 30 16" aria-hidden="true" focusable="false">'
+    '<rect x="1" y="2" width="24" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>'
+    '<path d="M27 6h2v4h-2zM4 5h3v6H4zm5 0h3v6H9zm5 0h3v6h-3z" fill="currentColor"/>'
+    '</svg>'
+)
 
-def signal_brand_markup(*, wordmark_link=True):
+
+def signal_brand_markup(*, wordmark_link=True, health_link=False):
     wordmark = '<a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a>' if wordmark_link else '<span class="signal-wordmark">Novaire <span>Signal</span></span>'
-    return f'<div class="signal-brand-row" aria-label="Novaire Signal navigation"><a href="/flaneur" class="signal-map" title="Flâneur happenings" aria-label="Flâneur happenings">{SIGNAL_MAP_SVG}</a>{wordmark}<a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a></div>'
+    health = f'<a href="/health/" class="signal-health" title="Health" aria-label="Health check-in">{SIGNAL_HEALTH_SVG}</a>' if health_link else ''
+    return f'<div class="signal-brand-row" aria-label="Novaire Signal navigation"><a href="/flaneur" class="signal-map" title="Flâneur happenings" aria-label="Flâneur happenings">{SIGNAL_MAP_SVG}</a>{wordmark}<a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a>{health}</div>'
 
 
 def signal_brand_font_link():
@@ -45,6 +53,7 @@ def signal_brand_css():
 .signal-map{justify-content:flex-end}.signal-bolt{justify-content:flex-start}
 .signal-map-icon{width:1.243em;height:1.155em;display:block}.signal-map-ocean{fill:#0a0a0c}.signal-map-land{fill:#b59662}.signal-map-rim{fill:none;stroke:#b59662;stroke-width:.8}
 .signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.088em)}
+.signal-health{display:inline-flex;align-items:center;justify-content:center;width:30px;height:20px;margin-left:5px;color:#b59662;text-decoration:none}.signal-health-icon{display:block;width:24px;height:13px}.signal-health:hover{color:#d7bd88}.signal-health:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
 @keyframes signal-gold-shimmer{0%,100%{opacity:.94;filter:brightness(.96) saturate(.95) drop-shadow(0 0 1px rgba(181,150,98,.22))}32%{opacity:1;filter:brightness(1.18) saturate(1.08) drop-shadow(0 0 3px rgba(181,150,98,.58)) drop-shadow(0 0 7px rgba(255,224,164,.22))}46%{opacity:1;filter:brightness(1.42) saturate(.82) drop-shadow(0 0 4px rgba(255,226,169,.76)) drop-shadow(0 0 10px rgba(181,150,98,.3))}61%{opacity:.98;filter:brightness(1.1) saturate(1.04) drop-shadow(0 0 2px rgba(181,150,98,.42))}}
 .signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}.signal-brand-row .signal-map-icon{animation-delay:-.72s}
 .signal-brand-row .signal-bolt:hover,.signal-brand-row .signal-map:hover{opacity:1;transform:none}.signal-brand-row .signal-bolt:focus-visible,.signal-brand-row .signal-map:focus-visible,.signal-brand-row .signal-wordmark:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
