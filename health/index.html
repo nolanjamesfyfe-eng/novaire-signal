@@ -5,7 +5,7 @@
   <meta name="theme-color" content="#050708"><meta name="description" content="An interactive educational 3D atlas of major human muscles and bones.">
   <base href="/health/"><title>Novaire’s Muscle System — Health</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./energy.css"><link rel="stylesheet" href="./brain-overlay.css"><link rel="stylesheet" href="./private-health.css">
+  <link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./energy.css"><link rel="stylesheet" href="./brain-atlas.css"><link rel="stylesheet" href="./injury-journal.css"><link rel="stylesheet" href="./private-health.css">
 </head>
 <body>
   <a class="skip" href="#directory">Skip 3D atlas</a>
@@ -22,7 +22,7 @@
     <section class="stage" aria-labelledby="atlas-title">
       <div class="intro"><p class="eyebrow">NOVAIRE’S MUSCLE SYSTEM / 01</p><h1 id="atlas-title">NOVAIRE’S<br><em>MUSCLE SYSTEM</em></h1><p class="lede">Explore muscles and bones in three dimensions. Rotate, zoom and select a structure to inspect its anatomy.</p></div>
       <div id="viewport" aria-label="Interactive 3D human anatomy model. Drag to rotate, pinch or scroll to zoom, and select a structure." role="application" tabindex="0">
-        <canvas id="atlas-canvas"></canvas><div class="brain-overlay" aria-label="Symbolic wellbeing brain map"><svg viewBox="0 0 160 118" aria-hidden="true"><path class="brain-shell" d="M39 92C19 79 20 55 33 42c-1-17 14-29 30-25 12-15 35-10 40 4 18-4 33 10 30 27 12 13 5 37-10 42-8 16-32 17-43 6-12 11-31 8-41-4Z"/><path d="M34 48Q53 39 66 54L61 82Q43 86 29 72Z" class="brain-region" data-region="calm"/><path d="M65 23Q83 13 99 27L95 57Q77 63 66 52Z" class="brain-region" data-region="focus"/><path d="M101 27Q125 25 132 48L115 67 94 56Z" class="brain-region" data-region="energy"/><path d="M62 83 68 54 95 58 106 92Q82 106 62 83Z" class="brain-region" data-region="happiness"/><path d="M106 91 96 58 116 67Q135 75 122 92Z" class="brain-region" data-region="stress"/><g class="synapses"><path d="M43 62 78 39 111 47M54 72 81 78 116 76M78 39 81 78 111 47"/><circle cx="43" cy="62" r="2"/><circle cx="78" cy="39" r="2"/><circle cx="111" cy="47" r="2"/><circle cx="54" cy="72" r="2"/><circle cx="81" cy="78" r="2"/><circle cx="116" cy="76" r="2"/></g></svg><button type="button" data-brain-region="calm" aria-label="Show calm contribution"></button><button type="button" data-brain-region="focus" aria-label="Show focus contribution"></button><button type="button" data-brain-region="energy" aria-label="Show energy contribution"></button><button type="button" data-brain-region="happiness" aria-label="Show happiness contribution"></button><button type="button" data-brain-region="stress" aria-label="Show low-stress contribution"></button><div class="brain-popover" role="status" hidden></div><p>SYMBOLIC SELF-REPORT MAP · NOT MEASURED BRAIN ACTIVITY</p></div><div id="load-progress" class="load-progress" role="status"><span>LOADING ANATOMY · 0%</span><b><i></i></b></div><div class="scanline"></div><div class="axis-label top">SUPERIOR</div><div class="axis-label bottom">INFERIOR</div>
+        <canvas id="atlas-canvas"></canvas><div id="load-progress" class="load-progress" role="status"><span>LOADING ANATOMY · 0%</span><b><i></i></b></div><div class="scanline"></div><div class="axis-label top">SUPERIOR</div><div class="axis-label bottom">INFERIOR</div>
         <div id="tooltip" role="status"></div><div id="webgl-fallback" hidden>3D rendering is unavailable. Use the accessible anatomy directory below.</div>
       </div>
       <div class="layer-controls" role="group" aria-label="Anatomy layer"><button data-layer="muscle" class="active" aria-pressed="true">MUSCLE</button><button data-layer="bone" aria-pressed="false">BONE</button></div>
@@ -63,6 +63,7 @@
         <div class="energy-breakdown"></div><button class="energy-save" type="submit">SAVE PRIVATE CHECK-IN</button><p class="energy-feedback" aria-live="polite"></p>
       </form></dialog>
     </section>
+    <section data-brain-atlas aria-label="Interactive brain atlas"></section>
     <section id="directory" class="directory" aria-labelledby="directory-title">
       <div><p class="eyebrow">ACCESSIBLE REFERENCE</p><h2 id="directory-title">Anatomy directory</h2><p>Named muscles and bones shown in the atlas. Search or select any entry to focus it in the model.</p></div>
       <div class="directory-content"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search structure or region" aria-label="Search anatomy directory"></label><div class="filters" role="group" aria-label="Filter anatomy"><button class="active" data-filter="all">ALL</button><button data-filter="torso">TORSO</button><button data-filter="upper">UPPER LIMB</button><button data-filter="lower">LOWER LIMB</button><button data-filter="head">HEAD</button></div><div id="muscle-list" class="muscle-list"></div></div>
@@ -70,5 +71,5 @@
 
   </main>
   <footer><span>HEALTH ATLAS / VISUAL REFERENCE</span><p>Educational anatomy reference — not medical advice or diagnosis.<br><a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a> © DBCLS, CC BY-SA 2.1 Japan. Skeleton compilation derived from BodyExplorer’s openly licensed BodyParts3D meshes.</p><span>© NOVAIRE SIGNAL</span></footer>
-  <script src="./checkin-model.js"></script><script type="module" src="./atlas.js"></script><script type="module" src="./energy.js"></script><script type="module" src="./brain-overlay.js"></script><script type="module" src="./private-health.js"></script>
+<script src="./checkin-model.js"></script><script type="module" src="./atlas.js"></script><script type="module" src="./energy.js"></script><script type="module" src="./brain-atlas.js"></script><script src="./injury-journal.js"></script><script type="module" src="./private-health.js"></script>
 </body></html>
