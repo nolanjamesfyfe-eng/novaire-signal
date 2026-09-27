@@ -149,7 +149,7 @@
       ctx.font=`${label.kind==='continent'?500:400} ${size}px Inter,Arial,sans-serif`;const box={x:point[0],y:point[1],w:ctx.measureText(label.name.toUpperCase()).width+10,h:size+7};
       if(occupied.some(other=>Math.abs(box.x-other.x)<(box.w+other.w)/2&&Math.abs(box.y-other.y)<(box.h+other.h)/2))continue;
       occupied.push(box);const overviewFade=label.kind==='continent'?Math.max(0,.5*(1-(globe.zoom-1)/1.8)):label.kind==='ocean'?.23:Math.min(.52,.22+(globe.zoom-label.min)*.06);
-      ctx.globalAlpha=overviewFade;ctx.fillStyle=label.kind==='waterway'?'#d3c7a8':'#a6b0aa';ctx.shadowColor='rgba(3,7,5,.9)';ctx.shadowBlur=3;ctx.letterSpacing=`${spacing}px`;ctx.fillText(label.name.toUpperCase(),point[0],point[1]);counts[label.kind]++;drawn.push(label.name);
+      ctx.globalAlpha=overviewFade;ctx.fillStyle=label.kind==='waterway'?'#d3c7a8':'#a6b0aa';ctx.letterSpacing=`${spacing}px`;ctx.fillText(label.name.toUpperCase(),point[0],point[1]);counts[label.kind]++;drawn.push(label.name);
     }
     ctx.restore();canvas.dataset.labelContinents=String(counts.continent);canvas.dataset.labelOceans=String(counts.ocean);canvas.dataset.labelWaterways=String(counts.waterway);canvas.dataset.labels=drawn.join('|');
   }
