@@ -2,7 +2,7 @@
   "id": "https://contacts.novairesignal.com/contacts-app",
   "name": "Contacts",
   "short_name": "Contacts",
-  "description": "LinkedIn, Instagram and WhatsApp QR codes for Nolan James Fyfe",
+  "description": "LinkedIn, Instagram and WhatsApp QR codes for Nolan James",
   "start_url": "https://contacts.novairesignal.com/contacts/",
   "scope": "https://contacts.novairesignal.com/",
   "display": "standalone",
