@@ -1,0 +1,21 @@
+{
+  "audit_date": "2026-09-28",
+  "scope": "/health Sep 27 user requests",
+  "baseline_commit": "e5ad4d7d73a1a693e2e9bb73aa2dcc7d9852b650",
+  "items": [
+    {"id":"atlas-3d","request":"Interactive rotatable/zoomable muscle and bone atlas with clickable named structures","status_before":"live","repair":"retained"},
+    {"id":"visual-body","request":"Tall lean 193 cm / 80 kg illustrative approximation; not generic bulky body; visible muscle tone; no washed-out white mass, disconnected grey shell, or clipped feet","status_before":"regressed visually","repair":"rebalanced material contrast and lighting; reduced backing-shell opacity; retained lean regional proportions"},
+    {"id":"physique-controls","request":"Weight-responsive regional deformation and independent definition control","status_before":"live but collapsed control","repair":"retained and tested"},
+    {"id":"dismiss-context","request":"Body/brain details dismiss on other body touch, outside touch, or Escape","status_before":"live","repair":"retained"},
+    {"id":"brain","request":"Separate interactive 3D brain with clickable lobes, orbit/zoom, visible synapse-like expressive animation, meaningful no-data default, and no measured-activity claim","status_before":"live but below a very long check-in/history section","repair":"moved directly after body atlas so it is discoverable without guessed scrolling; retained symbolic/no-data truth labels"},
+    {"id":"checkins","request":"Persistent private check-ins, history, edit/backfill, export/import, 0-10 energy/focus/stress/calm/happiness scales","status_before":"live","repair":"retained"},
+    {"id":"denominators","request":"Week score divided by 7, month by calendar days; recorded-day averages and coverage shown separately","status_before":"live","repair":"retained"},
+    {"id":"foundations","request":"Sleep, protein, diet, fluids, alcohol, skin, Anki, workout/recovery context","status_before":"live","repair":"retained"},
+    {"id":"injury-journal","request":"Browser-local injury journal with selectable surface location, same/new injury, severity, onset, cause, status, export/import","status_before":"live","repair":"retained"},
+    {"id":"private-markers","request":"Left clavicle scar/prominence and LEFT first-MTP marker only after authentication","status_before":"live/private","repair":"retained; anonymous API denial required in verification"},
+    {"id":"battery","request":"Compact segmented battery with honest day/week/month no-data behavior","status_before":"live","repair":"retained"},
+    {"id":"scheduled-publisher","request":"Scheduled refresh must not revert health repairs","status_before":"publisher detached at 7b9b90a1 but pulls/rebases origin/main and stages only generated artifacts","repair":"health files committed on origin/main; publisher source inspected; health/ is outside artifact staging list"},
+    {"id":"shared-nav","request":"Shared header/footer/logo/icon/link parity","status_before":"owned by two concurrent sessions","repair":"intentionally not modified in this release"}
+  ],
+  "likeness_limit":"Rear-view references were available; no dependable front/side reference was recovered. This remains an honest approximation, not a scan."
+}

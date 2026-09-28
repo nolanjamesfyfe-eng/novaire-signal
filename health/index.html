@@ -41,6 +41,7 @@
       <div class="hint"><span></span> DRAG TO ROTATE · TAP TO IDENTIFY</div>
       <aside id="inspector" class="inspector" aria-live="polite"><button id="close-inspector" aria-label="Close structure details">×</button><p class="eyebrow">SELECTED STRUCTURE</p><div class="number" id="muscle-number">00</div><h2 id="muscle-name">Select a structure</h2><p id="muscle-meta">Touch the illuminated body to begin.</p><div class="data-row"><span>REGION</span><b id="muscle-region">—</b></div><div class="data-row"><span>LAYER</span><b id="muscle-view">—</b></div><button id="focus-button" disabled>FOCUS STRUCTURE <span>↗</span></button></aside>
     </section>
+    <section data-brain-atlas aria-label="Interactive brain atlas"></section>
     <section class="energy" id="energy-checkin" aria-labelledby="energy-title">
       <div class="energy-inner"><p class="energy-kicker">NOVAIRE&nbsp; / &nbsp;PRIVATE DAILY CHECK-IN</p><h2 id="energy-title">The daily battery</h2><p class="energy-intro">Subjective energy, accumulated honestly. Missing days stay unfilled.</p>
         <div class="energy-tabs" role="tablist" aria-label="Battery period"><button role="tab" aria-selected="true" data-view="day">DAY</button><button role="tab" aria-selected="false" data-view="week">WEEK</button><button role="tab" aria-selected="false" data-view="month">MONTH</button></div>
@@ -73,7 +74,6 @@
         <div class="energy-breakdown"></div><button class="energy-save" type="submit">SAVE PRIVATE CHECK-IN</button><p class="energy-feedback" aria-live="polite"></p>
       </form></dialog>
     </section>
-    <section data-brain-atlas aria-label="Interactive brain atlas"></section>
     <section id="directory" class="directory" aria-labelledby="directory-title">
       <div><p class="eyebrow">ACCESSIBLE REFERENCE</p><h2 id="directory-title">Anatomy directory</h2><p>Named muscles and bones shown in the atlas. Search or select any entry to focus it in the model.</p></div>
       <div class="directory-content"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search structure or region" aria-label="Search anatomy directory"></label><div class="filters" role="group" aria-label="Filter anatomy"><button class="active" data-filter="all">ALL</button><button data-filter="torso">TORSO</button><button data-filter="upper">UPPER LIMB</button><button data-filter="lower">LOWER LIMB</button><button data-filter="head">HEAD</button></div><div id="muscle-list" class="muscle-list"></div></div>
