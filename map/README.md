@@ -24,6 +24,18 @@ axes for globe rotation. Wheel and pinch zoom remain anchored under the pointer
 or pinch midpoint. Search `Hawaii` for the explicitly labelled US place focus;
 Hong Kong and Monaco remain jurisdiction features in the 199-entry atlas.
 
+## Physical labels and relief
+
+`physical-labels.json` contains 295 named marine features, 745 named lakes, and 222 mountain ranges from Natural Earth 1:10m physical vectors (public domain). `natural-earth-relief.webp` is a 1440×720 derivative of Natural Earth Gray Earth 1:50m shaded relief with water (SRTM Plus-derived, public domain). The renderer inverse-projects that equirectangular texture into the current orthographic view, clips it to land, and blends it over existing status fills; it is not noise, a screen-fixed overlay, satellite imagery, surveyed elevation, or street-scale terrain.
+
+Both assets load after the base globe and are optional. Failed loading preserves the existing globe plus a small source-backed set of major labels. Labels use source scale ranks, zoom thresholds, front-hemisphere clipping, viewport clipping, and deterministic collision rejection. Coverage is finite: meaningful Natural Earth-scale water bodies and ranges, not every pond or local ridge.
+
+Rebuild reproducibly (downloads pinned Natural Earth endpoints and records SHA-256 metadata):
+
+```bash
+python scripts/build_flaneur_physical_layers.py
+```
+
 ## Record answers safely
 
 From the repository root:

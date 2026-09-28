@@ -175,22 +175,20 @@ def test_deep_zoom_is_progressive_attributed_and_accessible():
     assert "Math.max(-89.5,Math.min(89.5" in html
 
 
-def test_zoom_aware_geography_labels_preserve_visual_hierarchy():
+def test_progressive_physical_layers_are_additive_and_source_backed():
     html = (ROOT / 'map/index.html').read_text()
-    assert "name:'Africa',coords:[20,2]" in html
-    assert "name:'Indian Ocean',coords:[78,-20]" in html
-    assert "name:'Suez Canal',coords:[32.35,30.45]" in html
-    assert "name:'Panama Canal',coords:[-79.68,9.08]" in html
-    assert "name:'Strait of Hormuz',coords:[56.35,26.55]" in html
-    assert "kind:'continent',min:1,max:2.8" in html
-    assert "kind:'waterway',min:1.45,max:72" in html
-    assert 'd3.geoDistance(viewCenter,label.coords)>=Math.PI/2-.035' in html
-    assert 'Math.min(label.cap' in html
-    assert "canvas.dataset.labelContinents" in html
-    assert "canvas.dataset.labelOceans" in html
-    assert "canvas.dataset.labelWaterways" in html
-    assert "canvas.dataset.labels=drawn.join('|')" in html
-    assert 'ctx.arc(...projection.translate(),globe.baseScale*globe.zoom' in html
-    # Labels are painted after countries as quiet context, without adding any DOM hit target.
-    draw_body = html.split('function draw(){', 1)[1].split('function scheduleDraw()', 1)[0]
-    assert draw_body.index("for(const fill of ['#66706b'") < draw_body.index('drawGeographyLabels()')
+    labels = json.loads((ROOT / 'map/physical-labels.json').read_text())
+    assert labels['source'].startswith('Natural Earth 1:10m')
+    assert labels['counts'] == {'water': 295, 'lake': 745, 'terrain': 222}
+    names = {item['n'] for item in labels['labels']}
+    for name in ('Black Sea', 'Caspian Sea', 'Lake Baikal', 'Lake Victoria', 'Lake Superior', 'Lake Michigan', 'Lake Huron', 'Lake Erie', 'Lake Ontario', 'Rocky Mountains', 'Caucasus Mountains', 'Andes'):
+        assert name in names
+    assert "fetch('/map/physical-labels.json'" in html
+    assert "image.src='/map/natural-earth-relief.webp'" in html
+    assert "globalCompositeOperation='multiply'" in html
+    assert "value <= 109" in (ROOT / 'scripts/build_flaneur_physical_layers.py').read_text()
+    assert "d3.geoDistance(viewCenter,label.c)<Math.PI/2-.045" in html
+    assert "canvas.dataset.labelCoverage" in html
+    # Optional physical assets fail soft without changing the base globe promise.
+    assert "retaining sourced fallback labels and base map" in html
+    assert (ROOT / 'map/natural-earth-relief.webp').stat().st_size < 100_000
