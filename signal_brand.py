@@ -46,7 +46,9 @@ def signal_brand_font_link():
 
 def signal_brand_css():
     return """
-.signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:28.8px;font-weight:300;line-height:1;text-transform:uppercase;color:var(--text)}
+.signal-brand-row{display:flex;width:max-content;margin-inline:auto;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:28.8px;font-weight:300;line-height:1;text-transform:uppercase;color:var(--text)}
+.signal-gate-brand .signal-brand-row,.signal-gate-footer .signal-brand-row{margin-inline:0}
+.site-brand-slot.bottom{width:100vw;margin-left:calc(50% - 50vw);display:flex;justify-content:center}
 .signal-brand-row .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:#f0eef8;font-style:normal;text-decoration:none}
 .signal-brand-row .signal-wordmark>span{color:#b59662;font-style:italic}
 .signal-brand-row .signal-map,.signal-brand-row .signal-bolt{display:inline-flex;align-items:center;width:1.243em;height:1.155em;color:#b59662;text-decoration:none;line-height:1;font-size:19.36px}
@@ -58,6 +60,7 @@ def signal_brand_css():
 .signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}.signal-brand-row .signal-map-icon{animation-delay:-.72s}.signal-brand-row .signal-health-icon{animation-delay:-1.44s}
 .signal-brand-row .signal-bolt:hover,.signal-brand-row .signal-map:hover,.signal-brand-row .signal-health:hover{opacity:1;transform:none}.signal-brand-row .signal-bolt:focus-visible,.signal-brand-row .signal-map:focus-visible,.signal-brand-row .signal-health:focus-visible,.signal-brand-row .signal-wordmark:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
 @media(min-width:761px){.signal-brand-row{font-size:31.68px}}
+@media(max-width:400px){.signal-brand-row{font-size:clamp(22px,calc(7.482vw - 1.945px),28.8px);gap:.416667em}.signal-brand-row .signal-map,.signal-brand-row .signal-bolt,.signal-brand-row .signal-health{font-size:.672222em}}
 @media(prefers-reduced-motion:reduce){.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
 """.strip()
 

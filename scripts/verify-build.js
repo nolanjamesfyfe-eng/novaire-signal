@@ -54,7 +54,7 @@ const lockedDesignMarkers = [
   '.container{max-width:720px;margin:0 auto}',
   '.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}',
   '.footer-logo{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}',
-  '.signal-brand-row{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:',
+  '.signal-brand-row{display:flex;width:max-content;margin-inline:auto;align-items:center;justify-content:center;gap:12px;white-space:nowrap;letter-spacing:0;font-family:',
   '.signal-brand-row .signal-wordmark{display:inline-block;letter-spacing:.18em;margin-right:-.18em;color:#f0eef8;font-style:normal;text-decoration:none}',
   '.signal-brand-row .signal-wordmark>span{color:#b59662;font-style:italic}',
   '.dateline .date{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}',
@@ -64,6 +64,7 @@ const lockedDesignMarkers = [
   '@keyframes signal-gold-shimmer{',
   '.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:signal-gold-shimmer 3.8s',
   '.signal-health{display:inline-flex;align-items:center;justify-content:center;width:1.243em;height:1.155em;margin-left:calc(-.505em - 1.2px)',
+  '@media(max-width:400px){.signal-brand-row{font-size:clamp(22px,calc(7.482vw - 1.945px),28.8px);gap:.416667em}',
   'M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z',
 ];
 const missingDesignMarkers = lockedDesignMarkers.filter((needle) => !mainHtml.includes(needle));
