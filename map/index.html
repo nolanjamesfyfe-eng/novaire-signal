@@ -160,15 +160,16 @@
   function drawGeographyLabels(){
     const viewCenter=[-globe.rotation[0],-globe.rotation[1]],occupied=[],drawn=[],counts={water:0,lake:0,terrain:0};
     ctx.save();ctx.beginPath();ctx.arc(...projection.translate(),globe.baseScale*globe.zoom,0,Math.PI*2);ctx.clip();ctx.textAlign='center';ctx.textBaseline='middle';
+    const canvasRect=canvas.getBoundingClientRect(),inset=6,controlPadding=5,controlBoxes=[...document.querySelectorAll('.legend,.zoom,.source-note')].filter(element=>getComputedStyle(element).display!=='none').map(element=>{const rect=element.getBoundingClientRect();return{x:(rect.left+rect.right)/2-canvasRect.left,y:(rect.top+rect.bottom)/2-canvasRect.top,w:rect.width+controlPadding*2,h:rect.height+controlPadding*2}}),overlaps=(a,b)=>Math.abs(a.x-b.x)<(a.w+b.w)/2&&Math.abs(a.y-b.y)<(a.h+b.h)/2,inside=(box)=>box.x-box.w/2>=inset&&box.x+box.w/2<=width-inset&&box.y-box.h/2>=inset&&box.y+box.h/2<=height-inset&&[[box.x-box.w/2,box.y-box.h/2],[box.x+box.w/2,box.y-box.h/2],[box.x-box.w/2,box.y+box.h/2],[box.x+box.w/2,box.y+box.h/2]].every(corner=>Math.hypot(corner[0]-projection.translate()[0],corner[1]-projection.translate()[1])<=globe.baseScale*globe.zoom-inset);
     const candidates=[],candidateLimit=mobile?55:90;for(const label of physicalLabels){if(candidates.length>=candidateLimit)break;if(globe.zoom>=label.z&&d3.geoDistance(viewCenter,label.c)<Math.PI/2-.045)candidates.push(label)}
     for(const label of candidates){
       const point=projection(label.c);if(!point||point[0]<-80||point[0]>width+80||point[1]<-30||point[1]>height+30)continue;if(label.r===-9&&label.k==='terrain')point[1]-=18;
       const size=label.k==='water'?Math.min(13,9.1+globe.zoom*.55):label.k==='terrain'?Math.min(12,8.7+globe.zoom*.48):Math.min(11,8.2+globe.zoom*.42),text=label.n.toUpperCase();
-      ctx.font=`${label.k==='terrain'?500:400} ${size}px Inter,Arial,sans-serif`;const box={x:point[0],y:point[1],w:ctx.measureText(text).width+12,h:size+8};
-      if(occupied.some(other=>Math.abs(box.x-other.x)<(box.w+other.w)/2&&Math.abs(box.y-other.y)<(box.h+other.h)/2))continue;
+      ctx.font=`${label.k==='terrain'?500:400} ${size}px Inter,Arial,sans-serif`;const box={x:point[0],y:point[1],w:ctx.measureText(text).width+12,h:size+8,name:label.n};
+      if(!inside(box)||controlBoxes.some(control=>overlaps(box,control))||occupied.some(other=>overlaps(box,other)))continue;
       occupied.push(box);ctx.globalAlpha=label.k==='water'?.72:label.k==='terrain'?.68:.66;ctx.fillStyle=label.k==='water'?'#ddcfaa':label.k==='terrain'?'#dbc79b':'#eadbb6';ctx.fillText(text,point[0],point[1]);counts[label.k]++;drawn.push(label.n);
     }
-    ctx.restore();canvas.dataset.labelWater=String(counts.water);canvas.dataset.labelLakes=String(counts.lake);canvas.dataset.labelTerrain=String(counts.terrain);canvas.dataset.labels=drawn.join('|');canvas.dataset.labelCoverage=JSON.stringify(physicalMeta.counts)
+    ctx.restore();canvas.dataset.labelWater=String(counts.water);canvas.dataset.labelLakes=String(counts.lake);canvas.dataset.labelTerrain=String(counts.terrain);canvas.dataset.labels=drawn.join('|');canvas.dataset.labelBoxes=JSON.stringify(occupied.map(box=>({name:box.name,left:+(box.x-box.w/2).toFixed(2),top:+(box.y-box.h/2).toFixed(2),right:+(box.x+box.w/2).toFixed(2),bottom:+(box.y+box.h/2).toFixed(2)})));canvas.dataset.labelCoverage=JSON.stringify(physicalMeta.counts)
   }
   function draw(){
     const started=performance.now();projection.precision(3).rotate(globe.rotation).scale(globe.baseScale*globe.zoom);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#090d0b';ctx.fillRect(0,0,width,height);

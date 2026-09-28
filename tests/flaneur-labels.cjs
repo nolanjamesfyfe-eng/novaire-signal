@@ -24,6 +24,19 @@ async function focus(page,country,zooms=1){
   return page.locator('#globe-canvas').evaluate(n=>({labels:n.dataset.labels,zoom:+n.dataset.zoom,coverage:JSON.parse(n.dataset.labelCoverage||'{}'),source:n.dataset.physicalSource,rotation:n.dataset.rotation,selected:n.dataset.selectedCode}));
 }
 
+async function assertLabelSafety(page,context){
+  const state=await page.locator('#globe-canvas').evaluate(canvas=>{
+    const canvasRect=canvas.getBoundingClientRect(),inCanvas=rect=>({left:rect.left-canvasRect.left,top:rect.top-canvasRect.top,right:rect.right-canvasRect.left,bottom:rect.bottom-canvasRect.top});
+    return {width:canvasRect.width,height:canvasRect.height,boxes:JSON.parse(canvas.dataset.labelBoxes||'[]'),controls:[...document.querySelectorAll('.legend,.zoom,.source-note')].filter(el=>getComputedStyle(el).display!=='none').map(el=>inCanvas(el.getBoundingClientRect()))};
+  });
+  const overlap=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+  assert.ok(state.boxes.length,`${context}: exposes rendered label boxes`);
+  for(const box of state.boxes){
+    assert.ok(box.left>=6&&box.right<=state.width-6&&box.top>=6&&box.bottom<=state.height-6,`${context}: ${box.name} full bbox inside canvas: ${JSON.stringify(box)}`);
+    for(const control of state.controls)assert.equal(overlap(box,control),false,`${context}: ${box.name} avoids UI: ${JSON.stringify({box,control})}`);
+  }
+}
+
 test('Natural Earth water and terrain labels reveal progressively with projected relief',async()=>{
   const {browser,page,errors}=await open(chromium,{width:1440,height:1000});
   try{
@@ -41,9 +54,17 @@ for(const [width,name] of [[320,'mobile-320'],[390,'mobile-390']])test(`${name} 
   const {browser,page,errors}=await open(chromium,{width,height:844},true);try{
     const canvas=page.locator('#globe-canvas');const initial=await canvas.evaluate(n=>({diameter:+n.dataset.diameter,labels:n.dataset.labels.split('|').filter(Boolean),rotation:n.dataset.rotation}));
     assert.ok(initial.diameter<=width-16);assert.ok(initial.labels.length<=4);
-    const black=await focus(page,'Ukraine',2);assert.match(black.labels,/Black Sea/);
+    const black=await focus(page,'Ukraine',2);assert.match(black.labels,/Black Sea/);assert.match(black.labels,/Caucasus Mountains/);
+    await assertLabelSafety(page,`${name} Black Sea focus`);
     await canvas.screenshot({path:`${artifacts}/${name}-black-sea.png`});
     await page.touchscreen.tap((await canvas.boundingBox()).x+width/2,(await canvas.boundingBox()).y+200);assert.ok(await page.locator('#tooltip').count());
+    assert.deepEqual(errors,[]);
+  }finally{await browser.close()}
+});
+
+test('desktop geography labels stay fully visible and clear of controls',async()=>{
+  const {browser,page,errors}=await open(chromium,{width:1440,height:1000});try{
+    await focus(page,'Ukraine',2);await assertLabelSafety(page,'desktop Black Sea focus');
     assert.deepEqual(errors,[]);
   }finally{await browser.close()}
 });
@@ -56,5 +77,5 @@ test('WebKit loads optional physical layers and keeps country selection',async t
 test('optional physical asset failure keeps the base globe usable',async()=>{
   const browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:390,height:844}});
   await page.route(/physical-labels\.json|natural-earth-relief\.webp/,route=>route.abort());await page.goto(base);await page.waitForSelector('#globe-canvas[data-ready="true"]');await page.waitForFunction(()=>document.querySelector('#globe-canvas').dataset.physicalSource==='fallback');
-  const state=await page.locator('#globe-canvas').evaluate(n=>({ready:n.dataset.ready,features:+n.dataset.visibleFeatures,labels:n.dataset.labels}));assert.equal(state.ready,'true');assert.ok(state.features>100);assert.match(state.labels,/Atlantic Ocean|Indian Ocean/);await browser.close();
+  const state=await page.locator('#globe-canvas').evaluate(n=>({ready:n.dataset.ready,features:+n.dataset.visibleFeatures,labels:n.dataset.labels,boxes:JSON.parse(n.dataset.labelBoxes||'[]')}));assert.equal(state.ready,'true');assert.ok(state.features>100);assert.ok(Array.isArray(state.boxes));await browser.close();
 });
