@@ -8,6 +8,7 @@ sys.path.insert(0, str(ROOT))
 from signal_brand import signal_brand_css, signal_brand_markup
 SUITE_PAGES = (
     "index.html",
+    "portfolio-lock.html",
     "portfolio/index.html",
     "portfolio/daily/index.html",
     "portfolio/evolutionfund/index.html",
