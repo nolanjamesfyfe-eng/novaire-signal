@@ -179,16 +179,36 @@ def test_progressive_physical_layers_are_additive_and_source_backed():
     html = (ROOT / 'map/index.html').read_text()
     labels = json.loads((ROOT / 'map/physical-labels.json').read_text())
     assert labels['source'].startswith('Natural Earth 1:10m')
-    assert labels['counts'] == {'water': 295, 'lake': 745, 'terrain': 222}
+    assert labels['counts'] == {'water': 18, 'lake': 0, 'terrain': 222}
     names = {item['n'] for item in labels['labels']}
-    for name in ('Black Sea', 'Caspian Sea', 'Lake Baikal', 'Lake Victoria', 'Lake Superior', 'Lake Michigan', 'Lake Huron', 'Lake Erie', 'Lake Ontario', 'Rocky Mountains', 'Caucasus Mountains', 'Andes'):
+    major_water = {'Atlantic Ocean', 'Pacific Ocean', 'Indian Ocean', 'Arctic Ocean', 'Southern Ocean', 'Black Sea', 'Mediterranean Sea', 'Caribbean Sea', 'Red Sea', 'Arabian Sea', 'South China Sea', 'Bering Sea', 'Coral Sea', 'Philippine Sea', 'Tasman Sea', 'Sea of Japan', 'Baltic Sea', 'North Sea'}
+    assert {item['n'] for item in labels['labels'] if item['k'] == 'water'} == major_water
+    assert not any(item['k'] == 'lake' or 'lake' in item['n'].lower() or item['n'] == 'Caspian Sea' for item in labels['labels'])
+    for name in ('Black Sea', 'Rocky Mountains', 'Caucasus Mountains', 'Andes'):
         assert name in names
     assert "fetch('/map/physical-labels.json'" in html
     assert "image.src='/map/natural-earth-relief.webp'" in html
     assert "globalCompositeOperation='multiply'" in html
-    assert "value <= 109" in (ROOT / 'scripts/build_flaneur_physical_layers.py').read_text()
+    assert "HYP_HR_SR_OB_DR.zip" in (ROOT / 'scripts/build_flaneur_physical_layers.py').read_text()
+    assert "globe.reliefFine?(mobile?2:3)" in html
     assert "d3.geoDistance(viewCenter,label.c)<Math.PI/2-.045" in html
     assert "canvas.dataset.labelCoverage" in html
     # Optional physical assets fail soft without changing the base globe promise.
     assert "retaining sourced fallback labels and base map" in html
-    assert (ROOT / 'map/natural-earth-relief.webp').stat().st_size < 100_000
+    assert (ROOT / 'map/natural-earth-relief.webp').stat().st_size < 450_000
+
+
+def test_us_canada_admin1_is_complete_compact_and_visual_only():
+    admin = json.loads((ROOT / 'map/north-america-admin1.geojson').read_text())
+    counts = {country: sum(f['properties']['country'] == country for f in admin['features']) for country in ('US', 'CA')}
+    assert counts == {'US': 51, 'CA': 13}
+    us = {f['properties']['name'] for f in admin['features'] if f['properties']['country'] == 'US'}
+    ca = {f['properties']['name'] for f in admin['features'] if f['properties']['country'] == 'CA'}
+    assert {'Alaska', 'Hawaii', 'District of Columbia'} <= us
+    assert {'Northwest Territories', 'Newfoundland and Labrador', 'Prince Edward Island', 'Nunavut'} <= ca
+    assert all(len(f['properties']['label']) == 2 and f['geometry']['type'] in ('Polygon', 'MultiPolygon') for f in admin['features'])
+    assert (ROOT / 'map/north-america-admin1.geojson').stat().st_size < 200_000
+    html = (ROOT / 'map/index.html').read_text()
+    assert "ADMIN1_LOAD_ZOOM=3.6,ADMIN1_LABEL_ZOOM=5" in html
+    assert "fetch('/map/north-america-admin1.geojson')" in html
+    assert "properties.country" in html and "selectedCode=feature.properties" not in html

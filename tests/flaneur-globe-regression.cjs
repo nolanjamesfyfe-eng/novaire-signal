@@ -24,9 +24,9 @@ async function paintStats(page) {
     let land=0,visited=0,calling=0;
     for(let i=0;i<d.length;i+=4){
       const r=d[i],g=d[i+1],b=d[i+2];
-      // Status fills may be darkened by the land-clipped grayscale relief layer;
-      // classify by preserved hue ratios rather than exact pre-relief bytes.
-      if(r>42&&Math.abs(r-g)<8&&Math.abs(g-b)<8)land++;
+      // Status fills retain their semantic hue under the vintage hypsometric
+      // layer; unvisited land can now be neutral gray through muted ochre.
+      if(r>35&&g>35&&b>24&&Math.max(r,g,b)-Math.min(r,g,b)<48)land++;
       if(g>48&&g>r*1.34&&g>b*1.22)visited++;
       if(r>62&&r>g*1.35&&g>b*1.28)calling++;
     }
