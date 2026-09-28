@@ -63,7 +63,7 @@ const lockedDesignMarkers = [
   '.signal-bolt-icon{width:.738em;height:.945em;display:block;fill:currentColor;transform:translateY(.088em)}',
   '@keyframes signal-gold-shimmer{',
   '.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:signal-gold-shimmer 3.8s',
-  '.signal-health{display:inline-flex;align-items:center;justify-content:center;width:1.243em;height:1.155em;margin-left:-.505em',
+  '.signal-health{display:inline-flex;align-items:center;justify-content:center;width:1.243em;height:1.155em;margin-left:calc(-.505em - 1.2px)',
   'M219 44Q217 43 215 44L51 180Q49 183 51 185Q53 187 56 187L130 186Q132 186 132 188L72 289Q70 293 73 295Q76 297 83 291L239 155Q241 153 239 149Q238 147 236 147L166 148Q162 148 160 146L219 51Q222 46 219 44Z',
 ];
 const missingDesignMarkers = lockedDesignMarkers.filter((needle) => !mainHtml.includes(needle));
