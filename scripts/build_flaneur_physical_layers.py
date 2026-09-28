@@ -131,7 +131,7 @@ def build_relief() -> None:
     folder = fetch_zip("relief")
     Image.MAX_IMAGE_PIXELS = None
     image = Image.open(next(folder.glob("*.tif"))).convert("RGB")
-    image.thumbnail((2880, 1440), Image.Resampling.LANCZOS)
+    image.thumbnail((4320, 2160), Image.Resampling.LANCZOS)
     r, g, b = image.split()
     # Natural Earth ocean bathymetry is blue. Preserve it as geographically
     # derived texture while keeping a hard land/water channel for compositing.
@@ -158,7 +158,7 @@ def main() -> None:
     (OUT / "terrain-source.json").write_text(json.dumps({
         "source": "Natural Earth I 1:10m HYP_HR_SR_OB_DR", "url": SOURCES["relief"],
         "sourceSha256": SOURCE_SHA256["relief"], "license": "Public domain",
-        "derivativeResolution": [2880, 1440],
+        "derivativeResolution": [4320, 2160],
         "treatment": "Vintage recolor of cross-blended hypsometric tint, shaded relief, ocean bottom, and drainage",
     }, separators=(",", ":")) + "\n")
     print(json.dumps({"counts": labels["counts"], "labels_bytes": (OUT / "physical-labels.json").stat().st_size, "admin1": admin1, "relief_bytes": (OUT / "natural-earth-relief.webp").stat().st_size}))

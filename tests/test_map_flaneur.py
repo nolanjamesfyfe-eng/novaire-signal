@@ -195,7 +195,7 @@ def test_progressive_physical_layers_are_additive_and_source_backed():
     assert "canvas.dataset.labelCoverage" in html
     # Optional physical assets fail soft without changing the base globe promise.
     assert "retaining sourced fallback labels and base map" in html
-    assert (ROOT / 'map/natural-earth-relief.webp').stat().st_size < 450_000
+    assert (ROOT / 'map/natural-earth-relief.webp').stat().st_size < 900_000
 
 
 def test_us_canada_admin1_is_complete_compact_and_visual_only():
