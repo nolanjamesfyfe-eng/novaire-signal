@@ -123,7 +123,7 @@ def test_canonical_signal_branding_and_copy_removal():
     html = (ROOT / 'map/index.html').read_text()
     assert html.count('class="signal-map-icon" viewBox=".85 .85 22.3 22.3"') == 2
     assert html.count('class="signal-bolt-icon" viewBox="45 38 200 264"') == 2
-    assert html.count('href="/portfolio/" class="signal-bolt"') == 2
+    assert html.count('href="/" class="signal-bolt"') == 2
     assert html.count('href="/flaneur" class="signal-map"') == 2
     assert 'gap:12px' in html
     assert 'A living record · 195 countries + 4 destinations' not in html

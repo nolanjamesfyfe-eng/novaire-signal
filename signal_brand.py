@@ -33,10 +33,10 @@ SIGNAL_HEALTH_SVG = (
 )
 
 
-def signal_brand_markup(*, wordmark_link=True, health_link=False):
+def signal_brand_markup(*, wordmark_link=True, health_link=True):
     wordmark = '<a href="/" class="signal-wordmark" aria-label="Novaire Signal home">Novaire <span>Signal</span></a>' if wordmark_link else '<span class="signal-wordmark">Novaire <span>Signal</span></span>'
     health = f'<a href="/health/#energy-checkin" class="signal-health" title="Today’s energy" aria-label="Open today’s energy check-in">{SIGNAL_HEALTH_SVG}</a>' if health_link else ''
-    return f'<div class="signal-brand-row" aria-label="Novaire Signal navigation"><a href="/flaneur" class="signal-map" title="Flâneur happenings" aria-label="Flâneur happenings">{SIGNAL_MAP_SVG}</a>{wordmark}<a href="/portfolio/" class="signal-bolt" title="Portfolio" aria-label="Portfolio">{SIGNAL_BOLT_SVG}</a>{health}</div>'
+    return f'<div class="signal-brand-row" aria-label="Novaire Signal navigation"><a href="/flaneur" class="signal-map" title="Flâneur globe" aria-label="Open Flâneur globe">{SIGNAL_MAP_SVG}</a>{wordmark}<a href="/" class="signal-bolt" title="Novaire Signal home" aria-label="Novaire Signal home">{SIGNAL_BOLT_SVG}</a>{health}</div>'
 
 
 def signal_brand_font_link():
@@ -58,6 +58,7 @@ def signal_brand_css():
 .signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:signal-gold-shimmer 3.8s cubic-bezier(.45,0,.35,1) infinite;will-change:filter,opacity}.signal-brand-row .signal-map-icon{animation-delay:-.72s}.signal-brand-row .signal-health-icon{animation-delay:-1.44s}
 .signal-brand-row .signal-bolt:hover,.signal-brand-row .signal-map:hover,.signal-brand-row .signal-health:hover{opacity:1;transform:none}.signal-brand-row .signal-bolt:focus-visible,.signal-brand-row .signal-map:focus-visible,.signal-brand-row .signal-health:focus-visible,.signal-brand-row .signal-wordmark:focus-visible{outline:1px solid #b59662;outline-offset:3px;border-radius:2px}
 @media(min-width:761px){.signal-brand-row{font-size:31.68px}}
+@media(max-width:480px){.signal-brand-row{font-size:24px;gap:10px}.signal-brand-row .signal-map,.signal-brand-row .signal-bolt,.signal-health{font-size:18px}}
 @media(prefers-reduced-motion:reduce){.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
 """.strip()
 

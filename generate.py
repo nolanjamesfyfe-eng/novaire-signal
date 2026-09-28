@@ -3952,7 +3952,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- HEADER BRANDING -->
   <div class="header-brand">
-    {signal_brand_markup(health_link=True)}
+    {signal_brand_markup()}
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
   </div>
 
@@ -4251,7 +4251,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
-    {signal_brand_markup(health_link=True)}
+    {signal_brand_markup()}
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
@@ -4990,7 +4990,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 <div class="container">
 
   <div class="header-brand">
-    {signal_brand_markup(health_link=True)}
+    {signal_brand_markup()}
     <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Portfolio</div>
   </div>
 
@@ -5081,7 +5081,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
   <!-- ECOSYSTEM LINKS -->
   <div class="footer">
-    {signal_brand_markup(health_link=True)}
+    {signal_brand_markup()}
     <div class="footer-tagline">Deciphering through the noise.</div>
     <div class="eco-links">
       <a href="https://novairesignal.com" class="eco-link">Novaire Signal</a>
@@ -5725,8 +5725,14 @@ def main():
 
     # Keep /portfolio/evolutionfund hardcoded strategy page in sync with daily prices/G-L
     try:
-        evo_strategy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "portfolio", "evolutionfund", "index.html")
-        sync_static_brand_page(evo_strategy_path)
+        static_brand_pages = (
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "portfolio", "evolutionfund", "index.html"),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "portfolio", "evolutionfund", "philosophy.html"),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "health", "index.html"),
+        )
+        for static_brand_page in static_brand_pages:
+            sync_static_brand_page(static_brand_page)
+        evo_strategy_path = static_brand_pages[0]
         if evo_snapshot and os.path.exists(evo_strategy_path):
             import re
             with open(evo_strategy_path, "r", encoding="utf-8") as f:
