@@ -14,7 +14,7 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
  const errors=[];page.on('pageerror',error=>errors.push(String(error)));
  await page.goto('http://127.0.0.1:4180/health/',{waitUntil:'domcontentloaded',timeout:120000});
- await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready&&window.__HEALTH_BRAIN__?.ready,null,{timeout:120000});await page.evaluate(()=>window.stop());
+ await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready&&window.__HEALTH_BRAIN__?.ready,null,{timeout:120000});const deformation=await page.evaluate(()=>window.__HEALTH_PHYSIQUE_METRICS__);assert.ok(deformation.muscle.ratios.width<.93,`baseline anatomy must be regionally narrower than source (${deformation.muscle.ratios.width})`);assert.ok(deformation.muscle.ratios.depth<.9,`baseline anatomy must have reduced front-back depth (${deformation.muscle.ratios.depth})`);assert.ok(deformation.muscle.ratios.height>.99,`lean deformation must retain tall proportions (${deformation.muscle.ratios.height})`);await page.evaluate(()=>window.stop());
  await page.locator('.physique-toggle').click({noWaitAfter:true});
  assert.match(await page.locator('.physique-copy b').textContent(),/193 CM · 80 KG · LEAN ATHLETIC APPROXIMATION/);
  assert.equal(await page.locator('[data-physique="weight"]').inputValue(),'80');
