@@ -3,9 +3,9 @@
 ## Visual and interaction acceptance
 
 - [x] Distinct BodyParts3D muscle meshes retained; tendons and internal separations remain visible.
-- [x] Muscle surfaces use antique gold `#b59662`, restrained white edge geometry, and a gentle emissive pulse.
+- [x] Muscle surfaces use shaded terracotta/copper materials, restrained high-angle white edge geometry, and a gentle emissive pulse.
 - [x] `prefers-reduced-motion` disables pulse animation and camera damping/automatic motion.
-- [x] No red atlas materials. The full-body envelope is a low-opacity dark-gold backing in muscular mode, not an opaque cover.
+- [x] The full-body envelope is a low-opacity deep tissue backing in muscular mode, not an opaque cover; detailed superficial geometry remains readable over it.
 - [x] Tall, lean 193 cm / 80 kg illustrative baseline retained. Copy explicitly says approximation, not scan or exact likeness.
 - [x] Front, back, left, right and free 360-degree orbit controls.
 - [x] Full-body envelope supplies head, hands and feet in muscular and skin views; skeleton asset supplies complete skull, hands and feet.
@@ -22,10 +22,17 @@
 - `tests/health-atlas.mjs`: loading, raycast, selection, orbit, absolute views, zoom/focus/reset, search, keyboard and WebGL fallback.
 - `tests/health-physique-browser.mjs`: 193 cm / 80 kg baseline, visible deformation, brain dismissal, desktop/mobile screenshots.
 - `tests/health-anatomy-360.mjs`: desktop/mobile × muscular/skeletal/skin × front/back/left/right captures, frame padding, selection dismissal, private clavicle event and reduced-motion state.
-- Screenshots: `tests/health-anatomy-360/*.png`, `tests/health-atlas-{desktop,mobile}.png`, `tests/health-physique-{desktop,mobile}.png`.
+- Generated screenshots are intentionally untracked. Current evidence: `/root/.hermes/cache/scratch/output/health-anatomy-360/*.png` and `/root/.hermes/cache/scratch/output/health-anatomy-iteration2/*.png`.
+
+## Human visual approval (not implied by automated tests)
+
+- [ ] Front muscular view aesthetically approved by the user.
+- [ ] Back muscular view aesthetically approved by the user.
+- [ ] Left/right muscular views aesthetically approved by the user.
+- [ ] Skin front/back/side views aesthetically approved by the user.
 
 ## Honest limits
 
 - This is an illustrative atlas derived from generic BodyParts3D assets and verified broad proportions, not photogrammetry, a scan, or exact likeness.
-- The bundled muscle model contains 14 named muscle groups rather than every muscle in a clinical dissection. The detailed skeleton provides broader individually named pick targets.
+- The atlas retains 14 individually named muscle-group pick targets and adds a 53-component BodyParts3D superficial completion mesh for neck, back, forearm, hand, thigh, lower-leg and foot coverage. This is still not every structure in a clinical dissection.
 - Injury copy depends on the authenticated private record schema/event and is deliberately absent before unlock.

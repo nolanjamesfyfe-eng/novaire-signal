@@ -4,7 +4,9 @@ import { spawn } from 'node:child_process';
 import { strict as assert } from 'node:assert';
 import fs from 'node:fs';
 const root=new URL('..',import.meta.url).pathname;
+const out=process.env.HEALTH_ATLAS_OUTPUT||'/root/.hermes/cache/scratch/output/health-atlas';fs.mkdirSync(out,{recursive:true});
 assert.ok(fs.statSync(root+'health/models/bodyparts3d.glb').size<3_000_000,'compressed anatomy bundle must stay below 3 MB');
+assert.ok(fs.statSync(root+'health/models/muscle-completion.glb').size<1_000_000,'compressed superficial completion bundle must stay below 1 MB');
 assert.equal(fs.readdirSync(root+'health/models').filter(x=>x.endsWith('.obj')).length,0,'legacy OBJ payloads must not ship');
 const tmp=root+'tests/.pw-tmp';fs.mkdirSync(tmp,{recursive:true});process.env.TMPDIR=tmp;
 const server=spawn('python3',['-m','http.server','4178','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'});
@@ -38,8 +40,8 @@ try{
  await page.locator('#search').fill('calf');assert.equal(await page.locator('.muscle-item:not([hidden])').count(),2);
  // The semantic directory is fully keyboard operable and drives a visibly selected structure.
  await page.locator('.muscle-item:not([hidden])').first().focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'gastrocnemius');
- await page.screenshot({path:root+'tests/health-atlas-desktop.png',fullPage:true});
- const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});await mobile.goto('http://127.0.0.1:4178/health/',{waitUntil:'domcontentloaded',timeout:120000});await mobile.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready,null,{timeout:120000});const overlap=await mobile.evaluate(()=>{const h=document.querySelector('.intro').getBoundingClientRect(),v=document.querySelector('#viewport').getBoundingClientRect();return h.bottom>v.top+95});assert.equal(overlap,false);await mobile.screenshot({path:root+'tests/health-atlas-mobile.png',fullPage:true});
+ await page.evaluate(()=>window.stop());await page.screenshot({path:out+'/desktop.png',fullPage:true,animations:'disabled',timeout:120000});
+ const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});await mobile.goto('http://127.0.0.1:4178/health/',{waitUntil:'domcontentloaded',timeout:120000});await mobile.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready,null,{timeout:120000});await mobile.evaluate(()=>window.stop());const overlap=await mobile.evaluate(()=>{const h=document.querySelector('.intro').getBoundingClientRect(),v=document.querySelector('#viewport').getBoundingClientRect();return h.bottom>v.top+95});assert.equal(overlap,false);await mobile.screenshot({path:out+'/mobile.png',fullPage:true,animations:'disabled',timeout:120000});
  // Force WebGL creation failure: directory/search remain usable and no body reference is touched.
  const fallback=await browser.newPage();await fallback.addInitScript(()=>{HTMLCanvasElement.prototype.getContext=()=>null});const fallbackErrors=[];fallback.on('pageerror',e=>fallbackErrors.push(String(e)));await fallback.goto('http://127.0.0.1:4178/health/',{waitUntil:'domcontentloaded'});await fallback.waitForTimeout(500);assert.equal(await fallback.locator('#webgl-fallback').isVisible(),true);await fallback.locator('#search').fill('deltoid');assert.equal(await fallback.locator('.muscle-item:not([hidden])').count(),1);assert.equal(fallbackErrors.filter(e=>/body is not defined|undefined body/i.test(e)).length,0);
  assert.equal(errors.length,0,errors.join('\n'));
