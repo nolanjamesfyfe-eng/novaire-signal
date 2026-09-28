@@ -130,25 +130,25 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
         ledger = json.loads((root / weekly["evidence"]["public_ledger_path"]).read_text(encoding="utf-8"))
 
-        self.assertEqual(weekly["as_of"], "2026-09-21")
+        self.assertEqual(weekly["as_of"], "2026-09-28")
         self.assertEqual(weekly["scan_status"], "completed")
-        self.assertEqual(weekly["evidence"]["candidates_reviewed"], 16)
-        self.assertEqual(ledger["universe"], {"total": 16, "tokens": 8, "equities": 8})
+        self.assertEqual(weekly["evidence"]["candidates_reviewed"], 17)
+        self.assertEqual(ledger["universe"], {"total": 17, "tokens": 9, "equities": 8})
         self.assertEqual(ledger["outcomes"], {
             "qualified": 0,
-            "watch": 2,
-            "economic_rejection": 11,
-            "portfolio_concentration": 1,
+            "watch": 3,
+            "economic_rejection": 10,
+            "portfolio_concentration": 2,
             "evidence_blocked": 2,
         })
-        self.assertEqual(len(ledger["candidates"]), 16)
-        self.assertEqual(sum(row["status"] == "watch" for row in ledger["candidates"]), 2)
-        self.assertEqual(sum(row["status"] == "economic_rejection" for row in ledger["candidates"]), 11)
-        self.assertEqual(sum(row["status"] == "portfolio_concentration" for row in ledger["candidates"]), 1)
+        self.assertEqual(len(ledger["candidates"]), 17)
+        self.assertEqual(sum(row["status"] == "watch" for row in ledger["candidates"]), 3)
+        self.assertEqual(sum(row["status"] == "economic_rejection" for row in ledger["candidates"]), 10)
+        self.assertEqual(sum(row["status"] == "portfolio_concentration" for row in ledger["candidates"]), 2)
         self.assertEqual(sum(row["status"] == "evidence_blocked" for row in ledger["candidates"]), 2)
-        akt = next(row for row in ledger["candidates"] if row["symbol"] == "AKT")
-        self.assertEqual(akt["status"], "watch")
-        self.assertEqual(weekly["ideas"][0]["symbol"], "AKT")
+        aave = next(row for row in ledger["candidates"] if row["symbol"] == "AAVE")
+        self.assertEqual(aave["status"], "watch")
+        self.assertEqual(weekly["ideas"][0]["symbol"], "AAVE")
         self.assertEqual(weekly["ideas"][0]["action"], "WATCH")
 
 

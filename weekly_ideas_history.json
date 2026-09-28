@@ -26,6 +26,19 @@
         "pendle finance"
       ],
       "source_url": "https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE"
+    },
+    {
+      "first_as_of": "2026-09-21",
+      "type": "token",
+      "symbol": "AKT",
+      "name": "Akash Network",
+      "canonical_key": "akt|akash-network",
+      "aliases": [
+        "akt",
+        "akash",
+        "akash network"
+      ],
+      "source_url": "https://akash.network/blog/akash-network-q1-2026-report/"
     }
   ]
 }

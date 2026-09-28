@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-21",
+  "as_of": "2026-09-28",
   "scan_status": "completed",
-  "scan_completed_at": "2026-09-21T07:04:22+07:00",
-  "status_message": "Independent scan completed: 16 candidates reviewed; 0 qualified, 2 watch, 11 economic rejections, 1 portfolio-concentration rejection, and 2 evidence-blocked.",
-  "portfolio_note": "Independent scan: 16 candidates (8 tokens, 8 natural-resource equities). No execution-ready idea. AAVE and AKT remain conditional WATCH candidates; WATCH is research pending, not a buy signal.",
+  "scan_completed_at": "2026-09-28T07:04:58+07:00",
+  "status_message": "Independent scan completed: 17 candidates reviewed; 0 qualified, 3 watch, 10 economic rejections, 2 portfolio-concentration rejections, and 2 evidence-blocked.",
+  "portfolio_note": "Independent scan: 17 candidates (9 tokens, 8 natural-resource equities). No execution-ready idea. AAVE is the strongest conditional WATCH; WATCH is research pending, not a buy signal.",
   "evidence": {
-    "methodology": "Screened eight tokens and eight natural-resource equities against all live personal/RRSP, Evolution/TFSA, Kraken and Alpaca exposures, published-history exclusions, adjacent structured quote bars, capitalization/supply, value capture, dilution, 3–12 month catalysts, permanent-loss risk and executable liquidity. Economic rejection, concentration, evidence-blocked and WATCH outcomes are kept distinct.",
+    "methodology": "Screened nine tokens and eight natural-resource equities against live personal/RRSP, Evolution/TFSA, Kraken and Alpaca exposures, published-history exclusions, adjacent structured quote bars, capitalization/supply, value capture, dilution, 3\u201312 month catalysts, permanent-loss risk and executable liquidity. Economic rejection, concentration, evidence-blocked and WATCH outcomes are distinct.",
     "accounts_checked": [
       "private personal/RRSP live source",
       "private Evolution/TFSA live source",
@@ -16,44 +16,49 @@
     "sources": [
       {
         "url": "https://api.coingecko.com/api/v3/coins/markets",
-        "checked_at": "2026-09-21T07:02:26+07:00",
-        "note": "Structured token price, market capitalization, fully diluted valuation, supply, volume and one-year change for eight candidates."
+        "checked_at": "2026-09-28T07:03:57+07:00",
+        "note": "Structured token price, capitalization, FDV, supply, volume and one-year change for nine candidates; the malformed zero-cap MKR response was evidence-blocked."
       },
       {
         "url": "https://query1.finance.yahoo.com/v8/finance/chart/ERO.TO",
-        "checked_at": "2026-09-21T07:02:26+07:00",
-        "note": "Structured adjacent daily bars and one-year series; seven additional equity symbols were checked through the same endpoint."
+        "checked_at": "2026-09-28T07:03:57+07:00",
+        "note": "Structured adjacent valid daily bars and one-year series; seven additional equity symbols were checked through the same endpoint."
+      },
+      {
+        "url": "https://aave.com/docs/ecosystem/aave",
+        "checked_at": "2026-09-28T07:03:57+07:00",
+        "note": "Primary token utility and buyback mechanics."
       },
       {
         "url": "https://governance.aave.com/t/aave-dao-funding-insights/24192",
-        "checked_at": "2026-09-21T07:03:31+07:00",
-        "note": "Aave DAO buyback, revenue, emissions and treasury-runway evidence dated February 28, 2026."
+        "checked_at": "2026-09-28T07:03:57+07:00",
+        "note": "Dated revenue, buyback, emissions and treasury-runway evidence."
       },
       {
-        "url": "https://akash.network/blog/akash-network-q1-2026-report/",
-        "checked_at": "2026-09-21T07:03:31+07:00",
-        "note": "Official BME launch, compute-spend and product-usage evidence dated April 1, 2026."
+        "url": "https://www.ivanhoemines.com/news-stories/news-presentations/",
+        "checked_at": "2026-09-28T07:03:57+07:00",
+        "note": "Issuer resource update dated September 8, 2026."
       },
       {
-        "url": "https://akash.network/blog/akash-2025-year-in-review/",
-        "checked_at": "2026-09-21T07:03:31+07:00",
-        "note": "Official network spend, fees, deployments and 2026 migration catalyst evidence dated January 9, 2026."
+        "url": "https://investors.mpmaterials.com/investor-news/news-details/2026/MP-Materials-Reports-Second-Quarter-2026-Results/default.aspx",
+        "checked_at": "2026-09-28T07:03:57+07:00",
+        "note": "Issuer Q2 operating, funding and production evidence dated August 6, 2026."
       }
     ],
-    "candidates_reviewed": 16,
+    "candidates_reviewed": 17,
     "public_ledger_path": "weekly_scan_ledger.json"
   },
   "ideas": [
     {
       "type": "token",
-      "symbol": "AKT",
-      "name": "Akash Network",
+      "symbol": "AAVE",
+      "name": "Aave",
       "action": "WATCH",
-      "snapshot": "US$0.5817 at 2026-09-21 00:00 UTC; US$172.3m market cap / US$172.3m FDV; -49.3% over one year; US$4.6m reported 24h volume.",
-      "thesis": "Akash reports BME live since March 23, linking compute payments to market purchases and burns of AKT, alongside US$5m cumulative compute spend and a planned network migration by December 30, 2026.",
-      "risk": "Not execution-ready: current net AKT burn, current fee-dollar run-rate, post-BME recurring demand, unlock/inflation schedule and venue-specific slippage at intended size were not all independently verified. BME can be inflationary when settlement economics move against the burn.",
-      "trigger": "Upgrade only after three consecutive months of primary-source net burn and compute-spend growth, a complete current emissions/unlock schedule, and executable slippage below 1% at the intended starter size; require the migration milestone to remain dated and funded.",
-      "source_url": "https://akash.network/blog/akash-network-q1-2026-report/"
+      "snapshot": "US$154.48; US$2.383b market cap / US$2.472b FDV; -42.2% one year; US$257.1m reported 24h volume; CoinGecko 2026-09-28T00:01:10.000Z.",
+      "source_url": "https://aave.com/docs/ecosystem/aave",
+      "thesis": "Aave has near-full circulation, large protocol usage and a governance-approved revenue-funded buyback. The mechanism is real, but acquired tokens are retained for governance-approved uses rather than burned.",
+      "risk": "Not execution-ready: sustainable borrow-fee revenue has softened, current buyback execution and venue-specific slippage were not fully verified, and treasury spending remains governance-dependent.",
+      "trigger": "Upgrade only after a primary-source trailing-90-day recurring revenue series covers the buyback and operating budget, executed purchases remain continuous for 12 weeks, a dated 3\u201312 month catalyst is confirmed, and intended-size slippage is below 1%."
     }
   ]
 }
