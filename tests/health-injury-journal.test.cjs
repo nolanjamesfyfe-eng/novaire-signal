@@ -31,8 +31,11 @@ test('association copy is observational and refuses to invent a trend', () => {
 });
 
 test('extracts authenticated injury records only from explicit injury fields', () => {
-  const record = { label:'Unrelated record', injuries:[{ id:'clinical-1', label:'Left first MTP', region:'left-first-mtp', status:'ongoing' }] };
-  assert.deepEqual(journal.extractRecordInjuries(record).map(x=>x.region), ['left-first-mtp']);
+  const record = { label:'Unrelated record', injuries:[{ id:'clinical-1', label:'Fixture clavicle injury', region:'left-clavicle', year:'circa 2018', dateCertainty:'Self-reported approximate', provenance:'Synthetic fixture', summary:'Exact sites not recorded.' }] };
+  const extracted=journal.extractRecordInjuries(record);
+  assert.deepEqual(extracted.map(x=>x.region), ['left-clavicle']);
+  assert.equal(extracted[0].year,'circa 2018');
+  assert.equal(extracted[0].dateCertainty,'Self-reported approximate');
   assert.deepEqual(journal.extractRecordInjuries({region:'left-first-mtp',label:'Authenticated MTP record'}).map(x=>x.region), ['left-first-mtp']);
   assert.deepEqual(journal.extractRecordInjuries({ summary:'left foot hurts' }), []);
 });

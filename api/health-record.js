@@ -3,6 +3,7 @@
 const { requestOriginAllowed, verifySession } = require('../lib/health-session');
 
 const ALLOWED_FIELDS = ['region', 'label', 'summary', 'reportedFindings', 'carePlan', 'sourceDate', 'certainty'];
+const INJURY_FIELDS = ['id', 'region', 'label', 'year', 'dateCertainty', 'provenance', 'summary', 'status'];
 const PRIVATE_BODY_LIKENESS = Object.freeze({
   physique: 'Very lean runner build; tall, narrow silhouette with low bulk and prominent collarbones.',
   anatomicalLeftClavicle: 'Self-reported surgically repaired fracture with a large visible scar and slight bone prominence.',
@@ -44,6 +45,22 @@ function sanitizeRecord(input) {
     }
   }
   if (output.region !== 'left-first-mtp' || !output.label) return null;
+  if (input.injuries !== undefined) {
+    if (!Array.isArray(input.injuries) || input.injuries.length > MAX_LIST_ITEMS) return null;
+    output.injuries = [];
+    for (const injury of input.injuries) {
+      if (!injury || typeof injury !== 'object' || Array.isArray(injury)) return null;
+      const clean = {};
+      for (const field of INJURY_FIELDS) {
+        if (injury[field] === undefined) continue;
+        const value = cleanText(injury[field], field === 'summary' ? 500 : 200);
+        if (value === undefined) return null;
+        clean[field] = value;
+      }
+      if (!clean.id || !clean.region || !clean.label) return null;
+      output.injuries.push(clean);
+    }
+  }
   output.bodyLikeness = PRIVATE_BODY_LIKENESS;
   return output;
 }

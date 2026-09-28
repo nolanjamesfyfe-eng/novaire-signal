@@ -38,7 +38,8 @@ test.beforeEach(() => {
   process.env.NOS_ACCESS_PIN = '12345';
   process.env.HEALTH_RECORD_JSON = JSON.stringify({
     region: 'left-first-mtp', label: 'Left first MTP', summary: 'PRIVATE_SENTINEL',
-    reportedFindings: ['Reported item'], carePlan: ['Care item'], sourceDate: '2026-09-27', certainty: 'Clinician supplied'
+    reportedFindings: ['Reported item'], carePlan: ['Care item'], sourceDate: '2026-09-27', certainty: 'Clinician supplied',
+    injuries: [{ id:'fixture-clavicle', region:'left-clavicle', label:'Fixture clavicle injury', year:'circa 2018', dateCertainty:'Self-reported approximate', provenance:'Synthetic fixture', summary:'Two reported fractures; exact sites not recorded.' }]
   });
 });
 test.after(() => { process.env = originalEnv; });
@@ -66,7 +67,9 @@ test('correct existing Signal PIN creates scoped cookie and unlocks sanitized re
   const parsed = JSON.parse(unlocked.body);
   assert.equal(parsed.record.region, 'left-first-mtp');
   assert.equal(parsed.record.summary, 'PRIVATE_SENTINEL');
-  assert.deepEqual(Object.keys(parsed.record), ['region', 'label', 'summary', 'reportedFindings', 'carePlan', 'sourceDate', 'certainty', 'bodyLikeness']);
+  assert.deepEqual(Object.keys(parsed.record), ['region', 'label', 'summary', 'reportedFindings', 'carePlan', 'sourceDate', 'certainty', 'injuries', 'bodyLikeness']);
+  assert.equal(parsed.record.injuries[0].region, 'left-clavicle');
+  assert.equal(parsed.record.injuries[0].dateCertainty, 'Self-reported approximate');
   assert.match(parsed.record.bodyLikeness.anatomicalLeftClavicle, /Self-reported/);
   assert.match(parsed.record.bodyLikeness.modelingCertainty, /Approximate/);
 });
