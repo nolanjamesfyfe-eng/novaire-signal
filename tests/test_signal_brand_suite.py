@@ -21,7 +21,7 @@ SUITE_PAGES = (
 def test_canonical_brand_keeps_equal_link_spacing():
     css = signal_brand_css()
     assert ".signal-health{" in css
-    assert "margin-left:0" in css
+    assert "margin-left:-.505em" in css
     assert ".signal-bolt-icon{width:.738em" in css
     assert ".signal-map,.signal-brand-row .signal-bolt" in css
     assert "width:1.243em" in css
@@ -41,4 +41,4 @@ def test_every_signal_suite_page_has_complete_header_and_footer_brand_rows():
         assert html.count('class="signal-map"') == 2, relative
         assert html.count('class="signal-bolt"') == 2, relative
         assert html.count('class="signal-health"') == 2, relative
-        assert "margin-left:0" in html, relative
+        assert "margin-left:-.505em" in html, relative

@@ -16,7 +16,7 @@ for(const file of pages)test(`${file} exposes balanced Signal navigation`,()=>{
 });
 test('canonical navigation keeps equal icon boxes, battery pulse and reduced-motion fallback',()=>{
   const source=fs.readFileSync(path.join(root,'signal_brand.py'),'utf8');
-  assert.match(source,/width:1\.243em;height:1\.155em;margin-left:0/);
+  assert.match(source,/width:1\.243em;height:1\.155em;margin-left:-\.505em/);
   assert.match(source,/signal-health-icon\{animation:signal-gold-shimmer/);
   assert.match(source,/@media\(prefers-reduced-motion:reduce\).*signal-health-icon/s);
 });
