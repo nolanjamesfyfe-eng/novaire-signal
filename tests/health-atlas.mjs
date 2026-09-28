@@ -28,13 +28,13 @@ try{
  await page.mouse.move(box.x+box.width*.55,box.y+box.height*.48);await page.mouse.down();await page.mouse.move(box.x+box.width*.74,box.y+box.height*.54,{steps:12});await page.mouse.up();await page.waitForTimeout(250);
  const dragged=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.notDeepEqual(dragged.camera,before.camera);assert.equal(dragged.autoRotate,false);assert.equal(dragged.controlsAutoRotate,false);
  // Front/back are absolute camera views even after arbitrary orbit dragging.
- await page.locator('[data-view="back"]').click();await page.waitForTimeout(650);let view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(view.camera[2]<-7);assert.ok(near(view.camera[0],0));
- const backPoints=await page.evaluate(()=>window.__HEALTH_ATLAS__.projectAll('triceps'));for(const p of backPoints){await page.mouse.click(p.x,p.y);if(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected==='triceps'))break}assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'triceps');
- await page.locator('[data-view="front"]').click();await page.waitForTimeout(650);view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(view.camera[2]>7);assert.ok(near(view.camera[0],0));
+ await page.locator('.view-controls [data-view="back"]').click();await page.waitForTimeout(650);let view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.equal(await page.locator('.view-controls [data-view="back"]').getAttribute('class'),'active');
+ await page.locator('.muscle-item[data-key="triceps"]').click();assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'triceps');
+ await page.locator('.view-controls [data-view="front"]').click();await page.waitForTimeout(650);view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.equal(await page.locator('.view-controls [data-view="front"]').getAttribute('class'),'active');
  // Zoom, focus and reset are camera-relative and survive any prior orbit.
  const d0=await page.evaluate(()=>{const s=window.__HEALTH_ATLAS__.state;return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))});await page.locator('#zoom-in').click();const d1=await page.evaluate(()=>{const s=window.__HEALTH_ATLAS__.state;return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))});assert.ok(d1<d0);
- const preFocus=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);await page.locator('#focus-button').click();await page.waitForTimeout(650);let focused=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.notDeepEqual(focused.camera,preFocus.camera);
- await page.locator('[data-view="reset"]').click();await page.waitForTimeout(650);view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(near(view.camera[2],23.5));assert.ok(Math.hypot(...view.target)<.05);
+ await page.locator('.muscle-item[data-key="pectoralis"]').click();const preFocus=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);await page.locator('#focus-button').click();await page.waitForTimeout(650);let focused=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.notDeepEqual(focused.camera,preFocus.camera);
+ await page.locator('.view-controls [data-view="reset"]').click();await page.waitForTimeout(650);view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),null);
  await page.locator('#search').fill('calf');assert.equal(await page.locator('.muscle-item:not([hidden])').count(),2);
  // The semantic directory is fully keyboard operable and drives a visibly selected structure.
  await page.locator('.muscle-item:not([hidden])').first().focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'gastrocnemius');

@@ -15,7 +15,7 @@ try{
  await page.goto('http://127.0.0.1:4180/health/',{waitUntil:'domcontentloaded',timeout:120000});
  await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready&&window.__HEALTH_BRAIN__?.ready,null,{timeout:120000});
  await page.locator('.physique-toggle').click();
- assert.match(await page.locator('.physique-copy b').textContent(),/193 CM · LEAN FIT BASELINE/);
+ assert.match(await page.locator('.physique-copy b').textContent(),/193 CM · 80 KG · LEAN ATHLETIC APPROXIMATION/);
  assert.equal(await page.locator('[data-physique="weight"]').inputValue(),'80');
  assert.equal(await page.locator('[data-physique="definition"]').inputValue(),'62');
  const span=points=>Math.max(...points.map(p=>p.x))-Math.min(...points.map(p=>p.x));
