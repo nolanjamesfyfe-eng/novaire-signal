@@ -25,8 +25,8 @@
 @media(prefers-reduced-motion:reduce){.signal-brand-row .signal-bolt-icon,.signal-brand-row .signal-map-icon,.signal-brand-row .signal-health-icon{animation:none;filter:brightness(1.12) drop-shadow(0 0 3px rgba(181,150,98,.5));opacity:1}}
 </style>
 <style>
-@media(min-width:761px){.physique-control{top:148px}}
-@media(max-width:760px){.physique-control{top:205px}.view-controls{top:248px}.stage #viewport{inset:278px 0 168px}}
+
+@media(max-width:760px){.view-controls{top:248px}.stage #viewport{inset:278px 0 168px}}
 </style>
 </head>
 <body>
@@ -37,7 +37,7 @@
   </header>
   <main>
     <section class="stage" aria-labelledby="atlas-title">
-      <div class="intro"><p class="eyebrow">NOVAIRE’S HEALTH MAXING / 01</p><h1 id="atlas-title">NOVAIRE’S<br><em>HEALTH MAXING</em></h1><p class="lede">Explore muscles and bones in three dimensions. Rotate, zoom and select a structure to inspect its anatomy.</p></div>
+      <div class="intro"><h1 id="atlas-title">NOVAIRE’S<br><em>HEALTH MAXING</em></h1><p class="lede">Explore muscles and bones in three dimensions. Rotate, zoom and select a structure to inspect its anatomy.</p></div>
       <div id="viewport" aria-label="Interactive 3D human anatomy model. Drag to rotate, pinch or scroll to zoom, and select a structure." role="application" tabindex="0">
         <canvas id="atlas-canvas"></canvas><div id="load-progress" class="load-progress" role="status"><span>LOADING ANATOMY · 0%</span><b><i></i></b></div><div class="scanline"></div><div class="axis-label top">SUPERIOR</div><div class="axis-label bottom">INFERIOR</div>
         <div id="tooltip" role="status"></div><div id="webgl-fallback" hidden>3D rendering is unavailable. Use the accessible anatomy directory below.</div>
