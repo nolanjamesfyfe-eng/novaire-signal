@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: weekly progress is accumulated sum / 7, separately from recorded average
+ok 1 - weekly progress is accumulated sum / 7, separately from recorded average
+  ---
+  duration_ms: 1.814079
+  type: 'test'
+  ...
+# Subtest: month uses actual calendar days and zero remains zero
+ok 2 - month uses actual calendar days and zero remains zero
+  ---
+  duration_ms: 0.312988
+  type: 'test'
+  ...
+# Subtest: foundation grade caps sleep, recovery, protein, and fluids while unknown is excluded
+ok 3 - foundation grade caps sleep, recovery, protein, and fluids while unknown is excluded
+  ---
+  duration_ms: 0.546085
+  type: 'test'
+  ...
+# Subtest: server sanitizer retains raw metrics and recalculates subjective score
+ok 4 - server sanitizer retains raw metrics and recalculates subjective score
+  ---
+  duration_ms: 0.67654
+  type: 'test'
+  ...
+# Subtest: storage explicitly rejects legacy 0-5/schema-v1 entries instead of rescoring
+ok 5 - storage explicitly rejects legacy 0-5/schema-v1 entries instead of rescoring
+  ---
+  duration_ms: 0.648918
+  type: 'test'
+  ...
+# Subtest: API fails honestly when durable provider is absent and never returns records
+ok 6 - API fails honestly when durable provider is absent and never returns records
+  ---
+  duration_ms: 2.572609
+  type: 'test'
+  ...
+# Subtest: authenticated API writes with revision and refuses silent overwrite
+ok 7 - authenticated API writes with revision and refuses silent overwrite
+  ---
+  duration_ms: 31.553457
+  type: 'test'
+  ...
+# Subtest: legacy import skips conflicts and keeps individual answers
+ok 8 - legacy import skips conflicts and keeps individual answers
+  ---
+  duration_ms: 9.14517
+  type: 'test'
+  ...
+# Subtest: D1 backend reads documents and performs one-statement revision CAS
+ok 9 - D1 backend reads documents and performs one-statement revision CAS
+  ---
+  duration_ms: 3.931508
+  type: 'test'
+  ...
+# Subtest: D1 CAS SQL performs insert, second successful write, then stale conflict in real SQLite
+ok 10 - D1 CAS SQL performs insert, second successful write, then stale conflict in real SQLite
+  ---
+  duration_ms: 98.425662
+  type: 'test'
+  ...
+# Subtest: anonymous record request is denied without leaking the configured record
+ok 11 - anonymous record request is denied without leaking the configured record
+  ---
+  duration_ms: 1.577684
+  type: 'test'
+  ...
+# Subtest: correct existing Signal PIN creates scoped cookie and unlocks sanitized record
+ok 12 - correct existing Signal PIN creates scoped cookie and unlocks sanitized record
+  ---
+  duration_ms: 10.757526
+  type: 'test'
+  ...
+# Subtest: expired and tampered audience-bound sessions are rejected
+ok 13 - expired and tampered audience-bound sessions are rejected
+  ---
+  duration_ms: 0.706936
+  type: 'test'
+  ...
+# Subtest: cross-origin and missing browser provenance are rejected
+ok 14 - cross-origin and missing browser provenance are rejected
+  ---
+  duration_ms: 0.380448
+  type: 'test'
+  ...
+# Subtest: oversized login payload and invalid record shape fail closed
+ok 15 - oversized login payload and invalid record shape fail closed
+  ---
+  duration_ms: 4.14025
+  type: 'test'
+  ...
+# Subtest: logout expires cookie and frontend source parses
+ok 16 - logout expires cookie and frontend source parses
+  ---
+  duration_ms: 57.721455
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 272.819133
