@@ -9,7 +9,8 @@ assert.ok(fs.statSync(root+'health/models/bodyparts3d.glb').size<3_000_000,'comp
 assert.ok(fs.statSync(root+'health/models/muscle-completion.glb').size<1_000_000,'compressed superficial completion bundle must stay below 1 MB');
 assert.equal(fs.readdirSync(root+'health/models').filter(x=>x.endsWith('.obj')).length,0,'legacy OBJ payloads must not ship');
 const tmp=root+'tests/.pw-tmp';fs.mkdirSync(tmp,{recursive:true});process.env.TMPDIR=tmp;
-const server=spawn('python3',['-m','http.server','4178','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'});
+const port=process.env.HEALTH_ATLAS_PORT||'4178';
+const server=spawn('python3',['-m','http.server',port,'--bind','127.0.0.1'],{cwd:root,stdio:'ignore'});
 await new Promise(r=>setTimeout(r,700));
 let browser;
 const near=(a,b,e=.18)=>Math.abs(a-b)<e;
@@ -17,7 +18,7 @@ try{
  browser=await chromium.launch({headless:true,executablePath:'/snap/bin/chromium',args:['--no-sandbox']});
  const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
  const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error'&&!m.text().includes('Failed to load resource'))errors.push(m.text())});
- await page.goto('http://127.0.0.1:4178/health/',{waitUntil:'domcontentloaded',timeout:120000});
+ await page.goto(`http://127.0.0.1:${port}/health/`,{waitUntil:'domcontentloaded',timeout:120000});
  await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready===true,null,{timeout:120000});
  const state=await page.evaluate(()=>({muscles:window.__HEALTH_ATLAS__.muscleCount,parts:window.__HEALTH_ATLAS__.parts,ready:document.documentElement.dataset.atlasReady}));
  assert.equal(state.muscles,14);assert.ok(state.parts>=48);assert.equal(state.ready,'true');
@@ -34,16 +35,16 @@ try{
  await page.locator('.muscle-item[data-key="triceps"]').click();assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'triceps');
  await page.locator('.view-controls [data-view="front"]').click();await page.waitForTimeout(650);view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.equal(await page.locator('.view-controls [data-view="front"]').getAttribute('class'),'active');
  // Zoom, focus and reset are camera-relative and survive any prior orbit.
- const d0=await page.evaluate(()=>{const s=window.__HEALTH_ATLAS__.state;return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))});await page.locator('#zoom-in').click();const d1=await page.evaluate(()=>{const s=window.__HEALTH_ATLAS__.state;return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))});assert.ok(d1<d0);
+ const d0=await page.evaluate(()=>{const s=window.__HEALTH_ATLAS__.state;return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))});await page.locator('#zoom-in').click();await page.waitForTimeout(300);const d1=await page.evaluate(()=>{const s=window.__HEALTH_ATLAS__.state;return Math.hypot(...s.camera.map((v,i)=>v-s.target[i]))});assert.ok(d1<d0);
  await page.locator('.muscle-item[data-key="pectoralis"]').click();const preFocus=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);await page.locator('#focus-button').click();await page.waitForTimeout(650);let focused=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.notDeepEqual(focused.camera,preFocus.camera);
  await page.locator('.view-controls [data-view="reset"]').click();await page.waitForTimeout(650);view=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),null);
  await page.locator('#search').fill('calf');assert.equal(await page.locator('.muscle-item:not([hidden])').count(),2);
  // The semantic directory is fully keyboard operable and drives a visibly selected structure.
  await page.locator('.muscle-item:not([hidden])').first().focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'gastrocnemius');
  await page.evaluate(()=>window.stop());await page.screenshot({path:out+'/desktop.png',fullPage:true,animations:'disabled',timeout:120000});
- const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});await mobile.goto('http://127.0.0.1:4178/health/',{waitUntil:'domcontentloaded',timeout:120000});await mobile.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready,null,{timeout:120000});await mobile.evaluate(()=>window.stop());const overlap=await mobile.evaluate(()=>{const h=document.querySelector('.intro').getBoundingClientRect(),v=document.querySelector('#viewport').getBoundingClientRect();return h.bottom>v.top+95});assert.equal(overlap,false);await mobile.screenshot({path:out+'/mobile.png',fullPage:true,animations:'disabled',timeout:120000});
+ const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});await mobile.goto(`http://127.0.0.1:${port}/health/`,{waitUntil:'domcontentloaded',timeout:120000});await mobile.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready,null,{timeout:120000});await mobile.evaluate(()=>window.stop());const overlap=await mobile.evaluate(()=>{const h=document.querySelector('.intro').getBoundingClientRect(),v=document.querySelector('#viewport').getBoundingClientRect();return h.bottom>v.top+95});assert.equal(overlap,false);await mobile.screenshot({path:out+'/mobile.png',fullPage:true,animations:'disabled',timeout:120000});
  // Force WebGL creation failure: directory/search remain usable and no body reference is touched.
- const fallback=await browser.newPage();await fallback.addInitScript(()=>{HTMLCanvasElement.prototype.getContext=()=>null});const fallbackErrors=[];fallback.on('pageerror',e=>fallbackErrors.push(String(e)));await fallback.goto('http://127.0.0.1:4178/health/',{waitUntil:'domcontentloaded'});await fallback.waitForTimeout(500);assert.equal(await fallback.locator('#webgl-fallback').isVisible(),true);await fallback.locator('#search').fill('deltoid');assert.equal(await fallback.locator('.muscle-item:not([hidden])').count(),1);assert.equal(fallbackErrors.filter(e=>/body is not defined|undefined body/i.test(e)).length,0);
+ const fallback=await browser.newPage();await fallback.addInitScript(()=>{HTMLCanvasElement.prototype.getContext=()=>null});const fallbackErrors=[];fallback.on('pageerror',e=>fallbackErrors.push(String(e)));await fallback.goto(`http://127.0.0.1:${port}/health/`,{waitUntil:'domcontentloaded'});await fallback.waitForTimeout(500);assert.equal(await fallback.locator('#webgl-fallback').isVisible(),true);await fallback.locator('#search').fill('deltoid');assert.equal(await fallback.locator('.muscle-item:not([hidden])').count(),1);assert.equal(fallbackErrors.filter(e=>/body is not defined|undefined body/i.test(e)).length,0);
  assert.equal(errors.length,0,errors.join('\n'));
  console.log(`PASS health atlas: ${state.muscles} medically named groups / ${state.parts} BodyParts3D meshes; real pointer raycast; orbit drag; absolute front/back; zoom/focus/reset; WebGL fallback; desktop/mobile screenshots; 0 browser errors`);
 }finally{if(browser)await browser.close();server.kill('SIGTERM')}
