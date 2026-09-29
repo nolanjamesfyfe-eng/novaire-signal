@@ -175,7 +175,7 @@ def test_deep_zoom_is_progressive_attributed_and_accessible():
     assert "Math.max(-89.5,Math.min(89.5" in html
 
 
-def test_progressive_physical_layers_are_additive_and_source_backed():
+def test_physical_assets_are_preserved_but_runtime_is_clean_vector_only():
     html = (ROOT / 'map/index.html').read_text()
     labels = json.loads((ROOT / 'map/physical-labels.json').read_text())
     assert labels['source'].startswith('Natural Earth 1:10m')
@@ -186,20 +186,19 @@ def test_progressive_physical_layers_are_additive_and_source_backed():
     assert not any(item['k'] == 'lake' or 'lake' in item['n'].lower() or item['n'] == 'Caspian Sea' for item in labels['labels'])
     for name in ('Black Sea', 'Rocky Mountains', 'Caucasus Mountains', 'Andes'):
         assert name in names
+    assert "RASTER_RELIEF_ENABLED=false" in html
     assert "fetch('/map/physical-labels.json'" in html
-    assert "image.src='/map/natural-earth-relief.webp'" in html
-    assert "globalCompositeOperation='multiply'" in html
+    assert "data.labels.filter(label=>label.k==='water'" in html
+    assert "image.src='/map/natural-earth-relief.webp'" not in html
+    assert "if(!RASTER_RELIEF_ENABLED)return" in html
+    assert "if(!RASTER_RELIEF_ENABLED||!reliefPixels" in html
+    assert "globalCompositeOperation='multiply'" in html  # preserved for a future corrected raster
     assert "ctx.clip()" in html
     assert "HYP_HR_SR_OB_DR.zip" in (ROOT / 'scripts/build_flaneur_physical_layers.py').read_text()
-    assert "globe.reliefStep||(mobile?2:3)" in html
-    assert "globe.reliefStep=mobile?8:10" in html
-    assert "generation!==globe.reliefGeneration" in html
-    assert "sourcePerScreenPixel" in html
-    assert "canvas.dataset.reliefAlpha" in html
+    assert "canvas.dataset.reliefLoaded='false'" in html
     assert "d3.geoDistance(viewCenter,label.c)<Math.PI/2-.045" in html
     assert "canvas.dataset.labelCoverage" in html
-    # Optional physical assets fail soft without changing the base globe promise.
-    assert "retaining sourced fallback labels and base map" in html
+    assert "Water labels unavailable; retaining sourced fallback labels and base map" in html
     assert (ROOT / 'map/natural-earth-relief.webp').stat().st_size < 900_000
 
 

@@ -37,15 +37,18 @@ async function assertLabelSafety(page,context){
   }
 }
 
-test('only curated major water and terrain labels reveal progressively with projected relief',async()=>{
+test('only curated major water labels render and raster relief stays disabled',async()=>{
   const {browser,page,errors}=await open(chromium,{width:1440,height:1000});
   try{
     const canvas=page.locator('#globe-canvas');
-    const overview=await canvas.evaluate(n=>({labels:n.dataset.labels.split('|'),water:+n.dataset.labelWater,lakes:+n.dataset.labelLakes,terrain:+n.dataset.labelTerrain,source:n.dataset.physicalSource}));
-    assert.equal(overview.source,'ready');assert.ok(overview.water>=1);assert.equal(overview.lakes,0);assert.equal(overview.terrain,0);assert.ok(overview.labels.length<=5,JSON.stringify(overview));
+    const overview=await canvas.evaluate(n=>({labels:n.dataset.labels.split('|'),water:+n.dataset.labelWater,lakes:+n.dataset.labelLakes,terrain:+n.dataset.labelTerrain,source:n.dataset.physicalSource,reliefEnabled:n.dataset.reliefEnabled,reliefLoaded:n.dataset.reliefLoaded}));
+    assert.equal(overview.source,'ready');assert.equal(overview.reliefEnabled,'false');assert.equal(overview.reliefLoaded,'false');assert.ok(overview.water>=1);assert.equal(overview.lakes,0);assert.equal(overview.terrain,0);assert.ok(overview.labels.length<=5,JSON.stringify(overview));
     await canvas.screenshot({path:`${artifacts}/overview-desktop.png`});
-    const cases=[['Ukraine','Black Sea','black-sea-caucasus'],['United States','Rocky Mountains','usa-rockies'],['Chile','Andes','andes']];
-    for(const [country,label,file] of cases){const state=await focus(page,country,2);assert.match(state.labels,new RegExp(label),`${file}: ${JSON.stringify(state)}`);assert.doesNotMatch(state.labels,/Lake|Caspian Sea/);assert.deepEqual(state.coverage,{water:18,lake:0,terrain:222});await canvas.screenshot({path:`${artifacts}/${file}.png`});}
+    const cases=[['Ukraine','Black Sea','black-sea'],['United States',null,'usa-clean'],['Chile',null,'andes-clean']];
+    for(const [country,label,file] of cases){const state=await focus(page,country,2);if(label)assert.match(state.labels,new RegExp(label),`${file}: ${JSON.stringify(state)}`);assert.doesNotMatch(state.labels,/Lake|Caspian Sea|Mountain|\bAndes\b|\bAlps\b|\bHimalaya/i);assert.deepEqual(state.coverage,{water:18,lake:0,terrain:0});assert.equal(await canvas.getAttribute('data-label-terrain'),'0');await canvas.screenshot({path:`${artifacts}/${file}.png`});}
+    await page.fill('#search','Monaco');await page.locator('.country-row[data-code="MC"]').click();await page.waitForFunction(()=>document.querySelector('#globe-canvas').dataset.zoom==='72.0000');assert.equal(await canvas.getAttribute('data-label-terrain'),'0','zero mountain labels at maximum zoom');assert.doesNotMatch(await canvas.getAttribute('data-labels'),/Mountain|\bAndes\b|\bAlps\b|\bHimalaya/i);
+    const resources=await page.evaluate(()=>performance.getEntriesByType('resource').map(entry=>entry.name));assert.equal(resources.some(url=>url.includes('natural-earth-relief.webp')),false,'disabled relief raster is never requested');
+    const beforeIdle=await page.evaluate(()=>window.__flaneurPerf.draws.length);await page.waitForTimeout(700);const afterIdle=await page.evaluate(()=>window.__flaneurPerf.draws.length);assert.equal(afterIdle,beforeIdle,'disabled relief creates no idle redraw timers');
     assert.deepEqual(errors,[]);
   }finally{await browser.close()}
 });
@@ -70,7 +73,7 @@ for(const [width,name] of [[320,'mobile-320'],[390,'mobile-390']])test(`${name} 
   const {browser,page,errors}=await open(chromium,{width,height:844},true);try{
     const canvas=page.locator('#globe-canvas');const initial=await canvas.evaluate(n=>({diameter:+n.dataset.diameter,labels:n.dataset.labels.split('|').filter(Boolean),rotation:n.dataset.rotation}));
     assert.ok(initial.diameter<=width-16);assert.ok(initial.labels.length<=4);
-    const black=await focus(page,'Ukraine',2);assert.match(black.labels,/Black Sea/);assert.match(black.labels,/Caucasus Mountains/);
+    const black=await focus(page,'Ukraine',2);assert.match(black.labels,/Black Sea/);assert.doesNotMatch(black.labels,/Mountain|\bAndes\b|\bAlps\b|\bHimalaya/i);assert.equal(await canvas.getAttribute('data-label-terrain'),'0');
     await assertLabelSafety(page,`${name} Black Sea focus`);
     await canvas.screenshot({path:`${artifacts}/${name}-black-sea.png`});
     await focus(page,'Canada',4);await page.waitForFunction(()=>document.querySelector('#globe-canvas').dataset.admin1Source==='ready');await assertLabelSafety(page,`${name} Canada admin-1`);assert.equal(await canvas.getAttribute('data-selected-code'),'CA');await canvas.screenshot({path:`${artifacts}/${name}-canada-admin1.png`});
@@ -88,11 +91,11 @@ test('desktop geography labels stay fully visible and clear of controls',async()
 
 test('WebKit loads optional physical layers and keeps country selection',async t=>{
   let session;try{session=await open(webkit,{width:390,height:844},true)}catch(e){t.skip(`WebKit unavailable: ${e.message}`);return}
-  const {browser,page,errors}=session;try{const state=await focus(page,'Georgia',2);assert.equal(state.source,'ready');assert.match(state.labels,/Black Sea/);assert.equal(state.selected,'GE');assert.deepEqual(errors,[]);await page.locator('#globe-canvas').screenshot({path:`${artifacts}/webkit-caucasus.png`});}finally{await browser.close()}
+  const {browser,page,errors}=session;try{const state=await focus(page,'Georgia',2);assert.equal(state.source,'ready');assert.match(state.labels,/Black Sea/);assert.doesNotMatch(state.labels,/Mountain|\bAndes\b|\bAlps\b|\bHimalaya/i);assert.equal(await page.locator('#globe-canvas').getAttribute('data-label-terrain'),'0');assert.equal(state.selected,'GE');assert.deepEqual(errors,[]);await page.locator('#globe-canvas').screenshot({path:`${artifacts}/webkit-caucasus.png`});}finally{await browser.close()}
 });
 
 test('optional physical asset failure keeps the base globe usable',async()=>{
   const browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:390,height:844}});
-  await page.route(/physical-labels\.json|natural-earth-relief\.webp/,route=>route.abort());await page.goto(base);await page.waitForSelector('#globe-canvas[data-ready="true"]');await page.waitForFunction(()=>document.querySelector('#globe-canvas').dataset.physicalSource==='fallback');
+  await page.route(/physical-labels\.json/,route=>route.abort());await page.goto(base);await page.waitForSelector('#globe-canvas[data-ready="true"]');await page.waitForFunction(()=>document.querySelector('#globe-canvas').dataset.physicalSource==='fallback');
   const state=await page.locator('#globe-canvas').evaluate(n=>({ready:n.dataset.ready,features:+n.dataset.visibleFeatures,labels:n.dataset.labels,boxes:JSON.parse(n.dataset.labelBoxes||'[]')}));assert.equal(state.ready,'true');assert.ok(state.features>100);assert.ok(Array.isArray(state.boxes));await browser.close();
 });
