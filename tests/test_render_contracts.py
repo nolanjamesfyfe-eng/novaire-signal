@@ -536,7 +536,9 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('id="med-share-trigger" data-share-kind="meditation"', self.html)
         self.assertIn('<summary>', self.html)
         self.assertIn("const today = meditationCard.dataset.edition", self.html)
-        self.assertIn('getQuoteForToday("meditation", MEDITATIONS, today)', self.html)
+        self.assertIn("const DAILY_MEDITATION =", self.html)
+        self.assertIn("const m = DAILY_MEDITATION", self.html)
+        self.assertNotIn('getQuoteForToday("meditation", MEDITATIONS, today)', self.html)
         self.assertNotIn('id="meditation-viewed"', self.html)
         self.assertNotIn("nv_meditation_collapsed_date", self.html)
 

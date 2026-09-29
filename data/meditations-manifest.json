@@ -1,0 +1,27 @@
+{
+  "usableCount": 421,
+  "kindCounts": {
+    "excerpt": 421
+  },
+  "authorCounts": {
+    "Marcus Aurelius": 107,
+    "Epictetus": 110,
+    "Seneca": 109,
+    "William James": 94,
+    "Carl Jung": 1
+  },
+  "traditionCounts": {
+    "stoicism": 326,
+    "psychology": 95
+  },
+  "sourceCounts": {
+    "https://www.gutenberg.org/ebooks/2680": 107,
+    "https://www.gutenberg.org/ebooks/10661": 110,
+    "https://www.gutenberg.org/ebooks/64576": 76,
+    "https://www.gutenberg.org/ebooks/3794": 33,
+    "https://www.gutenberg.org/ebooks/57628": 66,
+    "https://www.gutenberg.org/ebooks/57634": 28,
+    "https://books.google.com/books?id=64R9AAAAMAAJ": 1
+  },
+  "review": "Retained rows passed excerpt/provenance, malformed-text, duplicate, containment, and near-similarity gates; the review workbook is the line-level manifest."
+}

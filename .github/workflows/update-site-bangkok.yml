@@ -43,6 +43,7 @@ jobs:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
           ALPACA_BASE_URL: ${{ secrets.ALPACA_BASE_URL }}
+          SIGNAL_RECORD_DAILY_EDITION: "1"
         run: python3 generate.py
 
       - name: Commit and push generated pages
@@ -57,6 +58,7 @@ jobs:
           [ -f portfolio/index.html ] && git add portfolio/index.html
           [ -f portfolio/evolutionfund/index.html ] && git add portfolio/evolutionfund/index.html
           [ -f feed.json ] && git add feed.json
+          [ -f data/meditation-history.json ] && git add data/meditation-history.json
           [ -f stats.json ] && git add -f stats.json
 
           if git diff --staged --quiet; then

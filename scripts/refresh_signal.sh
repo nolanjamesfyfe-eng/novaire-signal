@@ -20,7 +20,7 @@ set -a
 set +a
 
 PYTHON_BIN="${NOVAIRE_SIGNAL_PYTHON:-/usr/local/lib/hermes-agent/venv/bin/python3}"
-ARTIFACTS=(index.html portfolio/index.html portfolio/daily/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json stats.json weather_cache.json social_latest.json fed_signal_cache.json sheet_allocation_cache.json youtube_latest.json)
+ARTIFACTS=(index.html portfolio/index.html portfolio/daily/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json data/meditation-history.json stats.json weather_cache.json social_latest.json fed_signal_cache.json sheet_allocation_cache.json youtube_latest.json)
 STAGE="startup"
 
 log() { printf '[%s] %s\n' "$(date -Is)" "$*"; }
@@ -74,7 +74,7 @@ restore_artifacts() {
 }
 
 generate_and_validate() {
-  if ! "$PYTHON_BIN" generate.py; then
+  if ! SIGNAL_RECORD_DAILY_EDITION=1 "$PYTHON_BIN" generate.py; then
     restore_artifacts
     return 1
   fi
@@ -115,6 +115,7 @@ retry 3 90 'generation and quote validation' generate_and_validate
 STAGE="commit"
 if ! /usr/bin/git diff --quiet -- "${ARTIFACTS[@]}"; then
   /usr/bin/git add index.html portfolio/index.html portfolio/daily/index.html portfolio/evolutionfund/index.html feed.json portfolio_history.json
+  /usr/bin/git add data/meditation-history.json
   [ -f stats.json ] && /usr/bin/git add -f stats.json
   [ -f weather_cache.json ] && /usr/bin/git add weather_cache.json
   [ -f social_latest.json ] && /usr/bin/git add social_latest.json

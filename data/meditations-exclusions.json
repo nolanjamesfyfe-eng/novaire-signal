@@ -1,0 +1,174 @@
+{
+  "excludedEntries": [
+    {
+      "id": "marcus-2-1",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-2-5",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-4-3",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-4-17",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-5-1",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-5-20",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-7-54",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-8-47",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-9-6",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-1",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-2",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-5",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-7",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-13",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-18",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-28",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-letter-47",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-shortness-1",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "seneca-anger-2-29",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-ench-1",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-ench-8",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-ench-13",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-ench-20",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-ench-29",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-disc-1-1",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-disc-1-18",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-disc-2-5",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "epictetus-disc-3-12",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw7-266",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw9i-14",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw10-536",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw11-140",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw13-335",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw16-400",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "jung-cw17-99",
+      "reason": "editorial reflection is not an original quote excerpt"
+    },
+    {
+      "id": "marcus-f2683de61981",
+      "reason": "reviewer rejected as contextual fragment, malformed OCR, or question-only passage"
+    },
+    {
+      "id": "epictetus-487286d40ae6",
+      "reason": "reviewer rejected as contextual fragment, malformed OCR, or question-only passage"
+    },
+    {
+      "id": "epictetus-51938d7459cd",
+      "reason": "reviewer rejected as contextual fragment, malformed OCR, or question-only passage"
+    },
+    {
+      "id": "epictetus-c080e9a28891",
+      "reason": "reviewer rejected as contextual fragment, malformed OCR, or question-only passage"
+    },
+    {
+      "id": "seneca-a7bd1adc7eb8",
+      "reason": "reviewer rejected as contextual fragment, malformed OCR, or question-only passage"
+    },
+    {
+      "id": "james-3d49694fde8b",
+      "reason": "reviewer rejected as contextual fragment, malformed OCR, or question-only passage"
+    }
+  ],
+  "candidateReview": {
+    "retrievedCandidates": 20369,
+    "retained": 400,
+    "notRetained": 19970,
+    "note": "Non-retained source sentences failed length/context/quality screening or ranked below the balanced per-author review quota; they are not published as quote cards."
+  }
+}

@@ -13,11 +13,13 @@ import os
 import sys
 import time
 import traceback
+from pathlib import Path
 from html import escape
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from urllib.parse import quote, quote_plus
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+from meditation_rotation import select_for_edition
 from portfolio_tracker import (
     HISTORY_PATH as PORTFOLIO_HISTORY_PATH,
     SHEET_ID as PORTFOLIO_SHEET_ID,
@@ -3027,6 +3029,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     date_str  = now.strftime("%A, %B %-d, %Y")
     gen_time  = now.strftime("%H:%M ICT")
     daily_edition = daily_signal_edition(now)
+    _root = Path(__file__).resolve().parent
+    daily_meditation = select_for_edition(
+        _root / "data" / "meditations.json",
+        _root / "data" / "meditation-history.json",
+        _root / "data" / "meditation-prior-seen.json",
+        daily_edition,
+        record=os.environ.get("SIGNAL_RECORD_DAILY_EDITION") == "1",
+    )
+    daily_meditation_js = json.dumps(daily_meditation, ensure_ascii=False, separators=(",", ":"))
     week_start = now - timedelta(days=now.weekday())
     weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
     weekly_updated_label = week_start.strftime("%b %-d")
@@ -4250,7 +4261,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 // ── Quote arrays (30+ per category) ──
 const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
-const MEDITATIONS = {MEDITATIONS_JS};
+const DAILY_MEDITATION = {daily_meditation_js};
 const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
 function rememberEditionAccordion(cardId, storageKey) {{
@@ -4338,7 +4349,7 @@ function getQuoteForToday(storageKey, quotes, edition) {{
   const meditation = document.getElementById('meditation-daily');
   const meditationCard = document.getElementById('quotes-card');
   const today = meditationCard.dataset.edition;
-  const m = getQuoteForToday("meditation", MEDITATIONS, today);
+  const m = DAILY_MEDITATION;
   document.getElementById('med-title').textContent = m.work;
   document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + (m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection');
   document.getElementById('med-excerpt').textContent = m.text;
