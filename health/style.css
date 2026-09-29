@@ -37,3 +37,6 @@ footer a{color:var(--cyan)}
 .luminous-note{position:absolute;z-index:4;right:30px;bottom:27px;width:190px;color:#648894;font:500 8px/1.45 var(--sans);letter-spacing:.12em;text-align:right;text-transform:uppercase;pointer-events:none}
 @media(max-width:760px){.luminous-note{right:14px;bottom:146px;width:150px;font-size:7px}}
 @media(prefers-reduced-motion:reduce){#atlas-canvas{transition:none}}
+
+/* Mobile atlas controls meet touch-target guidance without changing desktop composition. */
+@media(max-width:1000px),(pointer:coarse),(hover:none){.layer-controls button,.view-controls button{min-height:44px;padding-block:12px}.zoom-controls button{width:44px;height:44px;font-size:20px}#close-inspector{min-width:44px;min-height:44px}.zoom-controls{gap:10px}}
