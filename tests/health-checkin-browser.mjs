@@ -39,15 +39,32 @@ try{
   assert.match(await page.locator('.energy-day-detail').textContent(),/Sleep unknown · Alcohol unknown · Sleep quality unknown/);
   await page.screenshot({path:evidence+'/health-checkin-mobile-calendar.png',fullPage:true});
 
+  await page.evaluate(()=>document.addEventListener('health:checkin',event=>window.__LAST_HEALTH_CHECKIN__=event.detail));
   await page.locator('.energy-checkin-open').click();
   const today=await page.locator('[name="date"]').inputValue();
   await page.locator('[name="energy"]').fill('9');await page.locator('[name="focus"]').fill('8');await page.locator('[name="stress"]').fill('2');await page.locator('[name="calm"]').fill('7');await page.locator('[name="happiness"]').fill('8');
+  assert.equal(await page.locator('.energy-percent').textContent(),'80%','draft answers must preview on the visible battery');
+  assert.equal(await page.locator('.energy-label').textContent(),'UNSAVED PREVIEW');
+  assert.equal(await page.locator('.energy.energy-previewing').count(),1);
+  assert.match(await page.locator('.energy-coverage').textContent(),/Save to update day, week and month history/);
+  assert.deepEqual(await page.evaluate(()=>({answers:window.__LAST_HEALTH_CHECKIN__?.answers,draft:window.__LAST_HEALTH_CHECKIN__?.draft})),{answers:{energy:9,focus:8,stress:2,calm:7,happiness:8},draft:true},'brain event must carry the latest draft answers');
   await page.locator('[name="sleepHours"]').fill('7.5');await page.locator('[name="alcoholCount"]').fill('0');
   await page.locator('.energy-save').click();await page.waitForFunction(()=>document.querySelector('.energy-feedback')?.textContent.includes('Saved privately'));
   assert.equal(putBodies.length,1);assert.equal(putBodies[0].revision,9);assert.equal(putBodies[0].entry.date,today);assert.equal(putBodies[0].entry.foundations.sleepHours,7.5);
   assert.equal(await page.locator('.energy-percent').textContent(),'80%','saved check-in must refresh the visible battery');
+  assert.equal(await page.locator('.energy-label').textContent(),'ACCUMULATED BATTERY');
+  assert.equal(await page.locator('.energy.energy-previewing').count(),0);
+  await page.locator('.energy-checkin-open').click();await page.locator('[name="energy"]').fill('4');await page.locator('[name="focus"]').fill('5');await page.locator('[name="stress"]').fill('7');await page.locator('[name="calm"]').fill('4');await page.locator('[name="happiness"]').fill('4');
+  assert.equal(await page.locator('.energy-percent').textContent(),'40%');assert.equal(await page.locator('.energy-label').textContent(),'UNSAVED PREVIEW');
+  await page.locator('.energy-close').click();assert.equal(await page.locator('.energy-percent').textContent(),'80%','closing an unsaved draft must restore the saved battery');
+  await page.locator('.energy-checkin-open').click();await page.locator('[name="energy"]').fill('4');await page.locator('[name="focus"]').fill('5');await page.locator('[name="stress"]').fill('7');await page.locator('[name="calm"]').fill('4');await page.locator('[name="happiness"]').fill('4');page.once('dialog',dialog=>dialog.accept());await page.locator('.energy-save').click();await page.waitForFunction(()=>document.querySelector('.energy-feedback')?.textContent.includes('Saved privately'));
+  assert.equal(await page.locator('.energy-percent').textContent(),'40%','editing and saving must replace the visible battery immediately');
+  await page.locator('[role="tab"][data-view="week"]').click();assert.equal(await page.locator('.energy-percent').textContent(),`${(40/7).toFixed(1)}%`,'week must recompute from the saved edit');
+  await page.locator('[role="tab"][data-view="month"]').click();const monthDays=new Date(Number(today.slice(0,4)),Number(today.slice(5,7)),0).getDate();assert.equal(await page.locator('.energy-percent').textContent(),`${(40/monthDays).toFixed(1)}%`,'month must recompute from the saved edit');
+  await page.locator('[role="tab"][data-view="day"]').click();
   await page.reload({waitUntil:'domcontentloaded'});await page.evaluate(()=>window.dispatchEvent(new CustomEvent('health:record-ready')));await page.waitForFunction(()=>document.querySelector('.energy-history-count')?.textContent.includes('4 entries'));
-  assert.equal(await page.locator(`.energy-calendar button[data-date="${today}"]`).getAttribute('aria-label'),`${today}, 80% battery`,'mocked server readback must survive reload');
+  assert.equal(await page.locator('.energy-percent').textContent(),'40%','edited score must survive mocked server reload');
+  assert.equal(await page.locator(`.energy-calendar button[data-date="${today}"]`).getAttribute('aria-label'),`${today}, 40% battery`,'mocked server readback must survive reload');
 
   await page.setViewportSize({width:1440,height:1000});await page.locator('.energy-checkin-open').click();await page.locator('.energy-save').scrollIntoViewIfNeeded();await page.screenshot({path:evidence+'/health-checkin-desktop-update.png'});
   const footer=await page.locator('.energy-form-footer').boundingBox(),button=await page.locator('.energy-save').boundingBox();assert(footer&&button&&button.x>footer.x+footer.width/2,'Update must remain at the form footer bottom right');
