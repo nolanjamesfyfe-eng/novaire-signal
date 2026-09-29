@@ -192,7 +192,7 @@ def test_progressive_physical_layers_are_additive_and_source_backed():
     assert "ctx.clip()" in html
     assert "HYP_HR_SR_OB_DR.zip" in (ROOT / 'scripts/build_flaneur_physical_layers.py').read_text()
     assert "globe.reliefStep||(mobile?2:3)" in html
-    assert "globe.reliefStep=mobile?5:6" in html
+    assert "globe.reliefStep=mobile?8:10" in html
     assert "generation!==globe.reliefGeneration" in html
     assert "sourcePerScreenPixel" in html
     assert "canvas.dataset.reliefAlpha" in html
