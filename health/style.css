@@ -28,3 +28,12 @@ footer a{color:var(--cyan)}
 @media(prefers-reduced-motion:reduce){.signal-health-icon,.signal-bolt-icon,.health-globe .signal-map-icon{animation:none}}
 @media(max-width:760px){.topbar{height:64px}.signal-brand-row{font-size:22px;gap:8px}.status{display:none}.layer-controls{top:132px}.intro{top:78px}.view-controls{top:176px}.stage #viewport{inset:202px 0 168px}}
 @media(min-width:761px){.layer-controls{top:96px}.intro{top:20%}}
+
+/* Reference-driven luminous anatomy: deep-water noir, not a copied image. */
+.stage{background:radial-gradient(ellipse at 51% 44%,#092536 0,#061521 24%,#030a12 57%,#020508 82%)}
+#viewport::before{content:"";position:absolute;inset:3% 18%;pointer-events:none;background:radial-gradient(ellipse,rgba(35,205,239,.1),rgba(8,65,91,.045) 43%,transparent 72%);filter:blur(24px)}
+#atlas-canvas{filter:drop-shadow(0 0 7px rgba(116,236,255,.54)) drop-shadow(0 0 24px rgba(27,167,211,.24));transition:filter .25s ease}
+.hint span{background:#83efff;box-shadow:0 0 6px #57def4,0 0 15px rgba(87,222,244,.54)}
+.luminous-note{position:absolute;z-index:4;right:30px;bottom:27px;width:190px;color:#648894;font:500 8px/1.45 var(--sans);letter-spacing:.12em;text-align:right;text-transform:uppercase;pointer-events:none}
+@media(max-width:760px){.luminous-note{right:14px;bottom:146px;width:150px;font-size:7px}}
+@media(prefers-reduced-motion:reduce){#atlas-canvas{transition:none}}
