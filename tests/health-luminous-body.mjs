@@ -1,62 +1,11 @@
-import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {spawn} from 'node:child_process';
-import playwright from '/root/.hermes/cache/scratch/health-qa/node_modules/playwright-core/index.js';
-
-const root=new URL('..',import.meta.url).pathname;
-const out=process.env.HEALTH_LUMINOUS_OUTPUT||`${root}test-results/luminous-body`;
-fs.mkdirSync(out,{recursive:true});
-process.env.TMPDIR=`${root}tests/.pw-luminous-tmp`;
-fs.mkdirSync(process.env.TMPDIR,{recursive:true});
-const server=spawn('python3',['-m','http.server','4194','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'});
-let browser;
-for(let i=0;i<80;i++){try{if((await fetch('http://127.0.0.1:4194/health/')).ok)break}catch{}await new Promise(r=>setTimeout(r,100));}
-const distance=s=>Math.hypot(...s.camera.map((v,i)=>v-s.target[i]));
-const viewportShot=async(page,path)=>{const clip=await page.evaluate(()=>{const r=document.querySelector('#viewport').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}});await page.screenshot({path,clip,timeout:120000});};
-try{
-  browser=await playwright.chromium.launch({headless:true,executablePath:'/opt/google/chrome/chrome',args:['--no-sandbox']});
-  const report={};
-  for(const cfg of [{name:'desktop',viewport:{width:1440,height:1000}},{name:'mobile',viewport:{width:390,height:844},hasTouch:true,isMobile:true}]){
-    const page=await browser.newPage({...cfg,deviceScaleFactor:1});
-    const errors=[]; page.on('pageerror',e=>errors.push(String(e)));
-    await page.goto('http://127.0.0.1:4194/health/',{waitUntil:'domcontentloaded',timeout:120000});
-    await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready===true,null,{timeout:120000});
-    await page.waitForTimeout(500);
-    const fullBefore=await page.evaluate(()=>({state:window.__HEALTH_ATLAS__.state,sample:window.__HEALTH_ATLAS__.luminousSample.muscle}));
-    await viewportShot(page,`${out}/${cfg.name}-full-body.png`);
-    await page.waitForTimeout(950);
-    const pulseLater=await page.evaluate(()=>window.__HEALTH_ATLAS__.luminousSample.muscle);
-    assert.ok(Math.abs(pulseLater.intensity-fullBefore.sample.intensity)>.005,`${cfg.name}: emission changes over time`);
-    await page.evaluate(()=>{document.querySelector('#zoom-in').click();document.querySelector('#zoom-in').click();document.querySelector('#zoom-in').click()}); await page.waitForTimeout(650);
-    const close=await page.evaluate(()=>({state:window.__HEALTH_ATLAS__.state,sample:window.__HEALTH_ATLAS__.luminousSample.muscle}));
-    assert.ok(distance(close.state)<distance(fullBefore.state),`${cfg.name}: zoom-in changes camera distance`);
-    assert.ok(close.sample.proximity>=fullBefore.sample.proximity,`${cfg.name}: close zoom increases pulse readability`);
-    await viewportShot(page,`${out}/${cfg.name}-closeup-pulse-a.png`);
-    await page.waitForTimeout(950);
-    if(cfg.name==='desktop')await viewportShot(page,`${out}/${cfg.name}-closeup-pulse-b.png`);
-    const point=await page.evaluate(()=>window.__HEALTH_ATLAS__.project('pectoralis')); assert.ok(point);
-    await page.evaluate(()=>document.querySelector('.muscle-item[data-key="pectoralis"]').click());
-    assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.selected),'pectoralis','directory selection remains functional');
-    const box=await page.evaluate(()=>{const r=document.querySelector('#atlas-canvas').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}}),preDrag=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);
-    await page.mouse.move(box.x+box.width*.55,box.y+box.height*.5);await page.mouse.down();await page.mouse.move(box.x+box.width*.72,box.y+box.height*.54,{steps:12});await page.mouse.up();await page.waitForTimeout(250);
-    const postDrag=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.notDeepEqual(postDrag.camera,preDrag.camera,`${cfg.name}: rotation remains functional`);
-    if(cfg.name==='mobile'){
-      const client=await page.context().newCDPSession(page),cx=box.x+box.width/2,cy=box.y+box.height/2,prePinch=postDrag;
-      await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:cx-25,y:cy,id:1},{x:cx+25,y:cy,id:2}]});
-      for(let i=1;i<=8;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:cx-25-i*5,y:cy,id:1},{x:cx+25+i*5,y:cy,id:2}]});
-      await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(350);
-      const postPinch=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(distance(postPinch)<distance(prePinch),'mobile: pinch-out zooms in');
-    }
-    assert.deepEqual(errors,[]);
-    report[cfg.name]={fullDistance:distance(fullBefore.state),closeDistance:distance(close.state),pulseA:fullBefore.sample,pulseB:pulseLater,selected:'pectoralis',rotationChanged:true};
-    console.log(`PASS ${cfg.name}: pulse, zoom, selection, rotation${cfg.name==='mobile'?', pinch':''}`);
-    await page.close();
-  }
-  const reduced=await browser.newPage({viewport:{width:1100,height:800},reducedMotion:'reduce'});
-  await reduced.goto('http://127.0.0.1:4194/health/',{waitUntil:'domcontentloaded',timeout:120000});await reduced.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready===true,null,{timeout:120000});await reduced.waitForTimeout(300);
-  const reducedA=await reduced.evaluate(()=>window.__HEALTH_ATLAS__.luminousSample.muscle);await reduced.waitForTimeout(1100);const reducedB=await reduced.evaluate(()=>window.__HEALTH_ATLAS__.luminousSample.muscle);
-  assert.equal(reducedA.intensity,reducedB.intensity,'reduced motion suppresses luminous pulse');assert.equal(reducedB.reducedMotion,true);
-  report.reducedMotion={pulseA:reducedA.intensity,pulseB:reducedB.intensity,suppressed:true};
-  fs.writeFileSync(`${out}/luminous-report.json`,JSON.stringify(report,null,2));
-  console.log(`PASS luminous body visual + pulse + zoom + pointer selection + rotation + mobile pinch + reduced motion; evidence=${out}`);
-}finally{if(browser)await browser.close();server.kill('SIGTERM');}
+import assert from 'node:assert/strict';import fs from'node:fs';import{spawn}from'node:child_process';import playwright from'/root/.hermes/cache/scratch/health-qa/node_modules/playwright-core/index.js';
+const root=new URL('..',import.meta.url).pathname,out=process.env.HEALTH_LUMINOUS_OUTPUT||`${root}test-results/luminous-body`,kind=process.argv[2]||'desktop',port=4194;assert.ok(['desktop','mobile','reduced','layers-views','head-neck'].includes(kind));fs.mkdirSync(out,{recursive:true});process.env.TMPDIR=`${root}tests/.pw-luminous-tmp`;fs.mkdirSync(process.env.TMPDIR,{recursive:true});const server=spawn('python3',['-m','http.server',`${port}`,'--bind','127.0.0.1'],{cwd:root,stdio:'ignore'});let browser;const dist=s=>Math.hypot(...s.camera.map((v,i)=>v-s.target[i]));
+const open=async options=>{const page=await browser.newPage({deviceScaleFactor:1,...options}),errors=[];page.on('pageerror',e=>errors.push(String(e)));await page.goto(`http://127.0.0.1:${port}/health/`,{waitUntil:'domcontentloaded',timeout:120000});await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready===true,null,{timeout:120000});await page.waitForTimeout(500);return{page,errors}};const shot=async(page,name)=>{const clip=await page.evaluate(()=>{const r=document.querySelector('#viewport').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}});await page.screenshot({path:`${out}/${name}.png`,clip,timeout:120000})};
+try{for(let i=0;i<80;i++){try{if((await fetch(`http://127.0.0.1:${port}/health/`)).ok)break}catch{}await new Promise(r=>setTimeout(r,100))}browser=await playwright.chromium.launch({headless:true,executablePath:'/opt/google/chrome/chrome',args:['--no-sandbox']});const report={case:kind};
+if(kind==='desktop'||kind==='mobile'){const mobile=kind==='mobile',{page,errors}=await open(mobile?{viewport:{width:390,height:844},hasTouch:true,isMobile:true}:{viewport:{width:1440,height:1000}}),before=await page.evaluate(()=>({state:window.__HEALTH_ATLAS__.state,sample:window.__HEALTH_ATLAS__.luminousSample.muscle}));await shot(page,`${kind}-full-body`);for(let i=0;i<3;i++)await page.evaluate(()=>document.querySelector('#zoom-in').click());await page.waitForTimeout(650);const close=await page.evaluate(()=>({state:window.__HEALTH_ATLAS__.state,sample:window.__HEALTH_ATLAS__.luminousSample.muscle}));assert.ok(dist(close.state)<dist(before.state));assert.ok(close.sample.proximity>=before.sample.proximity);await shot(page,`${kind}-closeup-pulse-a`);await page.waitForTimeout(1300);await shot(page,`${kind}-closeup-pulse-b`);const later=await page.evaluate(()=>window.__HEALTH_ATLAS__.luminousSample.muscle);assert.ok(Math.abs(later.intensity-close.sample.intensity)>.01,`${kind}: temporal emission`);
+const points=await page.evaluate(()=>window.__HEALTH_ATLAS__.projectAll('pectoralis'));let selected;for(const p of points){await page.mouse.click(p.x,p.y);selected=await page.evaluate(()=>window.__HEALTH_ATLAS__.selected);if(selected)break}assert.equal(selected,'pectoralis',`${kind}: real canvas selection`);assert.match(await page.locator('#muscle-name').innerText(),/pectoralis/i);assert.ok(await page.locator('.muscle-item[data-key="pectoralis"]').evaluate(e=>e.classList.contains('selected')));await shot(page,`${kind}-canvas-selected`);const box=await page.evaluate(()=>{const r=document.querySelector('#atlas-canvas').getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}});
+if(mobile){const c=await page.context().newCDPSession(page),x=box.x+box.width/2,y=box.y+box.height/2,pre=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);await c.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y,id:1}]});for(let i=1;i<=10;i++)await c.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+i*7,y:y+i,id:1}]});await c.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(300);const rotated=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(Math.abs(rotated.azimuth-pre.azimuth)>.03,'real touch drag rotates');await c.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:x-25,y,id:1},{x:x+25,y,id:2}]});for(let i=1;i<=8;i++)await c.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-25-i*6,y,id:1},{x:x+25+i*6,y,id:2}]});await c.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(350);const pinched=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(dist(pinched)<dist(rotated)-.1,'real two-touch pinch zooms');Object.assign(report,{rotationDelta:rotated.azimuth-pre.azimuth,pinchDelta:dist(pinched)-dist(rotated)})}else{const pre=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);await page.mouse.move(box.x+box.width*.55,box.y+box.height*.5);await page.mouse.down();await page.mouse.move(box.x+box.width*.72,box.y+box.height*.54,{steps:12});await page.mouse.up();await page.waitForTimeout(250);const post=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);assert.ok(Math.abs(post.azimuth-pre.azimuth)>.03);report.rotationDelta=post.azimuth-pre.azimuth}assert.deepEqual(errors,[]);Object.assign(report,{fullDistance:dist(before.state),closeDistance:dist(close.state),pulseA:close.sample.intensity,pulseB:later.intensity,selected})}
+if(kind==='reduced'){const{page,errors}=await open({viewport:{width:1100,height:800},reducedMotion:'reduce'});for(let i=0;i<2;i++)await page.evaluate(()=>document.querySelector('#zoom-in').click());await page.waitForTimeout(400);const a=await page.evaluate(()=>window.__HEALTH_ATLAS__.luminousSample.muscle);await shot(page,'reduced-a');await page.waitForTimeout(1100);const b=await page.evaluate(()=>window.__HEALTH_ATLAS__.luminousSample.muscle);await shot(page,'reduced-b');assert.equal(a.intensity,b.intensity);assert.equal(b.reducedMotion,true);assert.deepEqual(errors,[]);Object.assign(report,{intensityA:a.intensity,intensityB:b.intensity})}
+if(kind==='layers-views'){const{page,errors}=await open({viewport:{width:1280,height:900}});for(const layer of['bone','skin','muscle']){await page.evaluate(layer=>document.querySelector(`[data-layer="${layer}"]`).click(),layer);await page.waitForTimeout(180);assert.equal(await page.evaluate(()=>window.__HEALTH_ATLAS__.layer),layer);await shot(page,`layer-${layer}`)}const poses={};for(const view of['front','back','left','right']){await page.evaluate(view=>document.querySelector(`[data-view="${view}"]`).click(),view);await page.waitForTimeout(200);poses[view]=await page.evaluate(()=>window.__HEALTH_ATLAS__.state);await shot(page,`view-${view}`)}assert.ok(poses.front.camera[2]>poses.front.target[2]&&poses.back.camera[2]<poses.back.target[2]);assert.ok(poses.left.camera[0]<poses.left.target[0]&&poses.right.camera[0]>poses.right.target[0]);assert.deepEqual(errors,[]);report.poses=poses}
+if(kind==='head-neck'){const{page,errors}=await open({viewport:{width:1280,height:1000}}),r=await page.locator('#viewport').boundingBox();for(const view of['front','left','back']){await page.evaluate(view=>document.querySelector(`[data-view="${view}"]`).click(),view);await page.waitForTimeout(250);await page.screenshot({path:`${out}/neck-${view}.png`,clip:{x:r.x+r.width*.27,y:r.y,width:r.width*.46,height:r.height*.38},timeout:120000})}const metrics=await page.evaluate(()=>window.__HEALTH_ATLAS__.muscleHead);assert.ok(metrics.visible&&metrics.triangles>1000);assert.ok(metrics.width>0&&metrics.height>0&&metrics.depth>0,'head-neck patch has finite 3D bounds');assert.deepEqual(errors,[]);report.metrics=metrics}
+fs.writeFileSync(`${out}/${kind}-report.json`,JSON.stringify(report,null,2));console.log(`PASS luminous ${kind}; evidence=${out}`)}finally{if(browser)await browser.close();server.kill('SIGTERM')}
