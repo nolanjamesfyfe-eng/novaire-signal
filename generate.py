@@ -947,28 +947,10 @@ MOVIES_JS = """[
   {title:"Too Big to Fail", meta:"HBO · William Hurt", summary:"Inside the 2008 financial crisis from the perspective of Treasury Secretary Hank Paulson."},
 ]"""
 
-MEDITATIONS_JS = """[
-  {title:"Meditations", meta:"Marcus Aurelius · morning discipline", excerpt:"Begin the day expecting interference: vanity, ingratitude, haste, noise. None of this is new material. Your work is not to be surprised by human nature, but to meet it without becoming smaller, meaner, or easier to purchase."},
-  {title:"Meditations", meta:"Marcus Aurelius · the inner citadel", excerpt:"You can retreat whenever you choose into the court of your own mind. No villa is quieter, no island more private, if the judgment inside is orderly. Return there often, repair the command center, then reenter the day like a man under orders."},
-  {title:"Meditations", meta:"Marcus Aurelius · obstacle into material", excerpt:"The obstacle is not an interruption of the path. It is the next piece of stone handed to the sculptor. Turn delay into patience, insult into restraint, uncertainty into attention, and friction into proof that your philosophy has legs."},
-  {title:"Meditations", meta:"Marcus Aurelius · death and priority", excerpt:"You could leave life right now. Let that fact edit the schedule. Petty grudges, cheap distractions, and theatrical anxieties look different when mortality enters the room with a red pen and no interest in your excuses."},
-  {title:"Letters from a Stoic", meta:"Seneca · time as capital", excerpt:"Guard your time like capital, because it is the one currency no empire can mint again. Men are careful with property and careless with hours, then wonder why their lives feel stolen. Spend the morning as if you had to answer for it at sunset."},
-  {title:"Letters from a Stoic", meta:"Seneca · poverty practice", excerpt:"Practice wanting less before life forces the lesson. Eat plainly, walk without status, and discover what remains when luxury stops applauding. A man who can be content with little cannot be easily threatened by fortune."},
-  {title:"On the Shortness of Life", meta:"Seneca · wasted attention", excerpt:"Life is long enough for the serious, and brutally short for the scattered. The tragedy is not that time runs out; it is that so much of it is handed to distractions, resentments, and ambitions inherited from people we do not even admire."},
-  {title:"On Anger", meta:"Seneca · emotional command", excerpt:"Anger sells itself as strength but usually arrives as temporary madness wearing armor. Delay the first impulse. Cross examine the insult. If your dignity can be seized by a fool, it was never secured in the first place."},
-  {title:"Discourses", meta:"Epictetus · control and character", excerpt:"Some things are yours: judgment, intention, action, restraint. Most things are not: reputation, weather, markets, other people's moods. Confusing the two is how a free man volunteers for slavery and calls it realism."},
-  {title:"Discourses", meta:"Epictetus · role and duty", excerpt:"Do not ask for a life with no difficult parts; ask to play your assigned role well. Son, friend, founder, investor, citizen, body in training. Each role has duties. Freedom is not escaping them; it is performing them without inner begging."},
-  {title:"The Enchiridion", meta:"Epictetus · field manual", excerpt:"Do not demand that events obey your preferences. Train your preferences to obey reality, then act with precision. This is not resignation. It is command of the only kingdom that was ever fully yours."},
-  {title:"The Enchiridion", meta:"Epictetus · reputation", excerpt:"If you want progress, accept looking foolish to people who worship appearances. No one becomes free while negotiating with every bystander. Let the crowd keep its applause. Your job is to keep your principles."},
-  {title:"A Guide to the Good Life", meta:"William B. Irvine · Stoic joy", excerpt:"A good life is not built by getting everything you want; that is a child's treaty with chaos. It is built by wanting fewer foolish things, rehearsing loss before it arrives, and treating tranquility as a skill rather than a mood."},
-  {title:"A Guide to the Good Life", meta:"William B. Irvine · negative visualization", excerpt:"Briefly imagine losing what you take for granted, not to become morbid, but to become awake. The practice turns ordinary coffee, working lungs, a loyal friend, and a quiet morning back into treasures instead of background props."},
-  {title:"The Daily Stoic", meta:"Ryan Holiday · daily discipline", excerpt:"Philosophy is not a bookshelf performance. It is what remains when traffic, temptation, insult, hunger, and ambition all make their case. The daily question is simple and merciless: did your principles govern anything today, or merely decorate you?"},
-  {title:"The Daily Stoic", meta:"Ryan Holiday · action over theory", excerpt:"The Stoic test is not whether you can quote the emperor, the slave, or the senator. The test is whether you answer the email, lift the weight, tell the truth, refuse the bait, and do the next useful thing without ceremony."},
-  {title:"Musonius Rufus", meta:"Musonius Rufus · training the body", excerpt:"The body is not separate from philosophy; it is where philosophy pays rent. Cold, hunger, fatigue, and disciplined training expose whether your mind commands the flesh or merely writes elegant manifestos about doing so."},
-  {title:"Cato the Younger", meta:"Cato · integrity under pressure", excerpt:"Principles are cheap until they cost status, money, comfort, or friends. Cato's lesson is severe: decide what cannot be bought before the buyer arrives. Otherwise the negotiation has already begun."},
-  {title:"Cleanthes", meta:"Early Stoa · willing alignment", excerpt:"Do not merely get dragged by necessity; learn to walk with it. The wise man still faces storms, markets, illness, delay, and death. His advantage is that he wastes less life arguing with the weather."},
-  {title:"Zeno of Citium", meta:"Founder of Stoicism · shipwreck into school", excerpt:"A ruined voyage can become a philosophy if the mind refuses to waste the wreckage. Loss is not automatically wisdom, but it can become raw material when a man asks what this disaster is trying to teach him."},
-]"""
+MEDITATION_CORPUS_PATH = os.path.join(os.path.dirname(__file__), "data", "meditations.json")
+with open(MEDITATION_CORPUS_PATH, encoding="utf-8") as _meditation_file:
+    MEDITATION_CORPUS = json.load(_meditation_file)
+MEDITATIONS_JS = json.dumps(MEDITATION_CORPUS["entries"], ensure_ascii=False, separators=(",", ":"))
 
 TWEET_TEMPLATES_JS = """[
   {project:"Evolution Fund", text:"Value flows to whoever reduces entropy. The market calls it alpha when it works and heresy right before it works. Today’s job: separate signal from expensive theatre."},
@@ -4317,30 +4299,39 @@ function scheduleBangkokDailyReset() {{
 }}
 scheduleBangkokDailyReset();
 
-function getQuoteForToday(storageKey, quotes, edition) {{
-  const today = edition || new Date().toDateString();
-  const dayKey  = 'nv_' + storageKey + '_date';
-  const idxKey  = 'nv_' + storageKey + '_idx';
-  const seenKey = 'nv_' + storageKey + '_seen';
-  try {{
-    if (localStorage.getItem(dayKey) === today) {{
-      return quotes[parseInt(localStorage.getItem(idxKey) || '0') % quotes.length];
+function meditationSchedule(quotes) {{
+  const hash = value => [...value].reduce((a, c) => Math.imul(a ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);
+  const groups = new Map();
+  quotes.forEach(item => {{ if (!groups.has(item.author)) groups.set(item.author, []); groups.get(item.author).push(item); }});
+  groups.forEach(items => items.sort((a, b) => hash(a.id) - hash(b.id)));
+  const ordered = [];
+  while ([...groups.values()].some(items => items.length)) {{
+    const previous = ordered[ordered.length - 1];
+    let authors = [...groups.entries()].filter(([author, items]) => items.length && (!previous || author !== previous.author));
+    authors.sort((a, b) => b[1].length - a[1].length || hash(a[0] + ':' + ordered.length) - hash(b[0] + ':' + ordered.length));
+    let chosen = null;
+    for (const [, items] of authors) {{
+      chosen = items.find(item => !previous || item.theme !== previous.theme);
+      if (chosen) break;
     }}
-    let seen = [];
-    try {{ seen = JSON.parse(localStorage.getItem(seenKey) || '[]'); }} catch(e) {{}}
-    let avail = quotes.map((_,i) => i).filter(i => !seen.includes(i));
-    if (!avail.length) {{ seen = []; avail = quotes.map((_,i) => i); }}
-    const seed = today.split('').reduce((a,c) => (a * 31 + c.charCodeAt(0)) & 0xffffff, 0);
-    const idx = avail[seed % avail.length];
-    seen.push(idx);
-    localStorage.setItem(seenKey, JSON.stringify(seen));
-    localStorage.setItem(dayKey, today);
-    localStorage.setItem(idxKey, String(idx));
-    return quotes[idx];
-  }} catch(e) {{
-    const seed = new Date().toDateString().split('').reduce((a,c) => (a*31+c.charCodeAt(0))&0xffffff,0);
-    return quotes[seed % quotes.length];
+    if (!chosen) chosen = authors[0][1][0];
+    ordered.push(chosen);
+    groups.get(chosen.author).splice(groups.get(chosen.author).indexOf(chosen), 1);
   }}
+  return ordered;
+}}
+
+function getQuoteForToday(storageKey, quotes, edition) {{
+  const schedule = meditationSchedule(quotes);
+  const epochDay = Math.floor(Date.parse(edition + 'T00:00:00Z') / 86400000);
+  const selected = schedule[((epochDay % schedule.length) + schedule.length) % schedule.length];
+  try {{
+    const historyKey = 'nv_' + storageKey + '_history_v2';
+    let history = JSON.parse(localStorage.getItem(historyKey) || '[]').filter(item => item && item.edition !== edition);
+    history.push({{edition: edition, id: selected.id, author: selected.author, theme: selected.theme}});
+    localStorage.setItem(historyKey, JSON.stringify(history.slice(-Math.min(90, schedule.length))));
+  }} catch (e) {{}}
+  return selected;
 }}
 
 (function renderDailyMeditation() {{
@@ -4348,9 +4339,9 @@ function getQuoteForToday(storageKey, quotes, edition) {{
   const meditationCard = document.getElementById('quotes-card');
   const today = meditationCard.dataset.edition;
   const m = getQuoteForToday("meditation", MEDITATIONS, today);
-  document.getElementById('med-title').textContent = m.title;
-  document.getElementById('med-meta').textContent = m.meta;
-  document.getElementById('med-excerpt').textContent = m.excerpt;
+  document.getElementById('med-title').textContent = m.work;
+  document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + (m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection');
+  document.getElementById('med-excerpt').textContent = m.text;
 
 }})();
 
