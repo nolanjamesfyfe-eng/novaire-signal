@@ -12,7 +12,7 @@ const server=spawn('python3',['-m','http.server',port,'--bind','127.0.0.1'],{cwd
 let browser;
 for(let i=0;i<80;i++){try{if((await fetch(`http://127.0.0.1:${port}/health/`)).ok)break}catch{}if(i===79)throw new Error('local health server unavailable');await new Promise(r=>setTimeout(r,100))}
 try{
- browser=await chromium.launch({headless:true,executablePath:'/snap/bin/chromium',args:['--no-sandbox']});
+ browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||'/usr/bin/google-chrome',args:['--no-sandbox']});
  const results=[];
  for(const [device,viewport] of Object.entries({desktop:{width:1440,height:1000},mobile:{width:390,height:844}})){
   const page=await browser.newPage({viewport,deviceScaleFactor:1});const errors=[];page.on('pageerror',e=>errors.push(String(e)));
