@@ -31,5 +31,6 @@
   .brain-atlas__panel{min-height:164px}
   .brain-atlas__labels{grid-template-columns:repeat(2,minmax(0,1fr))}
   .brain-atlas__turn,.brain-atlas__zoom{top:336px}
-  .brain-atlas__turn button:last-child{display:none}
+  .brain-atlas__turn button:last-child{display:block}
+  .brain-atlas__zoom span{display:none}
 }
