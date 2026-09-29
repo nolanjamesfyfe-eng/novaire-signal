@@ -1,0 +1,57 @@
+{
+  "sources": [
+    {
+      "author": "Carl Jung",
+      "work": "Psychology of the Unconscious",
+      "edition": "Beatrice M. Hinkle translation, 1916",
+      "url": "https://www.gutenberg.org/ebooks/65903",
+      "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
+      "jurisdiction": "United States"
+    },
+    {
+      "author": "Carl Jung",
+      "work": "Collected Papers on Analytical Psychology",
+      "edition": "Constance E. Long, editor, 1917",
+      "url": "https://www.gutenberg.org/ebooks/48225",
+      "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
+      "jurisdiction": "United States"
+    },
+    {
+      "author": "Carl Jung",
+      "work": "The Theory of Psychoanalysis",
+      "edition": "C. E. Long translation, 1915",
+      "url": "https://www.gutenberg.org/ebooks/66041",
+      "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
+      "jurisdiction": "United States"
+    },
+    {
+      "author": "Will Durant",
+      "work": "Philosophy and the Social Problem",
+      "edition": "First edition, 1917",
+      "url": "https://www.gutenberg.org/ebooks/42880",
+      "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
+      "jurisdiction": "United States"
+    },
+    {
+      "author": "Sigmund Freud",
+      "work": "A General Introduction to Psychoanalysis",
+      "edition": "G. Stanley Hall translation, 1920",
+      "url": "https://www.gutenberg.org/ebooks/38219",
+      "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
+      "jurisdiction": "United States"
+    },
+    {
+      "author": "Sigmund Freud",
+      "work": "Group Psychology and the Analysis of the Ego",
+      "edition": "James Strachey translation, 1922",
+      "url": "https://www.gutenberg.org/ebooks/35877",
+      "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
+      "jurisdiction": "United States"
+    }
+  ],
+  "excludedBulkSources": [
+    "Jung's later Collected Works editions: not used for bulk extraction because translation/edition copyright is unclear.",
+    "Durant's The Story of Civilization: not used because it is later copyrighted work.",
+    "The Story of Philosophy (1926): legally public domain in the USA, but excluded after review because OCR and embedded philosopher quotations made line-level attribution unreliable."
+  ]
+}

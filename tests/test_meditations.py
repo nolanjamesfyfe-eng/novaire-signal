@@ -39,6 +39,9 @@ class MeditationCorpusTests(unittest.TestCase):
         self.assertGreaterEqual(counts["Seneca"], 100)
         self.assertGreaterEqual(counts["Epictetus"], 100)
         self.assertGreaterEqual(counts["William James"], 80)
+        self.assertGreaterEqual(counts["Carl Jung"], 20)
+        self.assertGreaterEqual(counts["Will Durant"], 20)
+        self.assertGreaterEqual(counts["Sigmund Freud"], 5)
         self.assertGreaterEqual(sum(item["tradition"] == "psychology" for item in ENTRIES), 85)
 
     def test_ids_text_containment_and_near_duplicates(self):
@@ -63,18 +66,19 @@ class MeditationCorpusTests(unittest.TestCase):
         history = {}
         selections = []
         start = date(2025, 12, 1)
-        for offset in range(3 * 366):
+        simulation_days = len(ENTRIES) * 3
+        for offset in range(simulation_days):
             edition = (start + timedelta(days=offset)).isoformat()
             selected = select_quote(ENTRIES, edition, history)
             self.assertEqual(selected["id"], select_quote(ENTRIES, edition, history)["id"])
             history[edition] = selected["id"]
             selections.append((start + timedelta(days=offset), selected))
-        # A 400-item pool must complete once before any ID repeats.
-        self.assertEqual(len({item["id"] for _, item in selections[:400]}), 400)
+        # Every corpus cycle completes before any ID repeats.
+        self.assertEqual(len({item["id"] for _, item in selections[:len(ENTRIES)]}), len(ENTRIES))
         positions = defaultdict(list)
         for day, item in selections:
             positions[item["id"]].append(day)
-        self.assertGreaterEqual(min((b - a).days for days in positions.values() for a, b in zip(days, days[1:])), 399)
+        self.assertGreaterEqual(min((b - a).days for days in positions.values() for a, b in zip(days, days[1:])), len(ENTRIES) - 1)
         measured_max = 0
         for index, (day, _) in enumerate(selections):
             window = [item["id"] for seen, item in selections[:index + 1] if 0 <= (day - seen).days < WINDOW_DAYS]

@@ -1,18 +1,21 @@
 {
-  "usableCount": 421,
+  "usableCount": 474,
   "kindCounts": {
-    "excerpt": 421
+    "excerpt": 474
   },
   "authorCounts": {
     "Marcus Aurelius": 107,
     "Epictetus": 110,
     "Seneca": 109,
     "William James": 94,
-    "Carl Jung": 1
+    "Carl Jung": 24,
+    "Will Durant": 24,
+    "Sigmund Freud": 6
   },
   "traditionCounts": {
     "stoicism": 326,
-    "psychology": 95
+    "psychology": 124,
+    "philosophy": 24
   },
   "sourceCounts": {
     "https://www.gutenberg.org/ebooks/2680": 107,
@@ -21,7 +24,13 @@
     "https://www.gutenberg.org/ebooks/3794": 33,
     "https://www.gutenberg.org/ebooks/57628": 66,
     "https://www.gutenberg.org/ebooks/57634": 28,
-    "https://books.google.com/books?id=64R9AAAAMAAJ": 1
+    "https://books.google.com/books?id=64R9AAAAMAAJ": 1,
+    "https://www.gutenberg.org/ebooks/65903": 7,
+    "https://www.gutenberg.org/ebooks/48225": 14,
+    "https://www.gutenberg.org/ebooks/66041": 2,
+    "https://www.gutenberg.org/ebooks/42880": 24,
+    "https://www.gutenberg.org/ebooks/38219": 5,
+    "https://www.gutenberg.org/ebooks/35877": 1
   },
-  "review": "Retained rows passed excerpt/provenance, malformed-text, duplicate, containment, and near-similarity gates; the review workbook is the line-level manifest."
+  "review": "Retained rows passed exact-source hash, attribution, context, safety, duplicate, containment, and near-similarity gates; the review workbook is the line-level manifest."
 }
