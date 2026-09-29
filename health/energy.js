@@ -10,7 +10,7 @@ const M=typeof window==='undefined'?null:window.HealthCheckinModel, KEY=STORAGE_
 const section=typeof document==='undefined'?null:document.querySelector('.energy');if(!section||!M)return;
 const q=s=>section.querySelector(s), qa=s=>[...section.querySelectorAll(s)];
 const form=q('.energy-form'), dialog=q('.energy-dialog'), sliders=qa('input[type="range"]');
-let entries=[], revision=null, unlocked=false, view='day', selected=M.bangkokDate(), authGeneration=0, requests=new Set(), loadedDate=null, dirty=false;
+let entries=[], revision=null, unlocked=false, view='day', selected=M.bangkokDate(), calendarMonth=selected.slice(0,7), detailDate=null, authGeneration=0, requests=new Set(), loadedDate=null, dirty=false;
 function localPayload(){try{const raw=JSON.parse(localStorage.getItem(KEY)||'[]'), valid=M.validatedEntries(raw);return{raw:Array.isArray(raw)?raw:[],valid,rejected:(Array.isArray(raw)?raw.length:0)-valid.length}}catch{return{raw:[],valid:[],rejected:0}}}
 entries=localPayload().valid;
 function beginRequest(){const controller=new AbortController(), generation=authGeneration;requests.add(controller);return{controller,generation}}
@@ -22,6 +22,24 @@ function renderBattery(value){section.style.setProperty('--energy-state',value==
 function fmtBounds(a){return view==='day'?a.start:view==='week'?`${a.start} — ${a.end}`:`${a.start.slice(0,7)} · ${a.days} days`}
 function appendText(parent,tag,text,className){const el=document.createElement(tag);if(className)el.className=className;el.textContent=text;parent.append(el);return el}
 function renderMetrics(){const wrap=q('.energy-metrics');wrap.replaceChildren();for(const m of M.metricSummaries(entries,selected,view)){const card=document.createElement('article');appendText(card,'h4',m.label);let value='Unknown';if(m.average!==undefined&&m.average!==null)value=`${m.average.toFixed(m.unit==='L'?1:1)}${m.unit}`;else if(m.count){value=Object.entries(m.counts).filter(([,n])=>n).map(([name,n])=>`${name} ${n}`).join(' · ')}appendText(card,'strong',value);appendText(card,'span',`${m.count} / ${m.days} days answered`);wrap.append(card)}}
+function renderHistory(){
+ const shown=M.validatedEntries(entries).filter(e=>e.date<=M.bangkokDate()).sort((a,b)=>b.date.localeCompare(a.date)), byDate=new Map(shown.map(e=>[e.date,e]));
+ q('.energy-history-count').textContent=`${shown.length} entr${shown.length===1?'y':'ies'} · private record`;
+ const [year,month]=calendarMonth.split('-').map(Number), first=new Date(Date.UTC(year,month-1,1)), days=new Date(Date.UTC(year,month,0)).getUTCDate(), offset=(first.getUTCDay()+6)%7;
+ q('.energy-calendar-label').textContent=first.toLocaleDateString('en',{timeZone:'UTC',month:'long',year:'numeric'});
+ q('.energy-calendar-next').disabled=calendarMonth>=M.bangkokDate().slice(0,7);
+ const calendar=q('.energy-calendar');calendar.replaceChildren();
+ for(let i=0;i<offset;i++){const blank=document.createElement('span');blank.className='energy-calendar-blank';calendar.append(blank)}
+ for(let day=1;day<=days;day++){const date=`${calendarMonth}-${String(day).padStart(2,'0')}`,entry=byDate.get(date),button=document.createElement('button');button.type='button';button.dataset.date=date;button.textContent=String(day);button.disabled=!entry;button.setAttribute('aria-label',entry?`${date}, ${Math.round(entry.score)}% battery`:`${date}, no check-in`);if(entry){button.className='has-entry';button.style.setProperty('--day-state',state(entry.score));button.setAttribute('aria-selected',String(detailDate===date));button.onclick=()=>{detailDate=date;selected=date;render()}}calendar.append(button)}
+ const detail=q('.energy-day-detail');detail.replaceChildren();const entry=byDate.get(detailDate);
+ if(!entry){appendText(detail,'p',shown.length?'Select a saved date to see its details.':'No private entries loaded. Unlock the private record or add a check-in.')}else{appendText(detail,'time',entry.date);appendText(detail,'strong',`${Math.round(entry.score)}% battery`);const a=entry.answers||{},f=entry.foundations||{};appendText(detail,'p',`Energy ${a.energy}/10 · Focus ${a.focus}/10 · Stress ${a.stress}/10 · Calm ${a.calm}/10 · Happiness ${a.happiness}/10`);appendText(detail,'p',`Sleep ${Number.isFinite(f.sleepHours)?`${f.sleepHours}h`:'unknown'} · Alcohol ${Number.isFinite(f.alcoholCount)?f.alcoholCount:'unknown'} · Sleep quality ${Number.isFinite(f.sleepQuality)?`${f.sleepQuality}/10`:'unknown'}`);const edit=appendText(detail,'button','EDIT THIS DAY');edit.type='button';edit.onclick=()=>open(entry.date)}
+ const c=M.consistency(shown),grid=q('.energy-consistency-grid');grid.replaceChildren();
+ const card=(label,value,note)=>{const el=document.createElement('article');appendText(el,'span',label);appendText(el,'strong',value);appendText(el,'small',note);grid.append(el)};
+ card('Higher-battery stretch',c.recorded?`${c.highBest} day${c.highBest===1?'':'s'}`:'Unknown','Consecutive recorded days at 70% or above.');
+ card('Lower-battery stretch',c.recorded?`${c.lowBest} day${c.lowBest===1?'':'s'}`:'Unknown','Consecutive recorded days below 40%.');
+ card('Sleep under 7h',c.sleep.answered?`${c.sleep.matched} of ${c.sleep.answered}`:'Unknown',`${c.sleep.answered} recorded sleep answer${c.sleep.answered===1?'':'s'}.`);
+ card('Alcohol 3+',c.alcohol.answered?`${c.alcohol.matched} of ${c.alcohol.answered}`:'Unknown',`${c.alcohol.answered} recorded alcohol answer${c.alcohol.answered===1?'':'s'}.`);
+}
 function render(){
  const a=M.aggregate(entries,selected,view), value=view==='day'?(a.recorded?a.sum:null):a.progress;
  renderBattery(value);q('.energy-period-label').textContent=fmtBounds(a);q('.energy-period-next').disabled=a.end>=M.bangkokDate();
@@ -30,10 +48,7 @@ function render(){
  q('.energy-average').textContent=a.average===null?'Recorded-day average: —':`Recorded-day average: ${a.average.toFixed(1)}%`;
  q('.energy-empty').hidden=a.recorded>0;renderMetrics();
  document.dispatchEvent(new CustomEvent('health:checkin',{detail:view==='day'?(entries.find(e=>e.date===selected)||null):null}));
- const list=q('.energy-history-list');list.replaceChildren();const shown=M.validatedEntries(entries).filter(e=>e.date<=M.bangkokDate()).sort((a,b)=>b.date.localeCompare(a.date));
- q('.energy-history-count').textContent=`${shown.length} entr${shown.length===1?'y':'ies'} · all stored history shown`;
- if(!shown.length){appendText(list,'p','No entries loaded.');return}
- shown.forEach(e=>{const b=document.createElement('button'),f=M.foundations(e.foundations);b.type='button';b.dataset.date=e.date;appendText(b,'time',e.date);appendText(b,'strong',`${Math.round(e.score)}% battery`);appendText(b,'span',(e.scaleMax===5||e.schemaVersion===1)?'Legacy 0–5 entry · raw battery preserved; excluded from 0–10 metric trends':(f.percent===null?'Foundations unknown':`${f.percent}% foundations · ${f.possible} metric${f.possible===1?'':'s'}`));b.addEventListener('click',()=>{if(e.scaleMax===5||e.schemaVersion===1){q('.energy-sync').textContent='This legacy 0–5 entry is read-only until an explicit migration preserves its scale.';return}open(e.date)});list.append(b)})
+ renderHistory();
 }
 function updateSlider(input){const n=Number(input.value),visual=input.name==='stress'?10-n:n;input.style.setProperty('--range-color',`hsl(${Math.round(visual*12)} 78% 54%)`);form.querySelector(`output[for="${input.id}"]`).value=`${n} / 10`}
 function foundationInput(){const out={};for(const el of qa('.foundation-grid [name]'))if(el.value!=='')out[el.name]=el.type==='number'?Number(el.value):el.value;return out}
@@ -50,5 +65,6 @@ q('.energy-import').addEventListener('click',async()=>{if(!unlocked){q('.energy-
 q('.energy-export').addEventListener('click',()=>{if(!unlocked){q('.energy-sync').textContent='Unlock the private record before export.';return}const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),entries},null,2)],{type:'application/json'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`novaire-health-checkins-${M.bangkokDate()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),0)});
 qa('[role="tab"]').forEach(t=>t.addEventListener('click',()=>{qa('[role="tab"]').forEach(x=>x.setAttribute('aria-selected',String(x===t)));view=t.dataset.view;render()}));
 function shift(dir){const p=M.period(selected,view),d=new Date(`${dir<0?p.start:p.end}T00:00:00Z`);d.setUTCDate(d.getUTCDate()+dir);selected=d.toISOString().slice(0,10);if(selected>M.bangkokDate())selected=M.bangkokDate();render()}
-q('.energy-period-prev').onclick=()=>shift(-1);q('.energy-period-next').onclick=()=>shift(1);q('.energy-checkin-open').onclick=()=>open();q('.energy-close').onclick=()=>dialog.close();sliders.forEach(x=>{updateSlider(x);x.addEventListener('input',()=>{updateSlider(x);breakdown()})});qa('.foundation-grid [name]').forEach(x=>x.addEventListener('input',breakdown));render();
+function shiftCalendar(dir){const d=new Date(`${calendarMonth}-01T00:00:00Z`);d.setUTCMonth(d.getUTCMonth()+dir);calendarMonth=d.toISOString().slice(0,7);detailDate=null;renderHistory()}
+q('.energy-calendar-prev').onclick=()=>shiftCalendar(-1);q('.energy-calendar-next').onclick=()=>shiftCalendar(1);q('.energy-period-prev').onclick=()=>shift(-1);q('.energy-period-next').onclick=()=>shift(1);q('.energy-checkin-open').onclick=()=>open();q('.energy-close').onclick=()=>dialog.close();sliders.forEach(x=>{updateSlider(x);x.addEventListener('input',()=>{updateSlider(x);breakdown()})});qa('.foundation-grid [name]').forEach(x=>x.addEventListener('input',breakdown));render();
 })();

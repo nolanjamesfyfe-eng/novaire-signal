@@ -98,5 +98,19 @@
     categorical('body', 'Workout / recovery', ['workout', 'recovery', 'none']);
     return out;
   }
-  return { VERSION, SUBJECTIVE_KEYS, bangkokDate, parseDate, period, subjectiveScore, foundations, validEntry, validatedEntries, aggregate, metricSummaries };
+  function consistency(entries) {
+    const valid = validatedEntries(entries).filter(e => e.scaleMax !== 5 && e.schemaVersion !== 1).sort((a, b) => a.date.localeCompare(b.date));
+    const answered = (get, predicate) => { const values = valid.map(get).filter(Number.isFinite); return { answered: values.length, matched: values.filter(predicate).length }; };
+    const sleep = answered(e => e.foundations?.sleepHours, value => value < 7);
+    const alcohol = answered(e => e.foundations?.alcoholCount, value => value >= 3);
+    let high = 0, low = 0, highBest = 0, lowBest = 0, previous = null;
+    for (const entry of valid) {
+      const consecutive = previous && (parseDate(entry.date) - parseDate(previous)) === 86400000;
+      high = entry.score >= 70 ? (consecutive ? high : 0) + 1 : 0;
+      low = entry.score < 40 ? (consecutive ? low : 0) + 1 : 0;
+      highBest = Math.max(highBest, high); lowBest = Math.max(lowBest, low); previous = entry.date;
+    }
+    return { recorded: valid.length, sleep, alcohol, highBest, lowBest };
+  }
+  return { VERSION, SUBJECTIVE_KEYS, bangkokDate, parseDate, period, subjectiveScore, foundations, validEntry, validatedEntries, aggregate, metricSummaries, consistency };
 });
