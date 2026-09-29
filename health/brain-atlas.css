@@ -2,3 +2,34 @@
 @media(max-width:800px){.brain-atlas{padding-inline:14px}.brain-atlas__head{display:block}.brain-atlas__intro{width:100%;margin-top:22px}.brain-atlas__deck{grid-template-columns:1fr;height:570px;min-height:0}.brain-atlas__viewport{height:390px}.brain-atlas__panel{display:grid;grid-template-columns:62px 1fr;align-content:start;padding:18px;border-top:1px solid rgba(205,246,255,.13);border-left:0}.brain-atlas__panel .brain-atlas__eyebrow{display:none}.brain-atlas__number{grid-row:1/3;font-size:48px}.brain-atlas__panel h3{min-height:0;margin:0;font-size:24px}.brain-atlas__description{min-height:0;margin-top:6px}.brain-atlas__panel dl,.brain-atlas__panel button{display:none}.brain-atlas__zoom{right:16px;bottom:236px}.brain-atlas__signal{grid-template-columns:1fr;gap:12px}.brain-atlas__signal p{margin:0}.brain-atlas__labels{top:12px;left:10px;grid-template-columns:repeat(2,max-content);gap:2px}.brain-atlas__labels button{padding:5px 6px;font-size:7px}}
 @media(max-width:430px){.brain-atlas h2{font-size:44px}.brain-atlas__deck{height:520px;min-height:0}.brain-atlas__viewport{height:350px}.brain-atlas__labels span{max-width:82px;overflow:hidden;text-overflow:ellipsis}.brain-atlas__zoom{bottom:216px}.brain-atlas__halo{width:68%}}
 @media(prefers-reduced-motion:reduce){.brain-atlas__meter i{transition:none}.brain-atlas canvas{filter:drop-shadow(0 8px 9px rgba(29,101,108,.16))}}
+
+/* High-contrast reference treatment and gesture-safe controls. */
+.brain-atlas__viewport{background:radial-gradient(ellipse at 50% 47%,rgba(103,44,150,calc(.1 + var(--brain-signal)*.1)) 0,rgba(20,13,31,.34) 36%,transparent 67%)}
+.brain-atlas canvas{filter:drop-shadow(0 0 9px rgba(194,157,255,.13)) drop-shadow(0 14px calc(12px + var(--brain-signal)*12px) rgba(45,99,190,.28))}
+.brain-atlas__turn{position:absolute;z-index:5;left:50%;bottom:17px;display:flex;align-items:center;gap:6px;transform:translateX(-50%);pointer-events:auto}
+.brain-atlas__turn button,.brain-atlas__zoom button{min-width:38px;min-height:38px;border:1px solid rgba(169,225,235,.3);background:rgba(3,8,12,.78);color:#d7f8ff;font:500 17px/1 Arial;cursor:pointer}
+.brain-atlas__turn button:last-child{width:auto;padding-inline:10px;font-size:8px;letter-spacing:.15em}
+.brain-atlas__turn span{color:#73979d;font-size:7px;letter-spacing:.18em}
+.brain-atlas__turn button:hover,.brain-atlas__turn button:focus-visible,.brain-atlas__zoom button:hover,.brain-atlas__zoom button:focus-visible{border-color:#d8b9ff;background:rgba(74,31,105,.56);outline:2px solid transparent;color:#fff}
+.brain-atlas__description{line-height:1.58}
+@media(max-width:800px){
+  .brain-atlas__deck{height:auto;min-height:0}
+  .brain-atlas__viewport{height:410px}
+  .brain-atlas__panel{min-height:154px;grid-template-columns:62px minmax(0,1fr)}
+  .brain-atlas__panel h3{padding-right:0}
+  .brain-atlas__description{font-size:10px;line-height:1.5;max-width:none;padding-right:0}
+  .brain-atlas__turn{left:12px;top:356px;bottom:auto;transform:none}
+  .brain-atlas__turn button,.brain-atlas__zoom button{min-width:42px;min-height:42px}
+  .brain-atlas__turn span{display:none}
+  .brain-atlas__zoom{right:12px;top:356px;bottom:auto}
+  .brain-atlas__labels{position:static;grid-row:2;right:auto;max-width:none;padding:8px 10px;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(205,246,255,.13);background:rgba(3,7,10,.86)}
+  .brain-atlas__panel{grid-row:3}
+  .brain-atlas__labels button{min-height:26px;white-space:nowrap}
+}
+@media(max-width:430px){
+  .brain-atlas__viewport{height:390px}
+  .brain-atlas__panel{min-height:164px}
+  .brain-atlas__labels{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brain-atlas__turn,.brain-atlas__zoom{top:336px}
+  .brain-atlas__turn button:last-child{display:none}
+}
