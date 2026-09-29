@@ -190,7 +190,9 @@ def test_progressive_physical_layers_are_additive_and_source_backed():
     assert "image.src='/map/natural-earth-relief.webp'" in html
     assert "globalCompositeOperation='multiply'" in html
     assert "HYP_HR_SR_OB_DR.zip" in (ROOT / 'scripts/build_flaneur_physical_layers.py').read_text()
-    assert "globe.reliefFine?(mobile?2:3)" in html
+    assert "globe.reliefStep||(mobile?2:3)" in html
+    assert "globe.reliefStep=mobile?5:6" in html
+    assert "generation!==globe.reliefGeneration" in html
     assert "d3.geoDistance(viewCenter,label.c)<Math.PI/2-.045" in html
     assert "canvas.dataset.labelCoverage" in html
     # Optional physical assets fail soft without changing the base globe promise.

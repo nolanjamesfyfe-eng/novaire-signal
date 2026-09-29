@@ -107,7 +107,7 @@
   let catalog=[],geo,facts={},answers={},planned=new Set(),width=0,height=0,dpr=1,projection,path,mobile=false,hoverCode='',selectedCode='';
   const lods={low:null,medium:null,detail:null,high:null};
   let admin1=null,admin1Request=null;
-  const globe={rotation:[-18,-12,0],zoom:1,baseScale:1,pointers:new Map(),gesture:null,moved:false,frame:0,highRequest:null,highAbort:null,reliefFine:false,reliefTimer:0};
+  const globe={rotation:[-18,-12,0],zoom:1,baseScale:1,pointers:new Map(),gesture:null,moved:false,frame:0,highRequest:null,highAbort:null,reliefStep:0,reliefTimer:0,reliefGeneration:0,activeLod:'low'};
   const perf=window.__flaneurPerf={draws:[],last:0},graticule=d3.geoGraticule10();
   const nameByCode=()=>Object.fromEntries(catalog.map(c=>[c.iso2,c.name]));
   const statusLabel=code=>answers[code]===true?'Visited':planned.has(code)?'Upcoming':answers[code]===false?'Not visited':'Unanswered';
@@ -120,7 +120,14 @@
     for(const feature of data.features){const center=d3.geoCentroid(feature);let radius=0;const visit=value=>{if(Array.isArray(value)&&typeof value[0]==='number')radius=Math.max(radius,d3.geoDistance(center,value));else if(Array.isArray(value))for(const child of value)visit(child)};visit(feature.geometry.coordinates);feature._cap=[center,radius]}
     return data
   }
-  function activeGeometry(){if(globe.zoom>=HIGH_LOD_ZOOM&&lods.high?.features)return lods.high;if(globe.zoom>=1.8&&lods.detail?.features)return lods.detail;if(globe.zoom>=1.18&&lods.medium?.features)return lods.medium;return lods.low||{type:'FeatureCollection',features:[]}}
+  function activeGeometry(){
+    const z=globe.zoom,current=globe.activeLod;
+    if(current==='high'&&z>=2.8&&lods.high?.features)return lods.high;
+    if(current==='detail'&&z>=1.72){globe.activeLod=z>=3.1&&lods.high?.features?'high':'detail';return lods[globe.activeLod]}
+    if(current==='medium'&&z>=1.14){globe.activeLod=z>=3.1&&lods.high?.features?'high':z>=1.88?'detail':'medium';return lods[globe.activeLod]}
+    globe.activeLod=z>=3.1&&lods.high?.features?'high':z>=1.88?'detail':z>=1.22?'medium':'low';
+    return lods[globe.activeLod]||lods.low||{type:'FeatureCollection',features:[]}
+  }
   function updateNavigationMode(){canvas.dataset.navigation=globe.zoom>1.05?'globe':'page'}
   function requestHighGeometry(){
     if(lods.high||globe.highRequest)return globe.highRequest;
@@ -129,13 +136,13 @@
     return globe.highRequest
   }
   function cancelHighGeometry(){if(!lods.high&&globe.highAbort){globe.highAbort.abort();globe.highAbort=null;globe.highRequest=null}}
-  function markReliefMotion(){globe.reliefFine=false;clearTimeout(globe.reliefTimer);globe.reliefTimer=setTimeout(()=>{globe.reliefFine=true;scheduleDraw()},500)}
+  function markReliefMotion(){const generation=++globe.reliefGeneration;clearTimeout(globe.reliefTimer);globe.reliefStep=mobile?5:6;globe.reliefTimer=setTimeout(()=>{if(generation!==globe.reliefGeneration)return;globe.reliefStep=mobile?3:4;scheduleDraw();globe.reliefTimer=setTimeout(()=>{if(generation!==globe.reliefGeneration)return;globe.reliefStep=mobile?2:3;scheduleDraw()},90)},420)}
   function setZoomValue(next,anchor){
     markReliefMotion();
     const old=globe.zoom,point=anchor||projection.translate(),geoAnchor=projection&&projection.invert(point);globe.zoom=Math.max(MIN_ZOOM,Math.min(MAX_ZOOM,next));
     if(projection&&geoAnchor&&globe.zoom!==old&&anchor){
       projection.scale(globe.baseScale*globe.zoom).rotate(globe.rotation);
-      for(let i=0;i<4;i++){const projected=projection(geoAnchor);if(!projected)break;const scale=projection.scale(),lat=Math.max(.2,Math.cos(globe.rotation[1]*Math.PI/180));globe.rotation[0]+=(point[0]-projected[0])*180/(Math.PI*scale*lat);globe.rotation[1]=Math.max(-89.5,Math.min(89.5,globe.rotation[1]-(point[1]-projected[1])*180/(Math.PI*scale)));projection.rotate(globe.rotation)}
+      for(let i=0;i<5;i++){const projected=projection(geoAnchor);if(!projected)break;const ex=point[0]-projected[0],ey=point[1]-projected[1];if(Math.hypot(ex,ey)<.01)break;const epsilon=.01,r=[...globe.rotation],px=projection.rotate([r[0]+epsilon,r[1],0])(geoAnchor),py=projection.rotate([r[0],r[1]+epsilon,0])(geoAnchor);projection.rotate(r);if(!px||!py)break;const ax=(px[0]-projected[0])/epsilon,ay=(px[1]-projected[1])/epsilon,bx=(py[0]-projected[0])/epsilon,by=(py[1]-projected[1])/epsilon,det=ax*by-ay*bx;if(Math.abs(det)<1e-5)break;const dlon=Math.max(-8,Math.min(8,(ex*by-ey*bx)/det)),dlat=Math.max(-8,Math.min(8,(ax*ey-ay*ex)/det));globe.rotation[0]+=dlon;globe.rotation[1]=Math.max(-89.5,Math.min(89.5,globe.rotation[1]+dlat));projection.rotate(globe.rotation)}
     }
     updateNavigationMode();if(globe.zoom>=HIGH_LOD_ZOOM)requestHighGeometry();else if(globe.zoom<2.2)cancelHighGeometry();if(globe.zoom>=ADMIN1_LOAD_ZOOM)requestAdmin1()
   }
@@ -170,7 +177,7 @@
   }
   function drawRelief(active){
     if(!reliefPixels||globe.zoom<1.12)return;
-    const step=globe.reliefFine?(mobile?2:3):(mobile?11:12),rw=Math.ceil(width/step),rh=Math.ceil(height/step);if(reliefCanvas.width!==rw||reliefCanvas.height!==rh){reliefCanvas.width=waterReliefCanvas.width=rw;reliefCanvas.height=waterReliefCanvas.height=rh}
+    const step=globe.reliefStep||(mobile?2:3),rw=Math.ceil(width/step),rh=Math.ceil(height/step);if(reliefCanvas.width!==rw||reliefCanvas.height!==rh){reliefCanvas.width=waterReliefCanvas.width=rw;reliefCanvas.height=waterReliefCanvas.height=rh}
     const reliefContext=reliefCanvas.getContext('2d'),waterContext=waterReliefCanvas.getContext('2d'),land=reliefContext.createImageData(rw,rh),water=waterContext.createImageData(rw,rh),source=reliefPixels.data,sw=reliefPixels.sourceWidth,sh=reliefPixels.sourceHeight,center=projection.translate(),radius=globe.baseScale*globe.zoom;
     for(let y=0;y<rh;y++)for(let x=0;x<rw;x++){const px=(x+.5)*step,py=(y+.5)*step;if(Math.hypot(px-center[0],py-center[1])>radius)continue;const ll=projection.invert([px,py]);if(!ll)continue;const sx=Math.max(0,Math.min(sw-1,Math.floor((ll[0]+180)/360*sw))),sy=Math.max(0,Math.min(sh-1,Math.floor((90-ll[1])/180*sh))),si=(sy*sw+sx)*4,output=source[si+3]<180?water:land,i=(y*rw+x)*4;output.data[i]=source[si];output.data[i+1]=source[si+1];output.data[i+2]=source[si+2];output.data[i+3]=255}
     waterContext.putImageData(water,0,0);reliefContext.putImageData(land,0,0);ctx.save();ctx.imageSmoothingEnabled=true;ctx.globalCompositeOperation='source-over';ctx.globalAlpha=.78;ctx.drawImage(waterReliefCanvas,0,0,width,height);ctx.globalCompositeOperation='multiply';ctx.globalAlpha=.82;ctx.drawImage(reliefCanvas,0,0,width,height);ctx.restore();canvas.dataset.reliefStep=String(step);canvas.dataset.reliefResolution=`${sw}x${sh}`
@@ -195,7 +202,7 @@
     ctx.beginPath();path(graticule);ctx.strokeStyle='#26352d';ctx.lineWidth=.45;ctx.stroke();
     const active=activeGeometry(),visible=visibleFeatures(active);for(const fill of ['#66706b','#237a4e','#a65f2e']){const features=visible.filter(feature=>colour(feature.properties.iso2)===fill);if(!features.length)continue;ctx.beginPath();path({type:'FeatureCollection',features});ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle='#111713';ctx.lineWidth=.35;ctx.stroke()}drawRelief({type:'FeatureCollection',features:visible});const adminBoxes=drawAdmin1();drawGeographyLabels(adminBoxes);if(selectedCode){const feature=active.features.find(f=>f.properties.iso2===selectedCode);if(feature){ctx.save();ctx.beginPath();path(feature);ctx.fillStyle='rgba(224,202,154,.22)';ctx.fill();ctx.strokeStyle='#f0d9a2';ctx.lineWidth=1.65;ctx.stroke();ctx.restore()}}if(hoverCode&&hoverCode!==selectedCode){const feature=active.features.find(f=>f.properties.iso2===hoverCode);if(feature){ctx.beginPath();path(feature);ctx.strokeStyle='#99a29d';ctx.lineWidth=.8;ctx.stroke()}}
     if(globe.zoom<1.8)for(const [code,coords] of Object.entries(MICRO)){if(d3.geoDistance([-globe.rotation[0],-globe.rotation[1]],coords)>Math.PI/2)continue;const p=projection(coords),selected=code===selectedCode;ctx.beginPath();ctx.arc(p[0],p[1],selected?3.8:2.7,0,Math.PI*2);ctx.fillStyle=selected?'#e0ca9a':colour(code);ctx.fill();ctx.strokeStyle=selected?'#fff0c8':'#c7cec9';ctx.lineWidth=selected?1.15:.55;ctx.stroke()}
-    perf.last=performance.now()-started;perf.draws.push(perf.last);if(perf.draws.length>600)perf.draws.shift();canvas.dataset.zoom=globe.zoom.toFixed(4);canvas.dataset.rotation=globe.rotation.map(value=>value.toFixed(3)).join(',');canvas.dataset.lod=globe.zoom>=HIGH_LOD_ZOOM&&lods.high?'high':globe.zoom>=1.8?'detail':globe.zoom>=1.18?'medium':'low';canvas.dataset.visibleFeatures=String(visible.length);canvas.dataset.selectedCode=selectedCode;
+    perf.last=performance.now()-started;perf.draws.push(perf.last);if(perf.draws.length>600)perf.draws.shift();canvas.dataset.zoom=globe.zoom.toFixed(4);canvas.dataset.rotation=globe.rotation.map(value=>value.toFixed(6)).join(',');canvas.dataset.lod=globe.activeLod;canvas.dataset.visibleFeatures=String(visible.length);canvas.dataset.selectedCode=selectedCode;
   }
   function scheduleDraw(){if(globe.frame)return;globe.frame=requestAnimationFrame(()=>{globe.frame=0;draw()})}
   function localPoint(e){const b=canvas.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top]}
@@ -203,9 +210,9 @@
   function hitCountry(e){if(!insideGlobe(e))return'';const p=localPoint(e),coords=projection.invert(p);if(!coords)return'';let best='';for(const feature of activeGeometry().features)if(d3.geoContains(feature,coords)){best=feature.properties.iso2;break}if(best)return best;let dist=8;for(const [code,ll] of Object.entries(MICRO)){const q=projection(ll),d=Math.hypot(q[0]-p[0],q[1]-p[1]);if(d<dist){dist=d;best=code}}return best}
   function bindGestures(){
     const distance=points=>Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y);
-    canvas.onpointerdown=e=>{if(e.button!==0||(!globe.pointers.size&&!insideGlobe(e)))return;hideTip();if(!globe.pointers.size)globe.moved=false;globe.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,captured:false});const pts=[...globe.pointers.values()];if(pts.length>1){globe.moved=true;globe.gesture={kind:'pinch',distance:distance(pts),zoom:globe.zoom}}else globe.gesture={kind:e.pointerType==='mouse'?'rotate':'pending',x:e.clientX,y:e.clientY,rotation:[...globe.rotation]}};
+    canvas.onpointerdown=e=>{if(e.button!==0||(!globe.pointers.size&&!insideGlobe(e)))return;hideTip();if(e.pointerType==='touch'&&e.isPrimary&&globe.pointers.size){globe.pointers.clear();globe.gesture=null}if(!globe.pointers.size)globe.moved=false;globe.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,captured:false});const pts=[...globe.pointers.values()];if(pts.length>1){globe.moved=true;globe.gesture={kind:'pinch',distance:distance(pts),zoom:globe.zoom}}else globe.gesture={kind:e.pointerType==='mouse'?'rotate':'pending',x:e.clientX,y:e.clientY,rotation:[...globe.rotation]}};
     canvas.onpointermove=e=>{if(!globe.pointers.has(e.pointerId))return;markReliefMotion();const p=globe.pointers.get(e.pointerId);p.x=e.clientX;p.y=e.clientY;const pts=[...globe.pointers.values()],dx=p.x-p.startX,dy=p.y-p.startY,movement=Math.hypot(dx,dy);if(pts.length>1){if(globe.gesture?.kind!=='pinch')globe.gesture={kind:'pinch',distance:distance(pts),zoom:globe.zoom};globe.moved=true;const box=canvas.getBoundingClientRect(),midpoint=[(pts[0].x+pts[1].x)/2-box.left,(pts[0].y+pts[1].y)/2-box.top];setZoomValue(globe.gesture.zoom*distance(pts)/Math.max(1,globe.gesture.distance),midpoint);scheduleDraw();return}if(globe.gesture?.kind==='pending'&&movement>6){globe.gesture=globe.zoom>1.05||Math.abs(dx)>Math.abs(dy)*1.05?{kind:'rotate',x:p.startX,y:p.startY,rotation:[...globe.rotation]}:{kind:'scroll'};globe.moved=true}if(globe.gesture?.kind==='scroll')return;if(globe.gesture?.kind==='rotate'&&movement>5){globe.moved=true;if(!p.captured){try{canvas.setPointerCapture(e.pointerId);p.captured=true}catch(_){}}const moveX=e.clientX-globe.gesture.x,moveY=e.clientY-globe.gesture.y,sensitivity=globe.zoom>2?Math.max(.055,.22/Math.sqrt(globe.zoom)):.28;globe.rotation=[globe.gesture.rotation[0]+moveX*sensitivity,Math.max(-89.5,Math.min(89.5,globe.gesture.rotation[1]-moveY*sensitivity)),0];scheduleDraw()}};
-    const end=(e,cancelled=false)=>{const ended=globe.pointers.get(e.pointerId);globe.pointers.delete(e.pointerId);const pts=[...globe.pointers.values()];globe.gesture=pts.length?{kind:'pending',x:pts[0].x,y:pts[0].y,rotation:[...globe.rotation]}:null;if(!pts.length&&!cancelled&&!globe.moved&&ended)showTip(e,hitCountry(e));scheduleDraw()};
+    const end=(e,cancelled=false)=>{const ended=globe.pointers.get(e.pointerId);globe.pointers.delete(e.pointerId);const pts=[...globe.pointers.values()];if(pts.length){pts[0].startX=pts[0].x;pts[0].startY=pts[0].y}globe.gesture=pts.length?{kind:'pending',x:pts[0].x,y:pts[0].y,rotation:[...globe.rotation]}:null;if(!pts.length&&!cancelled&&!globe.moved&&ended)showTip(e,hitCountry(e));scheduleDraw()};
     canvas.onpointerup=e=>end(e);canvas.onpointercancel=e=>end(e,true);canvas.onpointerleave=e=>{if(e.pointerType==='mouse'&&!globe.pointers.size){hoverCode='';scheduleDraw()}};
     canvas.onwheel=e=>{hideTip();if(!insideGlobe(e))return;e.preventDefault();setZoomValue(globe.zoom*Math.exp(-e.deltaY*.0015),localPoint(e));scheduleDraw()};
     canvas.onkeydown=e=>{const step=e.shiftKey?30:8;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','_','Home'].includes(e.key))e.preventDefault();if(e.key==='ArrowLeft')globe.rotation[0]-=step;if(e.key==='ArrowRight')globe.rotation[0]+=step;if(e.key==='ArrowUp')globe.rotation[1]=Math.min(89.5,globe.rotation[1]+step);if(e.key==='ArrowDown')globe.rotation[1]=Math.max(-89.5,globe.rotation[1]-step);if(e.key==='+'||e.key==='=')setZoomValue(globe.zoom*1.35);if(e.key==='-'||e.key==='_')setZoomValue(globe.zoom/1.35);if(e.key==='Home'){globe.rotation=[-18,-12,0];setZoomValue(1)}scheduleDraw()};
