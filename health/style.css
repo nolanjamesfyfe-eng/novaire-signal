@@ -40,3 +40,8 @@ footer a{color:var(--cyan)}
 
 /* Mobile atlas controls meet touch-target guidance without changing desktop composition. */
 @media(max-width:1000px),(pointer:coarse),(hover:none){.layer-controls button,.view-controls button{min-height:44px;padding-block:12px}.zoom-controls button{width:44px;height:44px;font-size:20px}#close-inspector{min-width:44px;min-height:44px}.zoom-controls{gap:10px}}
+
+/* Keep the two-line atlas title centered above the model. */
+.stage>.intro #atlas-title{width:calc(100vw - 2 * clamp(22px,5vw,76px));text-align:center}
+.stage>.intro #atlas-title span{display:block}
+@media(max-width:760px){.stage>.intro #atlas-title{width:100%;max-width:none}.layer-controls{top:172px}.view-controls{top:220px}.stage #viewport{inset:246px 0 168px}}
