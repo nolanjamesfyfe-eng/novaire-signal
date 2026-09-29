@@ -29,8 +29,8 @@ function addCarpal(THREE,group,point,radius,material,name,key){const mesh=new TH
 function localPoint(frame,x,y,z){return frame.wrist.clone().addScaledVector(frame.across,x).addScaledVector(frame.depth,y).addScaledVector(frame.proximal,z)}
 
 function meshPoints(THREE,node){
-  const position=node.geometry?.attributes?.position;if(!position)return[];
-  return Array.from({length:position.count},(_,i)=>new THREE.Vector3().fromBufferAttribute(position,i));
+  const position=node.geometry?.attributes?.position;if(!position)return[];node.updateWorldMatrix(true,false);
+  return Array.from({length:position.count},(_,i)=>new THREE.Vector3().fromBufferAttribute(position,i).applyMatrix4(node.matrixWorld));
 }
 function capCenter(THREE,points,axis,distal=true){
   const ordered=points.map(point=>({point,dot:point.dot(axis)})).sort((a,b)=>a.dot-b.dot),count=Math.max(12,Math.ceil(ordered.length*.08)),cap=distal?ordered.slice(0,count):ordered.slice(-count),center=new THREE.Vector3();
