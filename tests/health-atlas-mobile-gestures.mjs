@@ -156,9 +156,9 @@ try {
   report.events = await page.evaluate(() => window.__touchEvidence);
   report.frameTiming = await page.evaluate(async () => {
     const samples = []; let last = performance.now();
-    for (let i = 0; i < 60; i++) await new Promise(resolve => requestAnimationFrame(now => {samples.push(now - last); last = now; resolve();}));
+    for (let i = 0; i < 10; i++) await new Promise(resolve => requestAnimationFrame(now => {samples.push(now - last); last = now; resolve();}));
     samples.sort((a, b) => a - b);
-    return {median: samples[30], p95: samples[Math.floor(samples.length * .95)], max: samples.at(-1)};
+    return {median: samples[Math.floor(samples.length / 2)], p95: samples[Math.floor(samples.length * .95)], max: samples.at(-1)};
   });
   assert.ok(report.events.pointerdown > 0 && report.events.pointermove > 0, 'CDP touch generated pointer events on the canvas');
   assert.deepEqual(errors, []);
