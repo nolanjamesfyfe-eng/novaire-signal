@@ -80,16 +80,18 @@ if (root) {
   const viewport = root.querySelector('.brain-atlas__viewport');
   const tooltip = root.querySelector('.brain-atlas__tooltip');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let renderer, scene, camera, controls, brain, selected = null, hovered = null, level = null;
+  let renderer, scene, camera, controls, brain, selected = null, hovered = null, level = null, pulsePhase = 0;
+  let magentaWave, cyanWave;
   const pickables = [];
   const pointers = new Map();
   let gesture = null;
-  const palette = { frontal: 0x8c35c9, parietal: 0x7d2bbb, temporal: 0x7023aa, occipital: 0x5e208f, cerebellum: 0x3c74cf, brainstem: 0x528de8 };
+  const palette = { frontal: 0x8522c7, parietal: 0x6920a8, temporal: 0x541783, occipital: 0x40115f, cerebellum: 0x17131f, brainstem: 0x120f18 };
 
   function material(key, left = false) {
     const color = new THREE.Color(palette[key]);
     if (left) color.offsetHSL(.008, -.05, .045);
-    return new THREE.MeshStandardMaterial({ color, roughness: .42, metalness: .02, emissive: color.clone(), emissiveIntensity: .12 });
+    const lower = key === 'cerebellum' || key === 'brainstem';
+    return new THREE.MeshStandardMaterial({ color, roughness: lower ? .86 : .48, metalness: 0, emissive: lower ? new THREE.Color(0x090711) : color.clone(), emissiveIntensity: lower ? .035 : .08 });
   }
   async function buildBrain() {
     brain = new THREE.Group();
@@ -109,7 +111,7 @@ if (root) {
       object.userData.key = key;
       pickables.push(object);
       if (key !== 'brainstem') {
-        const edge = new THREE.Mesh(object.geometry, new THREE.MeshBasicMaterial({ color: key === 'cerebellum' ? 0xa9ccff : 0xd8b9ff, side: THREE.BackSide, transparent: true, opacity: .34, depthWrite: false }));
+        const edge = new THREE.Mesh(object.geometry, new THREE.MeshBasicMaterial({ color: key === 'cerebellum' ? 0xaeeaff : 0xe1c4ff, side: THREE.BackSide, transparent: true, opacity: key === 'cerebellum' ? .14 : .3, depthWrite: false }));
         edge.position.copy(object.position); edge.quaternion.copy(object.quaternion); edge.scale.copy(object.scale).multiplyScalar(1.012); object.parent.add(edge);
       }
       if (isLeftCortex) {
@@ -142,6 +144,8 @@ if (root) {
       const key = new THREE.DirectionalLight(0xf2ddff, 2.25); key.position.set(-3, 5, 6); scene.add(key);
       const rim = new THREE.DirectionalLight(0x78a7ff, 1.5); rim.position.set(4, -1, -4); scene.add(rim);
       const violet = new THREE.PointLight(0x9f4fff, .74, 10); violet.position.set(-2, 0, 3); scene.add(violet);
+      magentaWave = new THREE.PointLight(0xff2fc8, 1.2, 4.3, 1.6); scene.add(magentaWave);
+      cyanWave = new THREE.PointLight(0x36e7ff, .95, 3.8, 1.7); scene.add(cyanWave);
       await buildBrain(); resize(); bind(); readSignal(latestLocalEntry());
       root.querySelector('.brain-atlas__loading').hidden = true; root.dataset.ready = 'true'; animate();
       window.__HEALTH_BRAIN__ = {
@@ -149,6 +153,7 @@ if (root) {
         get selected() { return selected; }, get level() { return level; },
         get cameraDistance() { return camera.position.distanceTo(controls.target); },
         get cameraPose() { return { position: camera.position.toArray(), target: controls.target.toArray() }; },
+        get pulsePhase() { return pulsePhase; },
         get modelStats() { return { meshes: pickables.length, materials: pickables.map(m => ({ name: m.name, key: m.userData.key, color: m.material.color.getHexString(), emissive: m.material.emissive.getHexString(), intensity: m.material.emissiveIntensity })) }; },
         findHitPoint(key) { return findHitPoint(key); }
       };
@@ -218,8 +223,22 @@ if (root) {
     addEventListener('storage', event => { if (event.key === BRAIN_STORAGE_KEY) readSignal(latestLocalEntry()); });
   }
   function animate() {
-    requestAnimationFrame(animate); const pulse = reducedMotion.matches ? 1 : 1 + Math.sin(performance.now() * .0025) * .045, signal = level == null ? 0 : .25 + level * 1.35;
-    for (const mesh of pickables) { const active = mesh.userData.key === selected, over = mesh === hovered; mesh.material.emissiveIntensity = (.12 + signal * .18 + (active ? .24 : over ? .1 : 0)) * pulse; }
+    requestAnimationFrame(animate); const now = performance.now(), moving = !reducedMotion.matches;
+    pulsePhase = moving ? (now * .00022) % 1 : .18;
+    const signal = level == null ? 0 : .25 + level * 1.35;
+    if (magentaWave && cyanWave) {
+      const a = pulsePhase * Math.PI * 2;
+      magentaWave.position.set(Math.cos(a) * 2.25, .35 + Math.sin(a * 1.7) * .7, Math.sin(a) * 1.65 + .35);
+      cyanWave.position.set(Math.cos(a + Math.PI) * 2.05, -.2 + Math.sin(a * 1.35 + 1) * .62, Math.sin(a + Math.PI) * 1.45 + .2);
+      magentaWave.intensity = moving ? 1.05 + signal * .34 : .68;
+      cyanWave.intensity = moving ? .82 + signal * .3 : .55;
+    }
+    for (const mesh of pickables) {
+      const active = mesh.userData.key === selected, over = mesh === hovered, lower = mesh.userData.key === 'cerebellum' || mesh.userData.key === 'brainstem';
+      const wave = moving ? .5 + .5 * Math.sin(now * .00165 + mesh.position.x * 2.8 + mesh.position.y * 1.7 + pickables.indexOf(mesh) * .83) : .56;
+      mesh.material.emissive.setHex(lower ? (wave > .66 ? 0x123444 : 0x110b1d) : (wave > .52 ? 0x7e1bc0 : 0x153f70));
+      mesh.material.emissiveIntensity = (lower ? .025 + wave * .055 : .055 + wave * .12 + signal * .075) + (active ? .24 : over ? .1 : 0);
+    }
     controls.update(); renderer.render(scene, camera);
   }
   init();

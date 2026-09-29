@@ -33,16 +33,19 @@ for side in ("left", "right"):
         part.visual = trimesh.visual.ColorVisuals(mesh=part, face_colors=rgba)
         scene.add_geometry(part, node_name=f"{side}_{region}", geom_name=f"{side}_{region}")
 
-# A continuous, corrugated cerebellar surface with paired hemispheres.
+# Paired cerebellar hemispheres with irregular folia. Avoid the uniform
+# corrugated-shell look: fold spacing, depth and phase vary across the surface.
 def cerebellum(side):
-    nu, nv = 80, 42
+    nu, nv = 96, 56
     u = np.linspace(0, 2*np.pi, nu, endpoint=False)
     v = np.linspace(-np.pi/2, np.pi/2, nv)
     U, V = np.meshgrid(u, v)
-    corr = 1 + .07*np.cos(16*V + .8*np.sin(3*U))
-    x = side*.42 + .52*np.cos(V)*np.cos(U)*corr
-    y = -.76 + .38*np.sin(V)*corr
-    z = -.43 + .44*np.cos(V)*np.sin(U)*corr
+    folia = (.032*np.cos(19*V + 1.35*np.sin(2*U))
+             + .014*np.cos(31*V - .7*np.sin(5*U)))
+    lobules = 1 + .045*np.sin(3*U + .45*np.sin(4*V)) + folia
+    x = side*.40 + .50*np.cos(V)*np.cos(U)*lobules
+    y = -.75 + .35*np.sin(V)*lobules + .018*np.sin(5*U)*np.cos(V)**2
+    z = -.43 + .41*np.cos(V)*np.sin(U)*lobules
     vertices = np.column_stack((x.ravel(), y.ravel(), z.ravel()))
     faces=[]
     for j in range(nv-1):
@@ -50,14 +53,28 @@ def cerebellum(side):
             a=j*nu+i;b=j*nu+(i+1)%nu;c=(j+1)*nu+i;d=(j+1)*nu+(i+1)%nu
             faces.extend(((a,c,b),(b,c,d)))
     mesh=trimesh.Trimesh(vertices=vertices,faces=np.asarray(faces),process=False)
-    mesh.visual=trimesh.visual.ColorVisuals(mesh=mesh,face_colors=[39,76,145,255])
+    mesh.visual=trimesh.visual.ColorVisuals(mesh=mesh,face_colors=[20,17,28,255])
     return mesh
 for side,name in [(-1,"left_cerebellum"),(1,"right_cerebellum")]:
     scene.add_geometry(cerebellum(side),node_name=name,geom_name=name)
-stem=trimesh.creation.capsule(radius=.18,height=.86,count=[24,24])
-stem.apply_transform(trimesh.transformations.rotation_matrix(np.pi/2,[1,0,0]))
-stem.apply_translation([0,-1.16,-.18])
-stem.visual=trimesh.visual.ColorVisuals(mesh=stem,face_colors=[49,89,155,255])
+# Tapered, asymmetric brainstem: narrower medulla below, subtle pons bulge
+# above, and no hemispherical capsule end that reads like a plastic pill.
+nu, nv = 48, 36
+u = np.linspace(0, 2*np.pi, nu, endpoint=False)
+t = np.linspace(0, 1, nv)
+U, T = np.meshgrid(u, t)
+radius = .10 + .08*T + .075*np.exp(-((T-.68)/.18)**2)
+x = radius*np.cos(U)*(1 + .05*np.sin(3*U + 4*T))
+z = -.17 + radius*.82*np.sin(U) - .035*T
+y = -1.62 + .83*T
+verts = np.column_stack((x.ravel(), y.ravel(), z.ravel()))
+faces=[]
+for j in range(nv-1):
+    for i in range(nu):
+        a=j*nu+i;b=j*nu+(i+1)%nu;c=(j+1)*nu+i;d=(j+1)*nu+(i+1)%nu
+        faces.extend(((a,c,b),(b,c,d)))
+stem=trimesh.Trimesh(vertices=verts,faces=np.asarray(faces),process=False)
+stem.visual=trimesh.visual.ColorVisuals(mesh=stem,face_colors=[17,14,23,255])
 scene.add_geometry(stem,node_name="brainstem",geom_name="brainstem")
 OUT.parent.mkdir(parents=True,exist_ok=True)
 OUT.write_bytes(scene.export(file_type="glb"))
