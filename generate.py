@@ -3039,6 +3039,24 @@ def meditation_fallback_values(item):
     )
 
 
+def quote_entries_from_js(source):
+    """Parse the small legacy quote literal into build-time quote records."""
+    entries = re.findall(r'\{text:"(.*?)", author:"(.*?)"\}', source)
+    if not entries or any(not text.strip() or not author.strip() for text, author in entries):
+        raise ValueError("quote corpus contains an empty or unreadable quote slot")
+    return [{"text": text, "author": author} for text, author in entries]
+
+
+def daily_quote_for_edition(edition):
+    """Select one global quote for the Bangkok edition, independent of JS/storage."""
+    day = int(edition.rsplit("-", 1)[-1])
+    quote_type = "Investing" if day % 2 == 0 else "Psychology"
+    source = QUOTES_JS_INVESTING if quote_type == "Investing" else QUOTES_JS_PSYCHOLOGY
+    entries = quote_entries_from_js(source)
+    digest = hashlib.sha256(f"{edition}:{quote_type}".encode("utf-8")).digest()
+    return quote_type, entries[int.from_bytes(digest[:8], "big") % len(entries)]
+
+
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
 
@@ -3058,6 +3076,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     # Render the selected edition into the document itself. JavaScript enhances
     # this content, but a delayed or failed bundle must never leave the card blank.
     daily_meditation_title, daily_meditation_meta, daily_meditation_text = meditation_fallback_values(daily_meditation)
+    daily_quote_type, daily_quote = daily_quote_for_edition(daily_edition)
+    daily_quote_js = json.dumps(daily_quote, ensure_ascii=False, separators=(",", ":"))
+    daily_quote_type_html = escape(daily_quote_type)
+    daily_quote_text_html = escape(f'“{daily_quote["text"]}”')
+    daily_quote_author_html = escape(f'— {daily_quote["author"]}')
+    if not all(value.strip() for value in (daily_quote_type_html, daily_quote_text_html, daily_quote_author_html)):
+        raise ValueError("daily quote build guard rejected an empty rendered slot")
     week_start = now - timedelta(days=now.weekday())
     weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
     weekly_updated_label = week_start.strftime("%b %-d")
@@ -4019,8 +4044,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="{daily_edition}" data-daily-edition open>
       <summary><span class="card-title">Quotes</span></summary>
       <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
-        <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type"></div>
-        <div class="quote-text" id="qt-text"></div><div class="quote-author" id="qt-auth"></div></div>
+        <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type">{daily_quote_type_html}</div>
+        <div class="quote-text" id="qt-text">{daily_quote_text_html}</div><div class="quote-author" id="qt-auth">{daily_quote_author_html}</div></div>
         <button class="quote-share-trigger" id="quote-share-trigger" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div>
       </div></div>
     </details>
@@ -4282,6 +4307,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const DAILY_MEDITATION = {daily_meditation_js};
+const DAILY_QUOTE = {daily_quote_js};
+const DAILY_QUOTE_TYPE = {json.dumps(daily_quote_type)};
 const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
 function rememberEditionAccordion(cardId, storageKey) {{
@@ -4553,11 +4580,9 @@ renderActionSteps();
 }})();
 
 (function renderQuotes() {{
-  const day = new Date().getDate();
-  const isInv = day % 2 === 0; const q = isInv ? getQuoteForToday("investing", QUOTES_INVESTING) : getQuoteForToday("psychology", QUOTES_PSYCHOLOGY);
-  document.getElementById('qt-type').textContent = isInv ? 'Investing' : 'Psychology';
-  document.getElementById('qt-text').textContent = '\u201c' + q.text + '\u201d';
-  document.getElementById('qt-auth').textContent = '\u2014 ' + q.author;
+  document.getElementById('qt-type').textContent = DAILY_QUOTE_TYPE;
+  document.getElementById('qt-text').textContent = '\u201c' + DAILY_QUOTE.text + '\u201d';
+  document.getElementById('qt-auth').textContent = '\u2014 ' + DAILY_QUOTE.author;
 }})();
 
 (function loadInkReaders() {{

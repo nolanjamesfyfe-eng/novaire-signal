@@ -500,8 +500,8 @@
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="2026-09-29" data-daily-edition open>
       <summary><span class="card-title">Quotes</span></summary>
       <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
-        <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type"></div>
-        <div class="quote-text" id="qt-text"></div><div class="quote-author" id="qt-auth"></div></div>
+        <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type">Psychology</div>
+        <div class="quote-text" id="qt-text">“The first step toward change is awareness. The second step is acceptance.”</div><div class="quote-author" id="qt-auth">— Nathaniel Branden</div></div>
         <button class="quote-share-trigger" id="quote-share-trigger" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div>
       </div></div>
     </details>
@@ -1133,6 +1133,8 @@ const QUOTES_PSYCHOLOGY = [
   {text:"Not all those who wander are lost.", author:"J.R.R. Tolkien"},
 ];
 const DAILY_MEDITATION = {"id":"marcus-dc79129a6ed1","author":"Marcus Aurelius","tradition":"stoicism","work":"Meditations","section":"Fourth XXI","translation":"George Long (1862)","kind":"excerpt","theme":"mortality","text":"To comprehend all in a few words, our life is short; we must endeavour to gain the present time with best discretion and justice.","sourceUrl":"https://www.gutenberg.org/ebooks/2680"};
+const DAILY_QUOTE = {"text":"The first step toward change is awareness. The second step is acceptance.","author":"Nathaniel Branden"};
+const DAILY_QUOTE_TYPE = "Psychology";
 const TWEET_TEMPLATES = [
   {project:"Evolution Fund", text:"Value flows to whoever reduces entropy. The market calls it alpha when it works and heresy right before it works. Today’s job: separate signal from expensive theatre."},
   {project:"Novaire Signal", text:"A dashboard should not be a Christmas tree. If a widget does not change a decision, it is just anxiety with CSS."},
@@ -1412,11 +1414,9 @@ renderActionSteps();
 })();
 
 (function renderQuotes() {
-  const day = new Date().getDate();
-  const isInv = day % 2 === 0; const q = isInv ? getQuoteForToday("investing", QUOTES_INVESTING) : getQuoteForToday("psychology", QUOTES_PSYCHOLOGY);
-  document.getElementById('qt-type').textContent = isInv ? 'Investing' : 'Psychology';
-  document.getElementById('qt-text').textContent = '“' + q.text + '”';
-  document.getElementById('qt-auth').textContent = '— ' + q.author;
+  document.getElementById('qt-type').textContent = DAILY_QUOTE_TYPE;
+  document.getElementById('qt-text').textContent = '\u201c' + DAILY_QUOTE.text + '\u201d';
+  document.getElementById('qt-auth').textContent = '\u2014 ' + DAILY_QUOTE.author;
 })();
 
 (function loadInkReaders() {

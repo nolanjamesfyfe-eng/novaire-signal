@@ -25,6 +25,24 @@ class QuoteShareGenerationTest(unittest.TestCase):
         self.assertEqual(html.count('M219 44Q217 43 215 44L51 180Q49 183'), 2)
         self.assertNotIn('STOIC PHILOSOPHER', html)
 
+    def test_separate_quotes_body_is_build_time_content_not_js_placeholder(self):
+        holding = [{"ticker": "T.X", "display": "T", "name": "Fixture", "shares": 1, "currency": "USD", "sector": "Other"}]
+        with patch.object(generate, "fetch_radar_moonshots", return_value={}), \
+             patch.object(generate, "show_biweekly_monday_section", return_value=False), \
+             patch.object(generate, "fetch_live_instagram_metrics", side_effect=lambda item: item):
+            html = generate.render_html({}, [], [], {}, {}, {}, {}, {"usdcad": 1.3}, {}, {}, {},
+                                        holdings_source=holding, market_futures=[], market_indices=[])
+        for slot in ("qt-type", "qt-text", "qt-auth"):
+            match = __import__('re').search(rf'id="{slot}">([^<]+)</div>', html)
+            self.assertIsNotNone(match, slot)
+            self.assertTrue(match.group(1).strip(), slot)
+        self.assertIn("const DAILY_QUOTE =", html)
+        self.assertNotIn('id="qt-text"></div>', html)
+
+    def test_quote_build_guard_rejects_empty_slots(self):
+        with self.assertRaisesRegex(ValueError, "empty or unreadable"):
+            generate.quote_entries_from_js('[{text:"", author:"Nobody"}]')
+
 
 if __name__ == '__main__':
     unittest.main()
