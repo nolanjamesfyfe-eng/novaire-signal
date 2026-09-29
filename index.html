@@ -1230,7 +1230,10 @@ function getQuoteForToday(storageKey, quotes, edition) {
   const today = meditationCard.dataset.edition;
   const m = DAILY_MEDITATION;
   document.getElementById('med-title').textContent = m.work;
-  document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + (m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection');
+  let provenance = m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection';
+  if (m.excerptType === 'direct_quote') provenance = 'quoted in Will Durant, ' + m.work + (m.attributionQualifier ? ' · ' + m.attributionQualifier : '');
+  else if (m.excerptType === 'book_excerpt' && m.subject) provenance = 'on ' + m.subject + ' · Book excerpt';
+  document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + provenance;
   document.getElementById('med-excerpt').textContent = m.text;
 
 })();

@@ -3024,10 +3024,17 @@ SIGNAL_MAP_SVG = (
 
 def meditation_fallback_values(item):
     """Return escaped build-time card content for no-JS rendering."""
+    if item.get("excerptType") == "direct_quote":
+        provenance = f'quoted in Will Durant, {item["work"]}'
+        if item.get("attributionQualifier"):
+            provenance += f' · {item["attributionQualifier"]}'
+    elif item.get("excerptType") == "book_excerpt" and item.get("subject"):
+        provenance = f'on {item["subject"]} · Book excerpt'
+    else:
+        provenance = "Original excerpt" if item["kind"] == "excerpt" else "Editorial reflection"
     return (
         escape(item["work"]),
-        escape(f'{item["author"]} · {item["section"]} · ' +
-               ("Original excerpt" if item["kind"] == "excerpt" else "Editorial reflection")),
+        escape(f'{item["author"]} · {item["section"]} · {provenance}'),
         escape(item["text"]),
     )
 
@@ -4364,7 +4371,10 @@ function getQuoteForToday(storageKey, quotes, edition) {{
   const today = meditationCard.dataset.edition;
   const m = DAILY_MEDITATION;
   document.getElementById('med-title').textContent = m.work;
-  document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + (m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection');
+  let provenance = m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection';
+  if (m.excerptType === 'direct_quote') provenance = 'quoted in Will Durant, ' + m.work + (m.attributionQualifier ? ' · ' + m.attributionQualifier : '');
+  else if (m.excerptType === 'book_excerpt' && m.subject) provenance = 'on ' + m.subject + ' · Book excerpt';
+  document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + provenance;
   document.getElementById('med-excerpt').textContent = m.text;
 
 }})();

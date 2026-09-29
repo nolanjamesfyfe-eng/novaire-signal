@@ -41,7 +41,7 @@ class MeditationCorpusTests(unittest.TestCase):
             self.assertRegex(entry["sourceUrl"], r"^https://")
             self.assertGreaterEqual(len(entry["text"]), 40)
             self.assertLessEqual(len(entry["text"]), 320)
-            self.assertRegex(entry["text"], r"[.!?]$")
+            self.assertRegex(entry["text"], r"[.!?][”\"]?$")
         counts = Counter(item["author"] for item in ENTRIES)
         self.assertGreaterEqual(counts["Marcus Aurelius"], 100)
         self.assertGreaterEqual(counts["Seneca"], 100)
@@ -51,6 +51,29 @@ class MeditationCorpusTests(unittest.TestCase):
         self.assertGreaterEqual(counts["Will Durant"], 20)
         self.assertGreaterEqual(counts["Sigmund Freud"], 5)
         self.assertGreaterEqual(sum(item["tradition"] == "psychology" for item in ENTRIES), 85)
+
+    def test_durant_nested_attribution_and_history_portraits(self):
+        additions = [item for item in ENTRIES if item["id"].startswith("durant-history-")]
+        self.assertGreaterEqual(len(additions), 15)
+        nested = [item for item in additions if item.get("excerptType") == "direct_quote"]
+        portraits = [item for item in additions if item.get("excerptType") == "book_excerpt"]
+        self.assertTrue(any(item["author"] == "Voltaire" for item in nested))
+        self.assertTrue(any(item["author"] == "Napoleon Bonaparte" for item in nested))
+        for item in nested:
+            self.assertEqual(item["sourceAuthor"], "Will Durant")
+            self.assertEqual(item["narrator"], "Will Durant")
+            self.assertIn("attributionQualifier", item)
+        for item in portraits:
+            self.assertEqual(item["author"], "Will Durant")
+            self.assertTrue(item["subject"])
+
+    def test_build_time_metadata_names_voice_narrator_and_subject(self):
+        voltaire = next(item for item in ENTRIES if item.get("author") == "Voltaire" and item.get("sourceAuthor") == "Will Durant")
+        napoleon = next(item for item in ENTRIES if item.get("author") == "Napoleon Bonaparte")
+        portrait = next(item for item in ENTRIES if item.get("excerptType") == "book_excerpt")
+        self.assertIn("quoted in Will Durant", generate.meditation_fallback_values(voltaire)[1])
+        self.assertIn("as recounted by Durant", generate.meditation_fallback_values(napoleon)[1])
+        self.assertIn(f'on {portrait["subject"]}', generate.meditation_fallback_values(portrait)[1])
 
     def test_ids_text_containment_and_near_duplicates(self):
         ids = [entry["id"] for entry in ENTRIES]

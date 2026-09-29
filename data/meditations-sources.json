@@ -47,11 +47,18 @@
       "url": "https://www.gutenberg.org/ebooks/35877",
       "rightsEvidence": "Project Gutenberg catalog marks this edition public domain in the USA.",
       "jurisdiction": "United States"
+    },
+    {
+      "author": "Will Durant",
+      "work": "The Story of Philosophy",
+      "edition": "First edition, 1926",
+      "url": "https://en.wikisource.org/wiki/The_Story_of_Philosophy",
+      "rightsEvidence": "The 1926 first edition is public domain in the United States; Wikisource hosts a transcription of that edition.",
+      "jurisdiction": "United States"
     }
   ],
   "excludedBulkSources": [
     "Jung's later Collected Works editions: not used for bulk extraction because translation/edition copyright is unclear.",
-    "Durant's The Story of Civilization: not used because it is later copyrighted work.",
-    "The Story of Philosophy (1926): legally public domain in the USA, but excluded after review because OCR and embedded philosopher quotations made line-level attribution unreliable."
+    "Durant's The Story of Civilization: not used because it is later copyrighted work."
   ]
 }

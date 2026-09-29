@@ -14,7 +14,14 @@ for row in review:
     item = by_id[row["id"]]
     assert item["text"] == row["text"]
     assert hashlib.sha256(item["text"].encode()).hexdigest() == item["evidenceHash"]
-    assert item["sourceAnchor"].startswith("sentence-")
-    assert (item["author"], item["work"], item["sourceUrl"]) in source_keys
+    assert item["sourceAnchor"].startswith(("sentence-", "chapter-"))
+    source_author = item.get("sourceAuthor", item["author"])
+    assert (source_author, item["work"], item["sourceUrl"]) in source_keys
+    if item.get("excerptType") == "direct_quote":
+        assert item["author"] != item["narrator"]
+        assert item["attributionQualifier"] in {"as quoted by Durant", "as recounted by Durant"}
+    if item.get("excerptType") == "book_excerpt":
+        assert item["author"] == item["narrator"] == "Will Durant"
+        assert item["subject"]
     assert row["reviewStatus"] == "retained"
 print(f"validated {len(review)} reviewed expansion excerpts across {len(source_keys)} public-domain editions")
