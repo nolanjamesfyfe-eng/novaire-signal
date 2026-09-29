@@ -7,6 +7,7 @@ from pathlib import Path
 
 from meditation_rotation import MAX_IN_WINDOW, MIN_GAP_DAYS, WINDOW_DAYS, balanced_cycle, select_quote
 from generate import daily_signal_edition
+import generate
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPUS = json.loads((ROOT / "data" / "meditations.json").read_text(encoding="utf-8"))
@@ -23,6 +24,13 @@ def token_similarity(left, right):
 
 
 class MeditationCorpusTests(unittest.TestCase):
+    def test_server_rendered_card_is_nonempty_without_javascript(self):
+        selected = ENTRIES[0]
+        title, meta, text = generate.meditation_fallback_values(selected)
+        self.assertEqual(title, selected["work"])
+        self.assertIn(selected["author"], meta)
+        self.assertEqual(text, selected["text"])
+
     def test_schema_sources_and_reviewed_scale(self):
         self.assertIn("reviewed", CORPUS["scope"].lower())
         self.assertGreaterEqual(len(ENTRIES), 400)

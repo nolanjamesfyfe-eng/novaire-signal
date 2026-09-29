@@ -3022,6 +3022,16 @@ SIGNAL_MAP_SVG = (
 )
 
 
+def meditation_fallback_values(item):
+    """Return escaped build-time card content for no-JS rendering."""
+    return (
+        escape(item["work"]),
+        escape(f'{item["author"]} · {item["section"]} · ' +
+               ("Original excerpt" if item["kind"] == "excerpt" else "Editorial reflection")),
+        escape(item["text"]),
+    )
+
+
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
                 commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
 
@@ -3038,6 +3048,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         record=os.environ.get("SIGNAL_RECORD_DAILY_EDITION") == "1",
     )
     daily_meditation_js = json.dumps(daily_meditation, ensure_ascii=False, separators=(",", ":"))
+    # Render the selected edition into the document itself. JavaScript enhances
+    # this content, but a delayed or failed bundle must never leave the card blank.
+    daily_meditation_title, daily_meditation_meta, daily_meditation_text = meditation_fallback_values(daily_meditation)
     week_start = now - timedelta(days=now.weekday())
     weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
     weekly_updated_label = week_start.strftime("%b %-d")
@@ -3988,11 +4001,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div class="signal-accordion-body">
     <details id="meditation-daily" class="meditation" data-edition="{daily_edition}" data-daily-edition open>
       <summary>
-        <div class="meditation-summary-copy"><div class="meditation-title" id="med-title"></div><div class="meditation-meta" id="med-meta"></div></div>
+        <div class="meditation-summary-copy"><div class="meditation-title" id="med-title">{daily_meditation_title}</div><div class="meditation-meta" id="med-meta">{daily_meditation_meta}</div></div>
 
       </summary>
       <div class="meditation-body">
-        <div class="meditation-excerpt" id="med-excerpt"></div>
+        <div class="meditation-excerpt" id="med-excerpt">{daily_meditation_text}</div>
         <button class="quote-share-trigger" id="med-share-trigger" data-share-kind="meditation" type="button" aria-label="Share this meditation to X" title="Share this meditation to X"><img src="/quote-studio/bolt.svg" alt=""></button>
       </div>
     </details>
