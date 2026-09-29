@@ -18,13 +18,13 @@ try{
  await page.locator('.physique-toggle').click({noWaitAfter:true});
  assert.match(await page.locator('.physique-copy b').textContent(),/193 CM · 80 KG · LEAN ATHLETIC APPROXIMATION/);
  assert.equal(await page.locator('[data-physique="weight"]').inputValue(),'80');
- assert.equal(await page.locator('[data-physique="definition"]').inputValue(),'62');
+ assert.equal(await page.locator('[data-physique="definition"]').inputValue(),'82');
  const span=points=>Math.max(...points.map(p=>p.x))-Math.min(...points.map(p=>p.x));
  const before=span(await page.evaluate(()=>window.__HEALTH_ATLAS__.projectAll('pectoralis')));
  await page.locator('[data-physique="weight"]').evaluate(input=>{input.value='110';input.dispatchEvent(new Event('input',{bubbles:true}))});
  const after=span(await page.evaluate(()=>window.__HEALTH_ATLAS__.projectAll('pectoralis')));
  assert.ok(after>before*1.08,`weight must visibly widen the frame (${before} -> ${after})`);
- assert.match(await page.locator('.physique-readout').textContent(),/110 KG · 62% DEFINITION/);
+ assert.match(await page.locator('.physique-readout').textContent(),/110 KG · 82% DEFINITION/);
  await page.locator('[data-brain-part="frontal"]').click();assert.equal(await page.evaluate(()=>window.__HEALTH_BRAIN__.selected),'frontal');
  await page.locator('#atlas-title').click();assert.equal(await page.evaluate(()=>window.__HEALTH_BRAIN__.selected),null);
  await page.screenshot({path:out+'/desktop.png',fullPage:true});
@@ -35,5 +35,5 @@ try{
  assert.equal(geometry.overflow,false);assert.ok(geometry.panelLeft>=0&&geometry.panelRight<=390);assert.ok(geometry.headingBottom<geometry.viewportTop+95);
  await mobile.screenshot({path:out+'/mobile.png',fullPage:true});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({ok:true,baseline:'193cm/80kg/62%',dynamicFrame:{before,after},brainDismiss:true,mobile:geometry,screenshots:[out+'/desktop.png',out+'/mobile.png']}));
+ console.log(JSON.stringify({ok:true,baseline:'193cm/80kg/82%',dynamicFrame:{before,after},brainDismiss:true,mobile:geometry,screenshots:[out+'/desktop.png',out+'/mobile.png']}));
 }finally{if(browser)await browser.close();server.kill('SIGTERM')}
