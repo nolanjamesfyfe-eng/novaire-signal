@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import playwright from '/root/.hermes/cache/scratch/health-qa/node_modules/playwright-core/index.js';
 const { chromium } = playwright;
 const base = process.env.BRAIN_QA_URL || 'http://127.0.0.1:4177/tests/health-brain-fixture.html';
@@ -82,6 +83,15 @@ try {
   assert.equal(await page.evaluate(() => window.__HEALTH_BRAIN__.level), null);
   await page.evaluate(() => window.__HEALTH_BRAIN__.reset());
   await page.screenshot({ path: `${shotDir}/desktop.png`, fullPage: true });
+  const pulse = [];
+  for (let frame = 0; frame < 3; frame++) {
+    await page.waitForTimeout(700);
+    const path = `${shotDir}/pulse-${frame + 1}.png`;
+    const image = await page.locator('[data-brain-atlas] canvas').screenshot({ path });
+    pulse.push({ phase: await page.evaluate(() => window.__HEALTH_BRAIN__.pulsePhase), hash: createHash('sha256').update(image).digest('hex'), path });
+  }
+  assert.equal(new Set(pulse.map(frame => frame.hash)).size, 3, 'traveling illumination must produce perceptibly distinct rendered frames');
+  assert.equal(new Set(pulse.map(frame => frame.phase.toFixed(3))).size, 3, 'pulse phase must advance between samples');
   assert.deepEqual(errors, []);
   await context.close();
 
@@ -136,7 +146,17 @@ try {
   assert.match(await mobile.locator('.brain-atlas__description').textContent(), /breathing.*arousal/i);
   await mobile.screenshot({ path: `${shotDir}/mobile.png`, fullPage: true });
   await mobileContext.close();
-  console.log(JSON.stringify({ ok: true, descriptions: 6, canvasTap: true, mouseRotationDelta: delta(poseAfter, poseBefore), touchRotationDelta: delta(touchAfter, touchBefore), pinchDistance: [pinchBefore, pinchAfter], checkinResponse: true, mobile: collision, screenshots: [`${shotDir}/desktop.png`, `${shotDir}/mobile.png`] }));
+  const reducedContext = await browser.newContext({ viewport: { width: 900, height: 700 }, reducedMotion: 'reduce' });
+  const reduced = await reducedContext.newPage();
+  await reduced.goto(base, { waitUntil: 'networkidle' });
+  await reduced.waitForSelector('[data-brain-atlas][data-ready="true"]');
+  const reducedA = await reduced.evaluate(() => window.__HEALTH_BRAIN__.pulsePhase);
+  await reduced.waitForTimeout(900);
+  const reducedB = await reduced.evaluate(() => window.__HEALTH_BRAIN__.pulsePhase);
+  assert.equal(reducedA, reducedB, 'reduced motion must hold a static illumination phase');
+  await reduced.screenshot({ path: `${shotDir}/reduced-motion.png`, fullPage: true });
+  await reducedContext.close();
+  console.log(JSON.stringify({ ok: true, descriptions: 6, canvasTap: true, mouseRotationDelta: delta(poseAfter, poseBefore), touchRotationDelta: delta(touchAfter, touchBefore), pinchDistance: [pinchBefore, pinchAfter], checkinResponse: true, pulse, reducedMotionPhase: reducedA, mobile: collision, screenshots: [`${shotDir}/desktop.png`, `${shotDir}/mobile.png`, `${shotDir}/reduced-motion.png`] }));
 } finally {
   await browser.close();
 }
