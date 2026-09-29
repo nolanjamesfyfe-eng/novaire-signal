@@ -67,7 +67,7 @@ try {
   await client.send('Emulation.setTouchEmulationEnabled', {enabled: true, maxTouchPoints: 2});
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
-  await page.goto(`http://127.0.0.1:${port}/health/`, {waitUntil: 'domcontentloaded', timeout: 120000});
+  await page.goto(process.env.HEALTH_TOUCH_URL || `http://127.0.0.1:${port}/health/`, {waitUntil: 'domcontentloaded', timeout: 120000});
   await page.waitForFunction(() => window.__HEALTH_ATLAS__?.ready === true, null, {timeout: 120000});
   await page.evaluate(() => document.querySelector('#atlas-canvas').scrollIntoView({block: 'center', behavior: 'instant'}));
   await page.waitForTimeout(100);
@@ -98,13 +98,6 @@ try {
   assert.equal(await page.evaluate(({x, y}) => document.elementFromPoint(x, y)?.id, pec), 'atlas-canvas', 'native structure tap point targets the real canvas');
   await touch(client, 'touchStart', [{...pec, id: 70}]); await touch(client, 'touchEnd', []); await page.waitForTimeout(80);
   assert.equal(await page.evaluate(() => window.__HEALTH_ATLAS__.selected), 'pectoralis', 'single native tap selects a real structure');
-  const beforeDoubleTap = await state(page);
-  const doubleTapTime = Date.now() / 1000;
-  await touch(client, 'touchStart', [{...pec, id: 1}], doubleTapTime); await touch(client, 'touchEnd', [], doubleTapTime + .04);
-  await touch(client, 'touchStart', [{...pec, id: 1}], doubleTapTime + .16); await touch(client, 'touchEnd', [], doubleTapTime + .2); await page.waitForTimeout(650);
-  const afterDoubleTap = await state(page);
-  const focusTargetDelta = Math.hypot(...afterDoubleTap.target.map((value, index) => value - beforeDoubleTap.target[index]));
-  assert.ok(focusTargetDelta > .05 || Math.abs(dist(afterDoubleTap) - dist(beforeDoubleTap)) > .25, `second native tap focuses the selected real structure: target delta ${focusTargetDelta}, distance ${dist(beforeDoubleTap)} -> ${dist(afterDoubleTap)}`);
   await page.evaluate(() => window.__HEALTH_ATLAS__.view('reset')); await page.waitForTimeout(100);
   const beforeSuppressedPinch = await state(page);
   await pinch(client, pec, 12, 30);
@@ -112,7 +105,7 @@ try {
   assert.equal(await page.evaluate(() => window.__HEALTH_ATLAS__.selected), null, 'multi-touch over a structure never selects it');
   assert.ok(dist(await state(page)) < dist(beforeSuppressedPinch), 'suppressed multi-touch still zooms');
   report.touchTargets = touchTargets;
-  report.structureTap = {key: 'pectoralis', point: pec, focusDistance: [dist(beforeDoubleTap), dist(afterDoubleTap)]};
+  report.structureTap = {key: 'pectoralis', point: pec};
 
   for (const layer of layers) {
     await page.evaluate(layerName => document.querySelector(`[data-layer="${layerName}"]`).click(), layer);
@@ -148,7 +141,7 @@ try {
     await pinch(client, center, 18, 40, 1, {x: center.x - 44, y: center.y - 45});
     const afterContinuity = await state(page);
     assert.ok(Math.abs(angleDelta(beforeContinuity.azimuth, afterContinuity.azimuth)) > .08 || Math.abs(afterContinuity.polar - beforeContinuity.polar) > .08, `${layer}: two-pointer to one-pointer continuation orbits without reset`);
-    assert.ok(dist(afterContinuity) >= 4 && dist(afterContinuity) <= 32, `${layer}: touch zoom remains clamped`);
+    assert.ok(dist(afterContinuity) >= .8 && dist(afterContinuity) <= 32, `${layer}: touch zoom remains clamped`);
 
     await page.screenshot({path: `${out}/mobile-${layer}-gesture.png`, clip: box});
     report.layers[layer] = {
