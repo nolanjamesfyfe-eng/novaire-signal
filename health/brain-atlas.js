@@ -96,7 +96,7 @@ if (root) {
   async function buildBrain() {
     brain = new THREE.Group();
     brain.rotation.set(-.035, 0, 0);
-    brain.scale.set(1.04, 1, .96);
+    brain.scale.set(.728, .7, .672);
     scene.add(brain);
     const gltf = await new GLTFLoader().loadAsync(new URL('./models/brain-fsaverage5.glb', import.meta.url).href);
     gltf.scene.traverse(object => {
@@ -152,6 +152,13 @@ if (root) {
         ready: true, select, reset, zoom, turn, readSignal,
         get selected() { return selected; }, get level() { return level; },
         get cameraDistance() { return camera.position.distanceTo(controls.target); },
+        get projectedBounds() {
+          brain.updateMatrixWorld(true);
+          const box = new THREE.Box3().setFromObject(brain), corners = [];
+          for (let i = 0; i < 8; i++) corners.push(new THREE.Vector3(i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z).project(camera));
+          const xs = corners.map(p => p.x), ys = corners.map(p => p.y);
+          return { width: (Math.max(...xs) - Math.min(...xs)) / 2 * viewport.clientWidth, height: (Math.max(...ys) - Math.min(...ys)) / 2 * viewport.clientHeight };
+        },
         get cameraPose() { return { position: camera.position.toArray(), target: controls.target.toArray() }; },
         get pulsePhase() { return pulsePhase; },
         get modelStats() { return { meshes: pickables.length, materials: pickables.map(m => ({ name: m.name, key: m.userData.key, color: m.material.color.getHexString(), emissive: m.material.emissive.getHexString(), intensity: m.material.emissiveIntensity })) }; },
