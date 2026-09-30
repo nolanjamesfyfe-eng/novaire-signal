@@ -27,9 +27,15 @@ try{
     return route.fulfill({status:405,body:'method'});
   });
   await page.goto('http://127.0.0.1:4193/health/',{waitUntil:'domcontentloaded'});
+  assert.equal(await page.locator('.energy.energy-populated').count(),0,'honest no-data state must remain unpopulated');
+  assert.equal(await page.locator('.energy-battery').evaluate(el=>getComputedStyle(el).animationName),'energy-empty-breathe');
+  await page.locator('.energy').screenshot({path:evidence+'/health-battery-mobile-empty.png'});
+  await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('.energy-battery').evaluate(el=>getComputedStyle(el).animationName),'none','reduced motion must disable breathing');
+  await page.emulateMedia({reducedMotion:'no-preference'});
   await page.evaluate(()=>window.dispatchEvent(new CustomEvent('health:record-ready')));
   await page.waitForTimeout(1000);
   await page.waitForFunction(()=>document.querySelector('.energy-history-count')?.textContent.includes('3 entries'));
+  const mobileBattery=await page.locator('.energy-battery-wrap').boundingBox();assert(mobileBattery&&Math.abs(mobileBattery.width-144.8)<1,'mobile battery must be 80% of the previous 181px / 50%-wide baseline');
   assert.match(await page.locator('.energy-consistency-grid').textContent(),/Sleep under 7h[\s\S]*1 of 2/,'sleep missing state must not become zero');
   assert.match(await page.locator('.energy-consistency-grid').textContent(),/Alcohol 3\+[\s\S]*1 of 2/,'alcohol missing state must not become zero');
   await page.locator('.energy-calendar-prev').click();
@@ -46,6 +52,7 @@ try{
   assert.equal(await page.locator('.energy-percent').textContent(),'80%','draft answers must preview on the visible battery');
   assert.equal(await page.locator('.energy-label').textContent(),'UNSAVED PREVIEW');
   assert.equal(await page.locator('.energy.energy-previewing').count(),1);
+  assert.equal(await page.locator('.energy.energy-populated').count(),1,'any finite score, not only 100%, must use populated pulse');
   assert.match(await page.locator('.energy-coverage').textContent(),/Save to update day, week and month history/);
   assert.deepEqual(await page.evaluate(()=>({answers:window.__LAST_HEALTH_CHECKIN__?.answers,draft:window.__LAST_HEALTH_CHECKIN__?.draft})),{answers:{energy:9,focus:8,stress:2,calm:7,happiness:8},draft:true},'brain event must carry the latest draft answers');
   await page.locator('[name="sleepHours"]').fill('7.5');await page.locator('[name="alcoholCount"]').fill('0');
@@ -67,6 +74,7 @@ try{
   assert.equal(await page.locator(`.energy-calendar button[data-date="${today}"]`).getAttribute('aria-label'),`${today}, 40% battery`,'mocked server readback must survive reload');
 
   await page.setViewportSize({width:1440,height:1000});await page.locator('.energy-checkin-open').click();await page.locator('.energy-save').scrollIntoViewIfNeeded();await page.screenshot({path:evidence+'/health-checkin-desktop-update.png'});
+  const desktopBattery=await page.locator('.energy-battery-wrap').boundingBox();assert(desktopBattery&&Math.abs(desktopBattery.width-268)<1,'desktop battery must be exactly 80% of the prior 335px baseline');
   const footer=await page.locator('.energy-form-footer').boundingBox(),button=await page.locator('.energy-save').boundingBox();assert(footer&&button&&button.x>footer.x+footer.width/2,'Update must remain at the form footer bottom right');
   assert.equal(await page.locator('.energy-save').textContent(),'UPDATE');assert.equal(errors.length,0,errors.join('\n'));
   console.log('PASS mocked private UI: Enter submit, save, battery refresh, revision readback reload, prior-month calendar, selectable details, unknown states, consistency, mobile/desktop');
