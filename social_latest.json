@@ -9,7 +9,7 @@
     "published_at": "2026-09-24T09:43:18+00:00",
     "views": null,
     "likes": null,
-    "verified_at": "2026-10-02T00:51:05.761556+00:00",
+    "verified_at": "2026-10-02T20:16:14.349293+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -73,6 +73,9 @@
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-10-02T00:51:08.478199+00:00",
-  "errors": {}
+  "refreshed_at": "2026-10-02T20:16:15.728946+00:00",
+  "errors": {
+    "second_renaissance": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DbjLwLnyxu9I&q=EhAqAkeAAF6f9wAAAAAAAAABGI6igNYGIjAA9H-khs1XvIYyXZOVoK6HfFzuhd4XHgbVY23qua24NkQBasF7MjTf9deRRF366H0yAnJSWgFD",
+    "j_novaire": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DaqSWpqDuEiw&q=EhAqAkeAAF6f9wAAAAAAAAABGI-igNYGIjCc0lXTKl2esTlEYyb5ohEcZog2UC2Aaj4dJy3mKtgt5O_Pg75ejbVGRVoA_RPneLEyAnJSWgFD"
+  }
 }
