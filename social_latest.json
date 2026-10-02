@@ -9,7 +9,7 @@
     "published_at": "2026-09-24T09:43:18+00:00",
     "views": null,
     "likes": null,
-    "verified_at": "2026-10-02T20:16:14.349293+00:00",
+    "verified_at": "2026-10-02T23:01:11.706409+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram does not expose public views/watches and likes here"
   },
@@ -22,7 +22,7 @@
         "title": "Lindsay Clancy Mistrial: Where Is the Line on Accountability?",
         "url": "https://www.youtube.com/watch?v=bjLwLnyxu9I",
         "published_at": "Sep 26, 2026",
-        "views": 17,
+        "views": 18,
         "likes": null,
         "platform": "youtube",
         "type": "video",
@@ -40,7 +40,7 @@
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-10-02T00:51:07.186367+00:00",
+      "verified_at": "2026-10-02T23:01:13.092189+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -69,13 +69,10 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-10-02T00:51:08.475570+00:00",
+      "verified_at": "2026-10-02T23:01:14.310893+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-10-02T20:16:15.728946+00:00",
-  "errors": {
-    "second_renaissance": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DbjLwLnyxu9I&q=EhAqAkeAAF6f9wAAAAAAAAABGI6igNYGIjAA9H-khs1XvIYyXZOVoK6HfFzuhd4XHgbVY23qua24NkQBasF7MjTf9deRRF366H0yAnJSWgFD",
-    "j_novaire": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DaqSWpqDuEiw&q=EhAqAkeAAF6f9wAAAAAAAAABGI-igNYGIjCc0lXTKl2esTlEYyb5ohEcZog2UC2Aaj4dJy3mKtgt5O_Pg75ejbVGRVoA_RPneLEyAnJSWgFD"
-  }
+  "refreshed_at": "2026-10-02T23:01:14.313520+00:00",
+  "errors": {}
 }
