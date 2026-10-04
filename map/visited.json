@@ -62,7 +62,7 @@
     "GA": false,
     "GB": true,
     "GD": false,
-    "GE": false,
+    "GE": true,
     "GH": false,
     "GM": false,
     "GN": false,
@@ -200,8 +200,6 @@
     "ZM": false,
     "ZW": false
   },
-  "updatedAt": "2026-09-30T08:24:30Z",
-  "planned": [
-    "GE"
-  ]
+  "updatedAt": "2026-10-04T07:21:35Z",
+  "planned": []
 }
