@@ -14,7 +14,7 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
  const errors=[];page.on('pageerror',error=>errors.push(String(error)));
  await page.goto('http://127.0.0.1:4180/health/',{waitUntil:'domcontentloaded',timeout:120000});
- await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready&&window.__HEALTH_BRAIN__?.ready,null,{timeout:120000});const deformation=await page.evaluate(()=>window.__HEALTH_PHYSIQUE_METRICS__);assert.ok(deformation.muscle.ratios.width<.93,`baseline anatomy must be regionally narrower than source (${deformation.muscle.ratios.width})`);assert.ok(deformation.muscle.ratios.depth<.9,`baseline anatomy must have reduced front-back depth (${deformation.muscle.ratios.depth})`);assert.ok(deformation.muscle.ratios.height>.99,`lean deformation must retain tall proportions (${deformation.muscle.ratios.height})`);await page.evaluate(()=>window.stop());
+ await page.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready&&window.__HEALTH_BRAIN__?.ready,null,{timeout:120000});const deformation=await page.evaluate(()=>window.__HEALTH_PHYSIQUE_METRICS__);assert.ok(deformation.muscle.ratios.width<.93,`baseline anatomy must be regionally narrower than source (${deformation.muscle.ratios.width})`);assert.ok(deformation.muscle.ratios.depth<.9,`baseline anatomy must have reduced front-back depth (${deformation.muscle.ratios.depth})`);assert.ok(deformation.muscle.verticalEdit.headMaxDelta>20,'crown compression must be structurally meaningful');assert.equal(deformation.muscle.verticalEdit.nonHeadMaxDelta,0,'torso and limb vertical coordinates must remain unchanged by the cranial edit');await page.evaluate(()=>window.stop());
  await page.locator('.physique-toggle').click({noWaitAfter:true});
  assert.match(await page.locator('.physique-copy b').textContent(),/193 CM · 80 KG · LEAN ATHLETIC APPROXIMATION/);
  assert.equal(await page.locator('[data-physique="weight"]').inputValue(),'80');
@@ -26,7 +26,7 @@ try{
  assert.ok(after>before*1.08,`weight must visibly widen the frame (${before} -> ${after})`);
  assert.match(await page.locator('.physique-readout').textContent(),/110 KG · 82% DEFINITION/);
  await page.locator('[data-brain-part="frontal"]').click();assert.equal(await page.evaluate(()=>window.__HEALTH_BRAIN__.selected),'frontal');
- await page.locator('#atlas-title').click();assert.equal(await page.evaluate(()=>window.__HEALTH_BRAIN__.selected),null);
+ const stagePoint=await page.locator('.stage').evaluate(el=>{const r=el.getBoundingClientRect();return{x:r.left+8,y:r.bottom-8}});await page.mouse.click(stagePoint.x,stagePoint.y);assert.equal(await page.evaluate(()=>window.__HEALTH_BRAIN__.selected),null);
  await page.screenshot({path:out+'/desktop.png',fullPage:true});
  const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
  await mobile.goto('http://127.0.0.1:4180/health/',{waitUntil:'domcontentloaded',timeout:120000});await mobile.waitForFunction(()=>window.__HEALTH_ATLAS__?.ready,null,{timeout:120000});
