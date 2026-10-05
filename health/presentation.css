@@ -1,228 +1,135 @@
-/* Share-ready presentation pass. Geometry and atlas rendering stay untouched. */
-.stage,
-.brain-atlas,
-.energy,
-.directory{
-  isolation:isolate;
+/* Health Maxxing — editorial presentation layer.
+   Rendering geometry, event targets and private data semantics remain untouched. */
+:root{--hm-rule:rgba(205,246,255,.14);--hm-rule-strong:rgba(205,246,255,.23);--hm-paper:#dffbff;--hm-dim:#82959b;--hm-gold:#b59662}
+.stage,.brain-atlas,.energy,.directory{position:relative;isolation:isolate}
+.stage::before,.brain-atlas::after,.energy::after{content:"";position:absolute;z-index:8;right:0;bottom:0;left:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,238,255,.26) 26%,rgba(123,238,255,.26) 74%,transparent);pointer-events:none}
+
+/* The body is the cover: disciplined rails around the central specimen. */
+.stage>.intro{z-index:6}
+.stage>.intro::before{content:"01  /  SOMATIC ATLAS";display:block;margin-bottom:22px;color:#77c9d4;font:600 8px/1 Arial,sans-serif;letter-spacing:.3em}
+.stage>.intro .lede{max-width:300px;margin-top:24px;padding-top:20px;border-top:1px solid var(--hm-rule);color:#8ba0a6;line-height:1.65}
+.stage #viewport{max-width:760px;left:50%;right:auto;width:min(53vw,760px);transform:translateX(-50%)}
+.layer-controls,.view-controls{box-shadow:0 14px 34px rgba(0,0,0,.26)}
+.layer-controls button,.view-controls button{transition:color .18s ease,background .18s ease,border-color .18s ease}
+.layer-controls button:focus-visible,.view-controls button:focus-visible,.zoom-controls button:focus-visible{outline:1px solid var(--cyan);outline-offset:3px}
+.inspector{right:clamp(22px,5vw,76px);width:min(286px,22vw);border-color:var(--hm-rule-strong);background:linear-gradient(155deg,rgba(9,17,20,.94),rgba(4,8,10,.88))}
+.inspector::before{content:"STRUCTURE RECORD";display:block;margin-bottom:17px;color:#6e8b91;font:600 7px/1 Arial,sans-serif;letter-spacing:.25em}
+.luminous-note{bottom:30px}
+
+/* Brain: warm living tissue inside the same clinical editorial system. */
+.brain-atlas{padding:clamp(72px,8vw,118px) clamp(18px,5vw,72px);background:radial-gradient(ellipse at 45% 42%,rgba(111,49,137,.2),transparent 31%),radial-gradient(ellipse at 72% 70%,rgba(113,70,32,.08),transparent 30%),linear-gradient(145deg,#070508,#030304 68%)}
+.brain-atlas__head,.brain-atlas__deck,.brain-atlas__signal,.brain-atlas__source{width:min(1120px,100%)}
+.brain-atlas__head{position:relative;align-items:flex-end;margin-bottom:34px;padding:0 0 28px 72px;border-bottom:1px solid rgba(221,196,255,.14)}
+.brain-atlas__head::before{content:"02";position:absolute;left:0;bottom:27px;color:rgba(218,183,255,.45);font:300 40px/.8 Georgia,serif}
+.brain-atlas__head::after{content:"CORTICAL ATLAS";position:absolute;left:2px;bottom:13px;color:#806f8c;font:600 7px/1 Arial,sans-serif;letter-spacing:.18em}
+.brain-atlas__intro{color:#9d96a3}
+.brain-atlas__deck{grid-template-columns:minmax(0,1fr) 300px;height:min(650px,62vw);min-height:570px;border-color:rgba(221,196,255,.18);background:linear-gradient(145deg,rgba(12,9,15,.9),rgba(4,5,8,.78));box-shadow:0 42px 100px rgba(0,0,0,.5),inset 0 1px rgba(255,255,255,.035)}
+.brain-atlas__viewport::after{content:"DRAG TO ROTATE  ·  SELECT A REGION";position:absolute;right:18px;bottom:18px;color:#716878;font:600 7px/1 Arial,sans-serif;letter-spacing:.2em;pointer-events:none}
+.brain-atlas__panel{background:linear-gradient(180deg,rgba(15,11,18,.92),rgba(6,7,10,.9));border-left-color:rgba(221,196,255,.14)}
+.brain-atlas__signal{margin-top:18px;padding-top:20px;border-top:1px solid rgba(221,196,255,.1)}
+
+/* Battery: one clear check-in instrument, then its supporting record. */
+.energy{padding:clamp(76px,8vw,116px) clamp(20px,5vw,76px);background:radial-gradient(circle at 50% 5%,rgba(24,73,86,.13),transparent 30%),linear-gradient(180deg,#070b11,#05080c)}
+.energy-inner{width:min(1080px,100%);counter-reset:energy-section}
+.energy-kicker{margin-bottom:18px;color:#76bcc5;font-size:9px;letter-spacing:.25em}
+.energy h2{max-width:720px;font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.045em}
+.energy-intro{max-width:600px;margin:15px 0 32px;color:#879aab;font-size:15px;line-height:1.6}
+.energy-tabs{width:min(450px,100%);padding:4px;border:1px solid rgba(126,168,194,.14);border-radius:2px;background:#0c131d;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.energy-tabs button{min-height:44px;border-radius:0;font-size:9px;letter-spacing:.18em}
+.energy-tabs button[aria-selected=true]{background:#17302f;box-shadow:inset 0 -2px #55e8bb}
+.energy-period{justify-content:flex-start;margin:16px 0 0}
+.energy-period-label{text-align:left}
+.energy-panel{position:relative;margin-top:25px;padding:40px clamp(22px,5vw,58px) 34px;border:1px solid rgba(126,168,194,.16);border-radius:2px;background:linear-gradient(135deg,rgba(13,23,34,.9),rgba(7,12,19,.74));box-shadow:0 28px 72px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.025)}
+.energy-panel::before{content:"CURRENT READ";position:absolute;top:18px;left:20px;color:#5e7585;font:700 7px/1 Arial,sans-serif;letter-spacing:.23em}
+.energy-reading{margin-top:24px}
+.energy-empty{max-width:540px;margin-inline:auto;border-style:dashed;background:rgba(5,10,15,.38);color:#8898a7}
+.energy-actions{display:grid;grid-template-columns:minmax(220px,1.2fr) repeat(2,minmax(170px,.8fr));gap:8px;margin-top:14px}
+.energy-actions button{min-height:46px;border-radius:2px}
+.energy-actions>p{grid-column:1/-1;max-width:720px;margin:7px auto 0;text-align:center}
+.energy-trends,.energy-history{position:relative;margin-top:54px;padding:clamp(25px,3.5vw,38px);border:1px solid rgba(126,168,194,.14);border-radius:2px;background:rgba(9,15,23,.66);box-shadow:inset 0 1px rgba(255,255,255,.022)}
+.energy-trends::before,.energy-history::before{position:absolute;top:-24px;left:0;color:#58717f;font:600 7px/1 Arial,sans-serif;letter-spacing:.24em}
+.energy-trends::before{content:"03A  /  SIGNALS"}.energy-history::before{content:"03B  /  PRIVATE RECORD"}
+.energy-trends>h3,.energy-history h3{font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.025em}
+.energy-metrics,.energy-consistency-grid{gap:8px}
+.energy-calendar button,.energy-day-detail,.energy-consistency-grid>*{border-radius:3px;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.energy-history-count,.energy-trends>p,.energy-consistency-note{line-height:1.55}
+
+/* Directory closes the page as a proper index, not another dashboard. */
+.directory{padding:clamp(68px,8vw,106px) clamp(20px,5vw,76px);background:radial-gradient(circle at 15% 20%,rgba(21,64,69,.1),transparent 32%),#040809}
+.directory::before{content:"";position:absolute;top:-1px;right:0;left:0;height:1px;background:linear-gradient(90deg,transparent,rgba(181,150,98,.34),transparent)}
+.directory>div:first-child{position:relative;padding-left:68px}
+.directory>div:first-child::before{content:"04";position:absolute;left:0;top:22px;color:rgba(181,150,98,.62);font:300 40px/.8 Georgia,serif}
+.directory h2{letter-spacing:-.04em}
+.directory-content{align-self:start}
+.search,.filters,.muscle-list{border-color:rgba(205,246,255,.18)}
+.search:focus-within{border-color:rgba(123,238,255,.58);box-shadow:0 0 0 1px rgba(123,238,255,.12)}
+.filters button{min-height:39px}
+.muscle-list{background:rgba(6,11,13,.54)}
+
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:1px solid #7beeff;outline-offset:3px}
+
+@media(max-width:1000px) and (min-width:761px){
+  .stage #viewport{width:58vw;left:52%}
+  .stage>.intro{left:28px;width:225px}.stage>.intro #atlas-title{font-size:42px}
+  .inspector{right:24px;width:230px}
 }
 
-.stage::before{
-  content:"";
-  position:absolute;
-  z-index:2;
-  right:0;
-  bottom:0;
-  left:0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(123,238,255,.28) 25%,rgba(123,238,255,.28) 75%,transparent);
-  pointer-events:none;
+@media(max-width:760px){
+  .topbar{height:64px;padding-inline:14px;background:linear-gradient(180deg,rgba(3,7,9,.94),rgba(3,7,9,.72));backdrop-filter:blur(12px)}
+  .signal-brand-row .signal-wordmark{padding-block:12px;margin-block:-12px}
+  .signal-brand-row .signal-map,.signal-brand-row .signal-bolt{box-sizing:content-box;padding:13px;margin:-13px}
+  .signal-brand-row .signal-health{box-sizing:content-box;padding:13px;margin-top:-13px;margin-right:-13px;margin-bottom:-13px;margin-left:calc(-.505em - 14.2px)}
+  .stage{height:900px;min-height:900px;background:radial-gradient(ellipse at 50% 48%,#092536 0,#05121c 33%,#020508 75%)}
+  .stage>.intro{top:78px;left:18px;width:calc(100% - 36px);text-align:center}
+  .stage>.intro::before{margin-bottom:13px;font-size:7px}
+  .stage>.intro #atlas-title{max-width:none;font-size:clamp(34px,10vw,42px);line-height:.82;text-align:center}
+  .stage>.intro .lede{display:none}
+  .layer-controls{top:181px;width:calc(100% - 28px);justify-content:stretch}
+  .layer-controls button{flex:1;min-width:0;padding-inline:6px}
+  .view-controls{top:234px;width:calc(100% - 20px);justify-content:center}
+  .view-controls button{flex:1;min-width:0;padding-inline:4px}
+  .stage #viewport{inset:288px 0 170px;left:0;right:0;width:100%;max-width:none;transform:none}
+  .inspector{right:10px;bottom:10px;left:10px;width:auto;max-height:164px;padding:13px 16px}
+  .inspector::before,.inspector .eyebrow,.inspector .number,.inspector .data-row{display:none}
+  .inspector h2{margin-top:0}.luminous-note{right:12px;bottom:151px}
+
+  .brain-atlas{padding:58px 14px 62px}
+  .brain-atlas__head{display:block;margin-bottom:22px;padding:0 0 20px}
+  .brain-atlas__head::before,.brain-atlas__head::after{display:none}
+  .brain-atlas h2{font-size:clamp(36px,11vw,44px)}
+  .brain-atlas__intro{width:auto;margin:16px 0 0;font-size:12px;line-height:1.55}
+  .brain-atlas__deck{grid-template-columns:1fr;height:auto;min-height:0;border-radius:0}
+  .brain-atlas__viewport{height:390px}
+  .brain-atlas__viewport::after{display:none}
+  .brain-atlas__labels{position:static;grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;padding:8px;border-top:1px solid rgba(221,196,255,.13);background:rgba(5,5,8,.9)}
+  .brain-atlas__labels button{min-height:44px;padding:7px 6px;font-size:7px;white-space:nowrap}
+  .brain-atlas__panel{grid-row:3;min-height:156px;padding:16px;grid-template-columns:54px minmax(0,1fr)}
+  .brain-atlas__number{font-size:42px}.brain-atlas__panel h3{font-size:23px}
+  .brain-atlas__turn,.brain-atlas__zoom{top:336px}.brain-atlas__turn button,.brain-atlas__zoom button{min-width:44px;min-height:44px}
+  .brain-atlas__signal{margin-top:14px;padding-top:16px}
+
+  .energy{padding:62px 14px 70px}
+  .energy-kicker{font-size:8px}.energy h2{font-size:42px}.energy-intro{margin-bottom:24px;font-size:14px}
+  .energy-tabs{width:100%}.energy-period{justify-content:space-between;gap:8px}.energy-period-label{min-width:0;text-align:center}
+  .energy-panel{margin-top:18px;padding:36px 14px 22px}.energy-panel::before{top:14px;left:14px}
+  .energy-battery-wrap{width:44%;min-width:132px}
+  .energy-actions{grid-template-columns:1fr;gap:8px}.energy-actions button{width:100%;min-height:46px}.energy-actions>p{grid-column:auto;margin-top:4px;text-align:left}
+  .energy-trends,.energy-history{margin-top:48px;padding:19px 12px}
+  .energy-trends::before,.energy-history::before{top:-21px}
+  .energy-history-heading{gap:12px}.energy-calendar-nav{margin-top:14px}.energy-calendar-nav button{width:44px;height:44px}
+  .energy-calendar-weekdays{margin-top:18px}.energy-calendar button{min-height:40px}.energy-day-detail{margin-top:14px;padding:15px}
+
+  .directory{display:block;padding:62px 18px 68px}
+  .directory>div:first-child{padding-left:52px}.directory>div:first-child::before{font-size:32px;top:21px}
+  .directory-content{margin-top:30px}.search input{min-height:46px}.filters button{min-height:44px}
+  footer{padding-inline:14px}
 }
 
-.brain-atlas__head,
-.energy-inner{
-  width:min(1180px,100%);
-  margin-inline:auto;
+@media(max-width:390px){
+  .signal-brand-row{font-size:21px!important}.stage{height:880px;min-height:880px}
+  .view-controls button{font-size:7px;letter-spacing:.08em}.brain-atlas__viewport{height:370px}.brain-atlas__turn,.brain-atlas__zoom{top:316px}
+  .energy h2{font-size:38px}.energy-calendar-weekdays,.energy-calendar{gap:3px}.energy-calendar button{min-height:38px}
 }
 
-.brain-atlas__head{
-  padding-bottom:24px;
-  border-bottom:1px solid rgba(205,246,255,.11);
-}
-
-.brain-atlas__deck{
-  border-color:rgba(205,246,255,.2);
-  background:linear-gradient(145deg,rgba(7,13,16,.86),rgba(3,5,8,.72));
-  box-shadow:0 38px 100px rgba(0,0,0,.44),inset 0 1px rgba(255,255,255,.035);
-}
-
-.energy{
-  padding-block:clamp(68px,7vw,96px);
-  background:
-    radial-gradient(circle at 50% 10%,rgba(25,68,82,.12),transparent 34%),
-    linear-gradient(180deg,#070b11,#060a0f);
-}
-
-.energy-inner{
-  max-width:1080px;
-}
-
-.energy-tabs{
-  border:1px solid rgba(126,168,194,.12);
-  box-shadow:inset 0 1px rgba(255,255,255,.025);
-}
-
-.energy-panel{
-  margin-top:24px;
-  padding:34px clamp(20px,4vw,44px) 30px;
-  border:1px solid rgba(126,168,194,.14);
-  border-radius:18px;
-  background:linear-gradient(180deg,rgba(14,23,35,.74),rgba(8,13,21,.48));
-  box-shadow:0 24px 64px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.025);
-}
-
-.energy-actions{
-  margin-top:22px;
-}
-
-.energy-trends,
-.energy-history{
-  margin-top:48px;
-  padding:clamp(22px,3vw,32px);
-  border:1px solid rgba(126,168,194,.13);
-  border-radius:18px;
-  background:rgba(10,16,25,.62);
-  box-shadow:inset 0 1px rgba(255,255,255,.02);
-}
-
-.energy-trends > h3,
-.energy-history h3{
-  letter-spacing:-.02em;
-}
-
-.energy-metrics,
-.energy-consistency-grid{
-  gap:10px;
-}
-
-.energy-calendar button,
-.energy-day-detail,
-.energy-consistency-grid > *{
-  box-shadow:inset 0 1px rgba(255,255,255,.025);
-}
-
-.directory{
-  position:relative;
-}
-
-.directory::before{
-  content:"";
-  position:absolute;
-  top:-1px;
-  right:0;
-  left:0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(181,150,98,.3),transparent);
-}
-
-.search,
-.filters,
-.muscle-list{
-  border-color:rgba(205,246,255,.17);
-}
-
-@media (min-width:761px){
-  .energy-actions{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px;
-  }
-  .energy-actions > p{
-    flex-basis:100%;
-  }
-}
-
-@media (max-width:760px){
-  .topbar{
-    padding-inline:14px;
-  }
-
-  .stage > .intro{
-    top:76px;
-  }
-
-  .stage > .intro #atlas-title{
-    font-size:clamp(31px,9.4vw,39px);
-    line-height:.86;
-  }
-
-  .layer-controls{
-    top:164px;
-  }
-
-  .view-controls{
-    top:220px;
-    width:calc(100% - 24px);
-    justify-content:center;
-  }
-
-  .stage #viewport{
-    inset:274px 0 168px;
-  }
-
-  .brain-atlas{
-    padding-block:54px;
-  }
-
-  .brain-atlas__head{
-    margin-bottom:20px;
-    padding-bottom:20px;
-  }
-
-  .brain-atlas__intro{
-    margin-top:16px;
-  }
-
-  .energy{
-    padding:58px 14px 64px;
-  }
-
-  .energy-intro{
-    margin-bottom:22px;
-  }
-
-  .energy-panel{
-    margin-top:18px;
-    padding:26px 14px 22px;
-    border-radius:14px;
-  }
-
-  .energy-actions{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:9px;
-  }
-
-  .energy-actions button{
-    width:100%;
-    min-height:44px;
-  }
-
-  .energy-actions > p{
-    margin-block:4px 0;
-  }
-
-  .energy-trends,
-  .energy-history{
-    margin-top:32px;
-    padding:18px 12px;
-    border-radius:14px;
-  }
-
-  .energy-history-heading{
-    gap:12px;
-  }
-
-  .energy-calendar-nav{
-    margin-top:14px;
-  }
-
-  .energy-calendar-weekdays{
-    margin-top:18px;
-  }
-
-  .energy-day-detail{
-    margin-top:14px;
-  }
-
-  .directory{
-    padding-inline:18px;
-  }
-}
-
-@media (prefers-reduced-motion:reduce){
-  .energy-panel,
-  .brain-atlas__deck{
-    scroll-behavior:auto;
-  }
-}
+@media(prefers-reduced-motion:reduce){.layer-controls button,.view-controls button{transition:none}.brain-atlas__deck,.energy-panel{scroll-behavior:auto}}
