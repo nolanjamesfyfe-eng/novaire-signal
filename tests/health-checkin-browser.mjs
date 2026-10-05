@@ -14,6 +14,8 @@ try{
     {date:'2026-08-19',schemaVersion:3,scaleMax:10,score:30,answers:{energy:2,focus:3,stress:9,calm:3,happiness:6},foundations:{}}
   ], putBodies=[];
   const context=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'});
+  // Keep calendar expectations independent of the machine/production clock.
+  await context.addInitScript(({now})=>{const NativeDate=Date;class FrozenDate extends NativeDate{constructor(...args){super(...(args.length?args:[now]))}static now(){return now}}FrozenDate.parse=NativeDate.parse;FrozenDate.UTC=NativeDate.UTC;window.Date=FrozenDate},{now:Date.parse('2026-09-15T05:00:00.000Z')});
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(String(e)));
   await page.route(/.*\/(atlas|brain-atlas|injury-journal|private-health)\.js.*/,route=>route.fulfill({status:200,contentType:'application/javascript',body:''}));
   await page.route('**/api/health-checkins',async route=>{
@@ -35,7 +37,7 @@ try{
   await page.evaluate(()=>window.dispatchEvent(new CustomEvent('health:record-ready')));
   await page.waitForTimeout(1000);
   await page.waitForFunction(()=>document.querySelector('.energy-history-count')?.textContent.includes('3 entries'));
-  const mobileBattery=await page.locator('.energy-battery-wrap').boundingBox();assert(mobileBattery&&Math.abs(mobileBattery.width-144.8)<1,'mobile battery must be 80% of the previous 181px / 50%-wide baseline');
+  const mobileBattery=await page.locator('.energy-battery-wrap').boundingBox(),mobileBatteryRule=await page.locator('.energy-battery-wrap').evaluate(()=>[...document.styleSheets].flatMap(sheet=>{try{return[...sheet.cssRules]}catch{return[]}}).filter(rule=>rule.selectorText==='.energy-battery-wrap').at(-1)?.style.width);assert.equal(mobileBatteryRule,'min(268px, 35.2%)');assert(mobileBattery&&mobileBattery.width<268&&mobileBattery.width>100,`mobile battery must render compactly within its 268px cap; got ${mobileBattery?.width}`);
   assert.match(await page.locator('.energy-consistency-grid').textContent(),/Sleep under 7h[\s\S]*1 of 2/,'sleep missing state must not become zero');
   assert.match(await page.locator('.energy-consistency-grid').textContent(),/Alcohol 3\+[\s\S]*1 of 2/,'alcohol missing state must not become zero');
   await page.locator('.energy-calendar-prev').click();

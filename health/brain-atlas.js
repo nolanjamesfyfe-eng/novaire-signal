@@ -189,8 +189,9 @@ if (root) {
     root.querySelectorAll('.brain-atlas__panel dd').forEach(d => d.textContent = '—'); root.querySelectorAll('[data-brain-part]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
   }
   function reset() { clearSelection(); camera.position.set(0, .12, 7.15); controls.target.set(0, -.05, 0); controls.update(); brain.rotation.set(-.035, 0, 0); }
-  function zoom(direction) { const distance = THREE.MathUtils.clamp(camera.position.distanceTo(controls.target) + (direction === 'in' ? -.8 : .8), controls.minDistance, controls.maxDistance); camera.position.copy(controls.target).add(camera.position.clone().sub(controls.target).normalize().multiplyScalar(distance)); controls.update(); }
-  function turn(direction) { const angle = direction === 'left' ? -.34 : .34; camera.position.sub(controls.target).applyAxisAngle(new THREE.Vector3(0, 1, 0), angle).add(controls.target); controls.update(); }
+  function settleCamera(action) { const damping = controls.enableDamping; controls.enableDamping = false; controls.update(); action(); controls.update(); controls.enableDamping = damping; }
+  function zoom(direction) { settleCamera(() => { const offset = camera.position.clone().sub(controls.target), distance = THREE.MathUtils.clamp(offset.length() + (direction === 'in' ? -.8 : .8), controls.minDistance, controls.maxDistance); camera.position.copy(controls.target).addScaledVector(offset.normalize(), distance); }); }
+  function turn(direction) { settleCamera(() => { const angle = direction === 'left' ? -.34 : .34; camera.position.sub(controls.target).applyAxisAngle(new THREE.Vector3(0, 1, 0), angle).add(controls.target); }); }
   function readSignal(entry) {
     level = expressiveLevel(entry); const neutral = level == null;
     root.classList.toggle('has-signal', !neutral); root.style.setProperty('--brain-signal', neutral ? '0' : level.toFixed(3));

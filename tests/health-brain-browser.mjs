@@ -55,8 +55,8 @@ try {
   await page.mouse.click(frontalPoint.x, frontalPoint.y);
   assert.equal(await page.evaluate(() => window.__HEALTH_BRAIN__.selected), 'frontal', 'actual canvas tap should select its visible structure');
 
-  await page.locator('[data-brain-zoom="in"]').click();
-  assert.ok(await page.evaluate(() => window.__HEALTH_BRAIN__.cameraDistance) < initial.distance, 'zoom in should reduce camera distance');
+  const brainZoom=[];for(let i=0;i<3;i++){await page.locator('[data-brain-zoom="in"]').click();brainZoom.push(await page.evaluate(() => window.__HEALTH_BRAIN__.cameraDistance));}
+  assert.ok(brainZoom.every((value,index)=>!index||value<brainZoom[index-1]), 'every repeated brain zoom click should reduce camera distance monotonically');
   await page.evaluate(() => window.__HEALTH_BRAIN__.reset());
   const turnBefore = await page.evaluate(() => window.__HEALTH_BRAIN__.cameraPose.position);
   await page.locator('[data-brain-turn="right"]').click();
