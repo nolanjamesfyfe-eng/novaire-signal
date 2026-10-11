@@ -10,6 +10,8 @@ import re
 import hashlib
 import math
 import os
+import signal
+import subprocess
 import sys
 import time
 import traceback
@@ -17,7 +19,7 @@ from pathlib import Path
 from html import escape
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
-from urllib.parse import quote, quote_plus
+from urllib.parse import quote, quote_plus, urlsplit
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 from meditation_rotation import select_for_edition
 from portfolio_tracker import (
@@ -2156,48 +2158,98 @@ def parse_investing_futures(markdown):
     return parsed
 
 
+def _free_extract_live_page(url: str) -> str:
+    """Run the vendored live extractor behind an absolute wall-clock deadline."""
+    helper = Path(__file__).resolve().parent / "scripts" / "free_web.py"
+    socket_timeout = float(os.environ.get("SIGNAL_FREE_EXTRACT_IO_TIMEOUT_SECONDS", "8"))
+    deadline = float(os.environ.get("SIGNAL_FREE_EXTRACT_DEADLINE_SECONDS", "12"))
+    command = [
+        sys.executable, str(helper), "extract", url, "--live-only",
+        "--timeout", str(socket_timeout),
+    ]
+    try:
+        process = subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            start_new_session=True,
+        )
+        try:
+            stdout, _stderr = process.communicate(timeout=deadline)
+        except subprocess.TimeoutExpired:
+            # Kill the isolated group so future helper implementations cannot
+            # leak descendants after the retrieval deadline expires.
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            process.communicate()
+            return ""
+    except (OSError, ValueError):
+        return ""
+    if process.returncode != 0:
+        return ""
+    try:
+        hit = json.loads(stdout)
+    except (TypeError, json.JSONDecodeError):
+        return ""
+    return (hit.get("content") or "") if not hit.get("error") else ""
+
+
+_FIRECRAWL_BLOCKED_HOSTS: set[str] = set()
+
+
 def scrape_page_text(url: str) -> str:
-    """Firecrawl first; free extract (direct/Jina/Wayback) when credits are gone."""
+    """Try finite-timeout local/free extraction; paid Firecrawl is explicit opt-in."""
     key = os.environ.get("FIRECRAWL_API_KEY")
+    host = (urlsplit(url).hostname or "").lower()
     endpoints = []
     local = (os.environ.get("FIRECRAWL_API_URL") or "").rstrip("/")
     if not local:
         try:
-            for raw in open("/root/clawd/.secrets", encoding="utf-8"):
-                if raw.startswith("FIRECRAWL_API_URL="):
-                    local = raw.split("=", 1)[1].strip().strip('"').strip("'").rstrip("/")
-                    break
+            with open("/root/clawd/.secrets", encoding="utf-8") as secrets:
+                for raw in secrets:
+                    if raw.startswith("FIRECRAWL_API_URL="):
+                        local = raw.split("=", 1)[1].strip().strip('"').strip("'").rstrip("/")
+                        break
         except OSError:
             pass
-    if local:
+    if local and host not in _FIRECRAWL_BLOCKED_HOSTS:
         endpoints.append(local + "/v2/scrape")
-    endpoints.append("https://api.firecrawl.dev/v2/scrape")
-    for endpoint in endpoints:
+    if (key and os.environ.get("SIGNAL_ALLOW_PAID_FIRECRAWL") == "1"
+            and host not in _FIRECRAWL_BLOCKED_HOSTS):
+        endpoints.append("https://api.firecrawl.dev/v2/scrape")
+    for endpoint_index, endpoint in enumerate(endpoints):
         headers = {"Content-Type": "application/json"}
-        if key:
+        if key and "api.firecrawl.dev" in endpoint:
             headers["Authorization"] = f"Bearer {key}"
-        elif "api.firecrawl.dev" in endpoint:
-            continue
         try:
             response = requests.post(
                 endpoint,
                 headers=headers,
-                json={"url": url, "formats": ["markdown"], "onlyMainContent": True},
-                timeout=60,
+                json={"url": url, "formats": ["markdown"], "onlyMainContent": True,
+                      "timeout": 8000},
+                timeout=(2, 8),
             )
             if response.status_code == 200:
                 markdown = response.json().get("data", {}).get("markdown", "") or ""
-                if markdown.strip():
+                stripped = markdown.strip()
+                if len(stripped) >= 40 and stripped not in {"401", "403", "429"}:
                     return markdown
+                if stripped in {"401", "403", "429"}:
+                    # Do not spend the same run retrying a host known to reject
+                    # this server (the commodities page shares the same WAF).
+                    if endpoint_index == len(endpoints) - 1:
+                        _FIRECRAWL_BLOCKED_HOSTS.add(host)
+                    continue
+            elif response.status_code in {401, 402, 403, 429, 500, 502, 503, 504}:
+                if endpoint_index == len(endpoints) - 1:
+                    _FIRECRAWL_BLOCKED_HOSTS.add(host)
+                continue
         except Exception:
             pass
-    scripts = "/root/clawd/scripts"
-    if scripts not in sys.path:
-        sys.path.insert(0, scripts)
-    from free_web import extract as free_extract
-
-    hit = free_extract(url)
-    return (hit.get("content") or "") if not hit.get("error") else ""
+    return _free_extract_live_page(url)
 
 
 def fetch_investing_futures():
