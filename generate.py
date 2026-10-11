@@ -5945,6 +5945,10 @@ def main():
                 "total_cad": stats_total_cad,
                 "total_usd": stats_total_usd,
                 "roi_pct_str": stats_roi_pct_str,
+                # Persist the same Sheet-derived source set used to render the
+                # table so post-generation validation can detect dropped rows
+                # without freezing a mutable user-owned portfolio size.
+                "holdings_count": len(holdings_source),
             },
             "polymarket": {
                 "total_account": poly.get("total_account", 0) if poly else 0,
