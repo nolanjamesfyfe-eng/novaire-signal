@@ -40,7 +40,7 @@
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-10-12T20:15:55.493512+00:00",
+      "verified_at": "2026-10-12T23:00:57.049779+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -69,11 +69,11 @@
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-10-12T20:15:56.663619+00:00",
+      "verified_at": "2026-10-12T23:00:58.285254+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-10-12T20:15:56.666254+00:00",
+  "refreshed_at": "2026-10-12T23:00:58.286344+00:00",
   "errors": {
     "instagram": "public profile embed returned older media; retained newer verified item"
   }
