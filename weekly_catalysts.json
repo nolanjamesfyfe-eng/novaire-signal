@@ -1,29 +1,35 @@
 {
-  "as_of": "2026-09-28",
+  "as_of": "2026-10-12",
   "items": {
     "HG.CN": {
-      "title": "HydroGraph files circular for proposed U.S. redomicile vote",
-      "published": "2026-09-21T00:00:00Z",
+      "title": "HydroGraph showcased newly launched Fractal Graphene Paste at Advanced Materials Show USA",
+      "published": "2026-10-01T00:00:00Z",
       "source": "HydroGraph Clean Power",
       "url": "https://hydrograph.com/media/"
     },
-    "FVL.TO": {
-      "title": "Freegold reports 3.10 g/t Au over 102.8 m while advancing Golden Summit PFS work",
-      "published": "2026-09-16T00:00:00Z",
-      "source": "Freegold Limited",
-      "url": "https://freegoldlimited.com/news/freegold-intersects-3-10-g-t-au-over-102-8-m/"
+    "URNJ": {
+      "title": "No discrete issuer catalyst verified; URNJ remains a basket of junior uranium miners tracking the Nasdaq Sprott Junior Uranium Miners Index",
+      "published": "2026-10-12T00:00:00Z",
+      "source": "Sprott Asset Management",
+      "url": "https://sprottetfs.com/urnj-sprott-junior-uranium-miners-etf/"
     },
     "GLO.TO": {
-      "title": "Global Atomic prices C$50 million public offering for Dasa funding",
-      "published": "2026-09-23T00:00:00Z",
-      "source": "Global Atomic",
-      "url": "https://www.nasdaq.com/press-release/global-atomic-announces-c-50-million-public-offering-units-2026-09-23"
+      "title": "Global Atomic closed C$57 million public offering for Dasa funding",
+      "published": "2026-09-29T00:00:00Z",
+      "source": "Global Atomic / CNW",
+      "url": "https://www.newswire.ca/news-releases/global-atomic-announces-closing-of-public-offering-for-gross-proceeds-of-c-57-million-855268356.html"
+    },
+    "FVL.TO": {
+      "title": "Freegold reported 3.10 g/t Au over 102.8 m while advancing Golden Summit PFS work",
+      "published": "2026-09-16T00:00:00Z",
+      "source": "Freegold Limited",
+      "url": "https://freegoldventures.com/news/freegold-intersects-3-10-g-t-au-over-102-8-m/"
     },
     "BNNLF": {
-      "title": "Bannerman completes A$124M underwritten placement for Etango funding",
-      "published": "2026-09-10T00:00:00Z",
-      "source": "Bannerman Energy",
-      "url": "https://investors.bannermanenergy.com/announcements/7728189"
+      "title": "Bannerman applied to quote 110,000 SPP shares issued at A$4.00",
+      "published": "2026-10-09T00:00:00Z",
+      "source": "ASX filing via Bannerman Investor Hub",
+      "url": "https://investors.bannermanenergy.com/announcements"
     }
   }
 }

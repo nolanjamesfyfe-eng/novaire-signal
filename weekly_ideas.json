@@ -1,64 +1,10 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-28",
-  "scan_status": "completed",
-  "scan_completed_at": "2026-09-28T07:04:58+07:00",
-  "status_message": "Independent scan completed: 17 candidates reviewed; 0 qualified, 3 watch, 10 economic rejections, 2 portfolio-concentration rejections, and 2 evidence-blocked.",
-  "portfolio_note": "Independent scan: 17 candidates (9 tokens, 8 natural-resource equities). No execution-ready idea. AAVE is the strongest conditional WATCH; WATCH is research pending, not a buy signal.",
-  "evidence": {
-    "methodology": "Screened nine tokens and eight natural-resource equities against live personal/RRSP, Evolution/TFSA, Kraken and Alpaca exposures, published-history exclusions, adjacent structured quote bars, capitalization/supply, value capture, dilution, 3\u201312 month catalysts, permanent-loss risk and executable liquidity. Economic rejection, concentration, evidence-blocked and WATCH outcomes are distinct.",
-    "accounts_checked": [
-      "private personal/RRSP live source",
-      "private Evolution/TFSA live source",
-      "private Kraken live source",
-      "private Alpaca live source"
-    ],
-    "sources": [
-      {
-        "url": "https://api.coingecko.com/api/v3/coins/markets",
-        "checked_at": "2026-09-28T07:03:57+07:00",
-        "note": "Structured token price, capitalization, FDV, supply, volume and one-year change for nine candidates; the malformed zero-cap MKR response was evidence-blocked."
-      },
-      {
-        "url": "https://query1.finance.yahoo.com/v8/finance/chart/ERO.TO",
-        "checked_at": "2026-09-28T07:03:57+07:00",
-        "note": "Structured adjacent valid daily bars and one-year series; seven additional equity symbols were checked through the same endpoint."
-      },
-      {
-        "url": "https://aave.com/docs/ecosystem/aave",
-        "checked_at": "2026-09-28T07:03:57+07:00",
-        "note": "Primary token utility and buyback mechanics."
-      },
-      {
-        "url": "https://governance.aave.com/t/aave-dao-funding-insights/24192",
-        "checked_at": "2026-09-28T07:03:57+07:00",
-        "note": "Dated revenue, buyback, emissions and treasury-runway evidence."
-      },
-      {
-        "url": "https://www.ivanhoemines.com/news-stories/news-presentations/",
-        "checked_at": "2026-09-28T07:03:57+07:00",
-        "note": "Issuer resource update dated September 8, 2026."
-      },
-      {
-        "url": "https://investors.mpmaterials.com/investor-news/news-details/2026/MP-Materials-Reports-Second-Quarter-2026-Results/default.aspx",
-        "checked_at": "2026-09-28T07:03:57+07:00",
-        "note": "Issuer Q2 operating, funding and production evidence dated August 6, 2026."
-      }
-    ],
-    "candidates_reviewed": 17,
-    "public_ledger_path": "weekly_scan_ledger.json"
-  },
-  "ideas": [
-    {
-      "type": "token",
-      "symbol": "AAVE",
-      "name": "Aave",
-      "action": "WATCH",
-      "snapshot": "US$154.48; US$2.383b market cap / US$2.472b FDV; -42.2% one year; US$257.1m reported 24h volume; CoinGecko 2026-09-28T00:01:10.000Z.",
-      "source_url": "https://aave.com/docs/ecosystem/aave",
-      "thesis": "Aave has near-full circulation, large protocol usage and a governance-approved revenue-funded buyback. The mechanism is real, but acquired tokens are retained for governance-approved uses rather than burned.",
-      "risk": "Not execution-ready: sustainable borrow-fee revenue has softened, current buyback execution and venue-specific slippage were not fully verified, and treasury spending remains governance-dependent.",
-      "trigger": "Upgrade only after a primary-source trailing-90-day recurring revenue series covers the buyback and operating budget, executed purchases remain continuous for 12 weeks, a dated 3\u201312 month catalyst is confirmed, and intended-size slippage is below 1%."
-    }
-  ]
+  "as_of": "2026-10-12",
+  "scan_status": "incomplete",
+  "scan_completed_at": null,
+  "status_message": "Research incomplete: 17 candidates were inspected (9 tokens, 8 natural-resource equities), but structured equity bars were rate-limited and the Evolution Fund source available to this checkout was not live. No fresh zero-opportunity claim is made.",
+  "portfolio_note": "Incomplete evidence, not an empty opportunity set. Three token setups remain WATCH pending primary fee, dilution, catalyst and execution checks; no trade signal was published.",
+  "evidence": null,
+  "ideas": []
 }

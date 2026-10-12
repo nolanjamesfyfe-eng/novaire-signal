@@ -125,31 +125,33 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         self.assertEqual(stale["label"], "Stale · last completed Aug 17")
         self.assertNotIn("Aug 24", stale["label"])
 
-    def test_public_scan_ledger_has_declared_breadth_and_outcomes(self):
+    def test_public_scan_ledger_has_declared_breadth_and_honest_incomplete_status(self):
         root = Path(generate.__file__).resolve().parent
         weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
-        ledger = json.loads((root / weekly["evidence"]["public_ledger_path"]).read_text(encoding="utf-8"))
+        ledger = json.loads((root / "weekly_scan_ledger.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(weekly["as_of"], "2026-09-28")
-        self.assertEqual(weekly["scan_status"], "completed")
-        self.assertEqual(weekly["evidence"]["candidates_reviewed"], 17)
+        self.assertEqual(weekly["as_of"], "2026-10-12")
+        self.assertEqual(weekly["scan_status"], "incomplete")
+        self.assertIsNone(weekly["scan_completed_at"])
+        self.assertIsNone(weekly["evidence"])
+        self.assertEqual(weekly["ideas"], [])
+        self.assertIn("not an empty opportunity set", weekly["portfolio_note"])
+        self.assertEqual(ledger["scan_status"], "incomplete")
         self.assertEqual(ledger["universe"], {"total": 17, "tokens": 9, "equities": 8})
         self.assertEqual(ledger["outcomes"], {
             "qualified": 0,
             "watch": 3,
-            "economic_rejection": 10,
-            "portfolio_concentration": 2,
-            "evidence_blocked": 2,
+            "economic_rejection": 5,
+            "portfolio_concentration": 0,
+            "evidence_blocked": 9,
         })
         self.assertEqual(len(ledger["candidates"]), 17)
-        self.assertEqual(sum(row["status"] == "watch" for row in ledger["candidates"]), 3)
-        self.assertEqual(sum(row["status"] == "economic_rejection" for row in ledger["candidates"]), 10)
-        self.assertEqual(sum(row["status"] == "portfolio_concentration" for row in ledger["candidates"]), 2)
-        self.assertEqual(sum(row["status"] == "evidence_blocked" for row in ledger["candidates"]), 2)
-        aave = next(row for row in ledger["candidates"] if row["symbol"] == "AAVE")
-        self.assertEqual(aave["status"], "watch")
-        self.assertEqual(weekly["ideas"][0]["symbol"], "AAVE")
-        self.assertEqual(weekly["ideas"][0]["action"], "WATCH")
+        for status, expected in ledger["outcomes"].items():
+            if status == "qualified":
+                continue
+            self.assertEqual(sum(row["status"] == status for row in ledger["candidates"]), expected)
+        self.assertTrue(any(account["status"] == "evidence_blocked" for account in ledger["accounts_checked"]))
+        self.assertIn("No trade was placed.", ledger["notes"])
 
 
 if __name__ == "__main__":
