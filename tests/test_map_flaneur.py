@@ -110,6 +110,42 @@ def test_globe_hit_testing_cancel_and_metrics_are_preserved():
     assert "if(wasShown&&selectedCode){selectedCode='';scheduleDraw()}" in html
 
 
+def test_world_land_area_metric_is_complete_weighted_and_transparent():
+    html = (ROOT / 'map/index.html').read_text()
+    catalog = json.loads((ROOT / 'map/countries.json').read_text())
+    data = json.loads((ROOT / 'map/land_area.json').read_text())
+    answers = json.loads((ROOT / 'map/visited.json').read_text())['answers']
+    codes = {country['iso2'] for country in catalog}
+
+    assert set(data['areas']) == codes
+    assert all(entry['km2'] > 0 for entry in data['areas'].values())
+    assert data['denominatorKm2'] > 0
+    assert data['areas']['RU']['km2'] > data['areas']['VA']['km2']
+    assert 'World land area' in html
+    assert 'Land area of countries visited—not actual ground explored.' in html
+    assert '2023 world land area excludes Antarctica.' in html
+    assert "fetch('/map/land_area.json')" in html
+    assert 'Missing land area for visited countries' in html
+
+    def coverage(selected):
+        missing = set(selected) - set(data['areas'])
+        if missing:
+            raise KeyError(missing)
+        return sum(data['areas'][code]['km2'] for code in selected) / data['denominatorKm2'] * 100
+
+    visited = [code for code, value in answers.items() if value is True]
+    assert coverage([]) == 0
+    assert 0 <= coverage(visited) <= 100
+    assert 99 <= coverage(codes) <= 101
+    assert coverage(['RU']) > coverage(['VA'])
+    try:
+        coverage(['ZZ'])
+    except KeyError:
+        pass
+    else:
+        raise AssertionError('missing country area must fail, not become zero')
+
+
 def test_desktop_orthographic_rotation_and_wheel_zoom_are_available():
     html = (ROOT / 'map/index.html').read_text()
     assert ":Math.max(1,Math.min((width-48)/2,(height-73)/2))" in html

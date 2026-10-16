@@ -74,6 +74,17 @@ git push origin main
 
 The catalog contains 199 tracked destinations: the 195-country baseline (193 UN members plus Palestine and Vatican City), plus Taiwan, Kosovo, Hong Kong, and Macau, explicitly confirmed visited. This is not an exhaustive territories list. The percentage uses this 199-entry atlas. Kosovo uses the user-assigned code XK. Additional geometry is sourced from Natural Earth ne_10m_admin_0_countries.geojson; Hong Kong and Macau also have visible markers. `world.geojson` contains Natural Earth country geometry. Small island nations and microstates also receive visible point markers at world scale.
 
+## World land-area coverage
+
+`land_area.json` powers the subtle `World land area` metric beneath the visited-destination count. It sums the land area of every `true` code in `visited.json`; it does **not** estimate literal ground explored. Each atlas code is counted once. The denominator is the World Bank/FAO 2023 world land-area observation (129,763,685.55 km²), which excludes Antarctica. Oceans, inland water, Earth mass, and Antarctica are excluded.
+
+The primary observations are World Bank indicator `AG.LND.TOTL.K2` (FAO source). FAOSTAT 2023 supplements Kosovo, Taiwan, and Vatican City because the World Bank API has no observation for those atlas codes. Missing entries fail generation and runtime validation rather than becoming zero. Refresh and validate with:
+
+```bash
+python3 map/refresh_land_area.py
+python3 map/refresh_land_area.py --check
+```
+
 ## Capital, population, and GDP facts
 
 `country_facts.json` covers the same 199 codes as the catalog and geometry. Each

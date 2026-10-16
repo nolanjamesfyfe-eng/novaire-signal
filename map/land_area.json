@@ -1,0 +1,1015 @@
+{
+  "indicator": "AG.LND.TOTL.K2",
+  "unit": "sq. km",
+  "scope": "World land area excluding Antarctica; numerator counts each of the 199 atlas countries and destinations once.",
+  "denominatorKm2": 129763685.55,
+  "denominatorYear": 2023,
+  "sources": [
+    {
+      "name": "World Bank — Land area (sq. km), sourced from FAO",
+      "url": "https://data.worldbank.org/indicator/AG.LND.TOTL.K2"
+    },
+    {
+      "name": "FAOSTAT Land Use (supplements for XK, TW and VA)",
+      "url": "https://www.fao.org/faostat/en/#data/RL"
+    }
+  ],
+  "areas": {
+    "AD": {
+      "km2": 468,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AE": {
+      "km2": 71020,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AF": {
+      "km2": 652230,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AG": {
+      "km2": 440.298,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AL": {
+      "km2": 27400,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AM": {
+      "km2": 28199.4,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AO": {
+      "km2": 1246700,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AR": {
+      "km2": 2736690,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AT": {
+      "km2": 82520,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AU": {
+      "km2": 7688287,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "AZ": {
+      "km2": 82650,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BA": {
+      "km2": 51200,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BB": {
+      "km2": 431,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BD": {
+      "km2": 130170,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BE": {
+      "km2": 30494.22,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BF": {
+      "km2": 273600,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BG": {
+      "km2": 108560,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BH": {
+      "km2": 800,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BI": {
+      "km2": 25680,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BJ": {
+      "km2": 112760,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BN": {
+      "km2": 5270,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BO": {
+      "km2": 1087959.02,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BR": {
+      "km2": 8358140,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BS": {
+      "km2": 10010,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BT": {
+      "km2": 38140,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BW": {
+      "km2": 566730,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BY": {
+      "km2": 202976,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "BZ": {
+      "km2": 22810,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CA": {
+      "km2": 8788700,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CD": {
+      "km2": 2267050,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CF": {
+      "km2": 622980,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CG": {
+      "km2": 341500,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CH": {
+      "km2": 39509.63,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CI": {
+      "km2": 318000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CL": {
+      "km2": 742031.98,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CM": {
+      "km2": 472710,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CN": {
+      "km2": 9388210,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CO": {
+      "km2": 1109500,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CR": {
+      "km2": 50560,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CU": {
+      "km2": 103800,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CV": {
+      "km2": 4030,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CY": {
+      "km2": 9240,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "CZ": {
+      "km2": 77155.54,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "DE": {
+      "km2": 349430,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "DJ": {
+      "km2": 23180,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "DK": {
+      "km2": 40000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "DM": {
+      "km2": 751,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "DO": {
+      "km2": 48198.02,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "DZ": {
+      "km2": 2381740,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "EC": {
+      "km2": 248360,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "EE": {
+      "km2": 42730,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "EG": {
+      "km2": 995450,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ER": {
+      "km2": 120800,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ES": {
+      "km2": 499685.509,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ET": {
+      "km2": 1122134.8,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "FI": {
+      "km2": 304000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "FJ": {
+      "km2": 18333,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "FM": {
+      "km2": 701,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "FR": {
+      "km2": 538950,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GA": {
+      "km2": 257670,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GB": {
+      "km2": 241930,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GD": {
+      "km2": 344,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GE": {
+      "km2": 69490,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GH": {
+      "km2": 227533,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GM": {
+      "km2": 10120,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GN": {
+      "km2": 245720,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GQ": {
+      "km2": 28051.5,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GR": {
+      "km2": 128900,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GT": {
+      "km2": 107160,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GW": {
+      "km2": 28120,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "GY": {
+      "km2": 211140,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "HK": {
+      "km2": 1050,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "HN": {
+      "km2": 111890,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "HR": {
+      "km2": 55960,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "HT": {
+      "km2": 27560,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "HU": {
+      "km2": 91260,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ID": {
+      "km2": 1892410.1,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IE": {
+      "km2": 68890,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IL": {
+      "km2": 21640,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IN": {
+      "km2": 2973190,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IQ": {
+      "km2": 434130,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IR": {
+      "km2": 1622500,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IS": {
+      "km2": 100830,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "IT": {
+      "km2": 295720,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "JM": {
+      "km2": 10830,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "JO": {
+      "km2": 88794,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "JP": {
+      "km2": 364500,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KE": {
+      "km2": 580880,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KG": {
+      "km2": 191800,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KH": {
+      "km2": 176520,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KI": {
+      "km2": 811,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KM": {
+      "km2": 1869.7,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KN": {
+      "km2": 261,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KP": {
+      "km2": 120410,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KR": {
+      "km2": 97600,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KW": {
+      "km2": 17820,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "KZ": {
+      "km2": 2699700,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LA": {
+      "km2": 230800,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LB": {
+      "km2": 10230,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LC": {
+      "km2": 610,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LI": {
+      "km2": 160,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LK": {
+      "km2": 61860,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LR": {
+      "km2": 96320,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LS": {
+      "km2": 30360,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LT": {
+      "km2": 62590,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LU": {
+      "km2": 2574.46,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LV": {
+      "km2": 62230,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "LY": {
+      "km2": 1759540,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MA": {
+      "km2": 446300,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MC": {
+      "km2": 2.084,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MD": {
+      "km2": 32930,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ME": {
+      "km2": 13450,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MG": {
+      "km2": 581800,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MH": {
+      "km2": 181,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MK": {
+      "km2": 25220,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ML": {
+      "km2": 1220190,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MM": {
+      "km2": 652670,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MN": {
+      "km2": 1558500.846,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MO": {
+      "km2": 33.3,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MR": {
+      "km2": 1030700,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MT": {
+      "km2": 315.15,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MU": {
+      "km2": 2000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MV": {
+      "km2": 298,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MW": {
+      "km2": 94280,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MX": {
+      "km2": 1943950,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MY": {
+      "km2": 328550,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "MZ": {
+      "km2": 786380,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NA": {
+      "km2": 823290,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NE": {
+      "km2": 1266700,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NG": {
+      "km2": 910770,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NI": {
+      "km2": 120340,
+      "year": 2023,
+      "source": "World Bank / FAO"
+    },
+    "NL": {
+      "km2": 33670,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NO": {
+      "km2": 364270,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NP": {
+      "km2": 143350,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NR": {
+      "km2": 21,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "NZ": {
+      "km2": 263310,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "OM": {
+      "km2": 309500,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PA": {
+      "km2": 74180,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PE": {
+      "km2": 1280000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PG": {
+      "km2": 452860,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PH": {
+      "km2": 298170,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PK": {
+      "km2": 770880,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PL": {
+      "km2": 306070,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PS": {
+      "km2": 6025,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PT": {
+      "km2": 91605.6,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PW": {
+      "km2": 460,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "PY": {
+      "km2": 396012.03,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "QA": {
+      "km2": 11490,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "RO": {
+      "km2": 230080,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "RS": {
+      "km2": 87588.7,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "RU": {
+      "km2": 16376870,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "RW": {
+      "km2": 23762.988,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SA": {
+      "km2": 2149690,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SB": {
+      "km2": 27990,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SC": {
+      "km2": 457,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SD": {
+      "km2": 1868000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SE": {
+      "km2": 407270,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SG": {
+      "km2": 724.8,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SI": {
+      "km2": 20134.5,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SK": {
+      "km2": 48080,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SL": {
+      "km2": 72180,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SM": {
+      "km2": 61.2,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SN": {
+      "km2": 192530,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SO": {
+      "km2": 627340,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SR": {
+      "km2": 160507.61,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SS": {
+      "km2": 631930,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ST": {
+      "km2": 960,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SV": {
+      "km2": 20720,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SY": {
+      "km2": 183630,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "SZ": {
+      "km2": 17200,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TD": {
+      "km2": 1259200,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TG": {
+      "km2": 54390,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TH": {
+      "km2": 510890,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TJ": {
+      "km2": 138790,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TL": {
+      "km2": 14870,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TM": {
+      "km2": 469930,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TN": {
+      "km2": 155360,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TO": {
+      "km2": 720,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TR": {
+      "km2": 769630,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TT": {
+      "km2": 5128,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TV": {
+      "km2": 26,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "TW": {
+      "km2": 35410,
+      "year": 2023,
+      "source": "FAOSTAT"
+    },
+    "TZ": {
+      "km2": 884000,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "UA": {
+      "km2": 579400,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "UG": {
+      "km2": 200520,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "US": {
+      "km2": 9147420,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "UY": {
+      "km2": 175016,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "UZ": {
+      "km2": 438510,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "VA": {
+      "km2": 0.49,
+      "year": 2023,
+      "source": "FAOSTAT"
+    },
+    "VC": {
+      "km2": 389,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "VE": {
+      "km2": 882050,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "VN": {
+      "km2": 313429,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "VU": {
+      "km2": 12189,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "WS": {
+      "km2": 2780,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "XK": {
+      "km2": 10887,
+      "year": 2023,
+      "source": "FAOSTAT"
+    },
+    "YE": {
+      "km2": 527968,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ZA": {
+      "km2": 1213090,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ZM": {
+      "km2": 743390,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    },
+    "ZW": {
+      "km2": 386850,
+      "year": 2024,
+      "source": "World Bank / FAO"
+    }
+  },
+  "refreshedAt": "2026-10-16T12:22:36Z"
+}
