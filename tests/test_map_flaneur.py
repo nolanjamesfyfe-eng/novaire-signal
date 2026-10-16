@@ -121,11 +121,16 @@ def test_world_land_area_metric_is_complete_weighted_and_transparent():
     assert all(entry['km2'] > 0 for entry in data['areas'].values())
     assert data['denominatorKm2'] > 0
     assert data['areas']['RU']['km2'] > data['areas']['VA']['km2']
-    assert 'World land area' in html
-    assert 'Land area of countries visited—not actual ground explored.' in html
-    assert '2023 world land area excludes Antarctica.' in html
+    assert 'Land mass explored' in html
+    assert 'Countries explored' in html
+    assert 'represented by the countries marked visited in green' in html
+    assert 'Excludes Antarctica.' in html
+    assert 'id="country-coverage"' not in html
+    assert 'countryTotal=195' not in html
     assert "fetch('/map/land_area.json')" in html
     assert 'Missing land area for visited countries' in html
+    assert "document.querySelector('#visited').textContent=`${yes}/${TOTAL}`" in html
+    assert "document.querySelector('#land-progress').style.width=(landPct??0)+'%'" in html
 
     def coverage(selected):
         missing = set(selected) - set(data['areas'])
@@ -134,6 +139,9 @@ def test_world_land_area_metric_is_complete_weighted_and_transparent():
         return sum(data['areas'][code]['km2'] for code in selected) / data['denominatorKm2'] * 100
 
     visited = [code for code, value in answers.items() if value is True]
+    assert len(visited) == 44
+    assert f'{len(visited) / len(codes) * 100:.1f}%' == '22.1%'
+    assert f'{coverage(visited):.1f}%' == '43.1%'
     assert coverage([]) == 0
     assert 0 <= coverage(visited) <= 100
     assert 99 <= coverage(codes) <= 101
