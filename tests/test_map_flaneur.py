@@ -76,9 +76,10 @@ def test_globe_asset_preserves_every_destination_with_bounded_geometry():
 def test_status_palette_matches_map_markers_legend_ledger_and_bottom_indicators():
     html = (ROOT / 'map/index.html').read_text()
 
-    assert '--visited:#2bb868' in html
-    assert '--visited-glow:rgba(43,184,104,.5)' in html
-    assert '--upcoming:#ff9138' in html
+    assert '--visited:#208a4e' in html
+    assert '--visited-glow:rgba(32,138,78,.5)' in html
+    assert '--upcoming:#bf6d2a' in html
+    assert '--upcoming-glow:rgba(191,109,42,.5)' in html
     assert '<span class="word">Future visits</span>' in html
     assert ".dot.visited{background:var(--visited);box-shadow:0 0 7px var(--visited-glow)}" in html
     assert ".dot.calling{background:var(--upcoming);box-shadow:0 0 7px var(--upcoming-glow)}" in html
@@ -87,9 +88,11 @@ def test_status_palette_matches_map_markers_legend_ledger_and_bottom_indicators(
     assert ".metric-count{display:block;margin-top:10px;color:var(--visited);text-shadow:0 0 9px var(--visited-glow)" in html
     assert ".country-row.yes span:last-child{color:var(--visited);text-shadow:0 0 8px var(--visited-glow)}" in html
     assert ".country-row.calling span:last-child{color:var(--upcoming);text-shadow:0 0 8px var(--upcoming-glow)}" in html
-    assert "function colour(code){return answers[code]===true?'#2bb868':wantsToVisit(code)?'#ff9138':'#66706b'}" in html
-    assert "for(const fill of ['#66706b','#2bb868','#ff9138'])" in html
-    assert "const wantsToVisit=code=>planned.has(code)||wishlist.has(code)" in html
+    assert "function colour(code){return answers[code]===true?'#208a4e':wantsToVisit(code)?'#bf6d2a':'#66706b'}" in html
+    assert "for(const fill of ['#66706b','#208a4e','#bf6d2a'])" in html
+    assert "const wantsToVisit=code=>wishlist.has(code)" in html
+    assert "wishlist=new Set(Array.isArray(codes)?codes.slice(0,5):[])" in html
+    assert "planned.has(code)||wishlist.has(code)" not in html
     assert "?'Visited':wantsToVisit(code)?'Want to visit'" in html
     assert "answers[c.iso2]===true?'yes':wantsToVisit(c.iso2)?'calling':''" in html
     assert "addEventListener('flaneur:wishlistchange'" in html
