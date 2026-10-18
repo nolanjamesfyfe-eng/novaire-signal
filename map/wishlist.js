@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   const KEY = 'novaire.flaneur.wishlist.v1';
+  const CHANGE_EVENT = 'flaneur:wishlistchange';
   function move(items, from, to) {
     const result = [...items];
     if (!Number.isInteger(from) || !Number.isInteger(to) || from < 0 || from >= result.length || to < 0 || to >= result.length) return result;
@@ -18,6 +19,7 @@
   const list = document.querySelector('#wishlist-list');
   if (!list) return;
   const defaults = [...list.children].map(row => row.dataset.code);
+  window.FlaneurWishlist = { snapshot: () => state ? [...state.codes] : [...defaults] };
   const lockButton = document.querySelector('#wishlist-lock');
   const addForm = document.querySelector('#wishlist-add');
   const newCountry = document.querySelector('#wishlist-new');
@@ -112,6 +114,7 @@
       fragment.append(row);
     });
     list.replaceChildren(fragment);
+    window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: { codes: [...state.codes] } }));
   }
   lockButton.addEventListener('click', () => {
     if (!state.locked && newCountry.value.trim()) { say('Add the new country or clear its cell before locking.'); newCountry.focus(); return; }

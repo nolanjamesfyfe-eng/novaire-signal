@@ -41,10 +41,9 @@ for (const type of [chromium, webkit]) test(`${type.name()} keeps painted status
   try {
     const canvas=page.locator('#globe-canvas'), box=await canvas.boundingBox(), cy=box.y+box.height/2;
     const initial=await paintStats(page);
-    const plannedCount=await page.evaluate(()=>fetch('/map/visited.json').then(response=>response.json()).then(data=>(data.planned||[]).length));
+    const futureCount=await page.evaluate(()=>document.querySelectorAll('#wishlist-list>[data-code]').length);
     assert.ok(initial.land>300&&initial.visited>1000,`land and visited colours painted initially: ${JSON.stringify(initial)}`);
-    if(plannedCount)assert.ok(initial.calling>10,`upcoming colour painted when planned destinations exist: ${JSON.stringify(initial)}`);
-    else assert.equal(initial.calling,0,`no upcoming land painted when planned is empty: ${JSON.stringify(initial)}`);
+    assert.ok(futureCount>0&&initial.calling>10,`wishlist future-visit colour painted when planned is empty: ${JSON.stringify(initial)}`);
     assert.equal(await canvas.getAttribute('data-diameter'),'374','approved 390px globe diameter');
     await page.touchscreen.tap(box.x+box.width*.50,cy);
     const trustedTip=await page.locator('.tooltip.show').innerText();
