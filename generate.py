@@ -39,6 +39,7 @@ from daily_brief import write_daily
 from signal_brand import signal_brand_css, signal_brand_markup, sync_static_brand_page
 from fed_signal import get_fed_data
 from social_discovery import CHANNELS as SOCIAL_CHANNELS, discover_all as discover_social
+from google_tasks import refresh_daily_tasks
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
@@ -3110,7 +3111,7 @@ def daily_quote_for_edition(edition):
 
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
-                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None):
+                commodities, crypto, fx, zodiac, thai_word, motivation, rec_movie=None, rec_book=None, fx_rates=None, holdings_source=None, gs_meta=None, spanish_word=None, poly_html="", alpaca_html="", fed_signal=None, economies=None, suggested_tweet=None, market_futures=None, market_indices=None, google_tasks=None):
 
     now       = datetime.now(timezone.utc).astimezone(BKK_TZ)
     date_str  = now.strftime("%A, %B %-d, %Y")
@@ -3608,6 +3609,40 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </details>"""
 
+    # ── Google Tasks: explicit Daily list, preserving Google list order ──
+    google_tasks = google_tasks or {
+        "list_title": "Daily", "tasks": [], "fetched_at": None,
+        "refresh_state": "unavailable",
+    }
+    task_titles = list(google_tasks.get("tasks") or [])[:5]
+    task_rows = "".join(
+        f'<li><span class="google-task-number">{index}</span><span>{escape(title)}</span></li>'
+        for index, title in enumerate(task_titles, 1)
+    )
+    if not task_rows:
+        empty_copy = "No incomplete tasks in Daily." if google_tasks.get("refresh_state") == "synced" else "Daily tasks unavailable."
+        task_rows = f'<li class="google-task-empty">{empty_copy}</li>'
+    fetched_label = "No successful sync yet"
+    if google_tasks.get("fetched_at"):
+        try:
+            fetched_at = datetime.fromisoformat(str(google_tasks["fetched_at"]).replace("Z", "+00:00")).astimezone(BKK_TZ)
+            fetched_label = f'Last synced {fetched_at.strftime("%b %-d, %H:%M BKK")}'
+        except (TypeError, ValueError):
+            fetched_label = "Last sync time unavailable"
+    if google_tasks.get("refresh_state") == "cached":
+        fetched_label = f"Refresh unavailable · {fetched_label.lower()}"
+    elif google_tasks.get("refresh_state") == "unavailable":
+        fetched_label = "Refresh unavailable · no successful sync"
+    google_tasks_html = f"""
+  <!-- GOOGLE TASKS · EXPLICIT DAILY LIST ONLY -->
+  <details class="card signal-accordion google-tasks-card" id="google-daily-tasks-card" data-task-list="Daily" data-task-refresh="{escape(str(google_tasks.get('refresh_state') or 'unavailable'), quote=True)}" open>
+    <summary><span class="card-title">☑ Daily Tasks</span><span class="accordion-score">{len(task_titles)} incomplete</span></summary>
+    <div class="signal-accordion-body">
+      <ol class="google-task-list">{task_rows}</ol>
+      <div class="google-task-sync">Google Tasks · {escape(fetched_label)}</div>
+    </div>
+  </details>"""
+
     # Full HTML template
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -3907,6 +3942,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .latest-novaire-metrics b{{color:var(--text);font-weight:600}}
     .metric-winner{{padding:2px 6px;border:1px solid rgba(42,157,143,.36);border-radius:999px;color:var(--green);text-transform:uppercase;letter-spacing:.08em;font-size:.49rem}}
     .latest-novaire-ink-detail{{color:var(--dim)}}
+
+    .google-tasks-card .signal-accordion-body{{padding-top:1px}}
+    .google-task-list{{list-style:none;margin:0;padding:0}}
+    .google-task-list li{{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.42;color:var(--text)}}
+    .google-task-list li:last-child{{border-bottom:0}}
+    .google-task-number{{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;height:22px;border:1px solid var(--gold-mid);border-radius:50%;font-family:var(--serif);font-size:.78rem;color:var(--gold)}}
+    .google-task-list .google-task-empty{{color:var(--dim);padding-left:0}}
+    .google-task-sync{{margin-top:8px;text-align:right;font-size:.55rem;letter-spacing:.04em;color:var(--mute)}}
 
     .sat-word-box{{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}
@@ -4333,6 +4376,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </details>
 
 {latest_novaire_html}
+
+{google_tasks_html}
 
   <!-- FOOTER BRANDING -->
   <div class="footer">
@@ -5554,6 +5599,12 @@ def main():
 
     suggested_tweet = build_suggested_tweet(gs_meta=gs_meta, fed_signal=fed_signal, zh_news=zh_news)
 
+    print("  ☑ Refreshing Google Tasks · Daily...")
+    google_tasks = refresh_daily_tasks()
+    task_state = google_tasks.get("refresh_state", "unavailable")
+    task_icon = "✅" if task_state == "synced" else "⚠️"
+    print(f"    {task_icon} {len(google_tasks.get('tasks') or [])} tasks · {task_state}")
+
     print("  🎨 Generating HTML...")
     html = render_html(
         weather, bangkok_news, zh_news, portfolio_data, catalysts,
@@ -5567,7 +5618,8 @@ def main():
         economies=economies,
         suggested_tweet=suggested_tweet,
         market_futures=market_futures,
-        market_indices=market_indices
+        market_indices=market_indices,
+        google_tasks=google_tasks,
     )
 
     print("  📦 Generating portfolio page...")
@@ -5869,6 +5921,15 @@ def main():
     missing_thai_markers = [m for m in required_thai_markers if m not in html]
     if missing_thai_markers:
         raise RuntimeError(f"Thailand expat brief failed verification markers: {missing_thai_markers}")
+
+    required_task_markers = [
+        'id="google-daily-tasks-card"',
+        'data-task-list="Daily"',
+        "Google Tasks · ",
+    ]
+    missing_task_markers = [marker for marker in required_task_markers if marker not in html]
+    if missing_task_markers:
+        raise RuntimeError(f"Google Daily Tasks card failed verification markers: {missing_task_markers}")
 
     retired_hits = [marker for marker in RETIRED_HOME_MARKERS if marker in html]
     if retired_hits:

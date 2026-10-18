@@ -37,6 +37,21 @@ class RenderContractTests(unittest.TestCase):
         self.assertLess(weather, market)
         self.assertLess(market, fx)
 
+    def test_google_daily_tasks_card_is_last_main_card_and_public_safe(self):
+        tasks_module = (ROOT / "google_tasks.py").read_text(encoding="utf-8")
+        card = self.html.split('id="google-daily-tasks-card"', 1)[1].split("<!-- FOOTER BRANDING -->", 1)[0]
+        self.assertIn('data-task-list="Daily"', self.html)
+        self.assertIn("☑ Daily Tasks", card)
+        self.assertIn("Google Tasks · Last synced", card)
+        self.assertLess(self.html.index('id="google-daily-tasks-card"'), self.html.index("<!-- FOOTER BRANDING -->"))
+        self.assertNotIn("task-id", card.lower())
+        self.assertNotIn("notes", card.lower())
+        self.assertIn('LIST_TITLE = "Daily"', tasks_module)
+        self.assertIn("matching_lists[0][\"id\"]", tasks_module)
+        self.assertNotIn('list_tasks("@default"', tasks_module)
+        self.assertNotIn('LIST_TITLE = "Monthly"', tasks_module)
+        self.assertNotIn('LIST_TITLE = "Fashion', tasks_module)
+
     def test_mobile_market_and_fx_spacing_contract(self):
         self.assertIn('.market-clock{gap:14px;padding-top:16px;padding-bottom:16px}', self.html)
         self.assertIn('.market-futures{grid-template-columns:1fr;gap:10px}', self.html)

@@ -59,6 +59,7 @@ jobs:
           [ -f portfolio/evolutionfund/index.html ] && git add portfolio/evolutionfund/index.html
           [ -f feed.json ] && git add feed.json
           [ -f data/meditation-history.json ] && git add data/meditation-history.json
+          [ -f google_tasks_cache.json ] && git add google_tasks_cache.json
           [ -f stats.json ] && git add -f stats.json
 
           if git diff --staged --quiet; then
