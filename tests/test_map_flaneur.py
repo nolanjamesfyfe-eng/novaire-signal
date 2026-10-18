@@ -73,6 +73,23 @@ def test_globe_asset_preserves_every_destination_with_bounded_geometry():
     assert winding > 0
 
 
+def test_electric_status_palette_matches_map_legend_and_bottom_indicators():
+    html = (ROOT / 'map/index.html').read_text()
+
+    assert '--visited:#39f58a' in html
+    assert '--upcoming:#ff9138' in html
+    assert ".dot.visited{background:var(--visited);box-shadow:0 0 7px var(--visited-glow)}" in html
+    assert ".dot.calling{background:var(--upcoming);box-shadow:0 0 7px var(--upcoming-glow)}" in html
+    assert ".stat-value.accent{color:var(--visited);text-shadow:0 0 12px var(--visited-glow)}" in html
+    assert ".progress span{display:block;height:100%;background:var(--visited);box-shadow:0 0 8px var(--visited-glow)" in html
+    assert ".metric-count{display:block;margin-top:10px;color:var(--visited);text-shadow:0 0 9px var(--visited-glow)" in html
+    assert ".country-row.yes span:last-child{color:var(--visited);text-shadow:0 0 8px var(--visited-glow)}" in html
+    assert ".country-row.calling span:last-child{color:var(--upcoming);text-shadow:0 0 8px var(--upcoming-glow)}" in html
+    assert "function colour(code){return answers[code]===true?'#39f58a':planned.has(code)?'#ff9138':'#66706b'}" in html
+    assert "for(const fill of ['#66706b','#39f58a','#ff9138'])" in html
+    assert 'ctx.shadowBlur' not in html
+
+
 def test_mobile_uses_full_width_canvas_globe_with_real_gestures():
     html = (ROOT / 'map/index.html').read_text()
     assert "matchMedia('(max-width:760px)')" in html
