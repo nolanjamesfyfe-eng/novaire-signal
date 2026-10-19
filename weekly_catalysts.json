@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-12",
+  "as_of": "2026-10-19",
   "items": {
     "HG.CN": {
       "title": "HydroGraph showcased newly launched Fractal Graphene Paste at Advanced Materials Show USA",
@@ -8,28 +8,28 @@
       "url": "https://hydrograph.com/media/"
     },
     "URNJ": {
-      "title": "No discrete issuer catalyst verified; URNJ remains a basket of junior uranium miners tracking the Nasdaq Sprott Junior Uranium Miners Index",
-      "published": "2026-10-12T00:00:00Z",
+      "title": "No discrete issuer catalyst applies; Sprott reported URNJ as a 41-holding junior uranium basket with 0.34% median 30-day spread",
+      "published": "2026-10-08T00:00:00Z",
       "source": "Sprott Asset Management",
       "url": "https://sprottetfs.com/urnj-sprott-junior-uranium-miners-etf/"
     },
     "GLO.TO": {
-      "title": "Global Atomic closed C$57 million public offering for Dasa funding",
+      "title": "Global Atomic closed a C$57 million public offering for Dasa funding",
       "published": "2026-09-29T00:00:00Z",
       "source": "Global Atomic / CNW",
       "url": "https://www.newswire.ca/news-releases/global-atomic-announces-closing-of-public-offering-for-gross-proceeds-of-c-57-million-855268356.html"
     },
     "FVL.TO": {
-      "title": "Freegold reported 3.10 g/t Au over 102.8 m while advancing Golden Summit PFS work",
-      "published": "2026-09-16T00:00:00Z",
+      "title": "Freegold drilled 1.24 g/t Au over 213 m, including 21 m at 5.77 g/t Au, while defining the 2027 PFS starting concept",
+      "published": "2026-10-15T00:00:00Z",
       "source": "Freegold Limited",
-      "url": "https://freegoldventures.com/news/freegold-intersects-3-10-g-t-au-over-102-8-m/"
+      "url": "https://freegoldventures.com/news/freegold-drills-1-24-g-t-au-over-213m-including-21m-of-5-77-g-t-au-at-golden-summit/"
     },
     "BNNLF": {
       "title": "Bannerman applied to quote 110,000 SPP shares issued at A$4.00",
       "published": "2026-10-09T00:00:00Z",
-      "source": "ASX filing via Bannerman Investor Hub",
-      "url": "https://investors.bannermanenergy.com/announcements"
+      "source": "ASX filing via Bannerman Energy",
+      "url": "https://bannermanenergy.com/asx-announcements/"
     }
   }
 }
