@@ -312,13 +312,22 @@
     .metric-winner{padding:2px 6px;border:1px solid rgba(42,157,143,.36);border-radius:999px;color:var(--green);text-transform:uppercase;letter-spacing:.08em;font-size:.49rem}
     .latest-novaire-ink-detail{color:var(--dim)}
 
-    .google-tasks-card .signal-accordion-body{padding-top:1px}
+    .google-tasks-card{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(181,150,98,.035),transparent 42%),var(--surface)}
+    .google-tasks-card .signal-accordion-body{padding:3px 0 0}
     .google-task-list{list-style:none;margin:0;padding:0}
-    .google-task-list li{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.42;color:var(--text)}
+    .google-task-list li{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;column-gap:13px;min-height:52px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.42;color:var(--text)}
+    .google-task-list li:first-child{background:linear-gradient(90deg,rgba(181,150,98,.09),transparent 72%);border-left:2px solid var(--gold);padding-left:12px}
     .google-task-list li:last-child{border-bottom:0}
-    .google-task-number{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;height:22px;border:1px solid var(--gold-mid);border-radius:50%;font-family:var(--serif);font-size:.78rem;color:var(--gold)}
-    .google-task-list .google-task-empty{color:var(--dim);padding-left:0}
-    .google-task-sync{margin-top:8px;text-align:right;font-size:.55rem;letter-spacing:.04em;color:var(--mute)}
+    .google-task-number{font-variant-numeric:tabular-nums;font-family:'Courier New',monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;color:var(--gold);opacity:.78}
+    .google-task-list li:first-child .google-task-number{opacity:1;text-shadow:0 0 12px rgba(181,150,98,.35)}
+    .google-task-title{min-width:0;overflow-wrap:anywhere}
+    .google-task-list .google-task-empty{display:block;min-height:0;color:var(--dim);padding:18px 14px}
+    .google-task-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px 14px 2px;padding-top:11px;border-top:1px solid rgba(181,150,98,.13);font-size:.52rem;letter-spacing:.055em;color:var(--mute)}
+    .google-task-mode{display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+    .google-task-mode i{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(42,157,143,.62)}
+    .google-task-sync{text-align:right}
+    .google-tasks-card[data-task-refresh="stale"] .google-task-mode i,.google-tasks-card[data-task-refresh="unavailable"] .google-task-mode i{background:var(--gold);box-shadow:none}
+    @media(max-width:560px){.google-tasks-card .signal-accordion-body{padding-top:0}.google-task-list li{grid-template-columns:34px minmax(0,1fr);column-gap:9px;min-height:50px;padding:10px 9px}.google-task-list li:first-child{padding-left:7px}.google-task-meta{align-items:flex-start;flex-direction:column;gap:5px;margin:10px 9px 1px}.google-task-sync{text-align:left}}
 
     .sat-word-box{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}
     .sat-word{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}
@@ -1036,11 +1045,11 @@
 
 
   <!-- GOOGLE TASKS · EXPLICIT DAILY LIST ONLY -->
-  <details class="card signal-accordion google-tasks-card" id="google-daily-tasks-card" data-task-list="Daily" data-task-refresh="synced" open>
+  <details class="card signal-accordion google-tasks-card" id="google-daily-tasks-card" data-task-list="Daily" data-task-refresh="synced" data-live-endpoint="/api/google-tasks" open>
     <summary><span class="card-title">☑ Daily Tasks</span><span class="accordion-score">5 incomplete</span></summary>
-    <div class="signal-accordion-body">
-      <ol class="google-task-list"><li><span class="google-task-number">1</span><span>Send PPal link to Jame</span></li><li><span class="google-task-number">2</span><span>Make big MM mid September b4 Trip - Pastel? - make reserversation and post in Whatsapp chat.</span></li><li><span class="google-task-number">3</span><span>buy James new pipe filters</span></li><li><span class="google-task-number">4</span><span>Igor Interviews - go through</span></li><li><span class="google-task-number">5</span><span>Check Customs processing</span></li></ol>
-      <div class="google-task-sync">Google Tasks · Last synced Oct 20, 07:50 BKK</div>
+    <div class="signal-accordion-body" aria-live="polite">
+      <ol class="google-task-list"><li><span class="google-task-number">01</span><span class="google-task-title">WonderFruit tickets x3 (lil bro also)</span></li><li><span class="google-task-number">02</span><span class="google-task-title">Make big MM mid September b4 Trip - Pastel? - make reserversation and post in Whatsapp chat.</span></li><li><span class="google-task-number">03</span><span class="google-task-title">Igor Interviews - go through</span></li><li><span class="google-task-number">04</span><span class="google-task-title">Fish in water concept for adults, introducing fish in water concept talking about the clip and then the adult version, what the hell is water. So it&#x27;s only 5 second of water clip for the TSR</span></li><li><span class="google-task-number">05</span><span class="google-task-title">Get international driver&#x27;s license to do Sunday, and rent BMW for side quest and riffing session.</span></li></ol>
+      <div class="google-task-meta"><span class="google-task-mode"><i aria-hidden="true"></i>Live on every load</span><span class="google-task-sync">Google Tasks · Last synced Oct 20, 16:06 BKK</span></div>
     </div>
   </details>
 
@@ -1424,6 +1433,31 @@ renderActionSteps();
       if (el) el.textContent = Number(data.uniqueViews || 0).toLocaleString();
     }).catch(function() {});
 })();
+
+// Fresh Google Tasks on every page load. The scheduled snapshot remains visible
+// if Google is unavailable; no client-side completion mutates the real task list.
+!function(){
+  const card=document.getElementById('google-daily-tasks-card');
+  if(!card)return;
+  const endpoint=card.dataset.liveEndpoint,list=card.querySelector('.google-task-list'),score=card.querySelector('.accordion-score'),sync=card.querySelector('.google-task-sync'),mode=card.querySelector('.google-task-mode');
+  if(!endpoint||!list||!score||!sync)return;
+  const scheduledSync=sync.textContent;
+  const render=tasks=>{
+    list.replaceChildren();
+    if(!tasks.length){const empty=document.createElement('li');empty.className='google-task-empty';empty.textContent='No incomplete tasks in Daily.';list.append(empty);}
+    tasks.forEach((title,index)=>{const row=document.createElement('li'),rank=document.createElement('span'),copy=document.createElement('span');rank.className='google-task-number';rank.textContent=String(index+1).padStart(2,'0');copy.className='google-task-title';copy.textContent=title;row.append(rank,copy);list.append(row);});
+    score.textContent=tasks.length+' incomplete';
+  };
+  fetch(endpoint+'?refresh='+Date.now(),{cache:'no-store',headers:{Accept:'application/json'}}).then(async response=>{
+    const data=await response.json();
+    if(!response.ok||!data.ok||data.listTitle!=='Daily'||!Array.isArray(data.tasks)||!data.fetchedAt)throw new Error('live tasks unavailable');
+    const tasks=data.tasks.filter(title=>typeof title==='string'&&title.trim()).slice(0,5);
+    render(tasks);
+    const stamp=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Bangkok',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(data.fetchedAt));
+    sync.textContent='Google Tasks · Live '+stamp+' BKK';card.dataset.taskRefresh='live';
+    if(mode)mode.lastChild.textContent='Live on every load';
+  }).catch(()=>{card.dataset.taskRefresh='stale';sync.textContent='Live refresh unavailable · showing scheduled snapshot · '+scheduledSync.toLowerCase();if(mode)mode.lastChild.textContent='Scheduled snapshot';});
+}();
 
 // Recommendations are now server-side rendered (live trending data)
 </script>

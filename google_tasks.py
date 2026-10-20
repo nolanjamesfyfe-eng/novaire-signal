@@ -14,6 +14,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent
 CACHE_PATH = ROOT / "google_tasks_cache.json"
@@ -63,24 +64,50 @@ def _load_tasks_client(client_dir: Path):
     return module
 
 
+def _all_pages(client, path: str) -> list[dict[str, Any]]:
+    """Read every Google Tasks page through the authenticated client."""
+    items: list[dict[str, Any]] = []
+    next_path = path
+    while next_path:
+        page = client._req("GET", next_path)
+        items.extend(page.get("items") or [])
+        token = page.get("nextPageToken")
+        next_path = f"{path}&pageToken={quote(str(token), safe='')}" if token else ""
+    return items
+
+
 def fetch_daily_snapshot(client_dir: Path = TASKS_CLIENT_DIR) -> dict[str, Any]:
     """Fetch the first five incomplete Daily tasks in Google API list order."""
     client = _load_tasks_client(client_dir)
-    matching_lists = [item for item in client.list_tasklists() if item.get("title") == LIST_TITLE]
+    if hasattr(client, "_req"):
+        tasklists = _all_pages(client, "/users/@me/lists?maxResults=100")
+    else:
+        tasklists = client.list_tasklists()
+    matching_lists = [item for item in tasklists if item.get("title") == LIST_TITLE]
     if len(matching_lists) != 1:
         raise RuntimeError(f"expected exactly one {LIST_TITLE!r} task list; found {len(matching_lists)}")
 
-    # Deliberately pass the resolved Daily list ID. Never use @default and never
-    # merge Monthly, Fashion, or any other list.
-    items = client.list_tasks(
-        matching_lists[0]["id"],
-        show_completed=False,
-        show_hidden=False,
-    )
+    # Resolve the named list and page until five genuinely pending tasks remain.
+    # IDs, notes and all other private fields are discarded before persistence.
+    if hasattr(client, "_req"):
+        list_id = quote(str(matching_lists[0]["id"]), safe="")
+        items = _all_pages(
+            client,
+            f"/lists/{list_id}/tasks?showCompleted=false&showHidden=false&maxResults=100",
+        )
+    else:
+        items = client.list_tasks(
+            matching_lists[0]["id"],
+            show_completed=False,
+            show_hidden=False,
+        )
     titles = [
         str(item.get("title") or "").strip()
         for item in items
-        if item.get("status") == "needsAction" and str(item.get("title") or "").strip()
+        if item.get("status") == "needsAction"
+        and not item.get("deleted")
+        and not item.get("hidden")
+        and str(item.get("title") or "").strip()
     ][:MAX_TASKS]
     return {
         "list_title": LIST_TITLE,

@@ -31,6 +31,39 @@ class FakeClient:
         ]
 
 
+class FakePagedClient:
+    calls = []
+
+    @classmethod
+    def _req(cls, method, path):
+        cls.calls.append((method, path))
+        if path == "/users/@me/lists?maxResults=100":
+            return {"items": [{"id": "default-id", "title": "My Tasks"}], "nextPageToken": "lists-2"}
+        if path == "/users/@me/lists?maxResults=100&pageToken=lists-2":
+            return {"items": [{"id": "daily-id", "title": "Daily"}]}
+        if path == "/lists/daily-id/tasks?showCompleted=false&showHidden=false&maxResults=100":
+            return {
+                "items": [
+                    {"id": "deleted", "title": "Deleted", "status": "needsAction", "deleted": True},
+                    {"id": "hidden", "title": "Hidden", "status": "needsAction", "hidden": True},
+                    {"id": "complete", "title": "Complete", "status": "completed"},
+                    {"id": "one", "title": "One", "status": "needsAction"},
+                    {"id": "two", "title": "Two", "status": "needsAction"},
+                ],
+                "nextPageToken": "tasks-2",
+            }
+        if path == "/lists/daily-id/tasks?showCompleted=false&showHidden=false&maxResults=100&pageToken=tasks-2":
+            return {
+                "items": [
+                    {"id": "three", "title": "Three", "status": "needsAction"},
+                    {"id": "four", "title": "Four", "status": "needsAction"},
+                    {"id": "five", "title": "Five", "status": "needsAction"},
+                    {"id": "six", "title": "Six", "status": "needsAction"},
+                ]
+            }
+        raise AssertionError(path)
+
+
 def test_fetch_uses_explicit_daily_list_and_preserves_api_order():
     with patch.object(google_tasks, "_load_tasks_client", return_value=FakeClient):
         result = google_tasks.fetch_daily_snapshot(Path("unused"))
@@ -39,6 +72,17 @@ def test_fetch_uses_explicit_daily_list_and_preserves_api_order():
     serialized = json.dumps(result)
     assert "private-" not in serialized
     assert "notes" not in serialized
+
+
+def test_fetch_paginates_filters_non_pending_items_and_refills_five():
+    FakePagedClient.calls = []
+    with patch.object(google_tasks, "_load_tasks_client", return_value=FakePagedClient):
+        result = google_tasks.fetch_daily_snapshot(Path("unused"))
+    assert result["tasks"] == ["One", "Two", "Three", "Four", "Five"]
+    assert len(FakePagedClient.calls) == 4
+    serialized = json.dumps(result).lower()
+    for private_marker in ("deleted", "hidden", "complete", '"id"'):
+        assert private_marker not in serialized
 
 
 def test_refresh_failure_returns_cache_with_honest_state(tmp_path):

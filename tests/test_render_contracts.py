@@ -51,6 +51,25 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn('list_tasks("@default"', tasks_module)
         self.assertNotIn('LIST_TITLE = "Monthly"', tasks_module)
         self.assertNotIn('LIST_TITLE = "Fashion', tasks_module)
+        self.assertIn('data-live-endpoint="/api/google-tasks"', card)
+        self.assertIn('aria-live="polite"', card)
+        self.assertIn('class="google-task-number">01</span>', card)
+        self.assertIn('class="google-task-title"', card)
+        self.assertIn('Live on every load', card)
+        self.assertIn("fetch(endpoint+'?refresh='+Date.now(),{cache:'no-store'", self.html)
+        self.assertIn("String(index+1).padStart(2,'0')", self.html)
+        self.assertIn("Live refresh unavailable · showing scheduled snapshot", self.html)
+
+    def test_google_daily_tasks_card_has_premium_tabular_mobile_contract(self):
+        for marker in (
+            '.google-task-list li{display:grid;grid-template-columns:42px minmax(0,1fr)',
+            '.google-task-number{font-variant-numeric:tabular-nums',
+            '.google-task-list li:first-child{background:linear-gradient(90deg,rgba(181,150,98,.09),transparent 72%);border-left:2px solid var(--gold)',
+            '.google-task-meta{display:flex;align-items:center;justify-content:space-between',
+            '@media(max-width:560px){.google-tasks-card .signal-accordion-body',
+            '.google-task-list li{grid-template-columns:34px minmax(0,1fr)',
+        ):
+            self.assertIn(marker, self.html)
 
     def test_mobile_market_and_fx_spacing_contract(self):
         self.assertIn('.market-clock{gap:14px;padding-top:16px;padding-bottom:16px}', self.html)

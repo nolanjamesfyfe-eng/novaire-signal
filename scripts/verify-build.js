@@ -173,4 +173,15 @@ if (chartTest.status !== 0) {
   process.exit(1);
 }
 
+const dailyTasksApiTest = spawnSync(process.execPath, [path.join(root, 'tests', 'daily-tasks-api.mjs')], {
+  cwd: root,
+  encoding: 'utf8',
+});
+if (dailyTasksApiTest.status !== 0) {
+  console.error('❌ Build guard failed: live Daily Tasks API contract broke.');
+  if (dailyTasksApiTest.stdout) process.stderr.write(dailyTasksApiTest.stdout);
+  if (dailyTasksApiTest.stderr) process.stderr.write(dailyTasksApiTest.stderr);
+  process.exit(1);
+}
+
 console.log('✅ Build guard passed: core Novaire Signal files are deployable.');
