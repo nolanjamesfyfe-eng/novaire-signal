@@ -12,10 +12,11 @@ class InstagramProvenanceCopyTests(unittest.TestCase):
         end = html.index("</details>", start)
         card = html[start:end]
 
-        self.assertIn("https://www.instagram.com/reel/Dc_InViPcmO/", card)
-        self.assertIn("<b>28.4K</b> views", card)
-        self.assertIn("<b>554</b> likes", card)
-        self.assertIn("verified on 2026-09-18", card)
+        self.assertIn("https://www.instagram.com/reel/DeCictnNuHv/", card)
+        self.assertIn("<b>3</b> likes", card)
+        self.assertIn("Instagram public view count unavailable", card)
+        self.assertIn("Latest check incomplete; item verified 2026-10-04", card)
+        self.assertIn("verified on 2026-10-20", card)
         self.assertNotIn("public metrics available", card)
 
     def test_generator_only_suppresses_the_redundant_positive_status_for_instagram(self):

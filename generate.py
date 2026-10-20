@@ -461,7 +461,7 @@ def fetch_latest_novaire_content():
         snapshot = discover_social()
         youtube = snapshot["youtube"]
         return {
-            "instagram": fetch_live_instagram_metrics(snapshot["instagram"]),
+            "instagram": snapshot["instagram"],
             "second_renaissance": youtube["second_renaissance"],
             "j_novaire": youtube["j_novaire"],
             "clip": youtube["second_renaissance"].get("short") or youtube["second_renaissance"].get("video"),
@@ -3553,13 +3553,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
             visible_metrics.append(f'<span><b>{compact_count(views)}</b> views</span>')
         if likes is not None:
             visible_metrics.append(f'<span><b>{compact_count(likes)}</b> likes</span>')
-        verified = item.get("verified_at") or verified_at or ""
+        verified = item.get("metrics_checked_at") or item.get("metrics_verified_at") or item.get("verified_at") or verified_at or ""
         metrics_status = status or item.get("metrics_status") or ""
+        discovery_status = item.get("discovery_status") or ""
         if hide_positive_metrics_status and metrics_status == "public metrics available":
             metrics_status = ""
-        verified_label = f"verified on {verified[:10]}" if hide_positive_metrics_status and verified else (f"verified {verified[:10]}" if verified else "")
+        verified_label = f"verified on {verified[:10]}" if hide_positive_metrics_status and verified else (f"metrics checked {verified[:10]}" if verified else "")
         provenance = " · ".join(part for part in (
-            metrics_status, verified_label
+            metrics_status, discovery_status, verified_label
         ) if part)
         if provenance:
             visible_metrics.append(f'<span>{escape(provenance)}</span>')

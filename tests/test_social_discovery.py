@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import social_discovery as social
 
@@ -39,6 +39,31 @@ class SocialDiscoveryTests(unittest.TestCase):
         session.get.return_value = response
         with self.assertRaisesRegex(ValueError, "identity mismatch"):
             social.discover_youtube_channel("j_novaire", session=session)
+
+    @patch("social_discovery.subprocess.run")
+    def test_instagram_public_metrics_keep_unknown_view_distinct_from_zero(self, run):
+        run.return_value = Mock(stdout=json.dumps({
+            "id": "owned", "uploader_id": social.INSTAGRAM_OWNER_ID,
+            "view_count": None, "like_count": 3,
+        }))
+        item = {"url": "https://www.instagram.com/reel/owned/", "views": None, "likes": None}
+        result = social.fetch_instagram_public_metrics(item)
+        self.assertIsNone(result["views"])
+        self.assertEqual(result["likes"], 3)
+        self.assertIn("public view count unavailable", result["metrics_status"])
+        self.assertTrue(result["likes_verified_at"])
+        self.assertNotIn("views_verified_at", result)
+
+    def test_youtube_missing_like_has_explicit_status_and_metric_check_time(self):
+        response = Mock(text='''<meta name="title" content="A video"><meta itemprop="datePublished" content="2026-10-01"><script>"viewCount":"24"</script>''')
+        response.raise_for_status.return_value = None
+        session = Mock()
+        session.get.return_value = response
+        result = social.fetch_youtube_video("abcdefghijk", session=session)
+        self.assertEqual(result["views"], 24)
+        self.assertIsNone(result["likes"])
+        self.assertIn("does not expose public likes", result["metrics_status"])
+        self.assertTrue(result["metrics_checked_at"])
 
     def test_short_tab_without_short_lockup_is_honestly_empty(self):
         self.assertIsNone(social._first_video_id('"videoId":"abcdefghijk"', shorts=True))

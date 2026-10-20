@@ -4,6 +4,8 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -70,12 +72,45 @@ def _keep_newest(candidate: dict[str, Any], cached: dict[str, Any] | None) -> tu
     cached_item = cached or {}
     if candidate.get("url") == cached_item.get("url"):
         candidate = dict(candidate)
-        for field in ("views", "likes", "metrics_verified_at", "metrics_source"):
+        for field in ("views", "likes", "views_verified_at", "likes_verified_at", "metrics_checked_at", "metrics_source"):
             if candidate.get(field) is None and cached_item.get(field) is not None:
                 candidate[field] = cached_item[field]
         if candidate.get("views") is not None and candidate.get("likes") is not None:
             candidate["metrics_status"] = "public metrics available"
     return candidate, False
+
+
+def fetch_instagram_public_metrics(item: dict[str, Any], timeout: int = 40) -> dict[str, Any]:
+    """Read public post metrics with a bounded extractor subprocess.
+
+    Instagram's profile embed discovers ownership/latest media but no longer
+    carries engagement. The logged-out post API still exposes likes. Views are
+    retained only when the provider actually returns them.
+    """
+    completed = subprocess.run(
+        [sys.executable, "-m", "yt_dlp", "--skip-download", "--no-warnings", "--dump-single-json", item["url"]],
+        check=True, capture_output=True, text=True, timeout=timeout,
+    )
+    payload = json.loads(completed.stdout)
+    if str(payload.get("uploader_id") or "") != INSTAGRAM_OWNER_ID:
+        raise ValueError("Instagram public metric owner mismatch")
+    if payload.get("id") not in item.get("url", ""):
+        raise ValueError("Instagram public metric shortcode mismatch")
+    checked_at = _now()
+    current = dict(item)
+    current["views"] = _int(payload.get("view_count"))
+    current["likes"] = _int(payload.get("like_count"))
+    current["metrics_checked_at"] = checked_at
+    current["metrics_source"] = "Instagram logged-out post API"
+    if current["views"] is not None:
+        current["views_verified_at"] = checked_at
+    if current["likes"] is not None:
+        current["likes_verified_at"] = checked_at
+    missing = [label for field, label in (("views", "view count"), ("likes", "likes")) if current.get(field) is None]
+    current["metrics_status"] = (
+        f"Instagram public {' and '.join(missing)} unavailable" if missing else "public metrics available"
+    )
+    return current
 
 
 def _valid_instagram_item(item: dict[str, Any] | None) -> bool:
@@ -170,10 +205,21 @@ def fetch_youtube_video(video_id: str, session=requests) -> dict[str, Any]:
     if views is None:
         views = _int((re.search(r'"viewCount":"([0-9]+)"', page) or [None, None])[1])
     likes_match = re.search(r'like this video along with ([0-9,]+)', page, re.I) or re.search(r'"accessibilityText":"([0-9,]+) likes"', page, re.I)
-    return {
+    checked_at = _now()
+    likes = _int(likes_match.group(1)) if likes_match else None
+    item = {
         "title": title or f"YouTube video {video_id}", "url": url, "published_at": published,
-        "views": views, "likes": _int(likes_match.group(1)) if likes_match else None,
+        "views": views, "likes": likes, "metrics_checked_at": checked_at,
+        "metrics_source": "YouTube public watch page",
     }
+    if views is not None:
+        item["views_verified_at"] = checked_at
+    if likes is not None:
+        item["likes_verified_at"] = checked_at
+    missing = [label for field, label in (("views", "views"), ("likes", "likes")) if item.get(field) is None]
+    if missing:
+        item["metrics_status"] = f"YouTube does not expose public {' and '.join(missing)} for this upload"
+    return item
 
 
 def discover_youtube_channel(key: str, session=requests) -> dict[str, Any]:
@@ -235,11 +281,22 @@ def discover_all(path: Path = DEFAULT_CACHE, session=requests) -> dict[str, Any]
     errors: dict[str, str] = {}
     try:
         instagram, regressed = _keep_newest(discover_instagram(session=session), cached.get("instagram"))
+        try:
+            instagram = fetch_instagram_public_metrics(instagram)
+        except Exception as exc:
+            errors["instagram_metrics"] = f"public metric retrieval failed: {exc}"
         result["instagram"] = instagram
         if regressed:
+            verified_date = str(instagram.get("verified_at") or "")[:10]
+            instagram["discovery_status"] = f"Latest check incomplete; item verified {verified_date}" if verified_date else "Latest check incomplete; retained verified item"
             errors["instagram"] = "public profile embed returned older media; retained newer verified item"
     except Exception as exc:
         errors["instagram"] = str(exc)
+        if result.get("instagram"):
+            instagram = dict(result["instagram"])
+            verified_date = str(instagram.get("verified_at") or "")[:10]
+            instagram["discovery_status"] = f"Latest check failed; item verified {verified_date}" if verified_date else "Latest check failed; retained verified item"
+            result["instagram"] = instagram
     for key in CHANNELS:
         try:
             result["youtube"][key] = discover_youtube_channel(key, session=session)

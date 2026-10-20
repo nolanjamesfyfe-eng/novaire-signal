@@ -101,7 +101,7 @@ write_state running 'refresh started'
 log 'START Novaire Signal refresh'
 
 STAGE="runtime-check"
-if [ ! -x "$PYTHON_BIN" ] || ! "$PYTHON_BIN" -c 'import requests, bs4, yfinance' >/dev/null 2>&1; then
+if [ ! -x "$PYTHON_BIN" ] || ! "$PYTHON_BIN" -c 'import requests, bs4, yfinance, yt_dlp' >/dev/null 2>&1; then
   log "Missing required Python runtime/dependencies: $PYTHON_BIN"
   exit 1
 fi

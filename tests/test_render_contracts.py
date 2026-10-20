@@ -395,15 +395,17 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("views</span>", self.html)
         self.assertIn("likes</span>", self.html)
         self.assertIn("Top engagement", self.html)
-        self.assertIn("https://www.instagram.com/reel/Dc_InViPcmO/", self.html)
+        self.assertIn("https://www.instagram.com/reel/DeCictnNuHv/", self.html)
         self.assertNotIn('class="latest-novaire-grid"', self.html)
 
     def test_instagram_card_has_only_requested_engagement_metrics(self):
         start = self.html.index("INSTAGRAM · PERSONAL LATEST VIDEO")
         end = self.html.index("</details>", start)
         card = self.html[start:end]
-        self.assertIn("views", card)
-        self.assertIn("likes", card)
+        self.assertIn("likes</span>", card)
+        self.assertIn("Instagram public view count unavailable", card)
+        self.assertIn("Latest check incomplete", card)
+        self.assertNotIn("<b>0</b> views", card)
         self.assertNotIn("followers", card)
         self.assertNotIn("comments", card)
 
@@ -473,11 +475,11 @@ class RenderContractTests(unittest.TestCase):
             self.assertIn('L</b>', self.html)
         self.assertIn('Inception ROI', self.html)
 
-    def test_latest_instagram_uses_verified_post_cache(self):
-        item = generate.load_latest_instagram()
-        self.assertEqual(item["url"], "https://www.instagram.com/reel/Dc_InViPcmO/")
-        self.assertEqual(item["title"], "Sexuality Maxxing, Part 2: The Ladyboy Follow-Up")
-        self.assertEqual(item["published_at"], "2026-09-07T12:44:46+00:00")
+    def test_latest_instagram_uses_verified_social_snapshot(self):
+        item = json.loads((ROOT / "social_latest.json").read_text(encoding="utf-8"))["instagram"]
+        self.assertEqual(item["url"], "https://www.instagram.com/reel/DeCictnNuHv/")
+        self.assertEqual(item["title"], "#barbrothers #calisthenics #dadbod")
+        self.assertEqual(item["published_at"], "2026-10-03T16:57:29+00:00")
 
     def test_evolution_fund_daily_gain_loss_uses_position_weighted_move(self):
         amount, percent = generate.position_weighted_daily_gain_loss([
