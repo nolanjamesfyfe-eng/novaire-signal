@@ -83,6 +83,34 @@
     .daily-signal-card:not([open]){height:62px;min-height:62px}
     .daily-signal-card:not([open])>summary{height:62px;min-height:62px}
 
+    .anki-study-accordion{border-color:rgba(181,150,98,.3);background:linear-gradient(145deg,rgba(181,150,98,.045),var(--surface) 48%)}
+    .anki-study-accordion>summary{min-height:56px;padding-top:14px;padding-bottom:14px}
+    .anki-study-accordion .card-title{white-space:nowrap}
+    .anki-accordion-cue{display:inline-flex;align-items:center;gap:7px;margin-left:auto;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+    .anki-accordion-cue:before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(181,150,98,.58)}
+    .anki-panel{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px 15px;padding-top:2px}
+    .anki-panel-copy strong{display:block;font-family:var(--serif);font-size:.92rem;font-weight:500;color:var(--text)}
+    .anki-panel-copy span{display:block;margin-top:3px;font-size:.55rem;color:var(--mute)}
+    .anki-panel-link{grid-column:2;grid-row:1;flex:none;border:1px solid var(--gold);border-radius:8px;padding:8px 11px;background:var(--gold);color:#0a0a0c;font-size:.5rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+    .anki-panel-link:hover,.anki-panel-link:focus-visible{background:#cfb27c;outline:1px solid #f0eef8;outline-offset:2px}
+    .anki-streak-meta{grid-column:1/-1;display:flex;align-items:center;gap:8px 13px;flex-wrap:wrap;padding-top:10px;border-top:1px solid rgba(181,150,98,.13);font-size:.54rem;letter-spacing:.055em;color:var(--dim)}
+    .anki-streak-meta b{color:var(--gold);font-weight:650}
+    .anki-sync-status{color:var(--mute)}
+    .anki-sync-status.is-error{color:#e7a3a8}
+    .anki-recent-days{grid-column:1/-1;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+    .anki-day{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:999px;padding:3px 7px;font-size:.47rem;letter-spacing:.04em;color:var(--mute)}
+    .anki-day:before{content:'';width:5px;height:5px;border-radius:50%;background:var(--mute)}
+    .anki-day[data-status="clicked"]{color:var(--text);border-color:rgba(42,157,143,.35)}
+    .anki-day[data-status="clicked"]:before{background:var(--green);box-shadow:0 0 7px rgba(42,157,143,.5)}
+    .anki-day[data-status="missed"]:before{background:var(--red);opacity:.75}
+    .anki-day[data-status="pending"]:before{background:var(--gold)}
+    .anki-sync-form{grid-column:1/-1;display:flex;align-items:stretch;gap:7px;margin-top:1px}
+    .anki-sync-form[hidden],.anki-recent-days[hidden]{display:none}
+    .anki-sync-form label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .anki-sync-form input{min-width:0;flex:1;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);padding:7px 9px;font:inherit;font-size:.62rem}
+    .anki-sync-form button{flex:none;border:1px solid var(--gold-mid);border-radius:7px;background:var(--gold-dim);color:var(--gold);padding:7px 10px;font:600 .48rem var(--sans);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+    @media(max-width:520px){.anki-accordion-cue{font-size:.44rem}.anki-panel{grid-template-columns:1fr}.anki-panel-link{grid-column:1;grid-row:auto;width:100%;box-sizing:border-box;text-align:center}.anki-streak-meta,.anki-recent-days,.anki-sync-form{grid-column:1}}
+
     #world-tour-card{padding:0}
     #world-tour-card .signal-accordion-body{padding:0 16px 16px}
     .countdown-strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}
@@ -472,6 +500,18 @@
     <div class="date">Wednesday, October 21, 2026</div>
     <!-- removed generated timestamp -->
   </div>
+
+  <!-- DAILY STUDY · APPROVED OPTION E -->
+  <details class="card signal-accordion anki-study-accordion" id="daily-study" open>
+    <summary><span class="card-title">🗂 Daily Study</span><span class="anki-accordion-cue" id="anki-accordion-cue">Click streak · locked</span></summary>
+    <div class="signal-accordion-body"><div class="anki-panel">
+      <div class="anki-panel-copy"><strong>Your decks, one deliberate click away.</strong><span>A day counts when this AnkiWeb link is clicked. This does not verify deck completion.</span></div>
+      <a class="anki-panel-link" id="anki-study-link" href="https://ankiweb.net/decks/" target="_blank" rel="noopener noreferrer">Open AnkiWeb →</a>
+      <div class="anki-streak-meta" aria-live="polite"><b id="anki-streak-status">Click streak locked</b><span id="anki-today-status">Today · not checked</span><span class="anki-sync-status" id="anki-sync-status">Unlock private sync to record clicks across devices.</span></div>
+      <div class="anki-recent-days" id="anki-recent-days" aria-label="Recent AnkiWeb click days" hidden></div>
+      <form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\d{5}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Unlock sync</button></form>
+    </div></div>
+  </details>
 
   <!-- PERSONAL COUNTDOWNS -->
   <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="2026-10-21" data-daily-edition open>
@@ -1196,6 +1236,38 @@ function scheduleBangkokDailyReset() {
   }, Math.max(1000, nextBoundary - Date.now() + 100));
 }
 scheduleBangkokDailyReset();
+
+(function initDailyStudy() {
+  const STUDY_API='/api/study-streak',AUTH_API='/api/health-auth';
+  const card=document.getElementById('daily-study'),ankiLink=document.getElementById('anki-study-link'),form=document.getElementById('anki-sync-form');
+  if(!card||!ankiLink||!form)return;
+  const cue=document.getElementById('anki-accordion-cue'),streakStatus=document.getElementById('anki-streak-status'),todayStatus=document.getElementById('anki-today-status'),syncStatus=document.getElementById('anki-sync-status'),history=document.getElementById('anki-recent-days'),pin=document.getElementById('anki-sync-pin'),unlock=form.querySelector('button');
+  function syncMessage(message,error=false){syncStatus.textContent=message;syncStatus.classList.toggle('is-error',error)}
+  function locked(message='Unlock private sync to record clicks across devices.'){cue.textContent='Click streak · locked';streakStatus.textContent='Click streak locked';todayStatus.textContent='Today · not checked';history.hidden=true;form.hidden=false;syncMessage(message,false)}
+  function render(data){
+    const days=Number(data.streak)||0;
+    cue.textContent='Click streak · '+days+'d';
+    streakStatus.textContent=days+' day click streak';
+    todayStatus.textContent=data.todayClicked?'Today · clicked':'Today · not yet';
+    form.hidden=true;syncMessage('Private · synced across devices',false);
+    history.replaceChildren();
+    (data.recentDays||[]).forEach(function(day){const item=document.createElement('span'),date=new Date(day.date+'T00:00:00Z');item.className='anki-day';item.dataset.status=day.status;item.title=day.date+' · '+day.status;item.textContent=new Intl.DateTimeFormat('en-US',{weekday:'short',day:'numeric',timeZone:'UTC'}).format(date);history.append(item)});
+    history.hidden=!history.children.length;
+  }
+  async function load(){
+    try{const response=await fetch(STUDY_API,{credentials:'same-origin',cache:'no-store',headers:{Accept:'application/json'}});if(response.status===401)return locked();const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Private sync unavailable.');render(data)}catch(error){form.hidden=false;history.hidden=true;syncMessage(error.message||'Private sync unavailable.',true)}
+  }
+  async function recordClick(){
+    syncMessage('AnkiWeb opened · recording click…',false);
+    try{const response=await fetch(STUDY_API,{method:'POST',credentials:'same-origin',cache:'no-store',keepalive:true,headers:{Accept:'application/json'}});const data=await response.json().catch(()=>({}));if(response.status===401){locked('AnkiWeb opened · click not recorded. Unlock private sync, then click again.');return}if(!response.ok)throw new Error(data.error||'Request failed.');render(data);syncMessage(data.deduplicated?'AnkiWeb opened · today was already recorded.':'AnkiWeb opened · today recorded across devices.',false)}catch(error){form.hidden=false;syncMessage('AnkiWeb opened · click not recorded. '+(error.message||'Private sync request failed.'),true)}
+  }
+  ankiLink.addEventListener('click',function(){void recordClick()});
+  form.addEventListener('submit',async function(event){
+    event.preventDefault();unlock.disabled=true;syncMessage('Unlocking private sync…');
+    try{const response=await fetch(AUTH_API,{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({pin:pin.value})});pin.value='';const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Unable to unlock.');await load()}catch(error){syncMessage(error.message||'Unable to unlock private sync.',true)}finally{unlock.disabled=false}
+  });
+  void load();
+})();
 
 function meditationSchedule(quotes) {
   const hash = value => [...value].reduce((a, c) => Math.imul(a ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);

@@ -29,6 +29,9 @@
     },
     "api/google-tasks.js": {
       "maxDuration": 10
+    },
+    "api/study-streak.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

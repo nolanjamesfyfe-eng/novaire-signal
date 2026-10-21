@@ -192,4 +192,17 @@ if (dailyTasksApiTest.status !== 0) {
   process.exit(1);
 }
 
+for (const testFile of ['study-streak.test.cjs', 'study-streak-ui.test.cjs']) {
+  const result = spawnSync(process.execPath, ['--test', path.join(root, 'tests', testFile)], {
+    cwd: root,
+    encoding: 'utf8',
+  });
+  if (result.status !== 0) {
+    console.error(`❌ Build guard failed: ${testFile} broke.`);
+    if (result.stdout) process.stderr.write(result.stdout);
+    if (result.stderr) process.stderr.write(result.stderr);
+    process.exit(1);
+  }
+}
+
 console.log('✅ Build guard passed: core Novaire Signal files are deployable.');
