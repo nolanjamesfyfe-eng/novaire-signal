@@ -90,3 +90,31 @@ test('request failure is visible and does not prevent Anki navigation on mobile'
   await context.close();
   failPost = false;
 });
+
+test('collapsed reminder stays slim on desktop and mobile and preserves exact accordion state', async () => {
+  for (const viewport of [{ name: 'desktop', width: 1440, height: 900, maxHeight: 47 }, { name: 'mobile', width: 390, height: 844, maxHeight: 41 }]) {
+    const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, isMobile: viewport.name === 'mobile', hasTouch: viewport.name === 'mobile' });
+    const page = await context.newPage();
+    await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+    const card = page.locator('#daily-study');
+    if (await card.getAttribute('open') !== null) await card.locator(':scope > summary').click();
+    await page.waitForFunction(() => localStorage.getItem('nv_accordion_state_daily-study') === 'closed');
+    const before = await card.boundingBox();
+    assert.ok(before && before.height <= viewport.maxHeight, `${viewport.name} collapsed height ${before?.height}px exceeds ${viewport.maxHeight}px`);
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    assert.equal(await card.getAttribute('open'), null, `${viewport.name} collapsed state changed after reload`);
+    const after = await card.boundingBox();
+    assert.ok(after && Math.abs(after.height - before.height) < 0.1, `${viewport.name} collapsed geometry changed after reload`);
+    await card.locator(':scope > summary').click();
+    await card.locator(':scope > summary').click();
+    const focusStyle = await card.locator(':scope > summary').evaluate(node => ({ focusVisible: node.matches(':focus-visible'), outlineStyle: getComputedStyle(node).outlineStyle }));
+    assert.equal(focusStyle.focusVisible, false, `${viewport.name} pointer focus incorrectly uses the keyboard ring`);
+    assert.equal(focusStyle.outlineStyle, 'none', `${viewport.name} pointer focus should not draw an inner frame`);
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    const keyboardFocus = await card.locator(':scope > summary').evaluate(node => ({ matches: node.matches(':focus-visible'), outlineWidth: getComputedStyle(node).outlineWidth }));
+    assert.equal(keyboardFocus.matches, true, `${viewport.name} summary is not keyboard focus-visible`);
+    assert.ok(parseFloat(keyboardFocus.outlineWidth) >= 1.7, `${viewport.name} keyboard focus ring is missing`);
+    await context.close();
+  }
+});

@@ -31,3 +31,12 @@ test('generated behavior records clicks only from anchor activation and reports 
   assert.match(html, /credentials:'same-origin'/);
   assert.match(html, /keepalive:true/);
 });
+
+test('collapsed Daily Study reminder has an explicit compact geometry and keyboard focus ring', () => {
+  assert.match(html, /\.card\.anki-study-accordion\{box-sizing:border-box;padding:0;/);
+  assert.match(html, /\.anki-study-accordion:not\(\[open\]\)\{height:42px;min-height:42px\}/);
+  assert.match(html, /\.anki-study-accordion>summary\{height:42px;min-height:42px;box-sizing:border-box;padding:8px 14px\}/);
+  assert.match(html, /\.anki-study-accordion>summary:focus\{outline:none\}/);
+  assert.match(html, /\.anki-study-accordion>summary:focus-visible\{outline:2px solid #9db8ff;outline-offset:-2px\}/);
+  assert.match(html, /\.anki-study-accordion:not\(\[open\]\),\.anki-study-accordion>summary\{height:40px;min-height:40px\}/);
+});
