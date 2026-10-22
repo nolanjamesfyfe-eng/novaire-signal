@@ -32,6 +32,9 @@
     },
     "api/study-streak.js": {
       "maxDuration": 10
+    },
+    "api/study-auth.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

@@ -3715,36 +3715,30 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .daily-signal-card:not([open]){{height:62px;min-height:62px}}
     .daily-signal-card:not([open])>summary{{height:62px;min-height:62px}}
 
-    .card.anki-study-accordion{{box-sizing:border-box;padding:0;border-color:rgba(181,150,98,.3);background:linear-gradient(145deg,rgba(181,150,98,.045),var(--surface) 48%)}}
-    .anki-study-accordion:not([open]){{height:42px;min-height:42px}}
-    .anki-study-accordion>summary{{height:42px;min-height:42px;box-sizing:border-box;padding:8px 14px}}
-    .anki-study-accordion>summary:focus{{outline:none}}
-    .anki-study-accordion>summary:focus-visible{{outline:2px solid #9db8ff;outline-offset:-2px}}
-    .anki-study-accordion .card-title{{white-space:nowrap}}
-    .anki-accordion-cue{{display:inline-flex;align-items:center;gap:7px;margin-left:auto;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);white-space:nowrap}}
-    .anki-accordion-cue:before{{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(181,150,98,.58)}}
-    .anki-panel{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px 15px;padding-top:2px}}
-    .anki-panel-copy strong{{display:block;font-family:var(--serif);font-size:.92rem;font-weight:500;color:var(--text)}}
-    .anki-panel-copy span{{display:block;margin-top:3px;font-size:.55rem;color:var(--mute)}}
-    .anki-panel-link{{grid-column:2;grid-row:1;flex:none;border:1px solid var(--gold);border-radius:8px;padding:8px 11px;background:var(--gold);color:#0a0a0c;font-size:.5rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;white-space:nowrap}}
-    .anki-panel-link:hover,.anki-panel-link:focus-visible{{background:#cfb27c;outline:1px solid #f0eef8;outline-offset:2px}}
-    .anki-streak-meta{{grid-column:1/-1;display:flex;align-items:center;gap:8px 13px;flex-wrap:wrap;padding-top:10px;border-top:1px solid rgba(181,150,98,.13);font-size:.54rem;letter-spacing:.055em;color:var(--dim)}}
-    .anki-streak-meta b{{color:var(--gold);font-weight:650}}
-    .anki-sync-status{{color:var(--mute)}}
-    .anki-sync-status.is-error{{color:#e7a3a8}}
-    .anki-recent-days{{grid-column:1/-1;display:flex;gap:6px;align-items:center;flex-wrap:wrap}}
-    .anki-day{{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:999px;padding:3px 7px;font-size:.47rem;letter-spacing:.04em;color:var(--mute)}}
-    .anki-day:before{{content:'';width:5px;height:5px;border-radius:50%;background:var(--mute)}}
-    .anki-day[data-status="clicked"]{{color:var(--text);border-color:rgba(42,157,143,.35)}}
-    .anki-day[data-status="clicked"]:before{{background:var(--green);box-shadow:0 0 7px rgba(42,157,143,.5)}}
-    .anki-day[data-status="missed"]:before{{background:var(--red);opacity:.75}}
-    .anki-day[data-status="pending"]:before{{background:var(--gold)}}
-    .anki-sync-form{{grid-column:1/-1;display:flex;align-items:stretch;gap:7px;margin-top:1px}}
-    .anki-sync-form[hidden],.anki-recent-days[hidden]{{display:none}}
+    .card.anki-quick-row{{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 14px;box-sizing:border-box;padding:11px 13px;border-color:rgba(181,150,98,.32);background:linear-gradient(105deg,rgba(181,150,98,.065),rgba(17,17,22,.98) 44%)}}
+    .anki-identity{{display:flex;align-items:center;gap:7px;color:var(--gold);font-size:.61rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}}
+    .anki-state{{min-width:0;line-height:1.22}}
+    .anki-streak-status{{display:block;width:max-content;max-width:100%;font-size:.62rem;font-weight:650;letter-spacing:.035em;color:var(--gold)}}
+    .anki-streak-status[data-tone="calm"]{{color:#8ecfc4;text-shadow:0 0 10px rgba(42,157,143,.18)}}
+    .anki-streak-status[data-tone="warn"]{{color:#e4a24a;animation:anki-warn-pulse 3.4s ease-in-out infinite}}
+    .anki-streak-status[data-tone="urgent"]{{color:#ef6b72;animation:anki-urgent-pulse 3.4s ease-in-out infinite}}
+    @keyframes anki-warn-pulse{{0%,100%{{opacity:.68;text-shadow:0 0 0 rgba(228,162,74,0)}}50%{{opacity:1;text-shadow:0 0 9px rgba(228,162,74,.32)}}}}
+    @keyframes anki-urgent-pulse{{0%,100%{{opacity:.68;text-shadow:0 0 0 rgba(239,107,114,0)}}50%{{opacity:1;text-shadow:0 0 10px rgba(239,107,114,.38)}}}}
+    .anki-meta{{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:.45rem;letter-spacing:.045em;color:var(--mute);white-space:nowrap}}
+    .anki-meta-sep{{opacity:.45}}
+    .anki-sync-control{{display:inline;position:relative}}
+    .anki-sync-control[hidden]{{display:none!important}}
+    .anki-sync-control>summary{{display:inline;list-style:none;cursor:pointer;color:var(--dim);text-decoration:underline;text-decoration-color:rgba(181,150,98,.3);text-underline-offset:2px}}
+    .anki-sync-control>summary::-webkit-details-marker{{display:none}}
+    .anki-sync-control[open]>.anki-sync-form{{display:flex}}
+    .anki-sync-form{{display:none;position:absolute;z-index:20;left:0;top:calc(100% + 8px);width:210px;box-sizing:border-box;gap:6px;padding:8px;border:1px solid var(--gold-mid);border-radius:8px;background:#0b0b0f;box-shadow:0 12px 28px rgba(0,0,0,.5)}}
     .anki-sync-form label{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}
-    .anki-sync-form input{{min-width:0;flex:1;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);padding:7px 9px;font:inherit;font-size:.62rem}}
-    .anki-sync-form button{{flex:none;border:1px solid var(--gold-mid);border-radius:7px;background:var(--gold-dim);color:var(--gold);padding:7px 10px;font:600 .48rem var(--sans);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}}
-    @media(max-width:520px){{.anki-study-accordion:not([open]),.anki-study-accordion>summary{{height:40px;min-height:40px}}.anki-study-accordion>summary{{padding:7px 11px}}.anki-accordion-cue{{font-size:.44rem}}.anki-panel{{grid-template-columns:1fr}}.anki-panel-link{{grid-column:1;grid-row:auto;width:100%;box-sizing:border-box;text-align:center}}.anki-streak-meta,.anki-recent-days,.anki-sync-form{{grid-column:1}}}}
+    .anki-sync-form input{{min-width:0;width:100%;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);padding:6px 7px;font:inherit;font-size:.58rem}}
+    .anki-sync-form button{{flex:none;border:1px solid var(--gold-mid);border-radius:6px;background:var(--gold-dim);color:var(--gold);padding:6px 8px;font:650 .46rem var(--sans);letter-spacing:.07em;text-transform:uppercase;cursor:pointer}}
+    .anki-panel-link{{flex:none;border:1px solid var(--gold);border-radius:7px;padding:8px 11px;background:var(--gold);color:#0a0a0c;font-size:.5rem;font-weight:700;letter-spacing:.075em;text-transform:uppercase;text-decoration:none;white-space:nowrap}}
+    .anki-panel-link:hover,.anki-panel-link:focus-visible{{background:#cfb27c;outline:1px solid #f0eef8;outline-offset:2px}}
+    @media(prefers-reduced-motion:reduce){{.anki-streak-status[data-tone="warn"],.anki-streak-status[data-tone="urgent"]{{animation:none;opacity:1}}}}
+    @media(max-width:520px){{.card.anki-quick-row{{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 9px;padding:10px 11px}}.anki-identity{{font-size:.54rem}}.anki-streak-status{{font-size:.54rem}}.anki-meta{{font-size:.4rem;gap:4px}}.anki-panel-link{{padding:8px 9px;font-size:.44rem}}.anki-sync-form{{left:auto;right:-42px;width:198px}}}}
 
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
@@ -4136,17 +4130,15 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <!-- removed generated timestamp -->
   </div>
 
-  <!-- DAILY STUDY · APPROVED OPTION E -->
-  <details class="card signal-accordion anki-study-accordion" id="daily-study" open>
-    <summary><span class="card-title">🗂 Daily Study</span><span class="anki-accordion-cue" id="anki-accordion-cue">Click streak · locked</span></summary>
-    <div class="signal-accordion-body"><div class="anki-panel">
-      <div class="anki-panel-copy"><strong>Your decks, one deliberate click away.</strong><span>A day counts when this AnkiWeb link is clicked. This does not verify deck completion.</span></div>
-      <a class="anki-panel-link" id="anki-study-link" href="https://ankiweb.net/decks/" target="_blank" rel="noopener noreferrer">Open AnkiWeb →</a>
-      <div class="anki-streak-meta" aria-live="polite"><b id="anki-streak-status">Click streak locked</b><span id="anki-today-status">Today · not checked</span><span class="anki-sync-status" id="anki-sync-status">Unlock private sync to record clicks across devices.</span></div>
-      <div class="anki-recent-days" id="anki-recent-days" aria-label="Recent AnkiWeb click days" hidden></div>
-      <form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\\d{{5}}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Unlock sync</button></form>
-    </div></div>
-  </details>
+  <!-- ANKI · LOCAL-FIRST CLICK-DAY STREAK -->
+  <section class="card anki-quick-row" id="daily-study" aria-label="Anki click-day streak">
+    <div class="anki-identity"><span aria-hidden="true">🗂</span><strong>Anki</strong></div>
+    <div class="anki-state" aria-live="polite">
+      <span class="anki-streak-status" id="anki-streak-status" data-tone="warn">Start your click streak today</span>
+      <div class="anki-meta"><span id="anki-sync-status">Local</span><span class="anki-meta-sep" aria-hidden="true">·</span><span title="A day counts when the AnkiWeb link is clicked. Deck completion is not verified.">click days only</span><span class="anki-meta-sep" aria-hidden="true">·</span><details class="anki-sync-control" id="anki-sync-control"><summary id="anki-sync-toggle">connect sync</summary><form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\\d{{5}}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Connect</button></form></details></div>
+    </div>
+    <a class="anki-panel-link" id="anki-study-link" href="https://ankiweb.net/decks/" target="_blank" rel="noopener noreferrer">Open AnkiWeb →</a>
+  </section>
 
   <!-- PERSONAL COUNTDOWNS -->
   <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" data-daily-edition open>
@@ -4503,35 +4495,39 @@ function scheduleBangkokDailyReset() {{
 scheduleBangkokDailyReset();
 
 (function initDailyStudy() {{
-  const STUDY_API='/api/study-streak',AUTH_API='/api/health-auth';
-  const card=document.getElementById('daily-study'),ankiLink=document.getElementById('anki-study-link'),form=document.getElementById('anki-sync-form');
-  if(!card||!ankiLink||!form)return;
-  const cue=document.getElementById('anki-accordion-cue'),streakStatus=document.getElementById('anki-streak-status'),todayStatus=document.getElementById('anki-today-status'),syncStatus=document.getElementById('anki-sync-status'),history=document.getElementById('anki-recent-days'),pin=document.getElementById('anki-sync-pin'),unlock=form.querySelector('button');
-  function syncMessage(message,error=false){{syncStatus.textContent=message;syncStatus.classList.toggle('is-error',error)}}
-  function locked(message='Unlock private sync to record clicks across devices.'){{cue.textContent='Click streak · locked';streakStatus.textContent='Click streak locked';todayStatus.textContent='Today · not checked';history.hidden=true;form.hidden=false;syncMessage(message,false)}}
-  function render(data){{
-    const days=Number(data.streak)||0;
-    cue.textContent='Click streak · '+days+'d';
-    streakStatus.textContent=days+' day click streak';
-    todayStatus.textContent=data.todayClicked?'Today · clicked':'Today · not yet';
-    form.hidden=true;syncMessage('Private · synced across devices',false);
-    history.replaceChildren();
-    (data.recentDays||[]).forEach(function(day){{const item=document.createElement('span'),date=new Date(day.date+'T00:00:00Z');item.className='anki-day';item.dataset.status=day.status;item.title=day.date+' · '+day.status;item.textContent=new Intl.DateTimeFormat('en-US',{{weekday:'short',day:'numeric',timeZone:'UTC'}}).format(date);history.append(item)}});
-    history.hidden=!history.children.length;
+  const STUDY_API='/api/study-streak',AUTH_API='/api/study-auth',LOCAL_KEY='nv_anki_click_dates_v1',START='2026-10-21';
+  const ankiLink=document.getElementById('anki-study-link'),form=document.getElementById('anki-sync-form');
+  if(!ankiLink||!form)return;
+  const streakStatus=document.getElementById('anki-streak-status'),syncStatus=document.getElementById('anki-sync-status'),syncControl=document.getElementById('anki-sync-control'),pin=document.getElementById('anki-sync-pin'),connect=form.querySelector('button');
+  let memoryDates=[],storageOk=true;
+  function bangkokDate(now=new Date()){{const parts=new Intl.DateTimeFormat('en-US',{{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}}).formatToParts(now),out={{}};parts.forEach(part=>{{if(part.type!=='literal')out[part.type]=part.value}});return out.year+'-'+out.month+'-'+out.day}}
+  function shift(date,amount){{const value=new Date(date+'T00:00:00Z');value.setUTCDate(value.getUTCDate()+amount);return value.toISOString().slice(0,10)}}
+  function validDate(date,today){{if(typeof date!=='string'||!/^\d{{4}}-\d{{2}}-\d{{2}}$/.test(date)||date<START||date>today)return false;try{{return new Date(date+'T00:00:00Z').toISOString().slice(0,10)===date}}catch(error){{return false}}}}
+  function readLocal(){{const today=bangkokDate();let raw;try{{raw=localStorage.getItem(LOCAL_KEY);storageOk=true}}catch(error){{storageOk=false;return memoryDates.slice()}}try{{const parsed=JSON.parse(raw||'[]');memoryDates=[...new Set((Array.isArray(parsed)?parsed:[]).filter(date=>validDate(date,today)))].sort()}}catch(error){{memoryDates=[];try{{localStorage.setItem(LOCAL_KEY,'[]');storageOk=true}}catch(storageError){{storageOk=false}}}}return memoryDates.slice()}}
+  function writeLocal(dates){{memoryDates=[...new Set(dates)].sort();try{{localStorage.setItem(LOCAL_KEY,JSON.stringify(memoryDates));storageOk=true}}catch(error){{storageOk=false}}}}
+  function summary(dates,today=bangkokDate()){{const clicks=new Set(dates.filter(date=>validDate(date,today))),todayClicked=clicks.has(today);let cursor=todayClicked?today:shift(today,-1),streak=0;while(clicks.has(cursor)){{streak+=1;cursor=shift(cursor,-1)}}let missedDays=0;if(!todayClicked){{cursor=shift(today,-1);while(cursor>=START&&!clicks.has(cursor)){{missedDays+=1;cursor=shift(cursor,-1)}}}}return{{todayClicked,streak,missedDays}}}}
+  function render(data,source){{
+    const days=Number(data.streak)||0,missed=Number(data.missedDays)||0;
+    if(data.todayClicked){{streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · clicked today';streakStatus.dataset.tone='calm'}}
+    else if(missed>0){{streakStatus.textContent=missed+' day'+(missed===1?'':'s')+' missed · restart today';streakStatus.dataset.tone=missed>=3?'urgent':'warn'}}
+    else if(days>0){{streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · click today';streakStatus.dataset.tone='warn'}}
+    else{{streakStatus.textContent='Start your click streak today';streakStatus.dataset.tone='warn'}}
+    syncStatus.textContent=source==='synced'?'Private · synced':source==='offline'?'Saved locally · sync offline':storageOk?'Saved locally':'This tab only · storage blocked';
+    syncControl.hidden=source==='synced';
   }}
-  async function load(){{
-    try{{const response=await fetch(STUDY_API,{{credentials:'same-origin',cache:'no-store',headers:{{Accept:'application/json'}}}});if(response.status===401)return locked();const data=await response.json().catch(()=>({{}}));if(!response.ok)throw new Error(data.error||'Private sync unavailable.');render(data)}}catch(error){{form.hidden=false;history.hidden=true;syncMessage(error.message||'Private sync unavailable.',true)}}
+  function localRender(source='local'){{render(summary(memoryDates),source)}}
+  async function post(action){{const response=await fetch(STUDY_API,{{method:'POST',credentials:'same-origin',cache:'no-store',keepalive:action==='click',headers:{{'Content-Type':'application/json',Accept:'application/json'}},body:JSON.stringify({{action,localDates:memoryDates}})}}),data=await response.json().catch(()=>({{}}));if(!response.ok)throw Object.assign(new Error(data.error||'Private sync unavailable.'),{{status:response.status}});writeLocal(Array.isArray(data.clickDates)?data.clickDates:memoryDates);render(data,'synced');return data}}
+  async function loadSync(){{
+    try{{const response=await fetch(STUDY_API,{{credentials:'same-origin',cache:'no-store',headers:{{Accept:'application/json'}}}});if(response.status===401){{localRender();return}}const data=await response.json().catch(()=>({{}}));if(!response.ok)throw new Error(data.error||'Private sync unavailable.');const remote=Array.isArray(data.clickDates)?data.clickDates:[],missing=memoryDates.some(date=>!remote.includes(date));writeLocal([...remote,...memoryDates]);if(missing)await post('merge');else render(data,'synced')}}catch(error){{localRender('offline')}}
   }}
-  async function recordClick(){{
-    syncMessage('AnkiWeb opened · recording click…',false);
-    try{{const response=await fetch(STUDY_API,{{method:'POST',credentials:'same-origin',cache:'no-store',keepalive:true,headers:{{Accept:'application/json'}}}});const data=await response.json().catch(()=>({{}}));if(response.status===401){{locked('AnkiWeb opened · click not recorded. Unlock private sync, then click again.');return}}if(!response.ok)throw new Error(data.error||'Request failed.');render(data);syncMessage(data.deduplicated?'AnkiWeb opened · today was already recorded.':'AnkiWeb opened · today recorded across devices.',false)}}catch(error){{form.hidden=false;syncMessage('AnkiWeb opened · click not recorded. '+(error.message||'Private sync request failed.'),true)}}
-  }}
+  async function recordClick(){{const today=bangkokDate();if(!memoryDates.includes(today))writeLocal([...memoryDates,today]);localRender();try{{await post('click')}}catch(error){{localRender(error.status===401?'local':'offline')}}}}
+  readLocal();localRender();
   ankiLink.addEventListener('click',function(){{void recordClick()}});
   form.addEventListener('submit',async function(event){{
-    event.preventDefault();unlock.disabled=true;syncMessage('Unlocking private sync…');
-    try{{const response=await fetch(AUTH_API,{{method:'POST',credentials:'same-origin',cache:'no-store',headers:{{'Content-Type':'application/json',Accept:'application/json'}},body:JSON.stringify({{pin:pin.value}})}});pin.value='';const data=await response.json().catch(()=>({{}}));if(!response.ok)throw new Error(data.error||'Unable to unlock.');await load()}}catch(error){{syncMessage(error.message||'Unable to unlock private sync.',true)}}finally{{unlock.disabled=false}}
+    event.preventDefault();connect.disabled=true;syncStatus.textContent='Connecting…';
+    try{{const response=await fetch(AUTH_API,{{method:'POST',credentials:'same-origin',cache:'no-store',headers:{{'Content-Type':'application/json',Accept:'application/json'}},body:JSON.stringify({{pin:pin.value}})}});pin.value='';const data=await response.json().catch(()=>({{}}));if(!response.ok)throw new Error(data.error||'Unable to connect.');syncControl.open=false;await loadSync()}}catch(error){{localRender();syncStatus.textContent=error.message||'Unable to connect'}}finally{{connect.disabled=false}}
   }});
-  void load();
+  void loadSync();
 }})();
 
 function meditationSchedule(quotes) {{

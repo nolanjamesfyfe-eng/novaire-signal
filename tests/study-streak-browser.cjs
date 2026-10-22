@@ -8,25 +8,52 @@ const { chromium } = require('/root/clawd/novaire-operations-system/node_modules
 const streak = require('../lib/study-streak');
 
 const root = path.join(__dirname, '..');
-let server, origin, browser, clickDates, postCount, failPost;
-const today = '2026-10-21';
+const fixedNow = '2026-10-24T05:00:00.000Z';
+const today = '2026-10-24';
+let server, origin, browser, serverDates, postCount, failPost, authorized;
 function send(res, status, body, type = 'application/json') { res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' }); res.end(type === 'application/json' ? JSON.stringify(body) : body); }
 function contentType(file) { return file.endsWith('.js') ? 'text/javascript' : file.endsWith('.css') ? 'text/css' : file.endsWith('.svg') ? 'image/svg+xml' : 'text/html'; }
+async function body(req) { let value = ''; for await (const chunk of req) value += chunk; return JSON.parse(value || '{}'); }
+async function fixedContext(options = {}) {
+  const { dates = null, denyStorage = false, ...browserOptions } = options;
+  const context = await browser.newContext(browserOptions);
+  await context.addInitScript(({ fixedNow, dates, denyStorage }) => {
+    const NativeDate = Date;
+    window.Date = class extends NativeDate {
+      constructor(...args) { super(...(args.length ? args : [fixedNow])); }
+      static now() { return new NativeDate(fixedNow).valueOf(); }
+      static parse(value) { return NativeDate.parse(value); }
+      static UTC(...args) { return NativeDate.UTC(...args); }
+    };
+    if (denyStorage) {
+      Storage.prototype.getItem = function () { throw new DOMException('blocked', 'SecurityError'); };
+      Storage.prototype.setItem = function () { throw new DOMException('blocked', 'SecurityError'); };
+    } else if (dates) {
+      localStorage.setItem('nv_anki_click_dates_v1', JSON.stringify(dates));
+    }
+  }, { fixedNow, dates, denyStorage: Boolean(denyStorage) });
+  return context;
+}
 
 test.before(async () => {
-  clickDates = []; postCount = 0; failPost = false;
-  process.env.TMPDIR = path.join(root, 'tests', '.pw-study-tmp');
+  serverDates = []; postCount = 0; failPost = false; authorized = false;
+  process.env.TMPDIR ||= path.join(root, '.playwright-tmp');
   fs.mkdirSync(process.env.TMPDIR, { recursive: true });
-  server = http.createServer((req, res) => {
+  server = http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://localhost');
     if (url.pathname === '/api/study-streak') {
+      if (!authorized) return send(res, 401, { error: 'Private study sync is not connected.' });
       if (req.method === 'POST') {
         postCount += 1;
         if (failPost) return send(res, 503, { error: 'Isolated test outage.' });
-        if (!clickDates.includes(today)) clickDates.push(today);
+        const data = await body(req);
+        const incoming = Array.isArray(data.localDates) ? data.localDates : [];
+        if (data.action === 'click') incoming.push(today);
+        serverDates = [...new Set([...serverDates, ...incoming])].sort();
       }
-      return send(res, 200, { ...streak.summarize({ startedAt: today, clickDates }, today), storage: 'private-cross-device', deduplicated: clickDates.includes(today) && postCount > 1 });
+      return send(res, 200, { ...streak.summarize({ startedAt: '2026-10-21', clickDates: serverDates }, today), clickDates: serverDates, storage: 'private-cross-device' });
     }
+    if (url.pathname === '/api/study-auth') return send(res, 401, { error: 'Isolated auth disabled.' });
     if (url.pathname.startsWith('/api/')) return send(res, 503, { error: 'not part of isolated test' });
     const relative = url.pathname === '/' ? 'index.html' : url.pathname.replace(/^\//, '');
     const file = path.resolve(root, relative);
@@ -38,83 +65,121 @@ test.before(async () => {
   browser = await chromium.launch({ headless: true, executablePath: '/snap/bin/chromium', args: ['--no-sandbox'] });
 });
 test.after(async () => { await browser?.close(); await new Promise(resolve => server?.close(resolve)); });
+test.beforeEach(() => { serverDates = []; postCount = 0; failPost = false; authorized = false; });
 
-test('ordinary and keyboard anchor activation navigate while deduplicating the click day', async () => {
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+test('new unauthorized browser counts locally, opens AnkiWeb, deduplicates and survives reload', async () => {
+  const context = await fixedContext({ viewport: { width: 1280, height: 900 } });
   await context.route('https://ankiweb.net/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Isolated AnkiWeb navigation</title>' }));
   const page = await context.newPage();
-  const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
-  await page.locator('#anki-today-status').waitFor({ state: 'visible' });
-  assert.equal(postCount, 0, 'page load must not count as a click');
+  assert.match(await page.locator('#anki-streak-status').textContent(), /3 days missed · restart today/);
   const [popup] = await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
   await popup.waitForLoadState('domcontentloaded').catch(() => {});
   assert.match(popup.url(), /^https:\/\/ankiweb\.net\/decks\//);
-  await page.locator('#anki-today-status').waitFor({ state: 'visible' });
-  await page.waitForFunction(() => document.querySelector('#anki-today-status')?.textContent.includes('clicked'));
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
+  assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), 'calm');
   await page.locator('#anki-study-link').focus();
-  const [keyboardPopup] = await Promise.all([context.waitForEvent('page'), page.keyboard.press('Enter')]);
-  await keyboardPopup.waitForLoadState('domcontentloaded').catch(() => {});
-  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('already recorded'));
-  assert.equal(postCount, 2);
-  assert.deepEqual(clickDates, [today]);
+  await Promise.all([context.waitForEvent('page'), page.keyboard.press('Enter')]);
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), [today]);
   await page.reload({ waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => document.querySelector('#anki-today-status')?.textContent.includes('clicked'));
-  const card = page.locator('#daily-study');
-  await card.locator(':scope > summary').click();
-  assert.equal(await card.getAttribute('open'), null);
-  await page.waitForFunction(() => localStorage.getItem('nv_accordion_state_daily-study') === 'closed');
-  await page.reload({ waitUntil: 'domcontentloaded' });
-  assert.equal(await page.locator('#daily-study').getAttribute('open'), null, 'accordion preference survives refresh');
-  await page.locator('#daily-study > summary').click();
-  await page.screenshot({ path: path.join(root, 'qa-artifacts', 'daily-study-option-e-desktop.png'), fullPage: false });
-  assert.deepEqual(errors, []);
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
+  assert.match(await page.locator('#anki-sync-status').textContent(), /Saved locally/);
+  assert.deepEqual(serverDates, [], 'unauthorized browser must not mutate shared history');
   await context.close();
 });
 
-test('request failure is visible and does not prevent Anki navigation on mobile', async () => {
-  failPost = true;
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
-  await context.route('https://ankiweb.net/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Isolated AnkiWeb navigation</title>' }));
-  const page = await context.newPage();
-  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
-  const [popup] = await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
-  await popup.waitForLoadState('domcontentloaded').catch(() => {});
-  assert.match(popup.url(), /^https:\/\/ankiweb\.net\/decks\//);
-  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('click not recorded'));
-  assert.match(await page.locator('#anki-sync-status').textContent(), /Isolated test outage/);
-  await page.locator('#daily-study').evaluate(node => node.scrollIntoView({ block: 'start' }));
-  await page.waitForTimeout(100);
-  await page.screenshot({ path: path.join(root, 'qa-artifacts', 'daily-study-option-e-mobile.png'), fullPage: false });
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
-  await context.close();
-  failPost = false;
-});
-
-test('collapsed reminder stays slim on desktop and mobile and preserves exact accordion state', async () => {
-  for (const viewport of [{ name: 'desktop', width: 1440, height: 900, maxHeight: 47 }, { name: 'mobile', width: 390, height: 844, maxHeight: 41 }]) {
-    const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, isMobile: viewport.name === 'mobile', hasTouch: viewport.name === 'mobile' });
+test('zero, one, two and three missed-day states use the requested tones', async () => {
+  const scenarios = [
+    { dates: ['2026-10-23'], text: '1 day streak · click today', tone: 'warn' },
+    { dates: ['2026-10-22'], text: '1 day missed · restart today', tone: 'warn' },
+    { dates: ['2026-10-21'], text: '2 days missed · restart today', tone: 'warn' },
+    { dates: [], text: '3 days missed · restart today', tone: 'urgent' },
+  ];
+  for (const scenario of scenarios) {
+    const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: scenario.dates });
     const page = await context.newPage();
     await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
-    const card = page.locator('#daily-study');
-    if (await card.getAttribute('open') !== null) await card.locator(':scope > summary').click();
-    await page.waitForFunction(() => localStorage.getItem('nv_accordion_state_daily-study') === 'closed');
-    const before = await card.boundingBox();
-    assert.ok(before && before.height <= viewport.maxHeight, `${viewport.name} collapsed height ${before?.height}px exceeds ${viewport.maxHeight}px`);
+    assert.equal(await page.locator('#anki-streak-status').textContent(), scenario.text);
+    assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), scenario.tone);
+    await context.close();
+  }
+});
+
+test('failed network still records locally and keeps mobile navigation/geometry intact', async () => {
+  authorized = true; failPost = true;
+  const context = await fixedContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await context.route('https://ankiweb.net/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Anki</title>' }));
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  const [popup] = await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
+  await popup.waitForLoadState('domcontentloaded').catch(() => {});
+  assert.match(popup.url(), /^https:\/\/ankiweb\.net\/decks\//);
+  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('sync offline'));
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), [today]);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
+  await page.screenshot({ path: path.join(root, 'qa-artifacts', 'anki-click-streak-mobile.png'), fullPage: false });
+  await context.close();
+});
+
+test('denied localStorage is honest, tracks for the tab, and expiry/network fallback remains safe', async () => {
+  const context = await fixedContext({ viewport: { width: 1280, height: 900 }, denyStorage: true });
+  await context.route('https://ankiweb.net/**', route => route.fulfill({ status: 200, body: 'Anki' }));
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
+  assert.match(await page.locator('#anki-sync-status').textContent(), /This tab only/);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '3 days missed · restart today');
+  await context.close();
+});
+
+test('authorized devices merge canonical history; another authorized device reads it; unauthorized browser cannot', async () => {
+  authorized = true; serverDates = ['2026-10-21'];
+  const first = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: ['2026-10-22'] });
+  const page = await first.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('synced'));
+  assert.equal(await page.locator('#anki-sync-control').isVisible(), false, 'connected devices should not show the PIN control');
+  assert.deepEqual(serverDates, ['2026-10-21', '2026-10-22']);
+  assert.equal(postCount, 1, 'queued local history should merge once');
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('synced'));
+  assert.equal(postCount, 1, 'reload must not rewrite already merged history');
+  await first.close();
+
+  const second = await fixedContext({ viewport: { width: 390, height: 844 } });
+  const secondPage = await second.newPage();
+  await secondPage.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await secondPage.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('synced'));
+  assert.deepEqual(await secondPage.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), serverDates);
+  authorized = false;
+  await secondPage.reload({ waitUntil: 'domcontentloaded' });
+  await secondPage.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('Saved locally'));
+  assert.equal(await secondPage.locator('#anki-sync-control').isVisible(), true, 'expired auth should reveal only the tiny reconnect control');
+  await second.close();
+
+  const stranger = await fixedContext({ viewport: { width: 390, height: 844 } });
+  const strangerPage = await stranger.newPage();
+  await strangerPage.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  assert.equal(await strangerPage.locator('#anki-streak-status').textContent(), '3 days missed · restart today');
+  assert.deepEqual(await strangerPage.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1') || '[]')), []);
+  await stranger.close();
+});
+
+test('compact row is rendered on desktop/mobile and unrelated accordion state survives navigation', async () => {
+  for (const viewport of [{ name: 'desktop', width: 1280, height: 900, maxHeight: 70 }, { name: 'mobile', width: 390, height: 844, maxHeight: 76 }]) {
+    const context = await fixedContext({ viewport, isMobile: viewport.name === 'mobile', hasTouch: viewport.name === 'mobile' });
+    const page = await context.newPage();
+    await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+    const card = page.locator('#daily-study'), box = await card.boundingBox();
+    assert.ok(box && box.height <= viewport.maxHeight, `${viewport.name} row is ${box?.height}px tall`);
+    const other = page.locator('#world-tour-card');
+    if (await other.getAttribute('open') !== null) await other.locator(':scope > summary').click();
     await page.reload({ waitUntil: 'domcontentloaded' });
-    assert.equal(await card.getAttribute('open'), null, `${viewport.name} collapsed state changed after reload`);
-    const after = await card.boundingBox();
-    assert.ok(after && Math.abs(after.height - before.height) < 0.1, `${viewport.name} collapsed geometry changed after reload`);
-    await card.locator(':scope > summary').click();
-    await card.locator(':scope > summary').click();
-    const focusStyle = await card.locator(':scope > summary').evaluate(node => ({ focusVisible: node.matches(':focus-visible'), outlineStyle: getComputedStyle(node).outlineStyle }));
-    assert.equal(focusStyle.focusVisible, false, `${viewport.name} pointer focus incorrectly uses the keyboard ring`);
-    assert.equal(focusStyle.outlineStyle, 'none', `${viewport.name} pointer focus should not draw an inner frame`);
-    await page.keyboard.press('Tab');
-    await page.keyboard.press('Shift+Tab');
-    const keyboardFocus = await card.locator(':scope > summary').evaluate(node => ({ matches: node.matches(':focus-visible'), outlineWidth: getComputedStyle(node).outlineWidth }));
-    assert.equal(keyboardFocus.matches, true, `${viewport.name} summary is not keyboard focus-visible`);
-    assert.ok(parseFloat(keyboardFocus.outlineWidth) >= 1.7, `${viewport.name} keyboard focus ring is missing`);
+    assert.equal(await page.locator('#world-tour-card').getAttribute('open'), null, `${viewport.name}: unrelated accordion state changed`);
+    await card.evaluate(node => node.scrollIntoView({ block: 'center' }));
+    await page.screenshot({ path: path.join(root, 'qa-artifacts', `anki-click-streak-${viewport.name}.png`), fullPage: false });
     await context.close();
   }
 });
