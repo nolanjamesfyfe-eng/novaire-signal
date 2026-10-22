@@ -4,18 +4,17 @@
     "type": "reel",
     "owner_id": "5776730090",
     "owner_username": "j.novaire",
-    "title": "#barbrothers #calisthenics #dadbod",
-    "url": "https://www.instagram.com/reel/DeCictnNuHv/",
-    "published_at": "2026-10-03T16:57:29+00:00",
+    "title": "Been pull-up maxxing for nearly 30 years. Just hit a lifetime best of 27. Still getting stronger, still loving it. Thailand side quest continues 🇹🇭 💥",
+    "url": "https://www.instagram.com/reel/DdqleuThaXN/",
+    "published_at": "2026-09-24T09:43:18+00:00",
     "views": null,
-    "likes": 3,
-    "verified_at": "2026-10-04T00:51:03.397307+00:00",
+    "likes": 26,
+    "verified_at": "2026-10-22T02:01:09.958974+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram public view count unavailable",
-    "metrics_checked_at": "2026-10-22T00:50:59.160092+00:00",
+    "metrics_checked_at": "2026-10-22T02:01:12.168957+00:00",
     "metrics_source": "Instagram logged-out post API",
-    "likes_verified_at": "2026-10-22T00:50:59.160092+00:00",
-    "discovery_status": "Latest check incomplete; item verified 2026-10-04"
+    "likes_verified_at": "2026-10-22T02:01:12.168957+00:00"
   },
   "youtube": {
     "second_renaissance": {
@@ -28,9 +27,9 @@
         "published_at": "Sep 26, 2026",
         "views": 24,
         "likes": null,
-        "metrics_checked_at": "2026-10-22T00:50:59.929493+00:00",
+        "metrics_checked_at": "2026-10-22T02:01:12.945068+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-22T00:50:59.929493+00:00",
+        "views_verified_at": "2026-10-22T02:01:12.945068+00:00",
         "metrics_status": "YouTube does not expose public likes for this upload",
         "platform": "youtube",
         "type": "video",
@@ -43,16 +42,16 @@
         "published_at": "Sep 26, 2026",
         "views": 1225,
         "likes": 41,
-        "metrics_checked_at": "2026-10-22T00:51:00.600132+00:00",
+        "metrics_checked_at": "2026-10-22T02:01:13.707548+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-22T00:51:00.600132+00:00",
-        "likes_verified_at": "2026-10-22T00:51:00.600132+00:00",
+        "views_verified_at": "2026-10-22T02:01:13.707548+00:00",
+        "likes_verified_at": "2026-10-22T02:01:13.707548+00:00",
         "platform": "youtube",
         "type": "short",
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-10-22T00:51:00.601397+00:00",
+      "verified_at": "2026-10-22T02:01:13.709258+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -65,10 +64,10 @@
         "published_at": "Jul 31, 2026",
         "views": 43,
         "likes": 2,
-        "metrics_checked_at": "2026-10-22T00:51:01.287479+00:00",
+        "metrics_checked_at": "2026-10-22T02:01:14.601812+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-22T00:51:01.287479+00:00",
-        "likes_verified_at": "2026-10-22T00:51:01.287479+00:00",
+        "views_verified_at": "2026-10-22T02:01:14.601812+00:00",
+        "likes_verified_at": "2026-10-22T02:01:14.601812+00:00",
         "platform": "youtube",
         "type": "video",
         "channel": "J.Novaire",
@@ -80,21 +79,19 @@
         "published_at": "Aug 15, 2026",
         "views": 1060,
         "likes": 13,
-        "metrics_checked_at": "2026-10-22T00:51:01.943543+00:00",
+        "metrics_checked_at": "2026-10-22T02:01:15.275851+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-22T00:51:01.943543+00:00",
-        "likes_verified_at": "2026-10-22T00:51:01.943543+00:00",
+        "views_verified_at": "2026-10-22T02:01:15.275851+00:00",
+        "likes_verified_at": "2026-10-22T02:01:15.275851+00:00",
         "platform": "youtube",
         "type": "short",
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-10-22T00:51:01.945071+00:00",
+      "verified_at": "2026-10-22T02:01:15.277224+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-10-22T00:51:01.946220+00:00",
-  "errors": {
-    "instagram": "public profile embed returned older media; retained newer verified item"
-  }
+  "refreshed_at": "2026-10-22T02:01:15.279604+00:00",
+  "errors": {}
 }
