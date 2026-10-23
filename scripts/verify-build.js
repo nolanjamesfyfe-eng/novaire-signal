@@ -49,6 +49,15 @@ const mainHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const feedPayload = JSON.parse(fs.readFileSync(path.join(root, 'feed.json'), 'utf8'));
 const feedRequired = [
   '.feed-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))',
+  '--zerohedge-card-height:260px;--signal-card-height:195px',
+  '.zh-feed-card{box-sizing:border-box;height:var(--zerohedge-card-height)}',
+  '.signal-feed-card{box-sizing:border-box;height:var(--signal-card-height)',
+  '.signal-feed-card .feed-card-body{flex:1 1 auto;min-height:0;overflow:hidden',
+  '.signal-feed-card .feed-card-copy{min-height:0;overflow:hidden}',
+  '-webkit-line-clamp:9',
+  '--zerohedge-card-height:140px;--signal-card-height:105px',
+  '-webkit-line-clamp:3',
+  '.feed-metrics{flex:none',
   'scroll-snap-type:x mandatory',
   'white-space:pre-wrap;overflow-wrap:anywhere',
   'function safeImageUrl(',

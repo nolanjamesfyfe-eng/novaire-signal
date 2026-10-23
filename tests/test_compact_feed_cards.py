@@ -125,6 +125,26 @@ class CompactFeedCardTests(unittest.TestCase):
             self.assertIn(marker, source)
         self.assertNotIn("text-overflow:ellipsis", source[source.index(".compact-feed-card"):source.index(".fed-card")])
 
+    def test_x_cards_are_three_quarters_of_zerohedge_with_visible_footer(self):
+        source = (ROOT / "generate.py").read_text(encoding="utf-8")
+        feed_css = source[source.index(".compact-feed-card"):source.index(".fed-card")]
+        for marker in (
+            "--zerohedge-card-height:260px",
+            "--signal-card-height:195px",
+            ".zh-feed-card{{box-sizing:border-box;height:var(--zerohedge-card-height)",
+            ".signal-feed-card{{box-sizing:border-box;height:var(--signal-card-height)",
+            ".signal-feed-card .feed-card-body{{flex:1 1 auto;min-height:0;overflow:hidden",
+            ".signal-feed-card .feed-card-copy{{min-height:0;overflow:hidden",
+            "display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:9;overflow:hidden",
+            "--zerohedge-card-height:140px;--signal-card-height:105px",
+            "-webkit-line-clamp:3",
+            ".feed-metrics{{flex:none",
+        ):
+            self.assertIn(marker, feed_css)
+
+        self.assertEqual(195 / 260, 0.75)
+        self.assertEqual(105 / 140, 0.75)
+
 
 if __name__ == "__main__":
     unittest.main()
