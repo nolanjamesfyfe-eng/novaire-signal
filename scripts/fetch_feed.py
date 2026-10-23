@@ -49,6 +49,7 @@ SIGNAL_POOL_SIZE = 12
 MIN_PUBLISHABLE_POSTS = 3
 XURL_BIN = "xurl"
 X_MEDIA_HOSTS = {"pbs.twimg.com"}
+FXTWITTER_API_HOST = "api.fxtwitter.com"
 
 
 def _safe_x_media_url(value: str) -> str:
@@ -60,6 +61,35 @@ def _safe_x_media_url(value: str) -> str:
         return parsed.geturl()
     except Exception:
         return ""
+
+
+def parse_fx_public_metadata(payload: dict, expected_id: str) -> dict:
+    """Normalize full post text/media from the fixed public metadata endpoint."""
+    tweet = (payload or {}).get("tweet") or {}
+    if str(tweet.get("id") or "") != expected_id:
+        return {}
+    metadata = {}
+    text = str(tweet.get("text") or "").strip()
+    if text:
+        metadata["text"] = text
+    media = tweet.get("media") or {}
+    candidates = []
+    for group in ("photos", "videos", "all"):
+        rows = media.get(group) if isinstance(media, dict) else []
+        if isinstance(rows, list):
+            for row in rows:
+                if isinstance(row, dict):
+                    candidates.extend((row.get("url"), row.get("thumbnail_url")))
+    for candidate in candidates:
+        media_url = _safe_x_media_url(candidate)
+        if media_url:
+            metadata["media_url"] = media_url
+            metadata["media_alt"] = "Attached post media"
+            break
+    views = tweet.get("views")
+    if isinstance(views, int) and views > 0:
+        metadata["views"] = views
+    return metadata
 
 
 def parse_x_public_metadata(page_html: str) -> dict:
@@ -79,6 +109,21 @@ def fetch_x_public_metadata(post: dict) -> dict:
     post_id = str(post.get("id") or "")
     if not post_id.isdigit():
         return {}
+    metadata = {}
+    fx_request = urllib.request.Request(
+        f"https://{FXTWITTER_API_HOST}/status/{post_id}",
+        headers={"User-Agent": "NovaireSignal/1.0"},
+    )
+    try:
+        with urllib.request.urlopen(fx_request, timeout=6) as response:
+            if response.status == 200:
+                payload = json.loads(response.read(512_000).decode("utf-8", "replace"))
+                metadata = parse_fx_public_metadata(payload, post_id)
+    except Exception:
+        pass
+
+    if metadata.get("media_url"):
+        return metadata
     request = urllib.request.Request(
         f"https://x.com/i/status/{post_id}",
         headers={"User-Agent": "Mozilla/5.0 (compatible; NovaireSignal/1.0)"},
@@ -86,11 +131,11 @@ def fetch_x_public_metadata(post: dict) -> dict:
     try:
         with urllib.request.urlopen(request, timeout=6) as response:
             if response.status != 200:
-                return {}
+                return metadata
             page = response.read(1_500_000).decode("utf-8", "replace")
-        return parse_x_public_metadata(page)
+        return {**metadata, **parse_x_public_metadata(page)}
     except Exception:
-        return {}
+        return metadata
 
 
 def enrich_selected_posts(posts: list[dict], metadata_fetcher=None) -> list[dict]:
@@ -104,6 +149,13 @@ def enrich_selected_posts(posts: list[dict], metadata_fetcher=None) -> list[dict
     enriched = []
     for post, extra in zip(posts, metadata):
         updated = dict(post)
+        source_text = str(post.get("text") or "")
+        full_text = str((extra or {}).get("text") or "").strip()
+        if len(full_text) >= len(source_text):
+            updated["text"] = full_text
+        views = (extra or {}).get("views")
+        if isinstance(views, int) and views > 0:
+            updated["views"] = views
         media_url = _safe_x_media_url((extra or {}).get("media_url"))
         if media_url:
             updated["media_url"] = media_url

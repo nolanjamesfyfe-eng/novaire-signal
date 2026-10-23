@@ -71,12 +71,36 @@ class CompactFeedCardTests(unittest.TestCase):
         before = [(p["id"], p["slot_order"], p["engagementScore"]) for p in ranked]
         enriched = module.enrich_selected_posts(
             copy.deepcopy(ranked),
-            metadata_fetcher=lambda post: {"media_url": f"https://pbs.twimg.com/media/{post['id']}.jpg", "media_alt": "Attached image"},
+            metadata_fetcher=lambda post: {
+                "text": post["text"] + " — complete sourced ending",
+                "views": 1234,
+                "media_url": f"https://pbs.twimg.com/media/{post['id']}.jpg",
+                "media_alt": "Attached image",
+            },
         )
         after = [(p["id"], p["slot_order"], p["engagementScore"]) for p in enriched]
         self.assertEqual(before, after)
         self.assertEqual([p["id"] for p in enriched], ["b", "c", "a"])
+        self.assertTrue(all(p["text"].endswith("complete sourced ending") for p in enriched))
+        self.assertTrue(all(p["views"] == 1234 for p in enriched))
         self.assertTrue(all(p["media_url"].startswith("https://pbs.twimg.com/media/") for p in enriched))
+
+    def test_fixed_metadata_endpoint_requires_matching_post_and_safe_media(self):
+        module = load_fetch_feed()
+        payload = {"tweet": {
+            "id": "123",
+            "text": "The complete post text.",
+            "views": 99,
+            "media": {"photos": [
+                {"url": "https://evil.example/fake.jpg"},
+                {"url": "https://pbs.twimg.com/media/REAL.jpg"},
+            ]},
+        }}
+        metadata = module.parse_fx_public_metadata(payload, "123")
+        self.assertEqual(metadata["text"], "The complete post text.")
+        self.assertEqual(metadata["views"], 99)
+        self.assertEqual(metadata["media_url"], "https://pbs.twimg.com/media/REAL.jpg")
+        self.assertEqual(module.parse_fx_public_metadata(payload, "999"), {})
 
     def test_x_metadata_parser_rejects_arbitrary_images(self):
         module = load_fetch_feed()
