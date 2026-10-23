@@ -119,11 +119,24 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         stale = generate.weekly_scan_presentation({"scan_state": "stale", "as_of": "2026-08-17"})
 
         self.assertEqual(unverified["label"], "Scan unverified")
-        self.assertIn("No zero-candidate claim", unverified["empty_message"])
+        self.assertEqual(
+            unverified["empty_message"],
+            "Nothing new. No verified scan is completed. No claim has been made.",
+        )
         self.assertEqual(completed["label"], "Completed Aug 29")
         self.assertIn("No new candidate cleared", completed["empty_message"])
         self.assertEqual(stale["label"], "Stale · last completed Aug 17")
         self.assertNotIn("Aug 24", stale["label"])
+
+    def test_unverified_fallback_is_short_exact_and_not_duplicated(self):
+        source = Path(generate.__file__).read_text(encoding="utf-8")
+        exact = "Nothing new. No verified scan is completed. No claim has been made."
+        self.assertEqual(source.count(exact), 1)
+        result = self._load(
+            {"as_of": "2026-08-24", "scan_status": "incomplete", "status_message": "blocked", "ideas": []},
+            [],
+        )
+        self.assertEqual(result["portfolio_note"], "")
 
     def test_public_scan_ledger_has_declared_breadth_and_honest_incomplete_status(self):
         root = Path(generate.__file__).resolve().parent

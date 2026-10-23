@@ -86,6 +86,10 @@ generate_and_validate() {
     restore_artifacts
     return 1
   fi
+  if ! "$PYTHON_BIN" scripts/validate_weekly_scan.py; then
+    restore_artifacts
+    return 1
+  fi
 }
 
 sync_and_push() {

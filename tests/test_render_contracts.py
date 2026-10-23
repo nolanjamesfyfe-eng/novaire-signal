@@ -416,9 +416,12 @@ class RenderContractTests(unittest.TestCase):
         self.assertFalse(generate.open_early_week(datetime(2026, 8, 23)))
 
     def test_clutter_cards_are_accordions_with_compact_summaries(self):
-        self.assertRegex(self.html, r'class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="\d{4}-\d{2}-\d{2}"')
-        self.assertRegex(self.html, r'class="card signal-accordion" id="catalysts-card" data-edition="\d{4}-W\d{2}"')
-        self.assertIn('class="card signal-accordion trading-accordion" id="darvas-card"', self.html)
+        self.assertRegex(self.html, r'class="card signal-accordion compact-market-accordion" id="weekly-asymmetric-ideas" data-edition="\d{4}-\d{2}-\d{2}"')
+        self.assertRegex(self.html, r'class="card signal-accordion compact-market-accordion" id="catalysts-card" data-edition="\d{4}-W\d{2}"')
+        self.assertIn('class="card signal-accordion trading-accordion compact-market-accordion" id="darvas-card"', self.html)
+        self.assertIn('.card.compact-market-accordion{padding:0}', self.html)
+        self.assertNotIn('compact-market-accordion" id="world-tour-card"', self.html)
+        self.assertNotIn('compact-market-accordion" id="quotes-card"', self.html)
 
     def test_polymarket_identity_is_novairecito_in_source_and_outputs(self):
         generator_source = (ROOT / "generate.py").read_text(encoding="utf-8")
@@ -452,7 +455,7 @@ class RenderContractTests(unittest.TestCase):
         # Polymarket may be omitted when its live API is rate-limited; if rendered,
         # it must remain a compact accordion.
         if 'id="polymarket-card"' in self.html:
-            self.assertIn('class="card signal-accordion trading-accordion" id="polymarket-card"', self.html)
+            self.assertIn('class="card signal-accordion trading-accordion compact-market-accordion" id="polymarket-card"', self.html)
         self.assertRegex(self.html, r"Updated on [A-Z][a-z]{2} \d{1,2}")
         self.assertNotIn("Updated 2026-", self.html)
         self.assertIn("nv_weekly_ideas_state", self.html)
