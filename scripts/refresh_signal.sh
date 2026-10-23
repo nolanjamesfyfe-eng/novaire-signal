@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd "${NOVAIRE_SIGNAL_ROOT:-/root/clawd/novaire-signal}"
+NOVAIRE_SIGNAL_ROOT="${NOVAIRE_SIGNAL_ROOT:-/root/clawd/novaire-signal}"
+cd "$NOVAIRE_SIGNAL_ROOT"
 
 LOG_DIR=/root/clawd/logs
 STATE_FILE="$LOG_DIR/novaire-signal-refresh-state.json"

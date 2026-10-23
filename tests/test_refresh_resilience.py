@@ -48,6 +48,12 @@ class RefreshResilienceTests(unittest.TestCase):
         self.assertNotIn("git push origin main || true", script)
         self.assertNotIn("git pull --rebase --autostash origin main || true", script)
 
+    def test_refresh_script_defines_default_root_before_browser_tmp_path(self):
+        script = (ROOT / "scripts" / "refresh_signal.sh").read_text()
+        assignment = 'NOVAIRE_SIGNAL_ROOT="${NOVAIRE_SIGNAL_ROOT:-/root/clawd/novaire-signal}"'
+        self.assertIn(assignment, script)
+        self.assertLess(script.index(assignment), script.index("BROWSER_TMP_DIR="))
+
     def test_watchdog_self_repairs_stale_signal(self):
         watchdog = (ROOT / "scripts" / "watchdog_signal.sh").read_text()
         self.assertIn("--attempts 1", watchdog)
