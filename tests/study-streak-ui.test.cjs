@@ -51,6 +51,13 @@ test('warning semantics separate streak from completed missed days and respect r
   assert.match(html, /animation:none;opacity:1/);
 });
 
+test('Anki positive states reuse the exact market gain green and glow palette', () => {
+  assert.match(html, /\.positive\{color:#56f2b1;animation:finance-green-pulse/);
+  assert.match(html, /\.anki-streak-status\[data-tone="positive"\]\{color:#56f2b1;animation:anki-positive-pulse 3\.8s/);
+  assert.match(html, /@keyframes anki-positive-pulse\{0%,100%\{text-shadow:0 0 4px rgba\(86,242,177,\.45\),0 0 11px rgba\(86,242,177,\.20\);filter:brightness\(1\)\}50%\{text-shadow:0 0 7px rgba\(86,242,177,\.92\),0 0 19px rgba\(86,242,177,\.48\),0 0 30px rgba\(86,242,177,\.18\);filter:brightness\(1\.18\)\}\}/);
+  assert.doesNotMatch(html, /\.anki-streak-status\[data-tone="positive"\]\{color:#438a63/);
+});
+
 test('unknown local history is coverage-bounded and the visible link is precisely half-size', () => {
   assert.match(html, /META_KEY='nv_anki_click_coverage_v1'/);
   assert.match(html, /firstObserved/);

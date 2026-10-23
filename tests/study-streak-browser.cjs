@@ -116,6 +116,33 @@ test('zero, one, two and three missed-day states use the requested tones', async
   }
 });
 
+test('Anki positive green computes exactly equal to a market gain fixture', async () => {
+  const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: ['2026-10-22', '2026-10-23'] });
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  const palette = await page.evaluate(() => {
+    const market = document.createElement('span');
+    market.className = 'positive';
+    market.textContent = '+1.00%';
+    market.dataset.testFixture = 'market-positive';
+    document.body.append(market);
+    const anki = document.querySelector('#anki-streak-status');
+    return {
+      ankiColor: getComputedStyle(anki).color,
+      marketColor: getComputedStyle(market).color,
+      ankiAnimation: getComputedStyle(anki).animationName,
+      ankiDuration: getComputedStyle(anki).animationDuration,
+      marketAnimation: getComputedStyle(market).animationName,
+    };
+  });
+  assert.equal(palette.ankiColor, palette.marketColor);
+  assert.equal(palette.ankiColor, 'rgb(86, 242, 177)');
+  assert.equal(palette.ankiAnimation, 'anki-positive-pulse');
+  assert.equal(palette.ankiDuration, '3.8s');
+  assert.equal(palette.marketAnimation, 'finance-green-pulse');
+  await context.close();
+});
+
 test('known local coverage counts gaps while unknown earlier history does not', async () => {
   const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: ['2026-10-22'] });
   const page = await context.newPage();
