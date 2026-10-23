@@ -1310,6 +1310,91 @@ def select_thai_news(headlines, now=None):
     return relevant[:3] if relevant else ranked[:3]
 
 
+THAI_NEWS_HOSTS = {
+    "thethaiger.com", "www.thethaiger.com", "thaiexaminer.com", "www.thaiexaminer.com",
+    "bangkokpost.com", "www.bangkokpost.com", "static.bangkokpost.com",
+}
+
+
+def _thai_host_ok(value):
+    try:
+        parsed = urlsplit(str(value or "").strip())
+        return parsed.scheme == "https" and (parsed.hostname or "") in THAI_NEWS_HOSTS
+    except Exception:
+        return False
+
+
+def _clean_thai_summary(text, limit=200):
+    """Publisher RSS copy without 'Read More' tails or mid-word truncation."""
+    text = " ".join(str(text or "").split())
+    text = re.sub(r"\s*(?:\[…\]|\[\.\.\.\]|Read More.*|The post .* appeared first on .*)$", "", text, flags=re.I).strip()
+    if len(text) > limit:
+        text = text[:limit].rsplit(" ", 1)[0].rstrip(",;:.…") + "…"
+    return text
+
+
+def _thai_image_from_summary_html(raw_html):
+    try:
+        img = BeautifulSoup(raw_html or "", "html.parser").find("img", src=True)
+        src = str(img.get("src") or "") if img else ""
+        return src if _thai_host_ok(src) else ""
+    except Exception:
+        return ""
+
+
+def fetch_thai_og_image(url):
+    """Publisher og:image for the article; same-publisher HTTPS only, else no image."""
+    if not _thai_host_ok(url):
+        return ""
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
+        r.raise_for_status()
+        meta = BeautifulSoup(r.text[:200000], "html.parser").find("meta", attrs={"property": "og:image"})
+        src = str(meta.get("content") or "").strip() if meta else ""
+        return src if _thai_host_ok(src) else ""
+    except Exception:
+        return ""
+
+
+def render_thai_news_cards(items):
+    """Thailand Expat Brief in the ZeroHedge card format: thumb, title, excerpt, source."""
+    cards = []
+    for item in items:
+        url = str(item.get("url") or "")
+        if not url.startswith("http"):
+            continue
+        title = escape(str(item.get("title") or "Untitled article"))
+        source = escape(str(item.get("source") or "Thailand Expat Brief"))
+        summary = escape(_clean_thai_summary(item.get("summary")))
+        score = escape(str(item.get("score", "")))
+        href = escape(url, quote=True)
+        image = str(item.get("image") or "")
+        image_html = ""
+        if _thai_host_ok(image):
+            image_html = (
+                '<div class="feed-card-media"><img class="feed-thumb" '
+                f'src="{escape(image, quote=True)}" alt="" width="80" height="60" '
+                'loading="lazy" decoding="async" referrerpolicy="no-referrer" '
+                'onerror="this.closest(\'.feed-card-media\').remove()"></div>'
+            )
+        text_only = "" if image_html else " feed-card--text-only"
+        excerpt_html = f'<p class="feed-card-excerpt thai-news-summary">{summary}</p>' if summary else ""
+        cards.append(
+            f'<article class="feed-card thai-feed-card{text_only}" data-thai-expat-brief="verified" '
+            f'data-thai-source="{source}" data-thai-score="{score}" data-thai-url="{href}">{image_html}'
+            f'<div class="feed-card-copy"><a href="{href}" class="feed-card-title" target="_blank" rel="noopener">{title}</a>'
+            f'{excerpt_html}<a class="feed-card-source" href="{href}" target="_blank" rel="noopener">{source} →</a>'
+            '</div></article>'
+        )
+    if not cards:
+        return '<div class="feed-empty">Thailand expat news feed temporarily unavailable.</div>'
+    verified_at = datetime.now(BKK_TZ).strftime("%b %-d, %H:%M BKK")
+    return (
+        f'<!-- Live check marker: expat brief has a real source, URL, summary, and score; verified {verified_at} -->'
+        '<div class="feed-card-grid">' + "".join(cards) + '</div>'
+    )
+
+
 def fetch_bangkok_post():
     """Return today's expat-relevant Thailand headlines, not leftover local filler."""
     headlines = []
@@ -1344,7 +1429,7 @@ def fetch_bangkok_post():
             points += 2
         return points
 
-    def add_item(title, url, source, summary="", published_at=None):
+    def add_item(title, url, source, summary="", published_at=None, raw_html=""):
         title = " ".join((title or "").split())
         if len(title) < 28:
             return
@@ -1356,7 +1441,8 @@ def fetch_bangkok_post():
             "title": title,
             "url": url or "#",
             "source": source,
-            "summary": " ".join((summary or "").split())[:180],
+            "summary": _clean_thai_summary(summary),
+            "image": _thai_image_from_summary_html(raw_html),
             "score": score(title, summary),
             "published_at": published_at,
         })
@@ -1388,7 +1474,7 @@ def fetch_bangkok_post():
                     href = guid_el.get_text(" ", strip=True)
                 raw_summary = desc_el.get_text(" ", strip=True) if desc_el else ""
                 summary = BeautifulSoup(raw_summary, "html.parser").get_text(" ", strip=True)
-                add_item(title, href, source, summary, parse_rss_datetime(item, str(href or "")))
+                add_item(title, href, source, summary, parse_rss_datetime(item, str(href or "")), raw_summary)
         except Exception as e:
             print(f"    ⚠️  {source} expat feed unavailable: {e}")
 
@@ -1411,6 +1497,9 @@ def fetch_bangkok_post():
 
     ranked = select_thai_news(headlines)
     if ranked:
+        for item in ranked:
+            if not item.get("image"):
+                item["image"] = fetch_thai_og_image(item.get("url"))
         return ranked
     return [{
         "title": "Thailand expat news feed temporarily unavailable",
@@ -3578,24 +3667,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </details>"""
 
-    # ── Thailand expat news HTML ──
-    bkk_html = ""
-    for item in bangkok_news[:1]:
-        title = escape(item.get("title", "Thailand expat news feed temporarily unavailable"))
-        url = escape(item.get("url", "https://thethaiger.com/"), quote=True)
-        source = escape(item.get("source", "Thailand Expat Brief"))
-        summary = escape(item.get("summary", ""))
-        score = escape(str(item.get("score", "")))
-        verified_at = datetime.now(BKK_TZ).strftime("%b %-d, %H:%M BKK")
-        summary_html = f'<div class="thai-news-summary">{summary}</div>' if summary else ''
-        bkk_html += f'''<div class="thai-news-item thai-news-feature" data-thai-expat-brief="verified" data-thai-source="{source}" data-thai-score="{score}" data-thai-url="{url}">
-          <div class="thai-news-source">{source} · Expat-relevant · Verified {verified_at}</div>
-          <a href="{url}" style="color:var(--text);text-decoration:none" target="_blank" rel="noopener">{title}</a>
-          {summary_html}
-          <div class="thai-news-verify">Live check marker: expat brief has a real source, URL, summary, and score {score}.</div>
-        </div>'''
-    if not bkk_html:
-        bkk_html = '<div class="thai-news-item">Thailand expat news feed temporarily unavailable.</div>'
+    # ── Thailand expat news HTML (ZeroHedge card format) ──
+    bkk_html = render_thai_news_cards(bangkok_news[:3])
 
     # ── ZeroHedge HTML ──
     zh_html = render_zerohedge_cards(zh_news[:3])
@@ -3941,6 +4014,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .thai-news-summary{{font-size:.72rem;color:var(--dim);line-height:1.45;margin-top:5px}}
     .thai-news-verify{{font-size:.56rem;color:var(--mute);line-height:1.35;margin-top:6px;opacity:.7}}
     .thai-news-item:last-child{{border-bottom:none}}
+    .thai-news-feed{{padding:0;margin-top:8px;overflow:visible}}
+    .thai-feed-card .feed-card-excerpt{{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}}
 
     .star-sign{{padding:2px 0}}
     .star-sign-symbol{{display:none}}
@@ -4587,7 +4662,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <summary><span class="card-title">🇹🇭 Thailand</span></summary>
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
-      <div class="thai-news-compact" style="margin-top:10px">{bkk_html}</div>
+      <div id="thai-news-feed" class="compact-feed-card thai-news-feed">{bkk_html}</div>
     </div>
   </details>
 
