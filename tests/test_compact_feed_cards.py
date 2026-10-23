@@ -44,6 +44,30 @@ class CompactFeedCardTests(unittest.TestCase):
         self.assertIn('class="feed-thumb"', html)
         self.assertIn("Stocks moved higher after the opening bell.", html)
 
+    def test_zerohedge_copy_uses_word_safe_unicode_caps_and_preserves_full_title_accessibly(self):
+        full_title = "⚡ " + "Markets rally on sourced evidence " * 8 + "終"
+        full_excerpt = "Investors weigh the original publisher sentence " * 8 + "終"
+        item = {
+            "title": full_title,
+            "url": "https://www.zerohedge.com/markets/long-copy",
+            "excerpt": full_excerpt,
+            "image": "",
+        }
+        html = generate.render_zerohedge_cards([item])
+        self.assertIn('data-title-limit="110"', html)
+        self.assertIn('data-excerpt-limit="140"', html)
+        self.assertIn(f'title="{generate.escape(full_title, quote=True)}"', html)
+        self.assertIn(f'aria-label="{generate.escape(full_title, quote=True)}"', html)
+        visible_title = generate.truncate_word_safe(full_title, generate.ZEROHEDGE_TITLE_CHAR_LIMIT)
+        visible_excerpt = generate.truncate_word_safe(full_excerpt, generate.ZEROHEDGE_EXCERPT_CHAR_LIMIT)
+        self.assertLessEqual(len(visible_title), 110)
+        self.assertLessEqual(len(visible_excerpt), 140)
+        self.assertTrue(visible_title.endswith("…"))
+        self.assertTrue(visible_excerpt.endswith("…"))
+        self.assertNotIn(" …", visible_title)
+        self.assertIn(generate.escape(visible_title), html)
+        self.assertIn(generate.escape(visible_excerpt), html)
+
     def test_bad_or_missing_image_gracefully_renders_text_only(self):
         item = {
             "title": "Text only",
@@ -125,25 +149,33 @@ class CompactFeedCardTests(unittest.TestCase):
             self.assertIn(marker, source)
         self.assertNotIn("text-overflow:ellipsis", source[source.index(".compact-feed-card"):source.index(".fed-card")])
 
-    def test_x_cards_are_three_quarters_of_zerohedge_with_visible_footer(self):
+    def test_zerohedge_cards_share_x_geometry_with_nonshrinking_footer(self):
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
         feed_css = source[source.index(".compact-feed-card"):source.index(".fed-card")]
         for marker in (
-            "--zerohedge-card-height:260px",
-            "--signal-card-height:195px",
-            ".zh-feed-card{{box-sizing:border-box;height:var(--zerohedge-card-height)",
-            ".signal-feed-card{{box-sizing:border-box;height:var(--signal-card-height)",
+            "--feed-card-height:195px",
+            ".zh-feed-card,.signal-feed-card{{box-sizing:border-box;height:var(--feed-card-height)",
+            ".zh-feed-card{{flex-direction:column;gap:6px",
+            ".zh-feed-card .feed-card-body{{flex:1 1 auto;min-height:0;overflow:hidden",
+            ".zh-feed-card .feed-card-copy{{min-height:0;overflow:hidden",
+            ".zh-feed-card .feed-card-source{{flex:none;margin-top:0",
+            ".signal-feed-card{{flex-direction:column;gap:6px",
             ".signal-feed-card .feed-card-body{{flex:1 1 auto;min-height:0;overflow:hidden",
             ".signal-feed-card .feed-card-copy{{min-height:0;overflow:hidden",
             "display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:9;overflow:hidden",
-            "--zerohedge-card-height:140px;--signal-card-height:105px",
+            "--feed-card-height:105px",
+            ".zh-feed-card .feed-card-title{{-webkit-line-clamp:2",
+            ".zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:1",
             "-webkit-line-clamp:3",
             ".feed-metrics{{flex:none",
         ):
             self.assertIn(marker, feed_css)
 
-        self.assertEqual(195 / 260, 0.75)
-        self.assertEqual(105 / 140, 0.75)
+        renderer = source[source.index("function renderZeroHedge"):source.index("async function refreshSignals")]
+        self.assertIn("truncateWordSafe(item.title, ZEROHEDGE_TITLE_CHAR_LIMIT)", renderer)
+        self.assertIn("truncateWordSafe(item.excerpt, ZEROHEDGE_EXCERPT_CHAR_LIMIT)", renderer)
+        self.assertIn('class=\"feed-card-body\"', renderer)
+        self.assertIn('class=\"feed-card-source\"', renderer)
 
 
 if __name__ == "__main__":

@@ -1606,6 +1606,8 @@ def fetch_trending_recs():
 
 ZEROHEDGE_IMAGE_HOSTS = {"assets.zerohedge.com"}
 ZEROHEDGE_LINK_HOSTS = {"zerohedge.com", "www.zerohedge.com"}
+ZEROHEDGE_TITLE_CHAR_LIMIT = 110
+ZEROHEDGE_EXCERPT_CHAR_LIMIT = 140
 
 
 def _safe_https_url(value, allowed_hosts):
@@ -1617,6 +1619,18 @@ def _safe_https_url(value, allowed_hosts):
         return parsed.geturl()
     except Exception:
         return ""
+
+
+def truncate_word_safe(value, limit):
+    """Bound sourced copy by Unicode code points without splitting a word when possible."""
+    text = " ".join(str(value or "").split())
+    if len(text) <= limit:
+        return text
+    clipped = text[: max(0, limit - 1)].rstrip()
+    boundary = clipped.rfind(" ")
+    if boundary > 0:
+        clipped = clipped[:boundary].rstrip()
+    return clipped + "…"
 
 
 def _first_sourced_sentence(description_html):
@@ -1676,9 +1690,11 @@ def render_zerohedge_cards(items):
     """Render initial cards with the same schema used by live refresh."""
     cards = []
     for item in items:
-        title = escape(str(item.get("title") or "Untitled article"))
+        full_title = " ".join(str(item.get("title") or "Untitled article").split())
+        title = escape(truncate_word_safe(full_title, ZEROHEDGE_TITLE_CHAR_LIMIT))
+        title_attr = escape(full_title, quote=True)
         url = _safe_https_url(item.get("url"), ZEROHEDGE_LINK_HOSTS)
-        excerpt_text = str(item.get("excerpt") or "").strip()
+        excerpt_text = truncate_word_safe(item.get("excerpt"), ZEROHEDGE_EXCERPT_CHAR_LIMIT)
         excerpt_html = f'<p class="feed-card-excerpt">{escape(excerpt_text)}</p>' if excerpt_text else ""
         image = _safe_https_url(item.get("image"), ZEROHEDGE_IMAGE_HOSTS)
         image_html = ""
@@ -1691,17 +1707,17 @@ def render_zerohedge_cards(items):
             )
         text_only = "" if image_html else " feed-card--text-only"
         link_html = (
-            f'<a href="{escape(url, quote=True)}" class="feed-card-title" target="_blank" rel="noopener">{title}</a>'
-            if url else f'<span class="feed-card-title">{title}</span>'
+            f'<a href="{escape(url, quote=True)}" class="feed-card-title" target="_blank" rel="noopener" title="{title_attr}" aria-label="{title_attr}">{title}</a>'
+            if url else f'<span class="feed-card-title" title="{title_attr}" aria-label="{title_attr}">{title}</span>'
         )
         source_html = (
             f'<a class="feed-card-source" href="{escape(url, quote=True)}" target="_blank" rel="noopener">ZeroHedge →</a>'
             if url else ""
         )
         cards.append(
-            f'<article class="feed-card zh-feed-card{text_only}">{image_html}'
-            f'<div class="feed-card-copy">{link_html}{excerpt_html}{source_html}'
-            '</div></article>'
+            f'<article class="feed-card zh-feed-card{text_only}" data-title-limit="{ZEROHEDGE_TITLE_CHAR_LIMIT}" data-excerpt-limit="{ZEROHEDGE_EXCERPT_CHAR_LIMIT}">'
+            f'<div class="feed-card-body">{image_html}<div class="feed-card-copy">{link_html}{excerpt_html}</div></div>'
+            f'{source_html}</article>'
         )
     return '<div class="feed-card-grid">' + "".join(cards) + "</div>"
 
@@ -4240,7 +4256,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--text);margin-top:1px}}
     .fx-chip .fx-change{{display:block;font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2px}}
 
-    .compact-feed-card{{--zerohedge-card-height:260px;--signal-card-height:195px;padding:14px 16px;min-width:0;overflow:hidden}}
+    .compact-feed-card{{--feed-card-height:195px;padding:14px 16px;min-width:0;overflow:hidden}}
     .compact-feed-card .card-title{{margin-bottom:8px}}
     .feed-controls{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}}
     .feed-refresh{{font-size:.55rem;letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:3px 7px;border-radius:var(--r);font-family:var(--sans)}}
@@ -4249,7 +4265,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-status{{font-size:.58rem;color:var(--dim);font-style:italic}}
     .feed-card-grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;min-width:0;max-width:100%}}
     .feed-card{{display:flex;align-items:flex-start;gap:7px;min-width:0;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}}
-    .zh-feed-card{{box-sizing:border-box;height:var(--zerohedge-card-height)}}
+    .zh-feed-card,.signal-feed-card{{box-sizing:border-box;height:var(--feed-card-height)}}
     .feed-card-media{{flex:0 0 80px;width:80px;height:60px;border-radius:4px;overflow:hidden;background:#09090b}}
     .feed-thumb{{display:block;width:80px;height:60px;object-fit:cover;background:#09090b}}
     .feed-thumb[hidden]{{display:none}}
@@ -4258,7 +4274,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-card-title:visited{{color:var(--dim)}}
     .feed-card-excerpt{{margin:4px 0 0;font-size:.57rem;line-height:1.3;color:var(--dim);overflow-wrap:anywhere}}
     .feed-card-source{{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:6px;font-size:.5rem;color:var(--gold);text-decoration:none;text-transform:uppercase;letter-spacing:.05em}}
-    .signal-feed-card{{box-sizing:border-box;height:var(--signal-card-height);flex-direction:column;gap:6px}}
+    .zh-feed-card{{flex-direction:column;gap:6px}}
+    .zh-feed-card .feed-card-body{{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;align-items:flex-start;gap:7px;width:100%}}
+    .zh-feed-card .feed-card-copy{{min-height:0;overflow:hidden}}
+    .zh-feed-card .feed-card-title,.zh-feed-card .feed-card-excerpt{{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}}
+    .zh-feed-card .feed-card-title{{-webkit-line-clamp:4}}
+    .zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:5}}
+    .zh-feed-card .feed-card-source{{flex:none;margin-top:0;padding-top:0}}
+    .signal-feed-card{{flex-direction:column;gap:6px}}
     .signal-feed-card .feed-card-body{{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;align-items:flex-start;gap:7px;width:100%}}
     .signal-feed-card .feed-card-copy{{min-height:0;overflow:hidden}}
     .signal-feed-card .feed-card-media{{flex-basis:64px;width:64px;height:48px}}
@@ -4273,7 +4296,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .feed-loading::after{{content:'...';animation:dots 1.2s steps(3,end) infinite}}
     @keyframes dots{{0%,100%{{content:'.'}}33%{{content:'..'}}66%{{content:'...'}}}}
     @media(max-width:620px){{
-      .compact-feed-card{{--zerohedge-card-height:140px;--signal-card-height:105px;overflow:hidden}}
+      .compact-feed-card{{--feed-card-height:105px;overflow:hidden}}
       .feed-card-grid{{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}}
       .feed-card{{scroll-snap-align:start}}
       .feed-card-media{{flex-basis:56px;width:56px;height:48px}}
@@ -4281,6 +4304,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .signal-feed-card .feed-card-media{{flex-basis:48px;width:48px;height:48px}}
       .signal-feed-card .feed-thumb{{width:48px;height:48px}}
       .feed-card-title{{font-size:.7rem}}
+      .zh-feed-card .feed-card-title{{-webkit-line-clamp:2}}
+      .zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:1}}
       .feed-text{{font-size:.66rem;-webkit-line-clamp:3}}
     }}
 
@@ -4537,6 +4562,18 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }}
 
+    const ZEROHEDGE_TITLE_CHAR_LIMIT = {ZEROHEDGE_TITLE_CHAR_LIMIT};
+    const ZEROHEDGE_EXCERPT_CHAR_LIMIT = {ZEROHEDGE_EXCERPT_CHAR_LIMIT};
+    function truncateWordSafe(value, limit) {{
+      const text = String(value ?? '').replace(/\\s+/g, ' ').trim();
+      const points = Array.from(text);
+      if (points.length <= limit) return text;
+      let clipped = points.slice(0, Math.max(0, limit - 1)).join('').trimEnd();
+      const boundary = clipped.search(/\\s+\\S*$/u);
+      if (boundary > 0) clipped = clipped.slice(0, boundary).trimEnd();
+      return clipped + '…';
+    }}
+
     function safeExternalUrl(value, allowedHosts) {{
       try {{
         const url = new URL(String(value || ''));
@@ -4609,13 +4646,16 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       container.innerHTML = '<div class="feed-card-grid">' + items.map(item => {{
         const articleUrl = safeExternalUrl(item.url, ['zerohedge.com', 'www.zerohedge.com']);
         const media = imageMarkup(item, 'zerohedge');
+        const fullTitle = String(item.title || 'Untitled article').replace(/\\s+/g, ' ').trim();
+        const title = truncateWordSafe(item.title, ZEROHEDGE_TITLE_CHAR_LIMIT);
+        const excerpt = truncateWordSafe(item.excerpt, ZEROHEDGE_EXCERPT_CHAR_LIMIT);
         return `
-        <article class="feed-card zh-feed-card${{media ? '' : ' feed-card--text-only'}}">${{media}}
-          <div class="feed-card-copy">
-            ${{articleUrl ? `<a href="${{escHtml(articleUrl)}}" class="feed-card-title" target="_blank" rel="noopener">${{escHtml(item.title)}}</a>` : `<span class="feed-card-title">${{escHtml(item.title)}}</span>`}}
-            ${{item.excerpt ? `<p class="feed-card-excerpt">${{escHtml(item.excerpt)}}</p>` : ''}}
-            ${{articleUrl ? `<a class="feed-card-source" href="${{escHtml(articleUrl)}}" target="_blank" rel="noopener">ZeroHedge →</a>` : ''}}
-          </div>
+        <article class="feed-card zh-feed-card${{media ? '' : ' feed-card--text-only'}}" data-title-limit="${{ZEROHEDGE_TITLE_CHAR_LIMIT}}" data-excerpt-limit="${{ZEROHEDGE_EXCERPT_CHAR_LIMIT}}">
+          <div class="feed-card-body">${{media}}<div class="feed-card-copy">
+            ${{articleUrl ? `<a href="${{escHtml(articleUrl)}}" class="feed-card-title" target="_blank" rel="noopener" title="${{escHtml(fullTitle)}}" aria-label="${{escHtml(fullTitle)}}">${{escHtml(title)}}</a>` : `<span class="feed-card-title" title="${{escHtml(fullTitle)}}" aria-label="${{escHtml(fullTitle)}}">${{escHtml(title)}}</span>`}}
+            ${{excerpt ? `<p class="feed-card-excerpt">${{escHtml(excerpt)}}</p>` : ''}}
+          </div></div>
+          ${{articleUrl ? `<a class="feed-card-source" href="${{escHtml(articleUrl)}}" target="_blank" rel="noopener">ZeroHedge →</a>` : ''}}
         </article>`;
       }}).join('') + '</div>';
       wireImageFallbacks(container);
