@@ -87,9 +87,11 @@
     .anki-identity{display:flex;align-items:center;gap:7px;color:var(--gold);font-size:.61rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
     .anki-state{min-width:0;line-height:1.22}
     .anki-streak-status{display:block;width:max-content;max-width:100%;font-size:.62rem;font-weight:650;letter-spacing:.035em;color:var(--gold)}
-    .anki-streak-status[data-tone="calm"]{color:#8ecfc4;text-shadow:0 0 10px rgba(42,157,143,.18)}
+    .anki-streak-status[data-tone="positive"]{color:#438a63;animation:anki-positive-pulse 3.8s ease-in-out infinite}
     .anki-streak-status[data-tone="warn"]{color:#e4a24a;animation:anki-warn-pulse 3.4s ease-in-out infinite}
     .anki-streak-status[data-tone="urgent"]{color:#ef6b72;animation:anki-urgent-pulse 3.4s ease-in-out infinite}
+    .anki-streak-status[data-tone="neutral"]{color:var(--dim)}
+    @keyframes anki-positive-pulse{0%,100%{opacity:.74;text-shadow:0 0 0 rgba(39,103,73,0)}50%{opacity:1;text-shadow:0 0 9px rgba(39,103,73,.38)}}
     @keyframes anki-warn-pulse{0%,100%{opacity:.68;text-shadow:0 0 0 rgba(228,162,74,0)}50%{opacity:1;text-shadow:0 0 9px rgba(228,162,74,.32)}}
     @keyframes anki-urgent-pulse{0%,100%{opacity:.68;text-shadow:0 0 0 rgba(239,107,114,0)}50%{opacity:1;text-shadow:0 0 10px rgba(239,107,114,.38)}}
     .anki-meta{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:.45rem;letter-spacing:.045em;color:var(--mute);white-space:nowrap}
@@ -103,10 +105,11 @@
     .anki-sync-form label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .anki-sync-form input{min-width:0;width:100%;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);padding:6px 7px;font:inherit;font-size:.58rem}
     .anki-sync-form button{flex:none;border:1px solid var(--gold-mid);border-radius:6px;background:var(--gold-dim);color:var(--gold);padding:6px 8px;font:650 .46rem var(--sans);letter-spacing:.07em;text-transform:uppercase;cursor:pointer}
-    .anki-panel-link{flex:none;border:1px solid var(--gold);border-radius:7px;padding:8px 11px;background:var(--gold);color:#0a0a0c;font-size:.5rem;font-weight:700;letter-spacing:.075em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+    .anki-panel-link{position:relative;display:grid;place-items:center;box-sizing:border-box;flex:none;width:60.6171875px;height:16.15767045px;border:1px solid var(--gold);border-radius:4px;padding:0;background:var(--gold);color:#0a0a0c;font-size:.39rem;line-height:1;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+    .anki-panel-link::after{content:"";position:absolute;left:0;top:50%;width:100%;height:44.1px;transform:translateY(-50%)}
     .anki-panel-link:hover,.anki-panel-link:focus-visible{background:#cfb27c;outline:1px solid #f0eef8;outline-offset:2px}
-    @media(prefers-reduced-motion:reduce){.anki-streak-status[data-tone="warn"],.anki-streak-status[data-tone="urgent"]{animation:none;opacity:1}}
-    @media(max-width:520px){.card.anki-quick-row{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 9px;padding:10px 11px}.anki-identity{font-size:.54rem}.anki-streak-status{font-size:.54rem}.anki-meta{font-size:.4rem;gap:4px}.anki-panel-link{padding:8px 9px;font-size:.44rem}.anki-sync-form{left:auto;right:-42px;width:198px}}
+    @media(prefers-reduced-motion:reduce){.anki-streak-status[data-tone="positive"],.anki-streak-status[data-tone="warn"],.anki-streak-status[data-tone="urgent"]{animation:none;opacity:1}}
+    @media(max-width:520px){.card.anki-quick-row{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 9px;padding:10px 11px}.anki-identity{font-size:.54rem}.anki-streak-status{font-size:.54rem}.anki-meta{font-size:.4rem;gap:4px}.anki-panel-link{width:49.0078125px;height:14.8125px;font-size:.36rem}.anki-sync-form{left:auto;right:-42px;width:198px}}
 
     #world-tour-card{padding:0}
     #world-tour-card .signal-accordion-body{padding:0 16px 16px}
@@ -502,10 +505,10 @@
   <section class="card anki-quick-row" id="daily-study" aria-label="Anki click-day streak">
     <div class="anki-identity"><span aria-hidden="true">🗂</span><strong>Anki</strong></div>
     <div class="anki-state" aria-live="polite">
-      <span class="anki-streak-status" id="anki-streak-status" data-tone="warn">Start your click streak today</span>
-      <div class="anki-meta"><span id="anki-sync-status">Local</span><span class="anki-meta-sep" aria-hidden="true">·</span><span title="A day counts when the AnkiWeb link is clicked. Deck completion is not verified.">click days only</span><span class="anki-meta-sep" aria-hidden="true">·</span><details class="anki-sync-control" id="anki-sync-control"><summary id="anki-sync-toggle">connect sync</summary><form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\d{5}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Connect</button></form></details></div>
+      <span class="anki-streak-status" id="anki-streak-status" data-tone="neutral">Start today</span>
+      <div class="anki-meta"><span id="anki-sync-status">Not synced</span><span class="anki-meta-sep" aria-hidden="true">·</span><span title="A day counts when the AnkiWeb link is clicked. Deck completion is not verified.">click days only</span><span class="anki-meta-sep" aria-hidden="true">·</span><details class="anki-sync-control" id="anki-sync-control"><summary id="anki-sync-toggle">connect sync</summary><form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\d{5}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Connect</button></form></details></div>
     </div>
-    <a class="anki-panel-link" id="anki-study-link" href="https://ankiweb.net/decks/" target="_blank" rel="noopener noreferrer">Open AnkiWeb →</a>
+    <a class="anki-panel-link" id="anki-study-link" href="https://ankiweb.net/decks/" target="_blank" rel="noopener noreferrer" aria-label="Open AnkiWeb">Anki ↗</a>
   </section>
 
   <!-- PERSONAL COUNTDOWNS -->
@@ -1226,30 +1229,32 @@ function scheduleBangkokDailyReset() {
 scheduleBangkokDailyReset();
 
 (function initDailyStudy() {
-  const STUDY_API='/api/study-streak',AUTH_API='/api/study-auth',LOCAL_KEY='nv_anki_click_dates_v1',START='2026-10-21';
+  const STUDY_API='/api/study-streak',AUTH_API='/api/study-auth',LOCAL_KEY='nv_anki_click_dates_v1',META_KEY='nv_anki_click_coverage_v1',START='2026-10-21';
   const ankiLink=document.getElementById('anki-study-link'),form=document.getElementById('anki-sync-form');
   if(!ankiLink||!form)return;
   const streakStatus=document.getElementById('anki-streak-status'),syncStatus=document.getElementById('anki-sync-status'),syncControl=document.getElementById('anki-sync-control'),pin=document.getElementById('anki-sync-pin'),connect=form.querySelector('button');
-  let memoryDates=[],storageOk=true;
+  let memoryDates=[],coverage={firstObserved:null,canonical:false},storageOk=true;
   function bangkokDate(now=new Date()){const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now),out={};parts.forEach(part=>{if(part.type!=='literal')out[part.type]=part.value});return out.year+'-'+out.month+'-'+out.day}
   function shift(date,amount){const value=new Date(date+'T00:00:00Z');value.setUTCDate(value.getUTCDate()+amount);return value.toISOString().slice(0,10)}
   function validDate(date,today){if(typeof date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(date)||date<START||date>today)return false;try{return new Date(date+'T00:00:00Z').toISOString().slice(0,10)===date}catch(error){return false}}
-  function readLocal(){const today=bangkokDate();let raw;try{raw=localStorage.getItem(LOCAL_KEY);storageOk=true}catch(error){storageOk=false;return memoryDates.slice()}try{const parsed=JSON.parse(raw||'[]');memoryDates=[...new Set((Array.isArray(parsed)?parsed:[]).filter(date=>validDate(date,today)))].sort()}catch(error){memoryDates=[];try{localStorage.setItem(LOCAL_KEY,'[]');storageOk=true}catch(storageError){storageOk=false}}return memoryDates.slice()}
+  function writeCoverage(){try{localStorage.setItem(META_KEY,JSON.stringify(coverage));storageOk=true}catch(error){storageOk=false}}
+  function readLocal(){const today=bangkokDate();let raw,metaRaw;try{raw=localStorage.getItem(LOCAL_KEY);metaRaw=localStorage.getItem(META_KEY);storageOk=true}catch(error){storageOk=false;coverage.firstObserved=coverage.firstObserved||memoryDates[0]||today;return memoryDates.slice()}try{const parsed=JSON.parse(raw||'[]');memoryDates=[...new Set((Array.isArray(parsed)?parsed:[]).filter(date=>validDate(date,today)))].sort()}catch(error){memoryDates=[]}try{const parsedMeta=JSON.parse(metaRaw||'null');if(parsedMeta&&validDate(parsedMeta.firstObserved,today))coverage={firstObserved:parsedMeta.firstObserved,canonical:parsedMeta.canonical===true};else coverage={firstObserved:memoryDates[0]||today,canonical:false}}catch(error){coverage={firstObserved:memoryDates[0]||today,canonical:false}}writeCoverage();return memoryDates.slice()}
   function writeLocal(dates){memoryDates=[...new Set(dates)].sort();try{localStorage.setItem(LOCAL_KEY,JSON.stringify(memoryDates));storageOk=true}catch(error){storageOk=false}}
-  function summary(dates,today=bangkokDate()){const clicks=new Set(dates.filter(date=>validDate(date,today))),todayClicked=clicks.has(today);let cursor=todayClicked?today:shift(today,-1),streak=0;while(clicks.has(cursor)){streak+=1;cursor=shift(cursor,-1)}let missedDays=0;if(!todayClicked){cursor=shift(today,-1);while(cursor>=START&&!clicks.has(cursor)){missedDays+=1;cursor=shift(cursor,-1)}}return{todayClicked,streak,missedDays}}
+  function summary(dates,today=bangkokDate()){const clicks=new Set(dates.filter(date=>validDate(date,today))),todayClicked=clicks.has(today),firstKnown=validDate(coverage.firstObserved,today)?coverage.firstObserved:today;let cursor=todayClicked?today:shift(today,-1),streak=0;while(clicks.has(cursor)){streak+=1;cursor=shift(cursor,-1)}let missedDays=0;if(!todayClicked){cursor=shift(today,-1);while(cursor>=firstKnown&&!clicks.has(cursor)){missedDays+=1;cursor=shift(cursor,-1)}}return{todayClicked,streak,missedDays}}
   function render(data,source){
     const days=Number(data.streak)||0,missed=Number(data.missedDays)||0;
-    if(data.todayClicked){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · clicked today';streakStatus.dataset.tone='calm'}
-    else if(missed>0){streakStatus.textContent=missed+' day'+(missed===1?'':'s')+' missed · restart today';streakStatus.dataset.tone=missed>=3?'urgent':'warn'}
-    else if(days>0){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · click today';streakStatus.dataset.tone='warn'}
-    else{streakStatus.textContent='Start your click streak today';streakStatus.dataset.tone='warn'}
-    syncStatus.textContent=source==='synced'?'Private · synced':source==='offline'?'Saved locally · sync offline':storageOk?'Saved locally':'This tab only · storage blocked';
+    if(data.todayClicked){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · clicked today';streakStatus.dataset.tone='positive'}
+    else if(missed>0){streakStatus.textContent=missed+' day'+(missed===1?'':'s')+' missed · restart today';streakStatus.dataset.tone=missed>=3?'urgent':missed===2?'positive':'warn'}
+    else if(days>0){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · click today';streakStatus.dataset.tone='positive'}
+    else{streakStatus.textContent='Start today';streakStatus.dataset.tone='neutral'}
+    syncStatus.textContent=source==='synced'?'Private · synced':source==='offline'?(memoryDates.length?'Saved locally · sync offline':'Not synced · sync offline'):!storageOk?'This tab only · storage blocked':memoryDates.length?'Saved locally · not synced':'Not synced';
     syncControl.hidden=source==='synced';
   }
   function localRender(source='local'){render(summary(memoryDates),source)}
-  async function post(action){const response=await fetch(STUDY_API,{method:'POST',credentials:'same-origin',cache:'no-store',keepalive:action==='click',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({action,localDates:memoryDates})}),data=await response.json().catch(()=>({}));if(!response.ok)throw Object.assign(new Error(data.error||'Private sync unavailable.'),{status:response.status});writeLocal(Array.isArray(data.clickDates)?data.clickDates:memoryDates);render(data,'synced');return data}
+  function adoptCanonical(data){const today=bangkokDate(),dates=Array.isArray(data.clickDates)?data.clickDates:memoryDates;writeLocal(dates);coverage={firstObserved:validDate(data.startedAt,today)?data.startedAt:(dates[0]||today),canonical:true};writeCoverage();render(data,'synced')}
+  async function post(action){const response=await fetch(STUDY_API,{method:'POST',credentials:'same-origin',cache:'no-store',keepalive:action==='click',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({action,localDates:memoryDates})}),data=await response.json().catch(()=>({}));if(!response.ok)throw Object.assign(new Error(data.error||'Private sync unavailable.'),{status:response.status});adoptCanonical(data);return data}
   async function loadSync(){
-    try{const response=await fetch(STUDY_API,{credentials:'same-origin',cache:'no-store',headers:{Accept:'application/json'}});if(response.status===401){localRender();return}const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Private sync unavailable.');const remote=Array.isArray(data.clickDates)?data.clickDates:[],missing=memoryDates.some(date=>!remote.includes(date));writeLocal([...remote,...memoryDates]);if(missing)await post('merge');else render(data,'synced')}catch(error){localRender('offline')}
+    try{const response=await fetch(STUDY_API,{credentials:'same-origin',cache:'no-store',headers:{Accept:'application/json'}});if(response.status===401){localRender();return}const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Private sync unavailable.');const remote=Array.isArray(data.clickDates)?data.clickDates:[],missing=memoryDates.some(date=>!remote.includes(date));if(missing){writeLocal([...remote,...memoryDates]);await post('merge')}else adoptCanonical(data)}catch(error){localRender('offline')}
   }
   async function recordClick(){const today=bangkokDate();if(!memoryDates.includes(today))writeLocal([...memoryDates,today]);localRender();try{await post('click')}catch(error){localRender(error.status===401?'local':'offline')}}
   readLocal();localRender();

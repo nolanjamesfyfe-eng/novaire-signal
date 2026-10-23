@@ -18,7 +18,7 @@ test('generated Anki control is one compact direct-link row with truthful copy',
   assert.match(card, /<strong>Anki<\/strong>/);
   assert.match(card, /href="https:\/\/ankiweb\.net\/decks\/"/);
   assert.match(card, /target="_blank"/);
-  assert.match(card, /Open AnkiWeb/);
+  assert.match(card, />Anki ↗<\/a>/);
   assert.match(card, /click days only/);
   assert.match(card, /Deck completion is not verified/);
   assert.match(card, /id="anki-streak-status"/);
@@ -41,13 +41,26 @@ test('generated behavior records locally before optional private sync without bl
 });
 
 test('warning semantics separate streak from completed missed days and respect reduced motion', () => {
-  assert.match(html, /missed>=3\?'urgent':'warn'/);
+  assert.match(html, /missed>=3\?'urgent':missed===2\?'positive':'warn'/);
   assert.match(html, /day'\+\(missed===1\?'':'s'\)\+' missed · restart today'/);
   assert.match(html, /streak · clicked today/);
+  assert.match(html, /@keyframes anki-positive-pulse/);
   assert.match(html, /@keyframes anki-warn-pulse/);
   assert.match(html, /@keyframes anki-urgent-pulse/);
   assert.match(html, /prefers-reduced-motion:reduce\)\{\.anki-streak-status/);
   assert.match(html, /animation:none;opacity:1/);
+});
+
+test('unknown local history is coverage-bounded and the visible link is precisely half-size', () => {
+  assert.match(html, /META_KEY='nv_anki_click_coverage_v1'/);
+  assert.match(html, /firstObserved/);
+  assert.match(html, /canonical/);
+  assert.match(html, /Start today/);
+  assert.match(html, /Not synced/);
+  assert.match(html, /width:60\.6171875px;height:16\.15767045px/);
+  assert.match(html, /width:49\.0078125px;height:14\.8125px/);
+  assert.match(html, /\.anki-panel-link::after\{content:"";position:absolute/);
+  assert.match(html, /height:44\.1px/);
 });
 
 test('oversized legacy lock UI and recent-day chip wall are absent', () => {

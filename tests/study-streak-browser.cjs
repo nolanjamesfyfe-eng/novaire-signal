@@ -10,14 +10,14 @@ const streak = require('../lib/study-streak');
 const root = path.join(__dirname, '..');
 const fixedNow = '2026-10-24T05:00:00.000Z';
 const today = '2026-10-24';
-let server, origin, browser, serverDates, postCount, failPost, authorized;
+let server, origin, browser, serverDates, postCount, failGet, failPost, authorized, getDelay;
 function send(res, status, body, type = 'application/json') { res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' }); res.end(type === 'application/json' ? JSON.stringify(body) : body); }
 function contentType(file) { return file.endsWith('.js') ? 'text/javascript' : file.endsWith('.css') ? 'text/css' : file.endsWith('.svg') ? 'image/svg+xml' : 'text/html'; }
 async function body(req) { let value = ''; for await (const chunk of req) value += chunk; return JSON.parse(value || '{}'); }
 async function fixedContext(options = {}) {
-  const { dates = null, denyStorage = false, ...browserOptions } = options;
+  const { dates = null, coverage = null, denyStorage = false, ...browserOptions } = options;
   const context = await browser.newContext(browserOptions);
-  await context.addInitScript(({ fixedNow, dates, denyStorage }) => {
+  await context.addInitScript(({ fixedNow, dates, coverage, denyStorage }) => {
     const NativeDate = Date;
     window.Date = class extends NativeDate {
       constructor(...args) { super(...(args.length ? args : [fixedNow])); }
@@ -31,18 +31,21 @@ async function fixedContext(options = {}) {
     } else if (dates) {
       localStorage.setItem('nv_anki_click_dates_v1', JSON.stringify(dates));
     }
-  }, { fixedNow, dates, denyStorage: Boolean(denyStorage) });
+    if (!denyStorage && coverage) localStorage.setItem('nv_anki_click_coverage_v1', JSON.stringify(coverage));
+  }, { fixedNow, dates, coverage, denyStorage: Boolean(denyStorage) });
   return context;
 }
 
 test.before(async () => {
   serverDates = []; postCount = 0; failPost = false; authorized = false;
-  process.env.TMPDIR ||= path.join(root, '.playwright-tmp');
+  process.env.TMPDIR = '/root/clawd/.playwright-tmp';
   fs.mkdirSync(process.env.TMPDIR, { recursive: true });
   server = http.createServer(async (req, res) => {
     const url = new URL(req.url, 'http://localhost');
     if (url.pathname === '/api/study-streak') {
+      if (req.method === 'GET' && getDelay) await new Promise(resolve => setTimeout(resolve, getDelay));
       if (!authorized) return send(res, 401, { error: 'Private study sync is not connected.' });
+      if (req.method === 'GET' && failGet) return send(res, 503, { error: 'Isolated test outage.' });
       if (req.method === 'POST') {
         postCount += 1;
         if (failPost) return send(res, 503, { error: 'Isolated test outage.' });
@@ -65,22 +68,30 @@ test.before(async () => {
   browser = await chromium.launch({ headless: true, executablePath: '/snap/bin/chromium', args: ['--no-sandbox'] });
 });
 test.after(async () => { await browser?.close(); await new Promise(resolve => server?.close(resolve)); });
-test.beforeEach(() => { serverDates = []; postCount = 0; failPost = false; authorized = false; });
+test.beforeEach(() => { serverDates = []; postCount = 0; failGet = false; failPost = false; authorized = false; getDelay = 0; });
 
-test('new unauthorized browser counts locally, opens AnkiWeb, deduplicates and survives reload', async () => {
+test('unknown new browser stays neutral through delayed and 401 sync, then records without artificial history', async () => {
+  getDelay = 250;
   const context = await fixedContext({ viewport: { width: 1280, height: 900 } });
   await context.route('https://ankiweb.net/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Isolated AnkiWeb navigation</title>' }));
   const page = await context.newPage();
   await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
-  assert.match(await page.locator('#anki-streak-status').textContent(), /3 days missed · restart today/);
+  assert.equal(await page.locator('#anki-streak-status').textContent(), 'Start today');
+  assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), 'neutral');
+  assert.equal(await page.locator('#anki-sync-status').textContent(), 'Not synced');
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1') || '[]')), [], 'page load must not invent a click record');
+  await page.waitForTimeout(300);
+  assert.equal(await page.locator('#anki-streak-status').textContent(), 'Start today');
+  assert.deepEqual(serverDates, [], 'delayed/401 sync must remain read-only');
   const [popup] = await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
   await popup.waitForLoadState('domcontentloaded').catch(() => {});
   assert.match(popup.url(), /^https:\/\/ankiweb\.net\/decks\//);
   await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
-  assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), 'calm');
+  assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), 'positive');
   await page.locator('#anki-study-link').focus();
   await Promise.all([context.waitForEvent('page'), page.keyboard.press('Enter')]);
   assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), [today]);
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_coverage_v1'))), { firstObserved: today, canonical: false });
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
   assert.match(await page.locator('#anki-sync-status').textContent(), /Saved locally/);
@@ -90,19 +101,65 @@ test('new unauthorized browser counts locally, opens AnkiWeb, deduplicates and s
 
 test('zero, one, two and three missed-day states use the requested tones', async () => {
   const scenarios = [
-    { dates: ['2026-10-23'], text: '1 day streak · click today', tone: 'warn' },
+    { dates: ['2026-10-22', '2026-10-23'], text: '2 days streak · click today', tone: 'positive' },
     { dates: ['2026-10-22'], text: '1 day missed · restart today', tone: 'warn' },
-    { dates: ['2026-10-21'], text: '2 days missed · restart today', tone: 'warn' },
-    { dates: [], text: '3 days missed · restart today', tone: 'urgent' },
+    { dates: ['2026-10-21'], text: '2 days missed · restart today', tone: 'positive' },
+    { dates: [], coverage: { firstObserved: '2026-10-21', canonical: false }, text: '3 days missed · restart today', tone: 'urgent' },
   ];
   for (const scenario of scenarios) {
-    const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: scenario.dates });
+    const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: scenario.dates, coverage: scenario.coverage });
     const page = await context.newPage();
     await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
     assert.equal(await page.locator('#anki-streak-status').textContent(), scenario.text);
     assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), scenario.tone);
     await context.close();
   }
+});
+
+test('known local coverage counts gaps while unknown earlier history does not', async () => {
+  const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: ['2026-10-22'] });
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '1 day missed · restart today');
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_coverage_v1'))), { firstObserved: '2026-10-22', canonical: false });
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), ['2026-10-22']);
+  await context.close();
+});
+
+test('failed authenticated load preserves known local state and never replaces it with zero', async () => {
+  authorized = true; failGet = true;
+  const unknown = await fixedContext({ viewport: { width: 1280, height: 900 } });
+  const unknownPage = await unknown.newPage();
+  await unknownPage.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await unknownPage.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('offline'));
+  assert.equal(await unknownPage.locator('#anki-streak-status').textContent(), 'Start today');
+  assert.match(await unknownPage.locator('#anki-sync-status').textContent(), /^Not synced/);
+  assert.deepEqual(await unknownPage.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1') || '[]')), []);
+  await unknown.close();
+
+  const context = await fixedContext({ viewport: { width: 1280, height: 900 }, dates: ['2026-10-22', '2026-10-23'] });
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('offline'));
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak · click today');
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), ['2026-10-22', '2026-10-23']);
+  await context.close();
+});
+
+test('successful sync restores canonical two-day history and expiry retains it locally', async () => {
+  authorized = true; serverDates = ['2026-10-22', '2026-10-23'];
+  const context = await fixedContext({ viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('synced'));
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak · click today');
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), serverDates);
+  authorized = false;
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('not synced'));
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak · click today');
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), serverDates);
+  await context.close();
 });
 
 test('failed network still records locally and keeps mobile navigation/geometry intact', async () => {
@@ -130,7 +187,7 @@ test('denied localStorage is honest, tracks for the tab, and expiry/network fall
   await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
   assert.match(await page.locator('#anki-sync-status').textContent(), /This tab only/);
   await page.reload({ waitUntil: 'domcontentloaded' });
-  assert.equal(await page.locator('#anki-streak-status').textContent(), '3 days missed · restart today');
+  assert.equal(await page.locator('#anki-streak-status').textContent(), 'Start today');
   await context.close();
 });
 
@@ -162,18 +219,24 @@ test('authorized devices merge canonical history; another authorized device read
   const stranger = await fixedContext({ viewport: { width: 390, height: 844 } });
   const strangerPage = await stranger.newPage();
   await strangerPage.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
-  assert.equal(await strangerPage.locator('#anki-streak-status').textContent(), '3 days missed · restart today');
+  assert.equal(await strangerPage.locator('#anki-streak-status').textContent(), 'Start today');
   assert.deepEqual(await strangerPage.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1') || '[]')), []);
   await stranger.close();
 });
 
 test('compact row is rendered on desktop/mobile and unrelated accordion state survives navigation', async () => {
+  const baselines = { desktop: { width: 133.359375, height: 35.546875 }, mobile: { width: 98.015625, height: 29.625 } };
   for (const viewport of [{ name: 'desktop', width: 1280, height: 900, maxHeight: 70 }, { name: 'mobile', width: 390, height: 844, maxHeight: 76 }]) {
     const context = await fixedContext({ viewport, isMobile: viewport.name === 'mobile', hasTouch: viewport.name === 'mobile' });
     const page = await context.newPage();
     await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
     const card = page.locator('#daily-study'), box = await card.boundingBox();
     assert.ok(box && box.height <= viewport.maxHeight, `${viewport.name} row is ${box?.height}px tall`);
+    const button = await page.locator('#anki-study-link').boundingBox(), baseline = baselines[viewport.name];
+    assert.ok(Math.abs(button.width - baseline.width / 2) < 0.6, `${viewport.name} button width ${button.width} is not 50% of ${baseline.width}`);
+    assert.ok(Math.abs(button.height - baseline.height / 2) < 0.6, `${viewport.name} button height ${button.height} is not 50% of ${baseline.height}`);
+    const hitHeight = await page.locator('#anki-study-link').evaluate(node => parseFloat(getComputedStyle(node, '::after').height));
+    assert.ok(hitHeight >= 44, `${viewport.name} touch target is ${hitHeight}px high`);
     const other = page.locator('#world-tour-card');
     if (await other.getAttribute('open') !== null) await other.locator(':scope > summary').click();
     await page.reload({ waitUntil: 'domcontentloaded' });
