@@ -124,33 +124,33 @@ function hasVerifiedMetrics(segment) {
   return /<b>[0-9][0-9.,KM]*<\/b> views<\/span>/.test(segment)
     && /<b>[0-9][0-9.,KM]*<\/b> likes<\/span>/.test(segment);
 }
+// Video cards archive 30 days after publication (generate.py
+// SOCIAL_VIDEO_MAX_AGE_DAYS), so every guard applies only to cards present.
 for (const label of youtubeCards) {
-  if (!hasVerifiedMetrics(cardSegment(label))) {
+  if (mainHtml.includes(label) && !hasVerifiedMetrics(cardSegment(label))) {
     console.error(`❌ Build guard failed: ${label} is missing verified views or likes.`);
     process.exit(1);
   }
 }
 const secondRenaissanceVideo = cardSegment('SECOND RENAISSANCE · LATEST VIDEO');
-if (!secondRenaissanceVideo || (!hasVerifiedMetrics(secondRenaissanceVideo)
+if (secondRenaissanceVideo && (!hasVerifiedMetrics(secondRenaissanceVideo)
     && !(secondRenaissanceVideo.includes('views</span>') && secondRenaissanceVideo.includes('does not expose public likes')))) {
   console.error('❌ Build guard failed: SECOND RENAISSANCE · LATEST VIDEO lacks complete metrics or an explicit partial-metric state.');
   process.exit(1);
 }
 const secondRenaissanceShort = cardSegment('SECOND RENAISSANCE · LATEST SHORT');
-if (!secondRenaissanceShort || (!hasVerifiedMetrics(secondRenaissanceShort) && !secondRenaissanceShort.includes('No public Shorts'))) {
+if (secondRenaissanceShort && (!hasVerifiedMetrics(secondRenaissanceShort) && !secondRenaissanceShort.includes('No public Shorts'))) {
   console.error('❌ Build guard failed: SECOND RENAISSANCE · LATEST SHORT is neither verified media nor an honest empty state.');
   process.exit(1);
 }
 const instagramCard = cardSegment('INSTAGRAM · PERSONAL LATEST VIDEO');
-if (!instagramCard || (!hasVerifiedMetrics(instagramCard)
+if (instagramCard && (!hasVerifiedMetrics(instagramCard)
     && !(instagramCard.includes('likes</span>') && instagramCard.includes('Instagram public view count unavailable')))) {
   console.error('❌ Build guard failed: personal Instagram video lacks metrics or an honest unavailable state.');
   process.exit(1);
 }
 for (const marker of [
-  'INSTAGRAM · PERSONAL LATEST VIDEO',
-  'SECOND RENAISSANCE · LATEST SHORT',
-  'metrics checked 2026-',
+  'READ · NOVAIRE INK',
 ]) {
   if (!mainHtml.includes(marker)) {
     console.error(`❌ Build guard failed: social discovery is missing ${marker}.`);

@@ -385,6 +385,40 @@ def fetch_live_instagram_metrics(item):
         return item
 
 
+SOCIAL_VIDEO_MAX_AGE_DAYS = 30
+
+
+def parse_social_published_at(value):
+    """Parse ISO timestamps or YouTube's 'Sep 26, 2026' dates to aware UTC datetimes."""
+    if not value:
+        return None
+    text = str(value).strip()
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        parsed = None
+        for fmt in ("%b %d, %Y", "%B %d, %Y", "%Y-%m-%d"):
+            try:
+                parsed = datetime.strptime(text, fmt)
+                break
+            except ValueError:
+                continue
+    if parsed is None:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def social_video_archived(item, now=None, max_age_days=SOCIAL_VIDEO_MAX_AGE_DAYS):
+    """True when a video's publish date is known and older than the display window."""
+    if not item:
+        return False
+    published = parse_social_published_at(item.get("published_at"))
+    if published is None:
+        return False
+    current = now or datetime.now(timezone.utc)
+    return current - published > timedelta(days=max_age_days)
+
+
 def load_latest_youtube(path=YOUTUBE_LATEST_PATH):
     """Load the last fully verified clip and episode; never regress to metricless placeholders."""
     try:
@@ -3600,10 +3634,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     instagram = latest_content["instagram"]
     tsr = latest_content["second_renaissance"]
     personal = latest_content["j_novaire"]
-    social_media = [instagram] + [item for channel in (tsr, personal) for item in (channel.get("video"), channel.get("short")) if item]
-    measurable = [item.get("likes") for item in social_media if item.get("likes") is not None]
-    top_likes = max(measurable) if measurable else None
-
     def compact_count(value):
         if value is None:
             return "—"
@@ -3654,13 +3684,21 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
           </div>
         </details>'''
 
-    latest_social_items = "".join([
-        social_item("INSTAGRAM · PERSONAL LATEST VIDEO", instagram, "Open Instagram", hide_positive_metrics_status=True),
-        social_item("SECOND RENAISSANCE · LATEST VIDEO", tsr.get("video"), "Watch video", verified_at=tsr.get("verified_at", "")),
-        social_item("SECOND RENAISSANCE · LATEST SHORT", tsr.get("short"), "Watch Short", status=tsr.get("short_status", ""), verified_at=tsr.get("verified_at", "")),
-        social_item("J.NOVAIRE · LATEST VIDEO", personal.get("video"), "Watch video", verified_at=personal.get("verified_at", "")),
-        social_item("J.NOVAIRE · LATEST SHORT", personal.get("short"), "Watch Short", status=personal.get("short_status", ""), verified_at=personal.get("verified_at", "")),
-    ])
+    # Video cards archive 30 days after publication so newer uploads surface;
+    # the Novaire Ink essay is exempt (infrequent posting).
+    social_slots = [
+        ("INSTAGRAM · PERSONAL LATEST VIDEO", instagram, "Open Instagram", {"hide_positive_metrics_status": True}),
+        ("SECOND RENAISSANCE · LATEST VIDEO", tsr.get("video"), "Watch video", {"verified_at": tsr.get("verified_at", "")}),
+        ("SECOND RENAISSANCE · LATEST SHORT", tsr.get("short"), "Watch Short", {"status": tsr.get("short_status", ""), "verified_at": tsr.get("verified_at", "")}),
+        ("J.NOVAIRE · LATEST VIDEO", personal.get("video"), "Watch video", {"verified_at": personal.get("verified_at", "")}),
+        ("J.NOVAIRE · LATEST SHORT", personal.get("short"), "Watch Short", {"status": personal.get("short_status", ""), "verified_at": personal.get("verified_at", "")}),
+    ]
+    active_slots = [slot for slot in social_slots if not social_video_archived(slot[1])]
+    measurable = [slot[1].get("likes") for slot in active_slots if slot[1] and slot[1].get("likes") is not None]
+    top_likes = max(measurable) if measurable else None
+    latest_social_items = "".join(
+        social_item(kicker, item, action, **kwargs) for kicker, item, action, kwargs in active_slots
+    )
 
     latest_novaire_html = f"""
   <!-- LATEST FROM NOVAIRE -->
