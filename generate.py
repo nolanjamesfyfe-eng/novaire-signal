@@ -1373,8 +1373,8 @@ def render_thai_news_cards(items):
         if _thai_host_ok(image):
             image_html = (
                 '<div class="feed-card-media"><img class="feed-thumb" '
-                f'src="{escape(image, quote=True)}" alt="" width="80" height="60" '
-                'loading="lazy" decoding="async" referrerpolicy="no-referrer" '
+                f'src="/api/thai-image?u={quote(image, safe="")}" alt="" width="80" height="60" '
+                'loading="lazy" decoding="async" '
                 'onerror="this.closest(\'.feed-card-media\').remove()"></div>'
             )
         text_only = "" if image_html else " feed-card--text-only"
