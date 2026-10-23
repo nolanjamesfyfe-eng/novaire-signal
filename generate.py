@@ -6404,6 +6404,14 @@ def main():
     except Exception as e:
         print(f"    ⚠️  Evolution CC strategy page update failed: {e}")
 
+    # Do not publish guessed holdings or fallback totals if the Sheet is down.
+    # The last verified deployment remains available with its original timestamp.
+    if not gs_meta.get("sheet_fetched_at_utc") or not holdings_source:
+        raise RuntimeError("Portfolio Sheet unavailable; preserving last verified deployment")
+    for key in ("total_cad", "total_usd", "ath"):
+        value = gs_meta.get(key)
+        if value is None or not math.isfinite(float(value)) or float(value) <= 0:
+            raise RuntimeError(f"Portfolio Sheet {key} unavailable; refusing fallback totals")
     portfolio_html = render_portfolio_html(
         portfolio_data, catalysts, fx, holdings_source=holdings_source, gs_meta=gs_meta,
         bot_accounts_html=bot_accounts_html, evo_fund_html=evo_fund_html,
