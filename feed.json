@@ -32,7 +32,9 @@
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 8034
+      "engagementScore": 8034,
+      "media_url": "https://pbs.twimg.com/media/HSqlHqAXcAE9gsP.jpg",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2101796301503697268",
@@ -62,7 +64,9 @@
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 92
+      "engagementScore": 92,
+      "media_url": "https://pbs.twimg.com/media/HSpm3-9W0AACAM9?format=webp&name=small",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2101646406431736107",
@@ -77,7 +81,9 @@
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 85
+      "engagementScore": 85,
+      "media_url": "https://pbs.twimg.com/media/HSqMQhFW4AAYWBm?format=webp&name=small",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2101634874436161840",

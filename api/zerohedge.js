@@ -14,6 +14,39 @@ function decodeXml(value) {
     .trim();
 }
 
+function safeUrl(value, allowedHosts) {
+  try {
+    const url = new URL(String(value || '').trim());
+    return url.protocol === 'https:' && allowedHosts.includes(url.hostname) ? url.href : '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function textFromHtml(value) {
+  return decodeXml(String(value || '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+}
+
+function firstSourcedSentence(description) {
+  const paragraphs = [...String(description || '').matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((match) => textFromHtml(match[1]))
+    .filter((text) => text && !/^(authored|submitted) by\b/i.test(text));
+  const text = paragraphs[0] || '';
+  const match = text.match(/^([\s\S]*?[.!?])(?:\s|$)/);
+  return (match ? match[1] : text).slice(0, 320);
+}
+
+function imageFromDescription(description) {
+  const match = String(description || '').match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+  return safeUrl(decodeXml(match ? match[1] : ''), ['assets.zerohedge.com']);
+}
+
+function imageAltFromDescription(description) {
+  const image = String(description || '').match(/<img[^>]*>/i);
+  const alt = image ? image[0].match(/\balt=["']([^"']*)["']/i) : null;
+  return textFromHtml(alt ? alt[1] : '');
+}
+
 function tag(xml, name) {
   const match = xml.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, 'i'));
   return decodeXml(match ? match[1] : '');
@@ -40,11 +73,19 @@ export default async function handler(req) {
     const articles = [];
     for (const [, item] of items) {
       const title = tag(item, 'title');
-      const url = tag(item, 'link');
+      const url = safeUrl(tag(item, 'link'), ['zerohedge.com', 'www.zerohedge.com']);
       const publishedAt = tag(item, 'pubDate');
-      if (!title || !/^https?:\/\//.test(url) || seen.has(url)) continue;
+      const description = tag(item, 'description');
+      if (!title || !url || seen.has(url)) continue;
       seen.add(url);
-      articles.push({ title, url, publishedAt });
+      articles.push({
+        title,
+        url,
+        publishedAt,
+        excerpt: firstSourcedSentence(description),
+        image: imageFromDescription(description),
+        image_alt: imageAltFromDescription(description),
+      });
     }
     return new Response(JSON.stringify({
       ok: true,

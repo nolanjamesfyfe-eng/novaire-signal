@@ -1466,53 +1466,134 @@ def fetch_trending_recs():
     return rec_movie, rec_book
 
 
-def fetch_zerohedge():
-    """Fetch the latest ZeroHedge pool for the close-to-close Daily."""
+ZEROHEDGE_IMAGE_HOSTS = {"assets.zerohedge.com"}
+ZEROHEDGE_LINK_HOSTS = {"zerohedge.com", "www.zerohedge.com"}
+
+
+def _safe_https_url(value, allowed_hosts):
+    """Return an allowlisted HTTPS URL, never a proxyable arbitrary target."""
+    try:
+        parsed = urlsplit(str(value or "").strip())
+        if parsed.scheme != "https" or parsed.hostname not in allowed_hosts:
+            return ""
+        return parsed.geturl()
+    except Exception:
+        return ""
+
+
+def _first_sourced_sentence(description_html):
+    """Extract the first substantive sentence from publisher-supplied RSS copy."""
+    soup = BeautifulSoup(description_html or "", "html.parser")
+    candidates = []
+    for paragraph in soup.find_all("p"):
+        text = " ".join(paragraph.get_text(" ", strip=True).split())
+        if not text or text.lower().startswith(("authored by ", "submitted by ")):
+            continue
+        candidates.append(text)
+    if not candidates:
+        return ""
+    text = candidates[0]
+    sentence = re.split(r"(?<=[.!?])\s+", text, maxsplit=1)[0].strip()
+    return sentence[:320]
+
+
+def parse_zerohedge_feed(xml_text, limit=40, cutoff=None):
+    """Parse safe article metadata directly from ZeroHedge's public RSS."""
     import xml.etree.ElementTree as ET
+
+    root = ET.fromstring(xml_text)
+    articles = []
+    seen = set()
+    for node in root.findall(".//item"):
+        title = " ".join(str(node.findtext("title") or "").split())
+        url = _safe_https_url(node.findtext("link"), ZEROHEDGE_LINK_HOSTS)
+        published_at = str(node.findtext("pubDate") or "").strip()
+        if len(title) <= 20 or not url or url in seen:
+            continue
+        if cutoff and published_at:
+            try:
+                if parsedate_to_datetime(published_at) < cutoff:
+                    continue
+            except Exception:
+                pass
+        description = node.findtext("description") or ""
+        soup = BeautifulSoup(description, "html.parser")
+        image_node = soup.find("img", src=True)
+        image = _safe_https_url(image_node.get("src") if image_node else "", ZEROHEDGE_IMAGE_HOSTS)
+        articles.append({
+            "title": title,
+            "url": url,
+            "publishedAt": published_at,
+            "excerpt": _first_sourced_sentence(description),
+            "image": image,
+            "image_alt": " ".join(str(image_node.get("alt") or "").split()) if image_node else "",
+        })
+        seen.add(url)
+        if len(articles) >= limit:
+            break
+    return articles
+
+
+def render_zerohedge_cards(items):
+    """Render initial cards with the same schema used by live refresh."""
+    cards = []
+    for item in items:
+        title = escape(str(item.get("title") or "Untitled article"))
+        url = _safe_https_url(item.get("url"), ZEROHEDGE_LINK_HOSTS)
+        excerpt_text = str(item.get("excerpt") or "").strip()
+        excerpt_html = f'<p class="feed-card-excerpt">{escape(excerpt_text)}</p>' if excerpt_text else ""
+        image = _safe_https_url(item.get("image"), ZEROHEDGE_IMAGE_HOSTS)
+        image_html = ""
+        if image:
+            alt = escape(str(item.get("image_alt") or ""), quote=True)
+            image_html = (
+                '<div class="feed-card-media"><img class="feed-thumb" '
+                f'src="{escape(image, quote=True)}" alt="{alt}" width="80" height="60" '
+                'loading="lazy" decoding="async"></div>'
+            )
+        text_only = "" if image_html else " feed-card--text-only"
+        link_html = (
+            f'<a href="{escape(url, quote=True)}" class="feed-card-title" target="_blank" rel="noopener">{title}</a>'
+            if url else f'<span class="feed-card-title">{title}</span>'
+        )
+        source_html = (
+            f'<a class="feed-card-source" href="{escape(url, quote=True)}" target="_blank" rel="noopener">ZeroHedge →</a>'
+            if url else ""
+        )
+        cards.append(
+            f'<article class="feed-card zh-feed-card{text_only}">{image_html}'
+            f'<div class="feed-card-copy">{link_html}{excerpt_html}{source_html}'
+            '</div></article>'
+        )
+    return '<div class="feed-card-grid">' + "".join(cards) + "</div>"
+
+
+def fetch_zerohedge():
+    """Fetch the latest ZeroHedge pool with RSS-owned excerpt/image metadata."""
     headlines = []
     try:
         headers = {"User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)"}
-        r = requests.get("https://feeds.feedburner.com/zerohedge/feed", headers=headers, timeout=12)
-        root = ET.fromstring(r.text)
+        response = requests.get("https://feeds.feedburner.com/zerohedge/feed", headers=headers, timeout=12)
+        response.raise_for_status()
         cutoff = datetime.now(timezone.utc) - timedelta(hours=36)
-        for item in root.findall(".//item"):
-            title_el = item.find("title")
-            link_el  = item.find("link")
-            pub_el   = item.find("pubDate")
-            if title_el is None or link_el is None:
-                continue
-            title = title_el.text.strip()
-            link  = link_el.text.strip() if link_el.text else "#"
-            # Parse pubDate and filter
-            if pub_el is not None and pub_el.text:
-                try:
-                    from email.utils import parsedate_to_datetime
-                    pub_dt = parsedate_to_datetime(pub_el.text)
-                    if pub_dt < cutoff:
-                        continue  # skip anything older than 24h
-                except Exception:
-                    pass
-            if len(title) > 20:
-                headlines.append({"title": title, "url": link})
-            if len(headlines) >= 12:
-                break
-        # ZeroHedge's category page retains the 4:15 PM ET market wrap after it
-        # has rolled out of the very fast-moving 25-item RSS window.
+        headlines = parse_zerohedge_feed(response.text, limit=12, cutoff=cutoff)
+        # The markets page can add article links that have rolled out of RSS. They
+        # stay text-only because no genuine RSS media/excerpt is available here.
         market_page = requests.get("https://www.zerohedge.com/markets", headers={"User-Agent": "Mozilla/5.0"}, timeout=12)
         if market_page.ok:
             soup = BeautifulSoup(market_page.text, "html.parser")
             seen = {item["url"] for item in headlines}
             for anchor in soup.select('a[href^="/markets/"]'):
                 title = " ".join(anchor.get_text(" ", strip=True).split())
-                link = "https://www.zerohedge.com" + str(anchor.get("href") or "")
-                if len(title) > 20 and link not in seen:
-                    headlines.append({"title": title, "url": link})
+                link = _safe_https_url("https://www.zerohedge.com" + str(anchor.get("href") or ""), ZEROHEDGE_LINK_HOSTS)
+                if len(title) > 20 and link and link not in seen:
+                    headlines.append({"title": title, "url": link, "excerpt": "", "image": ""})
                     seen.add(link)
                 if len(headlines) >= 40:
                     break
-    except Exception as e:
-        headlines = [{"title": f"ZeroHedge unavailable", "url": "#"}]
-    return headlines[:40] if headlines else [{"title": "No headlines in last 36h", "url": "#"}]
+    except Exception as exc:
+        print(f"    ⚠️ ZeroHedge refresh failed: {exc}")
+    return headlines[:40] if headlines else [{"title": "No headlines in last 36h", "url": "#", "excerpt": "", "image": ""}]
 
 GSHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{PORTFOLIO_SHEET_ID}/export?format=csv&gid={TFSA_GID}"
 SHEET_ALLOCATION_CACHE_PATH = os.path.join(
@@ -3481,13 +3562,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         bkk_html = '<div class="thai-news-item">Thailand expat news feed temporarily unavailable.</div>'
 
     # ── ZeroHedge HTML ──
-    zh_html = ""
-    for i, item in enumerate(zh_news[:3], 1):
-        zh_html += f"""
-        <div class="headline">
-          <span class="headline-num">{i}</span>
-          <a href="{item['url']}" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank">{item['title']}</a>
-        </div>"""
+    zh_html = render_zerohedge_cards(zh_news[:3])
 
     # ── Commodities HTML ──
     comm_html = ""
@@ -4004,26 +4079,47 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fx-chip .fx-rate{{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--text);margin-top:1px}}
     .fx-chip .fx-change{{display:block;font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2px}}
 
-    .compact-feed-card{{padding:14px 16px}}
+    .compact-feed-card{{padding:14px 16px;min-width:0;overflow:hidden}}
     .compact-feed-card .card-title{{margin-bottom:8px}}
-    .feed-controls{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}}
+    .feed-controls{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}}
     .feed-refresh{{font-size:.55rem;letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:3px 7px;border-radius:var(--r);font-family:var(--sans)}}
     .feed-refresh:hover{{border-color:var(--gold);color:var(--gold)}}
     .feed-refresh[disabled]{{opacity:.45;cursor:wait}}
     .feed-status{{font-size:.58rem;color:var(--dim);font-style:italic}}
-    .feed-item{{display:grid;grid-template-columns:minmax(84px,auto) minmax(0,1fr) auto;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);min-height:24px}}
-    .feed-item:last-child{{border-bottom:none}}
-    .feed-handle{{font-size:.65rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-    .feed-text{{font-size:.75rem;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}}
-    .feed-link{{font-size:.6rem;color:var(--gold);text-decoration:none;opacity:.72;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}}
-    .feed-link:hover{{opacity:1}}
+    .feed-card-grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;min-width:0;max-width:100%}}
+    .feed-card{{display:flex;align-items:flex-start;gap:7px;min-width:0;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}}
+    .feed-card-media{{flex:0 0 80px;width:80px;height:60px;border-radius:4px;overflow:hidden;background:#09090b}}
+    .feed-thumb{{display:block;width:80px;height:60px;object-fit:cover;background:#09090b}}
+    .feed-thumb[hidden]{{display:none}}
+    .feed-card-copy{{display:flex;flex:1 1 auto;min-width:0;flex-direction:column;align-self:stretch}}
+    .feed-card-title{{font-size:.66rem;line-height:1.24;font-weight:600;color:var(--text);text-decoration:none;overflow-wrap:anywhere}}
+    .feed-card-title:visited{{color:var(--dim)}}
+    .feed-card-excerpt{{margin:4px 0 0;font-size:.57rem;line-height:1.3;color:var(--dim);overflow-wrap:anywhere}}
+    .feed-card-source{{display:inline-block;align-self:flex-start;margin-top:auto;padding-top:6px;font-size:.5rem;color:var(--gold);text-decoration:none;text-transform:uppercase;letter-spacing:.05em}}
+    .signal-feed-card{{flex-direction:column;gap:6px}}
+    .signal-feed-card .feed-card-body{{display:flex;align-items:flex-start;gap:7px;min-width:0;width:100%}}
+    .signal-feed-card .feed-card-media{{flex-basis:64px;width:64px;height:48px}}
+    .signal-feed-card .feed-thumb{{width:64px;height:48px}}
+    .feed-handle{{font-size:.58rem;font-weight:600;color:var(--gold);text-decoration:none;overflow-wrap:anywhere}}
+    .feed-text{{font-size:.62rem;color:var(--text);line-height:1.32;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}}
+    .feed-metrics{{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto;padding-top:6px;font-size:.5rem;color:var(--dim)}}
+    .feed-link{{font-size:.5rem;color:var(--gold);text-decoration:none;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;margin-left:auto}}
+    .feed-link:hover,.feed-card-source:hover{{color:var(--text)}}
     .feed-empty{{text-align:center;padding:12px;color:var(--dim);font-size:.75rem}}
     .feed-loading{{text-align:center;padding:12px;color:var(--dim);font-size:.75rem}}
     .feed-loading::after{{content:'...';animation:dots 1.2s steps(3,end) infinite}}
     @keyframes dots{{0%,100%{{content:'.'}}33%{{content:'..'}}66%{{content:'...'}}}}
-    .feed-filter{{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}}
-    .feed-tag{{font-size:.55rem;padding:2px 6px;border:1px solid var(--border);color:var(--dim);cursor:pointer;background:none;letter-spacing:.04em;border-radius:var(--r);font-family:var(--sans)}}
-    .feed-tag.active,.feed-tag:hover{{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}}
+    @media(max-width:620px){{
+      .compact-feed-card{{overflow:hidden}}
+      .feed-card-grid{{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}}
+      .feed-card{{scroll-snap-align:start}}
+      .feed-card-media{{flex-basis:56px;width:56px;height:48px}}
+      .feed-thumb{{width:56px;height:48px}}
+      .signal-feed-card .feed-card-media{{flex-basis:48px;width:48px;height:48px}}
+      .signal-feed-card .feed-thumb{{width:48px;height:48px}}
+      .feed-card-title{{font-size:.7rem}}
+      .feed-text{{font-size:.66rem}}
+    }}
 
     .fed-card,.market-card{{display:block;text-align:left;padding:0;overflow:hidden}}
     .market-card .market-clock{{border-bottom:0}}
@@ -4275,7 +4371,39 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
 
     function escHtml(s) {{
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }}
+
+    function safeExternalUrl(value, allowedHosts) {{
+      try {{
+        const url = new URL(String(value || ''));
+        return url.protocol === 'https:' && allowedHosts.includes(url.hostname) ? url.href : '';
+      }} catch (_) {{
+        return '';
+      }}
+    }}
+
+    function safeImageUrl(value, source) {{
+      const hosts = source === 'x' ? ['pbs.twimg.com'] : ['assets.zerohedge.com'];
+      return safeExternalUrl(value, hosts);
+    }}
+
+    function imageMarkup(item, source) {{
+      const image = safeImageUrl(source === 'x' ? item.media_url : item.image, source);
+      if (!image) return '';
+      const alt = source === 'x' ? (item.media_alt || 'Attached post media') : (item.image_alt || '');
+      return `<div class="feed-card-media"><img class="feed-thumb" src="${{escHtml(image)}}" alt="${{escHtml(alt)}}" width="${{source === 'x' ? 64 : 80}}" height="${{source === 'x' ? 48 : 60}}" loading="lazy" decoding="async"></div>`;
+    }}
+
+    function wireImageFallbacks(container) {{
+      container.querySelectorAll('img.feed-thumb').forEach(img => {{
+        const removeBrokenMedia = () => {{
+          const media = img.closest('.feed-card-media');
+          if (media) media.remove();
+        }};
+        if (img.complete && !img.naturalWidth) removeBrokenMedia();
+        else img.addEventListener('error', removeBrokenMedia, {{ once: true }});
+      }});
     }}
 
     function sortBySlot(posts) {{
@@ -4295,23 +4423,39 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         container.innerHTML = '<div class="feed-empty">No recent posts found. Try refreshing.</div>';
         return;
       }}
-      container.innerHTML = posts.map(p => `
-        <div class="feed-item">
-          <span class="feed-handle">@${{escHtml(p.handle)}}</span>
-          <span class="feed-text" title="${{escHtml(p.text)}}">${{escHtml(p.text)}}</span>
-          <a class="feed-link" href="${{escHtml(p.url)}}" target="_blank" rel="noopener">View on X →</a>
-        </div>
-      `).join('');
+      container.innerHTML = '<div class="feed-card-grid">' + posts.map(p => {{
+        const postUrl = safeExternalUrl(p.url, ['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com']);
+        const profileUrl = safeExternalUrl('https://x.com/' + String(p.handle || '').replace(/^@/, ''), ['x.com']);
+        const media = imageMarkup(p, 'x');
+        const metrics = [];
+        if (Number.isFinite(Number(p.views)) && Number(p.views) > 0) metrics.push('◉ ' + fmtNum(Number(p.views)) + ' views');
+        if (Number.isFinite(Number(p.likes)) && Number(p.likes) > 0) metrics.push('♡ ' + fmtNum(Number(p.likes)));
+        if (Number.isFinite(Number(p.retweets)) && Number(p.retweets) > 0) metrics.push('↻ ' + fmtNum(Number(p.retweets)));
+        return `
+        <article class="feed-card signal-feed-card${{media ? '' : ' feed-card--text-only'}}">
+          <a class="feed-handle" href="${{escHtml(profileUrl)}}" target="_blank" rel="noopener">@${{escHtml(p.handle)}}</a>
+          <div class="feed-card-body">${{media}}<div class="feed-card-copy"><div class="feed-text">${{escHtml(p.text)}}</div></div></div>
+          <div class="feed-metrics"><span>${{metrics.length ? metrics.map(escHtml).join(' · ') : 'Public metrics unavailable'}}</span>${{postUrl ? `<a class="feed-link" href="${{escHtml(postUrl)}}" target="_blank" rel="noopener">View on X →</a>` : ''}}</div>
+        </article>`;
+      }}).join('') + '</div>';
+      wireImageFallbacks(container);
     }}
 
     function renderZeroHedge(items) {{
       const container = document.getElementById('zerohedge-feed');
-      container.innerHTML = items.map((item, index) => `
-        <div class="headline">
-          <span class="headline-num">${{index + 1}}</span>
-          <a href="${{escHtml(item.url)}}" class="headline-text" style="text-decoration:none;color:var(--text)" target="_blank" rel="noopener">${{escHtml(item.title)}}</a>
-        </div>
-      `).join('');
+      container.innerHTML = '<div class="feed-card-grid">' + items.map(item => {{
+        const articleUrl = safeExternalUrl(item.url, ['zerohedge.com', 'www.zerohedge.com']);
+        const media = imageMarkup(item, 'zerohedge');
+        return `
+        <article class="feed-card zh-feed-card${{media ? '' : ' feed-card--text-only'}}">${{media}}
+          <div class="feed-card-copy">
+            ${{articleUrl ? `<a href="${{escHtml(articleUrl)}}" class="feed-card-title" target="_blank" rel="noopener">${{escHtml(item.title)}}</a>` : `<span class="feed-card-title">${{escHtml(item.title)}}</span>`}}
+            ${{item.excerpt ? `<p class="feed-card-excerpt">${{escHtml(item.excerpt)}}</p>` : ''}}
+            ${{articleUrl ? `<a class="feed-card-source" href="${{escHtml(articleUrl)}}" target="_blank" rel="noopener">ZeroHedge →</a>` : ''}}
+          </div>
+        </article>`;
+      }}).join('') + '</div>';
+      wireImageFallbacks(container);
     }}
 
     async function refreshSignals(force) {{
@@ -4363,9 +4507,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
     window.refreshSignals = refreshSignals;
     window.refreshZeroHedge = refreshZeroHedge;
+    const initializeFeeds = () => {{
+      wireImageFallbacks(document.getElementById('zerohedge-feed'));
+      return Promise.all([refreshSignals(false), refreshZeroHedge(false)]);
+    }};
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => Promise.all([refreshSignals(false), refreshZeroHedge(false)]))
-      : Promise.all([refreshSignals(false), refreshZeroHedge(false)]);
+      ? document.addEventListener('DOMContentLoaded', initializeFeeds)
+      : initializeFeeds();
   }})();
   </script>
 

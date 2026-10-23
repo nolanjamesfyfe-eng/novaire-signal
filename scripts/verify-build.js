@@ -46,6 +46,32 @@ for (const forbidden of ['Geopolitical pressure', 'Market mover · ZeroHedge', '
 // Novaire-approved visual baseline (2026-08-16). Content and live data may
 // change; these markers may change only with Novaire's explicit design approval.
 const mainHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const feedPayload = JSON.parse(fs.readFileSync(path.join(root, 'feed.json'), 'utf8'));
+const feedRequired = [
+  '.feed-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))',
+  'scroll-snap-type:x mandatory',
+  'white-space:pre-wrap;overflow-wrap:anywhere',
+  'function safeImageUrl(',
+  'function wireImageFallbacks(',
+  'renderFeed(signalBatch.items)',
+  'renderZeroHedge(batch.items)',
+];
+for (const marker of feedRequired) {
+  if (!mainHtml.includes(marker)) {
+    console.error(`❌ Build guard failed: compact feed contract is missing ${marker}`);
+    process.exit(1);
+  }
+}
+if (!feedPayload.ok || !Array.isArray(feedPayload.posts) || feedPayload.posts.length < 3 || !feedPayload.fetchedAt) {
+  console.error('❌ Build guard failed: Signal Feed lost its honest fixed-cardinality snapshot.');
+  process.exit(1);
+}
+for (const post of feedPayload.posts) {
+  if (post.media_url && !/^https:\/\/pbs\.twimg\.com\/media\//.test(post.media_url)) {
+    console.error(`❌ Build guard failed: untrusted Signal Feed media URL for ${post.id}`);
+    process.exit(1);
+  }
+}
 const lockedDesignMarkers = [
   '--bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;',
   '--gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);',

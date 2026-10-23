@@ -11,13 +11,17 @@ Nitter RSS is dead (HTTP 410). Timelines come from authenticated xurl search.
 Final output is sorted by engagement score, then recency.
 """
 
+import html as html_lib
 import json
 import re
 import subprocess
 import sys
 import time
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ENGAGEMENT_ACCOUNTS = [
     "zerohedge",
@@ -44,6 +48,86 @@ ENGAGEMENT_MAX_AGE_MS = 24 * 60 * 60 * 1000
 SIGNAL_POOL_SIZE = 12
 MIN_PUBLISHABLE_POSTS = 3
 XURL_BIN = "xurl"
+X_MEDIA_HOSTS = {"pbs.twimg.com"}
+
+
+def _safe_x_media_url(value: str) -> str:
+    try:
+        candidate = html_lib.unescape(str(value or "").replace(r"\/", "/"))
+        parsed = urlsplit(candidate)
+        if parsed.scheme != "https" or parsed.hostname not in X_MEDIA_HOSTS or not parsed.path.startswith("/media/"):
+            return ""
+        return parsed.geturl()
+    except Exception:
+        return ""
+
+
+def parse_x_public_metadata(page_html: str) -> dict:
+    """Extract only genuine attached-media URLs from X's public post HTML."""
+    media_url = ""
+    for match in re.findall(r"https:\\?/\\?/pbs\.twimg\.com/media/[^\\\"'<>\s]+", page_html or ""):
+        media_url = _safe_x_media_url(match)
+        if media_url:
+            break
+    if not media_url:
+        return {}
+    return {"media_url": media_url, "media_alt": "Attached post media"}
+
+
+def fetch_x_public_metadata(post: dict) -> dict:
+    """Fetch bounded public metadata for one already-selected post."""
+    post_id = str(post.get("id") or "")
+    if not post_id.isdigit():
+        return {}
+    request = urllib.request.Request(
+        f"https://x.com/i/status/{post_id}",
+        headers={"User-Agent": "Mozilla/5.0 (compatible; NovaireSignal/1.0)"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=6) as response:
+            if response.status != 200:
+                return {}
+            page = response.read(1_500_000).decode("utf-8", "replace")
+        return parse_x_public_metadata(page)
+    except Exception:
+        return {}
+
+
+def enrich_selected_posts(posts: list[dict], metadata_fetcher=None) -> list[dict]:
+    """Add media after ranking; never mutate rank inputs, IDs, order, or scores."""
+    fetcher = metadata_fetcher or fetch_x_public_metadata
+    if metadata_fetcher is not None:
+        metadata = [fetcher(post) for post in posts]
+    else:
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            metadata = list(executor.map(fetcher, posts))
+    enriched = []
+    for post, extra in zip(posts, metadata):
+        updated = dict(post)
+        media_url = _safe_x_media_url((extra or {}).get("media_url"))
+        if media_url:
+            updated["media_url"] = media_url
+            updated["media_alt"] = str((extra or {}).get("media_alt") or "Attached post media")[:240]
+        enriched.append(updated)
+    return enriched
+
+
+def enrich_cached_feed(path: Path) -> bool:
+    """Improve cached media without laundering the feed's fetchedAt timestamp."""
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        posts = payload.get("posts") or []
+        if len(posts) < MIN_PUBLISHABLE_POSTS:
+            return False
+        enriched = enrich_selected_posts(posts)
+        if enriched == posts:
+            return False
+        payload["posts"] = enriched
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        return True
+    except Exception as exc:
+        print(f"  ⚠️ Cached media enrichment failed: {exc}")
+        return False
 
 
 def parse_iso_ms(value: str) -> tuple[str, int]:
@@ -200,8 +284,14 @@ def main():
         print(f"\n⚠️ Only {len(feed)} post(s) fetched; minimum is {MIN_PUBLISHABLE_POSTS} — keeping existing feed.json")
         if errors:
             print(f'Failed accounts: {", ".join(errors)}')
+        out_path = REPO_ROOT / "feed.json"
+        if enrich_cached_feed(out_path):
+            print("  ✓ Added genuine attached-media metadata to the cached feed; fetchedAt is unchanged")
         return
 
+    # Ranking is complete. Metadata enrichment happens afterward so the original
+    # account population, 24-hour window, engagement weights, IDs, and order stay unchanged.
+    feed = enrich_selected_posts(feed)
     out_path = REPO_ROOT / "feed.json"
     output = {
         "ok": True,
