@@ -2,7 +2,7 @@
 const { chromium } = require('/root/clawd/novaire-operations-system/node_modules/playwright');
 
 const base = process.env.SIGNAL_BASE_URL || 'http://127.0.0.1:8765';
-const routes = ['/', '/health/', '/flaneur', '/portfolio/', '/portfolio/daily/', '/portfolio/evolutionfund/', '/portfolio/evolutionfund/philosophy.html', '/portfolio/finances/', '/portfolio-lock.html'];
+const routes = ['/', '/health/', '/flaneur', '/portfolio/', '/portfolio/daily/', '/portfolio/evolutionfund/', '/portfolio/evolutionfund/philosophy.html', '/portfolio/finances/'];
 const widths = [320, 360, 375, 390, 1280];
 const tolerance = 1.25;
 

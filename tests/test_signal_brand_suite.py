@@ -8,7 +8,6 @@ sys.path.insert(0, str(ROOT))
 from signal_brand import signal_brand_css, signal_brand_markup
 SUITE_PAGES = (
     "index.html",
-    "portfolio-lock.html",
     "portfolio/index.html",
     "portfolio/daily/index.html",
     "portfolio/evolutionfund/index.html",
@@ -52,3 +51,11 @@ def test_every_signal_suite_page_has_complete_header_and_footer_brand_rows():
         assert "display:flex;width:max-content;margin-inline:auto;align-items:center;justify-content:center" in html, relative
         assert 'data-signal-brand-canonical' not in html, relative
         assert "@media(max-width:400px)" in html, relative
+
+
+def test_portfolio_lock_uses_only_the_mini_brand_as_home_link():
+    html = (ROOT / "portfolio-lock.html").read_text(encoding="utf-8")
+    assert 'class="signal-wordmark"' not in html
+    assert "Back to Novaire Signal" not in html
+    assert '<a class="brand" href="/"' in html
+    assert ".pin input{width:150px;" in html
