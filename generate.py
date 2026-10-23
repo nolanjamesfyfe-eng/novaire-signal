@@ -1825,7 +1825,7 @@ def fetch_holdings_from_gsheet():
         except: return None
 
     holdings = []
-    meta     = {}
+    meta     = {"sheet_fetched_at_utc": datetime.now(timezone.utc).isoformat()}
     seen     = set()
     allocation_totals = {}
     in_covered_call_block = False
@@ -1854,8 +1854,10 @@ def fetch_holdings_from_gsheet():
         # USD total row (row after TOTAL, col 9 = "USD")
         if row[9].strip() == "USD" and not meta.get("total_usd"):
             v = parse_price(row[10])
-            if v and v > 10000:
+            if v is not None and v >= 0:
                 meta["total_usd"] = v
+        if row[9].strip() == "Cash":
+            meta["cash_cad"] = parse_price(row[10])
         # ATH row
         if row[9].strip() == "ATH":
             meta["ath"] = parse_price(row[10])
@@ -1900,6 +1902,25 @@ def fetch_holdings_from_gsheet():
             "currency": currency,
             "sector":   sector or "Other",
         }
+        # Sheet-of-record row figures. Column K is the native-currency position
+        # value and column L the CAD FX adjustment for USD/AUD rows, so K + L is
+        # the row's CAD contribution to the Sheet TOTAL. Column E carries the
+        # per-share session change, e.g. "-0.44 (-12.87% )".
+        sheet_value_native = parse_price(row[10])
+        sheet_fx_adjust = parse_price(row[11]) or 0.0
+        change_match = re.match(r"\s*([+-]?[\d.]+)\s*\(\s*([+-]?[\d.]+)%", row[4] or "")
+        h["covered_call"] = in_covered_call_block
+        if cur_price:
+            h["sheet_price"] = cur_price
+        if sheet_value_native is not None:
+            h["sheet_value_cad"] = sheet_value_native + sheet_fx_adjust
+            h["sheet_cad_per_native"] = (
+                (sheet_value_native + sheet_fx_adjust) / sheet_value_native
+                if sheet_value_native else (1.0 if currency == "CAD" else None)
+            )
+        if change_match:
+            h["sheet_change_abs"] = float(change_match.group(1))
+            h["sheet_change_pct"] = float(change_match.group(2))
         # For off-Yahoo tickers, use sheet's current price as fallback
         if ticker.startswith("_") and cur_price:
             h["fallback_price"] = cur_price
@@ -2141,6 +2162,44 @@ def apply_completed_close_changes(portfolio_data, tickers):
         except Exception as exc:
             print(f"    ⚠️  Completed-close enrichment failed for {ticker}: {exc}")
     return portfolio_data
+
+
+def calculate_sheet_daily_metrics(holdings, total_cad):
+    """Daily P&L from the Sheet's own per-share session change, scoped to the
+    same book as the Sheet TOTAL (covered-call block excluded).
+
+    Fails closed (None) unless every in-total holding has a parsable change and
+    CAD conversion, so the ROI denominator always matches Live CAD.
+    """
+    try:
+        total_cad = float(total_cad)
+    except (TypeError, ValueError):
+        return None
+    if not holdings or not math.isfinite(total_cad) or total_cad <= 0:
+        return None
+    pnl_cad = 0.0
+    counted = 0
+    for holding in holdings:
+        if holding.get("covered_call"):
+            continue
+        # Use the percent change: the Sheet rounds the per-share dollar change
+        # to cents, which zeroes out sub-dollar names (e.g. "0 (-1.45% )").
+        pct = holding.get("sheet_change_pct")
+        value_cad = holding.get("sheet_value_cad")
+        if pct is None or value_cad is None or pct <= -100:
+            return None
+        pnl_cad += float(value_cad) * (float(pct) / 100.0) / (1.0 + float(pct) / 100.0)
+        counted += 1
+    previous = total_cad - pnl_cad
+    if not counted or previous <= 0:
+        return None
+    return {
+        "pnl_cad": pnl_cad,
+        "roi_pct": pnl_cad / previous * 100.0,
+        "previous_value_cad": previous,
+        "session_dates": [],
+        "source": "Google Sheet TFSA/WS session change · Sheet TOTAL scope",
+    }
 
 
 def calculate_portfolio_daily_metrics(portfolio_data, holdings, fx):
@@ -5224,6 +5283,17 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         port_sorted.append((ticker, h, price, value, change, is_fallback))
 
     port_sorted.sort(key=lambda x: (x[3] or 0), reverse=True)
+    # Display rows from the Sheet of record so every row reconciles to Live CAD.
+    display_rows = []
+    for ticker, h, price, value, change, is_fallback in port_sorted:
+        d_price = h.get("sheet_price") or price
+        d_change = h.get("sheet_change_pct") if h.get("sheet_change_pct") is not None else change
+        if h.get("sheet_value_cad") is not None:
+            d_value_cad = h["sheet_value_cad"]
+        else:
+            d_value_cad = value * fx["usdcad"] if value else None
+        display_rows.append((ticker, h, d_price, d_value_cad, d_change, is_fallback and not h.get("sheet_price")))
+    display_rows.sort(key=lambda x: (x[3] or 0), reverse=True)
 
     for ticker, h, price, value, change, is_fallback in port_sorted:
         if value:
@@ -5258,9 +5328,26 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     # Jan-1 NAV and a complete external-flow ledger do not yet exist.
     ytd_display = "—"
 
-    daily_metrics = calculate_portfolio_daily_metrics(
-        portfolio_data, holdings_source or HOLDINGS, fx
-    )
+    # The Sheet-backed view must never silently fall back to mixed vendor rows.
+    sheet_backed = bool(_meta.get("sheet_fetched_at_utc"))
+    if sheet_backed:
+        for h in holdings_source or []:
+            if any(h.get(key) is None for key in ("sheet_price", "sheet_value_cad", "sheet_change_pct")):
+                raise ValueError(f"Incomplete Sheet row: {h['ticker']}; refusing mixed-source portfolio")
+        row_total = sum(h["sheet_value_cad"] for h in holdings_source if not h.get("covered_call"))
+        row_total += float(_meta.get("cash_cad") or 0)
+        if abs(row_total - total_cad) > 1:
+            raise ValueError(f"Sheet TOTAL reconciliation failed: rows={row_total:.2f}, total={total_cad:.2f}")
+    in_total_holdings = [h for h in (holdings_source or HOLDINGS) if not h.get("covered_call")]
+    daily_metrics = calculate_sheet_daily_metrics(holdings_source or [], total_cad) if sheet_backed else \
+        calculate_portfolio_daily_metrics(portfolio_data, in_total_holdings, fx)
+    sheet_stamp = _meta.get("sheet_fetched_at_utc")
+    sheet_note = (
+        'TFSA/WS · Google Sheet snapshot · ' +
+        datetime.fromisoformat(sheet_stamp).astimezone(BKK_TZ).strftime('%d %b %Y %H:%M BKK') +
+        ' · Prices in native currency; values in CAD. Covered calls excluded from total. '
+        'Daily figures estimated from rounded Sheet session changes; not cash-flow-adjusted.'
+    ) if sheet_stamp else 'Sheet snapshot unavailable.'
     if daily_metrics:
         daily_roi_html = (
             f'<div class="psum-value {"positive" if daily_metrics["roi_pct"] >= 0 else "negative"}">'
@@ -5276,19 +5363,21 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
 
     # Build holdings rows HTML
     rows_html = ""
-    for ticker, h, price, value, change, is_fallback in port_sorted:
+    for ticker, h, price, value, change, is_fallback in display_rows:
         display = h.get("display", ticker.split(".")[0])
         name    = h["name"]
         shares  = h["shares"]
         chg_html    = fmt_pct(change)
         fallback_note = '<span class="fallback-badge">est</span>' if is_fallback else ""
-        price_str   = (fmt_price(price, 2) + fallback_note) if price and price >= 0.01 else \
-                      ((fmt_price(price, 4) + fallback_note) if price else "—")
+        cur_prefix = {"USD": "US", "AUD": "A"}.get(h.get("currency", "CAD"), "")
+        price_str   = (cur_prefix + fmt_price(price, 2) + fallback_note) if price and price >= 0.01 else \
+                      ((cur_prefix + fmt_price(price, 4) + fallback_note) if price else "—")
         value_str   = f"${value:,.0f}" if value else "—"
+        holding_note = '<span class="holding-note">covered calls · not in total</span>' if h.get("covered_call") else ""
         rows_html += f"""
           <tr>
             <td class="ticker chart-ticker" data-chart-symbol="{ticker}" data-chart-name="{escape(name, quote=True)}" tabindex="0" role="button" aria-label="Open {escape(display, quote=True)} price chart">{display}</td>
-            <td style="color:var(--dim);font-size:.8em">{name}</td>
+            <td style="color:var(--dim);font-size:.8em">{name}{holding_note}</td>
             <td style="text-align:right">{int(shares):,}</td>
             <td style="text-align:right">{price_str}</td>
             <td style="text-align:right">{chg_html}</td>
@@ -5381,6 +5470,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .positive{{color:#56f2b1;animation:finance-green-pulse 2.8s ease-in-out infinite}}.negative{{color:#ff465b;animation:finance-red-pulse 2.8s ease-in-out infinite}}
     .total-value.cad,.total-value.usd{{color:#56f2b1!important;animation:finance-green-pulse 2.8s ease-in-out infinite}}
     .fallback-badge{{font-size:.55rem;color:var(--mute);vertical-align:middle;margin-left:3px}}
+    .holding-note{{display:block;font-size:.62rem;color:var(--mute);letter-spacing:.02em}}
     .totals-row{{display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}}
     .total-item{{text-align:center}}
     .total-label{{font-size:.58rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}}
@@ -5546,7 +5636,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
   <div class="card">
     <button type="button" class="collapse-toggle holdings-toggle" aria-expanded="false" aria-controls="holdings-table"><span>📦 Portfolio Holdings</span><svg class="holdings-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4 L6 8 L10 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div id="holdings-table" class="holdings-content"><table class="portfolio-table">
-      <thead><tr><th>Ticker</th><th>Name</th><th style="text-align:right">Shares</th><th style="text-align:right">Price</th><th style="text-align:right">24h</th><th style="text-align:right">Value</th></tr></thead>
+      <thead><tr><th>Ticker</th><th>Name</th><th style="text-align:right">Shares</th><th style="text-align:right">Price</th><th style="text-align:right">24h</th><th style="text-align:right">Value CAD</th></tr></thead>
       <tbody>{rows_html}</tbody>
     </table></div>
     <div class="portfolio-summary" data-summary-tiles="7" data-daily-basis="previous-completed-session-close">
@@ -5579,6 +5669,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
         <div class="psum-value {'positive' if ath_gap_cad >= 0 else 'negative'}">{'+' if ath_gap_cad >= 0 else '−'}${abs(ath_gap_cad):,.0f}</div>
       </div>
     </div>
+    <div class="sheet-snapshot-note" style="font-size:.62rem;color:var(--dim);margin:10px 0 14px">{escape(sheet_note)}</div>
     <div class="allocation-section">
       {donut_svg}
       <div class="allocation-copy">
