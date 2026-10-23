@@ -9,8 +9,9 @@ OUT = ROOT / "contacts-app"
 OUT.mkdir(exist_ok=True)
 PROFILES = [
     ("instagram", "Instagram", "@j.novaire", "https://www.instagram.com/j.novaire/"),
-    ("linkedin", "LinkedIn", "Nolan James", "https://www.linkedin.com/in/nolanjamesfyfe/"),
     ("whatsapp", "WhatsApp", "Message me", "https://wa.me/qr/FFFDDLXIDIN2I1"),
+    ("telegram", "Telegram", "@JNovaire", "https://t.me/JNovaire"),
+    ("linkedin", "LinkedIn", "Nolan James", "https://www.linkedin.com/in/nolanjamesfyfe/"),
 ]
 
 cards = []
@@ -37,7 +38,7 @@ manifest = {
     "id": "https://contacts.novairesignal.com/contacts-app",
     "name": "Contacts",
     "short_name": "Contacts",
-    "description": "LinkedIn, Instagram and WhatsApp QR codes for Nolan James",
+    "description": "Instagram, WhatsApp, Telegram and LinkedIn QR codes for Nolan James",
     "start_url": "https://contacts.novairesignal.com/contacts/",
     "scope": "https://contacts.novairesignal.com/",
     "display": "standalone",
@@ -49,8 +50,8 @@ manifest = {
     ],
 }
 (OUT / "manifest.webmanifest").write_text(json.dumps(manifest, indent=2) + "\n")
-assets = ["/", "/index.html", "/contacts/", "/contacts/index.html", "/linkedin.png", "/instagram.png", "/whatsapp.png", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"]
-(OUT / "sw.js").write_text(f"""const CACHE='novaire-contacts-origin-v4';
+assets = ["/", "/index.html", "/contacts/", "/contacts/index.html", "/linkedin.png", "/instagram.png", "/whatsapp.png", "/telegram.png", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"]
+(OUT / "sw.js").write_text(f"""const CACHE='novaire-contacts-origin-v5';
 const ASSETS={json.dumps(assets, separators=(',', ':'))};
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('novaire-contacts-origin-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

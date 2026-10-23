@@ -15,5 +15,10 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     html = page.read_text()
     assert 'rel="manifest" href="https://contacts.novairesignal.com/manifest.webmanifest?v=2"' in html
     assert "https://novairesignal.com/" not in html
+    import re
+    assert re.findall(r'<h2>(.*?)</h2>', html) == ['Instagram', 'WhatsApp', 'Telegram', 'LinkedIn']
+    assert 'src="/telegram.png"' in html
+assert (OUT / 'telegram.png').is_file()
+assert '"/telegram.png"' in (OUT / 'sw.js').read_text()
 assert '"/contacts/"' in (OUT / "sw.js").read_text()
 print("contacts PWA identity regression: PASS")
