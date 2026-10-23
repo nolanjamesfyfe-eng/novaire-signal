@@ -9,11 +9,11 @@
     "published_at": "2026-10-23T03:09:47+00:00",
     "views": null,
     "likes": 31,
-    "verified_at": "2026-10-23T10:44:08.955441+00:00",
+    "verified_at": "2026-10-23T10:47:20.049658+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram public view count unavailable",
-    "likes_verified_at": "2026-10-23T10:44:11.118097+00:00",
-    "metrics_checked_at": "2026-10-23T10:44:11.118097+00:00",
+    "likes_verified_at": "2026-10-23T10:47:22.131221+00:00",
+    "metrics_checked_at": "2026-10-23T10:47:22.131221+00:00",
     "metrics_source": "Instagram logged-out post API"
   },
   "youtube": {
@@ -27,9 +27,9 @@
         "published_at": "Sep 26, 2026",
         "views": 24,
         "likes": null,
-        "metrics_checked_at": "2026-10-23T10:27:24.031972+00:00",
+        "metrics_checked_at": "2026-10-23T10:47:22.964905+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-23T10:27:24.031972+00:00",
+        "views_verified_at": "2026-10-23T10:47:22.964905+00:00",
         "metrics_status": "YouTube does not expose public likes for this upload",
         "platform": "youtube",
         "type": "video",
@@ -42,16 +42,16 @@
         "published_at": "Sep 26, 2026",
         "views": 1225,
         "likes": 41,
-        "metrics_checked_at": "2026-10-23T10:27:24.950900+00:00",
+        "metrics_checked_at": "2026-10-23T10:47:23.847390+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-23T10:27:24.950900+00:00",
-        "likes_verified_at": "2026-10-23T10:27:24.950900+00:00",
+        "views_verified_at": "2026-10-23T10:47:23.847390+00:00",
+        "likes_verified_at": "2026-10-23T10:47:23.847390+00:00",
         "platform": "youtube",
         "type": "short",
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-10-23T10:27:24.952076+00:00",
+      "verified_at": "2026-10-23T10:47:23.848615+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -64,10 +64,10 @@
         "published_at": "Jul 31, 2026",
         "views": 43,
         "likes": 2,
-        "metrics_checked_at": "2026-10-23T10:27:25.709117+00:00",
+        "metrics_checked_at": "2026-10-23T10:47:24.828500+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-23T10:27:25.709117+00:00",
-        "likes_verified_at": "2026-10-23T10:27:25.709117+00:00",
+        "views_verified_at": "2026-10-23T10:47:24.828500+00:00",
+        "likes_verified_at": "2026-10-23T10:47:24.828500+00:00",
         "platform": "youtube",
         "type": "video",
         "channel": "J.Novaire",
@@ -79,22 +79,19 @@
         "published_at": "Aug 15, 2026",
         "views": 1060,
         "likes": 13,
-        "metrics_checked_at": "2026-10-23T10:27:26.504490+00:00",
+        "metrics_checked_at": "2026-10-23T10:47:25.630149+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-23T10:27:26.504490+00:00",
-        "likes_verified_at": "2026-10-23T10:27:26.504490+00:00",
+        "views_verified_at": "2026-10-23T10:47:25.630149+00:00",
+        "likes_verified_at": "2026-10-23T10:47:25.630149+00:00",
         "platform": "youtube",
         "type": "short",
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-10-23T10:27:26.505777+00:00",
+      "verified_at": "2026-10-23T10:47:25.631817+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-10-23T10:44:12.682588+00:00",
-  "errors": {
-    "second_renaissance": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DbjLwLnyxu9I&q=EhAqAkeAAF6f9wAAAAAAAAABGPv07NYGIjCRFFDAik-CvEJgD772bc1uvAWfCYikgm_Fc5dyxmUBWZfMA_lCyEh64g5ZHK9BhGYyAnJSWgFDYPnaoteqnoLaBw",
-    "j_novaire": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DaqSWpqDuEiw&q=EhAqAkeAAF6f9wAAAAAAAAABGPz07NYGIjAa-H9bFZOEKOxAXqE8XdHv1pUBXVcicZ2za8hS0P6HgOaUPYMJMa8o-wvS9BNMt7syAnJSWgFDYLqTj--A0Pi6lQE"
-  }
+  "refreshed_at": "2026-10-23T10:47:25.634838+00:00",
+  "errors": {}
 }
