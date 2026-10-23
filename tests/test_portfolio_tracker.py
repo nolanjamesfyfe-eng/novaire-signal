@@ -96,6 +96,26 @@ class PortfolioTrackerTests(unittest.TestCase):
 
         self.assertEqual(updated["snapshots"], [prior_close])
 
+    def test_next_day_premarket_live_sheet_cannot_overwrite_prior_close(self):
+        prior_close = {
+            "market_date": "2026-10-22",
+            "captured_at_utc": "2026-10-23T10:53:18+00:00",
+            "accounts": {"tfsa_ws": {"cad": 75062.74}, "rrsp": {"cad": 8169.0}},
+            "net_worth_cad": 83231.74,
+        }
+        history = {"snapshots": [prior_close]}
+
+        updated = portfolio_tracker.upsert_daily_snapshot(
+            history,
+            {"total_cad": 75061.01},
+            {},
+            rrsp_meta={"total_cad": 8168.0},
+            # Friday 07:35 ET: values are live Sheet marks, not a new official close.
+            now=datetime(2026, 10, 23, 11, 35, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(updated["snapshots"], [prior_close])
+
     def test_render_tracker_omits_unavailable_performance_rows_and_periods(self):
         history = {"snapshots": [
             {
@@ -219,6 +239,41 @@ class PortfolioTrackerTests(unittest.TestCase):
         html = portfolio_tracker.render_tracker_html(model)
         self.assertIn("RRSP", html)
         self.assertIn("C$8,168", html)
+
+    def test_live_tfsa_headline_is_separate_from_combined_close_history(self):
+        history = {"snapshots": [
+            {
+                "market_date": "2026-10-21",
+                "accounts": {"tfsa_ws": {"cad": 85372.27}, "rrsp": {"cad": 8264.0}},
+            },
+            {
+                "market_date": "2026-10-22",
+                "captured_at_utc": "2026-10-23T10:53:18.551574+00:00",
+                "accounts": {
+                    "tfsa_ws": {"cad": 75062.74, "usd": 53593.47},
+                    "rrsp": {"cad": 8169.0},
+                },
+                "net_worth_cad": 83231.74,
+            },
+        ]}
+        model = portfolio_tracker.build_tracker_model(history)
+        live_snapshot = portfolio_tracker.build_live_tfsa_snapshot({
+            "total_cad": 75061.30,
+            "sheet_fetched_at_utc": "2026-10-23T11:33:13.601370+00:00",
+        })
+
+        html = portfolio_tracker.render_tracker_html(model, live_snapshot=live_snapshot)
+        soup = BeautifulSoup(html, "html.parser")
+
+        self.assertEqual(soup.select_one(".tracker-live-value").get_text(strip=True), "C$75,061.30")
+        self.assertIn("TFSA/WS · Live Sheet snapshot", soup.select_one(".tracker-asof").get_text(" ", strip=True))
+        self.assertIn("Oct 23, 2026 18:33 BKK", soup.select_one(".tracker-asof").get_text(" ", strip=True))
+        self.assertEqual(soup.select_one(".tracker-hero-value").get_text(strip=True), "C$83,231.74")
+        self.assertIn(
+            "Historical combined close · TFSA/WS + RRSP · Oct 22, 2026",
+            soup.select_one(".tracker-history-label").get_text(" ", strip=True),
+        )
+        self.assertNotIn("Sheet Live row", html)
 
     def test_parity_guard_flags_an_account_left_out_of_the_total(self):
         model = portfolio_tracker.build_tracker_model({"snapshots": [

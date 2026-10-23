@@ -28,6 +28,7 @@ from portfolio_tracker import (
     TFSA_GID,
     _fetch_sheet_rows,
     fetch_rrsp_totals,
+    build_live_tfsa_snapshot,
     build_tracker_model,
     fetch_kraken_totals,
     load_history as load_portfolio_history,
@@ -5726,7 +5727,10 @@ def main():
     }) if gs_meta.get("total_cad") else []
     for problem in parity_problems:
         print(f"    ⚠️  Net-worth parity: {problem}")
-    net_worth_tracker_html = render_tracker_html(tracker_model)
+    net_worth_tracker_html = render_tracker_html(
+        tracker_model,
+        live_snapshot=build_live_tfsa_snapshot(gs_meta),
+    )
     crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
     print("  🏦 Pricing RRSP holdings from its Google Sheet tab...")

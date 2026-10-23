@@ -16,8 +16,10 @@ import requests
 try:
     from zoneinfo import ZoneInfo
     NEW_YORK = ZoneInfo("America/New_York")
+    BANGKOK = ZoneInfo("Asia/Bangkok")
 except Exception:  # pragma: no cover - Python always has zoneinfo in production
     NEW_YORK = timezone(timedelta(hours=-5))
+    BANGKOK = timezone(timedelta(hours=7))
 
 SHEET_ID = "1rqRNI6z3rqXGCMlPbsbVEJUw82DCskU9qf9sKEXMnak"
 TFSA_GID = "527699504"
@@ -282,10 +284,11 @@ def upsert_daily_snapshot(
         None,
     )
     local_now = now.astimezone(NEW_YORK)
-    session_is_open = local_now.weekday() < 5 and (local_now.hour, local_now.minute) >= (9, 30) and (local_now.hour, local_now.minute) < (16, 0)
-    if existing_same_date and session_is_open and market_date != local_now.date().isoformat():
-        # The sheet is live-valued. During the next session it no longer represents
-        # the prior completed close, so preserve the verified overnight snapshot.
+    if existing_same_date and market_date != local_now.date().isoformat():
+        # The Sheet is live-valued. Once the calendar advances beyond this market
+        # date, even pre-market FX/formula movement is not evidence of a new close.
+        # Preserve the first verified snapshot instead of relabelling an intraday
+        # Sheet value as the prior completed close.
         return history
     merged_accounts = {
         key: value for key, value in dict((existing_same_date or {}).get("accounts") or {}).items()
@@ -521,6 +524,31 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def build_live_tfsa_snapshot(tfsa_meta: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Build the current TFSA/WS headline without mutating close history."""
+    tfsa_meta = tfsa_meta or {}
+    total_cad = tfsa_meta.get("total_cad")
+    captured_at = tfsa_meta.get("sheet_fetched_at_utc")
+    if not isinstance(total_cad, (int, float)) or not math.isfinite(total_cad) or total_cad <= 0:
+        return None
+    if not isinstance(captured_at, str) or not captured_at.strip():
+        return None
+    try:
+        captured = datetime.fromisoformat(captured_at.replace("Z", "+00:00"))
+        if captured.tzinfo is None:
+            captured = captured.replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
+    return {
+        "account": "tfsa_ws",
+        "scope_label": "TFSA/WS",
+        "cad": round(float(total_cad), 2),
+        "captured_at_utc": captured.astimezone(timezone.utc).isoformat(),
+        "captured_at_bkk": captured.astimezone(BANGKOK),
+        "source": "Google Sheet · TFSA/WS · TOTAL row",
+    }
+
+
 def _account_chart_svg(key: str, account: dict[str, Any]) -> str:
     """Render one account's value path in its natural currency."""
     colors = {"tfsa_ws": "#ffd21f", "rrsp": "#b59662", "kraken": "#42d8ff"}
@@ -579,8 +607,8 @@ def _interactive_chart_html(model: dict[str, Any]) -> str:
     ath_cad = float(model.get("ath_cad") or max(float(point["cad"]) for point in series))
     ath_source = escape(str(model.get("ath_source") or "Available recorded close history · reconstructed"), quote=True)
     return f'''<div class="tracker-hero" data-series="{payload}" data-ath-cad="{ath_cad:.2f}" data-ath-source="{ath_source}">
-      <div class="tracker-hero-metric"><div class="tracker-hero-value">C${model["current_total_cad"]:,.2f}</div><div class="tracker-hero-change" aria-live="polite"></div><div class="tracker-hero-note"></div></div>
-      <svg class="tracker-hero-svg" viewBox="0 0 920 330" preserveAspectRatio="none" role="img" aria-label="Interactive total net worth history">
+      <div class="tracker-hero-metric"><div class="tracker-history-label tracker-total-label">Historical combined close · {escape(model["scope_label"])} · {date.fromisoformat(model["market_date"]).strftime("%b %-d, %Y")}</div><div class="tracker-hero-value">C${model["current_total_cad"]:,.2f}</div><div class="tracker-hero-change" aria-live="polite"></div><div class="tracker-hero-note"></div></div>
+      <svg class="tracker-hero-svg" viewBox="0 0 920 330" preserveAspectRatio="none" role="img" aria-label="Interactive total net worth history · historical combined closes">
         <defs><linearGradient id="netWorthFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#56f2b1" stop-opacity=".24"/><stop offset="1" stop-color="#56f2b1" stop-opacity="0"/></linearGradient><linearGradient id="netWorthFillRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff465b" stop-opacity=".24"/><stop offset="1" stop-color="#ff465b" stop-opacity="0"/></linearGradient></defs>
         <path class="tracker-hero-area" fill="url(#netWorthFill)"/><path class="tracker-hero-line" fill="none" stroke="#56f2b1" stroke-width="3.5" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/><line class="tracker-crosshair" y1="16" y2="308"/><ellipse class="tracker-dot" vector-effect="non-scaling-stroke"/>
       </svg><div class="tracker-ranges" aria-label="Chart range">{tabs}</div>
@@ -597,7 +625,7 @@ def _interactive_chart_html(model: dict[str, Any]) -> str:
     }})();</script>'''
 
 
-def render_tracker_html(model: dict[str, Any]) -> str:
+def render_tracker_html(model: dict[str, Any], live_snapshot: dict[str, Any] | None = None) -> str:
     if not model.get("available"):
         return (
             '<section class="card net-worth-tracker" id="net-worth-tracker">'
@@ -608,6 +636,20 @@ def render_tracker_html(model: dict[str, Any]) -> str:
 
     market_date = date.fromisoformat(model["market_date"])
     date_label = market_date.strftime("%b %-d, %Y")
+    if live_snapshot:
+        captured_bkk = live_snapshot.get("captured_at_bkk")
+        if isinstance(captured_bkk, datetime):
+            live_asof = captured_bkk.strftime("%b %-d, %Y %H:%M BKK")
+        else:
+            live_asof = "timestamp unavailable"
+        live_header = f'{escape(str(live_snapshot.get("scope_label") or "TFSA/WS"))} · Live Sheet snapshot · {live_asof}'
+        live_metric = (
+            '<div class="tracker-total-label">TFSA/WS current CAD · Google Sheet TOTAL row</div>'
+            f'<div class="tracker-live-value tracker-total">C${float(live_snapshot["cad"]):,.2f}</div>'
+        )
+    else:
+        live_header = "TFSA/WS live Sheet snapshot unavailable"
+        live_metric = '<div class="tracker-missing" role="status">Current TFSA/WS Sheet snapshot unavailable. Historical closes remain unchanged.</div>'
     account_cards = []
     for key in ("tfsa_ws", "rrsp", "kraken"):
         account = model["accounts"].get(key)
@@ -615,10 +657,10 @@ def render_tracker_html(model: dict[str, Any]) -> str:
             continue
         if key == "kraken" and account.get("current_usd") is not None:
             value = f'US${account["current_usd"]:,.0f}'
-            secondary = f'C${account["current_cad"]:,.0f}'
+            secondary = f'C${account["current_cad"]:,.0f} · historical close'
         else:
             value = f'C${account["current_cad"]:,.0f}'
-            secondary = f'US${account["current_usd"]:,.0f}' if account.get("current_usd") is not None else "CAD account · Sheet Live row"
+            secondary = f'US${account["current_usd"]:,.0f} · historical close' if account.get("current_usd") is not None else "CAD account · historical close"
         account_cards.append(
             f'<div class="tracker-account tracker-account--{key}">'
             f'<div class="tracker-account-name"><span></span>{escape(account["label"])}</div>'
@@ -630,7 +672,8 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         '<section class="card net-worth-tracker" id="net-worth-tracker">'
         '<div class="tracker-head">'
         '<div class="card-title">⚡ Net Worth Tracker</div>'
-        f'<div class="tracker-asof"><span></span>{date_label} close</div></div>'
+        f'<div class="tracker-asof"><span></span>{live_header}</div></div>'
+        + live_metric
         + _interactive_chart_html(model)
         + '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
         + (
