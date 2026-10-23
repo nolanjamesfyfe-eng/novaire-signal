@@ -1,7 +1,7 @@
 {
   "ath_reference": {
     "cad": 167029.0,
-    "captured_at_utc": "2026-10-23T00:50:18.280606+00:00",
+    "captured_at_utc": "2026-10-23T06:39:53.979811+00:00",
     "source": "Google Sheet \u00b7 TFSA/WS \u00b7 ATH row"
   },
   "kraken_reference": {
@@ -1731,13 +1731,13 @@
     {
       "accounts": {
         "tfsa_ws": {
-          "cad": 75061.08,
-          "usd": 53618.75
+          "cad": 75064.5,
+          "usd": 53572.54
         }
       },
-      "captured_at_utc": "2026-10-23T00:50:18.280606+00:00",
+      "captured_at_utc": "2026-10-23T06:39:53.979811+00:00",
       "market_date": "2026-10-22",
-      "net_worth_cad": 75061.08,
+      "net_worth_cad": 75064.5,
       "source": "Google Sheet daily close"
     }
   ],
