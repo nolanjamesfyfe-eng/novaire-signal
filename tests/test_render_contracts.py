@@ -201,29 +201,25 @@ class RenderContractTests(unittest.TestCase):
             "handleUpdogVote",
         ):
             self.assertNotIn(forbidden, self.html)
-        self.assertIn("data.isSet", self.html)
-        self.assertIn(">🎯 Daily Keystone</div>", self.html)
-        self.assertIn(">⚔️ Daily Actions</div>", self.html)
-        self.assertIn("split(/[,;\\n]+/)", self.html)
-        self.assertIn("Run one 25-minute Pomodoro", self.html)
-        self.assertIn("Do your Anki review at the start of the day", self.html)
-        self.assertIn("Do you have the high-quality audio ready?", self.html)
-        self.assertIn("Start one load of laundry", self.html)
-        self.assertIn("clean\\s+(?:the\\s+)?(?:house|home|room|apartment)", self.html)
-        self.assertNotIn("if(/clean|house|laundry|vacuum|tidy|chores/", self.html)
-        self.assertIn("novaire-keystone-streak", self.html)
-        self.assertIn("calculateKeystoneStreak", self.html)
-        self.assertIn("every(item => feedback[item.id]?.status === 'completed')", self.html)
-        self.assertIn("novaire-keystone-learning", self.html)
-        self.assertIn("status:'ricies'", self.html)
-        self.assertIn("Avoid this suggestion next time", self.html)
-        self.assertIn('id="daily-actions-card" open', self.html)
-        self.assertIn("rememberAccordionPreferences", self.html)
-        self.assertNotIn("manageDailyActionsDisclosure", self.html)
-        self.assertNotIn("entry.boundingClientRect.bottom < 0", self.html)
-        self.assertIn("event.key === 'Enter'", self.html)
-        self.assertIn(">Ricies</button>", self.html)
-        self.assertIn("items.map((item,index)", self.html)
+
+    def test_keystone_and_daily_actions_are_source_disabled_without_deleting_browser_data(self):
+        source = (ROOT / "generate.py").read_text(encoding="utf-8")
+        for marker in (
+            "Daily Keystone",
+            "Daily Actions",
+            'id="keystone-card"',
+            'id="daily-actions-card"',
+            "renderKeystonePriority",
+            "renderActionSteps",
+            "novaire-keystone-priority",
+        ):
+            self.assertNotIn(marker, self.html)
+        self.assertIn("DISABLED_HOME_MARKERS", source)
+        self.assertIn("Disabled home UI detected", source)
+        self.assertNotIn("removeItem('novaire-keystone-priority'", self.html)
+        self.assertNotIn("localStorage.clear", self.html)
+        self.assertIn('id="google-daily-tasks-card"', self.html)
+        self.assertIn('id="daily-study"', self.html)
 
     def test_header_globe_links_to_public_countries_map(self):
         continent_path = "M3.08 8.67 4.2 6.43"
@@ -544,7 +540,7 @@ class RenderContractTests(unittest.TestCase):
         for card_id in (
             "world-tour-card", "quotes-card", "weather-card",
             "weekly-asymmetric-ideas", "thailand-news-card",
-            "latest-novaire-card", "daily-actions-card",
+            "latest-novaire-card",
         ):
             self.assertIn(f'id="{card_id}"', self.html)
 

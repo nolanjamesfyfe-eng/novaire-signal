@@ -163,7 +163,9 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     audit.record('"TON":"GRAMUSDT"' in html and '"TON":"TONUSDT"' not in html, f"{label} TON browser poll", "active GRAMUSDT mapping present")
     absent = [marker for marker in FORBIDDEN if marker in html]
     audit.record(not absent, f"{label} retired vote guard", f"forbidden markers={absent}")
-    audit.record("data.isSet" in html and "items.every" in html, f"{label} Keystone gates", "set gate and all-action completion gate present")
+    disabled = ["Daily Keystone", "Daily Actions", 'id="keystone-card"', 'id="daily-actions-card"']
+    hits = [marker for marker in disabled if marker in html]
+    audit.record(not hits, f"{label} disabled Keystone/action guard", f"forbidden markers={hits}")
 
 
 def main() -> int:

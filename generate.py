@@ -75,7 +75,7 @@ CRYPTO_BINANCE_PAIRS = {
 
 # PERMANENT PRODUCT RULE — explicitly rejected by Novaire (2026-08-15):
 # The five-lane daily product-voting module is retired. Never restore, rename,
-# redesign, or regenerate it. Daily Action Steps come only from the Keystone.
+# redesign, or regenerate it.
 # These split strings keep the retired UI text out of generated/searchable copy.
 RETIRED_HOME_MARKERS = (
     "Daily " + "Updog Vote",
@@ -85,6 +85,18 @@ RETIRED_HOME_MARKERS = (
     "UPDOG_" + "ACTION_STEPS",
     "handle" + "UpdogVote",
     "Daily product " + "senate",
+)
+
+# TEMPORARILY DISABLED PRODUCT RULE (2026-10-23): keep the browser's existing
+# localStorage untouched so historical Keystone/action data can be restored
+# later, but refuse to generate either UI until this explicit rule is changed.
+DISABLED_HOME_MARKERS = (
+    "Daily " + "Keystone",
+    "Daily " + "Actions",
+    'id="' + 'keystone-card"',
+    'id="' + 'daily-actions-card"',
+    "render" + "KeystonePriority",
+    "render" + "ActionSteps",
 )
 
 CITIES = [
@@ -4021,11 +4033,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     #quotes-card{{padding:0}}
     #quotes-card>.signal-accordion-body{{padding:0 16px 16px}}
     #quotes-card .meditation{{margin-top:0}}
-    .updog-intro{{font-size:.7rem;color:var(--dim);line-height:1.45;margin:-2px 0 10px}}
-    .updog-btn{{border:1px solid var(--gold-mid);border-radius:999px;padding:5px 9px;font-size:.5rem;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:.18s ease;white-space:nowrap;cursor:pointer;font-family:var(--sans)}}
-    .updog-approve{{background:rgba(181,150,98,.16);color:var(--gold)}}
-    .updog-retry{{color:var(--dim);border-color:rgba(255,255,255,.16);background:transparent}}
-    .updog-btn:hover{{transform:translateY(-1px);filter:brightness(1.15)}}
     .tweet-card{{border-color:rgba(181,150,98,.22);background:linear-gradient(145deg,rgba(181,150,98,.07),rgba(255,255,255,.025))}}
     .tweet-top{{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}}
     .tweet-chip{{font-size:.52rem;color:var(--gold);border:1px solid var(--gold-mid);border-radius:999px;padding:4px 8px;text-transform:uppercase;letter-spacing:.12em;background:rgba(181,150,98,.08)}}
@@ -4033,28 +4040,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .tweet-text{{font-family:var(--serif);font-size:1.02rem;line-height:1.48;color:var(--text);margin:0 0 12px}}
     .tweet-actions{{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}}
     .tweet-count{{font-size:.58rem;color:var(--mute)}}
-    .keystone-row{{display:flex;width:100%;box-sizing:border-box;align-items:stretch;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;background:rgba(0,0,0,.22)}}
-    .keystone-row:focus-within{{border-color:var(--gold-mid);box-shadow:0 0 0 2px rgba(181,150,98,.08)}}
-    .keystone-input{{flex:1 1 auto;width:auto;min-width:0;box-sizing:border-box;border:0;background:transparent;color:var(--text);border-radius:0;padding:10px 14px;font-size:.9rem;line-height:1.2;outline:none;min-height:42px}}
-    .keystone-input:focus{{box-shadow:none}}
-    .keystone-done{{flex:0 0 50px;align-self:stretch;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:0;border-left:1px solid rgba(181,150,98,.38);border-radius:0;padding:0;font-size:.42rem;letter-spacing:.08em;background:rgba(181,150,98,.12);min-height:0}}
-    .keystone-done:hover{{transform:none;filter:brightness(1.15)}}
-    .updog-action-card{{margin-top:-6px}}
-    .action-step-heading{{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}}
-    .action-step-heading .card-title{{margin-bottom:0}}
-    .keystone-streak{{font-size:.58rem;font-weight:650;color:var(--gold);border:1px solid var(--gold-mid);background:var(--gold-dim);border-radius:999px;padding:5px 9px;white-space:nowrap}}
-    .action-steps-grid{{display:flex;flex-direction:column;gap:7px}}
-    .action-step{{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.025);min-width:0}}
-    .action-step-num{{font-family:var(--serif);font-size:1rem;color:var(--gold);text-align:center;opacity:.9;line-height:1.2}}
-    .action-step-copy{{min-width:0}}
-    .action-step-actions{{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}}
-    .action-step.done{{opacity:.62;border-color:rgba(42,157,143,.5)}}
-    .action-step.ricies{{opacity:.52;border-color:rgba(180,70,55,.5)}}
-    .action-step-kicker{{font-size:.5rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}}
-    .action-step-title{{font-family:var(--serif);font-size:.9rem;color:var(--text);line-height:1.25}}
-    .action-step-ask{{font-size:.72rem;color:var(--muted);line-height:1.35;margin-top:2px}}
-    .action-step-empty{{font-size:.76rem;color:var(--muted);line-height:1.45;border:1px dashed rgba(255,255,255,.14);border-radius:12px;padding:12px;background:rgba(255,255,255,.018)}}
-    @media(max-width:760px){{.action-step{{grid-template-columns:22px 1fr}}}}
 
 
     .weather-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;box-sizing:border-box}}
@@ -4731,26 +4716,6 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- TOP 5 ECONOMIES -->
   {eco_html}
 
-
-  <!-- DAILY KEYSTONE -->
-  <div class="card" id="keystone-card">
-    <div class="card-title">🎯 Daily Keystone</div>
-    <div class="updog-intro">Enter today’s priorities, separated by commas. Signal will return one concrete move for each.</div>
-    <div class="keystone-row">
-      <input id="keystone-input" class="keystone-input" placeholder="Vibe code, Anki, TSR clips, clean house...">
-      <button id="keystone-done" class="updog-btn updog-approve keystone-done" type="button">Set</button>
-    </div>
-    <div id="keystone-status" style="margin-top:10px;color:var(--muted);font-size:.82rem">Keystone streak: 0 days.</div>
-    <div id="keystone-yesterday" style="margin-top:8px;color:var(--muted);font-size:.82rem"></div>
-  </div>
-
-
-  <!-- DAILY ACTION STEPS -->
-  <details class="card updog-action-card signal-accordion" id="daily-actions-card" open>
-    <summary><div class="card-title">⚔️ Daily Actions</div><span class="keystone-streak" id="novaire-keystone-streak">🔥 0 days</span></summary>
-    <div class="signal-accordion-body"><div class="action-steps-grid" id="action-steps-grid"></div></div>
-  </details>
-
 {latest_novaire_html}
 
 {google_tasks_html}
@@ -4930,164 +4895,6 @@ function getQuoteForToday(storageKey, quotes, edition) {{
 }})();
 
 
-(function renderKeystonePriority() {{
-  const input = document.getElementById('keystone-input');
-  const button = document.getElementById('keystone-done');
-  const status = document.getElementById('keystone-status');
-  const yesterdayBox = document.getElementById('keystone-yesterday');
-  if (!input || !button || !status) return;
-  const today = new Date().toDateString();
-  const key = 'novaire-keystone-priority';
-  const data = JSON.parse(localStorage.getItem(key) || '{{"text":"","streak":0,"lastDone":"","doneDates":[],"history":[]}}');
-  data.history = Array.isArray(data.history) ? data.history : [];
-  data.doneDates = Array.isArray(data.doneDates) ? data.doneDates : (data.lastDone ? [data.lastDone] : []);
-  data.isSet = data.date === today && Boolean(data.isSet || data.text);
-  input.value = data.date === today ? (data.text || '') : '';
-  function dayBefore(dateStr) {{
-    const d = new Date(dateStr);
-    d.setDate(d.getDate() - 1);
-    return d.toDateString();
-  }}
-  function calculateStreak(doneDates) {{
-    const done = new Set(doneDates || []);
-    let cursor = done.has(today) ? today : dayBefore(today);
-    let streak = 0;
-    while (done.has(cursor)) {{
-      streak += 1;
-      cursor = dayBefore(cursor);
-    }}
-    return streak;
-  }}
-  function updateStatus() {{
-    // Completion can be written by renderActionSteps; merge that fresh state
-    // before persisting so this closure never restores stale done dates.
-    try {{
-      const latest = JSON.parse(localStorage.getItem(key) || '{{}}');
-      data.doneDates = Array.isArray(latest.doneDates) ? latest.doneDates : data.doneDates;
-      data.lastDone = latest.lastDone || data.lastDone;
-    }} catch (e) {{}}
-    data.streak = calculateStreak(data.doneDates);
-    const completeToday = data.doneDates.includes(today);
-    status.textContent = completeToday
-      ? 'Keystone complete · streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + '.'
-      : (data.isSet ? 'Today’s Keystone is set · complete every action to bank the day.' : 'Keystone streak: ' + data.streak + ' day' + (data.streak === 1 ? '' : 's') + ' · set today’s Keystone.');
-    if (yesterdayBox) yesterdayBox.innerHTML = '';
-    localStorage.setItem(key, JSON.stringify(data));
-  }}
-  window.refreshKeystoneStatus = updateStatus;
-  input.addEventListener('input', function() {{
-    if (data.isSet && input.value.trim() !== String(data.text || '').trim()) {{
-      data.isSet = false;
-      updateStatus();
-      if (typeof renderActionSteps === 'function') renderActionSteps();
-    }}
-  }});
-  button.addEventListener('click', function() {{
-    const text = input.value.trim();
-    if (!text) {{
-      status.textContent = 'Write the Keystone first.';
-      return;
-    }}
-    data.text = text;
-    data.date = today;
-    data.isSet = true;
-    data.doneDates = data.doneDates.filter(d => d !== today);
-    const existingToday = data.history.find(item => item && item.date === today);
-    if (existingToday) existingToday.text = text;
-    else data.history.push({{date: today, text: text}});
-    data.history = data.history.slice(-30);
-    localStorage.removeItem('novaire-keystone-feedback-' + today);
-    localStorage.removeItem('novaire-daily-actions-seen-' + today);
-    localStorage.setItem('novaire-keystone-action-index-' + today, '0');
-    updateStatus();
-    if (typeof renderActionSteps === 'function') renderActionSteps();
-    const actionsCard = document.getElementById('daily-actions-card');
-    if (actionsCard) actionsCard.open = true;
-  }});
-  input.addEventListener('keydown', function(event) {{
-    if (event.key === 'Enter') {{ event.preventDefault(); button.click(); }}
-  }});
-  updateStatus();
-}})();
-function escapeActionHtml(value) {{
-  return String(value || '').replace(/[&<>"']/g, function(ch) {{
-    return ({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}})[ch];
-  }});
-}}
-
-function renderActionSteps() {{
-  const grid = document.getElementById('action-steps-grid');
-  const streakEl = document.getElementById('novaire-keystone-streak');
-  if (!grid) return;
-  const today = new Date().toDateString();
-  const dayBefore = value => {{ const d = new Date(value); d.setDate(d.getDate()-1); return d.toDateString(); }};
-  function calculateKeystoneStreak(doneDates) {{ const done=new Set(doneDates||[]); let cursor=done.has(today)?today:dayBefore(today),streak=0; while(done.has(cursor)){{streak++;cursor=dayBefore(cursor)}} return streak; }}
-  const data=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{"text":"","date":"","history":[]}}'); data.doneDates=Array.isArray(data.doneDates)?data.doneDates:[];
-  const streak=calculateKeystoneStreak(data.doneDates); if(streakEl)streakEl.textContent='🔥 '+streak+(streak===1?' day complete':' days complete');
-  const taskText=data.date===today&&data.isSet?String(data.text||'').trim():'';
-  if(!taskText){{grid.innerHTML='<div class="action-step-empty">Set today’s Keystone above. One useful move will appear for each priority.</div>';return}}
-  const tasks=taskText.split(/[,;\\n]+/).map(value => value.trim()).filter(Boolean).slice(0,8);
-  const feedbackKey='novaire-keystone-feedback-'+today;
-  const feedback=JSON.parse(localStorage.getItem(feedbackKey)||'{{}}');
-  const learning=JSON.parse(localStorage.getItem('novaire-keystone-learning')||'[]');
-  function suggestionsFor(task){{
-    const lower=task.toLowerCase(),label='“'+task+'”';
-    if(/vibe\s*cod|coding/.test(lower))return [
-      {{title:'Run one focused Pomodoro',action:'Run one 25-minute Pomodoro for '+label+': choose one small feature, build only that, then use five minutes to test and note the next move.'}},
-      {{title:'Define the smallest shippable change',action:'Write the one-sentence outcome for '+label+', then build the smallest version that can be tested today.'}},
-      {{title:'Clear the coding runway',action:'Open the project, write the exact first prompt or task, and remove the first blocker before doing anything else.'}}
-    ];
-    if(/anki|flashcard|spaced repetition/.test(lower))return [
-      {{title:'Protect the review window',action:'Do your Anki review at the start of the day, before messages and feeds. If the queue is large, protect ten minutes now.'}},
-      {{title:'Put Anki on the clock',action:'Set a ten-minute timer for '+label+' and clear due cards before adding anything new.'}},
-      {{title:'Make tomorrow easier',action:'Finish today’s due Anki cards, then add or repair only the three cards most worth remembering.'}}
-    ];
-    if(/tsr|clip|short|reel/.test(lower))return [
-      {{title:'Check the source before editing',action:'Do you have the high-quality audio ready? If yes, choose Descript for transcript-led editing or Opus Clip for fast candidate cuts, then produce the first clip.'}},
-      {{title:'Choose the strongest TSR hook',action:'Listen once for the sharpest 15–30 second claim, mark its timestamps, and cut that clip first.'}},
-      {{title:'Prepare the clean TSR master',action:'Find the highest-quality source file, normalize the audio, and export one caption-ready vertical draft.'}}
-    ];
-    if(/clean\s+(?:the\s+)?(?:house|home|room|apartment)|housework|laundry|vacuum|tidy|chores/.test(lower))return [
-      {{title:'Start the machine task',action:'Start one load of laundry now. While it runs, vacuum the single room that will create the biggest visible improvement.'}},
-      {{title:'Run a ten-minute reset',action:'Set a ten-minute timer, clear visible surfaces, and stop when the timer ends.'}},
-      {{title:'Make one room obviously better',action:'Choose the messiest visible room and complete one pass: rubbish, laundry, surfaces, floor.'}}
-    ];
-    if(/tweet|x\b|post|thread/.test(lower))return [{{title:'Draft the actual post',action:'Write one post-ready draft for '+label+' with a sharp hook and one clear point.'}}];
-    if(/podcast|record|episode|hook/.test(lower))return [{{title:'Record the rough version',action:'Write the thesis, two hooks and three bullets for '+label+', then record one rough take.'}}];
-    if(/relationship|date|romantic|family|friend|conversation/.test(lower))return [{{title:'Start the real conversation',action:'Advance '+label+' by sending one honest question or message to the person involved.'}}];
-    if(/retreat|deposit|villa|mastermind|cohort/.test(lower))return [{{title:'Move one buyer closer to yes',action:'Advance '+label+' with one direct nudge or proof asset that removes buyer uncertainty.'}}];
-    if(/energy|sleep|battery|health|workout|training|food/.test(lower))return [{{title:'Do the body move now',action:'Log the key metric for '+label+' and complete one concrete recovery or training action.'}}];
-    if(/signal|dashboard|novaire|widget|prompt|build|deploy|code|site|app/.test(lower))return [{{title:'Ship one verified improvement',action:'Make the smallest useful change for '+label+', test it, and capture the live proof.'}}];
-    if(/fund|portfolio|stock|uranium|ai|trade|market/.test(lower))return [{{title:'Turn the thesis into a rule',action:'Write one price, risk or evidence threshold for '+label+' that forces a clear decision.'}}];
-    if(/email|reply|message|call|contact|send/.test(lower))return [{{title:'Send the consequential message',action:'Draft and send the single communication that unlocks the next move for '+label+'.'}}];
-    if(/book|read|study|research|learn|review/.test(lower))return [{{title:'Extract one decision-grade insight',action:'Complete one focused 25-minute pass on '+label+' and record the useful conclusion plus source.'}}];
-    return [{{title:'Create the first proof',action:'Advance '+label+' in one 25-minute block and finish one visible artifact that did not exist before.'}},{{title:'Remove its bottleneck',action:'Name the single point of friction in '+label+' and spend 15 focused minutes removing it.'}}];
-  }}
-  const items=tasks.map((task,index)=>{{
-    const id=index+'-'+task.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    const rejected=new Set(learning.filter(entry=>entry.status==='ricies'&&String(entry.task||'').toLowerCase()===task.toLowerCase()).map(entry=>entry.action));
-    const options=suggestionsFor(task),move=options.find(option=>!rejected.has(option.action))||options[rejected.size%options.length];
-    return {{id,task,move}};
-  }});
-  window.recordKeystoneMove=function(itemIndex,status){{
-    const item=items[itemIndex]; if(!item)return;
-    const record={{status:status,task:item.task,title:item.move.title,action:item.move.action,date:today}};
-    const history=JSON.parse(localStorage.getItem('novaire-keystone-learning')||'[]');
-    history.push(record); localStorage.setItem('novaire-keystone-learning',JSON.stringify(history.slice(-200)));
-    if(status==='ricies'){{feedback[item.id]={{status:'ricies',suggestion:item.move.action}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));sessionStorage.setItem('novaire-keystone-message-'+item.id,'Avoid this suggestion next time · replacement generated');renderActionSteps();return}}
-    feedback[item.id]={{status:status,suggestion:item.move.action}};localStorage.setItem(feedbackKey,JSON.stringify(feedback));
-    const allCompleted=items.every(item => feedback[item.id]?.status === 'completed');
-    const keystone=JSON.parse(localStorage.getItem('novaire-keystone-priority')||'{{}}');keystone.doneDates=Array.isArray(keystone.doneDates)?keystone.doneDates:[];
-    if(allCompleted){{if(!keystone.doneDates.includes(today))keystone.doneDates.push(today);keystone.lastDone=today}}else{{keystone.doneDates=keystone.doneDates.filter(date=>date!==today)}}
-    localStorage.setItem('novaire-keystone-priority',JSON.stringify(keystone));renderActionSteps();if(window.refreshKeystoneStatus)window.refreshKeystoneStatus();
-  }};
-  grid.innerHTML=items.map((item,index)=>{{
-    const saved=feedback[item.id],state=saved?.suggestion===item.move.action?saved.status:'',cls=state==='completed'?' done':state==='incomplete'?' incomplete':'';
-    const message=sessionStorage.getItem('novaire-keystone-message-'+item.id)||'';sessionStorage.removeItem('novaire-keystone-message-'+item.id);
-    return `<div class="action-step${{cls}}"><div class="action-step-num">${{index+1}}</div><div class="action-step-copy"><div class="action-step-kicker">${{escapeActionHtml(item.task)}}</div><div class="action-step-title">${{escapeActionHtml(item.move.title)}}</div><div class="action-step-ask">${{escapeActionHtml(item.move.action)}}</div><div class="action-step-actions"><button class="updog-btn updog-approve" type="button" onclick="recordKeystoneMove(${{index}},'completed')" ${{state==='completed'?'disabled':''}}>Completed</button><button class="updog-btn updog-retry" type="button" onclick="recordKeystoneMove(${{index}},'incomplete')">Didn't complete</button><button class="updog-btn updog-retry" type="button" title="Bad suggestion — teach Signal not to repeat it" onclick="recordKeystoneMove(${{index}},'ricies')">Ricies</button>${{message?'<span class="updog-status" style="display:inline">'+escapeActionHtml(message)+'</span>':''}}</div></div></div>`;
-  }}).join('');
-}}
-renderActionSteps();
 
 (function rememberAccordionPreferences() {{
   document.querySelectorAll('details.signal-accordion[id]:not([data-edition])').forEach(function(card) {{
@@ -6445,6 +6252,13 @@ def main():
         raise RuntimeError(
             "Retired Novaire Signal product-voting UI detected; refusing to generate/deploy: "
             + repr(retired_hits)
+        )
+
+    disabled_hits = [marker for marker in DISABLED_HOME_MARKERS if marker in html]
+    if disabled_hits:
+        raise RuntimeError(
+            "Disabled home UI detected; refusing to generate/deploy: "
+            + repr(disabled_hits)
         )
 
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
