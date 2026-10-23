@@ -196,6 +196,55 @@ class PortfolioTrackerTests(unittest.TestCase):
         self.assertEqual(history["ath_reference"]["cad"], 152500.0)
         self.assertEqual(history["ath_reference"]["source"], "Google Sheet · TFSA/WS · ATH row")
 
+    def test_rrsp_counts_toward_net_worth_and_uses_sheet_live_row(self):
+        rows = [
+            ["NOTES", "", "Description", "Name", "% change", "Exchange", "52w L", "BUY Price $", "# of CON", "Imargin", "Value of fund", "% of Fund"],
+            ["", "", "", "", "", "", "", "", "", "", "$8,168", "Live", "", "", "1.40028"],
+            ["", "CAD", "HydroGraph", "CNSX:HG", "", "$2.98", "2.18", "$1.00", "1325", "$3,948.50"],
+        ]
+        rrsp = portfolio_tracker.parse_rrsp_rows(rows)
+        self.assertEqual(rrsp["total_cad"], 8168.0)
+        self.assertEqual(rrsp["total_source"], "Live row")
+        history = portfolio_tracker.upsert_daily_snapshot(
+            {"snapshots": []}, {"total_cad": 75062.65, "ath": 167029.0}, {}, rrsp_meta=rrsp,
+            now=datetime(2026, 10, 22, 22, 0, tzinfo=timezone.utc),
+        )
+        snap = history["snapshots"][-1]
+        self.assertEqual(set(snap["accounts"]), {"tfsa_ws", "rrsp"})
+        self.assertAlmostEqual(snap["net_worth_cad"], 83230.65, places=2)
+        self.assertNotIn("missing_accounts", snap)
+        model = portfolio_tracker.build_tracker_model(history)
+        self.assertAlmostEqual(model["current_total_cad"], 83230.65, places=2)
+        self.assertEqual(portfolio_tracker.sheet_net_worth_parity(model, {"tfsa_ws": 75062.65, "rrsp": 8168.0}), [])
+        html = portfolio_tracker.render_tracker_html(model)
+        self.assertIn("RRSP", html)
+        self.assertIn("C$8,168", html)
+
+    def test_parity_guard_flags_an_account_left_out_of_the_total(self):
+        model = portfolio_tracker.build_tracker_model({"snapshots": [
+            {"market_date": "2026-10-22", "accounts": {"tfsa_ws": {"cad": 75062.2}}},
+        ]})
+        problems = portfolio_tracker.sheet_net_worth_parity(model, {"tfsa_ws": 75062.65, "rrsp": 8168.0})
+        self.assertTrue(any("RRSP" in p for p in problems))
+        self.assertTrue(any("vs Sheet Live rows" in p for p in problems))
+        self.assertIn("tracker-missing", portfolio_tracker.render_tracker_html(model))
+
+    def test_missing_rrsp_fetch_is_flagged_not_silently_dropped(self):
+        history = portfolio_tracker.upsert_daily_snapshot(
+            {"snapshots": []}, {"total_cad": 75062.65}, {}, rrsp_meta={},
+            now=datetime(2026, 10, 22, 22, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(history["snapshots"][-1]["missing_accounts"], ["rrsp"])
+
+    def test_tfsa_only_sheet_ath_is_widened_to_cover_rrsp(self):
+        history = {"ath_reference": {"cad": 167029.0, "source": "Google Sheet · TFSA/WS · ATH row"}, "snapshots": [
+            {"market_date": "2026-08-18", "accounts": {"tfsa_ws": {"cad": 120000.0}, "rrsp": {"cad": 13720.0}}},
+            {"market_date": "2026-10-22", "accounts": {"tfsa_ws": {"cad": 75062.2}, "rrsp": {"cad": 8168.0}}},
+        ]}
+        model = portfolio_tracker.build_tracker_model(history)
+        self.assertAlmostEqual(model["ath_cad"], 167029.0 + 13720.0)
+        self.assertIn("RRSP peak close", model["ath_source"])
+
 
 if __name__ == "__main__":
     unittest.main()

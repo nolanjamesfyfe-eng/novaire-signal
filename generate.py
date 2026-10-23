@@ -34,6 +34,8 @@ from portfolio_tracker import (
     render_tracker_html,
     save_history as save_portfolio_history,
     upsert_daily_snapshot,
+    sheet_net_worth_parity,
+    ACTIVE_NET_WORTH_ACCOUNTS,
 )
 from daily_brief import write_daily
 from signal_brand import signal_brand_css, signal_brand_markup, sync_static_brand_page
@@ -5360,6 +5362,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-account-name{{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase}}
     .tracker-account-name span{{width:7px;height:7px;border-radius:50%;background:#ffd21f;box-shadow:0 0 10px rgba(255,210,31,.7)}}
     .tracker-account--kraken .tracker-account-name span{{background:#42d8ff;box-shadow:0 0 10px rgba(66,216,255,.75)}}
+    .tracker-account--rrsp .tracker-account-name span{{background:#b59662;box-shadow:0 0 10px rgba(181,150,98,.7)}}
+    .tracker-missing{{position:relative;margin:0 0 6px;color:#ff9aa5;font-size:.55rem;letter-spacing:.04em}}
     .tracker-account-value{{margin-top:3px;font-family:var(--serif);font-size:1.28rem;font-variant-numeric:tabular-nums}}
     .tracker-account-secondary{{color:var(--mute);font-size:.54rem}}
     .tracker-charts{{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0 11px}}
@@ -5721,25 +5725,34 @@ def main():
         portfolio_data = {}
         gs_meta = {}
 
-    print("  ⚡ Updating net-worth close history (active accounts: TFSA/WS)...")
+    print("  🏦 Fetching RRSP total from its Google Sheet tab...")
+    rrsp_meta = fetch_rrsp_totals(usdcad=fx["usdcad"])
+    print("  ⚡ Updating net-worth close history (active accounts: TFSA/WS + RRSP)...")
     kraken_meta = fetch_kraken_totals()
     portfolio_history = load_portfolio_history(PORTFOLIO_HISTORY_PATH)
     if gs_meta.get("total_cad"):
-        portfolio_history = upsert_daily_snapshot(portfolio_history, gs_meta, kraken_meta)
+        portfolio_history = upsert_daily_snapshot(portfolio_history, gs_meta, kraken_meta, rrsp_meta=rrsp_meta)
         save_portfolio_history(portfolio_history, PORTFOLIO_HISTORY_PATH)
         print(
             f"    ✅ TFSA C${gs_meta['total_cad']:,.2f} · "
+            f"RRSP C${float(rrsp_meta.get('total_cad') or 0):,.2f} ({rrsp_meta.get('total_source', 'unavailable')}) · "
             "Kraken inactive (historical records preserved) · "
             f"{len(portfolio_history.get('snapshots', []))} daily closes"
         )
     else:
         print("    ⚠️  Incomplete Sheet totals; preserving the last verified close")
     tracker_model = build_tracker_model(portfolio_history)
+    parity_problems = sheet_net_worth_parity(tracker_model, {
+        "tfsa_ws": gs_meta.get("total_cad"),
+        "rrsp": rrsp_meta.get("total_cad"),
+        "kraken": kraken_meta.get("total_cad") if float(kraken_meta.get("total_usd") or 0) > 0 and "kraken" in ACTIVE_NET_WORTH_ACCOUNTS else None,
+    }) if gs_meta.get("total_cad") else []
+    for problem in parity_problems:
+        print(f"    ⚠️  Net-worth parity: {problem}")
     net_worth_tracker_html = render_tracker_html(tracker_model)
     crypto_weighting_html = build_kraken_weighting_component(kraken_meta)
 
-    print("  🏦 Fetching RRSP holdings from its Google Sheet tab...")
-    rrsp_meta = fetch_rrsp_totals(usdcad=fx["usdcad"])
+    print("  🏦 Pricing RRSP holdings from its Google Sheet tab...")
     rrsp_quotes = {}
     if rrsp_meta.get("positions"):
         yahoo_to_symbol = {}

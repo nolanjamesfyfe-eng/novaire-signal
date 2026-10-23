@@ -25,9 +25,13 @@ KRAKEN_GID = "338118850"
 RRSP_GID = "164741412"
 HISTORY_PATH = Path(__file__).with_name("portfolio_history.json")
 PERIODS = (("1D", 1), ("1W", 7), ("1M", 30), ("3M", 90), ("6M", 180), ("YTD", "ytd"), ("1Y", 365), ("ALL", "all"))
-# Kraken is retained in historical snapshots, but its closed account must not
-# contribute to current net-worth/ATH calculations until it is reactivated.
-ACTIVE_NET_WORTH_ACCOUNTS = ("tfsa_ws",)
+# Net worth = every live personal account tab in the workbook. Kraken is
+# retained in historical snapshots, but its closed account must not contribute
+# to current net-worth/ATH calculations until it is reactivated.
+# Adding a new account tab to the Sheet REQUIRES adding it here; the
+# `sheet_net_worth_parity` guard flags any drift between the Sheet and tracker.
+ACTIVE_NET_WORTH_ACCOUNTS = ("tfsa_ws", "rrsp")
+ACCOUNT_LABELS = {"tfsa_ws": "TFSA/WS", "rrsp": "RRSP", "kraken": "Kraken"}
 
 
 def parse_money(value: Any) -> float | None:
@@ -119,7 +123,16 @@ def parse_rrsp_rows(rows: list[list[str]], usdcad: float = 1.365) -> dict[str, A
             "value_native": value_native,
             "value_cad": value_cad,
         })
-    total_cad = sum(position["value_cad"] for position in positions)
+    positions_total_cad = sum(position["value_cad"] for position in positions)
+    live_total_cad = None
+    for raw in rows:
+        row = list(raw) + [""] * max(0, 15 - len(raw))
+        if row[11].strip().casefold() == "live":
+            live_total_cad = parse_money(row[10])
+            break
+    # The Sheet's `Live` row is the authoritative account value (it uses the
+    # Sheet's own FX); the position sum is only a fallback.
+    total_cad = live_total_cad if live_total_cad and live_total_cad > 0 else positions_total_cad
     for position in positions:
         position["weight_pct"] = position["value_cad"] / total_cad * 100 if total_cad else 0.0
     positions.sort(key=lambda position: position["value_cad"], reverse=True)
@@ -130,6 +143,8 @@ def parse_rrsp_rows(rows: list[list[str]], usdcad: float = 1.365) -> dict[str, A
         "sheet_name": "RRSP",
         "source": "Google Sheet · RRSP",
         "total_cad": total_cad,
+        "total_source": "Live row" if live_total_cad and live_total_cad > 0 else "position sum",
+        "positions_total_cad": positions_total_cad,
         "positions": positions,
     }
 
@@ -228,11 +243,13 @@ def upsert_daily_snapshot(
     tfsa_meta: dict[str, Any] | None,
     kraken_meta: dict[str, Any] | None,
     now: datetime | None = None,
+    rrsp_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Upsert one close per market date; later refreshes replace intraday marks."""
     accounts: dict[str, dict[str, float]] = {}
     tfsa_meta = tfsa_meta or {}
     kraken_meta = kraken_meta or {}
+    rrsp_meta = rrsp_meta or {}
 
     tfsa_cad = tfsa_meta.get("total_cad")
     if isinstance(tfsa_cad, (int, float)) and tfsa_cad > 0:
@@ -240,6 +257,10 @@ def upsert_daily_snapshot(
         if isinstance(tfsa_meta.get("total_usd"), (int, float)):
             account["usd"] = round(float(tfsa_meta["total_usd"]), 2)
         accounts["tfsa_ws"] = account
+
+    rrsp_cad = rrsp_meta.get("total_cad")
+    if "rrsp" in ACTIVE_NET_WORTH_ACCOUNTS and isinstance(rrsp_cad, (int, float)) and rrsp_cad > 0:
+        accounts["rrsp"] = {"cad": round(float(rrsp_cad), 2)}
 
     kraken_cad = kraken_meta.get("total_cad")
     if "kraken" in ACTIVE_NET_WORTH_ACCOUNTS and isinstance(kraken_cad, (int, float)) and kraken_cad >= 0:
@@ -278,6 +299,10 @@ def upsert_daily_snapshot(
         "source": "Google Sheet daily close",
     }
     snapshot["net_worth_cad"] = round(sum(item["cad"] for item in merged_accounts.values()), 2)
+    missing = [key for key in ACTIVE_NET_WORTH_ACCOUNTS if key not in merged_accounts]
+    if missing:
+        # Never let a failed tab fetch masquerade as a real drop in net worth.
+        snapshot["missing_accounts"] = missing
 
     snapshots = [
         item for item in history.get("snapshots", [])
@@ -292,6 +317,7 @@ def upsert_daily_snapshot(
         history["ath_reference"] = {
             "cad": round(float(sheet_ath), 2),
             "source": "Google Sheet · TFSA/WS · ATH row",
+            "scope": "tfsa_ws",
             "captured_at_utc": now.astimezone(timezone.utc).isoformat(),
         }
     if isinstance(kraken_meta.get("inception_usd"), (int, float)):
@@ -370,6 +396,7 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     current = snapshots[-1]
     account_defs = {
         "tfsa_ws": {"label": "Wealthsimple TFSA", "currency": "CAD"},
+        "rrsp": {"label": "RRSP", "currency": "CAD"},
         "kraken": {"label": "Kraken", "currency": "USD"},
     }
     accounts = {}
@@ -444,6 +471,7 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
     } if active_keys else {label: None for label, _ in PERIODS}
 
     current_total = sum(account["current_cad"] for account in accounts.values())
+    missing_accounts = [key for key in ACTIVE_NET_WORTH_ACCOUNTS if key not in active_keys]
     total_series = []
     for item in snapshots:
         values = [value for key in active_keys if (value := _account_value(item, key)) is not None]
@@ -455,12 +483,23 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
             })
     recorded_ath = history.get("ath_reference") if isinstance(history.get("ath_reference"), dict) else {}
     recorded_ath_cad = recorded_ath.get("cad")
+    recorded_peak = max((float(point["cad"]) for point in total_series), default=current_total)
     if isinstance(recorded_ath_cad, (int, float)) and math.isfinite(recorded_ath_cad) and recorded_ath_cad > 0:
-        ath_cad = float(recorded_ath_cad)
+        # The Sheet ATH row covers TFSA/WS only. Compare like with like: add
+        # each other active account's highest recorded close.
+        ath_scope = recorded_ath.get("scope", "tfsa_ws")
+        extra_keys = [key for key in active_keys if key != ath_scope]
+        extra = sum(
+            max((_account_value(item, key) or 0.0 for item in snapshots), default=0.0)
+            for key in extra_keys
+        )
+        ath_cad = max(float(recorded_ath_cad) + extra, recorded_peak)
         ath_source = recorded_ath.get("source") or "Google Sheet · recorded ATH"
+        if extra_keys:
+            ath_source += " + " + " + ".join(f"{ACCOUNT_LABELS.get(key, key)} peak close" for key in extra_keys) + " (approx.)"
         ath_is_reconstructed = False
     else:
-        ath_cad = max((float(point["cad"]) for point in total_series), default=current_total)
+        ath_cad = recorded_peak
         ath_source = "Available recorded close history · reconstructed"
         ath_is_reconstructed = True
     return {
@@ -468,6 +507,8 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
         "market_date": current["market_date"],
         "captured_at_utc": current.get("captured_at_utc"),
         "current_total_cad": current_total,
+        "scope_label": " + ".join(ACCOUNT_LABELS.get(key, key) for key in active_keys),
+        "missing_accounts": missing_accounts,
         "accounts": accounts,
         "daily_accounts": daily_accounts,
         "combined_periods": combined_periods,
@@ -482,7 +523,7 @@ def build_tracker_model(history: dict[str, Any]) -> dict[str, Any]:
 
 def _account_chart_svg(key: str, account: dict[str, Any]) -> str:
     """Render one account's value path in its natural currency."""
-    colors = {"tfsa_ws": "#ffd21f", "kraken": "#42d8ff"}
+    colors = {"tfsa_ws": "#ffd21f", "rrsp": "#b59662", "kraken": "#42d8ff"}
     value_key = "usd" if key == "kraken" else "cad"
     currency = "US$" if key == "kraken" else "C$"
     series = [point for point in account.get("series", []) if isinstance(point.get(value_key), (int, float))]
@@ -568,7 +609,7 @@ def render_tracker_html(model: dict[str, Any]) -> str:
     market_date = date.fromisoformat(model["market_date"])
     date_label = market_date.strftime("%b %-d, %Y")
     account_cards = []
-    for key in ("tfsa_ws", "kraken"):
+    for key in ("tfsa_ws", "rrsp", "kraken"):
         account = model["accounts"].get(key)
         if not account:
             continue
@@ -577,7 +618,7 @@ def render_tracker_html(model: dict[str, Any]) -> str:
             secondary = f'C${account["current_cad"]:,.0f}'
         else:
             value = f'C${account["current_cad"]:,.0f}'
-            secondary = f'US${account["current_usd"]:,.0f}' if account.get("current_usd") is not None else "CAD account"
+            secondary = f'US${account["current_usd"]:,.0f}' if account.get("current_usd") is not None else "CAD account · Sheet Live row"
         account_cards.append(
             f'<div class="tracker-account tracker-account--{key}">'
             f'<div class="tracker-account-name"><span></span>{escape(account["label"])}</div>'
@@ -592,5 +633,30 @@ def render_tracker_html(model: dict[str, Any]) -> str:
         f'<div class="tracker-asof"><span></span>{date_label} close</div></div>'
         + _interactive_chart_html(model)
         + '<div class="tracker-accounts">' + "".join(account_cards) + '</div>'
-        '</section>'
+        + (
+            '<div class="tracker-missing" role="status">Excludes '
+            + escape(", ".join(ACCOUNT_LABELS.get(key, key) for key in model.get("missing_accounts") or []))
+            + ' · Sheet tab unavailable at last close; total is incomplete.</div>'
+            if model.get("missing_accounts") else ''
+        )
+        + '</section>'
     )
+
+
+def sheet_net_worth_parity(model: dict[str, Any], sheet_totals: dict[str, float | None], tolerance_cad: float = 5.0) -> list[str]:
+    """Return problems when the tracker total diverges from the Sheet's Live rows.
+
+    `sheet_totals` maps account key -> Live-row CAD value read this run.
+    """
+    problems = []
+    for key, value in sheet_totals.items():
+        if key not in ACTIVE_NET_WORTH_ACCOUNTS and value:
+            problems.append(f"{ACCOUNT_LABELS.get(key, key)} holds C${value:,.2f} in the Sheet but is not an active tracker account")
+    for key in ACTIVE_NET_WORTH_ACCOUNTS:
+        if key not in (model.get("accounts") or {}):
+            problems.append(f"{ACCOUNT_LABELS.get(key, key)} missing from tracker total")
+    expected = sum(value for key, value in sheet_totals.items() if key in ACTIVE_NET_WORTH_ACCOUNTS and value)
+    actual = float(model.get("current_total_cad") or 0)
+    if expected and abs(expected - actual) > tolerance_cad:
+        problems.append(f"tracker C${actual:,.2f} vs Sheet Live rows C${expected:,.2f}")
+    return problems

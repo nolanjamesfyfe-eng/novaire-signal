@@ -1130,6 +1130,10 @@
           "cad": 1072.82,
           "usd": 776.0
         },
+        "rrsp": {
+          "cad": 12851.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 121751.73,
           "usd": 88066.67
@@ -1137,7 +1141,7 @@
       },
       "captured_at_utc": "2026-08-19T18:00:25.289734+00:00",
       "market_date": "2026-08-18",
-      "net_worth_cad": 122824.55,
+      "net_worth_cad": 135675.55,
       "source": "Google Sheet daily close"
     },
     {
@@ -1146,6 +1150,10 @@
           "cad": 1723.47,
           "usd": 1250.0
         },
+        "rrsp": {
+          "cad": 12742.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 120400.44,
           "usd": 87323.9
@@ -1153,7 +1161,7 @@
       },
       "captured_at_utc": "2026-08-20T18:00:24.612462+00:00",
       "market_date": "2026-08-19",
-      "net_worth_cad": 122123.91,
+      "net_worth_cad": 134865.91,
       "source": "Google Sheet daily close"
     },
     {
@@ -1162,6 +1170,10 @@
           "cad": 2596.88,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13024.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 123116.2,
           "usd": 89461.3
@@ -1169,7 +1181,7 @@
       },
       "captured_at_utc": "2026-08-21T18:00:34.494555+00:00",
       "market_date": "2026-08-20",
-      "net_worth_cad": 125713.08,
+      "net_worth_cad": 138737.08,
       "source": "Google Sheet daily close"
     },
     {
@@ -1178,6 +1190,10 @@
           "cad": 2614.86,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13281.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 124313.26,
           "usd": 89710.04
@@ -1185,7 +1201,7 @@
       },
       "captured_at_utc": "2026-08-24T18:00:32.302363+00:00",
       "market_date": "2026-08-21",
-      "net_worth_cad": 126928.12,
+      "net_worth_cad": 140209.12,
       "source": "Google Sheet daily close"
     },
     {
@@ -1194,6 +1210,10 @@
           "cad": 2610.53,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13720.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 127435.25,
           "usd": 92115.43
@@ -1201,7 +1221,7 @@
       },
       "captured_at_utc": "2026-08-25T18:00:46.565009+00:00",
       "market_date": "2026-08-24",
-      "net_worth_cad": 130045.78,
+      "net_worth_cad": 143765.78,
       "source": "Google Sheet daily close"
     },
     {
@@ -1210,6 +1230,10 @@
           "cad": 2618.44,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13574.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 126694.02,
           "usd": 91303.11
@@ -1217,7 +1241,7 @@
       },
       "captured_at_utc": "2026-08-26T16:15:22.026786+00:00",
       "market_date": "2026-08-25",
-      "net_worth_cad": 129312.46,
+      "net_worth_cad": 142886.46,
       "source": "Google Sheet daily close"
     },
     {
@@ -1226,6 +1250,10 @@
           "cad": 2615.32,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13565.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 124929.22,
           "usd": 90138.8
@@ -1233,7 +1261,7 @@
       },
       "captured_at_utc": "2026-08-27T16:15:30.234477+00:00",
       "market_date": "2026-08-26",
-      "net_worth_cad": 127544.54,
+      "net_worth_cad": 141109.54,
       "source": "Google Sheet daily close"
     },
     {
@@ -1241,6 +1269,10 @@
         "kraken": {
           "cad": 2623.68,
           "usd": 1887.0
+        },
+        "rrsp": {
+          "cad": 13361.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
         },
         "tfsa_ws": {
           "cad": 124357.25,
@@ -1249,7 +1281,7 @@
       },
       "captured_at_utc": "2026-08-28T16:15:20.655797+00:00",
       "market_date": "2026-08-27",
-      "net_worth_cad": 126980.93,
+      "net_worth_cad": 140341.93,
       "source": "Google Sheet daily close"
     },
     {
@@ -1258,6 +1290,10 @@
           "cad": 2621.28,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13277.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 122802.66,
           "usd": 88402.89
@@ -1265,7 +1301,7 @@
       },
       "captured_at_utc": "2026-08-31T02:00:26.448176+00:00",
       "market_date": "2026-08-28",
-      "net_worth_cad": 125423.94,
+      "net_worth_cad": 138700.94,
       "source": "Google Sheet daily close"
     },
     {
@@ -1274,6 +1310,10 @@
           "cad": 2623.68,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12793.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 119073.86,
           "usd": 85640.31
@@ -1281,7 +1321,7 @@
       },
       "captured_at_utc": "2026-09-01T16:15:18.329298+00:00",
       "market_date": "2026-08-31",
-      "net_worth_cad": 121697.54,
+      "net_worth_cad": 134490.54,
       "source": "Google Sheet daily close"
     },
     {
@@ -1290,6 +1330,10 @@
           "cad": 2622.65,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12554.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 116638.3,
           "usd": 83921.5
@@ -1297,7 +1341,7 @@
       },
       "captured_at_utc": "2026-09-02T00:31:20.581941+00:00",
       "market_date": "2026-09-01",
-      "net_worth_cad": 119260.95,
+      "net_worth_cad": 131814.95,
       "source": "Google Sheet daily close"
     },
     {
@@ -1306,6 +1350,10 @@
           "cad": 2611.17,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12805.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 119804.53,
           "usd": 86578.54
@@ -1313,7 +1361,7 @@
       },
       "captured_at_utc": "2026-09-03T02:01:03.256207+00:00",
       "market_date": "2026-09-02",
-      "net_worth_cad": 122415.7,
+      "net_worth_cad": 135220.7,
       "source": "Google Sheet daily close"
     },
     {
@@ -1322,6 +1370,10 @@
           "cad": 2602.16,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13072.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 122883.2,
           "usd": 89110.69
@@ -1329,7 +1381,7 @@
       },
       "captured_at_utc": "2026-09-04T00:00:30.196862+00:00",
       "market_date": "2026-09-03",
-      "net_worth_cad": 125485.36,
+      "net_worth_cad": 138557.36,
       "source": "Google Sheet daily close"
     },
     {
@@ -1337,6 +1389,10 @@
         "kraken": {
           "cad": 2610.29,
           "usd": 1887.0
+        },
+        "rrsp": {
+          "cad": 13012.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
         },
         "tfsa_ws": {
           "cad": 119217.59,
@@ -1345,7 +1401,7 @@
       },
       "captured_at_utc": "2026-09-07T02:01:52.348363+00:00",
       "market_date": "2026-09-04",
-      "net_worth_cad": 121827.88,
+      "net_worth_cad": 134839.88,
       "source": "Google Sheet daily close"
     },
     {
@@ -1354,6 +1410,10 @@
           "cad": 2610.29,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 13008.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 119177.21,
           "usd": 86154.28
@@ -1361,7 +1421,7 @@
       },
       "captured_at_utc": "2026-09-08T00:00:28.213843+00:00",
       "market_date": "2026-09-07",
-      "net_worth_cad": 121787.5,
+      "net_worth_cad": 134795.5,
       "source": "Google Sheet daily close"
     },
     {
@@ -1370,6 +1430,10 @@
           "cad": 2599.9,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12818.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 116556.57,
           "usd": 84596.45
@@ -1377,7 +1441,7 @@
       },
       "captured_at_utc": "2026-09-09T00:00:26.522404+00:00",
       "market_date": "2026-09-08",
-      "net_worth_cad": 119156.47,
+      "net_worth_cad": 131974.47,
       "source": "Google Sheet daily close"
     },
     {
@@ -1386,6 +1450,10 @@
           "cad": 2605.15,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12876.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 114918.95,
           "usd": 83239.81
@@ -1393,7 +1461,7 @@
       },
       "captured_at_utc": "2026-09-10T02:04:37.950484+00:00",
       "market_date": "2026-09-09",
-      "net_worth_cad": 117524.1,
+      "net_worth_cad": 130400.1,
       "source": "Google Sheet daily close"
     },
     {
@@ -1402,6 +1470,10 @@
           "cad": 2610.81,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12217.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 110765.47,
           "usd": 80057.44
@@ -1409,7 +1481,7 @@
       },
       "captured_at_utc": "2026-09-11T00:00:24.425594+00:00",
       "market_date": "2026-09-10",
-      "net_worth_cad": 113376.28,
+      "net_worth_cad": 125593.28,
       "source": "Google Sheet daily close"
     },
     {
@@ -1418,6 +1490,10 @@
           "cad": 2617.03,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 11955.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 108838.91,
           "usd": 78477.75
@@ -1425,7 +1501,7 @@
       },
       "captured_at_utc": "2026-09-14T02:01:19.708788+00:00",
       "market_date": "2026-09-11",
-      "net_worth_cad": 111455.94,
+      "net_worth_cad": 123410.94,
       "source": "Google Sheet daily close"
     },
     {
@@ -1434,6 +1510,10 @@
           "cad": 2622.98,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 11606.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 107010.49,
           "usd": 76984.58
@@ -1441,7 +1521,7 @@
       },
       "captured_at_utc": "2026-09-15T00:00:20.826545+00:00",
       "market_date": "2026-09-14",
-      "net_worth_cad": 109633.47,
+      "net_worth_cad": 121239.47,
       "source": "Google Sheet daily close"
     },
     {
@@ -1450,6 +1530,10 @@
           "cad": 2627.17,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 11576.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 106191.89,
           "usd": 76273.85
@@ -1457,7 +1541,7 @@
       },
       "captured_at_utc": "2026-09-15T23:20:46.094245+00:00",
       "market_date": "2026-09-15",
-      "net_worth_cad": 108819.06,
+      "net_worth_cad": 120395.06,
       "source": "Google Sheet daily close"
     },
     {
@@ -1466,6 +1550,10 @@
           "cad": 2640.23,
           "usd": 1887.0
         },
+        "rrsp": {
+          "cad": 12523.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 115925.61,
           "usd": 82853.13
@@ -1473,11 +1561,15 @@
       },
       "captured_at_utc": "2026-09-17T19:02:32.677538+00:00",
       "market_date": "2026-09-16",
-      "net_worth_cad": 118565.84,
+      "net_worth_cad": 131088.84,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 12279.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 116337.56,
           "usd": 83125.57
@@ -1485,11 +1577,15 @@
       },
       "captured_at_utc": "2026-09-18T18:32:31.961027+00:00",
       "market_date": "2026-09-17",
-      "net_worth_cad": 116337.56,
+      "net_worth_cad": 128616.56,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 12479.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 115758.13,
           "usd": 82695.31
@@ -1497,11 +1593,15 @@
       },
       "captured_at_utc": "2026-09-21T02:01:51.657791+00:00",
       "market_date": "2026-09-18",
-      "net_worth_cad": 115758.13,
+      "net_worth_cad": 128237.13,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 12254.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 112957.05,
           "usd": 80506.78
@@ -1509,11 +1609,15 @@
       },
       "captured_at_utc": "2026-09-22T00:50:17.639107+00:00",
       "market_date": "2026-09-21",
-      "net_worth_cad": 112957.05,
+      "net_worth_cad": 125211.05,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 12357.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 114903.16,
           "usd": 81693.81
@@ -1521,11 +1625,15 @@
       },
       "captured_at_utc": "2026-09-23T00:50:21.080883+00:00",
       "market_date": "2026-09-22",
-      "net_worth_cad": 114903.16,
+      "net_worth_cad": 127260.16,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 11621.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 109650.59,
           "usd": 77711.26
@@ -1533,11 +1641,15 @@
       },
       "captured_at_utc": "2026-09-24T02:02:55.460393+00:00",
       "market_date": "2026-09-23",
-      "net_worth_cad": 109650.59,
+      "net_worth_cad": 121271.59,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 11424.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 108645.91,
           "usd": 76795.13
@@ -1545,11 +1657,15 @@
       },
       "captured_at_utc": "2026-09-25T00:50:18.745451+00:00",
       "market_date": "2026-09-24",
-      "net_worth_cad": 108645.91,
+      "net_worth_cad": 120069.91,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 11183.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 108349.92,
           "usd": 76559.13
@@ -1557,11 +1673,15 @@
       },
       "captured_at_utc": "2026-09-28T02:04:35.665453+00:00",
       "market_date": "2026-09-25",
-      "net_worth_cad": 108349.92,
+      "net_worth_cad": 119532.92,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 10853.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 105337.02,
           "usd": 74266.25
@@ -1569,11 +1689,15 @@
       },
       "captured_at_utc": "2026-09-29T00:50:18.578182+00:00",
       "market_date": "2026-09-28",
-      "net_worth_cad": 105337.02,
+      "net_worth_cad": 116190.02,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 10651.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 103648.89,
           "usd": 73032.29
@@ -1581,11 +1705,15 @@
       },
       "captured_at_utc": "2026-09-30T00:50:18.331262+00:00",
       "market_date": "2026-09-29",
-      "net_worth_cad": 103648.89,
+      "net_worth_cad": 114299.89,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 10116.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 95647.57,
           "usd": 67160.22
@@ -1593,11 +1721,15 @@
       },
       "captured_at_utc": "2026-10-01T02:03:01.040072+00:00",
       "market_date": "2026-09-30",
-      "net_worth_cad": 95647.57,
+      "net_worth_cad": 105763.57,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 9975.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 92110.4,
           "usd": 64745.65
@@ -1605,11 +1737,15 @@
       },
       "captured_at_utc": "2026-10-02T00:50:18.658336+00:00",
       "market_date": "2026-10-01",
-      "net_worth_cad": 92110.4,
+      "net_worth_cad": 102085.4,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 10086.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 94937.14,
           "usd": 66553.67
@@ -1617,11 +1753,15 @@
       },
       "captured_at_utc": "2026-10-05T02:02:43.955764+00:00",
       "market_date": "2026-10-02",
-      "net_worth_cad": 94937.14,
+      "net_worth_cad": 105023.14,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 9518.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 81371.4,
           "usd": 57086.1
@@ -1629,11 +1769,15 @@
       },
       "captured_at_utc": "2026-10-12T02:03:36.017109+00:00",
       "market_date": "2026-10-09",
-      "net_worth_cad": 81371.4,
+      "net_worth_cad": 90889.4,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 9502.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 81322.43,
           "usd": 56944.41
@@ -1641,11 +1785,15 @@
       },
       "captured_at_utc": "2026-10-13T00:50:19.747212+00:00",
       "market_date": "2026-10-12",
-      "net_worth_cad": 81322.43,
+      "net_worth_cad": 90824.43,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 9326.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 83289.8,
           "usd": 58621.14
@@ -1653,11 +1801,15 @@
       },
       "captured_at_utc": "2026-10-14T00:50:18.175111+00:00",
       "market_date": "2026-10-13",
-      "net_worth_cad": 83289.8,
+      "net_worth_cad": 92615.8,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8619.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 73664.32,
           "usd": 51824.32
@@ -1665,11 +1817,15 @@
       },
       "captured_at_utc": "2026-10-15T02:02:33.545889+00:00",
       "market_date": "2026-10-14",
-      "net_worth_cad": 73664.32,
+      "net_worth_cad": 82283.32,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8858.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 73909.11,
           "usd": 52060.58
@@ -1677,11 +1833,15 @@
       },
       "captured_at_utc": "2026-10-16T00:50:21.820228+00:00",
       "market_date": "2026-10-15",
-      "net_worth_cad": 73909.11,
+      "net_worth_cad": 82767.11,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8522.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 68603.71,
           "usd": 48583.96
@@ -1689,11 +1849,15 @@
       },
       "captured_at_utc": "2026-10-19T02:03:01.304627+00:00",
       "market_date": "2026-10-16",
-      "net_worth_cad": 68603.71,
+      "net_worth_cad": 77125.71,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8310.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 72526.16,
           "usd": 51592.57
@@ -1701,11 +1865,15 @@
       },
       "captured_at_utc": "2026-10-20T09:30:00.946191+00:00",
       "market_date": "2026-10-19",
-      "net_worth_cad": 72526.16,
+      "net_worth_cad": 80836.16,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8123.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 70404.43,
           "usd": 50101.55
@@ -1713,11 +1881,15 @@
       },
       "captured_at_utc": "2026-10-21T10:04:18.067135+00:00",
       "market_date": "2026-10-20",
-      "net_worth_cad": 70404.43,
+      "net_worth_cad": 78527.43,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8264.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 85372.27,
           "usd": 60779.4
@@ -1725,11 +1897,15 @@
       },
       "captured_at_utc": "2026-10-22T02:02:39.063848+00:00",
       "market_date": "2026-10-21",
-      "net_worth_cad": 85372.27,
+      "net_worth_cad": 93636.27,
       "source": "Google Sheet daily close"
     },
     {
       "accounts": {
+        "rrsp": {
+          "cad": 8168.0,
+          "recovered_from": "portfolio/daily RRSP card (git history, whole-dollar)"
+        },
         "tfsa_ws": {
           "cad": 75062.4,
           "usd": 53597.24
@@ -1737,7 +1913,7 @@
       },
       "captured_at_utc": "2026-10-23T10:26:43.183493+00:00",
       "market_date": "2026-10-22",
-      "net_worth_cad": 75062.4,
+      "net_worth_cad": 83230.4,
       "source": "Google Sheet daily close"
     }
   ],
