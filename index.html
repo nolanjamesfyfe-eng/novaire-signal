@@ -61,6 +61,9 @@
     .signal-accordion>summary::after{content:'';width:10px;height:6px;flex:none;align-self:center;background:var(--gold);clip-path:polygon(0 0,50% 70%,100% 0,100% 30%,50% 100%,0 30%);transition:transform .15s;transform-origin:center}
     .signal-accordion[open]>summary::after{transform:rotate(180deg)}
     .signal-accordion-body{padding:0 20px 20px}
+    .compact-market-accordion{padding:0}
+    .compact-market-accordion>summary{padding:10px 16px}
+    .compact-market-accordion>.signal-accordion-body{padding:0 16px 8px}
     .accordion-score,.accordion-score b,.fed-summary-rate,.fed-summary-sentiment{font-size:.68rem;line-height:1.2}
     .accordion-score{color:var(--dim);white-space:nowrap}
     .accordion-score b{color:var(--text)}
@@ -452,6 +455,7 @@
       body{font-size:19.965px;padding:0 18px 35px}
       .container{max-width:792px}
       .card{padding:22px;margin-bottom:15px}
+      .card.compact-market-accordion{padding:0}
       .podcast-mini img{min-width:141px}
       .feed-avatar{width:29px;height:29px}
       .commodity-item,.weather-item,.rec-item,.psum-item{padding:9px}
@@ -885,13 +889,13 @@
   <!-- PORTFOLIO removed — now at /portfolio -->
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
-  <details class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="2026-10-19" >
+  <details class="card signal-accordion compact-market-accordion" id="weekly-asymmetric-ideas" data-edition="2026-10-19" >
     <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">Scan unverified</span></summary>
-    <div class="signal-accordion-body"><div class="weekly-meta">No verified completed scan is available for this edition. No claim is being made that zero candidates qualified.</div><div class="weekly-grid"><div class="weekly-empty">Research is incomplete or lacks required provenance. No zero-candidate claim is being made.</div></div></div>
+    <div class="signal-accordion-body"><div class="weekly-grid"><div class="weekly-empty">Nothing new. No verified scan is completed. No claim has been made.</div></div></div>
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" data-edition="2026-W43" data-fingerprint="01695a4b9854a4d7" data-items="[&quot;c0e53faa884a9c0a&quot;,&quot;93907d1eadd5874a&quot;]" >
+  <details class="card signal-accordion compact-market-accordion" id="catalysts-card" data-edition="2026-W43" data-fingerprint="01695a4b9854a4d7" data-items="[&quot;c0e53faa884a9c0a&quot;,&quot;93907d1eadd5874a&quot;]" >
     <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on Oct 19</span></summary>
     <div class="signal-accordion-body">
             <a class="catalyst-item catalyst-link" href="https://news.google.com/rss/articles/CBMiU0FVX3lxTE1tWUNsM0ZOa2RpS2NnRnMxMmVaVUJWODl4bW85OVdDVTlpU1Z5eDZJLVRyYWhBb1kzdGFPNk9RN2VidW1jZmtHVlhHUkhYb2ItZ1hB?oc=5" target="_blank" rel="noopener noreferrer" aria-label="Open HG catalyst article">
@@ -917,7 +921,7 @@
 
   <!-- FED SIGNAL — intentionally lower because it updates less often -->
 
-  <details class="card fed-card signal-accordion" id="fed-signal-card">
+  <details class="card fed-card signal-accordion compact-market-accordion" id="fed-signal-card">
     <summary>
       <div class="fed-title card-title">🏛️ Fed Signal</div>
       <span class="fed-summary-rate">3.75–4.00%</span>
@@ -934,7 +938,7 @@
   </details>
 
   <!-- TRADING BOOKS — placed above slower-changing Currently section -->
-  <details class="card signal-accordion trading-accordion" id="polymarket-card">
+  <details class="card signal-accordion trading-accordion compact-market-accordion" id="polymarket-card">
   <summary><span class="card-title">🎰 Polymarket · Novairecito</span><span class="accordion-score"><b>45W / 34L</b> · 57% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
@@ -942,7 +946,7 @@
   </div>
 </details>
 
-<details class="card signal-accordion trading-accordion" id="darvas-card">
+<details class="card signal-accordion trading-accordion compact-market-accordion" id="darvas-card">
     <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-26.1%</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · 0 trades · Since Feb 24, 2026</div>
@@ -1209,6 +1213,23 @@ rememberEditionAccordion('meditation-daily', 'nv_meditation_state');
 rememberEditionAccordion('quotes-daily', 'nv_quotes_state');
 rememberEditionAccordion('weather-card', 'nv_weather_state');
 rememberEditionAccordion('thailand-news-card', 'nv_thailand_news_state');
+
+function rememberFixedAccordion(cardId, storageKey) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved === 'open' || saved === 'closed') card.open = saved === 'open';
+    card.addEventListener('toggle', function() {
+      localStorage.setItem(storageKey, card.open ? 'open' : 'closed');
+    });
+  } catch (e) {}
+}
+
+rememberFixedAccordion('catalysts-card', 'nv_catalysts_state');
+rememberFixedAccordion('fed-signal-card', 'nv_fed_signal_state');
+rememberFixedAccordion('polymarket-card', 'nv_polymarket_state');
+rememberFixedAccordion('darvas-card', 'nv_alpaca_state');
 
 function scheduleBangkokDailyReset() {
   const now = new Date();

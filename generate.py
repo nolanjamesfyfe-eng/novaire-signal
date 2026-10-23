@@ -162,10 +162,7 @@ def load_weekly_ideas(now=None, ideas_path=WEEKLY_IDEAS_PATH,
             "as_of": data.get("as_of"),
             "scan_state": state,
             "status_message": str(reason),
-            "portfolio_note": (
-                "No verified completed scan is available for this edition. "
-                "No claim is being made that zero candidates qualified."
-            ),
+            "portfolio_note": "",
             "ideas": [],
         }
 
@@ -280,7 +277,7 @@ def weekly_scan_presentation(weekly):
         }
     return {
         "label": "Scan unverified",
-        "empty_message": "Research is incomplete or lacks required provenance. No zero-candidate claim is being made.",
+        "empty_message": "Nothing new. No verified scan is completed. No claim has been made.",
     }
 
 HOLDINGS_MAP = {h["ticker"]: {"shares": h["shares"], "name": h["name"], "display": h.get("display", h["ticker"].split(".")[0])} for h in HOLDINGS}
@@ -3322,6 +3319,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     weekly_as_of = escape(weekly_as_of_raw)
     weekly_updated = escape(weekly_presentation["label"])
     weekly_note = escape(str(weekly.get("portfolio_note") or "Screened against current holdings and trading accounts."))
+    if weekly.get("scan_state") in {"unverified", "stale"}:
+        weekly_note = ""
 
     # ── FX Rates HTML ──
     FX_ORDER = ["CAD", "THB", "AUD", "COP", "EUR", "RUB", "KRW", "JPY"]
@@ -3409,7 +3408,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </div>
   </div>"""
     fed_html = f"""
-  <details class="card fed-card signal-accordion" id="fed-signal-card">
+  <details class="card fed-card signal-accordion compact-market-accordion" id="fed-signal-card">
     <summary>
       <div class="fed-title card-title">🏛️ Fed Signal</div>
       <span class="fed-summary-rate">{fed['fed_funds_rate']}</span>
@@ -3693,6 +3692,9 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .signal-accordion>summary::after{{content:'';width:10px;height:6px;flex:none;align-self:center;background:var(--gold);clip-path:polygon(0 0,50% 70%,100% 0,100% 30%,50% 100%,0 30%);transition:transform .15s;transform-origin:center}}
     .signal-accordion[open]>summary::after{{transform:rotate(180deg)}}
     .signal-accordion-body{{padding:0 20px 20px}}
+    .compact-market-accordion{{padding:0}}
+    .compact-market-accordion>summary{{padding:10px 16px}}
+    .compact-market-accordion>.signal-accordion-body{{padding:0 16px 8px}}
     .accordion-score,.accordion-score b,.fed-summary-rate,.fed-summary-sentiment{{font-size:.68rem;line-height:1.2}}
     .accordion-score{{color:var(--dim);white-space:nowrap}}
     .accordion-score b{{color:var(--text)}}
@@ -4084,6 +4086,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       body{{font-size:19.965px;padding:0 18px 35px}}
       .container{{max-width:792px}}
       .card{{padding:22px;margin-bottom:15px}}
+      .card.compact-market-accordion{{padding:0}}
       .podcast-mini img{{min-width:141px}}
       .feed-avatar{{width:29px;height:29px}}
       .commodity-item,.weather-item,.rec-item,.psum-item{{padding:9px}}
@@ -4369,13 +4372,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- PORTFOLIO removed — now at /portfolio -->
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
-  <details class="card signal-accordion" id="weekly-asymmetric-ideas" data-edition="{weekly_as_of}" {'open' if open_early_week(now) else ''}>
+  <details class="card signal-accordion compact-market-accordion" id="weekly-asymmetric-ideas" data-edition="{weekly_as_of}" {'open' if open_early_week(now) else ''}>
     <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">{weekly_updated}</span></summary>
-    <div class="signal-accordion-body"><div class="weekly-meta">{weekly_note}</div><div class="weekly-grid">{weekly_rows}</div></div>
+    <div class="signal-accordion-body">{f'<div class="weekly-meta">{weekly_note}</div>' if weekly_note else ''}<div class="weekly-grid">{weekly_rows}</div></div>
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
-  <details class="card signal-accordion" id="catalysts-card" data-edition="{weekly_edition}" data-fingerprint="{catalyst_fingerprint}" data-items="{catalyst_ids_attr}" {'open' if open_early_week(now) else ''}>
+  <details class="card signal-accordion compact-market-accordion" id="catalysts-card" data-edition="{weekly_edition}" data-fingerprint="{catalyst_fingerprint}" data-items="{catalyst_ids_attr}" {'open' if open_early_week(now) else ''}>
     <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
     <div class="signal-accordion-body">{cats_html}</div>
   </details>
@@ -4478,6 +4481,23 @@ rememberEditionAccordion('meditation-daily', 'nv_meditation_state');
 rememberEditionAccordion('quotes-daily', 'nv_quotes_state');
 rememberEditionAccordion('weather-card', 'nv_weather_state');
 rememberEditionAccordion('thailand-news-card', 'nv_thailand_news_state');
+
+function rememberFixedAccordion(cardId, storageKey) {{
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  try {{
+    const saved = localStorage.getItem(storageKey);
+    if (saved === 'open' || saved === 'closed') card.open = saved === 'open';
+    card.addEventListener('toggle', function() {{
+      localStorage.setItem(storageKey, card.open ? 'open' : 'closed');
+    }});
+  }} catch (e) {{}}
+}}
+
+rememberFixedAccordion('catalysts-card', 'nv_catalysts_state');
+rememberFixedAccordion('fed-signal-card', 'nv_fed_signal_state');
+rememberFixedAccordion('polymarket-card', 'nv_polymarket_state');
+rememberFixedAccordion('darvas-card', 'nv_alpaca_state');
 
 function scheduleBangkokDailyReset() {{
   const now = new Date();
@@ -5618,7 +5638,7 @@ def main():
             bets_html += f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">{p["outcome"]} · {p["title"][:40]}...</span><span style="font-weight:600;color:{pnl_color}">{pnl_str}</span></div>'
         settled = pm_wr_summary['wins'] + pm_wr_summary['losses']
         win_rate = (pm_wr_summary['wins'] / settled * 100) if settled else 0
-        poly_html = f'''<details class="card signal-accordion trading-accordion" id="polymarket-card">
+        poly_html = f'''<details class="card signal-accordion trading-accordion compact-market-accordion" id="polymarket-card">
   <summary><span class="card-title">🎰 Polymarket · Novairecito</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
@@ -5652,7 +5672,7 @@ def main():
         total_str = f"+{total_roi:.1f}%" if total_roi >= 0 else f"{total_roi:.1f}%"
         all_rows = _alp_rows(all_positions, "All")
 
-        alpaca_html = f"""<details class="card signal-accordion trading-accordion" id="darvas-card">
+        alpaca_html = f"""<details class="card signal-accordion trading-accordion compact-market-accordion" id="darvas-card">
     <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · {total_trades} trades · Since Feb 24, 2026</div>
