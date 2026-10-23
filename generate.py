@@ -4164,22 +4164,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .metric-winner{{padding:2px 6px;border:1px solid rgba(42,157,143,.36);border-radius:999px;color:var(--green);text-transform:uppercase;letter-spacing:.08em;font-size:.49rem}}
     .latest-novaire-ink-detail{{color:var(--dim)}}
 
-    .google-tasks-card{{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(181,150,98,.035),transparent 42%),var(--surface)}}
-    .google-tasks-card .signal-accordion-body{{padding:3px 0 0}}
+    .card.google-tasks-card{{position:relative;overflow:hidden;padding:0;background:linear-gradient(145deg,rgba(181,150,98,.035),transparent 42%),var(--surface)}}
+    .google-tasks-card>summary{{padding:9px 16px}}
+    .google-tasks-card .signal-accordion-body{{padding:0}}
     .google-task-list{{list-style:none;margin:0;padding:0}}
-    .google-task-list li{{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;column-gap:13px;min-height:52px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.42;color:var(--text)}}
+    .google-task-list li{{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;column-gap:13px;min-height:0;padding:7px 14px;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.42;color:var(--text)}}
     .google-task-list li:first-child{{background:linear-gradient(90deg,rgba(181,150,98,.09),transparent 72%);border-left:2px solid var(--gold);padding-left:12px}}
     .google-task-list li:last-child{{border-bottom:0}}
     .google-task-number{{font-variant-numeric:tabular-nums;font-family:'Courier New',monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;color:var(--gold);opacity:.78}}
     .google-task-list li:first-child .google-task-number{{opacity:1;text-shadow:0 0 12px rgba(181,150,98,.35)}}
     .google-task-title{{min-width:0;overflow-wrap:anywhere}}
     .google-task-list .google-task-empty{{display:block;min-height:0;color:var(--dim);padding:18px 14px}}
-    .google-task-meta{{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px 14px 2px;padding-top:11px;border-top:1px solid rgba(181,150,98,.13);font-size:.52rem;letter-spacing:.055em;color:var(--mute)}}
+    .google-task-meta{{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 14px 1px;padding-top:5px;border-top:1px solid rgba(181,150,98,.13);font-size:.52rem;letter-spacing:.055em;color:var(--mute)}}
     .google-task-mode{{display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;color:var(--dim);white-space:nowrap}}
     .google-task-mode i{{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(42,157,143,.62)}}
     .google-task-sync{{text-align:right}}
     .google-tasks-card[data-task-refresh="stale"] .google-task-mode i,.google-tasks-card[data-task-refresh="unavailable"] .google-task-mode i{{background:var(--gold);box-shadow:none}}
-    @media(max-width:560px){{.google-tasks-card .signal-accordion-body{{padding-top:0}}.google-task-list li{{grid-template-columns:34px minmax(0,1fr);column-gap:9px;min-height:50px;padding:10px 9px}}.google-task-list li:first-child{{padding-left:7px}}.google-task-meta{{align-items:flex-start;flex-direction:column;gap:5px;margin:10px 9px 1px}}.google-task-sync{{text-align:left}}}}
+    @media(max-width:560px){{.google-tasks-card>summary{{padding:8px 10px}}.google-task-list li{{grid-template-columns:34px minmax(0,1fr);column-gap:9px;min-height:0;padding:5px 9px}}.google-task-list li:first-child{{padding-left:7px}}.google-task-meta{{align-items:flex-start;flex-direction:column;gap:2px;margin:6px 9px 1px;padding-top:5px}}.google-task-sync{{text-align:left}}}}
 
     .sat-word-box{{padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r)}}
     .sat-word{{font-family:var(--serif);font-size:1.2rem;color:var(--gold);font-weight:500;margin-bottom:6px}}

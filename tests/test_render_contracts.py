@@ -62,14 +62,20 @@ class RenderContractTests(unittest.TestCase):
 
     def test_google_daily_tasks_card_has_premium_tabular_mobile_contract(self):
         for marker in (
-            '.google-task-list li{display:grid;grid-template-columns:42px minmax(0,1fr)',
+            '.card.google-tasks-card{position:relative;overflow:hidden;padding:0',
+            '.google-tasks-card>summary{padding:9px 16px}',
+            '.google-task-list li{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;column-gap:13px;min-height:0;padding:7px 14px',
             '.google-task-number{font-variant-numeric:tabular-nums',
             '.google-task-list li:first-child{background:linear-gradient(90deg,rgba(181,150,98,.09),transparent 72%);border-left:2px solid var(--gold)',
             '.google-task-meta{display:flex;align-items:center;justify-content:space-between',
-            '@media(max-width:560px){.google-tasks-card .signal-accordion-body',
-            '.google-task-list li{grid-template-columns:34px minmax(0,1fr)',
+            '@media(max-width:560px){.google-tasks-card>summary{padding:8px 10px}',
+            '.google-task-list li{grid-template-columns:34px minmax(0,1fr);column-gap:9px;min-height:0;padding:5px 9px',
         ):
             self.assertIn(marker, self.html)
+
+        task_css = self.html.split('.card.google-tasks-card{', 1)[1].split('.sat-word-box{', 1)[0]
+        self.assertNotIn('min-height:52px', task_css)
+        self.assertNotIn('min-height:50px', task_css)
 
     def test_mobile_market_and_fx_spacing_contract(self):
         self.assertIn('.market-clock{gap:14px;padding-top:16px;padding-bottom:16px}', self.html)
