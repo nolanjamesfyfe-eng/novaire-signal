@@ -4403,6 +4403,58 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .weekly-grid{{grid-template-columns:1fr}}
       .weekly-points{{grid-template-columns:1fr}}
     }}
+
+    /* Android/Chromium "Desktop site" keeps a ~980px layout viewport on a
+       phone. Reconstruct the historical ~490px mobile canvas instead of
+       shrinking the desktop dashboard into the handset. This is deliberately
+       touch-only and leaves ordinary desktop plus true <=600px mobile alone. */
+    @media (hover:none) and (min-width:601px) and (max-width:1100px){{
+      body{{zoom:2;font-size:18.15px;padding:0 16px 32px}}
+      .container{{max-width:none}}
+      .card{{padding:20px;margin-bottom:14px}}
+      .card.compact-market-accordion,.card.google-tasks-card{{padding:0}}
+      .countdown-strip-grid{{grid-template-columns:1fr;gap:12px}}
+      .countdown-item{{border-right:none;border-bottom:1px solid var(--border);padding-bottom:12px}}
+      .countdown-item:last-child{{border-bottom:none;padding-bottom:4px}}
+      .compact-feed-card{{--feed-card-height:105px;overflow:hidden}}
+      .feed-card-grid{{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}}
+      .feed-card{{scroll-snap-align:start}}
+      .feed-card-media{{flex-basis:56px;width:56px;height:48px}}
+      .feed-thumb{{width:56px;height:48px}}
+      .signal-feed-card .feed-card-media{{flex-basis:48px;width:48px;height:48px}}
+      .signal-feed-card .feed-thumb{{width:48px;height:48px}}
+      .feed-card-title{{font-size:.7rem}}
+      .zh-feed-card .feed-card-title{{-webkit-line-clamp:2}}
+      .zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:1}}
+      .feed-text{{font-size:.66rem;-webkit-line-clamp:3}}
+      .market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:stretch;padding:12px 14px}}
+      .market-primary,.market-futures{{width:100%;box-sizing:border-box}}
+      .market-future{{padding:9px 8px}}
+      .market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}
+      .fed-title{{margin-left:14px}}
+      .fed-stat{{padding:0 14px}}
+      .weather-grid{{grid-template-columns:repeat(2,1fr)}}
+      .commodities-grid{{grid-template-columns:repeat(3,minmax(0,1fr))}}
+      .commodity-item[data-commodity="GOLD"]{{order:1}}
+      .commodity-item[data-commodity="SILVER"]{{order:2}}
+      .commodity-item[data-commodity="WTI"]{{order:3}}
+      .commodity-item[data-commodity="COPPER"]{{order:4}}
+      .commodity-item[data-commodity="URANIUM_SPOT"]{{order:5}}
+      .commodity-item[data-commodity="DIESEL"]{{order:6}}
+      .crypto-grid{{grid-template-columns:repeat(4,1fr)}}
+      .fx-row{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}}
+      .fx-chip{{padding:9px 4px}}
+      .fx-chip .fx-ccy{{font-size:.5rem}}
+      .fx-chip .fx-rate{{font-size:.7rem;margin-top:3px}}
+      .allocation-section{{grid-template-columns:1fr;gap:14px;padding:18px}}
+      .pie-chart{{width:min(100%,250px)}}
+      .allocation-kicker{{text-align:center}}
+      .allocation-legend,.rec-grid,.weekly-grid,.weekly-points{{grid-template-columns:1fr}}
+      .portfolio-summary{{grid-template-columns:repeat(3,1fr)}}
+      .totals-row{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}}
+      .totals-row .total-item{{text-align:left;min-width:0}}
+      .totals-row .total-value{{font-size:1.05rem;white-space:nowrap}}
+    }}
   </style>
 </head>
 <body>
