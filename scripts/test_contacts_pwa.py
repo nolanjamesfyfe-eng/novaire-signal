@@ -18,6 +18,10 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     import re
     assert re.findall(r'<h2>(.*?)</h2>', html) == ['Instagram', 'WhatsApp', 'Telegram', 'LinkedIn']
     assert 'src="/telegram.png"' in html
+    assert '@media(max-width:700px) and (orientation:portrait)' in html
+    assert 'main{max-width:none;padding:24px 12px 36px}' in html
+    assert 'min-height:min(78svh,680px)' in html
+    assert '.qr-aura{width:100%;max-width:420px}' in html
 assert (OUT / 'telegram.png').is_file()
 assert '"/telegram.png"' in (OUT / 'sw.js').read_text()
 assert '"/contacts/"' in (OUT / "sw.js").read_text()
