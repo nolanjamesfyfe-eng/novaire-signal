@@ -22,11 +22,12 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     assert 'main{max-width:none;padding:24px 12px 36px}' in html
     assert 'min-height:min(78svh,680px)' in html
     assert '.qr-aura{width:100%;max-width:420px}' in html
+    assert '<meta name="contacts-release" content="2026-10-24-v12">' in html
 assert (OUT / 'telegram.png').is_file()
 assert '"/telegram.png"' in (OUT / 'sw.js').read_text()
 assert '"/contacts/"' in (OUT / "sw.js").read_text()
 worker = (OUT / "sw.js").read_text()
-assert "novaire-contacts-origin-v11" in worker
+assert "novaire-contacts-origin-v12" in worker
 assert "includeUncontrolled:true" in worker
 assert "clients.forEach" in worker
 assert "client.navigate(client.url)" in worker
