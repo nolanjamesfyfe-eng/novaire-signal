@@ -26,7 +26,7 @@ assert (OUT / 'telegram.png').is_file()
 assert '"/telegram.png"' in (OUT / 'sw.js').read_text()
 assert '"/contacts/"' in (OUT / "sw.js").read_text()
 worker = (OUT / "sw.js").read_text()
-assert "novaire-contacts-origin-v10" in worker
+assert "novaire-contacts-origin-v11" in worker
 assert "includeUncontrolled:true" in worker
 assert "clients.forEach" in worker
 assert "client.navigate(client.url)" in worker
