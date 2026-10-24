@@ -25,4 +25,8 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
 assert (OUT / 'telegram.png').is_file()
 assert '"/telegram.png"' in (OUT / 'sw.js').read_text()
 assert '"/contacts/"' in (OUT / "sw.js").read_text()
+worker = (OUT / "sw.js").read_text()
+assert "novaire-contacts-origin-v9" in worker
+assert "includeUncontrolled:true" in worker
+assert "client.navigate(client.url)" in worker
 print("contacts PWA identity regression: PASS")

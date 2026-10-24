@@ -56,10 +56,10 @@ manifest = {
 }
 (OUT / "manifest.webmanifest").write_text(json.dumps(manifest, indent=2) + "\n")
 assets = ["/", "/index.html", "/contacts/", "/contacts/index.html", "/linkedin.png", "/instagram.png", "/whatsapp.png", "/telegram.png", "/manifest.webmanifest", "/contacts-gold-192.png", "/contacts-gold-512.png", "/contacts-gold-maskable-512.png", "/favicon.ico"]
-(OUT / "sw.js").write_text(f"""const CACHE='novaire-contacts-origin-v8';
+(OUT / "sw.js").write_text(f"""const CACHE='novaire-contacts-origin-v9';
 const ASSETS={json.dumps(assets, separators=(',', ':'))};
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('novaire-contacts-origin-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('novaire-contacts-origin-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()).then(()=>self.clients.matchAll({{type:'window',includeUncontrolled:true}})).then(clients=>Promise.all(clients.map(client=>{{const url=new URL(client.url);return url.origin===self.location.origin?client.navigate(client.url):undefined;}})))));
 self.addEventListener('fetch',event=>{{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.origin!==self.location.origin||!ASSETS.includes(url.pathname))return;event.respondWith(fetch(event.request).then(response=>{{if(response.ok){{const copy=response.clone();event.waitUntil(caches.open(CACHE).then(cache=>cache.put(event.request,copy)));}}return response;}}).catch(()=>caches.match(event.request).then(cached=>cached||Response.error())));}});
 """)
 build_icons()
