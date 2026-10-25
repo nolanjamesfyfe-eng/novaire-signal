@@ -6,8 +6,8 @@
   "start_url": "https://contacts.novairesignal.com/contacts/",
   "scope": "https://contacts.novairesignal.com/",
   "display": "standalone",
-  "background_color": "#090909",
-  "theme_color": "#090909",
+  "background_color": "#09070d",
+  "theme_color": "#09070d",
   "icons": [
     {
       "src": "/contacts-gold-192.png",
