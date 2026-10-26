@@ -112,6 +112,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('grid-template-columns:.9fr 1.2fr 1.2fr 1fr', self.html)
         self.assertIn('.fed-fomc{padding-left:28px}', self.html)
 
+    def test_fed_signal_mobile_dates_have_readable_two_by_two_spacing(self):
+        self.assertIn(
+            '@media(max-width:520px){.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}',
+            self.html,
+        )
+        self.assertIn('.fed-last b,.fed-fomc b{white-space:normal;text-wrap:balance}', self.html)
+        self.assertIn('.fed-fomc{padding:12px 14px 0 18px', self.html)
+        self.assertIn('.fed-prob b{gap:10px}', self.html)
+
     def test_signal_feed_rejects_sparse_refreshes(self):
         self.assertIn("signalJson.posts.length < 3", self.html)
         self.assertIn("Signal pool must contain at least 3 posts", self.html)
