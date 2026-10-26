@@ -10,7 +10,7 @@ OUT = ROOT / "contacts-app"
 OUT.mkdir(exist_ok=True)
 PROFILES = [
     ("instagram", "Instagram", "@j.novaire", "https://www.instagram.com/j.novaire/"),
-    ("whatsapp", "WhatsApp", "Message me", "https://wa.me/qr/FFFDDLXIDIN2I1"),
+    ("whatsapp", "WhatsApp", "@j.novaire", "https://wa.me/qr/FFFDDLXIDIN2I1"),
     ("telegram", "Telegram", "@JNovaire", "https://t.me/JNovaire"),
     ("linkedin", "LinkedIn", "Nolan James", "https://www.linkedin.com/in/nolanjamesfyfe/"),
 ]
@@ -31,7 +31,7 @@ for index, (slug, label, subtitle, url) in enumerate(PROFILES):
     tabs.append(f'<button class="platform-tab" type="button" role="tab" aria-selected="{selected}" aria-controls="card-{slug}" data-index="{index}">{label}</button>')
 
 page = r'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#09070d"><meta name="contacts-release" content="2026-10-26-v22"><title>Contacts · Nolan James</title><link rel="icon" href="/contacts-gold-192.png"><link rel="manifest" href="https://contacts.novairesignal.com/manifest.webmanifest?v=2"><link rel="apple-touch-icon" href="/contacts-gold-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Contacts"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&display=swap" rel="stylesheet"><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(console.error))}</script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#09070d"><meta name="contacts-release" content="2026-10-26-v23"><title>Contacts · Nolan James</title><link rel="icon" href="/contacts-gold-192.png"><link rel="manifest" href="https://contacts.novairesignal.com/manifest.webmanifest?v=2"><link rel="apple-touch-icon" href="/contacts-gold-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Contacts"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&display=swap" rel="stylesheet"><script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(console.error))}</script>
 <style>
 :root{color-scheme:dark;--gold:#b59662;--violet:#8d5cff;--ink:#f4efe8;--muted:#aaa3b0}*{box-sizing:border-box}html,body{margin:0;min-height:100%;overflow-x:hidden}body{background:#09070d;color:var(--ink);font-family:Arial,Helvetica,sans-serif;overscroll-behavior-x:none}body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 26%,#51258940 0,transparent 35%),radial-gradient(ellipse at 50% 100%,#b5966217 0,transparent 52%),linear-gradient(135deg,#050407,#0e0815 54%,#050407);z-index:-2}body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(#fff1 1px,transparent 1px),linear-gradient(90deg,#fff1 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent,#000 35%,transparent);z-index:-1}
 main{min-height:100svh;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;align-items:center;padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));isolation:isolate}.identity{text-align:center}.identity::before{content:"";display:block;width:42px;height:1px;margin:0 auto 13px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 15px #d5b477}.wordmark{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(31px,5vw,46px);font-weight:300;line-height:1;text-transform:uppercase;letter-spacing:.2em;color:#f3eff8;margin:0;padding-left:.2em}.name{font-size:12px;letter-spacing:.24em;color:#aaa3ad;margin:8px 0 0;text-transform:uppercase}
@@ -80,7 +80,7 @@ manifest = {
 }
 (OUT / "manifest.webmanifest").write_text(json.dumps(manifest, indent=2) + "\n")
 assets = ["/", "/index.html", "/contacts/", "/contacts/index.html", "/linkedin.png", "/instagram.png", "/whatsapp.png", "/telegram.png", "/manifest.webmanifest", "/contacts-gold-192.png", "/contacts-gold-512.png", "/contacts-gold-maskable-512.png", "/favicon.ico"]
-(OUT / "sw.js").write_text(f"""const CACHE='novaire-contacts-origin-v22';
+(OUT / "sw.js").write_text(f"""const CACHE='novaire-contacts-origin-v23';
 const ASSETS={json.dumps(assets, separators=(',', ':'))};
 self.cleanup=()=>caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('novaire-contacts-origin-')&&k!==CACHE).map(k=>caches.delete(k))));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));

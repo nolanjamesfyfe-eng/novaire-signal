@@ -1,4 +1,4 @@
-const CACHE='novaire-contacts-origin-v22';
+const CACHE='novaire-contacts-origin-v23';
 const ASSETS=["/","/index.html","/contacts/","/contacts/index.html","/linkedin.png","/instagram.png","/whatsapp.png","/telegram.png","/manifest.webmanifest","/contacts-gold-192.png","/contacts-gold-512.png","/contacts-gold-maskable-512.png","/favicon.ico"];
 self.cleanup=()=>caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('novaire-contacts-origin-')&&k!==CACHE).map(k=>caches.delete(k))));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
