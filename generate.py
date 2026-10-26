@@ -4326,7 +4326,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-future em,.commodity-change,.crypto-change{{font-size:var(--market-change-size);font-weight:var(--market-number-weight);line-height:var(--market-change-line-height)}}
     .market-calendar{{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:center;padding-top:2px}}
     .market-calendar span{{padding:0 5px;color:var(--border)}}
-    .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}}
+    .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px;container-type:inline-size}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
     #fed-signal-card>summary .fed-title{{margin:0;flex:1}}
     .fed-summary-rate{{font-weight:650;color:var(--text);white-space:nowrap}}
@@ -4344,7 +4344,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
     @media(max-width:620px){{.market-clock{{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:stretch;padding:12px 14px}}.market-primary{{width:100%;box-sizing:border-box}}.market-futures{{width:100%}}.market-future{{padding:9px 8px}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
-    @media(max-width:520px){{.fed-stats{{grid-template-columns:repeat(2,minmax(0,1fr))}}.fed-last b,.fed-fomc b{{white-space:normal;text-wrap:balance}}.fed-fomc{{padding:12px 14px 0 18px;margin-top:11px;border-left:0;border-top:1px solid var(--border)}}.fed-prob{{padding:12px 14px 0;margin-top:11px;border-top:1px solid var(--border)}}.fed-prob b{{gap:10px}}}}
+    @media(max-width:520px){{#fed-signal-card>summary{{box-sizing:border-box;min-height:44px;flex-wrap:wrap;align-content:center;gap:8px 10px}}#fed-signal-card>summary .fed-title{{flex:1 1 110px}}.fed-stats{{grid-template-columns:repeat(2,minmax(0,1fr))}}.fed-stat{{box-sizing:border-box;padding:12px 14px;justify-content:flex-start}}.fed-stat span,.fed-stat em{{overflow-wrap:anywhere}}.fed-stat b{{white-space:normal;overflow-wrap:anywhere}}.fed-last b,.fed-fomc b{{text-wrap:balance}}.fed-fomc{{padding:12px 14px 12px 18px;margin:0;border-left:0;border-top:1px solid var(--border)}}.fed-prob{{padding:12px 14px;margin:0;border-top:1px solid var(--border)}}.fed-prob b{{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}}.fed-prob i{{white-space:normal;overflow-wrap:anywhere}}}}
+    @media(max-width:520px){{@container(max-width:12rem){{.fed-stats{{grid-template-columns:1fr}}.fed-stat{{border-left:0}}.fed-stat+.fed-stat{{border-top:1px solid var(--border)}}.fed-fomc{{padding-left:18px}}}}}}
     @media(max-width:400px){{.market-clock{{gap:14px;padding-top:16px;padding-bottom:16px}}.market-primary{{gap:7px}}.market-futures{{grid-template-columns:1fr;gap:10px}}.market-future{{padding:10px 8px}}.market-calendar{{margin-top:2px;padding-top:2px}}.wall-time{{font-size:1.176rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}

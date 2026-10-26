@@ -114,15 +114,16 @@ class RenderContractTests(unittest.TestCase):
 
     def test_fed_signal_mobile_dates_have_readable_two_by_two_spacing(self):
         validator = (ROOT / "scripts" / "validate_fed_signal.py").read_text(encoding="utf-8")
-        layout_marker = '@media(max-width:520px){.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}'
-        self.assertIn(
-            layout_marker,
-            self.html,
-        )
+        layout_marker = '.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}'
+        self.assertIn('@media(max-width:520px){#fed-signal-card>summary{box-sizing:border-box;min-height:44px;flex-wrap:wrap', self.html)
+        self.assertIn('.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}', self.html)
         self.assertIn(layout_marker, validator)
-        self.assertIn('.fed-last b,.fed-fomc b{white-space:normal;text-wrap:balance}', self.html)
-        self.assertIn('.fed-fomc{padding:12px 14px 0 18px', self.html)
-        self.assertIn('.fed-prob b{gap:10px}', self.html)
+        self.assertIn('.fed-stat span,.fed-stat em{overflow-wrap:anywhere}', self.html)
+        self.assertIn('.fed-stat b{white-space:normal;overflow-wrap:anywhere}', self.html)
+        self.assertIn('.fed-last b,.fed-fomc b{text-wrap:balance}', self.html)
+        self.assertIn('.fed-fomc{padding:12px 14px 12px 18px;margin:0', self.html)
+        self.assertIn('.fed-prob b{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}', self.html)
+        self.assertIn('@media(max-width:520px){@container(max-width:12rem){.fed-stats{grid-template-columns:1fr}', self.html)
 
     def test_signal_feed_rejects_sparse_refreshes(self):
         self.assertIn("signalJson.posts.length < 3", self.html)

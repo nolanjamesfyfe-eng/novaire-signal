@@ -25,7 +25,12 @@ else:
 for marker in (
     "grid-template-columns:.9fr 1.2fr 1.2fr 1fr",
     ".fed-fomc{padding-left:28px}",
-    "@media(max-width:520px){.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}",
+    "@media(max-width:520px){#fed-signal-card>summary{box-sizing:border-box;min-height:44px;flex-wrap:wrap",
+    ".fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}",
+    ".fed-stat span,.fed-stat em{overflow-wrap:anywhere}",
+    ".fed-stat b{white-space:normal;overflow-wrap:anywhere}",
+    ".fed-prob b{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}",
+    "@media(max-width:520px){@container(max-width:12rem){.fed-stats{grid-template-columns:1fr}",
     '<span>Rate</span>',
     '<span>Last meeting</span>',
     '<span>Next FOMC</span>',
