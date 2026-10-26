@@ -4329,6 +4329,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-compact{{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px;container-type:inline-size}}
     .fed-title{{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 24px 12px}}
     #fed-signal-card>summary .fed-title{{margin:0;flex:1}}
+    #fed-signal-card>summary:focus-visible{{outline:1px solid var(--gold);outline-offset:-3px;border-radius:var(--r)}}
     .fed-summary-rate{{font-weight:650;color:var(--text);white-space:nowrap}}
     .fed-summary-sentiment{{font-weight:600;color:var(--green);white-space:nowrap}}
     .fed-stats{{display:grid;grid-template-columns:.9fr 1.2fr 1.2fr 1fr;gap:0;align-items:stretch}}

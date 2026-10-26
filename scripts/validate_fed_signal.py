@@ -25,6 +25,7 @@ else:
 for marker in (
     "grid-template-columns:.9fr 1.2fr 1.2fr 1fr",
     ".fed-fomc{padding-left:28px}",
+    "#fed-signal-card>summary:focus-visible{outline:1px solid var(--gold)",
     "@media(max-width:520px){#fed-signal-card>summary{box-sizing:border-box;min-height:44px;flex-wrap:wrap",
     ".fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}",
     ".fed-stat span,.fed-stat em{overflow-wrap:anywhere}",

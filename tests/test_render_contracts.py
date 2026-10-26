@@ -116,6 +116,7 @@ class RenderContractTests(unittest.TestCase):
         validator = (ROOT / "scripts" / "validate_fed_signal.py").read_text(encoding="utf-8")
         layout_marker = '.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}'
         self.assertIn('@media(max-width:520px){#fed-signal-card>summary{box-sizing:border-box;min-height:44px;flex-wrap:wrap', self.html)
+        self.assertIn('#fed-signal-card>summary:focus-visible{outline:1px solid var(--gold)', self.html)
         self.assertIn('.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}', self.html)
         self.assertIn(layout_marker, validator)
         self.assertIn('.fed-stat span,.fed-stat em{overflow-wrap:anywhere}', self.html)
