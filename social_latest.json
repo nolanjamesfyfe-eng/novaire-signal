@@ -9,12 +9,12 @@
     "published_at": "2026-10-23T03:09:47+00:00",
     "views": null,
     "likes": 37,
-    "verified_at": "2026-10-26T02:01:44.231921+00:00",
+    "verified_at": "2026-10-26T02:03:18.612440+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram public view count unavailable",
-    "metrics_checked_at": "2026-10-26T02:01:46.559132+00:00",
-    "metrics_source": "Instagram logged-out post API",
-    "likes_verified_at": "2026-10-26T02:01:46.559132+00:00"
+    "likes_verified_at": "2026-10-26T02:03:20.474034+00:00",
+    "metrics_checked_at": "2026-10-26T02:03:20.474034+00:00",
+    "metrics_source": "Instagram logged-out post API"
   },
   "youtube": {
     "second_renaissance": {
@@ -27,9 +27,9 @@
         "published_at": "Sep 26, 2026",
         "views": 24,
         "likes": null,
-        "metrics_checked_at": "2026-10-26T02:01:47.197473+00:00",
+        "metrics_checked_at": "2026-10-26T02:03:21.112521+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-26T02:01:47.197473+00:00",
+        "views_verified_at": "2026-10-26T02:03:21.112521+00:00",
         "metrics_status": "YouTube does not expose public likes for this upload",
         "platform": "youtube",
         "type": "video",
@@ -42,16 +42,16 @@
         "published_at": "Sep 26, 2026",
         "views": 1225,
         "likes": 41,
-        "metrics_checked_at": "2026-10-26T02:01:48.499617+00:00",
+        "metrics_checked_at": "2026-10-26T02:03:21.899183+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-26T02:01:48.499617+00:00",
-        "likes_verified_at": "2026-10-26T02:01:48.499617+00:00",
+        "views_verified_at": "2026-10-26T02:03:21.899183+00:00",
+        "likes_verified_at": "2026-10-26T02:03:21.899183+00:00",
         "platform": "youtube",
         "type": "short",
         "channel": "The Second Renaissance",
         "channel_id": "UC0-4nIbz6OCjUa08WO0-vFw"
       },
-      "verified_at": "2026-10-26T02:01:48.500698+00:00",
+      "verified_at": "2026-10-26T02:03:21.901747+00:00",
       "source": "YouTube public channel tabs and watch pages"
     },
     "j_novaire": {
@@ -64,10 +64,10 @@
         "published_at": "Jul 31, 2026",
         "views": 43,
         "likes": 2,
-        "metrics_checked_at": "2026-10-26T02:01:49.320482+00:00",
+        "metrics_checked_at": "2026-10-26T02:03:22.657954+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-26T02:01:49.320482+00:00",
-        "likes_verified_at": "2026-10-26T02:01:49.320482+00:00",
+        "views_verified_at": "2026-10-26T02:03:22.657954+00:00",
+        "likes_verified_at": "2026-10-26T02:03:22.657954+00:00",
         "platform": "youtube",
         "type": "video",
         "channel": "J.Novaire",
@@ -79,19 +79,19 @@
         "published_at": "Aug 15, 2026",
         "views": 1060,
         "likes": 13,
-        "metrics_checked_at": "2026-10-26T02:01:49.930122+00:00",
+        "metrics_checked_at": "2026-10-26T02:03:23.460535+00:00",
         "metrics_source": "YouTube public watch page",
-        "views_verified_at": "2026-10-26T02:01:49.930122+00:00",
-        "likes_verified_at": "2026-10-26T02:01:49.930122+00:00",
+        "views_verified_at": "2026-10-26T02:03:23.460535+00:00",
+        "likes_verified_at": "2026-10-26T02:03:23.460535+00:00",
         "platform": "youtube",
         "type": "short",
         "channel": "J.Novaire",
         "channel_id": "UC_Pc6e_VYLJcJfqJysK-H8g"
       },
-      "verified_at": "2026-10-26T02:01:49.931674+00:00",
+      "verified_at": "2026-10-26T02:03:23.462007+00:00",
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-10-26T02:01:49.932837+00:00",
+  "refreshed_at": "2026-10-26T02:03:23.462986+00:00",
   "errors": {}
 }
