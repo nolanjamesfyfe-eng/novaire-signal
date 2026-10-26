@@ -17,6 +17,7 @@ expected = [
     ("WhatsApp", "https://wa.me/qr/FFFDDLXIDIN2I1"),
     ("Telegram", "https://t.me/JNovaire"),
     ("LinkedIn", "https://www.linkedin.com/in/nolanjamesfyfe/"),
+    ("LINE", "https://line.me/ti/p/EYmpzFKyMr"),
 ]
 for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     html = page.read_text()
@@ -24,8 +25,8 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     assert "https://novairesignal.com/" not in html
     assert re.findall(r'<h2>(.*?)</h2>', html) == [label for label, _ in expected]
     assert re.findall(r'data-url="([^"]+)"', html) == [url for _, url in expected]
-    assert len(re.findall(r'class="social-card"', html)) == 4
-    assert len(re.findall(r'class="platform-tab"', html)) == 4
+    assert len(re.findall(r'class="social-card"', html)) == 5
+    assert len(re.findall(r'class="platform-tab"', html)) == 5
     assert 'aria-roledescription="carousel"' in html
     assert 'data-position="active"' in html
     assert "rotateY(var(--r))" in html
@@ -34,7 +35,7 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     assert "event.key==='ArrowLeft'" in html and "event.key==='ArrowRight'" in html
     assert "navigator.share" in html and "navigator.clipboard.writeText" in html
     assert '@media(prefers-reduced-motion:reduce)' in html
-    assert '<meta name="contacts-release" content="2026-10-26-v26">' in html
+    assert '<meta name="contacts-release" content="2026-10-26-v27">' in html
     assert 'width:min(360px,38svh)' in html
     assert 'width:min(900px,calc(100vw - 180px))' in html
     assert 'height:min(720px,calc(100svh - 190px))' in html
@@ -52,12 +53,12 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     assert html.index('class="platforms"') > html.index('class="rack-stage"')
     assert '.social-card[data-position="prev"]' in html
     assert '.social-card[data-position="next"]' in html
-for slug in ("instagram", "whatsapp", "telegram", "linkedin"):
+for slug in ("instagram", "whatsapp", "telegram", "linkedin", "line"):
     assert (OUT / f"{slug}.png").is_file()
     assert f'"/{slug}.png"' in (OUT / "sw.js").read_text()
 worker = (OUT / "sw.js").read_text()
 assert '"/contacts/"' in worker
-assert "novaire-contacts-origin-v26" in worker
+assert "novaire-contacts-origin-v27" in worker
 assert "event.waitUntil(self.cleanup())" in worker
 assert "includeUncontrolled:true" in worker
 assert "clients.forEach" in worker
