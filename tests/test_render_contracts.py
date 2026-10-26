@@ -113,10 +113,13 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('.fed-fomc{padding-left:28px}', self.html)
 
     def test_fed_signal_mobile_dates_have_readable_two_by_two_spacing(self):
+        validator = (ROOT / "scripts" / "validate_fed_signal.py").read_text(encoding="utf-8")
+        layout_marker = '@media(max-width:520px){.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}'
         self.assertIn(
-            '@media(max-width:520px){.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}',
+            layout_marker,
             self.html,
         )
+        self.assertIn(layout_marker, validator)
         self.assertIn('.fed-last b,.fed-fomc b{white-space:normal;text-wrap:balance}', self.html)
         self.assertIn('.fed-fomc{padding:12px 14px 0 18px', self.html)
         self.assertIn('.fed-prob b{gap:10px}', self.html)

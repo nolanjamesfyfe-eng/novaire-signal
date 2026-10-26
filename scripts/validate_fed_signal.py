@@ -25,7 +25,7 @@ else:
 for marker in (
     "grid-template-columns:.9fr 1.2fr 1.2fr 1fr",
     ".fed-fomc{padding-left:28px}",
-    "@media(max-width:520px){.fed-stats{grid-template-columns:1fr 1.6fr}",
+    "@media(max-width:520px){.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}",
     '<span>Rate</span>',
     '<span>Last meeting</span>',
     '<span>Next FOMC</span>',
