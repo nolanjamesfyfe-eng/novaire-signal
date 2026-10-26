@@ -1,0 +1,19 @@
+    /* Nine approved peers: closed shells only; expanded layout/state is untouched. */
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open]){padding:0;height:auto;min-height:0;container-type:inline-size}
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{box-sizing:border-box;height:38px;min-height:38px;padding:10px 16px;position:relative}
+    @container(max-width:30rem){
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{height:calc(20px + 3rem);min-height:44px;display:flex;flex-wrap:wrap;align-content:center;justify-content:flex-start;gap:4px 10px;padding-right:38px}
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary .card-title{flex:1 0 100%;min-width:0;white-space:normal;overflow-wrap:anywhere}
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary::after{position:absolute;right:16px;top:calc(50% - 3px)}
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary :is(.accordion-score,.fed-summary-rate,.fed-summary-sentiment){white-space:normal;overflow-wrap:anywhere}
+    }
+    @container(max-width:30rem){
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary :is(.accordion-score,.fed-summary-rate){margin-left:auto}
+    }
+    @container(max-width:12rem){
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{height:calc(20px + 6rem)}
+    }
+    .compact-peer-icon,.compact-peer-label{display:contents}
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary .compact-peer-icon{display:inline-flex;justify-content:center;align-items:center;width:1rem;flex:0 0 1rem}
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary .compact-peer-label{display:block;min-width:0}
+

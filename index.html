@@ -556,6 +556,25 @@
       .totals-row .total-item{text-align:left;min-width:0}
       .totals-row .total-value{font-size:1.05rem;white-space:nowrap}
     }
+    /* Nine approved peers: closed shells only; expanded layout/state is untouched. */
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open]){padding:0;height:auto;min-height:0;container-type:inline-size}
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{box-sizing:border-box;height:38px;min-height:38px;padding:10px 16px;position:relative}
+    @container(max-width:30rem){
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{height:calc(20px + 3rem);min-height:44px;display:flex;flex-wrap:wrap;align-content:center;justify-content:flex-start;gap:4px 10px;padding-right:38px}
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary .card-title{flex:1 0 100%;min-width:0;white-space:normal;overflow-wrap:anywhere}
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary::after{position:absolute;right:16px;top:calc(50% - 3px)}
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary :is(.accordion-score,.fed-summary-rate,.fed-summary-sentiment){white-space:normal;overflow-wrap:anywhere}
+    }
+    @container(max-width:30rem){
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary :is(.accordion-score,.fed-summary-rate){margin-left:auto}
+    }
+    @container(max-width:12rem){
+      :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{height:calc(20px + 6rem)}
+    }
+    .compact-peer-icon,.compact-peer-label{display:contents}
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary .compact-peer-icon{display:inline-flex;justify-content:center;align-items:center;width:1rem;flex:0 0 1rem}
+    :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary .compact-peer-label{display:block;min-width:0}
+
   </style>
 </head>
 <body>
@@ -1013,13 +1032,13 @@
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <details class="card signal-accordion compact-market-accordion" id="weekly-asymmetric-ideas" data-edition="2026-10-26" open>
-    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">Scan unverified</span></summary>
+    <summary><span class="card-title"><span class="section-bolt compact-peer-icon" aria-hidden="true">&#x26A1;&#xFE0E;</span><span class="compact-peer-label">Weekly Asymmetry</span></span><span class="accordion-score">Scan unverified</span></summary>
     <div class="signal-accordion-body"><div class="weekly-grid"><div class="weekly-empty">Nothing new. No verified scan is completed. No claim has been made.</div></div></div>
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
   <details class="card signal-accordion compact-market-accordion" id="catalysts-card" data-edition="2026-W44" data-fingerprint="40f22a38db374501" data-items="[&quot;11d86a591f143d8b&quot;,&quot;93907d1eadd5874a&quot;,&quot;7fa90140e4c94f19&quot;]" open>
-    <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on Oct 26</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🔍</span><span class="compact-peer-label">Catalysts · Top 5 Holdings</span></span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on Oct 26</span></summary>
     <div class="signal-accordion-body">
             <a class="catalyst-item catalyst-link" href="https://hydrograph.com/media/" target="_blank" rel="noopener noreferrer" aria-label="Open HG catalyst article">
               <span class="catalyst-ticker">HG</span>
@@ -1053,7 +1072,7 @@
 
   <details class="card fed-card signal-accordion compact-market-accordion" id="fed-signal-card">
     <summary>
-      <div class="fed-title card-title">🏛️ Fed Signal</div>
+      <div class="fed-title card-title"><span class="compact-peer-icon">🏛️</span><span class="compact-peer-label">Fed Signal</span></div>
       <span class="fed-summary-rate">3.75–4.00%</span>
       <span class="fed-summary-sentiment">Hold 29%</span>
     </summary>
@@ -1069,7 +1088,7 @@
 
   <!-- TRADING BOOKS — placed above slower-changing Currently section -->
   <details class="card signal-accordion trading-accordion compact-market-accordion" id="polymarket-card">
-  <summary><span class="card-title">🎰 Polymarket · Novairecito</span><span class="accordion-score"><b>46W / 34L</b> · 57% win</span></summary>
+  <summary><span class="card-title"><span class="compact-peer-icon">🎰</span><span class="compact-peer-label">Polymarket · Novairecito</span></span><span class="accordion-score"><b>46W / 34L</b> · 57% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
     <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.75rem"><span style="color:var(--text)">Yes · Will the Edmonton Oilers be named the 20...</span><span style="font-weight:600;color:var(--green)">+53.3%</span></div>
@@ -1077,7 +1096,7 @@
 </details>
 
 <details class="card signal-accordion trading-accordion compact-market-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-26.6%</b></span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🦙</span><span class="compact-peer-label">Alpaca · Novairecito</span></span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:var(--red)">-26.6%</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · 0 trades · Since Feb 24, 2026</div>
       <div data-alpaca-positions>
@@ -1089,7 +1108,7 @@
 
   <!-- THAILAND NEWS -->
   <details class="card signal-accordion daily-signal-card" id="thailand-news-card" data-edition="2026-10-26" data-daily-edition open>
-    <summary><span class="card-title">🇹🇭 Thailand</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🇹🇭</span><span class="compact-peer-label">Thailand</span></span></summary>
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
       <div id="thai-news-feed" class="compact-feed-card thai-news-feed"><!-- Live check marker: expat brief has a real source, URL, summary, and score; verified Oct 26, 15:13 BKK --><div class="feed-card-grid"><article class="feed-card thai-feed-card" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="48" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/knock-on-the-door-coming-for-over-10k-visa-overstayers-now-in-thailand-as-police-launch-new-crackdown/"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fwww.thaiexaminer.com%2Fwp-content%2Fuploads%2F2026%2F10%2Fknock-on-the-door-coming-for-over-10k-visa-overstayers-now-in-thailand-as-police-launch-new-crackdown-l.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/knock-on-the-door-coming-for-over-10k-visa-overstayers-now-in-thailand-as-police-launch-new-crackdown/" class="feed-card-title" target="_blank" rel="noopener">Knock on the door coming for 10k visa overstayers now in Thailand as police launch new crackdown</a><p class="feed-card-excerpt thai-news-summary">Thailand launches a nationwide hunt for over 10,000 visa overstayers as police arrest fraud suspects and fugitives. An Israeli is nabbed after 2,095 days illegally…</p><a class="feed-card-source" href="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/knock-on-the-door-coming-for-over-10k-visa-overstayers-now-in-thailand-as-police-launch-new-crackdown/" target="_blank" rel="noopener">Thai Examiner →</a></div></article><article class="feed-card thai-feed-card" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="31" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/government-spokesmans-rebuke-to-the-world-health-organisation-who-keep-out-of-thai-internal-affairs/"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fwww.thaiexaminer.com%2Fwp-content%2Fuploads%2F2026%2F10%2Fgovernment-spokesmans-rebuke-to-the-world-health-organisation-who-keep-out-of-thai-internal-affairs-l.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/government-spokesmans-rebuke-to-the-world-health-organisation-who-keep-out-of-thai-internal-affairs/" class="feed-card-title" target="_blank" rel="noopener">Government spokesman’s rebuke to the World Health Organisation (WHO). Keep out of Thai internal affairs</a><p class="feed-card-excerpt thai-news-summary">WHO showdown in Bangkok as Anutin’s government moves to control billions in alcohol and tobacco taxes. ThaiHealth and three other bodies face budget uncertainty, while…</p><a class="feed-card-source" href="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/government-spokesmans-rebuke-to-the-world-health-organisation-who-keep-out-of-thai-internal-affairs/" target="_blank" rel="noopener">Thai Examiner →</a></div></article><article class="feed-card thai-feed-card" data-thai-expat-brief="verified" data-thai-source="Thai Examiner" data-thai-score="25" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/19-year-old-hothead-lands-in-jail-after-punching-female-driver-who-honked-her-car-horn-at-him-in-bangkok/"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fwww.thaiexaminer.com%2Fwp-content%2Fuploads%2F2026%2F10%2F19-year-old-hothead-lands-in-jail-after-punching-female-driver-who-honked-her-car-horn-at-him-in-bangkok-l.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/19-year-old-hothead-lands-in-jail-after-punching-female-driver-who-honked-her-car-horn-at-him-in-bangkok/" class="feed-card-title" target="_blank" rel="noopener">19 year old hothead lands in jail after punching female driver who honked her car horn at him in Bangkok</a><p class="feed-card-excerpt thai-news-summary">Terrifying scenes in Bangkok as a motorcyclist, 19, chases a woman after a horn warning, smashes her windscreen and punches her. Bystanders fail to help.…</p><a class="feed-card-source" href="https://www.thaiexaminer.com/thai-news-foreigners/2026/10/26/19-year-old-hothead-lands-in-jail-after-punching-female-driver-who-honked-her-car-horn-at-him-in-bangkok/" target="_blank" rel="noopener">Thai Examiner →</a></div></article></div></div>
@@ -1101,7 +1120,7 @@
   <!-- TOP 5 ECONOMIES -->
   
   <details class="card signal-accordion" id="economies-card" data-edition="2026-W44" open>
-    <summary><span class="card-title">🌍 Top 5 Economies · Biweekly Monday</span><span class="accordion-score">New edition</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🌍</span><span class="compact-peer-label">Top 5 Economies · Biweekly Monday</span></span><span class="accordion-score">New edition</span></summary>
     <div class="signal-accordion-body"><table class="eco-table">
       <thead>
         <tr>
@@ -1161,7 +1180,7 @@
 
   <!-- LATEST FROM NOVAIRE -->
   <details class="card signal-accordion latest-novaire-card" id="latest-novaire-card">
-    <summary><span class="card-title">✦ Latest from Novaire</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">✦</span><span class="compact-peer-label">Latest from Novaire</span></span></summary>
     <div class="signal-accordion-body latest-novaire-stack">
       <details class="latest-novaire-item">
           <summary>
@@ -1195,7 +1214,7 @@
 
   <!-- GOOGLE TASKS · EXPLICIT DAILY LIST ONLY -->
   <details class="card signal-accordion google-tasks-card" id="google-daily-tasks-card" data-task-list="Daily" data-task-refresh="synced" data-live-endpoint="/api/google-tasks" open>
-    <summary><span class="card-title">☑ Daily Tasks</span><span class="accordion-score">5 incomplete</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">☑</span><span class="compact-peer-label">Daily Tasks</span></span><span class="accordion-score">5 incomplete</span></summary>
     <div class="signal-accordion-body" aria-live="polite">
       <ol class="google-task-list"><li><span class="google-task-number">01</span><span class="google-task-title">Jib online payment - send local bank transfer information to lil bro for 9445 product</span></li><li><span class="google-task-number">02</span><span class="google-task-title">Talk to James: get Novairecito + Archimedes set up on Clips Pipeline</span></li><li><span class="google-task-number">03</span><span class="google-task-title">Scuba diving in Phuket, for retreat, research this</span></li><li><span class="google-task-number">04</span><span class="google-task-title">Customs office Tmrw afternoon - or Monday, bring PP</span></li><li><span class="google-task-number">05</span><span class="google-task-title">Igor Interviews - go through</span></li></ol>
       <div class="google-task-meta"><span class="google-task-mode"><i aria-hidden="true"></i>Live on every load</span><span class="google-task-sync">Google Tasks · Last synced Oct 26, 15:13 BKK</span></div>

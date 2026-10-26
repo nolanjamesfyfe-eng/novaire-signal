@@ -3704,7 +3704,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     fed_html = f"""
   <details class="card fed-card signal-accordion compact-market-accordion" id="fed-signal-card">
     <summary>
-      <div class="fed-title card-title">🏛️ Fed Signal</div>
+      <div class="fed-title card-title"><span class="compact-peer-icon">🏛️</span><span class="compact-peer-label">Fed Signal</span></div>
       <span class="fed-summary-rate">{fed['fed_funds_rate']}</span>
       <span class="fed-summary-sentiment">Hold {fed['hold_pct']}%</span>
     </summary>
@@ -3738,7 +3738,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       </tr>"""
         eco_html = f"""
   <details class="card signal-accordion" id="economies-card" data-edition="{eco_edition}" open>
-    <summary><span class="card-title">🌍 Top 5 Economies · Biweekly Monday</span><span class="accordion-score">New edition</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🌍</span><span class="compact-peer-label">Top 5 Economies · Biweekly Monday</span></span><span class="accordion-score">New edition</span></summary>
     <div class="signal-accordion-body"><table class="eco-table">
       <thead>
         <tr>
@@ -3866,7 +3866,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     latest_novaire_html = f"""
   <!-- LATEST FROM NOVAIRE -->
   <details class="card signal-accordion latest-novaire-card" id="latest-novaire-card">
-    <summary><span class="card-title">✦ Latest from Novaire</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">✦</span><span class="compact-peer-label">Latest from Novaire</span></span></summary>
     <div class="signal-accordion-body latest-novaire-stack">
       {latest_social_items}
       <details class="latest-novaire-item">
@@ -3912,7 +3912,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     google_tasks_html = f"""
   <!-- GOOGLE TASKS · EXPLICIT DAILY LIST ONLY -->
   <details class="card signal-accordion google-tasks-card" id="google-daily-tasks-card" data-task-list="Daily" data-task-refresh="{escape(str(google_tasks.get('refresh_state') or 'unavailable'), quote=True)}" data-live-endpoint="/api/google-tasks" open>
-    <summary><span class="card-title">☑ Daily Tasks</span><span class="accordion-score">{len(task_titles)} incomplete</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">☑</span><span class="compact-peer-label">Daily Tasks</span></span><span class="accordion-score">{len(task_titles)} incomplete</span></summary>
     <div class="signal-accordion-body" aria-live="polite">
       <ol class="google-task-list">{task_rows}</ol>
       <div class="google-task-meta"><span class="google-task-mode"><i aria-hidden="true"></i>Live on every load</span><span class="google-task-sync">Google Tasks · {escape(fetched_label)}</span></div>
@@ -4463,6 +4463,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .totals-row .total-item{{text-align:left;min-width:0}}
       .totals-row .total-value{{font-size:1.05rem;white-space:nowrap}}
     }}
+    {Path(__file__).with_name('compact-closed.css').read_text()}
   </style>
 </head>
 <body>
@@ -4784,13 +4785,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- WEEKLY ASYMMETRIC IDEAS -->
   <details class="card signal-accordion compact-market-accordion" id="weekly-asymmetric-ideas" data-edition="{weekly_as_of}" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title"><span class="section-bolt" aria-hidden="true">&#x26A1;&#xFE0E;</span> Weekly Asymmetry</span><span class="accordion-score">{weekly_updated}</span></summary>
+    <summary><span class="card-title"><span class="section-bolt compact-peer-icon" aria-hidden="true">&#x26A1;&#xFE0E;</span><span class="compact-peer-label">Weekly Asymmetry</span></span><span class="accordion-score">{weekly_updated}</span></summary>
     <div class="signal-accordion-body">{f'<div class="weekly-meta">{weekly_note}</div>' if weekly_note else ''}<div class="weekly-grid">{weekly_rows}</div></div>
   </details>
 
   <!-- CATALYSTS — Top 5 only, fresh news highlighted -->
   <details class="card signal-accordion compact-market-accordion" id="catalysts-card" data-edition="{weekly_edition}" data-fingerprint="{catalyst_fingerprint}" data-items="{catalyst_ids_attr}" {'open' if open_early_week(now) else ''}>
-    <summary><span class="card-title">🔍 Catalysts · Top 5 Holdings</span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🔍</span><span class="compact-peer-label">Catalysts · Top 5 Holdings</span></span><span class="catalyst-unread" id="catalyst-unread" hidden>✉ New</span><span class="accordion-score">Updated on {weekly_updated_label}</span></summary>
     <div class="signal-accordion-body">{cats_html}</div>
   </details>
 
@@ -4805,7 +4806,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
   <!-- THAILAND NEWS -->
   <details class="card signal-accordion daily-signal-card" id="thailand-news-card" data-edition="{daily_edition}" data-daily-edition open>
-    <summary><span class="card-title">🇹🇭 Thailand</span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🇹🇭</span><span class="compact-peer-label">Thailand</span></span></summary>
     <div class="signal-accordion-body">
       <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
       <div id="thai-news-feed" class="compact-feed-card thai-news-feed">{bkk_html}</div>
@@ -5920,7 +5921,7 @@ def main():
         settled = pm_wr_summary['wins'] + pm_wr_summary['losses']
         win_rate = (pm_wr_summary['wins'] / settled * 100) if settled else 0
         poly_html = f'''<details class="card signal-accordion trading-accordion compact-market-accordion" id="polymarket-card">
-  <summary><span class="card-title">🎰 Polymarket · Novairecito</span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
+  <summary><span class="card-title"><span class="compact-peer-icon">🎰</span><span class="compact-peer-label">Polymarket · Novairecito</span></span><span class="accordion-score"><b>{pm_wr_summary['wins']}W / {pm_wr_summary['losses']}L</b> · {win_rate:.0f}% win</span></summary>
   <div class="signal-accordion-body">
     <div style="font-size:.7rem;color:var(--mute);padding-bottom:4px">Geopolitics & Event Contracts</div>
     {bets_html}
@@ -5954,7 +5955,7 @@ def main():
         all_rows = _alp_rows(all_positions, "All")
 
         alpaca_html = f"""<details class="card signal-accordion trading-accordion compact-market-accordion" id="darvas-card">
-    <summary><span class="card-title">🦙 Alpaca · Novairecito</span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
+    <summary><span class="card-title"><span class="compact-peer-icon">🦙</span><span class="compact-peer-label">Alpaca · Novairecito</span></span><span class="accordion-score">Inception ROI <b data-darvas-roi style="color:{total_color}">{total_str}</b></span></summary>
     <div class="signal-accordion-body">
       <div style="font-size:.65rem;color:var(--mute);margin-bottom:6px">Live Alpaca holdings · {total_trades} trades · Since Feb 24, 2026</div>
       <div data-alpaca-positions>

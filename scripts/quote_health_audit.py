@@ -144,7 +144,7 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     fx = html.find("💱 FX Rates")
     audit.record(min(weather, wall_street, fx) >= 0 and weather < wall_street < fx, f"{label} section order", f"Weather={weather}, WallStreet={wall_street}, FX={fx}")
 
-    fed = html.find("🏛️ Fed Signal")
+    fed = html.find('id="fed-signal-card"')
     trading_books = html.find("<!-- TRADING BOOKS")
     audit.record(min(fed, trading_books) >= 0 and fed < trading_books, f"{label} Fed placement", f"Fed={fed}, TradingBooks={trading_books}")
 
