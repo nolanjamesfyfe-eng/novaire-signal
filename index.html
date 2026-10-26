@@ -18,7 +18,8 @@
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
       --gold:#b59662;--gold-dim:rgba(181,150,98,.12);--gold-mid:rgba(181,150,98,.25);
       --green:#2a9d8f;--red:#e63946;--blue:#5a7bc4;--violet:#9470c8;
-      --market-quote-size:.95rem;--market-change-size:.68rem;--market-number-weight:500;
+      --market-label-size:.58rem;--market-label-weight:600;--market-label-line-height:1.5;
+      --market-quote-size:.95rem;--market-quote-line-height:1.5;--market-change-size:.68rem;--market-change-line-height:1.5;--market-number-weight:500;
       --sans:'Inter',sans-serif;--serif:'Cormorant Garamond',serif;--r:6px;
     }
     html{scroll-behavior:smooth;font-size:110%}
@@ -116,14 +117,14 @@
 
     #world-tour-card{padding:0}
     #world-tour-card .signal-accordion-body{padding:0 16px 16px}
-    .countdown-strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}
-    .countdown-item{display:block;text-align:center;padding:4px 10px;border-right:1px solid var(--border);color:inherit;text-decoration:none;transition:background .18s ease,border-color .18s ease}
+    .countdown-strip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}
+    .countdown-item{display:block;min-width:0;box-sizing:border-box;text-align:center;padding:4px 10px;border-right:1px solid var(--border);color:inherit;text-decoration:none;transition:background .18s ease,border-color .18s ease}
     .countdown-item:hover,.countdown-item:focus-visible{background:rgba(181,150,98,.06);outline:none}
     .countdown-item:last-child{border-right:none}
     .countdown-label{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}
     .countdown-days{font-family:var(--serif);font-size:1.18rem;color:var(--text);line-height:1.15}
     .countdown-date{font-size:.58rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
-    @media(max-width:620px){.countdown-strip-grid{grid-template-columns:1fr;gap:12px}.countdown-item{border-right:none;border-bottom:1px solid var(--border);padding-bottom:12px}.countdown-item:last-child{border-bottom:none;padding-bottom:4px}}
+    @media(max-width:620px){#world-tour-card .signal-accordion-body{padding:0 8px 12px}.countdown-strip-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}.countdown-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}.countdown-item:last-child{border-right:none;border-bottom:none;padding-bottom:6px}.countdown-label{display:flex;align-items:center;justify-content:center;min-height:2.7em;margin-bottom:4px;line-height:1.35;letter-spacing:.12em;white-space:normal;overflow-wrap:anywhere}}
 
     .quote{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}
     .quote:last-child{margin-bottom:0}
@@ -268,19 +269,19 @@
 
     .commodities-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
     .commodity-item{background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
-    .commodity-name{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:600}
+    .commodity-name{text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
     .commodity-price{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text);margin-bottom:1.5px}
     .commodity-price-value,.commodity-unit{color:var(--text)}
     .commodity-unit{font-family:var(--sans);font-size:.42rem;font-weight:400;letter-spacing:.01em}
-    .commodity-change{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2.25px}
+    .commodity-change{margin-top:2.25px}
     .c-gold{color:#b59662}.c-silver{color:#b8b8b8}.c-copper{color:#b87333}
     .c-oil{color:#8b7355}.c-gas{color:#72a8c7}.c-uranium{color:#7fc87f}
 
     .crypto-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
     .crypto-item{background:var(--bg);padding:9px 6px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
-    .crypto-symbol{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
-    .crypto-price{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text);margin-bottom:2px}
-    .crypto-change{font-size:var(--market-change-size);font-weight:var(--market-number-weight);margin-top:2px}
+    .crypto-symbol{text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+    .crypto-price{color:var(--text);margin-bottom:2px}
+    .crypto-change{margin-top:2px}
 
     .radar-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
     .radar-item:last-child{border-bottom:none}
@@ -410,9 +411,12 @@
     .wall-time{display:block;font-family:var(--serif);font-size:1.248rem;line-height:1;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
     .market-futures{grid-area:futures;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-width:0}
     .market-future{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
-    .market-future span{font-size:.58rem;color:var(--gold);letter-spacing:.1em;white-space:nowrap;margin-bottom:2px}
-    .market-future b{font-family:var(--serif);font-size:var(--market-quote-size);color:var(--text);font-weight:var(--market-number-weight);white-space:nowrap}
-    .market-future em{font-size:var(--market-change-size);font-weight:var(--market-number-weight);font-style:normal;text-align:center;white-space:nowrap}
+    .market-future span{color:var(--gold);letter-spacing:.1em;white-space:nowrap;margin-bottom:2px}
+    .market-future b{color:var(--text);white-space:nowrap}
+    .market-future em{font-style:normal;text-align:center;white-space:nowrap}
+    .market-future span,.commodity-name,.crypto-symbol{font-size:var(--market-label-size);font-weight:var(--market-label-weight);line-height:var(--market-label-line-height)}
+    .market-future b,.commodity-price-value,.crypto-price{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);line-height:var(--market-quote-line-height)}
+    .market-future em,.commodity-change,.crypto-change{font-size:var(--market-change-size);font-weight:var(--market-number-weight);line-height:var(--market-change-line-height)}
     .market-calendar{grid-area:calendar;font-size:.48rem;line-height:1.3;color:var(--mute);white-space:nowrap;text-align:center;padding-top:2px}
     .market-calendar span{padding:0 5px;color:var(--border)}
     .fed-compact{min-width:0;display:grid;grid-template-rows:auto 1fr;align-content:center;padding:17px 0 20px}
@@ -506,9 +510,11 @@
       .container{max-width:none}
       .card{padding:20px;margin-bottom:14px}
       .card.compact-market-accordion,.card.google-tasks-card{padding:0}
-      .countdown-strip-grid{grid-template-columns:1fr;gap:12px}
-      .countdown-item{border-right:none;border-bottom:1px solid var(--border);padding-bottom:12px}
-      .countdown-item:last-child{border-bottom:none;padding-bottom:4px}
+      #world-tour-card .signal-accordion-body{padding:0 8px 12px}
+      .countdown-strip-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+      .countdown-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}
+      .countdown-item:last-child{border-right:none;border-bottom:none;padding-bottom:6px}
+      .countdown-label{display:flex;align-items:center;justify-content:center;min-height:2.7em;margin-bottom:4px;line-height:1.35;letter-spacing:.12em;white-space:normal;overflow-wrap:anywhere}
       .compact-feed-card{--feed-card-height:105px;overflow:hidden}
       .feed-card-grid{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
       .feed-card{scroll-snap-align:start}

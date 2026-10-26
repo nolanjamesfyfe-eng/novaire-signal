@@ -133,11 +133,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("<i>Cash</i>", self.html)
 
     def test_market_quotes_and_percentages_use_shared_sizes(self):
-        self.assertIn("--market-quote-size:.95rem;--market-change-size:.68rem;--market-number-weight:500", self.html)
-        for selector in (".market-future b", ".commodity-price", ".crypto-price"):
-            self.assertIn(f"{selector}", self.html)
-        self.assertIn("font-size:var(--market-quote-size)", self.html)
-        self.assertIn("font-size:var(--market-change-size)", self.html)
+        self.assertIn("--market-label-size:.58rem;--market-label-weight:600;--market-label-line-height:1.5", self.html)
+        self.assertIn("--market-quote-size:.95rem;--market-quote-line-height:1.5;--market-change-size:.68rem;--market-change-line-height:1.5;--market-number-weight:500", self.html)
+        shared_role_contracts = (
+            ".market-future span,.commodity-name,.crypto-symbol{font-size:var(--market-label-size);font-weight:var(--market-label-weight);line-height:var(--market-label-line-height)}",
+            ".market-future b,.commodity-price-value,.crypto-price{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);line-height:var(--market-quote-line-height)}",
+            ".market-future em,.commodity-change,.crypto-change{font-size:var(--market-change-size);font-weight:var(--market-number-weight);line-height:var(--market-change-line-height)}",
+        )
+        for contract in shared_role_contracts:
+            self.assertIn(contract, self.html)
         for label in ("S&amp;P 500", "NASDAQ 100", "DOW JONES"):
             self.assertIn(label, self.html)
         self.assertNotIn("CONSENSUS", self.html)
@@ -148,7 +152,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn(".market-primary{grid-area:primary;display:flex;flex-direction:column", self.html)
         self.assertIn(".market-future{display:flex;flex-direction:column", self.html)
         self.assertIn(".commodity-price{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text)", self.html)
-        self.assertIn(".crypto-price{font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text)", self.html)
+        self.assertIn(".crypto-price{color:var(--text);margin-bottom:2px}", self.html)
         self.assertIn(".fx-chip .fx-rate{display:block;font-family:'Courier New',monospace;font-size:.78rem;font-weight:600;color:var(--text)", self.html)
         self.assertNotRegex(self.html, r'class="crypto-price"[^>]*style="color:')
         self.assertIn("background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center", self.html)
@@ -185,6 +189,17 @@ class RenderContractTests(unittest.TestCase):
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
         self.assertIn("trip_date = _date(2026, 9, 29)", source)
         self.assertNotIn("trip_date = _date(2026, 9, 30)", source)
+
+    def test_flaneur_life_keeps_three_equal_mobile_columns(self):
+        mobile_contract = (
+            "@media(max-width:620px){#world-tour-card .signal-accordion-body{padding:0 8px 12px}"
+            ".countdown-strip-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}"
+        )
+        self.assertIn(mobile_contract, self.html)
+        self.assertIn(".countdown-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}", self.html)
+        self.assertIn(".countdown-label{display:flex;align-items:center;justify-content:center;min-height:2.7em;margin-bottom:4px;line-height:1.35;letter-spacing:.12em;white-space:normal;overflow-wrap:anywhere}", self.html)
+        self.assertNotIn("@media(max-width:620px){.countdown-strip-grid{grid-template-columns:1fr", self.html)
+        self.assertIn("@media (hover:none) and (min-width:601px) and (max-width:1100px)", self.html)
 
     def test_signal_bolt_is_locked_to_antique_gold_svg(self):
         emoji = '<span aria-hidden="true">&#x26A1;&#xFE0F;</span>'
@@ -556,9 +571,9 @@ class RenderContractTests(unittest.TestCase):
     def test_commodities_are_six_compact_tiles_with_diesel(self):
         self.assertIn(".commodities-grid{display:grid;grid-template-columns:repeat(6,1fr)", self.html)
         self.assertIn(".commodity-item{background:var(--bg);padding:9px", self.html)
-        self.assertIn(".commodity-name{font-size:.58rem", self.html)
-        self.assertIn(".market-future span{font-size:.58rem", self.html)
-        self.assertIn(".crypto-symbol{font-size:.58rem", self.html)
+        for selector in (".commodity-name", ".market-future span", ".crypto-symbol"):
+            self.assertIn(selector, self.html)
+        self.assertIn(".market-future span,.commodity-name,.crypto-symbol{font-size:var(--market-label-size);font-weight:var(--market-label-weight);line-height:var(--market-label-line-height)}", self.html)
         self.assertIn(".commodity-price{display:flex;align-items:baseline;justify-content:center", self.html)
         self.assertIn('<span class="commodity-unit">/oz</span>', self.html)
         self.assertNotIn('<div class="commodity-unit">', self.html)
