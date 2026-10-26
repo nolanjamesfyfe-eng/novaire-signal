@@ -41,7 +41,7 @@ class RenderContractTests(unittest.TestCase):
         tasks_module = (ROOT / "google_tasks.py").read_text(encoding="utf-8")
         card = self.html.split('id="google-daily-tasks-card"', 1)[1].split("<!-- FOOTER BRANDING -->", 1)[0]
         self.assertIn('data-task-list="Daily"', self.html)
-        self.assertIn("☑</span><span class=\"compact-peer-label\">Daily Tasks", card)
+        self.assertIn("☑</span> <span class=\"compact-peer-label\">Daily Tasks", card)
         self.assertIn("Google Tasks · Last synced", card)
         self.assertLess(self.html.index('id="google-daily-tasks-card"'), self.html.index("<!-- FOOTER BRANDING -->"))
         self.assertNotIn("task-id", card.lower())
@@ -85,15 +85,15 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn('.fx-chip{padding:9px 4px}', self.html)
 
     def test_fed_signal_is_immediately_below_top_five_catalysts(self):
-        catalysts = self.html.index("🔍</span><span class=\"compact-peer-label\">Catalysts · Top 5 Holdings")
-        fed = self.html.index("🏛️</span><span class=\"compact-peer-label\">Fed Signal")
+        catalysts = self.html.index("🔍</span> <span class=\"compact-peer-label\">Catalysts · Top 5 Holdings")
+        fed = self.html.index("🏛️</span> <span class=\"compact-peer-label\">Fed Signal")
         trading_books = self.html.index("<!-- TRADING BOOKS")
         self.assertLess(catalysts, fed)
         self.assertLess(fed, trading_books)
 
     def test_fed_signal_collapses_to_rate_and_latest_sentiment(self):
         self.assertIn('id="fed-signal-card"', self.html)
-        self.assertIn('<div class="fed-title card-title"><span class="compact-peer-icon">🏛️</span><span class=\"compact-peer-label\">Fed Signal</span></div>', self.html)
+        self.assertIn('<div class="fed-title card-title"><span class="compact-peer-icon">🏛️</span> <span class=\"compact-peer-label\">Fed Signal</span></div>', self.html)
         self.assertIn('class="fed-summary-rate"', self.html)
         self.assertIn('class="fed-summary-sentiment"', self.html)
         self.assertRegex(self.html, r'Hold \d+%')
@@ -326,7 +326,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("margin-right:-.18em", self.html)
 
     def test_catalysts_stay_on_main_signal_but_not_portfolio(self):
-        heading = "🔍</span><span class=\"compact-peer-label\">Catalysts · Top 5 Holdings"
+        heading = "🔍</span> <span class=\"compact-peer-label\">Catalysts · Top 5 Holdings"
         self.assertIn(heading, self.html)
         self.assertNotIn(heading, self.portfolio_html)
 
@@ -412,7 +412,7 @@ class RenderContractTests(unittest.TestCase):
 
     def test_latest_novaire_is_compact_metric_accordion(self):
         self.assertIn('class="card signal-accordion latest-novaire-card" id="latest-novaire-card"', self.html)
-        self.assertIn('<summary><span class="card-title"><span class="compact-peer-icon">✦</span><span class="compact-peer-label">Latest from Novaire</span></span></summary>', self.html)
+        self.assertIn('<summary><span class="card-title"><span class="compact-peer-icon">✦</span> <span class="compact-peer-label">Latest from Novaire</span></span></summary>', self.html)
         self.assertEqual(self.html.count('class="latest-novaire-item"'), 6)
         for label in (
             "INSTAGRAM · PERSONAL LATEST VIDEO",
@@ -469,7 +469,7 @@ class RenderContractTests(unittest.TestCase):
             self.assertNotIn(stale_label, self.portfolio_html)
 
     def test_alpaca_is_canonical_live_holdings_source_with_weights(self):
-        self.assertIn("🦙</span><span class=\"compact-peer-label\">Alpaca · Novairecito", self.html)
+        self.assertIn("🦙</span> <span class=\"compact-peer-label\">Alpaca · Novairecito", self.html)
         self.assertNotIn("🦙 Alpaca · Livermore Darvas", self.html)
         self.assertIn("Live Alpaca holdings", self.html)
         self.assertIn('data-alpaca-positions', self.html)
