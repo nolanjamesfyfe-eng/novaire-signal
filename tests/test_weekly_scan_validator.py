@@ -12,7 +12,7 @@ SPEC = importlib.util.spec_from_file_location("validate_weekly_scan", ROOT / "sc
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
-NOW = datetime(2026, 10, 23, 12, 0, tzinfo=ZoneInfo("Asia/Bangkok"))
+NOW = datetime(2026, 10, 26, 12, 0, tzinfo=ZoneInfo("Asia/Bangkok"))
 
 
 class WeeklyScanProvenanceValidatorTests(unittest.TestCase):
@@ -37,7 +37,7 @@ class WeeklyScanProvenanceValidatorTests(unittest.TestCase):
     def test_incomplete_cannot_launder_completion_or_publish_ideas(self):
         weekly = copy.deepcopy(self.weekly)
         ledger = copy.deepcopy(self.ledger)
-        weekly["scan_completed_at"] = "2026-10-19T07:04:48+07:00"
+        weekly["scan_completed_at"] = "2026-10-26T07:04:48+07:00"
         ledger["scan_completed_at"] = weekly["scan_completed_at"]
         with self.assertRaisesRegex(ValueError, "incomplete scan must have null completion"):
             self.validate(weekly=weekly, ledger=ledger)
@@ -47,7 +47,7 @@ class WeeklyScanProvenanceValidatorTests(unittest.TestCase):
         ledger = copy.deepcopy(self.ledger)
         weekly.update({
             "scan_status": "completed",
-            "scan_completed_at": "2026-10-19T08:00:00+07:00",
+            "scan_completed_at": "2026-10-26T08:00:00+07:00",
             "status_message": "Verified scan completed; no candidates qualified.",
             "portfolio_note": "",
             "evidence": {
@@ -78,7 +78,7 @@ class WeeklyScanProvenanceValidatorTests(unittest.TestCase):
         ledger = copy.deepcopy(self.ledger)
         weekly.update({
             "scan_status": "completed",
-            "scan_completed_at": "2026-10-19T08:00:00+07:00",
+            "scan_completed_at": "2026-10-26T08:00:00+07:00",
             "evidence": {"sources": ["x"], "candidates_reviewed": 17, "public_ledger_path": "weekly_scan_ledger.json"},
         })
         ledger.update({"scan_status": "completed", "scan_completed_at": weekly["scan_completed_at"]})

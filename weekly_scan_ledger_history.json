@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "editions": [
+    {
+      "schema_version": 1,
+      "edition_as_of": "2026-10-19",
+      "scan_completed_at": null,
+      "scan_status": "incomplete",
+      "checked_at": "2026-10-19T07:04:48+07:00",
+      "universe": {
+        "total": 17,
+        "tokens": 9,
+        "equities": 8
+      },
+      "outcomes": {
+        "qualified": 0,
+        "watch": 5,
+        "economic_rejection": 8,
+        "portfolio_concentration": 1,
+        "evidence_blocked": 3
+      },
+      "candidates": [
+        {
+          "type": "token",
+          "symbol": "GMX",
+          "canonical_key": "gmx|gmx",
+          "status": "watch",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$8.48; US$90.6m market cap and FDV; -18.3% one year; US$4.27m reported 24h volume; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "Reported supply is fully circulating and GMX documentation says 27% of trading, liquidation, borrowing and swap fees buy back GMX, but distribution of bought-back GMX is suspended. The mechanism is real; current holder realization and execution depth are not yet sufficient for promotion.",
+          "missing_fields": [
+            "primary trailing-90-day fee and buyback series",
+            "binding status and timing of bought-back GMX distribution",
+            "dated 3\u201312 month catalyst",
+            "intended-size venue depth below 1% slippage"
+          ],
+          "dated_sources": [
+            {
+              "url": "https://docs.gmx.io/docs/tokenomics/gmx-token/",
+              "source_date": "checked 2026-10-19",
+              "note": "Official token utility, 27% buyback allocation and suspended distribution."
+            }
+          ]
+        },
+        {
+          "type": "token",
+          "symbol": "CVX",
+          "canonical_key": "cvx|convex-finance",
+          "status": "watch",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$2.05; US$191.5m market cap / US$205.5m FDV; -11.7% one year; US$10.9m reported 24h volume; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "About 93% of maximum supply is reported circulating and official documentation assigns 4.5% of CRV revenue to CVX stakers, but current net fee yield, bribe economics and a dated rerating event were not established.",
+          "missing_fields": [
+            "primary trailing-90-day CVX-staker distributions",
+            "net yield after lock and liquidity constraints",
+            "dated 3\u201312 month catalyst",
+            "venue-specific slippage"
+          ],
+          "dated_sources": [
+            {
+              "url": "https://docs.convexfinance.com/convexfinance/faq/fees",
+              "source_date": "checked 2026-10-19",
+              "note": "Official fee allocation states 4.5% of CRV revenue goes to CVX stakers as cvxCRV."
+            }
+          ]
+        },
+        {
+          "type": "token",
+          "symbol": "DYDX",
+          "canonical_key": "dydx|dydx-chain",
+          "status": "watch",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$0.114594; US$97.0m market cap / US$109.9m FDV; -65.2% one year; US$2.86m reported 24h volume; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "The drawdown and relatively narrow FDV gap create potential asymmetry, but current exchange usage, net tokenholder fee capture and intended-size liquidity remain unverified.",
+          "missing_fields": [
+            "primary trailing-90-day trading-volume and fee series",
+            "net tokenholder value capture after incentives",
+            "remaining unlock schedule",
+            "venue-specific slippage"
+          ],
+          "dated_sources": []
+        },
+        {
+          "type": "token",
+          "symbol": "CRV",
+          "canonical_key": "crv|curve-dao-token",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$0.354096; US$557.2m market cap / US$858.9m FDV; -33.0% one year; US$55.7m reported 24h volume; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "FDV is about 54% above market cap and the scan did not establish emissions-adjusted holder economics strong enough to offset dilution.",
+          "missing_fields": []
+        },
+        {
+          "type": "token",
+          "symbol": "ENA",
+          "canonical_key": "ena|ethena",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$0.188636; US$2.524b market cap / US$2.825b FDV; -59.3% one year; US$300.6m reported 24h volume; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "Liquidity is strong and the FDV gap is moderate, but a multi-billion-dollar valuation without a verified binding tokenholder claim on protocol economics does not meet the asymmetric-entry bar.",
+          "missing_fields": []
+        },
+        {
+          "type": "token",
+          "symbol": "OSMO",
+          "canonical_key": "osmo|osmosis",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$0.04443073; US$33.3m market cap / US$42.5m FDV; -63.5% one year; US$11.5m reported 24h volume; CoinGecko 2026-10-19T00:02:48Z.",
+          "reason": "The deep drawdown is not enough: FDV is about 28% above market cap and no current binding holder-value capture or dated rerating catalyst was verified.",
+          "missing_fields": []
+        },
+        {
+          "type": "token",
+          "symbol": "RPL",
+          "canonical_key": "rpl|rocket-pool",
+          "status": "evidence_blocked",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$1.50; US$34.3m market cap and FDV; -56.2% one year; US$1.09m reported 24h volume; uncapped maximum supply; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "Near-full reported supply and drawdown merit study, but uncapped supply, modest turnover and missing current staking economics block promotion.",
+          "missing_fields": [
+            "primary current issuance policy",
+            "current protocol and node-operator economics",
+            "dated catalyst",
+            "executable venue depth"
+          ]
+        },
+        {
+          "type": "token",
+          "symbol": "LQTY",
+          "canonical_key": "lqty|liquity",
+          "status": "evidence_blocked",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$0.190917; US$18.9m market cap / US$19.1m FDV; -62.3% one year; US$0.84m reported 24h volume; CoinGecko 2026-10-19T00:01:53Z.",
+          "reason": "Near-full supply and drawdown are interesting, but reported turnover is below the execution threshold and current fee economics were not independently established.",
+          "missing_fields": [
+            "executable venue depth",
+            "primary current fee economics",
+            "dated catalyst"
+          ]
+        },
+        {
+          "type": "token",
+          "symbol": "BAL",
+          "canonical_key": "bal|balancer",
+          "status": "evidence_blocked",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://api.coingecko.com/api/v3/coins/markets",
+          "quote": "US$0.120055; US$8.38m market cap / US$8.69m FDV; -88.0% one year; US$0.47m reported 24h volume; CoinGecko 2026-10-19T00:02:48Z.",
+          "reason": "The tiny valuation and drawdown are outweighed by sub-threshold turnover and unresolved protocol continuity, fee-capture and execution evidence.",
+          "missing_fields": [
+            "protocol continuity and current usage",
+            "primary fee distribution",
+            "executable venue depth",
+            "dated catalyst"
+          ]
+        },
+        {
+          "type": "equity",
+          "symbol": "NILI.V",
+          "canonical_key": "nili|surge-battery-metals",
+          "status": "watch",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/NILI.V",
+          "quote": "C$0.64 close on 2026-10-16 versus C$0.67 on 2026-10-15: -4.48% prior session; 2026-10-16 volume 504,400; adjacent valid Yahoo daily bars.",
+          "reason": "The lithium developer remains potentially asymmetric, but a dated basic/fully diluted capitalization, treasury runway, executable depth and a specific 3\u201312 month de-risking event were not completed.",
+          "missing_fields": [
+            "dated basic and fully diluted capitalization",
+            "latest cash and funding runway",
+            "specific dated development catalyst",
+            "intended-size liquidity"
+          ]
+        },
+        {
+          "type": "equity",
+          "symbol": "WRN",
+          "canonical_key": "wrn|western-copper-and-gold",
+          "status": "watch",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/WRN",
+          "quote": "US$1.82 close on 2026-10-16 versus US$1.83 on 2026-10-15: -0.55% prior session; 2026-10-16 volume 1,055,900; adjacent valid Yahoo daily bars.",
+          "reason": "Casino offers large copper-gold optionality and the issuer reported substantial post-financing liquidity, but fully diluted valuation, permitting milestones and build-funding dilution must be reconciled before promotion.",
+          "missing_fields": [
+            "current basic and fully diluted equity value",
+            "latest cash balance after current-quarter spending",
+            "dated permitting decision path",
+            "construction funding and dilution scenario"
+          ],
+          "dated_sources": [
+            {
+              "url": "https://www.westerncopperandgold.com/wp-content/uploads/2026/05/2026.06.30-WRN-Q2-2026-MDA.pdf",
+              "source_date": "2026-06-30",
+              "note": "Issuer MD&A; 226,175,426 common shares were reported outstanding at the MD&A date."
+            }
+          ]
+        },
+        {
+          "type": "equity",
+          "symbol": "TMQ",
+          "canonical_key": "tmq|trilogy-metals",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TMQ",
+          "quote": "US$2.36 close on 2026-10-16 versus US$2.45 on 2026-10-15: -3.67% prior session; 2026-10-16 volume 1,263,600; adjacent valid Yahoo daily bars.",
+          "reason": "The setup remains dominated by Alaska permitting and infrastructure binary risk, with no completed valuation-to-milestone case strong enough to justify a new position.",
+          "missing_fields": []
+        },
+        {
+          "type": "equity",
+          "symbol": "UROY",
+          "canonical_key": "uroy|uranium-royalty-corp",
+          "status": "portfolio_concentration",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/UROY",
+          "quote": "US$3.54 close on 2026-10-16 versus US$3.71 on 2026-10-15: -4.58% prior session; 2026-10-16 volume 2,248,200; adjacent valid Yahoo daily bars.",
+          "reason": "Even if royalty leverage is attractive, current live holdings already contain broad and direct uranium exposure across personal, RRSP and Alpaca accounts. It fails portfolio-level diversification before thesis promotion.",
+          "missing_fields": []
+        },
+        {
+          "type": "equity",
+          "symbol": "IVN.TO",
+          "canonical_key": "ivn|ivanhoe-mines",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/IVN.TO",
+          "quote": "C$10.28 close on 2026-10-16 versus C$10.66 on 2026-10-15: -3.56% prior session; 2026-10-16 volume 3,218,500; adjacent valid Yahoo daily bars.",
+          "reason": "Liquid copper exposure, but the scan did not establish a depressed microcap-style valuation or financing asymmetry sufficient for this weekly mandate.",
+          "missing_fields": []
+        },
+        {
+          "type": "equity",
+          "symbol": "LUN.TO",
+          "canonical_key": "lun|lundin-mining",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/LUN.TO",
+          "quote": "C$33.33 close on 2026-10-16 versus C$32.91 on 2026-10-15: +1.28% prior session; 2026-10-16 volume 2,883,100; adjacent valid Yahoo daily bars.",
+          "reason": "This is a liquid established producer, but current scale and positive momentum do not fit the depressed asymmetric-entry filter.",
+          "missing_fields": []
+        },
+        {
+          "type": "equity",
+          "symbol": "ERO",
+          "canonical_key": "ero|ero-copper",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/ERO",
+          "quote": "US$34.16 close on 2026-10-16 versus US$34.75 on 2026-10-15: -1.70% prior session; 2026-10-16 volume 839,100; adjacent valid Yahoo daily bars.",
+          "reason": "Current producer exposure and valuation scale did not present a verified 10\u201330x-style asymmetry; one weak session is not an entry thesis.",
+          "missing_fields": []
+        },
+        {
+          "type": "equity",
+          "symbol": "NGEX.TO",
+          "canonical_key": "ngex|ngex-minerals",
+          "status": "economic_rejection",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/NGEX.TO",
+          "quote": "C$21.05 close on 2026-10-16 versus C$21.73 on 2026-10-15: -3.13% prior session; 2026-10-16 volume 278,600; adjacent valid Yahoo daily bars.",
+          "reason": "High-quality discovery exposure does not by itself establish asymmetric entry. The scan lacked a current fully diluted value and financing-to-resource milestone bridge that justified the prevailing price.",
+          "missing_fields": []
+        }
+      ],
+      "accounts_checked": [
+        {
+          "account": "personal/TFSA",
+          "status": "live",
+          "source": "Google Sheet TFSA/WS fetched 2026-10-19T00:03:42Z"
+        },
+        {
+          "account": "RRSP",
+          "status": "live",
+          "source": "Google Sheet RRSP fetched during this run"
+        },
+        {
+          "account": "Kraken",
+          "status": "live",
+          "source": "Google Sheet What's Kraken 2025 fetched during this run"
+        },
+        {
+          "account": "Alpaca",
+          "status": "live",
+          "source": "authenticated Alpaca API fetched during this run"
+        },
+        {
+          "account": "Evolution/TFSA",
+          "status": "evidence_blocked",
+          "source": "generator exposes static holdings definitions; no live canonical account feed was retrievable"
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://api.coingecko.com/api/v3/coins/markets",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "note": "Structured token price, market cap, FDV, supply, volume and one-year change for nine candidates."
+        },
+        {
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/WRN",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "note": "Representative structured chart endpoint; adjacent valid 2026-10-15 and 2026-10-16 daily bars were verified for all eight equity candidates."
+        },
+        {
+          "url": "https://docs.gmx.io/docs/tokenomics/gmx-token/",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "note": "Primary GMX value-capture rules and suspended distribution disclosure."
+        },
+        {
+          "url": "https://docs.convexfinance.com/convexfinance/faq/fees",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "note": "Primary Convex fee-allocation documentation."
+        },
+        {
+          "url": "https://www.westerncopperandgold.com/wp-content/uploads/2026/05/2026.06.30-WRN-Q2-2026-MDA.pdf",
+          "checked_at": "2026-10-19T07:04:48+07:00",
+          "note": "Issuer capital structure and project/funding disclosure for WRN deepening."
+        }
+      ],
+      "blockers": [
+        "Evolution Fund holdings in the canonical generator remain static definitions rather than a retrievable live account source, so cross-account concentration coverage is incomplete.",
+        "None of the five WATCH candidates completed every required primary fee/funding, dilution, dated-catalyst and executable-liquidity check.",
+        "Search snippets were used only to discover primary pages; no search snippet supplied a quote or percentage."
+      ],
+      "notes": [
+        "This ledger records a real 17-candidate research run but an incomplete account audit, not a completed no-opportunity scan.",
+        "History exclusions use published prior editions only; unsurfaced research rejects are not permanent exclusions.",
+        "Private quantities, account values and position weights are excluded.",
+        "No trade was placed."
+      ]
+    }
+  ]
+}

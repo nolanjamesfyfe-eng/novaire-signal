@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-19",
+  "as_of": "2026-10-26",
   "scan_status": "incomplete",
   "scan_completed_at": null,
-  "status_message": "Research incomplete: 17 candidates were reviewed (9 tokens, 8 natural-resource equities) with structured timestamped quotes, but the Evolution Fund holdings available to this checkout remain static rather than a live canonical account feed. No fresh zero-opportunity claim is made.",
-  "portfolio_note": "Incomplete account evidence, not an empty opportunity set. Five setups remain WATCH pending the concrete fee, dilution, funding, catalyst and execution checks recorded in the public research ledger; no trade signal was published.",
+  "status_message": "Research incomplete: 17 candidates were reviewed (9 tokens, 8 natural-resource equities) with structured timestamped quotes, but Evolution Fund holdings remain static generator definitions rather than a retrievable live canonical account feed. No fresh zero-opportunity claim is made.",
+  "portfolio_note": "Incomplete account evidence, not an empty opportunity set. Four setups remain WATCH pending the concrete fee, dilution, funding, catalyst and execution checks recorded in the public research ledger; no trade signal was published.",
   "evidence": null,
   "ideas": []
 }
