@@ -34,15 +34,17 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     assert "event.key==='ArrowLeft'" in html and "event.key==='ArrowRight'" in html
     assert "navigator.share" in html and "navigator.clipboard.writeText" in html
     assert '@media(prefers-reduced-motion:reduce)' in html
-    assert '<meta name="contacts-release" content="2026-10-25-v18">' in html
-    assert 'width:clamp(205px,29svh,265px)' in html
+    assert '<meta name="contacts-release" content="2026-10-26-v19">' in html
+    assert 'width:min(360px,38svh)' in html
     assert 'width:min(900px,calc(100vw - 180px))' in html
     assert 'height:min(720px,calc(100svh - 190px))' in html
     assert 'width:calc(100vw - 8px)' in html
     assert 'height:calc(100% - 4px)' in html
     assert '@media(max-height:800px) and (min-width:651px)' in html
     assert '.social-card{height:calc(100% - 20px);min-height:0}' in html
-    assert '.qr-frame{width:clamp(190px,28svh,245px)}' in html
+    assert '.qr-frame{width:min(calc(100vw - 56px),42svh,340px);padding:8px}' in html
+    assert '.social-card h2{font-size:50px}' in html
+    assert '.handle{margin:5px 0 8px;font-size:19px}' in html
     assert '.social-card[data-position="prev"]' in html
     assert '.social-card[data-position="next"]' in html
 for slug in ("instagram", "whatsapp", "telegram", "linkedin"):
@@ -50,7 +52,7 @@ for slug in ("instagram", "whatsapp", "telegram", "linkedin"):
     assert f'"/{slug}.png"' in (OUT / "sw.js").read_text()
 worker = (OUT / "sw.js").read_text()
 assert '"/contacts/"' in worker
-assert "novaire-contacts-origin-v18" in worker
+assert "novaire-contacts-origin-v19" in worker
 assert "event.waitUntil(self.cleanup())" in worker
 assert "includeUncontrolled:true" in worker
 assert "clients.forEach" in worker
