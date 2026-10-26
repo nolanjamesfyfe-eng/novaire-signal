@@ -5,15 +5,15 @@
     "lat": 13.7563,
     "lon": 100.5018,
     "tz_offset": 7,
-    "temp": 30.4,
-    "high": 32.7,
-    "low": 24.1,
-    "humidity": 72,
-    "condition": "Overcast ☁️",
-    "aqi": 55,
+    "temp": 32.8,
+    "high": 33.0,
+    "low": 25.5,
+    "humidity": 54,
+    "condition": "Light Drizzle 🌦",
+    "aqi": 56,
     "aqi_label": "Moderate",
     "ok": true,
-    "cached_at": "2026-10-26T02:02:33.742671+00:00"
+    "cached_at": "2026-10-26T07:14:41.619092+00:00"
   },
   "Medellín": {
     "name": "Medellín",
@@ -21,15 +21,15 @@
     "lat": 6.2442,
     "lon": -75.5812,
     "tz_offset": -5,
-    "temp": 19.0,
-    "high": 27.7,
-    "low": 17.9,
+    "temp": 18.4,
+    "high": 27.1,
+    "low": 18.1,
     "humidity": 100,
     "condition": "Foggy 🌫",
-    "aqi": 52,
-    "aqi_label": "Moderate",
+    "aqi": 50,
+    "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-10-26T02:02:34.081680+00:00"
+    "cached_at": "2026-10-26T07:14:41.953276+00:00"
   },
   "Edmonton": {
     "name": "Edmonton",
@@ -37,15 +37,15 @@
     "lat": 53.5461,
     "lon": -113.4938,
     "tz_offset": -6,
-    "temp": -1.4,
-    "high": 1.8,
-    "low": -5.0,
-    "humidity": 73,
+    "temp": -1.6,
+    "high": 4.6,
+    "low": -2.3,
+    "humidity": 72,
     "condition": "Clear Sky ☀️",
-    "aqi": 36,
+    "aqi": 34,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-10-26T02:02:34.416728+00:00"
+    "cached_at": "2026-10-26T07:14:42.289470+00:00"
   },
   "Montevideo": {
     "name": "Montevideo",
@@ -53,14 +53,14 @@
     "lat": -34.9011,
     "lon": -56.1645,
     "tz_offset": -3,
-    "temp": 12.5,
-    "high": 13.9,
-    "low": 12.4,
-    "humidity": 72,
-    "condition": "Overcast ☁️",
-    "aqi": 44,
+    "temp": 12.2,
+    "high": 13.2,
+    "low": 11.4,
+    "humidity": 70,
+    "condition": "Partly Cloudy ⛅",
+    "aqi": 43,
     "aqi_label": "Good",
     "ok": true,
-    "cached_at": "2026-10-26T02:02:34.755339+00:00"
+    "cached_at": "2026-10-26T07:14:42.626924+00:00"
   }
 }
