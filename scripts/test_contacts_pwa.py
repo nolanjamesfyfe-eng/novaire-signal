@@ -35,7 +35,7 @@ for page in (OUT / "index.html", OUT / "contacts" / "index.html"):
     assert "event.key==='ArrowLeft'" in html and "event.key==='ArrowRight'" in html
     assert "navigator.share" in html and "navigator.clipboard.writeText" in html
     assert '@media(prefers-reduced-motion:reduce)' in html
-    assert '<meta name="contacts-release" content="2026-10-26-v27">' in html
+    assert '<meta name="contacts-release" content="2026-10-26-v28">' in html
     assert 'width:min(360px,38svh)' in html
     assert 'width:min(900px,calc(100vw - 180px))' in html
     assert 'height:min(720px,calc(100svh - 190px))' in html
@@ -58,7 +58,7 @@ for slug in ("instagram", "whatsapp", "telegram", "linkedin", "line"):
     assert f'"/{slug}.png"' in (OUT / "sw.js").read_text()
 worker = (OUT / "sw.js").read_text()
 assert '"/contacts/"' in worker
-assert "novaire-contacts-origin-v27" in worker
+assert "novaire-contacts-origin-v28" in worker
 assert "event.waitUntil(self.cleanup())" in worker
 assert "includeUncontrolled:true" in worker
 assert "clients.forEach" in worker
