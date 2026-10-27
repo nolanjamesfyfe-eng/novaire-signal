@@ -169,7 +169,20 @@ class CompactFeedCardTests(unittest.TestCase):
             self.assertIn(marker, source)
         self.assertNotIn("text-overflow:ellipsis", source[source.index(".compact-feed-card"):source.index(".fed-card")])
 
-    def test_zerohedge_cards_share_x_geometry_with_nonshrinking_footer(self):
+    def test_zerohedge_density_override_preserves_shared_thai_and_x_geometry(self):
+        html = generate.render_zerohedge_cards(generate.parse_zerohedge_feed(ZH_RSS))
+        from bs4 import BeautifulSoup
+        card = BeautifulSoup(html, 'html.parser').select_one('.zh-feed-card')
+        header = card.select_one('.zh-story-header')
+        self.assertIsNotNone(header.select_one('.feed-card-title'))
+        self.assertIsNotNone(header.select_one('.feed-card-media'))
+        self.assertIsNone(header.select_one('.feed-card-excerpt'))
+        self.assertEqual(header.find_next_sibling().get('class'), ['feed-card-excerpt'])
+        source = (ROOT / 'generate.py').read_text()
+        self.assertIn('#zerohedge-feed .zh-feed-card{{height:auto;min-height:0;gap:6px}}', source)
+        self.assertIn('#zerohedge-feed .feed-card-excerpt{{margin:0;width:100%;-webkit-line-clamp:3;color:var(--dim)}}', source)
+        self.assertIn('class="zh-story-header">${{media}}', source)
+
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
         feed_css = source[source.index(".compact-feed-card"):source.index(".fed-card")]
         for marker in (

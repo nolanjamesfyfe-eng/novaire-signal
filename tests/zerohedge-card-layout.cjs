@@ -88,6 +88,10 @@ async function inspect(page, phase, viewport) {
         fullTitle: title.getAttribute('title'),
         ariaLabel: title.getAttribute('aria-label'),
         hasMedia: Boolean(card.querySelector('.feed-card-media')),
+        header: rect(card.querySelector('.zh-story-header')),
+        media: card.querySelector('.feed-card-media') ? rect(card.querySelector('.feed-card-media')) : null,
+        excerptColor: excerpt ? getComputedStyle(excerpt).color : null,
+        dimColor: getComputedStyle(card).getPropertyValue('--dim').trim(),
       };
     });
     return { xCards, zhCards };
@@ -102,10 +106,21 @@ async function inspect(page, phase, viewport) {
   }
   assert.equal(result.zhCards.length, 3, `${viewport} ${phase}: exactly three ZeroHedge cards`);
   assert.equal(result.xCards.length, 3, `${viewport} ${phase}: exactly three X cards`);
-  const expectedHeight = result.xCards[0].height;
-  const expectedClamps = viewport.startsWith('mobile') ? ['2', '1'] : ['4', '5'];
+  const expectedClamps = ['4', '3'];
   for (const [index, item] of result.zhCards.entries()) {
-    assert.ok(Math.abs(item.card.height - expectedHeight) <= 1, `${viewport} ${phase} card ${index}: ZH height ${item.card.height} must equal X ${expectedHeight}`);
+    assert.ok(item.footer.top - item.body.bottom <= 7, 'No stretched blank body above footer');
+    assert.ok(item.card.bottom - item.footer.bottom <= 11, 'No blank shell below footer');
+    if (item.media) {
+      assert.ok(item.titleRect.left >= item.media.right, 'Title beside genuine thumbnail');
+      assert.ok(Math.abs(item.titleRect.top-item.media.top)<1, 'Title and image share header top');
+    }
+    if (item.excerptRect) {
+      assert.ok(item.excerptRect.top >= item.header.bottom, 'Excerpt below whole header');
+      assert.ok(Math.abs(item.excerptRect.width-item.body.width)<1, 'Excerpt uses full body width');
+      assert.ok(item.excerptRect.top-item.header.bottom<=7, 'Compact header/excerpt spacing');
+      const rgb = item.excerptColor.match(/\d+/g).map(Number);
+      assert.ok(Math.max(...rgb)-Math.min(...rgb)<25, 'Excerpt is neutral gray');
+    }
     assert.ok(item.footer.top >= item.card.top && item.footer.bottom <= item.card.bottom + 0.5, `${viewport} ${phase} card ${index}: footer inside card`);
     assert.ok(item.body.bottom <= item.footer.top + 0.5, `${viewport} ${phase} card ${index}: content does not overlap footer`);
     assert.ok(item.titleRect.bottom <= item.body.bottom + 0.5, `${viewport} ${phase} card ${index}: title inside content boundary`);

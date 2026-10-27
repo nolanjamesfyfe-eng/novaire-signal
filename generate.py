@@ -1732,7 +1732,7 @@ def render_zerohedge_cards(items):
         )
         cards.append(
             f'<article class="feed-card zh-feed-card{text_only}" data-title-limit="{ZEROHEDGE_TITLE_CHAR_LIMIT}" data-excerpt-limit="{ZEROHEDGE_EXCERPT_CHAR_LIMIT}">'
-            f'<div class="feed-card-body">{image_html}<div class="feed-card-copy">{link_html}{excerpt_html}</div></div>'
+            f'<div class="feed-card-body"><div class="zh-story-header">{image_html}<div class="feed-card-copy">{link_html}</div></div>{excerpt_html}</div>'
             f'{source_html}</article>'
         )
     return '<div class="feed-card-grid">' + "".join(cards) + "</div>"
@@ -4333,6 +4333,13 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .zh-feed-card .feed-card-title{{-webkit-line-clamp:4}}
     .zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:5}}
     .zh-feed-card .feed-card-source{{flex:none;margin-top:0;padding-top:0}}
+    /* zh-density-v2: sourced excerpt below the image/title, no fixed-height shell. */
+    #zerohedge-feed .feed-card-grid{{align-items:start}}
+    #zerohedge-feed .zh-feed-card{{height:auto;min-height:0;gap:6px}}
+    #zerohedge-feed .feed-card-body{{flex:none;display:flex;flex-direction:column;gap:6px;overflow:visible}}
+    #zerohedge-feed .zh-story-header{{display:flex;align-items:flex-start;gap:7px;width:100%;min-width:0}}
+    #zerohedge-feed .feed-card-excerpt{{margin:0;width:100%;-webkit-line-clamp:3;color:var(--dim)}}
+    #zerohedge-feed .feed-card-title{{-webkit-line-clamp:4}}
     .signal-feed-card{{flex-direction:column;gap:6px}}
     .signal-feed-card .feed-card-body{{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;align-items:flex-start;gap:7px;width:100%}}
     .signal-feed-card .feed-card-copy{{min-height:0;overflow:hidden}}
@@ -4768,10 +4775,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const excerpt = truncateWordSafe(item.excerpt, ZEROHEDGE_EXCERPT_CHAR_LIMIT);
         return `
         <article class="feed-card zh-feed-card${{media ? '' : ' feed-card--text-only'}}" data-title-limit="${{ZEROHEDGE_TITLE_CHAR_LIMIT}}" data-excerpt-limit="${{ZEROHEDGE_EXCERPT_CHAR_LIMIT}}">
-          <div class="feed-card-body">${{media}}<div class="feed-card-copy">
+          <div class="feed-card-body"><div class="zh-story-header">${{media}}<div class="feed-card-copy">
             ${{articleUrl ? `<a href="${{escHtml(articleUrl)}}" class="feed-card-title" target="_blank" rel="noopener" title="${{escHtml(fullTitle)}}" aria-label="${{escHtml(fullTitle)}}">${{escHtml(title)}}</a>` : `<span class="feed-card-title" title="${{escHtml(fullTitle)}}" aria-label="${{escHtml(fullTitle)}}">${{escHtml(title)}}</span>`}}
-            ${{excerpt ? `<p class="feed-card-excerpt">${{escHtml(excerpt)}}</p>` : ''}}
           </div></div>
+            ${{excerpt ? `<p class="feed-card-excerpt">${{escHtml(excerpt)}}</p>` : ''}}
+          </div>
           ${{articleUrl ? `<a class="feed-card-source" href="${{escHtml(articleUrl)}}" target="_blank" rel="noopener">ZeroHedge →</a>` : ''}}
         </article>`;
       }}).join('') + '</div>';
