@@ -5435,6 +5435,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     @keyframes finance-red-pulse{{0%,100%{{text-shadow:0 0 4px rgba(255,70,91,.48),0 0 11px rgba(255,70,91,.22);filter:brightness(1)}}50%{{text-shadow:0 0 7px rgba(255,70,91,.96),0 0 19px rgba(255,70,91,.52),0 0 30px rgba(255,70,91,.20);filter:brightness(1.2)}}}}
     @keyframes chart-green-pulse{{0%,100%{{filter:drop-shadow(0 0 2px rgba(86,242,177,.65)) drop-shadow(0 0 7px rgba(86,242,177,.30))}}50%{{filter:drop-shadow(0 0 4px rgba(86,242,177,1)) drop-shadow(0 0 12px rgba(86,242,177,.68))}}}}
     @keyframes chart-green-flash{{0%,100%{{opacity:.78;filter:drop-shadow(0 0 2px rgba(86,242,177,.55)) drop-shadow(0 0 6px rgba(86,242,177,.25))}}50%{{opacity:1;filter:drop-shadow(0 0 6px rgba(86,242,177,1)) drop-shadow(0 0 18px rgba(86,242,177,.85))}}}}
+    @keyframes chart-red-flash{{0%,100%{{opacity:.78;filter:drop-shadow(0 0 2px rgba(255,70,91,.55)) drop-shadow(0 0 6px rgba(255,70,91,.25))}}50%{{opacity:1;filter:drop-shadow(0 0 6px rgba(255,70,91,1)) drop-shadow(0 0 18px rgba(255,70,91,.85))}}}}
     @keyframes chart-red-pulse{{0%,100%{{filter:drop-shadow(0 0 2px rgba(255,70,91,.68)) drop-shadow(0 0 7px rgba(255,70,91,.32))}}50%{{filter:drop-shadow(0 0 4px rgba(255,70,91,1)) drop-shadow(0 0 12px rgba(255,70,91,.72))}}}}
     .positive{{color:#56f2b1;animation:finance-green-pulse 2.8s ease-in-out infinite}}.negative{{color:#ff465b;animation:finance-red-pulse 2.8s ease-in-out infinite}}
     .total-value.cad,.total-value.usd{{color:#56f2b1!important;animation:finance-green-pulse 2.8s ease-in-out infinite}}
@@ -5485,7 +5486,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-hero-note{{margin-top:3px;max-width:570px;color:var(--mute);font-size:.48rem;line-height:1.35}}
     .tracker-hero-svg{{display:block;width:100%;height:220px;overflow:hidden;touch-action:pan-y}}
     .tracker-hero-line.is-positive{{stroke:#56f2b1}}.tracker-hero-line.is-negative{{stroke:#ff465b}}.tracker-hero-area{{stroke:none}}
-    .tracker-hero-line.is-positive{{animation:chart-green-pulse 2.8s ease-in-out infinite}}.tracker-hero-line.is-live-bull{{animation:chart-green-flash 1.25s ease-in-out infinite}}.tracker-hero-line.is-negative{{animation:chart-red-pulse 2.8s ease-in-out infinite}}
+    .tracker-hero-line.is-positive{{animation:chart-green-pulse 2.8s ease-in-out infinite}}.tracker-hero-line.is-live-bull{{animation:chart-green-flash 1.25s ease-in-out infinite}}.tracker-hero-line.is-negative.is-live-bear{{animation:chart-red-flash 1.25s ease-in-out infinite}}.tracker-hero-line.is-negative{{animation:chart-red-pulse 2.8s ease-in-out infinite}}
     .tracker-crosshair{{stroke:rgba(255,255,255,.18);stroke-width:1;stroke-dasharray:3 5;opacity:0;pointer-events:none}}
     .tracker-dot{{fill:#030407;stroke:#56f2b1;stroke-width:3;opacity:0;pointer-events:none}}
     .tracker-ranges{{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:3px}}
@@ -5513,7 +5514,7 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .tracker-chart-axis{{display:flex;justify-content:space-between;gap:8px;margin:4px 2px 0;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}}
     .tracker-chart-empty{{position:relative;padding:28px 16px;margin:4px 0 16px;border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;color:var(--mute);font-size:.62rem}}
 
-    @media(prefers-reduced-motion:reduce){{.positive,.negative,.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative,.tracker-hero-line.is-live-bull{{animation:none}}}}
+    @media(prefers-reduced-motion:reduce){{.positive,.negative,.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative,.tracker-hero-line.is-live-bull,.tracker-hero-line.is-live-bear{{animation:none}}}}
     .debt-hub{{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 190px;align-items:center;gap:24px;padding:24px;border-color:rgba(255,126,54,.22);background:radial-gradient(circle at 88% 15%,rgba(255,92,39,.12),transparent 36%),linear-gradient(135deg,rgba(255,184,0,.045),rgba(4,4,7,.4)),var(--surface)}}
     .debt-hub::before{{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.025) 48%,transparent 76%)}}
     .debt-hub-copy,.debt-hub-action{{position:relative}}
