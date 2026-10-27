@@ -127,6 +127,9 @@
       finally { clearRecord(); }
     });
 
+    window.addEventListener('health:session-authenticated', () => { if (!privateRecord) loadRecord().catch(() => { status.textContent = 'Private clinical record unavailable; check-ins are separate.'; }); });
+    window.addEventListener('health:session-expired', () => clearRecord('Session expired. Unlock here or in your check-in.', 'unlock-failed'));
+
     window.addEventListener('health:request-unlock', () => {
       clearRecord('Unlock to return to your unsaved check-in. Your draft stays in this tab.', 'unlock-failed');
       panel.scrollIntoView({ behavior: 'instant', block: 'center' });

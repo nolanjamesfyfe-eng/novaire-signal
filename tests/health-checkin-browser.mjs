@@ -57,6 +57,7 @@ try{
   assert.equal(await page.locator('.energy.energy-populated').count(),1,'any finite score, not only 100%, must use populated pulse');
   assert.match(await page.locator('.energy-coverage').textContent(),/Save to update day, week and month history/);
   assert.deepEqual(await page.evaluate(()=>({answers:window.__LAST_HEALTH_CHECKIN__?.answers,draft:window.__LAST_HEALTH_CHECKIN__?.draft})),{answers:{energy:9,focus:8,stress:2,calm:7,happiness:8},draft:true},'brain event must carry the latest draft answers');
+  await page.locator('.energy-foundations summary').click();
   await page.locator('[name="sleepHours"]').fill('7.5');await page.locator('[name="alcoholCount"]').fill('0');
   await page.locator('[name="happiness"]').press('Enter');await page.waitForFunction(()=>document.querySelector('.energy-feedback')?.textContent.includes('Saved privately'));
   assert.equal(putBodies.length,1);assert.equal(putBodies[0].revision,9);assert.equal(putBodies[0].entry.date,today);assert.equal(putBodies[0].entry.foundations.sleepHours,7.5);
@@ -83,6 +84,6 @@ try{
   await page.setViewportSize({width:1440,height:1000});await page.locator('.energy-checkin-open').click();await page.locator('.energy-save').scrollIntoViewIfNeeded();await page.screenshot({path:evidence+'/health-checkin-desktop-update.png'});
   const desktopBattery=await page.locator('.energy-battery-wrap').boundingBox();assert(desktopBattery&&Math.abs(desktopBattery.width-268)<1,'desktop battery must be exactly 80% of the prior 335px baseline');
   const footer=await page.locator('.energy-form-footer').boundingBox(),button=await page.locator('.energy-save').boundingBox();assert(footer&&button&&button.x>footer.x+footer.width/2,'Update must remain at the form footer bottom right');
-  assert.equal(await page.locator('.energy-save').textContent(),'UPDATE');assert.equal(errors.length,0,errors.join('\n'));
+  assert.equal(await page.locator('.energy-save').textContent(),'SAVE CHECK-IN');assert.equal(errors.length,0,errors.join('\n'));
   console.log('PASS mocked private UI: Enter submit, save, battery refresh, revision readback reload, prior-month calendar, selectable details, unknown states, consistency, mobile/desktop');
 }finally{if(browser)await browser.close();server.kill('SIGTERM')}
