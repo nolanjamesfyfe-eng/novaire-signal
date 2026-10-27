@@ -6,11 +6,12 @@ const local=base.includes('127.0.0.1');
 const out=process.env.EVIDENCE_DIR||process.env.TMPDIR+'/shell-parity';
 const baseline=process.env.BASELINE?JSON.parse(fs.readFileSync(process.env.BASELINE)):null;
 const routes=['','flaneur','health','portfolio/','portfolio/daily/','portfolio/evolutionfund/','portfolio/evolutionfund/philosophy.html','portfolio/finances/','portfolio-lock.html'];
-const props=['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','lineHeight','textTransform','color'];
+const props=['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','lineHeight','textTransform','color','animationName','animationDuration','animationTimingFunction','animationDelay','animationIterationCount'];
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({executablePath:'/opt/google/chrome/chrome',args:['--no-sandbox']});
- const context=await browser.newContext({reducedMotion:'reduce'});
+ let context;
+ const auth=async()=>{
  if(process.env.SIGNAL_AUTH==='1'){
   const secrets=fs.readFileSync('/root/clawd/.secrets','utf8');
   const pin=secrets.match(/^NOS_ACCESS_PIN=(.*)$/m)?.[1].trim().replace(/^['"]|['"]$/g,'');
@@ -18,23 +19,28 @@ const props=['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','l
   const res=await context.request.post(base+'api/portfolio-auth',{data:{pin}});
   assert(res.ok(),`Portfolio auth failed ${res.status()}`);
  }
+ };
  const results=[];let failure;
  try{
- for(const width of [320,360,390,430,1440]){
+ for(const width of (process.env.WIDTHS||'320,360,390,412,430,980,1440').split(',').map(Number)){
+  const touch=width<1100;
+  context=await browser.newContext({viewport:{width,height:width===980?2196:923},hasTouch:touch,isMobile:touch,deviceScaleFactor:touch?2.625:1,reducedMotion:process.env.MOTION||'reduce'});await auth();
   let canonical;
   for(const route of routes){
-   const page=await context.newPage();await page.setViewportSize({width,height:900});
+   const page=await context.newPage();await page.setViewportSize({width,height:width===980?2196:923});
    await page.goto(base+(local&&route==='flaneur'?'map/':route),{waitUntil:'domcontentloaded'});
    await page.evaluate(()=>document.fonts.ready);
    if(route==='flaneur')await page.waitForSelector('#globe-canvas[data-ready="true"]',{timeout:30000});
    await page.waitForTimeout(300);
+   // Compare the same pulse phase without changing computed animation contracts.
+   await page.evaluate(()=>document.querySelectorAll('.signal-brand-row *').forEach(e=>e.getAnimations().forEach(a=>{a.pause();a.currentTime=0})));
    const data=await page.evaluate(props=>{
     const sample=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return {text:e.textContent.trim(),css:Object.fromEntries(props.map(k=>[k,s[k]])),box:{x:r.x,y:r.y,width:r.width,height:r.height}}};
     return {zoom:getComputedStyle(document.body).zoom,overflow:document.documentElement.scrollWidth>innerWidth,rows:[...document.querySelectorAll('.signal-brand-row')].map(e=>({row:sample(e),children:[...e.children].map(sample),paint:[...e.querySelectorAll('svg,.signal-wordmark>span')].map(sample),links:[...e.querySelectorAll('a')].map(a=>a.getAttribute('href'))})),taglines:[...document.querySelectorAll('.signal-tagline,.footer-tagline')].map(sample),headings:[...document.querySelectorAll('h1,h2,.stat-value,.legend')].map(sample),globe:document.querySelector('#globe-canvas')?.getAttribute('data-diameter')};
    },props);
    results.push({width,route,...data});
    const name=route.replaceAll('/','_')||'home';
-   await page.screenshot({path:`${out}/${name}-${width}.png`,fullPage:route==='flaneur'});
+   await page.screenshot({path:`${out}/${name}-${width}.png`,scale:'css',timeout:60000});
    if(data.rows.length){await page.evaluate(()=>{document.documentElement.style.scrollBehavior='auto';document.querySelectorAll('.signal-brand-row')[1].scrollIntoView({behavior:'instant',block:'center'})});await page.screenshot({path:`${out}/${name}-footer-${width}.png`});}
    if(!route)canonical=data;
    if(!process.env.RECORD_ONLY){
@@ -68,6 +74,7 @@ const props=['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','l
    }
    await page.close();
   }
+  await context.close();
  }
  }catch(e){failure=e}finally{await browser.close();fs.writeFileSync(out+'/results.json',JSON.stringify(results,null,2))}
  if(failure)throw failure;

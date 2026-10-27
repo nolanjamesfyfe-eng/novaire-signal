@@ -69,7 +69,7 @@
 button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:1px solid #7beeff;outline-offset:3px}
 
-@media(max-width:1000px) and (min-width:761px){
+@media (max-width:1000px) and (min-width:761px) and (hover:hover), (max-width:1000px) and (min-width:761px) and (max-width:600px), (max-width:1000px) and (min-width:761px) and (min-width:1101px){
   .stage #viewport{width:58vw;left:52%}
   .stage>.intro{left:28px;width:225px}.stage>.intro #atlas-title{font-size:42px}
   .inspector{right:24px;width:230px}
@@ -132,4 +132,4 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   .energy h2{font-size:38px}.energy-calendar-weekdays,.energy-calendar{gap:3px}.energy-calendar button{min-height:38px}
 }
 
-@media(prefers-reduced-motion:reduce){.layer-controls button,.view-controls button{transition:none}.brain-atlas__deck,.energy-panel{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){.layer-controls button,.view-controls button{transition:none}.brain-atlas__deck,.energy-panel{scroll-behavior:auto}}

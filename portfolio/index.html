@@ -19,7 +19,7 @@
     }
     html{scroll-behavior:smooth;font-size:110%}
     body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:0 16px 32px;font-size:18.15px;line-height:1.5}
-    @media(min-width:900px){body{zoom:1.1}}
+    @media (min-width:900px) and (hover:hover), (min-width:900px) and (max-width:600px), (min-width:900px) and (min-width:1101px){body{zoom:1.1}}
     .container{max-width:980px;margin:0 auto}
     .header-brand{text-align:center;padding-bottom:20px}
     .dateline{text-align:center;padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--border)}
@@ -128,7 +128,7 @@
     .tracker-chart-axis{display:flex;justify-content:space-between;gap:8px;margin:4px 2px 0;color:var(--mute);font-size:.46rem;font-variant-numeric:tabular-nums}
     .tracker-chart-empty{position:relative;padding:28px 16px;margin:4px 0 16px;border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;color:var(--mute);font-size:.62rem}
 
-    @media(prefers-reduced-motion:reduce){.positive,.negative,.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative,.tracker-hero-line.is-live-bull,.tracker-hero-line.is-live-bear{animation:none}}
+    @media (prefers-reduced-motion:reduce){.positive,.negative,.total-value.cad,.total-value.usd,.tracker-hero-line.is-positive,.tracker-hero-line.is-negative,.tracker-hero-line.is-live-bull,.tracker-hero-line.is-live-bear{animation:none}}
     .debt-hub{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 190px;align-items:center;gap:24px;padding:24px;border-color:rgba(255,126,54,.22);background:radial-gradient(circle at 88% 15%,rgba(255,92,39,.12),transparent 36%),linear-gradient(135deg,rgba(255,184,0,.045),rgba(4,4,7,.4)),var(--surface)}
     .debt-hub::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 18%,rgba(255,255,255,.025) 48%,transparent 76%)}
     .debt-hub-copy,.debt-hub-action{position:relative}
@@ -177,7 +177,7 @@
     .back-link:hover{color:var(--gold)}
     .daily-nav-link{display:inline-flex;align-items:center;gap:4px}
     .daily-nav-icon{width:12px;height:12px;display:block;flex:none;color:var(--gold)}
-    @media(max-width:600px){
+    @media (max-width:600px), (hover:none) and (min-width:601px) and (max-width:1100px){
       .portfolio-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
       .psum-item:last-child{grid-column:1/-1}
       .totals-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px}
@@ -216,7 +216,7 @@
     .holdings-content{max-width:100%;overflow-x:auto}
     .holdings-content:not([style*="display: none"]){margin-bottom:22px}
   </style>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/signal-shell.css?v=2"></head>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/signal-shell.css?v=3"></head>
 <body>
 <div class="container">
 

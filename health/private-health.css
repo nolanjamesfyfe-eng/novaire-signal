@@ -19,4 +19,4 @@
 .health-private__content h3 { margin: 1rem 0 .35rem; }
 .health-private__content p, .health-private__content ul { margin: 0; line-height: 1.55; }
 .health-private__logout { margin-top: 1.25rem; }
-@media (max-width: 520px) { .health-private { margin: 1rem; } .health-private__form { grid-template-columns: 1fr; } }
+@media (max-width: 520px), (hover:none) and (min-width:601px) and (max-width:1100px){ .health-private { margin: 1rem; } .health-private__form { grid-template-columns: 1fr; } }

@@ -18,5 +18,5 @@
 footer{display:grid!important;grid-template-columns:auto 1fr auto;grid-template-areas:"brand brand brand" "left mid right";align-items:center;column-gap:24px;row-gap:16px;padding:26px clamp(22px,5vw,72px)!important}
 footer .health-footer-brand{position:static!important;transform:none!important;grid-area:brand;justify-self:center}
 footer>span:first-of-type{grid-area:left}footer>p{grid-area:mid;margin:0;text-align:center;line-height:1.7}footer>span:last-of-type{grid-area:right}
-@media(max-width:760px){.meditation{grid-template-columns:1fr;gap:28px;padding:64px 20px 56px}.meditation-tracks{grid-template-columns:1fr}
+@media (max-width:760px), (hover:none) and (min-width:601px) and (max-width:1100px){.meditation{grid-template-columns:1fr;gap:28px;padding:64px 20px 56px}.meditation-tracks{grid-template-columns:1fr}
 footer{grid-template-columns:1fr 1fr;grid-template-areas:"brand brand" "mid mid" "left right";padding:24px 20px!important}footer>p{order:0!important;width:auto!important}footer>span:last-of-type{justify-self:end}}

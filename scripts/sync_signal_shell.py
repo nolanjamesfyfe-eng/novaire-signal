@@ -7,8 +7,11 @@ import re, sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from signal_brand import signal_brand_css, signal_brand_font_link, signal_brand_markup
+from scripts.touch_bridge import SHELL_CSS as BRIDGE_SHELL_CSS, BRIDGE, bridge_html, bridge_css
 PAGES=('map/index.html','health/index.html','portfolio/index.html','portfolio/daily/index.html','portfolio/evolutionfund/index.html','portfolio/evolutionfund/philosophy.html','portfolio/finances/index.html','portfolio-lock.html')
-LINK='<link rel="stylesheet" href="/signal-shell.css?v=2">'
+LINK='<link rel="stylesheet" href="/signal-shell.css?v=3">'
+OLD_LINKS=('<link rel="stylesheet" href="/signal-shell.css?v=2">',)
+BRIDGE_CSS_FILES=tuple('health/'+n for n in ('style.css','energy.css','brain-atlas.css','brain-overlay.css','injury-journal.css','physique.css','private-health.css','meditation.css','presentation.css'))
 def sync():
     css=signal_brand_css()+'''\n/* Companion-only cascade boundary. Original homepage remains immutable. */
 .signal-brand-row{flex-shrink:0;font-synthesis:none}
@@ -32,8 +35,11 @@ body.signal-health-page footer .health-footer-brand{margin-top:16px}
 @media(min-width:761px){body.signal-health-page .topbar{padding-top:35.2px!important}.site-brand-slot:not(.bottom),.evolution-brand{padding-top:35.2px!important}}
 /* Match homepage's desktop raster/layout scale without zooming any canvas. */
 @media(min-width:900px){body.signal-companion-unzoomed .signal-brand-row{zoom:1.1;transform:scale(.9090909);transform-origin:center top}}
-'''
+'''+BRIDGE_SHELL_CSS+'@media '+BRIDGE+'{body.signal-companion-unzoomed .signal-brand-row{zoom:1;transform:scale(.9090909);transform-origin:center top}html body .site-brand-slot.bottom{width:auto;margin-left:0}body.signal-health-page .topbar,.site-brand-slot:not(.bottom),.evolution-brand,.signal-gate-brand{padding-top:32px!important}}\n'
     (ROOT/'signal-shell.css').write_text(css)
+    for rel in BRIDGE_CSS_FILES:
+        p=ROOT/rel
+        if p.exists(): p.write_text(bridge_css(p.read_text()))
     for rel in PAGES:
         p=ROOT/rel
         if not p.exists(): continue
@@ -43,6 +49,8 @@ body.signal-health-page footer .health-footer-brand{margin-top:16px}
         if rel.startswith('portfolio/evolutionfund/') and 'family=JetBrains' not in text:
             text=text.replace('</head>','<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></head>')
         text=text.replace(LINK,'')
+        for old in OLD_LINKS: text=text.replace(old,'')
+        text=bridge_html(text)
         text=text.replace('</head>',signal_brand_font_link()+LINK+'</head>')
         if rel=='health/index.html': text=text.replace('<body>','<body class="signal-health-page">')
         if rel != 'portfolio/index.html' and 'signal-companion-unzoomed' not in text:

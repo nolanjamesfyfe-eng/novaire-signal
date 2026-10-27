@@ -56,7 +56,7 @@ def test_every_signal_suite_page_has_complete_header_and_footer_brand_rows():
 def test_portfolio_lock_uses_canonical_header_and_footer_without_weakening_pin():
     html = (ROOT / "portfolio-lock.html").read_text(encoding="utf-8")
     assert html.count('class="signal-wordmark"') == 2
-    assert 'href="/signal-shell.css?v=2"' in html
+    assert 'href="/signal-shell.css?v=3"' in html
     assert "Back to Novaire Signal" not in html
     assert ".pin input{width:150px;" in html
 
@@ -67,5 +67,5 @@ def test_companion_cascade_is_generated_from_original_component():
     assert '.signal-brand-row' not in (ROOT / 'map/mobile-reading.css').read_text()
     for relative in SUITE_PAGES:
         html = (ROOT / relative).read_text()
-        assert ('/signal-shell.css?v=2' in html) == (relative != 'index.html')
+        assert ('/signal-shell.css?v=3' in html) == (relative != 'index.html')
     assert 'sync_signal_shell()' in (ROOT / 'generate.py').read_text()
