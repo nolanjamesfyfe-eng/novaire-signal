@@ -5592,7 +5592,8 @@ def render_portfolio_html(portfolio_data, catalysts, fx, holdings_source=None, g
     .holdings-chevron{{width:10px;height:10px;flex:none;align-self:center;transition:transform .15s}}
     .holdings-toggle[aria-expanded="true"] .holdings-chevron{{transform:rotate(180deg)}}
     .holdings-toggle:focus-visible{{outline:1px solid var(--gold);outline-offset:5px}}
-    .holdings-content{{max-width:100%;overflow-x:auto}}
+    /* account-accordion-containment-v1: every account table scrolls locally. */
+    .collapse-toggle + div{{max-width:100%;overflow-x:auto}}
     .holdings-content:not([style*="display: none"]){{margin-bottom:22px}}
   </style>
 </head>

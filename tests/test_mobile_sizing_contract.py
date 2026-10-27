@@ -15,6 +15,13 @@ class MobileSizingContractTests(unittest.TestCase):
             self.assertIn('grid-template-columns:repeat(3,minmax(0,1fr))', text)
             self.assertIn('grid-template-columns:repeat(4,1fr)', text)
 
+    def test_every_account_accordion_contains_wide_tables(self):
+        for filename in ('generate.py', 'portfolio/index.html'):
+            text = (ROOT / filename).read_text(encoding='utf-8')
+            normalized = text.replace('{{', '{').replace('}}', '}')
+            self.assertIn('.collapse-toggle + div{max-width:100%;overflow-x:auto}', normalized)
+            self.assertIn('account-accordion-containment-v1', text)
+
     def test_true_mobile_and_desktop_contracts_remain_present(self):
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
         self.assertIn('@media(min-width:900px){{body{{zoom:1.1}}}}', source)
