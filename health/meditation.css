@@ -1,0 +1,22 @@
+:root{--med-gold:#b59662}
+.meditation{display:grid;grid-template-columns:1fr 2fr;gap:7vw;padding:100px clamp(22px,7vw,100px) 84px;background:#060809;border-top:1px solid var(--line);scroll-margin-top:24px}
+.meditation h2{font:400 clamp(36px,4vw,58px)/1 var(--serif);margin:0 0 20px;color:var(--ice)}.meditation h2 em{color:transparent;-webkit-text-stroke:1px #86b9c0}
+.meditation-copy>p:last-child{font-size:12px;line-height:1.8;color:#758488;max-width:310px}
+.meditation-tracks{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-self:center}
+.meditation-track{position:relative;display:grid;grid-template-columns:56px 1fr 28px;align-items:center;gap:16px;padding:20px;border:1px solid var(--line);background:linear-gradient(135deg,#0a1012,#070a0b)}
+.meditation-track.playing{border-color:#7beeff66;box-shadow:0 0 26px #7beeff14}
+.meditation-play{width:56px;height:56px;border-radius:50%;border:1px solid var(--med-gold);background:transparent;color:var(--med-gold);cursor:pointer;display:grid;place-items:center}
+.meditation-play:hover,.meditation-play:focus-visible{background:#b5966214;outline:0;box-shadow:0 0 18px #b5966240}
+.meditation-icon{width:0;height:0;border-left:15px solid currentColor;border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+.meditation-track.playing .meditation-icon{width:14px;height:17px;border:0;margin:0;border-left:4px solid currentColor;border-right:4px solid currentColor}
+.meditation-meta b{display:block;font:400 19px var(--serif);color:#e6f1f2}.meditation-meta small{display:block;margin-top:5px;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#5f7478}
+.meditation-progress{height:2px;margin:14px 0 7px;background:#1b2629;cursor:pointer}.meditation-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--med-gold))}
+.meditation-meta time{font-size:8px;letter-spacing:.14em;color:#647579;font-variant-numeric:tabular-nums}
+.meditation-dl{color:#607579;text-decoration:none;font-size:15px;text-align:center}.meditation-dl:hover{color:var(--med-gold)}
+.meditation-credit{grid-column:1/-1;margin:0;font-size:8px;letter-spacing:.06em;color:#4d5d61}
+/* Footer: brand row in flow above attribution, never overlaid */
+footer{display:grid!important;grid-template-columns:auto 1fr auto;grid-template-areas:"brand brand brand" "left mid right";align-items:center;column-gap:24px;row-gap:16px;padding:26px clamp(22px,5vw,72px)!important}
+footer .health-footer-brand{position:static!important;transform:none!important;grid-area:brand;justify-self:center}
+footer>span:first-of-type{grid-area:left}footer>p{grid-area:mid;margin:0;text-align:center;line-height:1.7}footer>span:last-of-type{grid-area:right}
+@media(max-width:760px){.meditation{grid-template-columns:1fr;gap:28px;padding:64px 20px 56px}.meditation-tracks{grid-template-columns:1fr}
+footer{grid-template-columns:1fr 1fr;grid-template-areas:"brand brand" "mid mid" "left right";padding:24px 20px!important}footer>p{order:0!important;width:auto!important}footer>span:last-of-type{justify-self:end}}
