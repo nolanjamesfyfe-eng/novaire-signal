@@ -1,0 +1,46 @@
+/* flaneur-mobile-reading-v1
+   Static Flâneur source, shared by its header/footer and all reading sections.
+   No desktop declarations or changes to canvas sizing/gesture behavior.
+   Wide touch viewports use proportional type, not whole-page zoom. */
+@media (max-width:760px), (max-width:1100px) and (hover:none) and (pointer:coarse) {
+  :root { --reading-unit:max(1px,.25641026vw); }
+  .shell { padding-inline:14px; }
+  .edition { display:none; }
+  .signal-brand-row { font-size:calc(30 * var(--reading-unit));gap:calc(6 * var(--reading-unit)); }
+  .signal-brand-row .signal-wordmark { letter-spacing:.025em;margin-right:-.025em; }
+  .signal-brand-row .signal-map,.signal-brand-row .signal-bolt,.signal-brand-row .signal-health { font-size:calc(23 * var(--reading-unit)); }
+  .intro { padding:32px 0 24px; }
+  .intro h1 { font-size:calc(28 * var(--reading-unit));line-height:1.25;letter-spacing:.06em;white-space:normal;text-wrap:balance; }
+  .intro h1 i { color:#a1aba5; }
+  .wishlist-head { flex-direction:column;align-items:flex-start;gap:14px; }
+  .wishlist h2 { font-size:calc(25 * var(--reading-unit));line-height:1.3;letter-spacing:.06em;white-space:normal;text-wrap:balance; }
+  .wishlist li { font-size:calc(16 * var(--reading-unit));min-height:calc(52 * var(--reading-unit));gap:8px;flex-wrap:wrap;padding-block:6px; }
+  .wishlist button { font-size:calc(15 * var(--reading-unit));min-height:calc(44 * var(--reading-unit));padding:10px 14px; }
+  .wishlist input { font-size:calc(16 * var(--reading-unit));min-height:calc(44 * var(--reading-unit)); }
+  .wishlist input.wish-rank { width:calc(48 * var(--reading-unit)); }
+  .wish-rank { width:calc(40 * var(--reading-unit)); }
+  .wish-country { overflow-wrap:anywhere; }
+  .wish-actions { flex-basis:100%;justify-content:flex-end;gap:8px; }
+  .wish-actions button { min-width:calc(44 * var(--reading-unit)); }
+  .wish-note,.wish-message { font-size:calc(14 * var(--reading-unit));line-height:1.6;color:#a1aba5; }
+  .directory { grid-template-columns:1fr;gap:18px; }
+  .directory h2 { font-size:calc(34 * var(--reading-unit));line-height:1.2; }
+  .directory-copy { font-size:calc(16 * var(--reading-unit));line-height:1.65;color:#a1aba5; }
+  .search { font-size:calc(16 * var(--reading-unit));height:calc(48 * var(--reading-unit)); }
+  .country-list { grid-template-columns:1fr;max-height:calc(360 * var(--reading-unit)); }
+  .country-row { font-size:calc(16 * var(--reading-unit));min-height:calc(48 * var(--reading-unit));align-items:center;line-height:1.5; }
+  .country-row span:last-child { font-size:calc(12 * var(--reading-unit));letter-spacing:.04em;color:#a1aba5;text-align:right; }
+  .stats { grid-template-columns:1fr 1fr; }
+  .stat { min-width:0;padding:18px 14px;border-bottom:1px solid var(--line); }
+  .stat:nth-child(2) { border-right:0; }
+  .stat:nth-child(3),.stat:nth-child(4) { border-bottom:0; }
+  .stat-label { font-size:calc(12 * var(--reading-unit));line-height:1.5;letter-spacing:.09em;color:#a1aba5; }
+  .stat-value { font-size:calc(38 * var(--reading-unit)); }
+  .metric-count { font-size:calc(18 * var(--reading-unit)); }
+  .legend { font-size:calc(11 * var(--reading-unit));gap:12px;letter-spacing:0; }
+  .hint { font-size:calc(12 * var(--reading-unit)); }
+  .tooltip { font-size:calc(16 * var(--reading-unit));line-height:1.45; }
+  .tooltip small,.tooltip .fact { font-size:calc(14 * var(--reading-unit)); }
+  .tooltip .metric { white-space:normal; }
+  footer { font-size:calc(12 * var(--reading-unit));line-height:1.6;text-align:center; }
+}
