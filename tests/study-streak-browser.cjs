@@ -253,12 +253,22 @@ test('authorized devices merge canonical history; another authorized device read
 
 test('compact row is rendered on desktop/mobile and unrelated accordion state survives navigation', async () => {
   const baselines = { desktop: { width: 133.359375, height: 35.546875 }, mobile: { width: 98.015625, height: 29.625 } };
-  for (const viewport of [{ name: 'desktop', width: 1280, height: 900, maxHeight: 70 }, { name: 'mobile', width: 390, height: 844, maxHeight: 76 }]) {
+  for (const viewport of [{ name: 'desktop', width: 1280, height: 900, maxHeight: 71 }, { name: 'mobile', width: 390, height: 844, maxHeight: 66 }]) {
     const context = await fixedContext({ viewport, isMobile: viewport.name === 'mobile', hasTouch: viewport.name === 'mobile' });
     const page = await context.newPage();
     await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
     const card = page.locator('#daily-study'), box = await card.boundingBox();
-    assert.ok(box && box.height <= viewport.maxHeight, `${viewport.name} row is ${box?.height}px tall`);
+    assert.ok(box && box.height <= viewport.maxHeight + 0.5, `${viewport.name} row is ${box?.height}px tall`);
+    const parity = await page.evaluate(() => {
+      const glyphs = el => { const out = []; const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) for (let i = 0; i < n.length; i++) { if (!n.data[i].trim()) continue; const r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + 1); const b = r.getBoundingClientRect(); if (b.width > 1) out.push(b.left); } return out; };
+      const ref = document.querySelector('#world-tour-card'); ref.open = false;
+      const a = glyphs(document.querySelector('#daily-study .anki-identity')), f = glyphs(ref.querySelector('summary .card-title'));
+      return { ankiH: document.querySelector('#daily-study').getBoundingClientRect().height, refH: ref.getBoundingClientRect().height, emoji: [a[0], f[0]], letter: [a[2], f[2]] };
+    });
+    assert.ok(Math.abs(parity.ankiH - parity.refH) < 1, `${viewport.name} Anki height ${parity.ankiH} != closed accordion ${parity.refH}`);
+    assert.ok(Math.abs(parity.emoji[0] - parity.emoji[1]) < 1, `${viewport.name} emoji x ${parity.emoji}`);
+    assert.ok(Math.abs(parity.letter[0] - parity.letter[1]) < 1, `${viewport.name} first letter x ${parity.letter}`);
+    await page.evaluate(() => { document.querySelector('#world-tour-card').open = true; });
     const button = await page.locator('#anki-study-link').boundingBox(), baseline = baselines[viewport.name];
     assert.ok(Math.abs(button.width - baseline.width / 2) < 0.6, `${viewport.name} button width ${button.width} is not 50% of ${baseline.width}`);
     assert.ok(Math.abs(button.height - baseline.height / 2) < 0.6, `${viewport.name} button height ${button.height} is not 50% of ${baseline.height}`);

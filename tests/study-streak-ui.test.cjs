@@ -75,5 +75,6 @@ test('oversized legacy lock UI and recent-day chip wall are absent', () => {
     assert.equal(html.includes(forbidden), false, `legacy marker returned: ${forbidden}`);
   }
   assert.match(html, /\.card\.anki-quick-row\{position:relative;display:grid/);
-  assert.match(html, /padding:11px 13px/);
+  assert.match(html, /min-height:63\.8px;padding:10px 20px/);
+  assert.match(html, /\.anki-state\{min-width:0;justify-self:end;text-align:right/);
 });

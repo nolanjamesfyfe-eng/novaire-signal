@@ -4034,10 +4034,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .daily-signal-card:not([open]){{height:62px;min-height:62px}}
     .daily-signal-card:not([open])>summary{{height:62px;min-height:62px}}
 
-    .card.anki-quick-row{{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 14px;box-sizing:border-box;padding:11px 13px;border-color:rgba(181,150,98,.32);background:linear-gradient(105deg,rgba(181,150,98,.065),rgba(17,17,22,.98) 44%)}}
-    .anki-identity{{display:flex;align-items:center;gap:7px;color:var(--gold);font-size:.61rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}}
-    .anki-state{{min-width:0;line-height:1.22}}
-    .anki-streak-status{{display:block;width:max-content;max-width:100%;font-size:.62rem;font-weight:650;letter-spacing:.035em;color:var(--gold)}}
+    .card.anki-quick-row{{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 18px;box-sizing:border-box;min-height:63.8px;padding:10px 20px;border-color:rgba(181,150,98,.32);background:linear-gradient(105deg,rgba(181,150,98,.065),rgba(17,17,22,.98) 44%)}}
+    .anki-identity{{display:block;color:var(--gold);font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap}}
+    .anki-state{{min-width:0;justify-self:end;text-align:right;line-height:1.22}}
+    .anki-identity strong{{font-weight:inherit}}
+    .anki-identity>span{{display:inline-block;min-width:1.985em}}
+    .anki-streak-status{{display:block;width:max-content;max-width:100%;margin-left:auto;font-size:.62rem;font-weight:650;letter-spacing:.035em;color:var(--gold)}}
     .anki-streak-status[data-tone="positive"]{{color:#56f2b1;animation:anki-positive-pulse 3.8s ease-in-out infinite}}
     .anki-streak-status[data-tone="warn"]{{color:#e4a24a;animation:anki-warn-pulse 3.4s ease-in-out infinite}}
     .anki-streak-status[data-tone="urgent"]{{color:#ef6b72;animation:anki-urgent-pulse 3.4s ease-in-out infinite}}
@@ -4045,14 +4047,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     @keyframes anki-positive-pulse{{0%,100%{{text-shadow:0 0 4px rgba(86,242,177,.45),0 0 11px rgba(86,242,177,.20);filter:brightness(1)}}50%{{text-shadow:0 0 7px rgba(86,242,177,.92),0 0 19px rgba(86,242,177,.48),0 0 30px rgba(86,242,177,.18);filter:brightness(1.18)}}}}
     @keyframes anki-warn-pulse{{0%,100%{{opacity:.68;text-shadow:0 0 0 rgba(228,162,74,0)}}50%{{opacity:1;text-shadow:0 0 9px rgba(228,162,74,.32)}}}}
     @keyframes anki-urgent-pulse{{0%,100%{{opacity:.68;text-shadow:0 0 0 rgba(239,107,114,0)}}50%{{opacity:1;text-shadow:0 0 10px rgba(239,107,114,.38)}}}}
-    .anki-meta{{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:.45rem;letter-spacing:.045em;color:var(--mute);white-space:nowrap}}
+    .anki-meta{{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:3px;font-size:.45rem;letter-spacing:.045em;color:var(--mute);white-space:nowrap}}
     .anki-meta-sep{{opacity:.45}}
     .anki-sync-control{{display:inline;position:relative}}
     .anki-sync-control[hidden]{{display:none!important}}
     .anki-sync-control>summary{{display:inline;list-style:none;cursor:pointer;color:var(--dim);text-decoration:underline;text-decoration-color:rgba(181,150,98,.3);text-underline-offset:2px}}
     .anki-sync-control>summary::-webkit-details-marker{{display:none}}
     .anki-sync-control[open]>.anki-sync-form{{display:flex}}
-    .anki-sync-form{{display:none;position:absolute;z-index:20;left:0;top:calc(100% + 8px);width:210px;box-sizing:border-box;gap:6px;padding:8px;border:1px solid var(--gold-mid);border-radius:8px;background:#0b0b0f;box-shadow:0 12px 28px rgba(0,0,0,.5)}}
+    .anki-sync-form{{display:none;position:absolute;z-index:20;right:0;top:calc(100% + 8px);width:210px;box-sizing:border-box;gap:6px;padding:8px;border:1px solid var(--gold-mid);border-radius:8px;background:#0b0b0f;box-shadow:0 12px 28px rgba(0,0,0,.5)}}
     .anki-sync-form label{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}
     .anki-sync-form input{{min-width:0;width:100%;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);padding:6px 7px;font:inherit;font-size:.58rem}}
     .anki-sync-form button{{flex:none;border:1px solid var(--gold-mid);border-radius:6px;background:var(--gold-dim);color:var(--gold);padding:6px 8px;font:650 .46rem var(--sans);letter-spacing:.07em;text-transform:uppercase;cursor:pointer}}
@@ -4060,7 +4062,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .anki-panel-link::after{{content:"";position:absolute;left:0;top:50%;width:100%;height:44.1px;transform:translateY(-50%)}}
     .anki-panel-link:hover,.anki-panel-link:focus-visible{{background:#cfb27c;outline:1px solid #f0eef8;outline-offset:2px}}
     @media(prefers-reduced-motion:reduce){{.anki-streak-status[data-tone="positive"],.anki-streak-status[data-tone="warn"],.anki-streak-status[data-tone="urgent"]{{animation:none;opacity:1}}}}
-    @media(max-width:520px){{.card.anki-quick-row{{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 9px;padding:10px 11px}}.anki-identity{{font-size:.54rem}}.anki-streak-status{{font-size:.54rem}}.anki-meta{{font-size:.4rem;gap:4px}}.anki-panel-link{{width:49.0078125px;height:14.8125px;font-size:.36rem}}.anki-sync-form{{left:auto;right:-42px;width:198px}}}}
+    @media(max-width:520px){{.card.anki-quick-row{{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 12px;min-height:64px;padding:9px 20px}}.anki-identity{{font-size:.6rem}}.anki-streak-status{{font-size:.54rem}}.anki-meta{{font-size:.4rem;gap:1px 4px;flex-wrap:wrap;white-space:normal}}.anki-meta>*{{white-space:nowrap}}.anki-panel-link{{width:49.0078125px;height:14.8125px;font-size:.36rem}}.anki-sync-form{{left:auto;right:-70px;width:198px}}}}
 
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
