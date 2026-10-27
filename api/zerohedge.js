@@ -38,7 +38,7 @@ function firstSourcedSentence(description) {
 
 function imageFromDescription(description) {
   const match = String(description || '').match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-  return safeUrl(decodeXml(match ? match[1] : ''), ['assets.zerohedge.com']);
+  return safeUrl(decodeXml(match ? match[1] : ''), ['assets.zerohedge.com', 'cms.zerohedge.com']);
 }
 
 function imageAltFromDescription(description) {

@@ -28,6 +28,26 @@ ZH_RSS = """<?xml version="1.0"?><rss><channel><item>
 
 
 class CompactFeedCardTests(unittest.TestCase):
+    def test_current_publisher_cms_images_are_allowed_without_widening_to_arbitrary_hosts(self):
+        rss = ZH_RSS.replace('assets.zerohedge.com/s3fs-public', 'cms.zerohedge.com/sites/default/files')
+        articles = generate.parse_zerohedge_feed(rss)
+        self.assertIn('https://cms.zerohedge.com/', articles[0]['image'])
+        self.assertIn('https://cms.zerohedge.com/', generate.render_zerohedge_cards(articles))
+        for host in ['evil.example', 'cms.zerohedge.com.evil.example']:
+            self.assertEqual(generate.parse_zerohedge_feed(rss.replace('cms.zerohedge.com', host))[0]['image'], '')
+
+    def test_feed_disclosures_use_stable_exact_choice_not_daily_reset(self):
+        from bs4 import BeautifulSoup
+        html = (ROOT / 'index.html').read_text()
+        soup = BeautifulSoup(html, 'html.parser')
+        for card_id, key in [('zerohedge-card', 'nv_zerohedge_state'), ('signal-feed-card', 'nv_signal_feed_state')]:
+            card = soup.find(id=card_id)
+            self.assertEqual(card.name, 'details')
+            self.assertIsNotNone(card.find('summary', recursive=False))
+            self.assertNotIn('data-daily-edition', card.attrs)
+            self.assertIn(f"rememberFixedAccordion('{card_id}', '{key}')", html)
+            self.assertIsNone(card.summary.find('button'))
+
     def test_zerohedge_rss_propagates_sourced_excerpt_and_genuine_image(self):
         articles = generate.parse_zerohedge_feed(ZH_RSS, limit=12)
         self.assertEqual(len(articles), 1)

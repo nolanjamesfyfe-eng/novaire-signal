@@ -23,7 +23,7 @@ const articles = [
   article(1),
   article(2, { image: '' }),
   article(3, { image: 'https://assets.zerohedge.com/broken-fixture.jpg' }),
-  article(4),
+  article(4, { image: 'https://cms.zerohedge.com/sites/default/files/cms-fixture.jpg' }),
   article(5, { image: '' }),
   article(6, { image: 'https://assets.zerohedge.com/broken-fixture.jpg' }),
 ];
@@ -131,7 +131,7 @@ async function inspect(page, phase, viewport) {
     for (const viewport of [{name:'desktop',width:1440,height:900},{name:'mobile-390',width:390,height:844},{name:'mobile-360',width:360,height:800}]) {
       const context = await browser.newContext({ viewport });
       const page = await context.newPage();
-      await page.route('https://assets.zerohedge.com/**', route => {
+      await page.route(/^https:\/\/(assets|cms)\.zerohedge\.com\//, route => {
         if (route.request().url().includes('broken-fixture')) return route.fulfill({ status: 404, body: 'broken' });
         return route.fulfill({ status: 200, contentType: 'image/svg+xml', body: '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="60"><rect width="80" height="60" fill="#b59662"/></svg>' });
       });

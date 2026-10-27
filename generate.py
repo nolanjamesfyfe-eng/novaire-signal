@@ -1620,7 +1620,7 @@ def fetch_trending_recs():
     return rec_movie, rec_book
 
 
-ZEROHEDGE_IMAGE_HOSTS = {"assets.zerohedge.com"}
+ZEROHEDGE_IMAGE_HOSTS = {"assets.zerohedge.com", "cms.zerohedge.com"}
 ZEROHEDGE_LINK_HOSTS = {"zerohedge.com", "www.zerohedge.com"}
 ZEROHEDGE_TITLE_CHAR_LIMIT = 110
 ZEROHEDGE_EXCERPT_CHAR_LIMIT = 140
@@ -4305,6 +4305,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .compact-feed-card{{--feed-card-height:195px;padding:14px 16px;min-width:0;overflow:hidden}}
     .compact-feed-card .card-title{{margin-bottom:8px}}
+    details.compact-feed-card[data-feed-disclosure]{{padding:0}}
+    details.compact-feed-card[data-feed-disclosure]>summary{{padding:14px 16px}}
+    details.compact-feed-card[data-feed-disclosure]>summary .card-title{{margin:0}}
+    details.compact-feed-card[data-feed-disclosure]>.signal-accordion-body{{padding:0 16px 14px}}
+    details.compact-feed-card[data-feed-disclosure]>summary:focus-visible{{outline:2px solid var(--gold);outline-offset:-3px}}
     .feed-controls{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}}
     .feed-refresh{{font-size:.55rem;letter-spacing:.08em;cursor:pointer;background:none;border:1px solid var(--border);color:var(--dim);padding:3px 7px;border-radius:var(--r);font-family:var(--sans)}}
     .feed-refresh:hover{{border-color:var(--gold);color:var(--gold)}}
@@ -4623,18 +4628,21 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   </div>
 
 <!-- ZEROHEDGE -->
-  <div class="card compact-feed-card">
-    <div class="card-title">📰 ZeroHedge — Top Headlines</div>
+  <details class="card compact-feed-card signal-accordion" id="zerohedge-card" data-feed-disclosure="v1" open>
+    <summary><span class="card-title">📰 ZeroHedge — Top Headlines</span></summary>
+    <div class="signal-accordion-body">
     <div class="feed-controls">
       <div class="feed-status" id="news-status">Live pool · latest three</div>
       <button class="feed-refresh" id="news-refresh" onclick="refreshZeroHedge(true)" title="Show the next three live ZeroHedge articles">↻ Refresh</button>
     </div>
     <div id="zerohedge-feed">{zh_html}</div>
-  </div>
+    </div>
+  </details>
 
   <!-- SIGNAL FEED -->
-  <div class="card compact-feed-card">
-    <div class="card-title">📡 Signal Feed — Top 3 by Engagement</div>
+  <details class="card compact-feed-card signal-accordion" id="signal-feed-card" data-feed-disclosure="v1" open>
+    <summary><span class="card-title">📡 Signal Feed — Top 3 by Engagement</span></summary>
+    <div class="signal-accordion-body">
     <div class="feed-controls">
       <div class="feed-status" id="feed-status">Loading…</div>
       <button class="feed-refresh" id="signal-refresh" onclick="refreshSignals(true)" title="Show the next three ranked signals matching your criteria">↻ Refresh</button>
@@ -4642,7 +4650,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     <div id="signal-feed">
       <div class="feed-loading">Fetching signals</div>
     </div>
-  </div>
+    </div>
+  </details>
 
   <script>
   (function() {{
@@ -4692,7 +4701,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     }}
 
     function safeImageUrl(value, source) {{
-      const hosts = source === 'x' ? ['pbs.twimg.com'] : ['assets.zerohedge.com'];
+      const hosts = source === 'x' ? ['pbs.twimg.com'] : ['assets.zerohedge.com', 'cms.zerohedge.com'];
       return safeExternalUrl(value, hosts);
     }}
 
@@ -4937,6 +4946,8 @@ rememberFixedAccordion('catalysts-card', 'nv_catalysts_state');
 rememberFixedAccordion('fed-signal-card', 'nv_fed_signal_state');
 rememberFixedAccordion('polymarket-card', 'nv_polymarket_state');
 rememberFixedAccordion('darvas-card', 'nv_alpaca_state');
+rememberFixedAccordion('zerohedge-card', 'nv_zerohedge_state');
+rememberFixedAccordion('signal-feed-card', 'nv_signal_feed_state');
 
 function scheduleBangkokDailyReset() {{
   const now = new Date();
