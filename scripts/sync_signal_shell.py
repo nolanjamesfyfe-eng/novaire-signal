@@ -22,6 +22,14 @@ body.signal-health-page footer{padding-inline:0}
 .signal-gate-brand,.signal-gate-footer{display:flex;justify-content:center;width:100%}
 .signal-gate-brand{padding-top:32px}.signal-gate-footer{padding:24px 0 32px}
 @media(min-width:761px){.signal-gate-brand{padding-top:35.2px}}
+/* One placement contract for every page (homepage reference): top row 32px from page top
+   (35.2px desktop); bottom row 40px below a hairline divider. No page-specific bars or glass. */
+body.signal-health-page .topbar{height:auto!important;padding:32px 0 0!important;background:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-bottom:0!important;align-items:flex-start!important}
+.site-brand-slot:not(.bottom),.evolution-brand{padding-top:32px!important}
+body.signal-health-page footer .health-footer-brand{margin-top:16px}
+.signal-companion-unzoomed .shell>footer{padding-top:40px!important}
+.site-brand-slot.bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:40px!important;margin-top:24px}
+@media(min-width:761px){body.signal-health-page .topbar{padding-top:35.2px!important}.site-brand-slot:not(.bottom),.evolution-brand{padding-top:35.2px!important}}
 /* Match homepage's desktop raster/layout scale without zooming any canvas. */
 @media(min-width:900px){body.signal-companion-unzoomed .signal-brand-row{zoom:1.1;transform:scale(.9090909);transform-origin:center top}}
 '''
