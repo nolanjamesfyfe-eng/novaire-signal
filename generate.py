@@ -57,6 +57,10 @@ except Exception:
 # ─────────────────────────────────────────────────────────────
 OUTPUT = "/tmp/novaire-signal/index.html"
 
+# Header wording/typography is canonical; the homepage footer must match it.
+SIGNAL_TAGLINE = "Deciphering through the noise."
+SIGNAL_TAGLINE_CSS = '.signal-tagline{font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em}'
+
 MARKET_FUTURES = {
     "ES=F": {"label": "S&P 500", "short": "S&P FUT"},
     "NQ=F": {"label": "Nasdaq 100", "short": "NASDAQ FUT"},
@@ -4376,7 +4380,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .footer{{text-align:center;padding:40px 0 24px;border-top:1px solid var(--border);margin-top:28px}}
     .footer-logo{{font-family:var(--serif);font-size:1.6363636rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:4px}}
     .footer-logo span{{color:var(--gold);font-style:italic}}
-    .footer-tagline{{font-size:.62rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}}
+    {SIGNAL_TAGLINE_CSS}
     .footer-sub{{font-size:.58rem;color:var(--mute);margin-top:6px}}
     .footer-powered{{font-size:.62rem;color:var(--dim);margin-top:14px;letter-spacing:.05em}}
     .footer-powered a{{color:var(--gold);text-decoration:none;opacity:.82;transition:opacity .15s}}
@@ -4489,7 +4493,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- HEADER BRANDING -->
   <div class="header-brand">
     {signal_brand_markup()}
-    <div style="font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--gold);opacity:0.7;letter-spacing:.04em;margin-top:2px;">Deciphering through the noise.</div>
+    <div class="signal-tagline" style="margin-top:2px;">{SIGNAL_TAGLINE}</div>
   </div>
 
   <!-- DATE / GENERATION LINE -->
@@ -4842,7 +4846,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <!-- FOOTER BRANDING -->
   <div class="footer">
     {signal_brand_markup()}
-    <div class="footer-tagline">Deciphering through the noise.</div>
+    <div class="footer-tagline signal-tagline">{SIGNAL_TAGLINE}</div>
     <div class="eco-links">
       <a href="https://novaireink.com" class="eco-link">Novaire Ink</a>
       <a href="https://evolution-fund.vercel.app" class="eco-link">Evolution Fund</a>
