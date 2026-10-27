@@ -54,20 +54,23 @@ class SheetAllocationTests(unittest.TestCase):
     def test_sector_allocation_comes_from_sheet_percentages(self, _request, _save_cache):
         _holdings, meta = generate.fetch_holdings_from_gsheet()
 
-        self.assertEqual(meta["allocation_source"], "Google Sheet · % of Fund · live")
+        # Covered-call underlyings (URNJ, SILJ) join their sectors and the
+        # union is renormalised to 100%.
+        self.assertEqual(meta["allocation_source"], "Google Sheet · % of Fund incl. URNJ, SILJ · live")
+        self.assertEqual(meta["allocation_includes_covered_calls"], ["URNJ", "SILJ"])
         self.assertEqual(
             meta["sector_allocations_pct"],
             [
-                ("Graphene", 49.64),
-                ("Uranium", 18.84),
-                ("Gold", 12.41),
-                ("Silver", 8.33),
-                ("Copper", 6.94),
-                ("Molybdenum", 2.27),
-                ("Hydro", 1.59),
+                ("Graphene", 45.37),
+                ("Uranium", 25.81),
+                ("Gold", 11.34),
+                ("Silver", 7.61),
+                ("Copper", 6.34),
+                ("Molybdenum", 2.07),
+                ("Hydro", 1.45),
             ],
         )
-        self.assertAlmostEqual(meta["sector_allocation_total_pct"], 100.02, places=2)
+        self.assertAlmostEqual(meta["sector_allocation_total_pct"], 99.99, places=2)
 
     def test_chart_is_scalable_glowing_and_displays_sheet_percentages(self):
         allocations = [

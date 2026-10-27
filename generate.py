@@ -1873,6 +1873,8 @@ def fetch_holdings_from_gsheet():
     meta     = {"sheet_fetched_at_utc": datetime.now(timezone.utc).isoformat()}
     seen     = set()
     allocation_totals = {}
+    covered_call_allocations = {}
+    covered_call_tickers = []
     in_covered_call_block = False
 
     for row in rows:
@@ -1934,8 +1936,15 @@ def fetch_holdings_from_gsheet():
         # The Google Sheet's allocation chart covers the primary book only.
         # Covered-call rows are a separate strategy block and are intentionally
         # excluded from the sheet chart even though they remain in holdings.
-        if not in_covered_call_block and allocation_pct and sector:
-            allocation_totals[sector] = allocation_totals.get(sector, 0.0) + allocation_pct
+        # Covered-call rows sit outside the Sheet's own % of Fund base, but the
+        # underlying shares (e.g. URNJ) still drive daily P&L, so Novaire wants
+        # them in the sector weighting. Track them separately so the base book
+        # keeps its fail-closed ~100% check, then renormalise the union.
+        if allocation_pct and sector:
+            bucket = covered_call_allocations if in_covered_call_block else allocation_totals
+            bucket[sector] = bucket.get(sector, 0.0) + allocation_pct
+            if in_covered_call_block:
+                covered_call_tickers.append(DISPLAY_OVERRIDES.get(ticker, ticker.split(".")[0]))
 
         display = DISPLAY_OVERRIDES.get(ticker, ticker.split(".")[0])
 
@@ -1979,9 +1988,24 @@ def fetch_holdings_from_gsheet():
         )
         allocation_total = round(sum(percent for _, percent in allocations), 2)
         if 99.5 <= allocation_total <= 100.5:
+            if covered_call_allocations:
+                combined = dict(allocation_totals)
+                for sector, percent in covered_call_allocations.items():
+                    combined[sector] = combined.get(sector, 0.0) + percent
+                combined_total = sum(combined.values())
+                allocations = sorted(
+                    ((sector, round(percent * 100.0 / combined_total, 2)) for sector, percent in combined.items()),
+                    key=lambda item: item[1],
+                    reverse=True,
+                )
+                allocation_total = round(sum(percent for _, percent in allocations), 2)
+            source = "Google Sheet · % of Fund"
+            if covered_call_tickers:
+                source += " incl. " + ", ".join(covered_call_tickers)
             meta["sector_allocations_pct"] = allocations
             meta["sector_allocation_total_pct"] = allocation_total
-            meta["allocation_source"] = "Google Sheet · % of Fund · live"
+            meta["allocation_includes_covered_calls"] = list(covered_call_tickers)
+            meta["allocation_source"] = source + " · live"
             meta["allocation_fetched_at_utc"] = datetime.now(timezone.utc).isoformat()
             meta["allocation_is_cached"] = False
             save_sheet_allocation_cache(meta)
