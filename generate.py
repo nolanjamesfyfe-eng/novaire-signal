@@ -6469,5 +6469,9 @@ def main():
     except Exception as e:
         print(f"  ⚠️  stats.json failed: {e}")
 
+    # Fail closed: every scheduled regeneration restores the canonical shell.
+    from scripts.sync_signal_shell import sync as sync_signal_shell
+    sync_signal_shell()
+
 if __name__ == "__main__":
     main()

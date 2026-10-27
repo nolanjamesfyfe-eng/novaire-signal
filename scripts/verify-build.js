@@ -3,6 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
+// Shell generation is owned by signal_brand.py; reject a stale generator output.
+for (const rel of ['map/index.html','health/index.html','portfolio/index.html','portfolio/daily/index.html','portfolio/evolutionfund/index.html','portfolio/evolutionfund/philosophy.html','portfolio/finances/index.html','portfolio-lock.html']) {
+  const source=fs.readFileSync(path.join(root,rel),'utf8');
+  if (!source.includes('href="/signal-shell.css?v=2"') || (source.match(/class="signal-wordmark"/g)||[]).length!==2) throw Error(`Stale canonical shell: ${rel}; run python scripts/sync_signal_shell.py`);
+}
+if (/\.signal-brand-row/.test(fs.readFileSync(path.join(root,'map/mobile-reading.css'),'utf8'))) throw Error('Flaneur must not override the canonical brand');
+
 const requiredFiles = [
   'index.html',
   'portfolio/index.html',
