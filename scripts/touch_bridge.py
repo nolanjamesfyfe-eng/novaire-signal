@@ -8,7 +8,7 @@ homepage reconstructs its ~490px mobile canvas with
 
 This module applies the same contract to every companion page by rewriting
 page-specific media preludes (idempotently):
-  * mobile rules `(max-width:M)` with M >= 490 also fire on the bridge;
+  * phone rules `(max-width:M)` with M >= 400 also fire on the bridge;
   * desktop rules `(min-width:N)` with 490 < N <= 1100 stop firing on the bridge.
 Brand/shell rules are never rewritten: the canonical brand row stays identical
 to the homepage, which itself is never touched.
@@ -131,5 +131,5 @@ body:has(#chart) header p{{font-size:15px}}
 SHELL_CSS = READABILITY_CSS + f"""
 /* phone-desktop-site-bridge-v1: same contract as the original homepage. Android Chrome
    Desktop-site lays out at ~980px; rebuild the ~490px mobile canvas instead of shrinking. */
-@media {BRIDGE}{{html body{{zoom:2}}}}
+@media {BRIDGE}{{html body{{zoom:2}}body:has(>.lock){{min-height:50svh}}}}
 """

@@ -79,5 +79,5 @@ body:has(#chart) header p{font-size:15px}
 
 /* phone-desktop-site-bridge-v1: same contract as the original homepage. Android Chrome
    Desktop-site lays out at ~980px; rebuild the ~490px mobile canvas instead of shrinking. */
-@media (hover:none) and (min-width:601px) and (max-width:1100px){html body{zoom:2}}
+@media (hover:none) and (min-width:601px) and (max-width:1100px){html body{zoom:2}body:has(>.lock){min-height:50svh}}
 @media (hover:none) and (min-width:601px) and (max-width:1100px){body.signal-companion-unzoomed .signal-brand-row{zoom:1;transform:scale(.9090909);transform-origin:center top}html body .site-brand-slot.bottom{width:auto;margin-left:0}body.signal-health-page .topbar,.site-brand-slot:not(.bottom),.evolution-brand,.signal-gate-brand{padding-top:32px!important}}

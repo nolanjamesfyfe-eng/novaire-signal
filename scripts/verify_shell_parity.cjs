@@ -45,6 +45,7 @@ const props=['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','l
    if(!route)canonical=data;
    if(!process.env.RECORD_ONLY){
     assert.equal(data.rows.length,2,`two genuine brand rows: ${route} ${width}`);
+    assert.equal(data.rows[0].row.box.y,canonical.rows[0].row.box.y,`top placement ${route} ${width}`);
     assert(!data.overflow,`document overflow ${route} ${width}`);
     for(const row of data.rows){
      for(const [i,child] of row.children.entries()){

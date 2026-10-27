@@ -35,8 +35,17 @@ try{for(const width of [412,980]){
  for(let i=1;i<=8;i++)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[point(x-50-i*5,y,2),point(x+50+i*5,y,3)]});
  await client.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});await page.waitForTimeout(100);
  await page.touchscreen.tap(x,y);assert(await page.locator('.tooltip.show').count(),'tap after pinch/cancel');
+ const tipBox=await page.locator('.tooltip.show').boundingBox();assert(tipBox.x>=0&&tipBox.x+tipBox.width<=width&&tipBox.y>=0,'facts fully within viewport at CSS zoom');
  await page.screenshot({path:`${out}/globe-${width}.png`,scale:'css'});
- console.log(`PASS ${width}: finance tabs/stable canvas, open readable holdings, native globe tap/drag/pinch/cancel/re-tap`);
+ await page.goto(base+'health/');
+ await page.locator('[data-brain-atlas]').scrollIntoViewIfNeeded();
+ await page.waitForFunction(()=>window.__HEALTH_BRAIN__?.ready,{},{timeout:60000});
+ await page.locator('[data-brain-atlas] canvas').evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));await page.waitForTimeout(1000);
+ const brainHit=await page.evaluate(()=>{const b=window.__HEALTH_BRAIN__;for(const m of b.modelStats.materials){const point=b.findHitPoint(m.key);if(point)return {point,key:m.key};}});
+ assert(brainHit,'brain has a visible pickable structure');await page.touchscreen.tap(brainHit.point.x,brainHit.point.y);
+ assert.equal(await page.evaluate(()=>window.__HEALTH_BRAIN__.selected),brainHit.key,'native brain hit test survives CSS zoom');
+ await page.screenshot({path:`${out}/brain-${width}.png`,scale:'css'});
+ console.log(`PASS ${width}: finance tabs/stable canvas, open readable holdings, native globe tap/drag/pinch/cancel/re-tap, brain structure tap`);
  await context.close();
 }}finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

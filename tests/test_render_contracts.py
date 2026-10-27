@@ -172,7 +172,8 @@ class RenderContractTests(unittest.TestCase):
         self.assertIn("html{scroll-behavior:smooth;font-size:110%}", self.html)
         self.assertIn("font-size:18.15px", self.html)
         self.assertIn("@media(min-width:900px){body{zoom:1.1}}", self.html)
-        self.assertIn("@media(min-width:900px){body{zoom:1.1}}", self.portfolio_html)
+        from scripts.touch_bridge import bridge_css
+        self.assertIn(bridge_css("@media(min-width:900px){body{zoom:1.1}}"), self.portfolio_html)
         self.assertIn(".footer-logo{font-family:var(--serif);font-size:1.6363636rem", self.html)
 
     def test_each_trip_countdown_links_to_its_landing_page(self):
