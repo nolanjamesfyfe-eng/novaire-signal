@@ -96,7 +96,9 @@ class LiveNewsRefreshTests(unittest.TestCase):
         self.assertTrue(titles)
         self.assertIn("Foreigners given a say on tourism fee", titles[0])
         self.assertNotIn("Two Swedes arrested", titles[0])
-        self.assertTrue(all("Two Swedes" not in title for title in titles))
+        # Fill the third slot from dated 24–48h coverage; never rank it first.
+        self.assertEqual(len(titles), 3)
+        self.assertIn("Two Swedes arrested", titles[2])
 
 
 if __name__ == "__main__":

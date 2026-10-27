@@ -63,13 +63,13 @@ function listen() {
 
 async function inspect(page, phase, viewport) {
   await page.waitForSelector('.signal-feed-card');
-  await page.waitForSelector('.zh-feed-card .feed-card-source');
+  await page.waitForSelector('#zerohedge-feed .zh-feed-card .feed-card-source');
   await page.locator('#zerohedge-feed').scrollIntoViewIfNeeded();
   await page.waitForTimeout(150);
   const result = await page.evaluate(() => {
     const rect = el => { const r = el.getBoundingClientRect(); return { x:r.x, y:r.y, width:r.width, height:r.height, top:r.top, right:r.right, bottom:r.bottom, left:r.left }; };
     const xCards = [...document.querySelectorAll('.signal-feed-card')].map(rect);
-    const zhCards = [...document.querySelectorAll('.zh-feed-card')].map(card => {
+    const zhCards = [...document.querySelectorAll('#zerohedge-feed .zh-feed-card')].map(card => {
       const body = card.querySelector('.feed-card-body');
       const footer = card.querySelector('.feed-card-source');
       const title = card.querySelector('.feed-card-title');
@@ -93,7 +93,7 @@ async function inspect(page, phase, viewport) {
     return { xCards, zhCards };
   });
   for (let index = 0; index < result.zhCards.length; index++) {
-    const card = page.locator('.zh-feed-card').nth(index);
+    const card = page.locator('#zerohedge-feed .zh-feed-card').nth(index);
     await card.evaluate(el => el.scrollIntoView({ block: 'center', inline: 'center' }));
     await page.waitForTimeout(30);
     const footer = card.locator('.feed-card-source');
@@ -138,11 +138,11 @@ async function inspect(page, phase, viewport) {
       await page.goto(`http://127.0.0.1:${port}/?layout=${viewport.name}`, { waitUntil: 'domcontentloaded' });
       const initial = await inspect(page, 'initial', viewport.name);
       await page.waitForFunction(() => document.getElementById('news-status')?.textContent.startsWith('3 of 6'));
-      await page.waitForFunction(() => document.querySelectorAll('.zh-feed-card').length === 3);
+      await page.waitForFunction(() => document.querySelectorAll('#zerohedge-feed .zh-feed-card').length === 3);
       const dynamicFirst = await inspect(page, 'dynamic-first', viewport.name);
       assert.deepEqual(dynamicFirst.zhCards.map(x => x.hasMedia), [true, false, false], `${viewport.name}: genuine/no-image/broken-image first batch`);
       await page.click('#news-refresh');
-      await page.waitForFunction(() => document.querySelector('.zh-feed-card .feed-card-title')?.getAttribute('title')?.includes(' 4'));
+      await page.waitForFunction(() => document.querySelector('#zerohedge-feed .zh-feed-card .feed-card-title')?.getAttribute('title')?.includes(' 4'));
       const dynamicSecond = await inspect(page, 'dynamic-second', viewport.name);
       assert.deepEqual(dynamicSecond.zhCards.map(x => x.hasMedia), [true, false, false], `${viewport.name}: genuine/no-image/broken-image refreshed batch`);
       const screenshot = path.join(OUT, `${viewport.name}.png`);

@@ -3,17 +3,26 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const {chromium} = require('/root/clawd/novaire-operations-system/node_modules/playwright');
-const ids = ['latest-novaire-card','weekly-asymmetric-ideas','catalysts-card','fed-signal-card','polymarket-card','darvas-card','thailand-news-card','economies-card','google-daily-tasks-card'];
+const allIds = ['latest-novaire-card','weekly-asymmetric-ideas','catalysts-card','fed-signal-card','polymarket-card','darvas-card','thailand-news-card','economies-card','google-daily-tasks-card'];
 const base = process.env.NOVAIRE_SIGNAL_BASE_URL || 'http://127.0.0.1:8767';
 const out = process.env.QA_OUTPUT_DIR || '/root/clawd/.worktrees/latest-compact/qa-artifacts/compact-closed';
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
- const browser = await chromium.launch({executablePath:'/snap/bin/chromium',args:['--no-sandbox']});
+ const browser = await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/snap/bin/chromium',args:['--no-sandbox']});
  const results=[];
  try {
  for(const width of [1440,1920,320,360,390]) for(const scale of [1,2]) {
   const context=await browser.newContext({viewport:{width,height:1000}}),page=await context.newPage();
+  if(process.env.QA_INCLUDE_SEASONAL==='1') {
+   // Test-only approved seasonal markup; never publish it off cadence.
+   const html=fs.readFileSync(require('path').join(__dirname,'../index.html'),'utf8');
+   const fixture=fs.readFileSync(require('path').join(__dirname,'fixtures/economies-closed-peer.html'),'utf8');
+   await page.route(base,route=>route.fulfill({contentType:'text/html',body:html.includes('id="economies-card"')?html:html.replace('<!-- TOP 5 ECONOMIES -->','<!-- TOP 5 ECONOMIES -->'+fixture)}));
+  }
   await page.goto(base,{waitUntil:'domcontentloaded'}); await page.waitForTimeout(1500);
+  const ids=await page.evaluate(ids=>ids.filter(id=>document.getElementById(id)),allIds);
+  const missing=allIds.filter(id=>!ids.includes(id));
+  assert.ok(missing.length===0 || (process.env.QA_INCLUDE_SEASONAL!=='1' && missing.length===1 && missing[0]==='economies-card'),'only off-cadence Economies may be absent');
   const initial=await page.evaluate(ids=>ids.map(id=>document.getElementById(id).open),ids);
   assert.equal(initial[0],false,'Latest first visit remains closed');
   await page.evaluate(({ids,scale})=>{if(scale===2)document.documentElement.style.fontSize=(parseFloat(getComputedStyle(document.documentElement).fontSize)*2)+'px';ids.forEach(id=>document.getElementById(id).open=false)}, {ids,scale});

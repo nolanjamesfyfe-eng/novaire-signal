@@ -1311,16 +1311,27 @@ def apply_thai_news_recency(headlines, now=None):
 
 
 def select_thai_news(headlines, now=None):
-    """Prefer the last 24h; only fall back to 48h if today is empty."""
-    ranked = sorted(apply_thai_news_recency(headlines, now), key=lambda x: x.get("score", 0), reverse=True)
-    relevant = [item for item in ranked if item.get("score", 0) > 0]
-    fresh = [item for item in relevant if item.get("age_hours", 999) <= THAI_NEWS_FRESH_HOURS]
-    if fresh:
-        return fresh[:3]
-    fallback = [item for item in relevant if item.get("age_hours", 999) <= THAI_NEWS_FALLBACK_HOURS]
-    if fallback:
-        return fallback[:3]
-    return relevant[:3] if relevant else ranked[:3]
+    """Fill three unique, relevant stories: 24h first, then dated 24–48h.
+
+    Unknown/stale dates never masquerade as current news. A partial pool stays
+    visibly partial rather than adding an invented or promotional filler.
+    """
+    eligible = [item for item in headlines if int(item.get("score") or 0) > 0]
+    ranked = sorted(apply_thai_news_recency(eligible, now),
+                    key=lambda x: (x["age_hours"] > THAI_NEWS_FRESH_HOURS, -x["score"]))
+    selected, seen_urls, seen_titles = [], set(), set()
+    for item in ranked:
+        url = str(item.get("url") or "").split("#")[0].split("?")[0].rstrip("/")
+        title = " ".join(str(item.get("title") or "").lower().split())
+        if (item["age_hours"] > THAI_NEWS_FALLBACK_HOURS or not _thai_host_ok(url)
+                or url in seen_urls or title in seen_titles):
+            continue
+        selected.append(item)
+        seen_urls.add(url)
+        seen_titles.add(title)
+        if len(selected) == 3:
+            break
+    return selected
 
 
 THAI_NEWS_HOSTS = {
@@ -1374,11 +1385,16 @@ def render_thai_news_cards(items):
     cards = []
     for item in items:
         url = str(item.get("url") or "")
-        if not url.startswith("http"):
+        if not _thai_host_ok(url):
             continue
-        title = escape(str(item.get("title") or "Untitled article"))
+        full_title = " ".join(str(item.get("title") or "Untitled article").split())
+        title = escape(truncate_word_safe(full_title, ZEROHEDGE_TITLE_CHAR_LIMIT))
+        title_attr = escape(full_title, quote=True)
         source = escape(str(item.get("source") or "Thailand Expat Brief"))
-        summary = escape(_clean_thai_summary(item.get("summary")))
+        summary = escape(truncate_word_safe(_clean_thai_summary(item.get("summary")), ZEROHEDGE_EXCERPT_CHAR_LIMIT))
+        published = item.get("published_at")
+        published_iso = published.isoformat() if isinstance(published, datetime) else ""
+        date_label = published.astimezone(BKK_TZ).strftime("%b %-d, %H:%M BKK") if isinstance(published, datetime) else "Publication time unavailable"
         score = escape(str(item.get("score", "")))
         href = escape(url, quote=True)
         image = str(item.get("image") or "")
@@ -1393,18 +1409,23 @@ def render_thai_news_cards(items):
         text_only = "" if image_html else " feed-card--text-only"
         excerpt_html = f'<p class="feed-card-excerpt thai-news-summary">{summary}</p>' if summary else ""
         cards.append(
-            f'<article class="feed-card thai-feed-card{text_only}" data-thai-expat-brief="verified" '
-            f'data-thai-source="{source}" data-thai-score="{score}" data-thai-url="{href}">{image_html}'
-            f'<div class="feed-card-copy"><a href="{href}" class="feed-card-title" target="_blank" rel="noopener">{title}</a>'
-            f'{excerpt_html}<a class="feed-card-source" href="{href}" target="_blank" rel="noopener">{source} →</a>'
-            '</div></article>'
+            f'<article class="feed-card zh-feed-card thai-feed-card{text_only}" data-thai-expat-brief="verified" '
+            f'data-title-limit="110" data-excerpt-limit="140" data-published-at="{escape(published_iso, quote=True)}" '
+            f'data-thai-source="{source}" data-thai-score="{score}" data-thai-url="{href}">'
+            f'<div class="feed-card-body">{image_html}<div class="feed-card-copy">'
+            f'<a href="{href}" class="feed-card-title" target="_blank" rel="noopener" title="{title_attr}" aria-label="{title_attr}">{title}</a>'
+            f'{excerpt_html}</div></div><a class="feed-card-source" href="{href}" target="_blank" rel="noopener" '
+            f'title="Published {escape(date_label, quote=True)}">{source} → <time datetime="{escape(published_iso, quote=True)}">{escape(date_label)}</time></a>'
+            '</article>'
         )
     if not cards:
         return '<div class="feed-empty">Thailand expat news feed temporarily unavailable.</div>'
     verified_at = datetime.now(BKK_TZ).strftime("%b %-d, %H:%M BKK")
+    availability = (f'<p class="feed-status">Only {len(cards)} current sourced stories available in the last 48 hours.</p>'
+                    if len(cards) < 3 else "")
     return (
         f'<!-- Live check marker: expat brief has a real source, URL, summary, and score; verified {verified_at} -->'
-        '<div class="feed-card-grid">' + "".join(cards) + '</div>'
+        + availability + '<div class="feed-card-grid">' + "".join(cards) + '</div>'
     )
 
 
@@ -1432,8 +1453,9 @@ def fetch_bangkok_post():
 
     def score(title, summary=""):
         text = (title + " " + summary).lower()
-        points = sum(3 for term in relevant_terms if term in text)
-        points -= sum(4 for term in reject_terms if term in text)
+        matches = lambda term: bool(re.search(r"\b" + re.escape(term) + r"(?:s|ed|ing)?\b", text))
+        points = sum(3 for term in relevant_terms if matches(term))
+        points -= sum(4 for term in reject_terms if matches(term))
         if any(term in text for term in ["visa", "immigration", "overstay", "foreigner", "expat"]):
             points += 8
         if any(term in text for term in ["arrest", "scam", "police", "crime", "crackdown"]):
@@ -1444,7 +1466,13 @@ def fetch_bangkok_post():
 
     def add_item(title, url, source, summary="", published_at=None, raw_html=""):
         title = " ".join((title or "").split())
-        if len(title) < 28:
+        # Exclude advertorial guides/property funnels and overseas-only news,
+        # even when they contain Bangkok or police keywords.
+        if (len(title) < 28 or not _thai_host_ok(url)
+                or any(part in str(url).lower() for part in ("/guides/", "/sponsored/", "/property/", "/press-release"))
+                or any(term in (title + " " + summary).lower() for term in ("sponsored content", "advertorial", "fazwaz", "best tailor"))):
+            return
+        if "/news/world/" in str(url) and not any(term in title.lower() for term in ("thailand", "thai", "bangkok", "phuket")):
             return
         key = title.lower()
         if key in seen:
@@ -1464,9 +1492,11 @@ def fetch_bangkok_post():
         try:
             r = requests.get(url, headers=headers, timeout=12)
             r.raise_for_status()
-            soup = BeautifulSoup(r.text, "html.parser")
+            # RSS is XML: the HTML parser lowercases pubDate to pubdate,
+            # losing every non-dated-URL story's actual publication timestamp.
+            soup = BeautifulSoup(r.text, "xml")
             items = soup.find_all("item") or soup.find_all("entry")
-            for item in items[:20]:
+            for item in items[:40]:
                 title_el = item.find("title")
                 link_el = item.find("link")
                 desc_el = item.find("description") or item.find("summary")
@@ -1491,22 +1521,9 @@ def fetch_bangkok_post():
         except Exception as e:
             print(f"    ⚠️  {source} expat feed unavailable: {e}")
 
-    # Fallback scrape if RSS feeds are thin or blocked.
-    if len(headlines) < 3:
-        try:
-            r = requests.get("https://www.bangkokpost.com/thailand", headers=headers, timeout=12)
-            soup = BeautifulSoup(r.text, "html.parser")
-            for a in soup.find_all("a", href=True):
-                txt = a.get_text(" ", strip=True)
-                href = str(a.get("href", ""))
-                if href.startswith("/"):
-                    href = "https://www.bangkokpost.com" + href
-                if "bangkokpost.com" in href or href.startswith("http"):
-                    add_item(txt, href, "Bangkok Post")
-                if len(headlines) >= 8:
-                    break
-        except Exception as e:
-            print(f"    ⚠️  Bangkok Post fallback unavailable: {e}")
+    # Four independent publisher feeds, bounded to forty entries each. Only
+    # dated, relevant candidates are publishable; undated category-page links
+    # are not evidence of current coverage.
 
     ranked = select_thai_news(headlines)
     if ranked:
@@ -1514,13 +1531,8 @@ def fetch_bangkok_post():
             if not item.get("image"):
                 item["image"] = fetch_thai_og_image(item.get("url"))
         return ranked
-    return [{
-        "title": "Thailand expat news feed temporarily unavailable",
-        "url": "https://thethaiger.com/",
-        "source": "The Thaiger",
-        "summary": "Check visa, immigration, safety, and Bangkok lifestyle updates manually.",
-        "score": 0,
-    }]
+    # Never turn an outage into a fabricated article or a fresh timestamp.
+    return []
 
 def fetch_trending_recs():
     """
@@ -4076,8 +4088,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .thai-news-summary{{font-size:.72rem;color:var(--dim);line-height:1.45;margin-top:5px}}
     .thai-news-verify{{font-size:.56rem;color:var(--mute);line-height:1.35;margin-top:6px;opacity:.7}}
     .thai-news-item:last-child{{border-bottom:none}}
-    .thai-news-feed{{padding:0;margin-top:8px;overflow:visible}}
-    .thai-feed-card .feed-card-excerpt{{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}}
+    /* Thailand owns only its expanded body; the nine closed peers stay untouched. */
+    #thailand-news-card[open]>.signal-accordion-body{{padding:0 22px 14px}}
+    #thai-news-feed{{padding:0;margin-top:8px;overflow:hidden}}
+    #thailand-news-card .thai-news-header{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
+    .thai-feed-card time{{color:var(--dim);text-transform:none;letter-spacing:0;margin-left:4px}}
+    @media(max-width:620px){{#thailand-news-card[open]>.signal-accordion-body{{padding:0 16px 14px}}}}
 
     .star-sign{{padding:2px 0}}
     .star-sign-symbol{{display:none}}
@@ -4808,7 +4824,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <details class="card signal-accordion daily-signal-card" id="thailand-news-card" data-edition="{daily_edition}" data-daily-edition open>
     <summary><span class="card-title"><span class="compact-peer-icon">🇹🇭</span> <span class="compact-peer-label">Thailand</span></span></summary>
     <div class="signal-accordion-body">
-      <div class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</div>
+      <h3 class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</h3>
       <div id="thai-news-feed" class="compact-feed-card thai-news-feed">{bkk_html}</div>
     </div>
   </details>
@@ -5762,7 +5778,7 @@ def main():
         print(f"    ✅ {len(bangkok_news)} headlines")
     except Exception as e:
         print(f"    ❌ {e}")
-        bangkok_news = [{"title": "Bangkok Post unavailable", "url": "#"}]
+        bangkok_news = []
 
     print("  📰 Scraping ZeroHedge...")
     try:
@@ -6339,6 +6355,8 @@ def main():
         'thai-news-summary',
         'Live check marker: expat brief has a real source',
     ]
+    if not bangkok_news:
+        required_thai_markers = ['Thailand expat news feed temporarily unavailable.']
     missing_thai_markers = [m for m in required_thai_markers if m not in html]
     if missing_thai_markers:
         raise RuntimeError(f"Thailand expat brief failed verification markers: {missing_thai_markers}")
