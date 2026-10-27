@@ -4043,7 +4043,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .countdown-label{{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}}
     .countdown-days{{font-family:var(--serif);font-size:1.18rem;color:var(--text);line-height:1.15}}
     .countdown-date{{font-size:.58rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}}
-    @media(max-width:620px){{#world-tour-card .signal-accordion-body{{padding:0 8px 12px}}.countdown-strip-grid{{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}}.countdown-item{{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}}.countdown-item:last-child{{border-right:none;border-bottom:none;padding-bottom:6px}}.countdown-label{{display:flex;align-items:center;justify-content:center;min-height:2.7em;margin-bottom:4px;line-height:1.35;letter-spacing:.12em;white-space:normal;overflow-wrap:anywhere}}}}
+    @media(max-width:620px){{#world-tour-card .signal-accordion-body{{padding:0 8px 12px}}.countdown-strip-grid{{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}}.countdown-item{{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}}.countdown-item:last-child{{border-right:none;border-bottom:none;padding-bottom:6px}}.countdown-label{{display:flex;align-items:center;justify-content:center;min-height:1.35em;margin-bottom:4px;font-size:clamp(.46rem,2.25vw,.56rem);line-height:1.35;letter-spacing:.02em;white-space:nowrap}}}}
 
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
@@ -4439,7 +4439,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .countdown-strip-grid{{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}}
       .countdown-item{{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}}
       .countdown-item:last-child{{border-right:none;border-bottom:none;padding-bottom:6px}}
-      .countdown-label{{display:flex;align-items:center;justify-content:center;min-height:2.7em;margin-bottom:4px;line-height:1.35;letter-spacing:.12em;white-space:normal;overflow-wrap:anywhere}}
+      .countdown-label{{display:flex;align-items:center;justify-content:center;min-height:1.35em;margin-bottom:4px;font-size:clamp(.46rem,2.25vw,.56rem);line-height:1.35;letter-spacing:.02em;white-space:nowrap}}
       .compact-feed-card{{--feed-card-height:105px;overflow:hidden}}
       .feed-card-grid{{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}}
       .feed-card{{scroll-snap-align:start}}
@@ -4521,8 +4521,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <div class="countdown-days">{retreat_countdown_text}</div>
         <div class="countdown-date">Jan 19</div>
       </a>
-      <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Soviet Side Quest website">
-        <div class="countdown-label">SOVIET SIDE QUEST 🚂</div>
+      <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Soviet Quest website">
+        <div class="countdown-label">Soviet Quest 🚂</div>
         <div class="countdown-days">{trans_siberian_countdown_text}</div>
         <div class="countdown-date">Sep 2027</div>
       </a>
