@@ -60,7 +60,7 @@
     else if (stage && stage.parentNode) stage.insertAdjacentElement('afterend', panel);
     else (document.querySelector('main') || document.body).append(panel);
 
-    function clearRecord(message = 'Record locked.') {
+    function clearRecord(message = 'Record locked.', reason = 'locked') {
       privateRecord = null;
       content.replaceChildren();
       content.hidden = true;
@@ -68,7 +68,7 @@
       form.hidden = false;
       pin.value = '';
       status.textContent = message;
-      emit('health:record-cleared');
+      emit('health:record-cleared', { reason });
     }
 
     function render(record) {
@@ -95,7 +95,7 @@
 
     async function loadRecord() {
       const response = await fetch(RECORD_URL, { credentials: 'same-origin', cache: 'no-store', headers: { Accept: 'application/json' } });
-      if (response.status === 401) { clearRecord('Session expired. Unlock again.'); return; }
+      if (response.status === 401) { clearRecord('Session expired. Unlock again.', 'unlock-failed'); return; }
       if (!response.ok) throw new Error('Record unavailable');
       const payload = await response.json();
       render(payload.record);
@@ -118,13 +118,19 @@
         }
         await loadRecord();
       } catch (error) {
-        clearRecord(error.message || 'Unable to unlock');
+        clearRecord(error.message || 'Unable to unlock', 'unlock-failed');
       } finally { unlock.disabled = false; }
     });
 
     logout.addEventListener('click', async () => {
       try { await fetch(AUTH_URL, { method: 'DELETE', credentials: 'same-origin', cache: 'no-store' }); }
       finally { clearRecord(); }
+    });
+
+    window.addEventListener('health:request-unlock', () => {
+      clearRecord('Unlock to return to your unsaved check-in. Your draft stays in this tab.', 'unlock-failed');
+      panel.scrollIntoView({ behavior: 'instant', block: 'center' });
+      pin.focus({ preventScroll: true });
     });
 
     window.addEventListener('health:focus-record', () => {
