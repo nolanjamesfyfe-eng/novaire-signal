@@ -442,8 +442,6 @@
     .fed-prob i:first-child{color:var(--green)}
     .fed-prob i:last-child{color:var(--blue)}
     @media(max-width:620px){.market-clock{grid-template-columns:1fr;grid-template-areas:"primary" "futures" "calendar";align-items:stretch;padding:12px 14px}.market-primary{width:100%;box-sizing:border-box}.market-futures{width:100%}.market-future{padding:9px 8px}.market-calendar{white-space:normal;text-align:center;line-height:1.45;width:100%}.fed-title{margin-left:14px}.fed-stat{padding:0 14px}}
-    @media(max-width:520px){#fed-signal-card>summary{box-sizing:border-box;min-height:44px;flex-wrap:wrap;align-content:center;gap:8px 10px}#fed-signal-card>summary .fed-title{flex:1 1 110px}.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.fed-stat{box-sizing:border-box;padding:12px 14px;justify-content:flex-start}.fed-stat span,.fed-stat em{overflow-wrap:anywhere}.fed-stat b{white-space:normal;overflow-wrap:anywhere}.fed-last b,.fed-fomc b{text-wrap:balance}.fed-fomc{padding:12px 14px 12px 18px;margin:0;border-left:0;border-top:1px solid var(--border)}.fed-prob{padding:12px 14px;margin:0;border-top:1px solid var(--border)}.fed-prob b{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}.fed-prob i{white-space:normal;overflow-wrap:anywhere}}
-    @media(max-width:520px){@container(max-width:12rem){.fed-stats{grid-template-columns:1fr}.fed-stat{border-left:0}.fed-stat+.fed-stat{border-top:1px solid var(--border)}.fed-fomc{padding-left:18px}}}
     @media(max-width:400px){.market-clock{gap:14px;padding-top:16px;padding-bottom:16px}.market-primary{gap:7px}.market-futures{grid-template-columns:1fr;gap:10px}.market-future{padding:10px 8px}.market-calendar{margin-top:2px;padding-top:2px}.wall-time{font-size:1.176rem}}
 
     .eco-table{width:100%;border-collapse:collapse;font-size:.76rem}
@@ -560,6 +558,9 @@
       .totals-row .total-item{text-align:left;min-width:0}
       .totals-row .total-value{font-size:1.05rem;white-space:nowrap}
     }
+    /* fed-mobile-touch-reflow-v2: include zoomed phone desktop-site canvas. */
+    @media(max-width:520px),(hover:none) and (max-width:1100px){#fed-signal-card>summary{box-sizing:border-box;min-height:44px;flex-wrap:wrap;align-content:center;gap:8px 10px}#fed-signal-card>summary .fed-title{flex:1 1 110px}.fed-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.fed-stat{box-sizing:border-box;padding:12px 14px;justify-content:flex-start}.fed-stat span,.fed-stat em{overflow-wrap:anywhere}.fed-stat b{white-space:normal;overflow-wrap:anywhere}.fed-last b,.fed-fomc b{text-wrap:balance}.fed-fomc{padding:12px 14px 12px 18px;margin:0;border-left:0;border-top:1px solid var(--border)}.fed-prob{padding:12px 14px;margin:0;border-top:1px solid var(--border)}.fed-prob b{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}.fed-prob i{white-space:normal;overflow-wrap:anywhere}}
+    @media(max-width:520px),(hover:none) and (max-width:1100px){@container(max-width:12rem){.fed-stats{grid-template-columns:1fr}.fed-stat{border-left:0}.fed-stat+.fed-stat{border-top:1px solid var(--border)}.fed-fomc{padding-left:18px}}}
         /* Nine approved peers: closed shells only; expanded layout/state is untouched. */
     :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open]){padding:0;height:auto;min-height:0;container-type:inline-size}
     :is(#latest-novaire-card,#weekly-asymmetric-ideas,#catalysts-card,#fed-signal-card,#polymarket-card,#darvas-card,#thailand-news-card,#economies-card,#google-daily-tasks-card):not([open])>summary{box-sizing:border-box;height:38px;min-height:38px;padding:10px 16px;position:relative}

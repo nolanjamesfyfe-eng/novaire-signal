@@ -7,7 +7,7 @@ const { chromium } = require('/root/clawd/novaire-operations-system/node_modules
 
 const BASE = (process.env.NOVAIRE_SIGNAL_BASE_URL || 'http://127.0.0.1:8765').replace(/\/$/, '');
 const OUTPUT = process.env.QA_OUTPUT_DIR || path.resolve(__dirname, '..', 'qa-artifacts', 'fed-mobile-geometry');
-const VIEWPORTS = [320, 360, 375, 390, 430];
+const VIEWPORTS = [320, 360, 375, 390, 430, 520, 600, 601, 760, 980, 1100];
 const TEXT_SCALES = [1, 2];
 
 (async () => {
@@ -21,9 +21,10 @@ const TEXT_SCALES = [1, 2];
   try {
     for (const width of VIEWPORTS) {
       for (const textScale of TEXT_SCALES) {
-        const context = await browser.newContext({ viewport: { width, height: 900 } });
+        const context = await browser.newContext({ viewport: { width, height: 900 }, hasTouch: true, isMobile: true });
         const page = await context.newPage();
-        await page.goto(`${BASE}/?fed_geometry=${width}-${textScale}-${Date.now()}`, { waitUntil: 'networkidle', timeout: 60000 });
+        await page.goto(`${BASE}/?fed_geometry=${width}-${textScale}-${Date.now()}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        await page.evaluate(() => document.fonts.ready);
         const result = await page.evaluate(({ textScale }) => {
           if (textScale === 2) document.documentElement.style.fontSize = '220%';
           const card = document.querySelector('#fed-signal-card');
@@ -41,6 +42,10 @@ const TEXT_SCALES = [1, 2];
           const contained = (outer, inner) => inner.left >= outer.left - 1 && inner.right <= outer.right + 1 && inner.top >= outer.top - 1 && inner.bottom <= outer.bottom + 1;
           const intersects = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 0.5 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 0.5;
           const collisions = [];
+          const allLeaves = [...grid.querySelectorAll('span,b:not(:has(i)),em,i')];
+          for (let i=0;i<allLeaves.length;i++) for(let j=i+1;j<allLeaves.length;j++) {
+            if(intersects(rect(allLeaves[i]),rect(allLeaves[j]))) collisions.push('cross-cell: '+allLeaves[i].innerText+' <> '+allLeaves[j].innerText);
+          }
           const escaped = [];
           for (const item of items) {
             const itemRect = rect(item);
@@ -65,6 +70,7 @@ const TEXT_SCALES = [1, 2];
             viewport: { width: innerWidth, clientWidth: document.documentElement.clientWidth, pageOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth },
             textScale,
             columns: getComputedStyle(grid).gridTemplateColumns,
+            expectedColumns: body.clientWidth <= 12 * parseFloat(getComputedStyle(document.documentElement).fontSize) ? 1 : 2,
             rows: getComputedStyle(grid).gridTemplateRows,
             card: { rect: rect(card), overflow: overflows(card), scrollHeight: card.scrollHeight, clientHeight: card.clientHeight },
             body: { rect: rect(body), overflow: overflows(body), scrollHeight: body.scrollHeight, clientHeight: body.clientHeight },
@@ -79,9 +85,9 @@ const TEXT_SCALES = [1, 2];
 
         assert.deepEqual(result.order, ['RATE', 'LAST MEETING', 'NEXT FOMC', 'CME FEDWATCH'], `${width}px/${textScale}x: approved order`);
         assert.equal(result.itemRects.length, 4, `${width}px/${textScale}x: four Fed cells`);
-        assert.equal(result.columns.split(' ').length, textScale === 1 ? 2 : 1, `${width}px/${textScale}x: responsive mobile grid`);
+        assert.equal(result.columns.split(' ').length, result.expectedColumns, `${width}px/${textScale}x: responsive mobile grid`);
         assert.ok(result.summary.rect.height >= 44, `${width}px/${textScale}x: summary tap target is ${result.summary.rect.height}px`);
-        if (textScale === 1) assert.equal(result.viewport.pageOverflow, 0, `${width}px/${textScale}x: page overflow`);
+        if (textScale === 1 && width <= 520) assert.equal(result.viewport.pageOverflow, 0, `${width}px/${textScale}x: page overflow`);
         assert.equal(result.card.overflow, false, `${width}px/${textScale}x: clipped card content`);
         assert.equal(result.body.overflow, false, `${width}px/${textScale}x: clipped body content`);
         assert.equal(result.summary.overflow, false, `${width}px/${textScale}x: clipped compact header`);
