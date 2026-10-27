@@ -25,7 +25,9 @@ const props=['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','l
   for(const route of routes){
    const page=await context.newPage();await page.setViewportSize({width,height:900});
    await page.goto(base+(local&&route==='flaneur'?'map/':route),{waitUntil:'domcontentloaded'});
-   await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(300);
+   await page.evaluate(()=>document.fonts.ready);
+   if(route==='flaneur')await page.waitForSelector('#globe-canvas[data-ready="true"]',{timeout:30000});
+   await page.waitForTimeout(300);
    const data=await page.evaluate(props=>{
     const sample=e=>{const s=getComputedStyle(e),r=e.getBoundingClientRect();return {text:e.textContent.trim(),css:Object.fromEntries(props.map(k=>[k,s[k]])),box:{x:r.x,y:r.y,width:r.width,height:r.height}}};
     return {zoom:getComputedStyle(document.body).zoom,overflow:document.documentElement.scrollWidth>innerWidth,rows:[...document.querySelectorAll('.signal-brand-row')].map(e=>({row:sample(e),children:[...e.children].map(sample),paint:[...e.querySelectorAll('svg,.signal-wordmark>span')].map(sample),links:[...e.querySelectorAll('a')].map(a=>a.getAttribute('href'))})),taglines:[...document.querySelectorAll('.signal-tagline,.footer-tagline')].map(sample),headings:[...document.querySelectorAll('h1,h2,.stat-value,.legend')].map(sample),globe:document.querySelector('#globe-canvas')?.getAttribute('data-diameter')};
