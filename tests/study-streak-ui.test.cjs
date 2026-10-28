@@ -19,8 +19,7 @@ test('generated Anki control is one compact direct-link row with truthful copy',
   assert.match(card, /href="https:\/\/ankiweb\.net\/decks\/"/);
   assert.match(card, /target="_blank"/);
   assert.match(card, />Anki ↗<\/a>/);
-  assert.match(card, /click days only/);
-  assert.match(card, /Deck completion is not verified/);
+  assert.doesNotMatch(card, /click days only/);
   assert.match(card, /id="anki-streak-status"/);
   assert.match(card, /id="anki-sync-status"/);
   assert.match(card, /id="anki-sync-control"/);

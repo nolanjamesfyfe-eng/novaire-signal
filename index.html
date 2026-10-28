@@ -101,6 +101,7 @@
     @keyframes anki-warn-pulse{0%,100%{opacity:.68;text-shadow:0 0 0 rgba(228,162,74,0)}50%{opacity:1;text-shadow:0 0 9px rgba(228,162,74,.32)}}
     @keyframes anki-urgent-pulse{0%,100%{opacity:.68;text-shadow:0 0 0 rgba(239,107,114,0)}50%{opacity:1;text-shadow:0 0 10px rgba(239,107,114,.38)}}
     .anki-meta{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:3px;font-size:.45rem;letter-spacing:.045em;color:var(--mute);white-space:nowrap}
+    .anki-meta[hidden]{display:none!important}
     .anki-meta-sep{opacity:.45}
     .anki-sync-control{display:inline;position:relative}
     .anki-sync-control[hidden]{display:none!important}
@@ -625,7 +626,7 @@
     <div class="anki-identity"><span aria-hidden="true">🗂</span><strong>Anki</strong></div>
     <div class="anki-state" aria-live="polite">
       <span class="anki-streak-status" id="anki-streak-status" data-tone="neutral">Start today</span>
-      <div class="anki-meta"><span id="anki-sync-status">Not synced</span><span class="anki-meta-sep" aria-hidden="true">·</span><span title="A day counts when the AnkiWeb link is clicked. Deck completion is not verified.">click days only</span><span class="anki-meta-sep" aria-hidden="true">·</span><details class="anki-sync-control" id="anki-sync-control"><summary id="anki-sync-toggle">connect sync</summary><form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\d{5}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Connect</button></form></details></div>
+      <div class="anki-meta" id="anki-meta"><span id="anki-sync-status">Not synced</span><span class="anki-meta-sep" aria-hidden="true">·</span><details class="anki-sync-control" id="anki-sync-control"><summary id="anki-sync-toggle">connect sync</summary><form class="anki-sync-form" id="anki-sync-form"><label for="anki-sync-pin">Signal PIN</label><input id="anki-sync-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="\d{5}" maxlength="5" placeholder="Signal PIN" required><button type="submit">Connect</button></form></details></div>
     </div>
     <a class="anki-panel-link" id="anki-study-link" href="https://ankiweb.net/decks/" target="_blank" rel="noopener noreferrer" aria-label="Open AnkiWeb">Anki ↗</a>
   </section>
@@ -1394,7 +1395,7 @@ scheduleBangkokDailyReset();
     else if(days>0){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak';streakStatus.dataset.tone='positive'}
     else{streakStatus.textContent='Start today';streakStatus.dataset.tone='neutral'}
     syncStatus.textContent=source==='synced'?'Private · synced':source==='offline'?(memoryDates.length?'Saved locally · sync offline':'Not synced · sync offline'):!storageOk?'This tab only · storage blocked':memoryDates.length?'Saved locally · not synced':'Not synced';
-    syncControl.hidden=source==='synced';
+    syncControl.hidden=source==='synced';const metaLine=document.getElementById('anki-meta');if(metaLine)metaLine.hidden=source==='synced';
   }
   function localRender(source='local'){render(summary(memoryDates),source)}
   function adoptCanonical(data){const today=bangkokDate(),dates=Array.isArray(data.clickDates)?data.clickDates:memoryDates;writeLocal(dates);coverage={firstObserved:validDate(data.startedAt,today)?data.startedAt:(dates[0]||today),canonical:true};writeCoverage();render(data,'synced')}
