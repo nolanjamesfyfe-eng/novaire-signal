@@ -150,8 +150,8 @@ DISABLED_HOME_MARKERS = (
 
 CITIES = [
     {"name": "Bangkok",    "flag": "🇹🇭", "lat": 13.7563,  "lon": 100.5018, "tz_offset": 7},
-    {"name": "Medellín",   "flag": "🇨🇴", "lat": 6.2442,   "lon": -75.5812, "tz_offset": -5},
     {"name": "Edmonton",   "flag": "🇨🇦", "lat": 53.5461,  "lon": -113.4938, "tz_offset": -6},
+    {"name": "Medellín",   "flag": "🇨🇴", "lat": 6.2442,   "lon": -75.5812, "tz_offset": -5},
     {"name": "Montevideo", "flag": "🇺🇾", "lat": -34.9011, "lon": -56.1645, "tz_offset": -3},
 ]
 
