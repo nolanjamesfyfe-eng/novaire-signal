@@ -87,7 +87,7 @@
     .daily-signal-card:not([open]){height:62px;min-height:62px}
     .daily-signal-card:not([open])>summary{height:62px;min-height:62px}
 
-    .card.anki-quick-row{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 18px;box-sizing:border-box;min-height:63.8px;padding:10px 20px;border-color:rgba(181,150,98,.32);background:linear-gradient(105deg,rgba(181,150,98,.065),rgba(17,17,22,.98) 44%)}
+    .card.anki-quick-row{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 8px;box-sizing:border-box;min-height:63.8px;padding:10px 20px;border-color:rgba(181,150,98,.32);background:linear-gradient(105deg,rgba(181,150,98,.065),rgba(17,17,22,.98) 44%)}
     .anki-identity{display:block;color:var(--gold);font-size:.6rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap}
     .anki-state{min-width:0;justify-self:end;text-align:right;line-height:1.22}
     .anki-identity strong{font-weight:inherit}
@@ -115,7 +115,7 @@
     .anki-panel-link::after{content:"";position:absolute;left:0;top:50%;width:100%;height:44.1px;transform:translateY(-50%)}
     .anki-panel-link:hover,.anki-panel-link:focus-visible{background:#cfb27c;outline:1px solid #f0eef8;outline-offset:2px}
     @media(prefers-reduced-motion:reduce){.anki-streak-status[data-tone="positive"],.anki-streak-status[data-tone="warn"],.anki-streak-status[data-tone="urgent"]{animation:none;opacity:1}}
-    @media(max-width:520px){.card.anki-quick-row{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 12px;min-height:64px;padding:9px 20px}.anki-identity{font-size:.6rem}.anki-streak-status{font-size:.54rem}.anki-meta{font-size:.4rem;gap:1px 4px;flex-wrap:wrap;white-space:normal}.anki-meta>*{white-space:nowrap}.anki-panel-link{width:49.0078125px;height:14.8125px;font-size:.36rem}.anki-sync-form{left:auto;right:-70px;width:198px}}
+    @media(max-width:520px){.card.anki-quick-row{grid-template-columns:auto minmax(0,1fr) auto;gap:7px 6px;min-height:64px;padding:9px 20px}.anki-identity{font-size:.6rem}.anki-streak-status{font-size:.54rem}.anki-meta{font-size:.4rem;gap:1px 4px;flex-wrap:wrap;white-space:normal}.anki-meta>*{white-space:nowrap}.anki-panel-link{width:49.0078125px;height:14.8125px;font-size:.36rem}.anki-sync-form{left:auto;right:-70px;width:198px}}
 
     #world-tour-card{padding:0}
     #world-tour-card .signal-accordion-body{padding:0 16px 16px}
@@ -1389,9 +1389,9 @@ scheduleBangkokDailyReset();
   function summary(dates,today=bangkokDate()){const clicks=new Set(dates.filter(date=>validDate(date,today))),todayClicked=clicks.has(today),firstKnown=validDate(coverage.firstObserved,today)?coverage.firstObserved:today;let cursor=todayClicked?today:shift(today,-1),streak=0;while(clicks.has(cursor)){streak+=1;cursor=shift(cursor,-1)}let missedDays=0;if(!todayClicked){cursor=shift(today,-1);while(cursor>=firstKnown&&!clicks.has(cursor)){missedDays+=1;cursor=shift(cursor,-1)}}return{todayClicked,streak,missedDays}}
   function render(data,source){
     const days=Number(data.streak)||0,missed=Number(data.missedDays)||0;
-    if(data.todayClicked){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · clicked today';streakStatus.dataset.tone='positive'}
+    if(data.todayClicked){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak';streakStatus.dataset.tone='positive'}
     else if(missed>0){streakStatus.textContent=missed+' day'+(missed===1?'':'s')+' missed · restart today';streakStatus.dataset.tone=missed>=3?'urgent':missed===2?'positive':'warn'}
-    else if(days>0){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak · click today';streakStatus.dataset.tone='positive'}
+    else if(days>0){streakStatus.textContent=days+' day'+(days===1?'':'s')+' streak';streakStatus.dataset.tone='positive'}
     else{streakStatus.textContent='Start today';streakStatus.dataset.tone='neutral'}
     syncStatus.textContent=source==='synced'?'Private · synced':source==='offline'?(memoryDates.length?'Saved locally · sync offline':'Not synced · sync offline'):!storageOk?'This tab only · storage blocked':memoryDates.length?'Saved locally · not synced':'Not synced';
     syncControl.hidden=source==='synced';

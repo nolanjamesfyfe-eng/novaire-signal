@@ -86,14 +86,14 @@ test('unknown new browser stays neutral through delayed and 401 sync, then recor
   const [popup] = await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
   await popup.waitForLoadState('domcontentloaded').catch(() => {});
   assert.match(popup.url(), /^https:\/\/ankiweb\.net\/decks\//);
-  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('streak'));
   assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), 'positive');
   await page.locator('#anki-study-link').focus();
   await Promise.all([context.waitForEvent('page'), page.keyboard.press('Enter')]);
   assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), [today]);
   assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_coverage_v1'))), { firstObserved: today, canonical: false });
   await page.reload({ waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('streak'));
   assert.match(await page.locator('#anki-sync-status').textContent(), /Saved locally/);
   assert.deepEqual(serverDates, [], 'unauthorized browser must not mutate shared history');
   await context.close();
@@ -101,7 +101,7 @@ test('unknown new browser stays neutral through delayed and 401 sync, then recor
 
 test('zero, one, two and three missed-day states use the requested tones', async () => {
   const scenarios = [
-    { dates: ['2026-10-22', '2026-10-23'], text: '2 days streak · click today', tone: 'positive' },
+    { dates: ['2026-10-22', '2026-10-23'], text: '2 days streak', tone: 'positive' },
     { dates: ['2026-10-22'], text: '1 day missed · restart today', tone: 'warn' },
     { dates: ['2026-10-21'], text: '2 days missed · restart today', tone: 'positive' },
     { dates: [], coverage: { firstObserved: '2026-10-21', canonical: false }, text: '3 days missed · restart today', tone: 'urgent' },
@@ -168,7 +168,7 @@ test('failed authenticated load preserves known local state and never replaces i
   const page = await context.newPage();
   await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('offline'));
-  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak · click today');
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak');
   assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), ['2026-10-22', '2026-10-23']);
   await context.close();
 });
@@ -179,12 +179,12 @@ test('successful sync restores canonical two-day history and expiry retains it l
   const page = await context.newPage();
   await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('synced'));
-  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak · click today');
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak');
   assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), serverDates);
   authorized = false;
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.querySelector('#anki-sync-status')?.textContent.includes('not synced'));
-  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak · click today');
+  assert.equal(await page.locator('#anki-streak-status').textContent(), '2 days streak');
   assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('nv_anki_click_dates_v1'))), serverDates);
   await context.close();
 });
@@ -211,7 +211,7 @@ test('denied localStorage is honest, tracks for the tab, and expiry/network fall
   const page = await context.newPage();
   await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
   await Promise.all([context.waitForEvent('page'), page.locator('#anki-study-link').click()]);
-  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('clicked today'));
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent.includes('streak'));
   assert.match(await page.locator('#anki-sync-status').textContent(), /This tab only/);
   await page.reload({ waitUntil: 'domcontentloaded' });
   assert.equal(await page.locator('#anki-streak-status').textContent(), 'Start today');

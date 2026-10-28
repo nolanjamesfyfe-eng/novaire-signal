@@ -43,7 +43,7 @@ test('generated behavior records locally before optional private sync without bl
 test('warning semantics separate streak from completed missed days and respect reduced motion', () => {
   assert.match(html, /missed>=3\?'urgent':missed===2\?'positive':'warn'/);
   assert.match(html, /day'\+\(missed===1\?'':'s'\)\+' missed · restart today'/);
-  assert.match(html, /streak · clicked today/);
+  assert.match(html, /\+' streak';streakStatus/);
   assert.match(html, /@keyframes anki-positive-pulse/);
   assert.match(html, /@keyframes anki-warn-pulse/);
   assert.match(html, /@keyframes anki-urgent-pulse/);
