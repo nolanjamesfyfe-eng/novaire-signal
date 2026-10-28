@@ -3788,7 +3788,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         weekly_note = ""
 
     # ── FX Rates HTML ──
-    FX_ORDER = ["CAD", "THB", "AUD", "COP", "EUR", "RUB", "KRW", "JPY"]
+    FX_ORDER = ["THB", "CAD", "AUD", "COP", "EUR", "RUB", "KRW", "JPY"]
     fx_rates_html = ""
     if fx_rates:
         for ccy in FX_ORDER:

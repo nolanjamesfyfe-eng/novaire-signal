@@ -1,6 +1,6 @@
 export const config = { runtime: 'edge' };
 
-const CURRENCIES = ['CAD', 'THB', 'AUD', 'COP', 'EUR', 'RUB', 'KRW', 'JPY'];
+const CURRENCIES = ['THB', 'CAD', 'AUD', 'COP', 'EUR', 'RUB', 'KRW', 'JPY'];
 const PRIMARY_BASE = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api';
 const FALLBACK_BASE = 'https://latest.currency-api.pages.dev';
 
