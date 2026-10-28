@@ -45,6 +45,11 @@ state = {
     'updated_at': now,
     'last_success_at': now if os.environ['STATUS'] == 'success' else previous.get('last_success_at'),
 }
+try:
+    feed = json.loads(Path('feed.json').read_text())
+    state['signal_feed'] = {'ok': feed.get('ok'), 'fetchedAt': feed.get('fetchedAt'), 'diagnostics': feed.get('diagnostics')}
+except Exception:
+    state['signal_feed'] = {'ok': False, 'error': 'feed diagnostics unavailable'}
 path.write_text(json.dumps(state, indent=2) + '\n')
 PY
 }

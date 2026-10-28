@@ -206,7 +206,7 @@ class CompactFeedCardTests(unittest.TestCase):
 
         renderer = source[source.index("function renderZeroHedge"):source.index("async function refreshSignals")]
         self.assertIn("truncateWordSafe(item.title, ZEROHEDGE_TITLE_CHAR_LIMIT)", renderer)
-        self.assertIn("truncateWordSafe(item.excerpt, ZEROHEDGE_EXCERPT_CHAR_LIMIT)", renderer)
+        self.assertIn("truncateWordSafe(normalizeArticleText(item.excerpt), ZEROHEDGE_EXCERPT_CHAR_LIMIT)", renderer)
         self.assertIn('class=\"feed-card-body\"', renderer)
         self.assertIn('class=\"feed-card-source\"', renderer)
 

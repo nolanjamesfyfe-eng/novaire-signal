@@ -3,15 +3,19 @@ export const config = { runtime: 'edge' };
 
 const RSS_URL = 'https://feeds.feedburner.com/zerohedge/feed';
 
-function decodeXml(value) {
-  return String(value || '')
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .trim();
+export function decodeXml(value) {
+  let text = String(value || '').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1');
+  const entities = {amp:'&',quot:'"',apos:"'",lt:'<',gt:'>',nbsp:' ',ensp:' ',emsp:' ',thinsp:' ',ndash:'–',mdash:'—',lsquo:'‘',rsquo:'’',ldquo:'“',rdquo:'”',hellip:'…'};
+  for (let i = 0; i < 8; i++) {
+    const next = text.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (all, key) => {
+      if (key[0] !== '#') return entities[key.toLowerCase()] ?? all;
+      const n = key[1].toLowerCase() === 'x' ? parseInt(key.slice(2),16) : Number(key.slice(1));
+      return n > 0 && n <= 0x10ffff ? String.fromCodePoint(n) : '';
+    });
+    if (next === text) break;
+    text = next;
+  }
+  return text.trim();
 }
 
 function safeUrl(value, allowedHosts) {
@@ -23,17 +27,36 @@ function safeUrl(value, allowedHosts) {
   }
 }
 
-function textFromHtml(value) {
-  return decodeXml(String(value || '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+export function textFromHtml(value) {
+  return decodeXml(value).replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\u200b/g, '').replace(/\s+/g, ' ').trim();
 }
 
-function firstSourcedSentence(description) {
-  const paragraphs = [...String(description || '').matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
-    .map((match) => textFromHtml(match[1]))
-    .filter((text) => text && !/^(authored|submitted) by\b/i.test(text));
+function substantive(text) {
+  return text.split(/\s+/).length >= 5 && /[a-z]/i.test(text) && !/^(authored|submitted) by\b|^(chart|source|image|photo|click to enlarge|advertisement|subscribe)\b/i.test(text);
+}
+
+export function firstSourcedSentence(description) {
+  const decoded = decodeXml(description);
+  const matches = [...decoded.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)];
+  const paragraphs = (matches.length ? matches.map(m => m[1]) : [decoded]).map(textFromHtml).filter(substantive);
   const text = paragraphs[0] || '';
   const match = text.match(/^([\s\S]*?[.!?])(?:\s|$)/);
   return (match ? match[1] : text).slice(0, 320);
+}
+
+export function publicIntro(page) {
+  const tags = [...String(page).matchAll(/<meta\b[^>]*>/gi)].map(m => m[0]);
+  for (const name of ['og:description', 'description', 'twitter:description']) {
+    for (const tag of tags) {
+      const attrs = Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*(["'])([\s\S]*?)\2/g)].map(m => [m[1].toLowerCase(), m[3]]));
+      if ((attrs.property || attrs.name) === name) {
+        const intro = firstSourcedSentence(attrs.content);
+        if (intro) return intro;
+      }
+    }
+  }
+  const article = String(page).match(/<article\b[^>]*>([\s\S]*?)<\/article>/i);
+  return article ? firstSourcedSentence(article[1]) : '';
 }
 
 function imageFromDescription(description) {
@@ -87,10 +110,23 @@ export default async function handler(req) {
         image_alt: imageAltFromDescription(description),
       });
     }
+    const selected = articles.slice(0, 12);
+    await Promise.all(selected.map(async item => {
+      item.excerptSource = 'publisher_rss';
+      if (item.excerpt) return;
+      try {
+        const page = await fetch(item.url, {redirect: 'error', signal: AbortSignal.timeout(7000), headers: {'User-Agent': 'NovaireSignal/1.0'}});
+        if (page.ok) item.excerpt = publicIntro((await page.text()).slice(0, 1500000));
+        item.excerptSource = 'public_article_metadata_or_article';
+      } catch (_) { /* Public metadata unavailable; no bypass or invented copy. */ }
+    }));
+    const usable = selected.filter(item => item.excerpt);
     return new Response(JSON.stringify({
-      ok: true,
+      ok: usable.length > 0,
       fetchedAt: new Date().toISOString(),
-      articles: articles.slice(0, 12),
+      status: usable.length === selected.length ? 'ok' : 'partial',
+      omittedWithoutIntro: selected.length - usable.length,
+      articles: usable,
     }), { status: 200, headers });
   } catch (error) {
     return new Response(JSON.stringify({ ok: false, error: error.message, articles: [] }), { status: 502, headers });

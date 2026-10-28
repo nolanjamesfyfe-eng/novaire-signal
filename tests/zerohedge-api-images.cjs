@@ -9,7 +9,7 @@ const assert=require('node:assert/strict');
  try {
   for(const host of ['assets.zerohedge.com','cms.zerohedge.com','evil.example','cms.zerohedge.com.evil.example']){
    const image=`https://${host}/sites/default/files/inline-images/article.jpg`;
-   global.fetch=async()=>new Response(`<rss><channel><item><title>Publisher supplied article title</title><link>https://www.zerohedge.com/markets/test</link><description><![CDATA[<p>Source excerpt.</p><img src="${image}" alt="Article image">]]></description></item></channel></rss>`);
+   global.fetch=async()=>new Response(`<rss><channel><item><title>Publisher supplied article title</title><link>https://www.zerohedge.com/markets/test</link><description><![CDATA[<p>The publisher supplied this genuine article introduction.</p><img src="${image}" alt="Article image">]]></description></item></channel></rss>`);
    const r=await handler({method:'GET'}),data=await r.json();
    assert.equal(r.status,200);assert.equal(data.articles[0].image,host==='assets.zerohedge.com'||host==='cms.zerohedge.com'?image:'');
   }

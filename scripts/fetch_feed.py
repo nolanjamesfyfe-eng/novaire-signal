@@ -13,6 +13,14 @@ Final output is sorted by engagement score, then recency.
 
 import html as html_lib
 import json
+import os
+from urllib.parse import urlencode
+
+# Pin the existing authorized read identity, not the publisher's unrelated HOME.
+XURL_HOME = os.environ.get('SIGNAL_XURL_HOME', '/root/.hermes/home')
+XURL_APP = os.environ.get('SIGNAL_XURL_APP', 'novairecito')
+EXPECTED_READ_ID = '923042958'  # @jnovaire; app label is not account identity.
+SOURCE_STATUS = {}
 import re
 import subprocess
 import sys
@@ -185,14 +193,12 @@ def enrich_cached_feed(path: Path) -> bool:
 def parse_iso_ms(value: str) -> tuple[str, int]:
     raw = str(value or "").strip()
     if not raw:
-        now = datetime.now(timezone.utc)
-        return now.isoformat(), int(now.timestamp() * 1000)
+        return '', 0
     normalized = raw.replace("Z", "+00:00")
     try:
         dt = datetime.fromisoformat(normalized)
     except ValueError:
-        now = datetime.now(timezone.utc)
-        return now.isoformat(), int(now.timestamp() * 1000)
+        return '', 0
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
     dt = dt.astimezone(timezone.utc)
@@ -215,13 +221,15 @@ def tweets_from_xurl_payload(payload, username: str) -> list:
         text = str(row.get("text") or "").strip()
         if not text or len(text) < 5:
             continue
-        if re.match(r"^RT @", text):
+        if re.match(r"^RT @", text) or any(r.get('type') == 'retweeted' for r in row.get('referenced_tweets', [])):
             continue
         tweet_id = str(row.get("id") or "").strip()
         if not tweet_id:
             continue
         created_at, created_ms = parse_iso_ms(row.get("created_at") or "")
         metrics = row.get("public_metrics") or {}
+        if not created_ms or not all(isinstance(metrics.get(k), int) and metrics[k] >= 0 for k in ('like_count', 'retweet_count')):
+            continue
         tweets.append({
             "id": tweet_id,
             "text": text,
@@ -237,32 +245,37 @@ def tweets_from_xurl_payload(payload, username: str) -> list:
     return tweets
 
 
-def fetch_user_timeline(username: str) -> list:
-    """Fetch recent original posts for one handle via xurl search."""
+def x_read(endpoint):
+    """Explicit read-only provider; retain structured errors without credentials."""
     try:
         result = subprocess.run(
-            [XURL_BIN, "search", f"from:{username}", "-n", "10"],
-            capture_output=True,
-            text=True,
-            timeout=25,
-        )
-    except FileNotFoundError:
-        print(f"  @{username}: xurl is not installed")
-        return []
-    except subprocess.TimeoutExpired:
-        print(f"  @{username}: timeout")
-        return []
-    if result.returncode != 0:
-        err = (result.stderr or result.stdout or "xurl failed").strip().splitlines()
-        print(f"  @{username}: xurl error — {err[-1] if err else 'non-zero exit'}")
-        return []
-    try:
-        payload = json.loads(result.stdout or "{}")
-    except json.JSONDecodeError:
-        print(f"  @{username}: invalid xurl JSON")
-        return []
-    tweets = tweets_from_xurl_payload(payload, username)
-    print(f"  @{username}: {len(tweets)} tweets via xurl")
+            [XURL_BIN, '--app', XURL_APP, '--auth', 'oauth2', endpoint],
+            env={**os.environ, 'HOME': XURL_HOME}, capture_output=True, text=True, timeout=25)
+        try:
+            payload = json.loads(result.stdout or '{}')
+        except json.JSONDecodeError:
+            return {}, {'code': 'invalid_json', 'detail': 'X returned invalid JSON'}
+        if result.returncode or payload.get('errors') or payload.get('status', 200) >= 400:
+            # Never dump stderr/auth diagnostics or arbitrary request headers.
+            return {}, {'code': payload.get('status', 'provider_error'),
+                        'title': str(payload.get('title', 'X request failed'))[:120],
+                        'detail': str(payload.get('detail', 'Provider rejected retrieval'))[:300]}
+        if 'data' not in payload and 'meta' not in payload:
+            return {}, {'code': 'invalid_payload', 'detail': 'No data or result metadata'}
+        return payload, None
+    except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
+        return {}, {'code': type(exc).__name__, 'detail': 'X CLI unavailable or timed out'}
+
+
+def fetch_user_timeline(username: str) -> list:
+    # Keep the established ten-post scan, then exclude retweets locally.
+    query = urlencode({'query': f'from:{username}', 'max_results': 10,
+                       'tweet.fields': 'created_at,public_metrics,referenced_tweets'})
+    payload, error = x_read('/2/tweets/search/recent?' + query)
+    tweets = tweets_from_xurl_payload(payload, username) if not error else []
+    SOURCE_STATUS[username] = {'ok': error is None, 'posts': len(tweets),
+                              'checkedAt': datetime.now(timezone.utc).isoformat(), 'error': error}
+    print(f"  @{username}: {error if error else str(len(tweets)) + ' posts'}")
     return tweets
 
 
@@ -277,7 +290,7 @@ def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n:
         t
         for tweets in tweet_lists
         for t in tweets
-        if t["id"] not in exclude_ids and (now_ms - t["createdAtMs"]) <= window_ms
+        if t["id"] not in exclude_ids and 0 <= (now_ms - t["createdAtMs"]) <= window_ms
     ]
     pool.sort(key=lambda t: (t["likes"] + t["retweets"], t["createdAtMs"]), reverse=True)
     picked = []
@@ -295,13 +308,22 @@ def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n:
 
 def main():
     print(f"Signal Feed — fetching {len(ALL_ACCOUNTS)} accounts via xurl...\n")
+    SOURCE_STATUS.clear()
+    attempted_at = datetime.now(timezone.utc).isoformat()
+    identity, identity_error = x_read('/2/users/me')
+    if not identity_error and identity.get('data', {}).get('id') != EXPECTED_READ_ID:
+        identity_error = {'code': 'identity_mismatch', 'detail': 'Unexpected authorized X read identity'}
     all_data: dict[str, list] = {}
     errors: list[str] = []
 
     print("── Engagement scanner accounts ──")
     for i, username in enumerate(ENGAGEMENT_ACCOUNTS):
-        all_data[username] = fetch_user_timeline(username)
-        if not all_data[username]:
+        if identity_error:
+            all_data[username] = []
+            SOURCE_STATUS[username] = {'ok': False, 'posts': 0, 'checkedAt': attempted_at, 'error': identity_error}
+        else:
+            all_data[username] = fetch_user_timeline(username)
+        if not SOURCE_STATUS[username]['ok']:
             errors.append(username)
         if i < len(ENGAGEMENT_ACCOUNTS) - 1:
             time.sleep(0.4)
@@ -331,14 +353,24 @@ def main():
 
     feed.sort(key=lambda t: t.get("slot_order", 99))
     print(f"\n📊 Final feed: {len(feed)} tweets — top engagement only")
+    diagnostics = {'attemptedAt': attempted_at, 'provider': 'X API v2 / OAuth2',
+                   'identity': identity.get('data', {}).get('username'),
+                   'accountsRequested': len(ALL_ACCOUNTS), 'accountsSucceeded': len(ALL_ACCOUNTS) - len(errors),
+                   'sources': SOURCE_STATUS, 'errors': errors,
+                   'status': 'failed' if not is_publishable_feed(feed) else ('partial' if errors else 'ok')}
 
     if not is_publishable_feed(feed):
         print(f"\n⚠️ Only {len(feed)} post(s) fetched; minimum is {MIN_PUBLISHABLE_POSTS} — keeping existing feed.json")
         if errors:
             print(f'Failed accounts: {", ".join(errors)}')
         out_path = REPO_ROOT / "feed.json"
-        if enrich_cached_feed(out_path):
-            print("  ✓ Added genuine attached-media metadata to the cached feed; fetchedAt is unchanged")
+        previous = json.loads(out_path.read_text()) if out_path.exists() else {'posts': [], 'fetchedAt': None}
+        first_error = next((s['error'] for s in SOURCE_STATUS.values() if s['error']), None)
+        reason = (f"X API {first_error['code']}: {first_error['detail']}" if first_error else 'Fewer than three verified posts in the 24h window')
+        previous.update({'ok': False, 'status': diagnostics['status'], 'diagnostics': diagnostics,
+                         'error': reason, 'errors': errors})
+        out_path.write_text(json.dumps(previous, ensure_ascii=False, indent=2) + '\n')
+        print('FEED_HEALTH ' + json.dumps(diagnostics))
         return
 
     # Ranking is complete. Metadata enrichment happens afterward so the original
@@ -347,6 +379,8 @@ def main():
     out_path = REPO_ROOT / "feed.json"
     output = {
         "ok": True,
+        "status": diagnostics['status'],
+        "diagnostics": diagnostics,
         "count": len(feed),
         "accountsWithPosts": len({t["handle"] for t in feed}),
         "fetchedAt": datetime.now(timezone.utc).isoformat(),
@@ -358,6 +392,7 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
     print(f"✅ Saved {len(feed)} posts to {out_path}")
+    print('FEED_HEALTH ' + json.dumps(diagnostics))
     if errors:
         print(f'⚠️  Partial failures: {", ".join(errors)}')
 

@@ -108,7 +108,8 @@ async function inspect(page, phase, viewport) {
   assert.equal(result.xCards.length, 3, `${viewport} ${phase}: exactly three X cards`);
   const expectedClamps = ['4', '3'];
   for (const [index, item] of result.zhCards.entries()) {
-    assert.ok(item.footer.top - item.body.bottom <= 7, 'No stretched blank body above footer');
+    assert.ok(Math.abs(item.card.height - result.zhCards[0].card.height) < 1, 'Equal compact card geometry');
+    assert.ok(Math.abs(item.footer.top - result.zhCards[0].footer.top) < 1, 'Source footer pinned across row');
     assert.ok(item.card.bottom - item.footer.bottom <= 11, 'No blank shell below footer');
     if (item.media) {
       assert.ok(item.titleRect.left >= item.media.right, 'Title beside genuine thumbnail');

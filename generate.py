@@ -1649,20 +1649,66 @@ def truncate_word_safe(value, limit):
     return clipped + "…"
 
 
+def _normalize_zh_html(value):
+    from html import unescape
+    text = str(value or '')
+    for _ in range(8):
+        decoded = unescape(text)
+        if decoded == text:
+            break
+        text = decoded
+    return text
+
+
+def _zh_plain(value):
+    soup = BeautifulSoup(_normalize_zh_html(value), 'html.parser')
+    for node in soup(['script', 'style']):
+        node.decompose()
+    return ' '.join(soup.get_text(' ', strip=True).replace('\u200b', '').split())
+
+
+def _zh_substantive(text):
+    return len(text.split()) >= 5 and bool(re.search(r'[A-Za-z]', text)) and not re.match(
+        r'^(authored|submitted) by\b|^(chart|source|image|photo|click to enlarge|advertisement|subscribe)\b', text, re.I)
+
+
 def _first_sourced_sentence(description_html):
-    """Extract the first substantive sentence from publisher-supplied RSS copy."""
-    soup = BeautifulSoup(description_html or "", "html.parser")
-    candidates = []
-    for paragraph in soup.find_all("p"):
-        text = " ".join(paragraph.get_text(" ", strip=True).split())
-        if not text or text.lower().startswith(("authored by ", "submitted by ")):
-            continue
-        candidates.append(text)
-    if not candidates:
-        return ""
-    text = candidates[0]
-    sentence = re.split(r"(?<=[.!?])\s+", text, maxsplit=1)[0].strip()
-    return sentence[:320]
+    """Skip encoded NBSP, chart spacers and bylines; never invent an intro."""
+    soup = BeautifulSoup(_normalize_zh_html(description_html), 'html.parser')
+    paragraphs = soup.find_all('p')
+    candidates = [_zh_plain(p.decode_contents()) for p in paragraphs] if paragraphs else [_zh_plain(description_html)]
+    for text in candidates:
+        if _zh_substantive(text):
+            return re.split(r'(?<=[.!?])\s+', text, maxsplit=1)[0][:320]
+    return ''
+
+
+def _zh_public_intro(page):
+    soup = BeautifulSoup(page or '', 'html.parser')
+    for attrs in ({'property': 'og:description'}, {'name': 'description'}, {'name': 'twitter:description'}):
+        node = soup.find('meta', attrs=attrs)
+        text = _zh_plain(node.get('content', '')) if node else ''
+        if _zh_substantive(text):
+            return _first_sourced_sentence(text)
+    article = soup.select_one('article')
+    return _first_sourced_sentence(str(article)) if article else ''
+
+
+def complete_zerohedge_intros(items):
+    for item in items:
+        item['excerpt'] = _first_sourced_sentence(item.get('excerpt', ''))
+        if not item['excerpt']:
+            try:
+                response = requests.get(item['url'], headers={'User-Agent': 'NovaireSignal/1.0'}, timeout=8)
+                if response.ok and _safe_https_url(response.url, ZEROHEDGE_LINK_HOSTS):
+                    item['excerpt'] = _zh_public_intro(response.text)
+                    item['excerptSource'] = 'public_article_metadata_or_article'
+            except Exception:
+                pass
+        else:
+            item['excerptSource'] = 'publisher_rss'
+    # Do not present a placeholder card as a sourced article introduction.
+    return [item for item in items if item['excerpt']]
 
 
 def parse_zerohedge_feed(xml_text, limit=40, cutoff=None):
@@ -1710,7 +1756,7 @@ def render_zerohedge_cards(items):
         title = escape(truncate_word_safe(full_title, ZEROHEDGE_TITLE_CHAR_LIMIT))
         title_attr = escape(full_title, quote=True)
         url = _safe_https_url(item.get("url"), ZEROHEDGE_LINK_HOSTS)
-        excerpt_text = truncate_word_safe(item.get("excerpt"), ZEROHEDGE_EXCERPT_CHAR_LIMIT)
+        excerpt_text = truncate_word_safe(_zh_plain(item.get("excerpt")), ZEROHEDGE_EXCERPT_CHAR_LIMIT)
         excerpt_html = f'<p class="feed-card-excerpt">{escape(excerpt_text)}</p>' if excerpt_text else ""
         image = _safe_https_url(item.get("image"), ZEROHEDGE_IMAGE_HOSTS)
         image_html = ""
@@ -1763,7 +1809,7 @@ def fetch_zerohedge():
                     break
     except Exception as exc:
         print(f"    ⚠️ ZeroHedge refresh failed: {exc}")
-    return headlines[:40] if headlines else [{"title": "No headlines in last 36h", "url": "#", "excerpt": "", "image": ""}]
+    return complete_zerohedge_intros(headlines[:12])
 
 GSHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{PORTFOLIO_SHEET_ID}/export?format=csv&gid={TFSA_GID}"
 SHEET_ALLOCATION_CACHE_PATH = os.path.join(
@@ -4334,9 +4380,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:5}}
     .zh-feed-card .feed-card-source{{flex:none;margin-top:0;padding-top:0}}
     /* zh-density-v2: sourced excerpt below the image/title, no fixed-height shell. */
-    #zerohedge-feed .feed-card-grid{{align-items:start}}
+    #zerohedge-feed .feed-card-grid{{align-items:stretch}}
     #zerohedge-feed .zh-feed-card{{height:auto;min-height:0;gap:6px}}
     #zerohedge-feed .feed-card-body{{flex:none;display:flex;flex-direction:column;gap:6px;overflow:visible}}
+    #zerohedge-feed .feed-card-source{{margin-top:auto}}
     #zerohedge-feed .zh-story-header{{display:flex;align-items:flex-start;gap:7px;width:100%;min-width:0}}
     #zerohedge-feed .feed-card-excerpt{{margin:0;width:100%;-webkit-line-clamp:3;color:var(--dim)}}
     #zerohedge-feed .feed-card-title{{-webkit-line-clamp:4}}
@@ -4688,6 +4735,17 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     const ZEROHEDGE_TITLE_CHAR_LIMIT = {ZEROHEDGE_TITLE_CHAR_LIMIT};
     const ZEROHEDGE_EXCERPT_CHAR_LIMIT = {ZEROHEDGE_EXCERPT_CHAR_LIMIT};
+    function normalizeArticleText(value) {{
+      let text = String(value || '');
+      for (let i = 0; i < 8; i++) {{
+        const doc = new DOMParser().parseFromString(text, 'text/html');
+        doc.querySelectorAll('script,style').forEach(el => el.remove());
+        const next = doc.body.textContent;
+        if (next === text) break;
+        text = next;
+      }}
+      return text.replace(/\\s+/g, ' ').trim();
+    }}
     function truncateWordSafe(value, limit) {{
       const text = String(value ?? '').replace(/\\s+/g, ' ').trim();
       const points = Array.from(text);
@@ -4759,7 +4817,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         <article class="feed-card signal-feed-card${{media ? '' : ' feed-card--text-only'}}">
           <a class="feed-handle" href="${{escHtml(profileUrl)}}" target="_blank" rel="noopener">@${{escHtml(p.handle)}}</a>
           <div class="feed-card-body">${{media}}<div class="feed-card-copy"><div class="feed-text">${{escHtml(p.text)}}</div></div></div>
-          <div class="feed-metrics"><span>${{metrics.length ? metrics.map(escHtml).join(' · ') : 'Public metrics unavailable'}}</span>${{postUrl ? `<a class="feed-link" href="${{escHtml(postUrl)}}" target="_blank" rel="noopener">View on X →</a>` : ''}}</div>
+          <div class="feed-metrics"><time datetime="${{escHtml(p.createdAt)}}" title="${{escHtml(p.createdAt)}}">${{escHtml(timeAgo(p.createdAt))}}</time><span>${{metrics.length ? metrics.map(escHtml).join(' · ') : 'Public metrics unavailable'}}</span>${{postUrl ? `<a class="feed-link" href="${{escHtml(postUrl)}}" target="_blank" rel="noopener">View on X →</a>` : ''}}</div>
         </article>`;
       }}).join('') + '</div>';
       wireImageFallbacks(container);
@@ -4772,7 +4830,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const media = imageMarkup(item, 'zerohedge');
         const fullTitle = String(item.title || 'Untitled article').replace(/\\s+/g, ' ').trim();
         const title = truncateWordSafe(item.title, ZEROHEDGE_TITLE_CHAR_LIMIT);
-        const excerpt = truncateWordSafe(item.excerpt, ZEROHEDGE_EXCERPT_CHAR_LIMIT);
+        const excerpt = truncateWordSafe(normalizeArticleText(item.excerpt), ZEROHEDGE_EXCERPT_CHAR_LIMIT);
         return `
         <article class="feed-card zh-feed-card${{media ? '' : ' feed-card--text-only'}}" data-title-limit="${{ZEROHEDGE_TITLE_CHAR_LIMIT}}" data-excerpt-limit="${{ZEROHEDGE_EXCERPT_CHAR_LIMIT}}">
           <div class="feed-card-body"><div class="zh-story-header">${{media}}<div class="feed-card-copy">
@@ -4796,18 +4854,23 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         if (!signalResponse.ok) throw new Error('Signal HTTP ' + signalResponse.status);
         const signalJson = await signalResponse.json();
         if (!signalJson.ok || !Array.isArray(signalJson.posts) || signalJson.posts.length < 3) throw new Error(signalJson.error || 'Signal pool must contain at least 3 posts');
+        if (!signalJson.fetchedAt || Date.now() - Date.parse(signalJson.fetchedAt) > 86400000) throw new Error('last successful retrieval is older than 24h');
+        signalJson.posts = signalJson.posts.filter(p => Date.now() - Date.parse(p.createdAt) <= 86400000 && Date.parse(p.createdAt) <= Date.now());
+        if (signalJson.posts.length < 3) throw new Error('fewer than three posts remain in the 24h window');
         signalPool = sortBySlot(signalJson.posts);
 
         const signalBatch = nextBatch(signalPool, signalCursor, 3);
         signalCursor = signalBatch.cursor;
         renderFeed(signalBatch.items);
 
-        const fetchedAt = signalJson.fetchedAt ? new Date(signalJson.fetchedAt) : new Date();
+        const fetchedAt = new Date(signalJson.fetchedAt || 0);
         const ageMin = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
         const ageStr = ageMin < 2 ? 'just now' : ageMin < 60 ? ageMin + 'm ago' : Math.floor(ageMin/60) + 'h ago';
-        status.textContent = '3 of ' + signalPool.length + ' ranked signals · updated ' + ageStr;
+        status.textContent = '3 of ' + signalPool.length + ' ranked signals · retrieved ' + ageStr + (signalJson.status === 'partial' ? ' · PARTIAL ' + signalJson.diagnostics.accountsSucceeded + '/16 accounts' : ' · 16/16 accounts');
       }} catch(err) {{
-        status.textContent = 'Refresh failed · tap again';
+        signalPool = [];
+        document.getElementById('signal-feed').innerHTML = '<div class="feed-empty">No current ranked posts available. Older cached posts are not shown.</div>';
+        status.textContent = 'X unavailable · ' + err.message;
       }} finally {{
         button.disabled = false;
       }}
@@ -4826,7 +4889,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
         const batch = nextBatch(zhPool, zhCursor, 3);
         zhCursor = batch.cursor;
         renderZeroHedge(batch.items);
-        newsStatus.textContent = '3 of ' + zhPool.length + ' live articles';
+        newsStatus.textContent = batch.items.length + ' of ' + zhPool.length + ' live articles' + (json.status === 'partial' ? ' · some intros unavailable' : '');
       }} catch(err) {{
         newsStatus.textContent = 'Keeping current headlines';
       }} finally {{
@@ -6053,7 +6116,9 @@ def main():
             cwd=_os.path.dirname(_os.path.abspath(__file__))
         )
         if result.returncode == 0:
-            print("    ✅ feed.json updated")
+            feed_health = json.loads(Path('feed.json').read_text())
+            print('    FEED_HEALTH ' + json.dumps(feed_health.get('diagnostics', {})))
+            print('    ✅ Signal retrieval verified' if feed_health.get('ok') else '    ⚠️ Signal retrieval unavailable; failure status published')
         else:
             print(f"    ⚠️  fetch_feed.py: {result.stderr[-150:]}")
     except Exception as e:
