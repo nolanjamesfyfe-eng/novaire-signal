@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-10-28T02:14:02.484664+00:00",
+    "attemptedAt": "2026-10-28T02:16:28.271291+00:00",
     "provider": "X API v2 / OAuth2",
     "identity": "jnovaire",
     "accountsRequested": 16,
@@ -11,97 +11,97 @@
       "zerohedge": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-10-28T02:14:03.216019+00:00",
+        "checkedAt": "2026-10-28T02:16:28.953280+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-10-28T02:14:03.944156+00:00",
+        "checkedAt": "2026-10-28T02:16:29.678955+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-10-28T02:14:04.687905+00:00",
+        "checkedAt": "2026-10-28T02:16:30.422759+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-10-28T02:14:05.412210+00:00",
+        "checkedAt": "2026-10-28T02:16:31.159688+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-10-28T02:14:06.142366+00:00",
+        "checkedAt": "2026-10-28T02:16:31.947358+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-10-28T02:14:06.867063+00:00",
+        "checkedAt": "2026-10-28T02:16:32.767218+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-10-28T02:14:07.577862+00:00",
+        "checkedAt": "2026-10-28T02:16:33.503045+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-10-28T02:14:08.288337+00:00",
+        "checkedAt": "2026-10-28T02:16:34.220612+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 0,
-        "checkedAt": "2026-10-28T02:14:08.979965+00:00",
+        "checkedAt": "2026-10-28T02:16:35.019507+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-10-28T02:14:09.776133+00:00",
+        "checkedAt": "2026-10-28T02:16:35.796544+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-10-28T02:14:10.471816+00:00",
+        "checkedAt": "2026-10-28T02:16:36.584450+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-10-28T02:14:11.244018+00:00",
+        "checkedAt": "2026-10-28T02:16:37.364775+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-10-28T02:14:12.001655+00:00",
+        "checkedAt": "2026-10-28T02:16:38.102014+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 0,
-        "checkedAt": "2026-10-28T02:14:12.717269+00:00",
+        "checkedAt": "2026-10-28T02:16:38.799448+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-10-28T02:14:13.437236+00:00",
+        "checkedAt": "2026-10-28T02:16:39.491497+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 1,
-        "checkedAt": "2026-10-28T02:14:14.125726+00:00",
+        "checkedAt": "2026-10-28T02:16:40.176371+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-10-28T02:14:18.372682+00:00",
+  "fetchedAt": "2026-10-28T02:16:44.243698+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,14 +122,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-10-27T13:49:18+00:00",
       "createdAtMs": 1793108958000,
-      "likes": 9184,
+      "likes": 9190,
       "retweets": 1263,
       "url": "https://x.com/WatcherGuru/status/2115078386284655055",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 10447,
-      "views": 676856
+      "engagementScore": 10453,
+      "views": 677643
     },
     {
       "id": "2115148308792655895",
@@ -138,14 +138,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-10-27T18:27:09+00:00",
       "createdAtMs": 1793125629000,
-      "likes": 5088,
+      "likes": 5091,
       "retweets": 323,
       "url": "https://x.com/KobeissiLetter/status/2115148308792655895",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 5411,
-      "views": 363231,
+      "engagementScore": 5414,
+      "views": 363600,
       "media_url": "https://pbs.twimg.com/media/HVqELRrWcAAuqZY.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -156,14 +156,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-10-27T17:48:58+00:00",
       "createdAtMs": 1793123338000,
-      "likes": 1238,
-      "retweets": 121,
+      "likes": 1239,
+      "retweets": 122,
       "url": "https://x.com/nntaleb/status/2115138702410428524",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 1359,
-      "views": 88667
+      "engagementScore": 1361,
+      "views": 88846
     },
     {
       "id": "2115204557034717534",
@@ -179,7 +179,7 @@
       "slot": "engagement",
       "slot_order": 4,
       "engagementScore": 487,
-      "views": 25755
+      "views": 25881
     },
     {
       "id": "2115137362707808345",
@@ -195,7 +195,7 @@
       "slot": "engagement",
       "slot_order": 5,
       "engagementScore": 443,
-      "views": 35588
+      "views": 35655
     },
     {
       "id": "2115252515059237236",
@@ -204,14 +204,14 @@
       "handle": "zerohedge",
       "createdAt": "2026-10-28T01:21:13+00:00",
       "createdAtMs": 1793150473000,
-      "likes": 205,
+      "likes": 216,
       "retweets": 28,
       "url": "https://x.com/zerohedge/status/2115252515059237236",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 233,
-      "views": 58531
+      "engagementScore": 244,
+      "views": 60092
     },
     {
       "id": "2115149728421912704",
@@ -227,7 +227,7 @@
       "slot": "engagement",
       "slot_order": 7,
       "engagementScore": 204,
-      "views": 7755
+      "views": 7768
     },
     {
       "id": "2115114996862693792",
@@ -243,7 +243,7 @@
       "slot": "engagement",
       "slot_order": 8,
       "engagementScore": 123,
-      "views": 12075,
+      "views": 12083,
       "media_url": "https://pbs.twimg.com/media/HVn2ZUYW4AAeuXe?format=webp&name=small",
       "media_alt": "Attached post media"
     },
@@ -261,7 +261,7 @@
       "slot": "engagement",
       "slot_order": 9,
       "engagementScore": 90,
-      "views": 2161
+      "views": 2168
     },
     {
       "id": "2115135434364002400",
@@ -277,7 +277,7 @@
       "slot": "engagement",
       "slot_order": 10,
       "engagementScore": 82,
-      "views": 8219,
+      "views": 8221,
       "media_url": "https://pbs.twimg.com/media/HVp4d35XEAEM2cx.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -295,7 +295,7 @@
       "slot": "engagement",
       "slot_order": 11,
       "engagementScore": 69,
-      "views": 3193
+      "views": 3224
     },
     {
       "id": "2115180214598701509",
@@ -311,7 +311,7 @@
       "slot": "engagement",
       "slot_order": 12,
       "engagementScore": 49,
-      "views": 8410,
+      "views": 8424,
       "media_url": "https://pbs.twimg.com/media/HVqhIMZWMAAdtj7.jpg?name=orig",
       "media_alt": "Attached post media"
     }
