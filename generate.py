@@ -4533,7 +4533,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-calendar span{{padding:0 5px;color:var(--border)}}
     /* chart-click-through-v1: every market tile opens its live chart. */
     a.market-link{{position:relative;color:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}}
-    a.market-link::after{{content:'\\2197';position:absolute;top:5px;right:7px;font-size:.5rem;line-height:1;color:var(--gold);opacity:0;transition:opacity .18s ease}}
+    a.market-link::after{{content:'';position:absolute;top:6px;right:7px;width:7px;height:7px;background-color:var(--gold);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%23000' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.2 7.8L7.8 2.2M3.6 2.2H7.8V6.4'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%23000' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.2 7.8L7.8 2.2M3.6 2.2H7.8V6.4'/%3E%3C/svg%3E") center/contain no-repeat;pointer-events:none;opacity:0;transition:opacity .18s ease}}
     a.market-link:hover,a.market-link:focus-visible{{border-color:var(--gold-mid);box-shadow:0 0 0 1px var(--gold-dim),0 6px 18px rgba(0,0,0,.35);transform:translateY(-1px)}}
     a.market-link:hover::after,a.market-link:focus-visible::after{{opacity:.85}}
     a.market-link:focus-visible{{outline:1px solid var(--gold);outline-offset:1px}}
