@@ -78,7 +78,7 @@ test('Bangkok date rolls at 17:00 UTC rather than client timezone', () => {
 
 test('streak endpoint rejects unauthenticated and cross-origin access', async () => {
   configureRedis();
-  let res = await call(request('GET'));
+  let res = await call(request('POST', { body: '{}' }));
   assert.equal(res.statusCode, 401);
   res = await call(request('POST', { cookie: studyCookie(), headers: { origin: 'https://evil.example' }, body: '{}' }));
   assert.equal(res.statusCode, 403);
@@ -100,7 +100,7 @@ test('remembered study cookie works alone, while an expired one falls back to 40
   let res = await call(request('GET', { cookie: studyCookie() }));
   assert.equal(res.statusCode, 200);
   const expiredAt = Math.floor(Date.now() / 1000) - studySession.MAX_AGE - 60;
-  res = await call(request('GET', { cookie: studyCookie('secret', expiredAt) }));
+  res = await call(request('POST', { cookie: studyCookie('secret', expiredAt), body: '{}' }));
   assert.equal(res.statusCode, 401);
 });
 
@@ -162,4 +162,16 @@ test('concurrent click merges produce one stored date', async () => {
   const [a, b] = await Promise.all([store.mergeClickDates(['2026-10-21']), store.mergeClickDates(['2026-10-21'])]);
   assert.equal([a.deduplicated, b.deduplicated].filter(Boolean).length, 1);
   assert.deepEqual(JSON.parse(backend.document).clickDates, ['2026-10-21']);
+});
+
+test('unconnected GET returns read-only streak summary without click dates or writes', async () => {
+  const backend = configureRedis();
+  const res = await call(request('GET'));
+  assert.equal(res.statusCode, 200);
+  const body = JSON.parse(res.body);
+  assert.equal(body.access, 'public-read');
+  assert.equal(body.clickDates, undefined);
+  assert.equal(typeof body.streak, 'number');
+  assert.equal(backend.commands.filter(command => command[0] === 'EVAL').length, 0);
+  assert.equal(res.headers['set-cookie'], undefined);
 });

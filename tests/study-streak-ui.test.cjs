@@ -28,7 +28,7 @@ test('generated Anki control is one compact direct-link row with truthful copy',
 
 test('generated behavior records locally before optional private sync without blocking navigation', () => {
   assert.match(html, /LOCAL_KEY='nv_anki_click_dates_v1'/);
-  assert.match(html, /writeLocal\(\[\.\.\.memoryDates,today\]\);localRender\(\)/);
+  assert.match(html, /writeLocal\(\[\.\.\.memoryDates,today\]\);if\(publicSummary\)publicRender\(\);else localRender\(\)/);
   assert.match(html, /ankiLink\.addEventListener\('click'/);
   assert.match(html, /fetch\(STUDY_API,\{method:'POST'/);
   assert.match(html, /action,localDates:memoryDates/);

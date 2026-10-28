@@ -44,6 +44,7 @@ test.before(async () => {
     const url = new URL(req.url, 'http://localhost');
     if (url.pathname === '/api/study-streak') {
       if (req.method === 'GET' && getDelay) await new Promise(resolve => setTimeout(resolve, getDelay));
+      if (!authorized && req.method === 'GET' && publicRead) { const sum = streak.summarize({ startedAt: '2026-10-21', clickDates: publicRead }, today); return send(res, 200, { today: sum.today, todayClicked: sum.todayClicked, todayStatus: sum.todayStatus, streak: sum.streak, missedDays: sum.missedDays, access: 'public-read' }); }
       if (!authorized) return send(res, 401, { error: 'Private study sync is not connected.' });
       if (req.method === 'GET' && failGet) return send(res, 503, { error: 'Isolated test outage.' });
       if (req.method === 'POST') {
@@ -68,7 +69,8 @@ test.before(async () => {
   browser = await chromium.launch({ headless: true, executablePath: '/snap/bin/chromium', args: ['--no-sandbox'] });
 });
 test.after(async () => { await browser?.close(); await new Promise(resolve => server?.close(resolve)); });
-test.beforeEach(() => { serverDates = []; postCount = 0; failGet = false; failPost = false; authorized = false; getDelay = 0; });
+let publicRead = null;
+test.beforeEach(() => { publicRead = null; serverDates = []; postCount = 0; failGet = false; failPost = false; authorized = false; getDelay = 0; });
 
 test('unknown new browser stays neutral through delayed and 401 sync, then records without artificial history', async () => {
   getDelay = 250;
@@ -282,4 +284,17 @@ test('compact row is rendered on desktop/mobile and unrelated accordion state su
     await page.screenshot({ path: path.join(root, 'qa-artifacts', `anki-click-streak-${viewport.name}.png`), fullPage: false });
     await context.close();
   }
+});
+
+test('unconnected phone with stale local history shows the canonical read-only streak, not a local miss', async () => {
+  publicRead = ['2026-10-21', '2026-10-23', '2026-10-24'];
+  const context = await fixedContext({ viewport: { width: 412, height: 923 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2.625, dates: ['2026-10-22'], coverage: { firstObserved: '2026-10-22', canonical: false } });
+  const page = await context.newPage();
+  await page.goto(`${origin}/#daily-study`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#anki-streak-status')?.textContent === '2 days streak');
+  assert.equal(await page.locator('#anki-streak-status').getAttribute('data-tone'), 'positive');
+  assert.equal(await page.locator('#anki-streak-status').evaluate(el => getComputedStyle(el).color), 'rgb(86, 242, 177)');
+  assert.deepEqual(serverDates, [], 'public read must not write');
+  await page.screenshot({ path: '/root/.hermes/cache/images/anki-public-read-mobile.png', clip: await page.locator('#daily-study').boundingBox() });
+  await context.close();
 });

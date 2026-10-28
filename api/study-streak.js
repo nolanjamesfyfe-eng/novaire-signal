@@ -48,8 +48,13 @@ module.exports = async function handler(req, res) {
   const secret = process.env.NOS_AUTH_SECRET || '';
   const studyAuthorized = studySession.verifySession(req.headers.cookie, secret);
   const healthAuthorized = healthSession.verifySession(req.headers.cookie, secret);
-  if (!studyAuthorized && !healthAuthorized) return respond(res, 401, { error: 'Private study sync is not connected.' });
+  if (!studyAuthorized && !healthAuthorized && req.method !== 'GET') return respond(res, 401, { error: 'Private study sync is not connected.' });
   if (!store.config()) return respond(res, 503, { error: 'Private cross-device streak storage is not configured.' });
+  if (!studyAuthorized && !healthAuthorized) {
+    // Read-only canonical view so an unconnected phone/in-app browser shows the real cross-device streak.
+    try { const { todayClicked, todayStatus, streak: days, missedDays, today } = streak.summarize(await store.read(), streak.bangkokDate(new Date())); return respond(res, 200, { today, todayClicked, todayStatus, streak: days, missedDays, access: 'public-read' }); }
+    catch { return respond(res, 503, { error: 'Private click streak storage is temporarily unavailable.' }); }
+  }
   const headers = healthAuthorized && !studyAuthorized ? { 'Set-Cookie': studySession.sessionCookie(secret) } : {};
   try {
     const today = streak.bangkokDate(new Date());
