@@ -155,7 +155,7 @@ def audit_html(audit: Audit, html: str, label: str) -> None:
     for name, nodes, expected in (
         ("crypto markup", crypto_nodes, 8),
         ("commodity markup", commodity_nodes, 6),
-        ("market markup", market_nodes, len(getattr(generate, "MARKET_FUTURES", {}))),
+        ("market markup", market_nodes, len(getattr(generate, "MARKET_FUTURES", {})) + len(getattr(generate, "MARKET_SIGNALS", {}))),
     ):
         values = [node.get_text(" ", strip=True) for node in nodes]
         audit.record(len(nodes) == expected and all(value not in {"", "—"} for value in values), f"{label} {name}", f"count={len(nodes)} values={values}")

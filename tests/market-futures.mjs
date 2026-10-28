@@ -50,3 +50,13 @@ assert.equal(fallback.price, 7770.25, 'Investing exchange future is the fallback
 assert.equal(fallback.change, 0.02);
 assert.equal(fallback.isFallback, true);
 console.log('market futures parser and canonical exchange quote: ok');
+
+// Nike + CSI 300 quick-signal tiles: Tencent quote parser.
+import { parseTencentIndex } from '../api/market-futures.js';
+const tencentFields = ['1', 'CSI300', '000300', '4083.87', '4049.55', ...Array(25).fill('0'), '20261028161412', '34.32', '0.85', '4088.02'];
+const tencent = parseTencentIndex(`v_sh000300="${tencentFields.join('~')}";`);
+assert.equal(tencent.price, 4083.87);
+assert.equal(tencent.previous, 4049.55);
+assert.equal(tencent.change, 0.85);
+assert.equal(tencent.quoteTime, '2026-10-28T08:14:12.000Z');
+assert.throws(() => parseTencentIndex('v_sh000300="";'));

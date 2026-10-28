@@ -13,6 +13,37 @@ const INDICES = [
   { symbol: '^DJI', label: 'Dow Jones', short: 'DOW CASH' },
 ];
 
+// Quick-signal tiles: Nike (NYSE) and China's CSI 300 benchmark.
+const SIGNALS = [
+  { symbol: 'NKE', label: 'Nike', short: 'NKE' },
+  { symbol: 'CSI300', label: 'CSI 300', short: 'China A' },
+];
+
+export function parseTencentIndex(text) {
+  const body = String(text).split('"')[1];
+  if (!body) throw new Error('CSI 300: empty Tencent quote');
+  const f = body.split('~');
+  const price = Number(f[3]), previous = Number(f[4]), change = Number(f[32]);
+  const stamp = f[30] || '';
+  if (!(price > 0) || !(previous > 0) || !Number.isFinite(change) || stamp.length !== 14) {
+    throw new Error('CSI 300: malformed Tencent quote');
+  }
+  const iso = `${stamp.slice(0, 4)}-${stamp.slice(4, 6)}-${stamp.slice(6, 8)}T${stamp.slice(8, 10)}:${stamp.slice(10, 12)}:${stamp.slice(12, 14)}+08:00`;
+  return {
+    price, previous, change,
+    source: 'Tencent Finance · SSE/SZSE',
+    period: 'China A-share session',
+    quoteTime: new Date(iso).toISOString(),
+  };
+}
+
+async function fetchCsi300() {
+  const response = await fetch('https://qt.gtimg.cn/q=sh000300');
+  if (!response.ok) throw new Error(`CSI 300: HTTP ${response.status}`);
+  const text = new TextDecoder('gbk').decode(await response.arrayBuffer());
+  return { ...SIGNALS[1], ...parseTencentIndex(text) };
+}
+
 const INVESTING_NAMES = {
   'ES=F': {exchange:'S&P 500', derived:'US 500'},
   'NQ=F': {exchange:'Nasdaq 100', derived:'US Tech 100'},
@@ -129,11 +160,16 @@ export default async function handler(req) {
     return parseInvestingFutures(await live.text());
   })();
 
-  const [futureSettled, indexSettled, investingSettled] = await Promise.all([
+  const [futureSettled, indexSettled, investingSettled, signalSettled] = await Promise.all([
     Promise.allSettled(FUTURES.map(item => fetchQuote(item, 'futures session'))),
     Promise.allSettled(INDICES.map(item => fetchQuote(item, 'cash session'))),
     Promise.allSettled([investingPromise]),
+    Promise.allSettled([
+      fetchQuote(SIGNALS[0], 'NYSE session').then(q => ({ ...q, source: 'Yahoo Finance · NYSE' })),
+      fetchCsi300(),
+    ]),
   ]);
+  const signals = signalSettled.filter(item => item.status === 'fulfilled').map(item => item.value);
   const yahooBySymbol = Object.fromEntries(
     futureSettled.filter(item => item.status === 'fulfilled').map(item => [item.value.symbol, item.value]),
   );
@@ -145,6 +181,7 @@ export default async function handler(req) {
   });
   const indices = indexSettled.filter(item => item.status === 'fulfilled').map(item => item.value);
   const errors = [...futureSettled, ...indexSettled, ...investingSettled]
+    .concat(signalSettled)
     .filter(item => item.status === 'rejected')
     .map(item => item.reason.message);
   const loaded = quotes.length + indices.length;
@@ -155,6 +192,7 @@ export default async function handler(req) {
     fetchedAt: new Date().toISOString(),
     quotes,
     indices,
+    signals,
     errors,
   }), { status, headers });
 }
