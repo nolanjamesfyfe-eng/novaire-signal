@@ -35,8 +35,6 @@ class MarketChartLinkTests(unittest.TestCase):
         for symbol in list(generate.MARKET_FUTURES) + list(generate.MARKET_SIGNALS):
             self.assertIn(symbol, generate.MARKET_CHART_LINKS)
         self.assertEqual(set(generate.CRYPTO_CHART_LINKS), set(generate.CRYPTO_BINANCE_PAIRS))
-        self.assertEqual(generate.MARKET_CHART_LINKS["NKE"], "https://www.investing.com/equities/nike")
-        self.assertEqual(generate.MARKET_CHART_LINKS["CSI300"], "https://www.investing.com/indices/csi300")
 
     def test_wall_street_header_matches_section_titles_with_clock_right(self):
         title = self.soup.select_one(".market-card > .card-title.market-title")
@@ -46,7 +44,7 @@ class MarketChartLinkTests(unittest.TestCase):
         self.assertEqual(clock["data-tz"], "America/New_York")
         self.assertIsNone(self.soup.select_one(".market-primary"))
         labels = [tile.select_one("span").get_text(" ", strip=True) for tile in self.soup.select(".market-future")]
-        self.assertEqual(labels[-2:], ["NIKE", "🇨🇳 CSI 300"])
+        self.assertEqual(labels, ["S&P 500", "NASDAQ 100", "DOW JONES"])
 
     def test_tencent_parser_reads_csi300(self):
         payload = 'v_sh000300="1~x~000300~4083.87~4049.55~' + "~".join(["0"] * 25) + '~20261028161412~34.32~0.85~"'

@@ -78,9 +78,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn('min-height:50px', task_css)
 
     def test_mobile_market_and_fx_spacing_contract(self):
-        self.assertIn('.market-futures{grid-template-columns:repeat(6,minmax(0,1fr))}', self.html)
-        self.assertIn('.market-future{grid-column:span 2;padding:9px 8px}', self.html)
-        self.assertIn('.market-signal{grid-column:span 3}', self.html)
+        self.assertIn('.market-future{padding:9px 8px}', self.html)
         self.assertIn('.fx-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}', self.html)
         self.assertIn('.fx-chip{padding:9px 4px}', self.html)
 
@@ -152,7 +150,7 @@ class RenderContractTests(unittest.TestCase):
         self.assertNotIn("CONSENSUS", self.html)
         self.assertNotIn("q.sourceCount", self.html)
         self.assertIn("CME/CBOT front-month future", self.html)
-        self.assertIn(".market-futures{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))", self.html)
+        self.assertIn(".market-futures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))", self.html)
         self.assertIn('class="card-title market-title"', self.html)
         self.assertIn(".market-future{display:flex;flex-direction:column", self.html)
         self.assertIn(".commodity-price{display:flex;align-items:baseline;justify-content:center;gap:3px;white-space:nowrap;font-family:var(--serif);font-size:var(--market-quote-size);font-weight:var(--market-number-weight);color:var(--text)", self.html)

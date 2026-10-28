@@ -68,10 +68,9 @@ MARKET_FUTURES = {
 }
 
 # Quick-signal tiles beside the index futures (owner request 2026-10-28).
-MARKET_SIGNALS = {
-    "NKE": {"label": "Nike", "short": "NKE", "source": "Yahoo Finance · NYSE"},
-    "CSI300": {"label": "CSI 300", "short": "China A", "flag": "🇨🇳 ", "source": "Tencent Finance · SSE/SZSE"},
-}
+# Removed by owner 2026-10-28: Wall Street stays a clean single row of
+# the three index futures. Add symbols here to bring quick-signal tiles back.
+MARKET_SIGNALS = {}
 
 # Every market tile clicks through to a live chart. Investing.com first.
 INVESTING = "https://www.investing.com"
@@ -2748,6 +2747,8 @@ def parse_tencent_index_quote(text):
 
 def fetch_market_signals():
     """Nike (adjacent NYSE daily bars) and China's CSI 300 benchmark."""
+    if not MARKET_SIGNALS:
+        return {}
     results = {symbol: {**meta, "price": None, "previous": None, "change": None, "quote_time": None}
                for symbol, meta in MARKET_SIGNALS.items()}
     try:
@@ -3882,7 +3883,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     market_html = f"""
   <div class="card market-card">
     <div class="card-title market-title"><span class="market-title-label">🗽 Wall Street</span><b class="wall-time live-clock" data-tz="America/New_York" data-tz-offset="-4" title="New York time"></b></div>
-    <div class="market-futures" aria-label="Live US index futures, Nike and China CSI 300">{futures_html}</div>
+    <div class="market-futures" aria-label="Live US index futures">{futures_html}</div>
     <div class="market-calendar">NYSE {next_nyse_str} <span>·</span> TSX {next_tsx_str}</div>
   </div>"""
     fed_html = f"""
@@ -4518,7 +4519,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .market-title .market-title-label{{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}}
     .market-title::after{{order:1}}
     .market-title .wall-time{{order:2;font-family:var(--serif);font-size:.98rem;line-height:1;font-weight:400;letter-spacing:.04em;color:var(--text);text-transform:none;font-variant-numeric:tabular-nums;white-space:nowrap}}
-    .market-futures{{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;min-width:0}}
+    .market-futures{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;min-width:0}}
     .market-future{{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;background:var(--bg);padding:9px;border:1px solid var(--border);border-radius:var(--r);text-align:center}}
     .market-future span{{color:var(--gold);letter-spacing:.1em;white-space:nowrap;margin-bottom:2px}}
     .market-signal span{{color:#d8c9a6}}
@@ -4556,7 +4557,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .fed-prob i{{font-style:normal}}
     .fed-prob i:first-child{{color:var(--green)}}
     .fed-prob i:last-child{{color:var(--blue)}}
-    @media(max-width:620px){{.market-futures{{grid-template-columns:repeat(6,minmax(0,1fr))}}.market-future{{grid-column:span 2;padding:9px 8px}}.market-signal{{grid-column:span 3}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
+    @media(max-width:620px){{.market-future{{padding:9px 8px}}.market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}.fed-title{{margin-left:14px}}.fed-stat{{padding:0 14px}}}}
     @media(max-width:400px){{.market-futures{{gap:7px}}.market-future{{padding:10px 6px}}.market-title .wall-time{{font-size:.92rem}}}}
 
     .eco-table{{width:100%;border-collapse:collapse;font-size:.76rem}}
@@ -4645,9 +4646,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .zh-feed-card .feed-card-title{{-webkit-line-clamp:2}}
       .zh-feed-card .feed-card-excerpt{{-webkit-line-clamp:1}}
       .feed-text{{font-size:.66rem;-webkit-line-clamp:3}}
-      .market-futures{{grid-template-columns:repeat(6,minmax(0,1fr))}}
-      .market-future{{grid-column:span 2;padding:9px 8px}}
-      .market-signal{{grid-column:span 3}}
+      .market-future{{padding:9px 8px}}
       .market-calendar{{white-space:normal;text-align:center;line-height:1.45;width:100%}}
       .fed-title{{margin-left:14px}}
       .fed-stat{{padding:0 14px}}

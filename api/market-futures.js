@@ -14,10 +14,8 @@ const INDICES = [
 ];
 
 // Quick-signal tiles: Nike (NYSE) and China's CSI 300 benchmark.
-const SIGNALS = [
-  { symbol: 'NKE', label: 'Nike', short: 'NKE' },
-  { symbol: 'CSI300', label: 'CSI 300', short: 'China A' },
-];
+// Disabled by owner 2026-10-28 (Wall Street is futures-only). Parser kept for reuse.
+const SIGNALS = [];
 
 export function parseTencentIndex(text) {
   const body = String(text).split('"')[1];
@@ -164,10 +162,10 @@ export default async function handler(req) {
     Promise.allSettled(FUTURES.map(item => fetchQuote(item, 'futures session'))),
     Promise.allSettled(INDICES.map(item => fetchQuote(item, 'cash session'))),
     Promise.allSettled([investingPromise]),
-    Promise.allSettled([
+    Promise.allSettled(SIGNALS.length ? [
       fetchQuote(SIGNALS[0], 'NYSE session').then(q => ({ ...q, source: 'Yahoo Finance · NYSE' })),
       fetchCsi300(),
-    ]),
+    ] : []),
   ]);
   const signals = signalSettled.filter(item => item.status === 'fulfilled').map(item => item.value);
   const yahooBySymbol = Object.fromEntries(
