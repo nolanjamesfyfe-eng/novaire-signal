@@ -48,8 +48,22 @@ module.exports = async function handler(req, res) {
   const secret = process.env.NOS_AUTH_SECRET || '';
   const studyAuthorized = studySession.verifySession(req.headers.cookie, secret);
   const healthAuthorized = healthSession.verifySession(req.headers.cookie, secret);
-  if (!studyAuthorized && !healthAuthorized && req.method !== 'GET') return respond(res, 401, { error: 'Private study sync is not connected.' });
   if (!store.config()) return respond(res, 503, { error: 'Private cross-device streak storage is not configured.' });
+  if (!studyAuthorized && !healthAuthorized && req.method === 'POST') {
+    // Any same-origin device may mark TODAY only (Anki button tap). No backfill, no history exposed.
+    try {
+      const data = await readJson(req);
+      if ((data.action || 'click') !== 'click') return respond(res, 401, { error: 'Private study sync is not connected.' });
+      const today = streak.bangkokDate(new Date());
+      const result = await store.mergeClickDates([today]);
+      const { todayClicked, todayStatus, streak: days, missedDays } = streak.summarize(result.document, today);
+      return respond(res, 200, { today, todayClicked, todayStatus, streak: days, missedDays, access: 'public-read', deduplicated: result.deduplicated });
+    } catch (error) {
+      if (error?.status) return respond(res, error.status, { error: error.message });
+      if (error?.code === 'CONFLICT') return respond(res, 409, { error: 'The streak changed on another device. Retry.' });
+      return respond(res, 503, { error: 'Private click streak storage is temporarily unavailable.' });
+    }
+  }
   if (!studyAuthorized && !healthAuthorized) {
     // Read-only canonical view so an unconnected phone/in-app browser shows the real cross-device streak.
     try { const { todayClicked, todayStatus, streak: days, missedDays, today } = streak.summarize(await store.read(), streak.bangkokDate(new Date())); return respond(res, 200, { today, todayClicked, todayStatus, streak: days, missedDays, access: 'public-read' }); }

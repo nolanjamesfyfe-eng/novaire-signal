@@ -76,10 +76,19 @@ test('Bangkok date rolls at 17:00 UTC rather than client timezone', () => {
   assert.equal(streak.bangkokDate(new Date('2026-10-20T17:00:00.000Z')), '2026-10-21');
 });
 
-test('streak endpoint rejects unauthenticated and cross-origin access', async () => {
-  configureRedis();
-  let res = await call(request('POST', { body: '{}' }));
+test('unauthenticated device can mark today only; backfill and cross-origin are rejected', async () => {
+  configureRedis(JSON.stringify({ revision: 1, startedAt: '2026-10-21', clickDates: [] }));
+  const today = streak.bangkokDate(new Date());
+  let res = await call(request('POST', { body: JSON.stringify({ action: 'merge', localDates: ['2026-10-22'] }) }));
   assert.equal(res.statusCode, 401);
+  res = await call(request('POST', { body: JSON.stringify({ action: 'click', localDates: ['2026-10-22'] }) }));
+  assert.equal(res.statusCode, 200);
+  const body = JSON.parse(res.body);
+  assert.equal(body.access, 'public-read');
+  assert.equal(body.todayClicked, true);
+  assert.equal(body.streak, 1);
+  assert.equal(body.clickDates, undefined);
+  assert.equal(body.today, today);
   res = await call(request('POST', { cookie: studyCookie(), headers: { origin: 'https://evil.example' }, body: '{}' }));
   assert.equal(res.statusCode, 403);
 });
@@ -100,7 +109,7 @@ test('remembered study cookie works alone, while an expired one falls back to 40
   let res = await call(request('GET', { cookie: studyCookie() }));
   assert.equal(res.statusCode, 200);
   const expiredAt = Math.floor(Date.now() / 1000) - studySession.MAX_AGE - 60;
-  res = await call(request('POST', { cookie: studyCookie('secret', expiredAt), body: '{}' }));
+  res = await call(request('POST', { cookie: studyCookie('secret', expiredAt), body: JSON.stringify({ action: 'merge', localDates: [] }) }));
   assert.equal(res.statusCode, 401);
 });
 
