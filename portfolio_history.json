@@ -1,7 +1,7 @@
 {
   "ath_reference": {
     "cad": 167029.0,
-    "captured_at_utc": "2026-10-29T20:15:23.978664+00:00",
+    "captured_at_utc": "2026-10-29T23:00:29.886254+00:00",
     "scope": "tfsa_ws",
     "source": "Google Sheet \u00b7 TFSA/WS \u00b7 ATH row"
   },
@@ -1982,13 +1982,13 @@
           "cad": 10293.0
         },
         "tfsa_ws": {
-          "cad": 103025.47,
-          "usd": 73676.72
+          "cad": 103021.23,
+          "usd": 73686.86
         }
       },
-      "captured_at_utc": "2026-10-29T20:15:23.978664+00:00",
+      "captured_at_utc": "2026-10-29T23:00:29.886254+00:00",
       "market_date": "2026-10-29",
-      "net_worth_cad": 113318.47,
+      "net_worth_cad": 113314.23,
       "source": "Google Sheet daily close"
     }
   ],
