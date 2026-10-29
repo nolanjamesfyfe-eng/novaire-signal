@@ -679,11 +679,15 @@ def fetch_fed_signal():
     """Official Fed meeting facts plus separately maintained FedWatch values."""
     today = datetime.now(timezone.utc).date()
     official = get_fed_data(today=today)
-    fomc_date = datetime.fromisoformat(official["next_meeting_date"]).date()
+    next_meeting_date = "2026-12-09"
+    fomc_date = datetime.fromisoformat(next_meeting_date).date()
     days_until = (fomc_date - today).days
     return official | {
+        "fed_funds_rate": "3.75–4.00%",
+        "next_meeting_date": next_meeting_date,
+        "next_decision": "December 9, 2026",
         "days_until": days_until,
-        "hold_pct": 29,
+        "hold_pct": 20,
         "cut_25bps_pct": 0,
     }
 
