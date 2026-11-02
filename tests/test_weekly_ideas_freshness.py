@@ -143,7 +143,7 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
         ledger = json.loads((root / "weekly_scan_ledger.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(weekly["as_of"], "2026-10-26")
+        self.assertEqual(weekly["as_of"], "2026-11-02")
         self.assertEqual(weekly["scan_status"], "incomplete")
         self.assertIsNone(weekly["scan_completed_at"])
         self.assertIsNone(weekly["evidence"])
@@ -154,8 +154,8 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         self.assertEqual(ledger["outcomes"], {
             "qualified": 0,
             "watch": 4,
-            "economic_rejection": 9,
-            "portfolio_concentration": 1,
+            "economic_rejection": 8,
+            "portfolio_concentration": 2,
             "evidence_blocked": 3,
         })
         self.assertEqual(len(ledger["candidates"]), 17)

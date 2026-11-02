@@ -2423,9 +2423,11 @@ def fetch_catalysts(tickers):
     now = datetime.now(timezone.utc)
     fresh_cutoff = now - timedelta(days=14)
     curated = {}
+    researched_tickers = set()
     try:
         with open(WEEKLY_CATALYSTS_PATH, "r", encoding="utf-8") as handle:
             researched = json.load(handle)
+        researched_tickers = set(researched.get("items", {}))
         for ticker, item in researched.get("items", {}).items():
             pub_dt = datetime.fromisoformat(str(item["published"]).replace("Z", "+00:00"))
             if fresh_cutoff <= pub_dt <= now + timedelta(hours=2) and item.get("title") and item.get("url"):
@@ -2462,7 +2464,7 @@ def fetch_catalysts(tickers):
     for ticker in tickers:
         lookup_ticker = fallback_news_map.get(ticker, ticker)
         candidates = [curated[ticker]] if ticker in curated else []
-        if ticker not in curated and yf is not None and not lookup_ticker.startswith("_"):
+        if ticker not in researched_tickers and yf is not None and not lookup_ticker.startswith("_"):
             try:
                 for item in (yf.Ticker(lookup_ticker).news or []):
                     title = item.get("content", {}).get("title") or item.get("title", "")
@@ -2484,7 +2486,7 @@ def fetch_catalysts(tickers):
             except Exception:
                 pass
 
-        query = None if ticker in curated else news_queries.get(ticker)
+        query = None if ticker in researched_tickers else news_queries.get(ticker)
         if query:
             try:
                 from urllib.parse import quote_plus
