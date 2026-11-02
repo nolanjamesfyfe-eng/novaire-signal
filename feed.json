@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-02T00:17:57.077520+00:00",
+    "attemptedAt": "2026-11-02T00:50:45.337063+00:00",
     "provider": "X API v2 / OAuth2",
     "identity": "jnovaire",
     "accountsRequested": 16,
@@ -11,97 +11,97 @@
       "zerohedge": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-02T00:17:57.980051+00:00",
+        "checkedAt": "2026-11-02T00:50:46.142710+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-02T00:17:58.797750+00:00",
+        "checkedAt": "2026-11-02T00:50:46.944568+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-02T00:17:59.600142+00:00",
+        "checkedAt": "2026-11-02T00:50:47.864575+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-02T00:18:00.468183+00:00",
+        "checkedAt": "2026-11-02T00:50:48.851662+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-02T00:18:01.513570+00:00",
+        "checkedAt": "2026-11-02T00:50:49.735405+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-02T00:18:02.548610+00:00",
+        "checkedAt": "2026-11-02T00:50:50.544534+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-02T00:18:03.545247+00:00",
+        "checkedAt": "2026-11-02T00:50:51.348540+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-02T00:18:04.645605+00:00",
+        "checkedAt": "2026-11-02T00:50:52.174753+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-02T00:18:05.553655+00:00",
+        "checkedAt": "2026-11-02T00:50:53.064285+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-02T00:18:06.375091+00:00",
+        "checkedAt": "2026-11-02T00:50:53.941114+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-02T00:18:07.227029+00:00",
+        "checkedAt": "2026-11-02T00:50:54.748416+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-02T00:18:08.049664+00:00",
+        "posts": 10,
+        "checkedAt": "2026-11-02T00:50:55.641185+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-02T00:18:08.945542+00:00",
+        "checkedAt": "2026-11-02T00:50:56.442370+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 0,
-        "checkedAt": "2026-11-02T00:18:09.778611+00:00",
+        "checkedAt": "2026-11-02T00:50:57.195608+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-02T00:18:10.552185+00:00",
+        "checkedAt": "2026-11-02T00:50:58.008100+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 1,
-        "checkedAt": "2026-11-02T00:18:11.445722+00:00",
+        "checkedAt": "2026-11-02T00:50:58.838405+00:00",
         "error": null
       }
     },
@@ -110,27 +110,27 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-02T00:18:16.010593+00:00",
+  "fetchedAt": "2026-11-02T00:51:02.540219+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
   "posts": [
     {
-      "id": "2116686738093392259",
-      "text": "JUST IN: 🇺🇸🇰🇵 President Trump says he is \"not concerned\" about the $6.3 billion Binance hack.\n\n\"We'll talk to North Korea about it.\" https://t.co/c6i322VQ1P",
+      "id": "2116912049582452951",
+      "text": "JUST IN: Over $3,750,000,000 withdrawn from Binance in 10 hours following the exchange resuming withdrawals. https://t.co/uBses7zbbY",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
-      "createdAt": "2026-11-01T00:20:19+00:00",
-      "createdAtMs": 1793492419000,
-      "likes": 12098,
-      "retweets": 767,
-      "url": "https://x.com/WatcherGuru/status/2116686738093392259",
+      "createdAt": "2026-11-01T15:15:37+00:00",
+      "createdAtMs": 1793546137000,
+      "likes": 8999,
+      "retweets": 940,
+      "url": "https://x.com/WatcherGuru/status/2116912049582452951",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 12865,
-      "views": 891495,
-      "media_url": "https://pbs.twimg.com/media/HV_7XrlXcAANW9B.jpg?name=orig",
+      "engagementScore": 9939,
+      "views": 619468,
+      "media_url": "https://pbs.twimg.com/media/HWDISagaQAAdkQ7.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
@@ -140,30 +140,30 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-01T19:27:17+00:00",
       "createdAtMs": 1793561237000,
-      "likes": 2801,
-      "retweets": 293,
+      "likes": 2891,
+      "retweets": 297,
       "url": "https://x.com/KobeissiLetter/status/2116975383077904829",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 3094,
-      "views": 428259
+      "engagementScore": 3188,
+      "views": 447960
     },
     {
-      "id": "2117016839880602105",
-      "text": "*TRUMP: WOULD LOVE REP. HALEY STEVENS TO JOIN REPUBLICAN PARTY",
+      "id": "2117040349457584561",
+      "text": "Treasury Uncovers $8 Billion In Suspicious Foreign-Directed Wire Payments: Bessent https://www.zerohedge.com/geopolitical/treasury-uncovers-8-billion-suspicious-foreign-directed-wire-payments-bessent",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-01T22:12:01+00:00",
-      "createdAtMs": 1793571121000,
-      "likes": 723,
-      "retweets": 37,
-      "url": "https://x.com/zerohedge/status/2117016839880602105",
+      "createdAt": "2026-11-01T23:45:26+00:00",
+      "createdAtMs": 1793576726000,
+      "likes": 422,
+      "retweets": 92,
+      "url": "https://x.com/zerohedge/status/2117040349457584561",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 760,
-      "views": 73740
+      "engagementScore": 514,
+      "views": 52130
     },
     {
       "id": "2116888596049522911",
@@ -172,14 +172,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-01T13:42:25+00:00",
       "createdAtMs": 1793540545000,
-      "likes": 458,
+      "likes": 464,
       "retweets": 41,
       "url": "https://x.com/nntaleb/status/2116888596049522911",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 499,
-      "views": 57305,
+      "engagementScore": 505,
+      "views": 57838,
       "media_url": "https://pbs.twimg.com/media/HV_YdKQWcAAcpPf?format=webp&name=small",
       "media_alt": "Attached post media"
     },
@@ -190,14 +190,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-01T19:41:09+00:00",
       "createdAtMs": 1793562069000,
-      "likes": 248,
+      "likes": 255,
       "retweets": 11,
       "url": "https://x.com/SantiagoAuFund/status/2116978873199988816",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 259,
-      "views": 14705
+      "engagementScore": 266,
+      "views": 15175
     },
     {
       "id": "2117001452556259555",
@@ -206,14 +206,14 @@
       "handle": "quakes99",
       "createdAt": "2026-11-01T21:10:52+00:00",
       "createdAtMs": 1793567452000,
-      "likes": 68,
+      "likes": 71,
       "retweets": 6,
       "url": "https://x.com/quakes99/status/2117001452556259555",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 74,
-      "views": 3281,
+      "engagementScore": 77,
+      "views": 3461,
       "media_url": "https://pbs.twimg.com/media/HWDqKOvbYAACb49.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -231,23 +231,25 @@
       "slot": "engagement",
       "slot_order": 7,
       "engagementScore": 74,
-      "views": 7197
+      "views": 7329
     },
     {
-      "id": "2116994566867890212",
-      "text": "Haaretz is a leading (left-leaning) newspaper in Israel https://t.co/ckY1dGkz22",
+      "id": "2116998840662270226",
+      "text": "Insane footage of the Learjet Crash ... https://t.co/PuSPAlEtjc https://t.co/K5hIxlu1GQ",
       "author": "wmiddelkoop",
       "handle": "wmiddelkoop",
-      "createdAt": "2026-11-01T20:43:31+00:00",
-      "createdAtMs": 1793565811000,
-      "likes": 38,
-      "retweets": 8,
-      "url": "https://x.com/wmiddelkoop/status/2116994566867890212",
+      "createdAt": "2026-11-01T21:00:30+00:00",
+      "createdAtMs": 1793566830000,
+      "likes": 40,
+      "retweets": 6,
+      "url": "https://x.com/wmiddelkoop/status/2116998840662270226",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
       "engagementScore": 46,
-      "views": 5022
+      "views": 10115,
+      "media_url": "https://pbs.twimg.com/media/HWEXJZ2WkAAUwW1.jpg?name=orig",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2116998735645352153",
@@ -257,13 +259,13 @@
       "createdAt": "2026-11-01T21:00:05+00:00",
       "createdAtMs": 1793566805000,
       "likes": 30,
-      "retweets": 1,
+      "retweets": 0,
       "url": "https://x.com/JoshYoung/status/2116998735645352153",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 31,
-      "views": 3986,
+      "engagementScore": 30,
+      "views": 4174,
       "media_url": "https://pbs.twimg.com/media/HWER1VPXwAANGkv.jpg",
       "media_alt": "Attached post media"
     },
@@ -274,14 +276,14 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-01T16:29:45+00:00",
       "createdAtMs": 1793550585000,
-      "likes": 21,
+      "likes": 22,
       "retweets": 3,
       "url": "https://x.com/colonelhomsi/status/2116930707230720397",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 24,
-      "views": 1481,
+      "engagementScore": 25,
+      "views": 1508,
       "media_url": "https://pbs.twimg.com/media/HWDZQZWXMAAJaZW.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -299,7 +301,7 @@
       "slot": "engagement",
       "slot_order": 11,
       "engagementScore": 4,
-      "views": 248
+      "views": 250
     },
     {
       "id": "2117027277632307540",
@@ -315,7 +317,7 @@
       "slot": "engagement",
       "slot_order": 12,
       "engagementScore": 1,
-      "views": 1253,
+      "views": 1458,
       "media_url": "https://pbs.twimg.com/media/HWEMqKtWUAAQWNS?format=webp&name=small",
       "media_alt": "Attached post media"
     }
