@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-05T23:00:33.102747+00:00",
+    "attemptedAt": "2026-11-05T23:20:28.681401+00:00",
     "provider": "X API v2 / OAuth2",
     "identity": "jnovaire",
     "accountsRequested": 16,
@@ -11,97 +11,97 @@
       "zerohedge": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-05T23:00:33.813802+00:00",
+        "checkedAt": "2026-11-05T23:20:29.645645+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-05T23:00:34.587563+00:00",
+        "checkedAt": "2026-11-05T23:20:30.457297+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:00:35.350550+00:00",
+        "checkedAt": "2026-11-05T23:20:31.256169+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-05T23:00:36.170625+00:00",
+        "checkedAt": "2026-11-05T23:20:32.041671+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-05T23:00:36.963115+00:00",
+        "checkedAt": "2026-11-05T23:20:32.824024+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:00:37.784510+00:00",
+        "checkedAt": "2026-11-05T23:20:33.622370+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-05T23:00:38.576510+00:00",
+        "checkedAt": "2026-11-05T23:20:34.419411+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-05T23:00:39.379253+00:00",
+        "checkedAt": "2026-11-05T23:20:35.229494+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-05T23:00:40.192257+00:00",
+        "checkedAt": "2026-11-05T23:20:36.054748+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:00:40.968274+00:00",
+        "checkedAt": "2026-11-05T23:20:36.867467+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-05T23:00:41.777495+00:00",
+        "checkedAt": "2026-11-05T23:20:37.648196+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-05T23:00:42.561578+00:00",
+        "checkedAt": "2026-11-05T23:20:38.479393+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-05T23:00:43.434821+00:00",
+        "checkedAt": "2026-11-05T23:20:39.275092+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 0,
-        "checkedAt": "2026-11-05T23:00:44.191191+00:00",
+        "checkedAt": "2026-11-05T23:20:40.020262+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:00:45.022285+00:00",
+        "checkedAt": "2026-11-05T23:20:40.800146+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 1,
-        "checkedAt": "2026-11-05T23:00:45.832020+00:00",
+        "checkedAt": "2026-11-05T23:20:41.585809+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-05T23:00:49.225112+00:00",
+  "fetchedAt": "2026-11-05T23:20:45.354902+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,32 +122,16 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-05T20:56:49+00:00",
       "createdAtMs": 1793912209000,
-      "likes": 7564,
-      "retweets": 1033,
+      "likes": 8020,
+      "retweets": 1094,
       "url": "https://x.com/WatcherGuru/status/2118447464542072979",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 8597,
-      "views": 375017,
+      "engagementScore": 9114,
+      "views": 405203,
       "media_url": "https://pbs.twimg.com/media/HWY8vXrXIAAuNTq.jpg?name=orig",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2118451055327649896",
-      "text": "Silver lining: by the time the Democrat Socialists walk into Congress there will be no excess wealth to redistribute.",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-05T21:11:05+00:00",
-      "createdAtMs": 1793913065000,
-      "likes": 3236,
-      "retweets": 301,
-      "url": "https://x.com/zerohedge/status/2118451055327649896",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 3537,
-      "views": 98281
     },
     {
       "id": "2118442699246510206",
@@ -156,14 +140,48 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-05T20:37:52+00:00",
       "createdAtMs": 1793911072000,
-      "likes": 1963,
-      "retweets": 177,
+      "likes": 2149,
+      "retweets": 193,
       "url": "https://x.com/nntaleb/status/2118442699246510206",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 2,
+      "engagementScore": 2342,
+      "views": 64804
+    },
+    {
+      "id": "2118453902152794186",
+      "text": "At this rate mere mortals  will be able to afford a new PC again without taking out a mortgage",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-05T21:22:23+00:00",
+      "createdAtMs": 1793913743000,
+      "likes": 1351,
+      "retweets": 65,
+      "url": "https://x.com/zerohedge/status/2118453902152794186",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 2140,
-      "views": 60083
+      "engagementScore": 1416,
+      "views": 82049
+    },
+    {
+      "id": "2118479558076707234",
+      "text": "All eyes will be on South Korea tonight.\n\nAfter the Nasdaq 100 fell -6.4% today in its worst drop since 2020, South Korean markets are set to fall sharply.\n\nSouth Korea's market typically moves in multiples of the US' on days like today.\n\nWe are set for an eventful night. https://t.co/CB8Y9147FM https://t.co/JCLpz4CiSa",
+      "author": "KobeissiLetter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-11-05T23:04:20+00:00",
+      "createdAtMs": 1793919860000,
+      "likes": 838,
+      "retweets": 99,
+      "url": "https://x.com/KobeissiLetter/status/2118479558076707234",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 4,
+      "engagementScore": 937,
+      "views": 71240,
+      "media_url": "https://pbs.twimg.com/media/HWZZh62WsAAAdIK.png?name=orig",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2118123954095128843",
@@ -172,32 +190,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-04T23:31:18+00:00",
       "createdAtMs": 1793835078000,
-      "likes": 434,
+      "likes": 435,
       "retweets": 27,
       "url": "https://x.com/tferriss/status/2118123954095128843",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 461,
-      "views": 59080
-    },
-    {
-      "id": "2118455920468353264",
-      "text": "The reality is that volatility is normal and healthy for markets.\n\nOver the last 4 years, many investors have forgotten this, and today's price action was evidence of that.\n\nWe expect an eventful Q4 ahead.\n\nFollow us @KobeissiLetter for real time analysis as this develops. https://t.co/I8tT6udHwq",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-11-05T21:30:25+00:00",
-      "createdAtMs": 1793914225000,
-      "likes": 344,
-      "retweets": 15,
-      "url": "https://x.com/KobeissiLetter/status/2118455920468353264",
-      "avatar": null,
-      "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 359,
-      "views": 45947,
-      "media_url": "https://pbs.twimg.com/media/HWZD_AvW0AA3GS9.png?name=orig",
-      "media_alt": "Attached post media"
+      "engagementScore": 462,
+      "views": 59301
     },
     {
       "id": "2118461080892805346",
@@ -206,14 +206,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-05T21:50:55+00:00",
       "createdAtMs": 1793915455000,
-      "likes": 95,
-      "retweets": 41,
+      "likes": 115,
+      "retweets": 46,
       "url": "https://x.com/wmiddelkoop/status/2118461080892805346",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 136,
-      "views": 5885,
+      "engagementScore": 161,
+      "views": 6685,
       "media_url": "https://pbs.twimg.com/media/HWZJH7vXIAIq-T5.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -224,14 +224,32 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-05T17:51:52+00:00",
       "createdAtMs": 1793901112000,
-      "likes": 73,
-      "retweets": 2,
+      "likes": 76,
+      "retweets": 3,
       "url": "https://x.com/JoshYoung/status/2118400923437576289",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 75,
-      "views": 4508
+      "engagementScore": 79,
+      "views": 4563
+    },
+    {
+      "id": "2118457146774000049",
+      "text": "😱US markets may have had their worst selloff in over 18 months today🤮🚽 but Spot #Uranium didn't even bat an eye👁️ as the extremely bullish #Nuclear fundamentals didn't change today💪⚛️⛏️🏋️‍♂️ nor did Spot #U3O8 at $91.88 for @Numerco and $91.75 for US @UraniumMarkets 👊🤠🐂 https://t.co/NpEOOnpbq3",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-11-05T21:35:17+00:00",
+      "createdAtMs": 1793914517000,
+      "likes": 63,
+      "retweets": 5,
+      "url": "https://x.com/quakes99/status/2118457146774000049",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 8,
+      "engagementScore": 68,
+      "views": 2452,
+      "media_url": "https://pbs.twimg.com/media/HWZE4mIaYAAXwSN.png?name=orig",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2118380479829422226",
@@ -245,9 +263,9 @@
       "url": "https://x.com/hkuppy/status/2118380479829422226",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 9,
       "engagementScore": 67,
-      "views": 7206
+      "views": 7250
     },
     {
       "id": "2118369559082348729",
@@ -256,32 +274,14 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-05T15:47:14+00:00",
       "createdAtMs": 1793893634000,
-      "likes": 64,
+      "likes": 65,
       "retweets": 2,
       "url": "https://x.com/BambroughKevin/status/2118369559082348729",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 66,
-      "views": 5628
-    },
-    {
-      "id": "2118457146774000049",
-      "text": "😱US markets may have had their worst selloff in over 18 months today🤮🚽 but Spot #Uranium didn't even bat an eye👁️ as the extremely bullish #Nuclear fundamentals didn't change today💪⚛️⛏️🏋️‍♂️ nor did Spot #U3O8 at $91.88 for @Numerco and $91.75 for US @UraniumMarkets 👊🤠🐂 https://t.co/NpEOOnpbq3",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-11-05T21:35:17+00:00",
-      "createdAtMs": 1793914517000,
-      "likes": 58,
-      "retweets": 5,
-      "url": "https://x.com/quakes99/status/2118457146774000049",
-      "avatar": null,
-      "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 63,
-      "views": 2305,
-      "media_url": "https://pbs.twimg.com/media/HWZE4mIaYAAXwSN.png?name=orig",
-      "media_alt": "Attached post media"
+      "engagementScore": 67,
+      "views": 5682
     },
     {
       "id": "2118462181792706896",
@@ -290,14 +290,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-05T21:55:17+00:00",
       "createdAtMs": 1793915717000,
-      "likes": 58,
+      "likes": 62,
       "retweets": 3,
       "url": "https://x.com/SantiagoAuFund/status/2118462181792706896",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 11,
-      "engagementScore": 61,
-      "views": 6065,
+      "engagementScore": 65,
+      "views": 6638,
       "media_url": "https://pbs.twimg.com/media/HWZT7rIbQAA57O4.png",
       "media_alt": "Attached post media"
     },
@@ -315,7 +315,7 @@
       "slot": "engagement",
       "slot_order": 12,
       "engagementScore": 19,
-      "views": 1414
+      "views": 1427
     }
   ]
 }
