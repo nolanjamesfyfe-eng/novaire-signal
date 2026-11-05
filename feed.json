@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-05T23:20:28.681401+00:00",
+    "attemptedAt": "2026-11-05T23:40:30.069788+00:00",
     "provider": "X API v2 / OAuth2",
     "identity": "jnovaire",
     "accountsRequested": 16,
@@ -10,98 +10,98 @@
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-05T23:20:29.645645+00:00",
+        "posts": 10,
+        "checkedAt": "2026-11-05T23:40:30.792557+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-05T23:20:30.457297+00:00",
+        "checkedAt": "2026-11-05T23:40:31.588995+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:20:31.256169+00:00",
+        "checkedAt": "2026-11-05T23:40:32.409092+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-05T23:20:32.041671+00:00",
+        "checkedAt": "2026-11-05T23:40:33.263137+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-05T23:20:32.824024+00:00",
+        "checkedAt": "2026-11-05T23:40:34.057916+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:20:33.622370+00:00",
+        "checkedAt": "2026-11-05T23:40:34.872730+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-05T23:20:34.419411+00:00",
+        "checkedAt": "2026-11-05T23:40:35.678600+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-05T23:20:35.229494+00:00",
+        "checkedAt": "2026-11-05T23:40:36.524562+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-05T23:20:36.054748+00:00",
+        "checkedAt": "2026-11-05T23:40:37.335273+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:20:36.867467+00:00",
+        "checkedAt": "2026-11-05T23:40:38.166123+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-05T23:20:37.648196+00:00",
+        "checkedAt": "2026-11-05T23:40:38.969522+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-05T23:20:38.479393+00:00",
+        "checkedAt": "2026-11-05T23:40:39.787929+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-05T23:20:39.275092+00:00",
+        "checkedAt": "2026-11-05T23:40:40.636282+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 0,
-        "checkedAt": "2026-11-05T23:20:40.020262+00:00",
+        "checkedAt": "2026-11-05T23:40:41.374183+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-05T23:20:40.800146+00:00",
+        "checkedAt": "2026-11-05T23:40:42.150102+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 1,
-        "checkedAt": "2026-11-05T23:20:41.585809+00:00",
+        "checkedAt": "2026-11-05T23:40:42.939590+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-05T23:20:45.354902+00:00",
+  "fetchedAt": "2026-11-05T23:40:46.370796+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,14 +122,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-05T20:56:49+00:00",
       "createdAtMs": 1793912209000,
-      "likes": 8020,
-      "retweets": 1094,
+      "likes": 8445,
+      "retweets": 1153,
       "url": "https://x.com/WatcherGuru/status/2118447464542072979",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 9114,
-      "views": 405203,
+      "engagementScore": 9598,
+      "views": 432921,
       "media_url": "https://pbs.twimg.com/media/HWY8vXrXIAAuNTq.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -140,30 +140,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-05T20:37:52+00:00",
       "createdAtMs": 1793911072000,
-      "likes": 2149,
-      "retweets": 193,
+      "likes": 2281,
+      "retweets": 209,
       "url": "https://x.com/nntaleb/status/2118442699246510206",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 2342,
-      "views": 64804
-    },
-    {
-      "id": "2118453902152794186",
-      "text": "At this rate mere mortals  will be able to afford a new PC again without taking out a mortgage",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-05T21:22:23+00:00",
-      "createdAtMs": 1793913743000,
-      "likes": 1351,
-      "retweets": 65,
-      "url": "https://x.com/zerohedge/status/2118453902152794186",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 1416,
-      "views": 82049
+      "engagementScore": 2490,
+      "views": 68661
     },
     {
       "id": "2118479558076707234",
@@ -172,32 +156,32 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-05T23:04:20+00:00",
       "createdAtMs": 1793919860000,
-      "likes": 838,
-      "retweets": 99,
+      "likes": 1425,
+      "retweets": 158,
       "url": "https://x.com/KobeissiLetter/status/2118479558076707234",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 937,
-      "views": 71240,
+      "slot_order": 3,
+      "engagementScore": 1583,
+      "views": 119611,
       "media_url": "https://pbs.twimg.com/media/HWZZh62WsAAAdIK.png?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2118123954095128843",
-      "text": "“Write to please just one person. If you open a window and make love to the world, so to speak, your story will get pneumonia.”\n— ​Kurt Vonnegut",
+      "id": "2118349605616398731",
+      "text": "Dr. Gabor Maté on How to Reframe a Challenging Moment https://t.co/6NZo7G0NuF",
       "author": "tferriss",
       "handle": "tferriss",
-      "createdAt": "2026-11-04T23:31:18+00:00",
-      "createdAtMs": 1793835078000,
-      "likes": 435,
-      "retweets": 27,
-      "url": "https://x.com/tferriss/status/2118123954095128843",
+      "createdAt": "2026-11-05T14:27:57+00:00",
+      "createdAtMs": 1793888877000,
+      "likes": 359,
+      "retweets": 41,
+      "url": "https://x.com/tferriss/status/2118349605616398731",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 462,
-      "views": 59301
+      "slot_order": 4,
+      "engagementScore": 400,
+      "views": 35152
     },
     {
       "id": "2118461080892805346",
@@ -206,15 +190,33 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-05T21:50:55+00:00",
       "createdAtMs": 1793915455000,
-      "likes": 115,
-      "retweets": 46,
+      "likes": 124,
+      "retweets": 52,
       "url": "https://x.com/wmiddelkoop/status/2118461080892805346",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 161,
-      "views": 6685,
+      "slot_order": 5,
+      "engagementScore": 176,
+      "views": 7354,
       "media_url": "https://pbs.twimg.com/media/HWZJH7vXIAIq-T5.jpg?name=orig",
+      "media_alt": "Attached post media"
+    },
+    {
+      "id": "2118484113342792054",
+      "text": "Kospi may want to just skip Friday: will be halted at the open https://t.co/GPyJsDFqHy",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-05T23:22:26+00:00",
+      "createdAtMs": 1793920946000,
+      "likes": 137,
+      "retweets": 15,
+      "url": "https://x.com/zerohedge/status/2118484113342792054",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 6,
+      "engagementScore": 152,
+      "views": 30722,
+      "media_url": "https://pbs.twimg.com/media/HWZhhp1bIAAsIWh.jpg",
       "media_alt": "Attached post media"
     },
     {
@@ -224,14 +226,30 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-05T17:51:52+00:00",
       "createdAtMs": 1793901112000,
-      "likes": 76,
+      "likes": 82,
       "retweets": 3,
       "url": "https://x.com/JoshYoung/status/2118400923437576289",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 79,
-      "views": 4563
+      "engagementScore": 85,
+      "views": 4636
+    },
+    {
+      "id": "2118470743747072355",
+      "text": "A system dominated by financial repression typically leads to purchasing power being \"stolen\" over a number of years.\nMany hard money advocates (whom I am sympathetic to) argue a revaluation of gold & return to gold standard would eliminate this problem.\nExcept that doing this now would lead to many losing most of purchasing power all at one time.\nSo...what is the argument for cutting someone's head off with a guillotine rather than slowly boiling them alive?",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-11-05T22:29:19+00:00",
+      "createdAtMs": 1793917759000,
+      "likes": 68,
+      "retweets": 5,
+      "url": "https://x.com/SantiagoAuFund/status/2118470743747072355",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 8,
+      "engagementScore": 73,
+      "views": 7017
     },
     {
       "id": "2118457146774000049",
@@ -240,32 +258,16 @@
       "handle": "quakes99",
       "createdAt": "2026-11-05T21:35:17+00:00",
       "createdAtMs": 1793914517000,
-      "likes": 63,
-      "retweets": 5,
+      "likes": 65,
+      "retweets": 6,
       "url": "https://x.com/quakes99/status/2118457146774000049",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 68,
-      "views": 2452,
+      "slot_order": 9,
+      "engagementScore": 71,
+      "views": 2594,
       "media_url": "https://pbs.twimg.com/media/HWZE4mIaYAAXwSN.png?name=orig",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2118380479829422226",
-      "text": "Who’s having fun!!!! https://t.co/ocHX11lkpw https://t.co/xslIhY92JQ",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-11-05T16:30:38+00:00",
-      "createdAtMs": 1793896238000,
-      "likes": 66,
-      "retweets": 1,
-      "url": "https://x.com/hkuppy/status/2118380479829422226",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 67,
-      "views": 7250
     },
     {
       "id": "2118369559082348729",
@@ -274,31 +276,31 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-05T15:47:14+00:00",
       "createdAtMs": 1793893634000,
-      "likes": 65,
+      "likes": 66,
       "retweets": 2,
       "url": "https://x.com/BambroughKevin/status/2118369559082348729",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 67,
-      "views": 5682
+      "engagementScore": 68,
+      "views": 5765
     },
     {
-      "id": "2118462181792706896",
-      "text": "And you all laughed...😬🫢 https://t.co/8SggS1HGAc",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-05T21:55:17+00:00",
-      "createdAtMs": 1793915717000,
-      "likes": 62,
-      "retweets": 3,
-      "url": "https://x.com/SantiagoAuFund/status/2118462181792706896",
+      "id": "2118384947975102538",
+      "text": "Hearing rumors that $ORCL is no longer interested in funding the Papaya Patch DC😥😥 https://t.co/bzYu26VuJI",
+      "author": "hkuppy",
+      "handle": "hkuppy",
+      "createdAt": "2026-11-05T16:48:23+00:00",
+      "createdAtMs": 1793897303000,
+      "likes": 57,
+      "retweets": 0,
+      "url": "https://x.com/hkuppy/status/2118384947975102538",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 11,
-      "engagementScore": 65,
-      "views": 6638,
-      "media_url": "https://pbs.twimg.com/media/HWZT7rIbQAA57O4.png",
+      "engagementScore": 57,
+      "views": 9523,
+      "media_url": "https://pbs.twimg.com/media/HKfLDusXkAAbbmN?format=webp&name=small",
       "media_alt": "Attached post media"
     },
     {
@@ -315,7 +317,7 @@
       "slot": "engagement",
       "slot_order": 12,
       "engagementScore": 19,
-      "views": 1427
+      "views": 1448
     }
   ]
 }
