@@ -164,7 +164,9 @@ if (secondRenaissanceVideo && (!hasVerifiedMetrics(secondRenaissanceVideo)
   process.exit(1);
 }
 const secondRenaissanceShort = cardSegment('SECOND RENAISSANCE · LATEST SHORT');
-if (secondRenaissanceShort && (!hasVerifiedMetrics(secondRenaissanceShort) && !secondRenaissanceShort.includes('No public Shorts'))) {
+if (secondRenaissanceShort && (!hasVerifiedMetrics(secondRenaissanceShort)
+    && !secondRenaissanceShort.includes('No public Shorts')
+    && !(secondRenaissanceShort.includes('views</span>') && secondRenaissanceShort.includes('does not expose public likes')))) {
   console.error('❌ Build guard failed: SECOND RENAISSANCE · LATEST SHORT is neither verified media nor an honest empty state.');
   process.exit(1);
 }
