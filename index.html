@@ -132,6 +132,7 @@
     .quote{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}
     .quote:last-child{margin-bottom:0}
     .daily-quotes .quote+.quote{margin-top:14px}
+    .quote-controls{margin-bottom:10px}
     .quote-type{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}
     .quote-text{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}
     .quote-author{font-size:.68rem;color:var(--dim);margin-top:3px}
@@ -670,7 +671,12 @@
     </details>
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="2026-11-07" data-daily-edition open>
       <summary><span class="card-title">Quotes</span></summary>
-      <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="daily-quotes">
+      <div class="signal-accordion-body daily-signal-body">
+      <div class="feed-controls quote-controls">
+        <div class="feed-status" id="quote-status">Today's two</div>
+        <button class="feed-refresh" id="quote-refresh" type="button" title="Show three new quotes">↻ Refresh</button>
+      </div>
+      <div id="quote-daily" class="daily-quotes">
         <div class="quote daily-quote-item" data-quote-id="voltaire-q-5acc166c2409"><div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type">Philosophy</div><div class="quote-text" id="qt-text">“It is the privilege of true genius, and certainly of the genius that opens a new road, to make without punishment great mistakes.”</div><div class="quote-author" id="qt-auth">— Voltaire</div></div><button class="quote-share-trigger" id="quote-share-trigger" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div></div>
         <div class="quote daily-quote-item" data-quote-id="santayana-q-9d9b784e0779"><div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt2-type">Philosophy</div><div class="quote-text" id="qt2-text">“All arts would be practised together and merged in the art of life, the only one wholly useful or fine among them.”</div><div class="quote-author" id="qt2-auth">— George Santayana</div></div><button class="quote-share-trigger" id="quote-share-trigger-2" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div></div>
       </div></div>
@@ -687,40 +693,40 @@
     <summary><span class="card-title">🌤 Weather</span></summary>
     <div class="signal-accordion-body"><div class="weather-grid">
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:36</div>
+          <div class="condition live-clock" data-tz-offset="7" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">12:56</div>
           <div class="city">🇹🇭 Bangkok</div>
-          <div class="temp">26°C</div>
+          <div class="temp">27°C</div>
           <div class="weather-range"><span>H 31°</span><span>L 26°</span></div>
           <div class="condition">Heavy Drizzle 🌧</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Cool Season</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 87% · AQI 69 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 84% · AQI 69 (Moderate)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:36</div>
+          <div class="condition live-clock" data-tz-offset="-6" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">23:56</div>
           <div class="city">🇨🇦 Edmonton</div>
           <div class="temp">7°C</div>
           <div class="weather-range"><span>H 8°</span><span>L 0°</span></div>
-          <div class="condition">Partly Cloudy ⛅</div>
+          <div class="condition">Mainly Clear 🌤</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Autumn</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 62% · AQI 34 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 63% · AQI 34 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:36</div>
+          <div class="condition live-clock" data-tz-offset="-5" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">00:56</div>
           <div class="city">🇨🇴 Medellín</div>
           <div class="temp">17°C</div>
           <div class="weather-range"><span>H 28°</span><span>L 16°</span></div>
           <div class="condition">Foggy 🌫</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Eternal Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 100% · AQI 34 (Good)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 99% · AQI 34 (Good)</div>
         </div>
         <div class="weather-item">
-          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:36</div>
+          <div class="condition live-clock" data-tz-offset="-3" style="font-size:.7rem;margin-bottom:3px;letter-spacing:.08em;font-weight:600">02:56</div>
           <div class="city">🇺🇾 Montevideo</div>
           <div class="temp">16°C</div>
           <div class="weather-range"><span>H 17°</span><span>L 14°</span></div>
           <div class="condition">Slight Rain 🌧</div>
           <div class="condition" style="margin-top:2px;font-style:italic">Spring</div>
-          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 79% · AQI 52 (Moderate)</div>
+          <div class="condition" style="margin-top:3px;font-size:.58rem;opacity:.7">💧 80% · AQI 52 (Moderate)</div>
         </div></div></div>
   </details>
 
@@ -792,33 +798,33 @@
       
         <a class="crypto-item market-link" data-coin="BTC" href="https://www.investing.com/crypto/bitcoin" target="_blank" rel="noopener" aria-label="BTC live chart on Investing.com">
           <div class="crypto-symbol" style="color:#f7931a">BTC</div>
-          <div class="crypto-price" data-crypto-price="BTC">$76,030</div>
-          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.59%</span></div>
+          <div class="crypto-price" data-crypto-price="BTC">$76,013</div>
+          <div class="crypto-change" data-crypto-chg="BTC"><span class="positive">+0.38%</span></div>
         </a>
         <a class="crypto-item market-link" data-coin="ETH" href="https://www.investing.com/crypto/ethereum" target="_blank" rel="noopener" aria-label="ETH live chart on Investing.com">
           <div class="crypto-symbol" style="color:#627eea">ETH</div>
-          <div class="crypto-price" data-crypto-price="ETH">$2,248</div>
-          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+1.04%</span></div>
+          <div class="crypto-price" data-crypto-price="ETH">$2,249</div>
+          <div class="crypto-change" data-crypto-chg="ETH"><span class="positive">+1.00%</span></div>
         </a>
         <a class="crypto-item market-link" data-coin="SOL" href="https://www.investing.com/crypto/solana" target="_blank" rel="noopener" aria-label="SOL live chart on Investing.com">
           <div class="crypto-symbol" style="color:#9945ff">SOL</div>
-          <div class="crypto-price" data-crypto-price="SOL">$90.13</div>
-          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.88%</span></div>
+          <div class="crypto-price" data-crypto-price="SOL">$90.26</div>
+          <div class="crypto-change" data-crypto-chg="SOL"><span class="positive">+0.89%</span></div>
         </a>
         <a class="crypto-item market-link" data-coin="ZEC" href="https://www.investing.com/crypto/zcash" target="_blank" rel="noopener" aria-label="ZEC live chart on Investing.com">
           <div class="crypto-symbol" style="color:#f4b728">ZEC</div>
-          <div class="crypto-price" data-crypto-price="ZEC">$1,314</div>
-          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+3.76%</span></div>
+          <div class="crypto-price" data-crypto-price="ZEC">$1,312</div>
+          <div class="crypto-change" data-crypto-chg="ZEC"><span class="positive">+3.54%</span></div>
         </a>
         <a class="crypto-item market-link" data-coin="ADA" href="https://www.investing.com/crypto/cardano" target="_blank" rel="noopener" aria-label="ADA live chart on Investing.com">
           <div class="crypto-symbol" style="color:#2a6df4">ADA</div>
           <div class="crypto-price" data-crypto-price="ADA">$0.1847</div>
-          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+0.49%</span></div>
+          <div class="crypto-change" data-crypto-chg="ADA"><span class="positive">+0.43%</span></div>
         </a>
         <a class="crypto-item market-link" data-coin="SUI" href="https://www.investing.com/crypto/sui" target="_blank" rel="noopener" aria-label="SUI live chart on Investing.com">
           <div class="crypto-symbol" style="color:#6fd7ff">SUI</div>
-          <div class="crypto-price" data-crypto-price="SUI">$0.8676</div>
-          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+0.95%</span></div>
+          <div class="crypto-price" data-crypto-price="SUI">$0.8693</div>
+          <div class="crypto-change" data-crypto-chg="SUI"><span class="positive">+1.00%</span></div>
         </a>
         <a class="crypto-item market-link" data-coin="TON" href="https://www.investing.com/crypto/toncoin" target="_blank" rel="noopener" aria-label="TON live chart on Investing.com">
           <div class="crypto-symbol" style="color:#0098ea">TON</div>
@@ -827,8 +833,8 @@
         </a>
         <a class="crypto-item market-link" data-coin="NIGHT" href="https://www.investing.com/crypto/midnight-network" target="_blank" rel="noopener" aria-label="NIGHT live chart on Investing.com">
           <div class="crypto-symbol" style="color:#7868ff">NIGHT</div>
-          <div class="crypto-price" data-crypto-price="NIGHT">$0.0391</div>
-          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="negative">-0.23%</span></div>
+          <div class="crypto-price" data-crypto-price="NIGHT">$0.0390</div>
+          <div class="crypto-change" data-crypto-chg="NIGHT"><span class="positive">+0.05%</span></div>
         </a>
     </div>
   </div>
@@ -1139,7 +1145,7 @@
     <summary><span class="card-title"><span class="compact-peer-icon">🇹🇭</span> <span class="compact-peer-label">Thailand</span></span></summary>
     <div class="signal-accordion-body">
       <h3 class="thai-news-header">Thailand Expat Brief · Visa, Safety, Scandals</h3>
-      <div id="thai-news-feed" class="compact-feed-card thai-news-feed"><!-- Live check marker: expat brief has a real source, URL, summary, and score; verified Nov 7, 12:36 BKK --><div class="feed-card-grid"><article class="feed-card zh-feed-card thai-feed-card" data-thai-expat-brief="verified" data-title-limit="110" data-excerpt-limit="140" data-published-at="2026-11-07T04:30:13+00:00" data-thai-source="The Thaiger" data-thai-score="36" data-thai-url="https://thethaiger.com/news/bangkok/fuel-protest-convoy-seeking-10-baht-diesel-cut-due-in-bangkok-sunday"><div class="feed-card-body"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fthethaiger.com%2Fwp-content%2Fuploads%2F2026%2F11%2Fthaiger-Krabi-headman-leads-fuel-protest-to-Bangkok.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://thethaiger.com/news/bangkok/fuel-protest-convoy-seeking-10-baht-diesel-cut-due-in-bangkok-sunday" class="feed-card-title" target="_blank" rel="noopener" title="Fuel protest convoy seeking 10-baht diesel cut due in Bangkok Sunday" aria-label="Fuel protest convoy seeking 10-baht diesel cut due in Bangkok Sunday">Fuel protest convoy seeking 10-baht diesel cut due in Bangkok Sunday</a><p class="feed-card-excerpt thai-news-summary">Krabi headman Mano Khrueakaew is leading a southern convoy to Government House on November 8, as Bangkok police ban gatherings within 50…</p></div></div><a class="feed-card-source" href="https://thethaiger.com/news/bangkok/fuel-protest-convoy-seeking-10-baht-diesel-cut-due-in-bangkok-sunday" target="_blank" rel="noopener" title="Published Nov 7, 11:30 BKK">The Thaiger → <time datetime="2026-11-07T04:30:13+00:00">Nov 7, 11:30 BKK</time></a></article><article class="feed-card zh-feed-card thai-feed-card" data-thai-expat-brief="verified" data-title-limit="110" data-excerpt-limit="140" data-published-at="2026-11-06T14:41:31+00:00" data-thai-source="Thai Examiner" data-thai-score="34" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/11/06/stringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau/"><div class="feed-card-body"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fwww.thaiexaminer.com%2Fwp-content%2Fuploads%2F2026%2F11%2Fstringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/11/06/stringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau/" class="feed-card-title" target="_blank" rel="noopener" title="Stringent new controls on Thai children under 18 leaving the kingdom enforced by the Immigration Bureau" aria-label="Stringent new controls on Thai children under 18 leaving the kingdom enforced by the Immigration Bureau">Stringent new controls on Thai children under 18 leaving the kingdom enforced by the Immigration Bureau</a><p class="feed-card-excerpt thai-news-summary">Thailand tightens child exit checks after 32 minors are stopped. Police probe fake Thai fathers, Chinese crime links and human…</p></div></div><a class="feed-card-source" href="https://www.thaiexaminer.com/thai-news-foreigners/2026/11/06/stringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau/" target="_blank" rel="noopener" title="Published Nov 6, 21:41 BKK">Thai Examiner → <time datetime="2026-11-06T14:41:31+00:00">Nov 6, 21:41 BKK</time></a></article><article class="feed-card zh-feed-card thai-feed-card" data-thai-expat-brief="verified" data-title-limit="110" data-excerpt-limit="140" data-published-at="2026-11-06T23:30:36+00:00" data-thai-source="The Thaiger" data-thai-score="25" data-thai-url="https://thethaiger.com/hot-news/weather/thailand-weather-today-7-november-2026"><div class="feed-card-body"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fthethaiger.com%2Fwp-content%2Fuploads%2F2026%2F09%2Fweather-today-storm.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://thethaiger.com/hot-news/weather/thailand-weather-today-7-november-2026" class="feed-card-title" target="_blank" rel="noopener" title="Thailand weather today, 7 November: heavy rain in 28 provinces, Bangkok showers" aria-label="Thailand weather today, 7 November: heavy rain in 28 provinces, Bangkok showers">Thailand weather today, 7 November: heavy rain in 28 provinces, Bangkok showers</a><p class="feed-card-excerpt thai-news-summary">TMD&#x27;s bulletin of 07 November 2026 expects heavy rain in 28 provinces. Bangkok: scattered showers with gust, . Forecast window 06:00…</p></div></div><a class="feed-card-source" href="https://thethaiger.com/hot-news/weather/thailand-weather-today-7-november-2026" target="_blank" rel="noopener" title="Published Nov 7, 06:30 BKK">The Thaiger → <time datetime="2026-11-06T23:30:36+00:00">Nov 7, 06:30 BKK</time></a></article></div></div>
+      <div id="thai-news-feed" class="compact-feed-card thai-news-feed"><!-- Live check marker: expat brief has a real source, URL, summary, and score; verified Nov 7, 12:56 BKK --><div class="feed-card-grid"><article class="feed-card zh-feed-card thai-feed-card" data-thai-expat-brief="verified" data-title-limit="110" data-excerpt-limit="140" data-published-at="2026-11-07T04:30:13+00:00" data-thai-source="The Thaiger" data-thai-score="36" data-thai-url="https://thethaiger.com/news/bangkok/fuel-protest-convoy-seeking-10-baht-diesel-cut-due-in-bangkok-sunday"><div class="feed-card-body"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fthethaiger.com%2Fwp-content%2Fuploads%2F2026%2F11%2Fthaiger-Krabi-headman-leads-fuel-protest-to-Bangkok.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://thethaiger.com/news/bangkok/fuel-protest-convoy-seeking-10-baht-diesel-cut-due-in-bangkok-sunday" class="feed-card-title" target="_blank" rel="noopener" title="Fuel protest convoy seeking 10-baht diesel cut due in Bangkok Sunday" aria-label="Fuel protest convoy seeking 10-baht diesel cut due in Bangkok Sunday">Fuel protest convoy seeking 10-baht diesel cut due in Bangkok Sunday</a><p class="feed-card-excerpt thai-news-summary">Krabi headman Mano Khrueakaew is leading a southern convoy to Government House on November 8, as Bangkok police ban gatherings within 50…</p></div></div><a class="feed-card-source" href="https://thethaiger.com/news/bangkok/fuel-protest-convoy-seeking-10-baht-diesel-cut-due-in-bangkok-sunday" target="_blank" rel="noopener" title="Published Nov 7, 11:30 BKK">The Thaiger → <time datetime="2026-11-07T04:30:13+00:00">Nov 7, 11:30 BKK</time></a></article><article class="feed-card zh-feed-card thai-feed-card" data-thai-expat-brief="verified" data-title-limit="110" data-excerpt-limit="140" data-published-at="2026-11-06T14:41:31+00:00" data-thai-source="Thai Examiner" data-thai-score="34" data-thai-url="https://www.thaiexaminer.com/thai-news-foreigners/2026/11/06/stringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau/"><div class="feed-card-body"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fwww.thaiexaminer.com%2Fwp-content%2Fuploads%2F2026%2F11%2Fstringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://www.thaiexaminer.com/thai-news-foreigners/2026/11/06/stringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau/" class="feed-card-title" target="_blank" rel="noopener" title="Stringent new controls on Thai children under 18 leaving the kingdom enforced by the Immigration Bureau" aria-label="Stringent new controls on Thai children under 18 leaving the kingdom enforced by the Immigration Bureau">Stringent new controls on Thai children under 18 leaving the kingdom enforced by the Immigration Bureau</a><p class="feed-card-excerpt thai-news-summary">Thailand tightens child exit checks after 32 minors are stopped. Police probe fake Thai fathers, Chinese crime links and human…</p></div></div><a class="feed-card-source" href="https://www.thaiexaminer.com/thai-news-foreigners/2026/11/06/stringent-new-controls-on-thai-children-under-18-leaving-the-kingdom-enforced-by-the-immigration-bureau/" target="_blank" rel="noopener" title="Published Nov 6, 21:41 BKK">Thai Examiner → <time datetime="2026-11-06T14:41:31+00:00">Nov 6, 21:41 BKK</time></a></article><article class="feed-card zh-feed-card thai-feed-card" data-thai-expat-brief="verified" data-title-limit="110" data-excerpt-limit="140" data-published-at="2026-11-06T23:30:36+00:00" data-thai-source="The Thaiger" data-thai-score="25" data-thai-url="https://thethaiger.com/hot-news/weather/thailand-weather-today-7-november-2026"><div class="feed-card-body"><div class="feed-card-media"><img class="feed-thumb" src="/api/thai-image?u=https%3A%2F%2Fthethaiger.com%2Fwp-content%2Fuploads%2F2026%2F09%2Fweather-today-storm.jpg" alt="" width="80" height="60" loading="lazy" decoding="async" onerror="this.closest('.feed-card-media').remove()"></div><div class="feed-card-copy"><a href="https://thethaiger.com/hot-news/weather/thailand-weather-today-7-november-2026" class="feed-card-title" target="_blank" rel="noopener" title="Thailand weather today, 7 November: heavy rain in 28 provinces, Bangkok showers" aria-label="Thailand weather today, 7 November: heavy rain in 28 provinces, Bangkok showers">Thailand weather today, 7 November: heavy rain in 28 provinces, Bangkok showers</a><p class="feed-card-excerpt thai-news-summary">TMD&#x27;s bulletin of 07 November 2026 expects heavy rain in 28 provinces. Bangkok: scattered showers with gust, . Forecast window 06:00…</p></div></div><a class="feed-card-source" href="https://thethaiger.com/hot-news/weather/thailand-weather-today-7-november-2026" target="_blank" rel="noopener" title="Published Nov 7, 06:30 BKK">The Thaiger → <time datetime="2026-11-06T23:30:36+00:00">Nov 7, 06:30 BKK</time></a></article></div></div>
     </div>
   </details>
 
@@ -1162,7 +1168,7 @@
             <span class="latest-novaire-chevron" aria-hidden="true"></span>
           </summary>
           <div class="latest-novaire-detail">
-            <div class="latest-novaire-metrics"><span><b>58</b> likes</span><span>Instagram public view count unavailable · verified on 2026-11-07</span><span class="metric-winner">Top engagement</span></div>
+            <div class="latest-novaire-metrics"><span><b>59</b> likes</span><span>Instagram public view count unavailable · verified on 2026-11-07</span><span class="metric-winner">Top engagement</span></div>
             <a href="https://www.instagram.com/reel/DfWmv2aB3tp/" target="_blank" rel="noopener">Open Instagram →</a>
           </div>
         </details><details class="latest-novaire-item">
@@ -1212,7 +1218,7 @@
     <summary><span class="card-title"><span class="compact-peer-icon">☑</span> <span class="compact-peer-label">Daily Tasks</span></span><span class="accordion-score">5 incomplete</span></summary>
     <div class="signal-accordion-body" aria-live="polite">
       <ol class="google-task-list"><li><span class="google-task-number">01</span><span class="google-task-title">Post James two AI videos on YT Channel</span></li><li><span class="google-task-number">02</span><span class="google-task-title">Wizard Event 11/19th before MMind meetup - Organize it</span></li><li><span class="google-task-number">03</span><span class="google-task-title">Get out a few clips with Igor</span></li><li><span class="google-task-number">04</span><span class="google-task-title">edit some relationship for MOTR</span></li><li><span class="google-task-number">05</span><span class="google-task-title">Order Pixel to Tyler&#x27;s address in US? Get in Jan</span></li></ol>
-      <div class="google-task-meta"><span class="google-task-mode"><i aria-hidden="true"></i>Live on every load</span><span class="google-task-sync">Google Tasks · Last synced Nov 7, 12:36 BKK</span></div>
+      <div class="google-task-meta"><span class="google-task-mode"><i aria-hidden="true"></i>Live on every load</span><span class="google-task-sync">Google Tasks · Last synced Nov 7, 12:56 BKK</span></div>
     </div>
   </details>
 
@@ -1494,6 +1500,65 @@ function getQuoteForToday(storageKey, quotes, edition) {
     type.textContent = q.category;
     text.textContent = '\u201c' + q.text + '\u201d';
     auth.textContent = '\u2014 ' + q.author;
+  });
+})();
+
+(function quoteRefresh() {
+  const btn = document.getElementById('quote-refresh'), box = document.getElementById('quote-daily'), status = document.getElementById('quote-status');
+  if (!btn || !box) return;
+  const edition = (document.getElementById('quotes-daily') || {dataset: {}}).dataset.edition || '';
+  const KEY = 'nv_quote_refresh_v1';
+  let pool = null, used = new Set(DAILY_QUOTES.map(q => q.id));
+  function render(list) {
+    box.replaceChildren();
+    list.forEach(q => {
+      const item = document.createElement('div'); item.className = 'quote daily-quote-item'; item.dataset.quoteId = q.id;
+      const row = document.createElement('div'); row.className = 'quote-share-row';
+      const copy = document.createElement('div'); copy.className = 'quote-share-copy';
+      const type = document.createElement('div'); type.className = 'quote-type'; type.textContent = q.category;
+      const text = document.createElement('div'); text.className = 'quote-text'; text.textContent = '“' + q.text + '”';
+      const auth = document.createElement('div'); auth.className = 'quote-author'; auth.textContent = '— ' + q.author;
+      copy.append(type, text, auth);
+      const share = document.createElement('button'); share.className = 'quote-share-trigger'; share.type = 'button'; share.dataset.shareKind = 'quote';
+      share.setAttribute('aria-label', 'Share this quote to X'); share.title = 'Share this quote to X';
+      const img = document.createElement('img'); img.src = '/quote-studio/bolt.svg'; img.alt = ''; share.append(img);
+      row.append(copy, share); item.append(row); box.append(item);
+    });
+  }
+  async function load() {
+    if (pool) return pool;
+    const r = await fetch('/data/quote-pool.json', {cache: 'force-cache'});
+    if (!r.ok) throw new Error('pool');
+    pool = (await r.json()).quotes.filter(q => q && q.text && q.author);
+    return pool;
+  }
+  function pick(list, n) {
+    let fresh = list.filter(q => !used.has(q.id));
+    if (fresh.length < n) { used = new Set(); fresh = list.slice(); }
+    const out = [], authors = new Set();
+    while (out.length < n && fresh.length) {
+      const i = Math.floor(Math.random() * fresh.length), q = fresh.splice(i, 1)[0];
+      if (authors.has(q.author) && fresh.length > n) continue;
+      authors.add(q.author); used.add(q.id); out.push(q);
+    }
+    return out;
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && saved.edition === edition && Array.isArray(saved.quotes) && saved.quotes.length) {
+      render(saved.quotes); (saved.used || []).forEach(id => used.add(id));
+      status.textContent = 'Refreshed · ' + saved.quotes.length + ' new';
+    }
+  } catch (e) {}
+  btn.addEventListener('click', async function() {
+    btn.disabled = true; status.textContent = 'Loading…';
+    try {
+      const list = pick(await load(), 3);
+      render(list);
+      status.textContent = 'Refreshed · ' + list.length + ' new';
+      try { localStorage.setItem(KEY, JSON.stringify({edition, quotes: list, used: [...used].slice(-600)})); } catch (e) {}
+    } catch (e) { status.textContent = 'Refresh unavailable'; }
+    finally { btn.disabled = false; }
   });
 })();
 
