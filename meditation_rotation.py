@@ -20,7 +20,20 @@ def stable_hash(value: str) -> int:
     return result
 
 
+_CYCLE_CACHE: dict[tuple, list[dict]] = {}
+
+
 def balanced_cycle(entries: list[dict]) -> list[dict]:
+    key = tuple((item["id"], item["author"], item["theme"]) for item in entries)
+    cached = _CYCLE_CACHE.get(key)
+    if cached is None:
+        cached = _balanced_cycle(entries)
+        _CYCLE_CACHE.clear()
+        _CYCLE_CACHE[key] = cached
+    return list(cached)
+
+
+def _balanced_cycle(entries: list[dict]) -> list[dict]:
     groups: dict[str, list[dict]] = defaultdict(list)
     for item in entries:
         groups[item["author"]].append(item)

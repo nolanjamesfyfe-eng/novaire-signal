@@ -17,7 +17,7 @@ import time
 import traceback
 from pathlib import Path
 from html import escape
-from datetime import datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from urllib.parse import quote, quote_plus, urlsplit
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
@@ -3551,6 +3551,8 @@ def meditation_fallback_values(item):
             provenance += f' · {item["attributionQualifier"]}'
     elif item.get("excerptType") == "book_excerpt" and item.get("subject"):
         provenance = f'on {item["subject"]} · Book excerpt'
+    elif item.get("excerptType") == "quotation":
+        provenance = "Sourced quote"
     else:
         provenance = "Original excerpt" if item["kind"] == "excerpt" else "Editorial reflection"
     return (
@@ -3568,14 +3570,37 @@ def quote_entries_from_js(source):
     return [{"text": text, "author": author} for text, author in entries]
 
 
+def daily_quote_pool():
+    """Short sourced quotations from the reviewed corpus, in a stable shuffled order."""
+    pool = [item for item in MEDITATION_CORPUS["entries"] if item.get("curatedQuote") and len(item["text"]) <= 200]
+    if len(pool) < 100:
+        raise ValueError("quote corpus is unexpectedly small")
+    return sorted(pool, key=lambda item: hashlib.sha256(item["id"].encode("utf-8")).hexdigest())
+
+
+def daily_quotes_for_edition(edition, exclude_id=None, count=2):
+    """Pick two distinct quotes per Bangkok edition; walks the whole pool before repeating."""
+    pool = [item for item in daily_quote_pool() if item["id"] != exclude_id]
+    day_index = (date.fromisoformat(edition) - date(2026, 1, 1)).days
+    start = (day_index * (count + 1)) % len(pool)
+    picks = []
+    offset = 0
+    while len(picks) < count and offset < len(pool):
+        item = pool[(start + offset) % len(pool)]
+        offset += 1
+        if any(item["author"] == p["author"] for p in picks):
+            continue
+        picks.append(item)
+    if len(picks) != count or not all(p["text"].strip() and p["author"].strip() for p in picks):
+        raise ValueError("daily quote build guard rejected an empty rendered slot")
+    return [{"text": p["text"], "author": p["author"], "category": p.get("category") or "Philosophy",
+             "work": p.get("work", ""), "id": p["id"]} for p in picks]
+
+
 def daily_quote_for_edition(edition):
-    """Select one global quote for the Bangkok edition, independent of JS/storage."""
-    day = int(edition.rsplit("-", 1)[-1])
-    quote_type = "Investing" if day % 2 == 0 else "Psychology"
-    source = QUOTES_JS_INVESTING if quote_type == "Investing" else QUOTES_JS_PSYCHOLOGY
-    entries = quote_entries_from_js(source)
-    digest = hashlib.sha256(f"{edition}:{quote_type}".encode("utf-8")).digest()
-    return quote_type, entries[int.from_bytes(digest[:8], "big") % len(entries)]
+    """Backward-compatible single-quote accessor (first of the day's pair)."""
+    first = daily_quotes_for_edition(edition)[0]
+    return first["category"], first
 
 
 def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
@@ -3597,13 +3622,24 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     # Render the selected edition into the document itself. JavaScript enhances
     # this content, but a delayed or failed bundle must never leave the card blank.
     daily_meditation_title, daily_meditation_meta, daily_meditation_text = meditation_fallback_values(daily_meditation)
-    daily_quote_type, daily_quote = daily_quote_for_edition(daily_edition)
-    daily_quote_js = json.dumps(daily_quote, ensure_ascii=False, separators=(",", ":"))
-    daily_quote_type_html = escape(daily_quote_type)
-    daily_quote_text_html = escape(f'“{daily_quote["text"]}”')
-    daily_quote_author_html = escape(f'— {daily_quote["author"]}')
-    if not all(value.strip() for value in (daily_quote_type_html, daily_quote_text_html, daily_quote_author_html)):
-        raise ValueError("daily quote build guard rejected an empty rendered slot")
+    daily_quotes = daily_quotes_for_edition(daily_edition, exclude_id=daily_meditation.get("id"))
+    daily_quotes_js = json.dumps(daily_quotes, ensure_ascii=False, separators=(",", ":"))
+    daily_quote_js = json.dumps(daily_quotes[0], ensure_ascii=False, separators=(",", ":"))
+    daily_quote_type = daily_quotes[0]["category"]
+    daily_quote_slots = []
+    for _n, _q in enumerate(daily_quotes):
+        _sfx = "" if _n == 0 else str(_n + 1)
+        _type, _text, _auth = escape(_q["category"]), escape(f'“{_q["text"]}”'), escape(f'— {_q["author"]}')
+        if not all(v.strip() for v in (_type, _text, _auth)):
+            raise ValueError("daily quote build guard rejected an empty rendered slot")
+        _trigger_id = "quote-share-trigger" if _n == 0 else f"quote-share-trigger-{_n + 1}"
+        daily_quote_slots.append(
+            f'<div class="quote daily-quote-item" data-quote-id="{escape(_q["id"])}"><div class="quote-share-row"><div class="quote-share-copy">'
+            f'<div class="quote-type" id="qt{_sfx}-type">{_type}</div>'
+            f'<div class="quote-text" id="qt{_sfx}-text">{_text}</div><div class="quote-author" id="qt{_sfx}-auth">{_auth}</div></div>'
+            f'<button class="quote-share-trigger" id="{_trigger_id}" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div></div>'
+        )
+    daily_quotes_html = "\n        ".join(daily_quote_slots)
     week_start = now - timedelta(days=now.weekday())
     weekly_edition = f"{week_start.isocalendar().year}-W{week_start.isocalendar().week:02d}"
     weekly_updated_label = week_start.strftime("%b %-d")
@@ -4229,6 +4265,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
+    .daily-quotes .quote+.quote{{margin-top:14px}}
     .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
     .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
     .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
@@ -4748,10 +4785,8 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </details>
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="{daily_edition}" data-daily-edition open>
       <summary><span class="card-title">Quotes</span></summary>
-      <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="quote">
-        <div class="quote-share-row"><div class="quote-share-copy"><div class="quote-type" id="qt-type">{daily_quote_type_html}</div>
-        <div class="quote-text" id="qt-text">{daily_quote_text_html}</div><div class="quote-author" id="qt-auth">{daily_quote_author_html}</div></div>
-        <button class="quote-share-trigger" id="quote-share-trigger" data-share-kind="quote" type="button" aria-label="Share this quote to X" title="Share this quote to X"><img src="/quote-studio/bolt.svg" alt=""></button></div>
+      <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="daily-quotes">
+        {daily_quotes_html}
       </div></div>
     </details>
     </div>
@@ -5083,6 +5118,7 @@ const QUOTES_INVESTING = {QUOTES_JS_INVESTING};
 const QUOTES_PSYCHOLOGY = {QUOTES_JS_PSYCHOLOGY};
 const DAILY_MEDITATION = {daily_meditation_js};
 const DAILY_QUOTE = {daily_quote_js};
+const DAILY_QUOTES = {daily_quotes_js};
 const DAILY_QUOTE_TYPE = {json.dumps(daily_quote_type)};
 const TWEET_TEMPLATES = {TWEET_TEMPLATES_JS};
 
@@ -5234,6 +5270,7 @@ function getQuoteForToday(storageKey, quotes, edition) {{
   const m = DAILY_MEDITATION;
   document.getElementById('med-title').textContent = m.work;
   let provenance = m.kind === 'excerpt' ? 'Original excerpt' : 'Editorial reflection';
+  if (m.excerptType === 'quotation') provenance = 'Sourced quote';
   if (m.excerptType === 'direct_quote') provenance = 'quoted in Will Durant, ' + m.work + (m.attributionQualifier ? ' · ' + m.attributionQualifier : '');
   else if (m.excerptType === 'book_excerpt' && m.subject) provenance = 'on ' + m.subject + ' · Book excerpt';
   document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + provenance;
@@ -5257,9 +5294,14 @@ function getQuoteForToday(storageKey, quotes, edition) {{
 }})();
 
 (function renderQuotes() {{
-  document.getElementById('qt-type').textContent = DAILY_QUOTE_TYPE;
-  document.getElementById('qt-text').textContent = '\u201c' + DAILY_QUOTE.text + '\u201d';
-  document.getElementById('qt-auth').textContent = '\u2014 ' + DAILY_QUOTE.author;
+  DAILY_QUOTES.forEach(function(q, i) {{
+    const sfx = i === 0 ? '' : String(i + 1);
+    const type = document.getElementById('qt' + sfx + '-type'), text = document.getElementById('qt' + sfx + '-text'), auth = document.getElementById('qt' + sfx + '-auth');
+    if (!type || !text || !auth) return;
+    type.textContent = q.category;
+    text.textContent = '\\u201c' + q.text + '\\u201d';
+    auth.textContent = '\\u2014 ' + q.author;
+  }});
 }})();
 
 (function loadInkReaders() {{
