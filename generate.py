@@ -4266,6 +4266,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
     .daily-quotes .quote+.quote{{margin-top:14px}}
+    .quote-controls{{margin-bottom:10px}}
     .quote-type{{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;font-weight:600}}
     .quote-text{{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--text);line-height:1.55}}
     .quote-author{{font-size:.68rem;color:var(--dim);margin-top:3px}}
@@ -4785,7 +4786,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     </details>
     <details class="signal-accordion daily-signal-block" id="quotes-daily" data-edition="{daily_edition}" data-daily-edition open>
       <summary><span class="card-title">Quotes</span></summary>
-      <div class="signal-accordion-body daily-signal-body"><div id="quote-daily" class="daily-quotes">
+      <div class="signal-accordion-body daily-signal-body">
+      <div class="feed-controls quote-controls">
+        <div class="feed-status" id="quote-status">Today's two</div>
+        <button class="feed-refresh" id="quote-refresh" type="button" title="Show three new quotes">↻ Refresh</button>
+      </div>
+      <div id="quote-daily" class="daily-quotes">
         {daily_quotes_html}
       </div></div>
     </details>
@@ -5301,6 +5307,65 @@ function getQuoteForToday(storageKey, quotes, edition) {{
     type.textContent = q.category;
     text.textContent = '\\u201c' + q.text + '\\u201d';
     auth.textContent = '\\u2014 ' + q.author;
+  }});
+}})();
+
+(function quoteRefresh() {{
+  const btn = document.getElementById('quote-refresh'), box = document.getElementById('quote-daily'), status = document.getElementById('quote-status');
+  if (!btn || !box) return;
+  const edition = (document.getElementById('quotes-daily') || {{dataset: {{}}}}).dataset.edition || '';
+  const KEY = 'nv_quote_refresh_v1';
+  let pool = null, used = new Set(DAILY_QUOTES.map(q => q.id));
+  function render(list) {{
+    box.replaceChildren();
+    list.forEach(q => {{
+      const item = document.createElement('div'); item.className = 'quote daily-quote-item'; item.dataset.quoteId = q.id;
+      const row = document.createElement('div'); row.className = 'quote-share-row';
+      const copy = document.createElement('div'); copy.className = 'quote-share-copy';
+      const type = document.createElement('div'); type.className = 'quote-type'; type.textContent = q.category;
+      const text = document.createElement('div'); text.className = 'quote-text'; text.textContent = '\u201c' + q.text + '\u201d';
+      const auth = document.createElement('div'); auth.className = 'quote-author'; auth.textContent = '\u2014 ' + q.author;
+      copy.append(type, text, auth);
+      const share = document.createElement('button'); share.className = 'quote-share-trigger'; share.type = 'button'; share.dataset.shareKind = 'quote';
+      share.setAttribute('aria-label', 'Share this quote to X'); share.title = 'Share this quote to X';
+      const img = document.createElement('img'); img.src = '/quote-studio/bolt.svg'; img.alt = ''; share.append(img);
+      row.append(copy, share); item.append(row); box.append(item);
+    }});
+  }}
+  async function load() {{
+    if (pool) return pool;
+    const r = await fetch('/data/quote-pool.json', {{cache: 'force-cache'}});
+    if (!r.ok) throw new Error('pool');
+    pool = (await r.json()).quotes.filter(q => q && q.text && q.author);
+    return pool;
+  }}
+  function pick(list, n) {{
+    let fresh = list.filter(q => !used.has(q.id));
+    if (fresh.length < n) {{ used = new Set(); fresh = list.slice(); }}
+    const out = [], authors = new Set();
+    while (out.length < n && fresh.length) {{
+      const i = Math.floor(Math.random() * fresh.length), q = fresh.splice(i, 1)[0];
+      if (authors.has(q.author) && fresh.length > n) continue;
+      authors.add(q.author); used.add(q.id); out.push(q);
+    }}
+    return out;
+  }}
+  try {{
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && saved.edition === edition && Array.isArray(saved.quotes) && saved.quotes.length) {{
+      render(saved.quotes); (saved.used || []).forEach(id => used.add(id));
+      status.textContent = 'Refreshed · ' + saved.quotes.length + ' new';
+    }}
+  }} catch (e) {{}}
+  btn.addEventListener('click', async function() {{
+    btn.disabled = true; status.textContent = 'Loading…';
+    try {{
+      const list = pick(await load(), 3);
+      render(list);
+      status.textContent = 'Refreshed · ' + list.length + ' new';
+      try {{ localStorage.setItem(KEY, JSON.stringify({{edition, quotes: list, used: [...used].slice(-600)}})); }} catch (e) {{}}
+    }} catch (e) {{ status.textContent = 'Refresh unavailable'; }}
+    finally {{ btn.disabled = false; }}
   }});
 }})();
 
@@ -6047,6 +6112,11 @@ def fetch_polymarket_win_rate():
         print(f"  ⚠ Win rate calc failed: {e}")
         return {"win_rate": 0, "wins": 0, "losses": 0, "total": 0}
 def main():
+    try:
+        import scripts.build_quote_pool as _qp
+        _qp.main()
+    except Exception as _exc:
+        print(f"  ⚠ quote pool rebuild skipped: {_exc}")
 
     print("🚀 Novaire Signal — generating daily brief...")
 

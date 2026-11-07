@@ -39,6 +39,13 @@ class QuoteShareGenerationTest(unittest.TestCase):
         self.assertIn("const DAILY_QUOTE =", html)
         self.assertNotIn('id="qt-text"></div>', html)
 
+    def test_quote_refresh_pool_matches_corpus(self):
+        import json, subprocess, sys, pathlib
+        root = pathlib.Path(__file__).resolve().parents[1]
+        pool = json.loads((root / "data/quote-pool.json").read_text(encoding="utf-8"))["quotes"]
+        self.assertGreaterEqual(len(pool), 1000)
+        self.assertEqual({q["id"] for q in pool}, {q["id"] for q in generate.daily_quote_pool()})
+
     def test_quote_build_guard_rejects_empty_slots(self):
         with self.assertRaisesRegex(ValueError, "empty or unreadable"):
             generate.quote_entries_from_js('[{text:"", author:"Nobody"}]')
