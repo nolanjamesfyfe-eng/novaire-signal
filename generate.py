@@ -223,9 +223,14 @@ def load_weekly_ideas(now=None, ideas_path=WEEKLY_IDEAS_PATH,
         return {
             "schema_version": 1,
             "as_of": data.get("as_of"),
+            "scan_status": data.get("scan_status"),
             "scan_state": state,
             "status_message": str(reason),
-            "portfolio_note": "",
+            "portfolio_note": (
+                str(data.get("portfolio_note") or "")
+                if data.get("schema_version") == 1 and data.get("scan_status") == "incomplete"
+                else ""
+            ),
             "ideas": [],
         }
 
@@ -337,6 +342,11 @@ def weekly_scan_presentation(weekly):
         return {
             "label": f"Stale · last completed {formatted_date}" if formatted_date else "Stale scan",
             "empty_message": "The last completed scan is stale. No current-week candidate claim is displayed.",
+        }
+    if weekly.get("scan_status") == "incomplete" and formatted_date:
+        return {
+            "label": f"Incomplete · {formatted_date}",
+            "empty_message": weekly.get("status_message") or "Research is incomplete; no candidate claim is displayed.",
         }
     return {
         "label": "Scan unverified",

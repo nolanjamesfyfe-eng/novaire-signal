@@ -166,6 +166,14 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         self.assertTrue(any(account["status"] == "evidence_blocked" for account in ledger["accounts_checked"]))
         self.assertIn("No trade was placed.", ledger["notes"])
 
+        rendered = generate.weekly_scan_presentation(generate.load_weekly_ideas())
+        self.assertEqual(rendered["label"], "Incomplete · Nov 9")
+        self.assertIn("18 candidates were reviewed", rendered["empty_message"])
+        self.assertNotEqual(
+            rendered["empty_message"],
+            "Nothing new. No verified scan is completed. No claim has been made.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
