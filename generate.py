@@ -3672,10 +3672,12 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
     trip_date = _date(2026, 9, 29)
     trans_siberian_date = _date(2027, 9, 1)
     edc_thailand_date = _date(2026, 12, 18)
+    wonderfruit_date = _date(2026, 12, 5)
     mastermind_retreat_date = _date(2027, 1, 19)
     trip_countdown_text = countdown_label(trip_date, "since departure")
     trans_siberian_countdown_text = countdown_label(trans_siberian_date, "since departure")
     edc_countdown_text = countdown_label(edc_thailand_date, "since EDC")
+    wonderfruit_countdown_text = countdown_label(wonderfruit_date, "since Wonderfruit")
     retreat_countdown_text = countdown_label(mastermind_retreat_date, "since kickoff")
     _nyse = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,25),"Memorial Day"),(_date(2026,6,19),"Juneteenth"),(_date(2026,7,3),"Independence Day"),(_date(2026,9,7),"Labor Day"),(_date(2026,11,26),"Thanksgiving"),(_date(2026,12,25),"Christmas")]
     _tsx = [(_date(2026,4,3),"Good Friday"),(_date(2026,5,18),"Victoria Day"),(_date(2026,7,1),"Canada Day"),(_date(2026,8,3),"Civic Holiday"),(_date(2026,9,7),"Labour Day"),(_date(2026,10,12),"Thanksgiving"),(_date(2026,12,25),"Christmas"),(_date(2026,12,28),"Boxing Day")]
@@ -4264,14 +4266,14 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
 
     #world-tour-card{{padding:0}}
     #world-tour-card .signal-accordion-body{{padding:0 16px 16px}}
-    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}}
+    .countdown-strip-grid{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}}
     .countdown-item{{display:block;min-width:0;box-sizing:border-box;text-align:center;padding:4px 10px;border-right:1px solid var(--border);color:inherit;text-decoration:none;transition:background .18s ease,border-color .18s ease}}
     .countdown-item:hover,.countdown-item:focus-visible{{background:rgba(181,150,98,.06);outline:none}}
     .countdown-item:last-child{{border-right:none}}
     .countdown-label{{font-size:.56rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;white-space:nowrap}}
     .countdown-days{{font-family:var(--serif);font-size:1.18rem;color:var(--text);line-height:1.15}}
     .countdown-date{{font-size:.58rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}}
-    @media(max-width:620px){{#world-tour-card .signal-accordion-body{{padding:0 8px 12px}}.countdown-strip-grid{{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}}.countdown-item{{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}}.countdown-item:last-child{{border-right:none;border-bottom:none;padding-bottom:6px}}.countdown-label{{display:flex;align-items:center;justify-content:center;min-height:1.35em;margin-bottom:4px;font-size:clamp(.46rem,2.25vw,.56rem);line-height:1.35;letter-spacing:.02em;white-space:nowrap}}}}
+    @media(max-width:620px){{#world-tour-card .signal-accordion-body{{padding:0 8px 12px}}.countdown-strip-grid{{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}}.countdown-item{{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}}.countdown-item:last-child{{border-right:none;border-bottom:none;padding-bottom:6px}}.countdown-item:nth-child(2n){{border-right:none}}.countdown-item:nth-child(-n+2){{border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:6px}}.countdown-label{{display:flex;align-items:center;justify-content:center;min-height:1.35em;margin-bottom:4px;font-size:clamp(.46rem,2.25vw,.56rem);line-height:1.35;letter-spacing:.02em;white-space:nowrap}}}}
 
     .quote{{margin-bottom:8px;padding-left:10px;border-left:1px solid var(--gold-mid)}}
     .quote:last-child{{margin-bottom:0}}
@@ -4686,9 +4688,10 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
       .card{{padding:20px;margin-bottom:14px}}
       .card.compact-market-accordion,.card.google-tasks-card{{padding:0}}
       #world-tour-card .signal-accordion-body{{padding:0 8px 12px}}
-      .countdown-strip-grid{{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}}
+      .countdown-strip-grid{{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}}
       .countdown-item{{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}}
       .countdown-item:last-child{{border-right:none;border-bottom:none;padding-bottom:6px}}
+      .countdown-item:nth-child(2n){{border-right:none}}.countdown-item:nth-child(-n+2){{border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:6px}}
       .countdown-label{{display:flex;align-items:center;justify-content:center;min-height:1.35em;margin-bottom:4px;font-size:clamp(.46rem,2.25vw,.56rem);line-height:1.35;letter-spacing:.02em;white-space:nowrap}}
       .compact-feed-card{{--feed-card-height:105px;overflow:hidden}}
       .feed-card-grid{{display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);grid-template-columns:none;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}}
@@ -4762,6 +4765,11 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" data-daily-edition open>
     <summary><span class="card-title">🧭 Flâneur Life</span></summary>
     <div class="signal-accordion-body"><div class="countdown-strip-grid">
+      <a class="countdown-item" href="https://wonderfruit.co" target="_blank" rel="noopener noreferrer" aria-label="Open the Wonderfruit website">
+        <div class="countdown-label">WONDERFRUIT 🔮</div>
+        <div class="countdown-days">{wonderfruit_countdown_text}</div>
+        <div class="countdown-date">Dec 5–7</div>
+      </a>
       <a class="countdown-item" href="https://thailand.edc.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the EDC Thailand website">
         <div class="countdown-label">EDC PHUKET 🎡</div>
         <div class="countdown-days">{edc_countdown_text}</div>

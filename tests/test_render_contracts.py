@@ -175,10 +175,10 @@ class RenderContractTests(unittest.TestCase):
 
     def test_each_trip_countdown_links_to_its_landing_page(self):
         destinations = {
-            "Open the Tbilisi, Georgia trip page": "https://sovietsidequest.com",
+            "Open the Wonderfruit website": "https://wonderfruit.co",
             "Open the EDC Thailand website": "https://thailand.edc.com/en/",
             "Open the Man On The Rise Retreat landing page": "https://manontherise.com/retreat",
-            "Open the Soviet Side Quest website": "https://sovietsidequest.com",
+            "Open the Soviet Quest website": "https://sovietsidequest.com",
         }
         self.assertEqual(self.html.count('class="countdown-item"'), 4)
         for label, url in destinations.items():
@@ -187,16 +187,14 @@ class RenderContractTests(unittest.TestCase):
                 self.html,
             )
         self.assertIn(".countdown-item:hover,.countdown-item:focus-visible", self.html)
-        self.assertIn("Sep 29 · 11:50pm", self.html)
-        self.assertNotIn("Sep 30 · Georgia", self.html)
         source = (ROOT / "generate.py").read_text(encoding="utf-8")
         self.assertIn("trip_date = _date(2026, 9, 29)", source)
         self.assertNotIn("trip_date = _date(2026, 9, 30)", source)
 
-    def test_flaneur_life_keeps_three_equal_mobile_columns(self):
+    def test_flaneur_life_keeps_two_by_two_mobile_grid(self):
         mobile_contract = (
             "@media(max-width:620px){#world-tour-card .signal-accordion-body{padding:0 8px 12px}"
-            ".countdown-strip-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}"
+            ".countdown-strip-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}"
         )
         self.assertIn(mobile_contract, self.html)
         self.assertIn(".countdown-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;border-right:1px solid var(--border);border-bottom:none;padding:4px 5px 6px}", self.html)

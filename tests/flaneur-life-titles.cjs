@@ -20,11 +20,12 @@ const out = process.env.QA_OUT || '/root/.hermes/cache/images/flaneur-life-title
         const rect=r=>({x:r.x,y:r.y,width:r.width,height:r.height,right:r.right});
         return {text:label.textContent,href:e.href,item:rect(e.getBoundingClientRect()),label:rect(label.getBoundingClientRect()),ink:[...range.getClientRects()].map(rect),lineHeight:parseFloat(getComputedStyle(label).lineHeight),fontSize:getComputedStyle(label).fontSize};
       }));
-      assert.equal(rows.length,3);
-      assert.equal(rows[2].text,'Soviet Quest 🚂');
-      assert.deepEqual(rows.map(r=>r.href),['https://thailand.edc.com/en/','https://manontherise.com/retreat','https://sovietsidequest.com/']);
+      assert.equal(rows.length,4);
+      assert.equal(rows[0].text,'WONDERFRUIT 🔮');
+      assert.equal(rows[3].text,'Soviet Quest 🚂');
+      assert.deepEqual(rows.map(r=>r.href),['https://wonderfruit.co/','https://thailand.edc.com/en/','https://manontherise.com/retreat','https://sovietsidequest.com/']);
       for(const r of rows){
-        assert(Math.abs(r.label.y-rows[0].label.y)<1,`${width}: title tops differ`);
+        const peer=rows.find(o=>Math.abs(o.item.y-r.item.y)<2)||rows[0];assert(Math.abs(r.label.y-peer.label.y)<1,`${width}: title tops differ`);
         assert(Math.abs(r.item.width-rows[0].item.width)<1,`${width}: columns unequal`);
         assert.equal(new Set(r.ink.map(i=>Math.round(i.y))).size,1,`${width}: wrapped ${r.text}`);
         assert(r.ink.every(i=>i.x>=r.item.x-1 && i.right<=r.item.right+1),`${width}: text escaped ${r.text}`);
