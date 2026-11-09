@@ -143,22 +143,22 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
         ledger = json.loads((root / "weekly_scan_ledger.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(weekly["as_of"], "2026-11-02")
+        self.assertEqual(weekly["as_of"], "2026-11-09")
         self.assertEqual(weekly["scan_status"], "incomplete")
         self.assertIsNone(weekly["scan_completed_at"])
         self.assertIsNone(weekly["evidence"])
         self.assertEqual(weekly["ideas"], [])
         self.assertIn("not an empty opportunity set", weekly["portfolio_note"])
         self.assertEqual(ledger["scan_status"], "incomplete")
-        self.assertEqual(ledger["universe"], {"total": 17, "tokens": 9, "equities": 8})
+        self.assertEqual(ledger["universe"], {"total": 18, "tokens": 9, "equities": 9})
         self.assertEqual(ledger["outcomes"], {
             "qualified": 0,
-            "watch": 4,
+            "watch": 5,
             "economic_rejection": 8,
             "portfolio_concentration": 2,
             "evidence_blocked": 3,
         })
-        self.assertEqual(len(ledger["candidates"]), 17)
+        self.assertEqual(len(ledger["candidates"]), 18)
         for status, expected in ledger["outcomes"].items():
             if status == "qualified":
                 continue
