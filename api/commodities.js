@@ -81,17 +81,27 @@ async function fetchYahoo(symbol) {
   throw lastError;
 }
 
-async function fetchUranium() {
-  const r = await timedFetch('https://tradingeconomics.com/commodity/uranium', {headers: {'User-Agent': UA, 'Accept': 'text/html'}});
-  if (!r.ok) throw new Error(`Uranium HTTP ${r.status}`);
-  const q = parseUranium(await r.text());
-  if (!q) throw new Error('Uranium quote not parsed');
-  return q;
+async function fetchUranium(origin) {
+  try {
+    const r = await timedFetch('https://tradingeconomics.com/commodity/uranium', {headers: {'User-Agent': UA, 'Accept': 'text/html'}});
+    if (!r.ok) throw new Error(`Uranium HTTP ${r.status}`);
+    const q = parseUranium(await r.text());
+    if (!q) throw new Error('Uranium quote not parsed');
+    return q;
+  } catch (liveError) {
+    // Uranium is a once-a-day benchmark; the refresh job publishes the print.
+    const r = await timedFetch(`${origin}/uranium_cache.json?_=${Date.now()}`, {cache: 'no-store'});
+    if (!r.ok) throw new Error(`${liveError.message}; snapshot HTTP ${r.status}`);
+    const q = await r.json();
+    if (!(Number(q?.price) > 10)) throw new Error(`${liveError.message}; snapshot invalid`);
+    return q;
+  }
 }
 
-export default async function handler() {
+export default async function handler(req) {
   const headers = {'Content-Type': 'application/json', 'Cache-Control': 's-maxage=30, stale-while-revalidate=60'};
-  const settled = await Promise.allSettled(EXPECTED_SYMBOLS.map(s => s === 'URANIUM_SPOT' ? fetchUranium() : fetchYahoo(s)));
+  const origin = req?.url ? new URL(req.url).origin : 'https://novairesignal.com';
+  const settled = await Promise.allSettled(EXPECTED_SYMBOLS.map(s => s === 'URANIUM_SPOT' ? fetchUranium(origin) : fetchYahoo(s)));
   const quotes = [], errors = [];
   settled.forEach((r, i) => r.status === 'fulfilled' ? quotes.push(r.value)
     : errors.push(`${EXPECTED_SYMBOLS[i]}: ${r.reason?.message || r.reason}`));

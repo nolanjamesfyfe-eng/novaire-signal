@@ -6282,6 +6282,14 @@ def main():
         commodities = fetch_commodities()
         loaded_c = sum(1 for v in commodities.values() if v.get("price"))
         print(f"    ✅ {loaded_c}/{len(commodities)} commodities loaded")
+        # Edge fallback: Vercel's IPs get a page from Trading Economics that
+        # doesn't parse, so /api/commodities reads this daily print instead.
+        u = commodities.get("URANIUM_SPOT") or {}
+        if u.get("price") and u.get("source") == "Trading Economics":
+            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "uranium_cache.json"), "w") as f:
+                json.dump({"symbol": "URANIUM_SPOT", "name": "Uranium", "price": u["price"],
+                           "change": u.get("change"), "source": "Trading Economics (daily snapshot)",
+                           "period": u.get("period"), "quoteTime": u.get("quote_time")}, f)
     except Exception as e:
         print(f"    ❌ {e}")
         commodities = {}

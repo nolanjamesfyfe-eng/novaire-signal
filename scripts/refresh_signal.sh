@@ -128,6 +128,7 @@ if ! /usr/bin/git diff --quiet -- "${ARTIFACTS[@]}"; then
   /usr/bin/git add data/meditation-history.json
   [ -f stats.json ] && /usr/bin/git add -f stats.json
   [ -f weather_cache.json ] && /usr/bin/git add weather_cache.json
+  [ -f uranium_cache.json ] && /usr/bin/git add uranium_cache.json
   [ -f social_latest.json ] && /usr/bin/git add social_latest.json
   [ -f fed_signal_cache.json ] && /usr/bin/git add fed_signal_cache.json
   [ -f sheet_allocation_cache.json ] && /usr/bin/git add sheet_allocation_cache.json
