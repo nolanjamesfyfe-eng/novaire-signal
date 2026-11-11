@@ -2859,6 +2859,37 @@ def fetch_yahoo_commodity_fallback():
     return quotes
 
 
+URANIUM_TE_RE = re.compile(
+    r'Uranium\s+[a-z ]{2,40}?\b(?:to|at)\s+(\d+(?:\.\d+)?)\s*USD/Lbs\s+on\s+'
+    r'([A-Z][a-z]+ \d{1,2}, \d{4})(?:,\s*(up|down)\s+(\d+(?:\.\d+)?)%)?')
+
+
+def parse_uranium_te(html):
+    """Parse Trading Economics' dated uranium print, verb-agnostic.
+
+    Anchored on "USD/Lbs on <Month D, YYYY>" so the page's forecast sentence
+    ("expected to trade at 92.50 USD/LBS by the end of this quarter") can never
+    be mistaken for the price (it was, until 2026-11-11). Mirrors
+    api/commodities.js parseUranium.
+    """
+    m = URANIUM_TE_RE.search(str(html).replace("&#39;", "'"))
+    if not m:
+        return None
+    price = float(m.group(1))
+    if not 10 < price < 1000:
+        return None
+    change = None
+    if m.group(3):
+        change = float(m.group(4)) * (-1 if m.group(3) == "down" else 1)
+    try:
+        as_of = datetime.strptime(m.group(2), "%B %d, %Y").replace(tzinfo=timezone.utc)
+        quote_time = as_of.isoformat().replace("+00:00", "Z")
+    except ValueError:
+        quote_time = None
+    return {"price": price, "change": change, "source": "Trading Economics",
+            "period": "U3O8 benchmark, daily", "quote_time": quote_time}
+
+
 def fetch_commodities():
     """Fetch six resource benchmarks, including barrel-equivalent ULSD diesel."""
     symbols = {
@@ -2920,14 +2951,9 @@ def fetch_commodities():
     try:
         r = requests.get("https://tradingeconomics.com/commodity/uranium",
                          headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
-        m = re.search(r'Uranium[^".]{0,160}?\bat\s+(\d+(?:\.\d+)?)\s*USD/Lbs',
-                      r.text, flags=re.IGNORECASE)
-        if m:
-            results["URANIUM_SPOT"].update({
-                "price": float(m.group(1)), "source": "Trading Economics",
-                "period": "spot benchmark",
-                "quote_time": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            })
+        parsed = parse_uranium_te(r.text)
+        if parsed:
+            results["URANIUM_SPOT"].update(parsed)
     except Exception:
         pass
     return results

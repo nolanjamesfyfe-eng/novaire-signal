@@ -1,112 +1,101 @@
-// Exact Investing.com commodities screen used as Novaire Signal's reference.
+// Live commodity tiles for Novaire Signal.
+//
+// Reliability contract (2026-11-11 outage: Investing.com 403'd the edge,
+// Firecrawl ran out of credits, and a Trading Economics wording change from
+// "at" to "fell to" made the all-or-nothing handler 502, freezing every tile):
+//   * Structured Yahoo futures bars are the primary source. No HTML scraping
+//     on the hot path for exchange-traded contracts.
+//   * Every symbol is fetched independently. One bad provider can only blank
+//     its own tile, never the whole strip.
+//   * Uranium (no liquid Yahoo contract) parses Trading Economics' dated
+//     metadata sentence by number + unit + date, verb-agnostic.
 export const config = { runtime: 'edge' };
 
-const USER_AGENT = 'Mozilla/5.0 (compatible; NovaireSignal/1.0; +https://novairesignal.com)';
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
-async function scrapePage(url) {
-  const key = process.env.FIRECRAWL_API_KEY;
-  if (key) {
-    const response = await fetch('https://api.firecrawl.dev/v2/scrape', {
-      method: 'POST',
-      headers: {'Authorization':`Bearer ${key}`,'Content-Type':'application/json'},
-      body: JSON.stringify({url, formats:['markdown'], onlyMainContent:true}),
-    });
-    if (response.ok) {
-      const payload = await response.json();
-      const markdown = payload?.data?.markdown || '';
-      if (markdown.trim()) return markdown;
-    }
-  }
-  const live = await fetch(url, {headers:{'User-Agent': USER_AGENT, 'Accept':'text/html'}});
-  if (!live.ok) throw new Error(`direct scrape HTTP ${live.status}`);
-  return await live.text();
+// Yahoo 429s spoofed browser UAs from datacenter IPs; a plain bot UA is served.
+const YAHOO_UA = 'NovaireSignal/1.0';
+
+export const YAHOO_COMMODITIES = {
+  GOLD:   {ticker: 'GC=F', name: 'Gold'},
+  SILVER: {ticker: 'SI=F', name: 'Silver'},
+  COPPER: {ticker: 'HG=F', name: 'Copper'},
+  WTI:    {ticker: 'CL=F', name: 'Crude Oil'},
+  DIESEL: {ticker: 'HO=F', name: 'Diesel', multiplier: 42},  // USD/gal -> USD/bbl
+};
+export const EXPECTED_SYMBOLS = [...Object.keys(YAHOO_COMMODITIES), 'URANIUM_SPOT'];
+
+async function timedFetch(url, init = {}, ms = 6000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  try { return await fetch(url, {...init, signal: controller.signal}); }
+  finally { clearTimeout(timer); }
 }
 
-const INSTRUMENTS = [
-  ['GOLD', 'Gold'], ['SILVER', 'Silver'], ['COPPER', 'Copper'],
-  ['WTI', 'Crude Oil'],
-];
-
-function parseUranium(markdown) {
-  const match = String(markdown).match(/Uranium[^".]{0,160}?\bat\s+(\d+(?:\.\d+)?)\s*USD\/Lbs/i);
-  return match ? {symbol:'URANIUM_SPOT', name:'Uranium', price:Number(match[1]), change:null, source:'Trading Economics', period:'spot benchmark'} : null;
-}
-
-export function parseInvestingCommodities(markdown) {
-  const lines = String(markdown).split('\n');
-  return INSTRUMENTS.flatMap(([symbol, name]) => {
-    const slug = {GOLD:'gold',SILVER:'silver',COPPER:'copper',WTI:'crude-oil'}[symbol];
-    const row = lines.find(line => line.includes(`](https://www.investing.com/commodities/${slug} "`));
-    if (!row) return [];
-    const cells = row.trim().replace(/^\||\|$/g, '').split('|').map(cell => cell.trim());
-    const price = Number(cells[3]?.replaceAll(',', ''));
-    const change = Number(cells[7]?.replace('%', '').replace('−', '-'));
-    return Number.isFinite(price) && Number.isFinite(change)
-      ? [{ symbol, name, price, change, source: 'Investing.com', period: 'daily' }]
-      : [];
-  });
-}
-
-export function parseDiesel(payload) {
+export function parseYahooFuture(payload, symbol, meta) {
   const result = payload?.chart?.result?.[0];
   const timestamps = result?.timestamp || [];
   const closes = result?.indicators?.quote?.[0]?.close || [];
-  const bars = timestamps.map((timestamp, index) => ({timestamp:Number(timestamp), close:Number(closes[index])}))
-    .filter(bar => Number.isFinite(bar.timestamp) && Number.isFinite(bar.close) && bar.close > 0);
-  if (bars.length < 2) throw new Error('Fewer than two diesel futures sessions');
-  const previous = bars.at(-2).close * 42;
-  const price = bars.at(-1).close * 42;
-  return {symbol:'DIESEL', name:'Diesel', price, previous,
-    change:(price - previous) / previous * 100,
-    source:'Yahoo Finance (NYMEX ULSD)', period:'futures session',
-    quoteTime:new Date(bars.at(-1).timestamp * 1000).toISOString()};
+  const bars = timestamps.map((t, i) => ({t: Number(t), c: closes[i] == null ? NaN : Number(closes[i])}))
+    .filter(b => Number.isFinite(b.t) && Number.isFinite(b.c) && b.c > 0);
+  if (bars.length < 2) throw new Error(`${meta.ticker}: fewer than two sessions`);
+  const m = meta.multiplier || 1;
+  const previous = bars.at(-2).c * m;
+  // Prefer the live meta print so the tile moves intraday.
+  const live = Number(result?.meta?.regularMarketPrice);
+  const price = (Number.isFinite(live) && live > 0 ? live : bars.at(-1).c) * m;
+  const t = Number(result?.meta?.regularMarketTime) || bars.at(-1).t;
+  return {symbol, name: meta.name, price, previous,
+    change: (price - previous) / previous * 100,
+    source: meta.multiplier ? 'Yahoo Finance (NYMEX ULSD)' : 'Yahoo Finance (front-month futures)',
+    period: 'futures session', quoteTime: new Date(t * 1000).toISOString()};
 }
 
-async function fetchYahooChart(symbol) {
-  const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=5d&interval=1d`,
-    {headers:{'User-Agent':'NovaireSignal/1.0'}});
-  if (!response.ok) throw new Error(`${symbol}: Yahoo HTTP ${response.status}`);
-  return response.json();
+// "Uranium fell to 90.95 USD/Lbs on November 10, 2026, down 0.49% from the previous day."
+// Verb-agnostic, and anchored on "USD/Lbs on <Month D, YYYY>" so forecast copy
+// ("expected to trade at 92.50 USD/LBS by the end of this quarter") never matches.
+export function parseUranium(html) {
+  const text = String(html).replace(/&#39;/g, "'");
+  const m = text.match(/Uranium\s+[a-z ]{2,40}?\b(?:to|at)\s+(\d+(?:\.\d+)?)\s*USD\/Lbs\s+on\s+([A-Z][a-z]+ \d{1,2}, \d{4})(?:,\s*(up|down)\s+(\d+(?:\.\d+)?)%)?/);
+  if (!m) return null;
+  const price = Number(m[1]);
+  if (!(price > 10 && price < 1000)) return null;
+  const change = m[3] ? (m[3] === 'down' ? -1 : 1) * Number(m[4]) : null;
+  const asOf = new Date(`${m[2]} 00:00:00 UTC`);
+  return {symbol: 'URANIUM_SPOT', name: 'Uranium', price, change,
+    source: 'Trading Economics', period: 'U3O8 benchmark, daily',
+    quoteTime: Number.isNaN(asOf.getTime()) ? null : asOf.toISOString()};
 }
 
-async function fetchYahooCoreCommodities() {
-  const symbols = {GOLD:'GC=F', SILVER:'SI=F', COPPER:'HG=F', WTI:'CL=F'};
-  return Promise.all(Object.entries(symbols).map(async ([symbol, ticker]) => {
-    const result = (await fetchYahooChart(ticker))?.chart?.result?.[0];
-    const timestamps = result?.timestamp || [];
-    const closes = result?.indicators?.quote?.[0]?.close || [];
-    const bars = timestamps.map((timestamp, index) => ({timestamp:Number(timestamp), close:Number(closes[index])}))
-      .filter(bar => Number.isFinite(bar.timestamp) && Number.isFinite(bar.close) && bar.close > 0);
-    if (bars.length < 2) throw new Error(`${ticker}: fewer than two sessions`);
-    const previous = bars.at(-2).close, price = bars.at(-1).close;
-    return {symbol, name:INSTRUMENTS.find(item => item[0] === symbol)?.[1], price, previous,
-      change:(price - previous) / previous * 100, source:'Yahoo Finance fallback', period:'futures session',
-      quoteTime:new Date(bars.at(-1).timestamp * 1000).toISOString()};
-  }));
-}
-
-export default async function handler(req) {
-  const headers = {'Content-Type':'application/json','Cache-Control':'s-maxage=30, stale-while-revalidate=60'};
-  try {
-    const quotes = parseInvestingCommodities(await scrapePage('https://www.investing.com/commodities/real-time-futures'));
-    if (quotes.length !== INSTRUMENTS.length) throw new Error(`Only ${quotes.length}/${INSTRUMENTS.length} quotes parsed`);
-    quotes.push(parseDiesel(await fetchYahooChart('HO=F')));
-    const uranium = parseUranium(await scrapePage('https://tradingeconomics.com/commodity/uranium'));
-    if (!uranium) throw new Error('Uranium quote not parsed');
-    quotes.push(uranium);
-    return new Response(JSON.stringify({ok:true, source:'Investing.com + Trading Economics', fetchedAt:new Date().toISOString(), quotes}), {status:200, headers});
-  } catch (error) {
+async function fetchYahoo(symbol) {
+  const meta = YAHOO_COMMODITIES[symbol];
+  let lastError;
+  for (const host of ['query1', 'query2']) {
     try {
-      const quotes = await fetchYahooCoreCommodities();
-      quotes.push(parseDiesel(await fetchYahooChart('HO=F')));
-      const uraniumResponse = await fetch('https://tradingeconomics.com/commodity/uranium', {headers:{'User-Agent':'Mozilla/5.0'}});
-      if (!uraniumResponse.ok) throw new Error(`Uranium HTTP ${uraniumResponse.status}`);
-      const uranium = parseUranium(await uraniumResponse.text());
-      if (!uranium) throw new Error('Uranium quote not parsed');
-      quotes.push(uranium);
-      return new Response(JSON.stringify({ok:true, degraded:true, source:'Yahoo Finance fallback + Trading Economics', fetchedAt:new Date().toISOString(), quotes}), {status:206, headers});
-    } catch (fallbackError) {
-      return new Response(JSON.stringify({ok:false, source:'Investing.com', quotes:[], error:`${error.message}; fallback: ${fallbackError.message}`}), {status:502, headers});
-    }
+      const r = await timedFetch(`https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(meta.ticker)}?range=5d&interval=1d`,
+        {headers: {'User-Agent': YAHOO_UA}});
+      if (!r.ok) throw new Error(`${meta.ticker}: Yahoo HTTP ${r.status}`);
+      return parseYahooFuture(await r.json(), symbol, meta);
+    } catch (e) { lastError = e; }
   }
+  throw lastError;
+}
+
+async function fetchUranium() {
+  const r = await timedFetch('https://tradingeconomics.com/commodity/uranium', {headers: {'User-Agent': UA, 'Accept': 'text/html'}});
+  if (!r.ok) throw new Error(`Uranium HTTP ${r.status}`);
+  const q = parseUranium(await r.text());
+  if (!q) throw new Error('Uranium quote not parsed');
+  return q;
+}
+
+export default async function handler() {
+  const headers = {'Content-Type': 'application/json', 'Cache-Control': 's-maxage=30, stale-while-revalidate=60'};
+  const settled = await Promise.allSettled(EXPECTED_SYMBOLS.map(s => s === 'URANIUM_SPOT' ? fetchUranium() : fetchYahoo(s)));
+  const quotes = [], errors = [];
+  settled.forEach((r, i) => r.status === 'fulfilled' ? quotes.push(r.value)
+    : errors.push(`${EXPECTED_SYMBOLS[i]}: ${r.reason?.message || r.reason}`));
+  const ok = quotes.length > 0;
+  return new Response(JSON.stringify({ok, complete: errors.length === 0, source: 'Yahoo Finance + Trading Economics',
+    fetchedAt: new Date().toISOString(), quotes, errors}), {status: ok ? 200 : 502, headers});
 }
