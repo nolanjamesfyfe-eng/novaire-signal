@@ -9,11 +9,11 @@
     "published_at": "2026-11-05T08:33:13+00:00",
     "views": null,
     "likes": 61,
-    "verified_at": "2026-11-10T23:00:55.998553+00:00",
+    "verified_at": "2026-11-11T00:50:53.294956+00:00",
     "source": "Instagram public profile embed",
     "metrics_status": "Instagram public view count unavailable",
-    "likes_verified_at": "2026-11-10T23:00:58.199836+00:00",
-    "metrics_checked_at": "2026-11-10T23:00:58.199836+00:00",
+    "likes_verified_at": "2026-11-11T00:50:55.678203+00:00",
+    "metrics_checked_at": "2026-11-11T00:50:55.678203+00:00",
     "metrics_source": "Instagram logged-out post API"
   },
   "youtube": {
@@ -92,6 +92,9 @@
       "source": "YouTube public channel tabs and watch pages"
     }
   },
-  "refreshed_at": "2026-11-10T23:01:00.846663+00:00",
-  "errors": {}
+  "refreshed_at": "2026-11-11T00:50:56.839387+00:00",
+  "errors": {
+    "second_renaissance": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DHmjJtlh_OdU&q=EhAqAkeAAF6f9wAAAAAAAAABGO_3ztcGIjDaqWj_r331TY3C_O30yPmp-iIItd6OZ0h6AA8Z9BHgcME8bFl-VWEVZldacV1UJA0yAnJSWgFDYOefgoCTjvzeXA",
+    "j_novaire": "429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://www.youtube.com/watch%3Fv%3DaqSWpqDuEiw&q=EhAqAkeAAF6f9wAAAAAAAAABGPD3ztcGIjC49eKQr8d9Fbz1mN3M0f8aEtHoieGUzCrrEqpY-ZflU0qLafq_FaqnWuyd_QRP-G0yAnJSWgFDYKW3qpiAiZTbBA"
+  }
 }
