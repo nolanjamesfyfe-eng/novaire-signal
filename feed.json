@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-12T21:15:29.281179+00:00",
+    "attemptedAt": "2026-11-12T23:00:34.916396+00:00",
     "provider": "X API v2 / OAuth2",
     "identity": "jnovaire",
     "accountsRequested": 16,
@@ -11,97 +11,97 @@
       "zerohedge": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-12T21:15:30.230972+00:00",
+        "checkedAt": "2026-11-12T23:00:35.567848+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-12T21:15:30.928347+00:00",
+        "checkedAt": "2026-11-12T23:00:36.269428+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-12T21:15:31.675572+00:00",
+        "checkedAt": "2026-11-12T23:00:37.068261+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-12T21:15:32.446512+00:00",
+        "checkedAt": "2026-11-12T23:00:37.795584+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
-        "posts": 5,
-        "checkedAt": "2026-11-12T21:15:33.172795+00:00",
+        "posts": 3,
+        "checkedAt": "2026-11-12T23:00:38.567918+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-12T21:15:33.889191+00:00",
+        "checkedAt": "2026-11-12T23:00:39.300106+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-12T21:15:34.767091+00:00",
+        "posts": 7,
+        "checkedAt": "2026-11-12T23:00:40.047598+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-12T21:15:35.466203+00:00",
+        "checkedAt": "2026-11-12T23:00:40.890099+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-12T21:15:36.196273+00:00",
+        "checkedAt": "2026-11-12T23:00:41.629418+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-12T21:15:36.915650+00:00",
+        "posts": 7,
+        "checkedAt": "2026-11-12T23:00:42.392357+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-12T21:15:37.663088+00:00",
+        "posts": 7,
+        "checkedAt": "2026-11-12T23:00:43.111322+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-12T21:15:38.368657+00:00",
+        "checkedAt": "2026-11-12T23:00:43.887818+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-12T21:15:39.138072+00:00",
+        "checkedAt": "2026-11-12T23:00:44.619694+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 0,
-        "checkedAt": "2026-11-12T21:15:39.797102+00:00",
+        "checkedAt": "2026-11-12T23:00:45.282080+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-12T21:15:40.495269+00:00",
+        "checkedAt": "2026-11-12T23:00:46.227174+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-12T21:15:41.215621+00:00",
+        "checkedAt": "2026-11-12T23:00:46.996632+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-12T21:15:44.270409+00:00",
+  "fetchedAt": "2026-11-12T23:00:50.328547+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,14 +122,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-12T14:35:09+00:00",
       "createdAtMs": 1794494109000,
-      "likes": 23053,
-      "retweets": 1829,
+      "likes": 23835,
+      "retweets": 1895,
       "url": "https://x.com/KobeissiLetter/status/2120888131314717128",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 24882,
-      "views": 943141,
+      "engagementScore": 25730,
+      "views": 997776,
       "media_url": "https://pbs.twimg.com/media/HW7qLuzbwAEgPZH.jpg",
       "media_alt": "Attached post media"
     },
@@ -140,14 +140,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-12T13:44:55+00:00",
       "createdAtMs": 1794491095000,
-      "likes": 17311,
-      "retweets": 1798,
+      "likes": 18588,
+      "retweets": 1933,
       "url": "https://x.com/nntaleb/status/2120875489309192343",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 19109,
-      "views": 606596
+      "engagementScore": 20521,
+      "views": 672261
     },
     {
       "id": "2120962365172707803",
@@ -156,32 +156,34 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-12T19:30:08+00:00",
       "createdAtMs": 1794511808000,
-      "likes": 12975,
-      "retweets": 784,
+      "likes": 15713,
+      "retweets": 932,
       "url": "https://x.com/WatcherGuru/status/2120962365172707803",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 13759,
-      "views": 978681,
+      "engagementScore": 16645,
+      "views": 1304928,
       "media_url": "https://pbs.twimg.com/media/HW8sNxUXQAAMvqS.jpg",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2120973074338341236",
-      "text": "*SPACEX AND TESLA MERGER DISCUSSIONS ARE SAID TO PROGRESS",
+      "id": "2121003852346646782",
+      "text": "Hi @microsoft, please tell us more how great it is to save all excel models on One Drive",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-12T20:12:41+00:00",
-      "createdAtMs": 1794514361000,
-      "likes": 1129,
-      "retweets": 74,
-      "url": "https://x.com/zerohedge/status/2120973074338341236",
+      "createdAt": "2026-11-12T22:14:59+00:00",
+      "createdAtMs": 1794521699000,
+      "likes": 1270,
+      "retweets": 82,
+      "url": "https://x.com/zerohedge/status/2121003852346646782",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1203,
-      "views": 84982
+      "engagementScore": 1352,
+      "views": 76136,
+      "media_url": "https://pbs.twimg.com/media/HW9S59vWUAAkqV6.png",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2120712940969988306",
@@ -190,14 +192,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-12T02:59:00+00:00",
       "createdAtMs": 1794452340000,
-      "likes": 249,
+      "likes": 260,
       "retweets": 17,
       "url": "https://x.com/hkuppy/status/2120712940969988306",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 266,
-      "views": 45609,
+      "engagementScore": 277,
+      "views": 47147,
       "media_url": "https://pbs.twimg.com/media/HW4e3FAWEAAMy0l?format=webp&name=small",
       "media_alt": "Attached post media"
     },
@@ -208,14 +210,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-12T10:06:50+00:00",
       "createdAtMs": 1794478010000,
-      "likes": 198,
-      "retweets": 22,
+      "likes": 204,
+      "retweets": 23,
       "url": "https://x.com/wmiddelkoop/status/2120820608405483992",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 220,
-      "views": 8384,
+      "engagementScore": 227,
+      "views": 8773,
       "media_url": "https://pbs.twimg.com/media/HW6rGGaXAAAhqdP.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -226,14 +228,14 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-12T00:05:55+00:00",
       "createdAtMs": 1794441955000,
-      "likes": 109,
+      "likes": 113,
       "retweets": 19,
       "url": "https://x.com/colonelhomsi/status/2120669381482979402",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 128,
-      "views": 3208
+      "engagementScore": 132,
+      "views": 3320
     },
     {
       "id": "2120656042929340861",
@@ -249,39 +251,23 @@
       "slot": "engagement",
       "slot_order": 8,
       "engagementScore": 79,
-      "views": 8093
+      "views": 8212
     },
     {
-      "id": "2120950099748536502",
-      "text": "the anti dollar and pro brics bois are now fighting amongst themselves. https://t.co/Xv2kIndooa",
+      "id": "2120967334286458913",
+      "text": "sounds like he had one of those Matt Lauer buttons in his office https://t.co/vJWwSUveSs",
       "author": "SantiagoAuFund",
       "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-12T18:41:23+00:00",
-      "createdAtMs": 1794508883000,
-      "likes": 70,
-      "retweets": 4,
-      "url": "https://x.com/SantiagoAuFund/status/2120950099748536502",
+      "createdAt": "2026-11-12T19:49:52+00:00",
+      "createdAtMs": 1794512992000,
+      "likes": 71,
+      "retweets": 3,
+      "url": "https://x.com/SantiagoAuFund/status/2120967334286458913",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
       "engagementScore": 74,
-      "views": 6667
-    },
-    {
-      "id": "2120950541081534935",
-      "text": "\"Venezuela is not the country where we're going to go and get the 'cheaper oil'\" - LatAm Oil Expert",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-11-12T18:43:09+00:00",
-      "createdAtMs": 1794508989000,
-      "likes": 34,
-      "retweets": 8,
-      "url": "https://x.com/JoshYoung/status/2120950541081534935",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 42,
-      "views": 5077
+      "views": 8050
     },
     {
       "id": "2120946725569667179",
@@ -290,16 +276,32 @@
       "handle": "quakes99",
       "createdAt": "2026-11-12T18:27:59+00:00",
       "createdAtMs": 1794508079000,
-      "likes": 35,
-      "retweets": 2,
+      "likes": 46,
+      "retweets": 3,
       "url": "https://x.com/quakes99/status/2120946725569667179",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 37,
-      "views": 3223,
+      "slot_order": 10,
+      "engagementScore": 49,
+      "views": 3873,
       "media_url": "https://pbs.twimg.com/media/HW8cIVnboAATyrJ.png?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2120950541081534935",
+      "text": "\"Venezuela is not the country where we're going to go and get the 'cheaper oil'\" - LatAm Oil Expert",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-11-12T18:43:09+00:00",
+      "createdAtMs": 1794508989000,
+      "likes": 40,
+      "retweets": 8,
+      "url": "https://x.com/JoshYoung/status/2120950541081534935",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 11,
+      "engagementScore": 48,
+      "views": 5906
     },
     {
       "id": "2120955054639534561",
@@ -308,14 +310,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-12T19:01:05+00:00",
       "createdAtMs": 1794510065000,
-      "likes": 29,
+      "likes": 32,
       "retweets": 0,
       "url": "https://x.com/tferriss/status/2120955054639534561",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 29,
-      "views": 10876
+      "engagementScore": 32,
+      "views": 12766
     }
   ]
 }
