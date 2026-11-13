@@ -1484,7 +1484,7 @@ function getQuoteForToday(storageKey, quotes, edition) {
   medExcerpt.dataset.shareAuthor = m.author || '';
   medExcerpt.dataset.shareSource = m.excerptType === 'direct_quote'
     ? 'quoted in Will Durant, ' + m.work
-    : [m.work, m.section].filter(Boolean).join(' · ');
+    : [m.work, (m.section || '').replace(/\b[ivxlc]+\b/gi, r => r.toUpperCase())].filter(Boolean).join(' · ');
 
 })();
 
