@@ -13,12 +13,12 @@
     ['Carl Jung\nUntil you make the unconscious conscious, it will direct your life and you will call it fate.', 'Paraphrase · Aion, §126']
   ]);
   function snapshot(kind, trigger) {
-    if (kind === 'meditation') return { kind, title: $('med-title')?.textContent.trim() || 'Daily meditation', text: $('med-excerpt')?.textContent.trim() || '', author: 'Novairecito', source: $('med-excerpt')?.dataset.shareSource || '' };
+    if (kind === 'meditation') return { kind, title: $('med-title')?.textContent.trim() || 'Daily meditation', text: $('med-excerpt')?.textContent.trim() || '', author: $('med-excerpt')?.dataset.shareAuthor || '', source: $('med-excerpt')?.dataset.shareSource || '' };
     const box=trigger?.closest('.quote'),textEl=box?.querySelector('.quote-text')||$('qt-text'),authEl=box?.querySelector('.quote-author')||$('qt-auth');
     const text=cleanQuote(textEl?.textContent),author=cleanAuthor(authEl?.textContent);
     return { kind, title: '', text, author, source: authEl?.dataset.shareSource || VERIFIED_SOURCES.get(`${author}\n${text}`) || '' };
   }
-  function copyText() { const i=state.item; return i.kind==='meditation' ? `${i.title}\n\n${i.text}\n— Novairecito` : `“${i.text}”\n— ${i.author}`; }
+  function copyText() { const i=state.item; return i.kind==='meditation' ? `“${i.text}”\n— ${i.author}${i.source?`, ${i.source}`:''}` : `“${i.text}”\n— ${i.author}`; }
   function fingerprint(item=state.item,format=state.format){return [item.kind,item.title,item.text,item.author,item.source,format].join('\n');}
   function attempt(){const key=fingerprint();if(!state.attempts.has(key))state.attempts.set(key,{requestId:crypto.randomUUID(),status:'idle'});return state.attempts.get(key);}
   function status(message, error=false){const el=$('quote-share-status');el.textContent=message;el.style.color=error?'#d8a0a0':'';}
@@ -31,7 +31,7 @@
     const [w,h]=SIZES[state.format],story=h>w,i=state.item;canvas.width=w;canvas.height=h;
     ctx.fillStyle='#070707';ctx.fillRect(0,0,w,h);const glow=ctx.createRadialGradient(w*.42,h*.38,20,w*.42,h*.38,Math.max(w,h)*.72);glow.addColorStop(0,'#19150e');glow.addColorStop(1,'#070707');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);drawBolt(w,h);
     const left=story?126:190,right=story?100:150,top=story?390:190,bottom=story?390:190,authorSpace=story?150:100;
-    const imageText=i.kind==='meditation'?`${i.title}\n\n${i.text}`:i.text;
+    const imageText=i.kind==='meditation'?`“${i.text}”`:i.text;
     const fitted=fit(imageText,w-left-right,h-top-bottom-authorSpace,i.kind==='meditation'?(story?76:66):(story?94:82),i.kind==='meditation'?18:(story?44:36));
     rule(left-42,top-18,left-42,top+fitted.lines.length*fitted.lineHeight,GOLD,2);ctx.textBaseline='top';ctx.textAlign='left';let y=top;
     fitted.lines.forEach((line,index)=>{ctx.fillStyle=index===fitted.lines.length-1?GOLD:'#f0eee8';ctx.fillText(line,left,y);y+=fitted.lineHeight;});

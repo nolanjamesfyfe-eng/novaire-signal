@@ -5325,6 +5325,11 @@ function getQuoteForToday(storageKey, quotes, edition) {{
   else if (m.excerptType === 'book_excerpt' && m.subject) provenance = 'on ' + m.subject + ' · Book excerpt';
   document.getElementById('med-meta').textContent = m.author + ' · ' + m.section + ' · ' + provenance;
   document.getElementById('med-excerpt').textContent = m.text;
+  const medExcerpt = document.getElementById('med-excerpt');
+  medExcerpt.dataset.shareAuthor = m.author || '';
+  medExcerpt.dataset.shareSource = m.excerptType === 'direct_quote'
+    ? 'quoted in Will Durant, ' + m.work
+    : [m.work, m.section].filter(Boolean).join(' · ');
 
 }})();
 
