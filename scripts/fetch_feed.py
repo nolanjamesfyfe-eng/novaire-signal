@@ -7,7 +7,9 @@ Feed spec (up to 12 tweets per run):
   Four consecutive pages of 3 posts, ranked by engagement across the scanner accounts.
   The Economist is intentionally excluded: too broad for this compact section.
 
-Nitter RSS is dead (HTTP 410). Timelines come from authenticated xurl search.
+Timelines come from the FREE public FxTwitter profile endpoint by default.
+Paid X API reads drain the X credits reserved for posting, so they are opt-in
+only: SIGNAL_FEED_PROVIDER=x_api AND SIGNAL_ALLOW_PAID_X_READS=1 must both be set.
 Final output is sorted by engagement score, then recency.
 """
 
@@ -21,6 +23,9 @@ XURL_HOME = os.environ.get('SIGNAL_XURL_HOME', '/root/.hermes/home')
 XURL_APP = os.environ.get('SIGNAL_XURL_APP', 'novairecito')
 EXPECTED_READ_ID = '923042958'  # @jnovaire; app label is not account identity.
 SOURCE_STATUS = {}
+FEED_PROVIDER = os.environ.get('SIGNAL_FEED_PROVIDER', 'free').strip().lower()
+PAID_READS_ALLOWED = os.environ.get('SIGNAL_ALLOW_PAID_X_READS', '') == '1'
+USE_PAID_X_API = FEED_PROVIDER == 'x_api' and PAID_READS_ALLOWED
 import re
 import subprocess
 import sys
@@ -279,6 +284,46 @@ def fetch_user_timeline(username: str) -> list:
     return tweets
 
 
+
+def fx_rows_to_xurl_shape(results: list, username: str) -> dict:
+    """Map FxTwitter profile statuses to the X API shape; drop reposts and replies."""
+    rows = []
+    for item in results or []:
+        if not isinstance(item, dict) or item.get('type') != 'status':
+            continue
+        author = str((item.get('author') or {}).get('screen_name') or '')
+        if author.lower() != username.lower() or item.get('reposted_by') or item.get('replying_to'):
+            continue
+        try:
+            created = datetime.fromtimestamp(int(item.get('created_timestamp')), timezone.utc).isoformat()
+            likes, reposts = int(item.get('likes') or 0), int(item.get('reposts') or 0)
+        except (TypeError, ValueError):
+            continue
+        rows.append({'id': str(item.get('id') or ''), 'text': str(item.get('text') or ''),
+                     'created_at': created, 'referenced_tweets': [],
+                     'public_metrics': {'like_count': likes, 'retweet_count': reposts}})
+    return {'data': rows}
+
+
+def fetch_user_timeline_free(username: str) -> list:
+    """Free read path: public FxTwitter profile timeline. Costs zero X credits."""
+    request = urllib.request.Request(f"https://{FXTWITTER_API_HOST}/2/profile/{username}/statuses",
+                                     headers={"User-Agent": "Mozilla/5.0 (compatible; NovaireSignal/1.0)"})
+    error, tweets = None, []
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            payload = json.loads(response.read(3_000_000).decode('utf-8', 'replace'))
+        if payload.get('code') != 200:
+            error = {'code': payload.get('code', 'provider_error'), 'detail': 'FxTwitter rejected retrieval'}
+        else:
+            tweets = tweets_from_xurl_payload(fx_rows_to_xurl_shape(payload.get('results'), username), username)
+    except Exception as exc:
+        error = {'code': type(exc).__name__, 'detail': 'Free provider unavailable'}
+    SOURCE_STATUS[username] = {'ok': error is None, 'posts': len(tweets),
+                              'checkedAt': datetime.now(timezone.utc).isoformat(), 'error': error}
+    print(f"  @{username}: {error if error else str(len(tweets)) + ' posts'} (free)")
+    return tweets
+
 def is_publishable_feed(feed: list) -> bool:
     """Return whether a refresh is large enough to replace the live feed."""
     return len(feed) >= MIN_PUBLISHABLE_POSTS
@@ -307,12 +352,18 @@ def top_engagement(tweet_lists: list[list], exclude_ids: set, window_ms: int, n:
 
 
 def main():
-    print(f"Signal Feed — fetching {len(ALL_ACCOUNTS)} accounts via xurl...\n")
+    provider = 'X API v2 / OAuth2 (PAID)' if USE_PAID_X_API else 'FxTwitter public (free)'
+    print(f"Signal Feed — fetching {len(ALL_ACCOUNTS)} accounts via {provider}...\n")
     SOURCE_STATUS.clear()
     attempted_at = datetime.now(timezone.utc).isoformat()
-    identity, identity_error = x_read('/2/users/me')
-    if not identity_error and identity.get('data', {}).get('id') != EXPECTED_READ_ID:
-        identity_error = {'code': 'identity_mismatch', 'detail': 'Unexpected authorized X read identity'}
+    if FEED_PROVIDER == 'x_api' and not PAID_READS_ALLOWED:
+        print("  ⚠️ SIGNAL_FEED_PROVIDER=x_api ignored: SIGNAL_ALLOW_PAID_X_READS=1 is required. Using free provider.")
+    identity, identity_error = ({}, None)
+    if USE_PAID_X_API:
+        identity, identity_error = x_read('/2/users/me')
+        if not identity_error and identity.get('data', {}).get('id') != EXPECTED_READ_ID:
+            identity_error = {'code': 'identity_mismatch', 'detail': 'Unexpected authorized X read identity'}
+    timeline = fetch_user_timeline if USE_PAID_X_API else fetch_user_timeline_free
     all_data: dict[str, list] = {}
     errors: list[str] = []
 
@@ -322,7 +373,7 @@ def main():
             all_data[username] = []
             SOURCE_STATUS[username] = {'ok': False, 'posts': 0, 'checkedAt': attempted_at, 'error': identity_error}
         else:
-            all_data[username] = fetch_user_timeline(username)
+            all_data[username] = timeline(username)
         if not SOURCE_STATUS[username]['ok']:
             errors.append(username)
         if i < len(ENGAGEMENT_ACCOUNTS) - 1:
@@ -353,7 +404,7 @@ def main():
 
     feed.sort(key=lambda t: t.get("slot_order", 99))
     print(f"\n📊 Final feed: {len(feed)} tweets — top engagement only")
-    diagnostics = {'attemptedAt': attempted_at, 'provider': 'X API v2 / OAuth2',
+    diagnostics = {'attemptedAt': attempted_at, 'provider': provider,
                    'identity': identity.get('data', {}).get('username'),
                    'accountsRequested': len(ALL_ACCOUNTS), 'accountsSucceeded': len(ALL_ACCOUNTS) - len(errors),
                    'sources': SOURCE_STATUS, 'errors': errors,
@@ -366,7 +417,7 @@ def main():
         out_path = REPO_ROOT / "feed.json"
         previous = json.loads(out_path.read_text()) if out_path.exists() else {'posts': [], 'fetchedAt': None}
         first_error = next((s['error'] for s in SOURCE_STATUS.values() if s['error']), None)
-        reason = (f"X API {first_error['code']}: {first_error['detail']}" if first_error else 'Fewer than three verified posts in the 24h window')
+        reason = (f"{provider} {first_error['code']}: {first_error['detail']}" if first_error else 'Fewer than three verified posts in the 24h window')
         previous.update({'ok': False, 'status': diagnostics['status'], 'diagnostics': diagnostics,
                          'error': reason, 'errors': errors})
         out_path.write_text(json.dumps(previous, ensure_ascii=False, indent=2) + '\n')
