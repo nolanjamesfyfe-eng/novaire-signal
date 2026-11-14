@@ -2,300 +2,285 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-14T00:50:30.830199+00:00",
+    "attemptedAt": "2026-11-14T23:00:35.050355+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 14,
+    "accountsSucceeded": 13,
     "sources": {
       "zerohedge": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-14T00:50:33.128343+00:00",
-        "error": null
-      },
-      "KobeissiLetter": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-14T00:50:34.444639+00:00",
-        "error": null
-      },
-      "BambroughKevin": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-14T00:50:38.657988+00:00",
+        "checkedAt": "2026-11-14T23:00:39.028769+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
       },
+      "KobeissiLetter": {
+        "ok": true,
+        "posts": 18,
+        "checkedAt": "2026-11-14T23:00:40.147660+00:00",
+        "error": null
+      },
+      "BambroughKevin": {
+        "ok": true,
+        "posts": 12,
+        "checkedAt": "2026-11-14T23:00:43.629445+00:00",
+        "error": null
+      },
       "hkuppy": {
         "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-14T00:50:40.371693+00:00",
+        "posts": 9,
+        "checkedAt": "2026-11-14T23:00:46.973550+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-14T00:50:41.792161+00:00",
+        "checkedAt": "2026-11-14T23:00:48.271621+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-14T00:50:44.896941+00:00",
+        "posts": 20,
+        "checkedAt": "2026-11-14T23:00:51.020507+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
-        "posts": 11,
-        "checkedAt": "2026-11-14T00:50:46.312246+00:00",
+        "posts": 10,
+        "checkedAt": "2026-11-14T23:00:52.982607+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
-        "posts": 7,
-        "checkedAt": "2026-11-14T00:50:50.062606+00:00",
+        "posts": 5,
+        "checkedAt": "2026-11-14T23:00:54.423111+00:00",
         "error": null
       },
       "JohnPolomny": {
-        "ok": true,
-        "posts": 3,
-        "checkedAt": "2026-11-14T00:50:52.116787+00:00",
-        "error": null
-      },
-      "SantiagoAuFund": {
-        "ok": true,
-        "posts": 5,
-        "checkedAt": "2026-11-14T00:50:54.427188+00:00",
-        "error": null
-      },
-      "BarbarianCap": {
-        "ok": true,
-        "posts": 12,
-        "checkedAt": "2026-11-14T00:50:56.752042+00:00",
-        "error": null
-      },
-      "JoshYoung": {
-        "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-14T00:50:58.885804+00:00",
-        "error": null
-      },
-      "wmiddelkoop": {
-        "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-14T00:51:01.102890+00:00",
-        "error": null
-      },
-      "White_Rabbit_OG": {
-        "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-14T00:51:02.257033+00:00",
-        "error": null
-      },
-      "colonelhomsi": {
-        "ok": true,
-        "posts": 14,
-        "checkedAt": "2026-11-14T00:51:03.900699+00:00",
-        "error": null
-      },
-      "HydroGraphInc": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-14T00:51:08.017496+00:00",
+        "checkedAt": "2026-11-14T23:00:58.546220+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
+      },
+      "SantiagoAuFund": {
+        "ok": true,
+        "posts": 4,
+        "checkedAt": "2026-11-14T23:01:00.266882+00:00",
+        "error": null
+      },
+      "BarbarianCap": {
+        "ok": true,
+        "posts": 16,
+        "checkedAt": "2026-11-14T23:01:02.517718+00:00",
+        "error": null
+      },
+      "JoshYoung": {
+        "ok": true,
+        "posts": 7,
+        "checkedAt": "2026-11-14T23:01:03.854192+00:00",
+        "error": null
+      },
+      "wmiddelkoop": {
+        "ok": true,
+        "posts": 14,
+        "checkedAt": "2026-11-14T23:01:07.005421+00:00",
+        "error": null
+      },
+      "White_Rabbit_OG": {
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-14T23:01:11.141592+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
+      },
+      "colonelhomsi": {
+        "ok": true,
+        "posts": 12,
+        "checkedAt": "2026-11-14T23:01:12.572022+00:00",
+        "error": null
+      },
+      "HydroGraphInc": {
+        "ok": true,
+        "posts": 19,
+        "checkedAt": "2026-11-14T23:01:14.784447+00:00",
+        "error": null
       }
     },
     "errors": [
-      "BambroughKevin",
-      "HydroGraphInc"
+      "zerohedge",
+      "JohnPolomny",
+      "White_Rabbit_OG"
     ],
     "status": "partial"
   },
-  "count": 10,
-  "accountsWithPosts": 10,
-  "fetchedAt": "2026-11-14T00:51:10.443199+00:00",
+  "count": 9,
+  "accountsWithPosts": 9,
+  "fetchedAt": "2026-11-14T23:01:17.207076+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "HydroGraphInc"
+    "zerohedge",
+    "JohnPolomny",
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
-      "id": "2121137137064071218",
-      "text": "JUST IN: Billionaire Nvidia $NVDA shareholder Leo KoGuan says he will not invest any more money in the company without Jensen Huang.",
+      "id": "2121660054797705676",
+      "text": "JUST IN: Two Nvidia investors holding over $2 billion in $NVDA shares call for board to reinstate Jensen Huang as CEO.",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
-      "createdAt": "2026-11-13T07:04:36+00:00",
-      "createdAtMs": 1794553476000,
-      "likes": 43607,
-      "retweets": 3759,
-      "url": "https://x.com/WatcherGuru/status/2121137137064071218",
+      "createdAt": "2026-11-14T17:42:30+00:00",
+      "createdAtMs": 1794678150000,
+      "likes": 46188,
+      "retweets": 3156,
+      "url": "https://x.com/WatcherGuru/status/2121660054797705676",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 47366,
-      "views": 1606506,
-      "media_url": "https://pbs.twimg.com/media/HW_LwCZWEAAfPDU.jpg",
+      "engagementScore": 49344,
+      "views": 1203884,
+      "media_url": "https://pbs.twimg.com/media/HXGnQJSWwAAudgC.jpg",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2121141764568314058",
-      "text": "BREAKING: An internal post urging Nvidia’s, $NVDA, board to reinstate Jensen Huang has drawn over 1,600 comments, with the majority in “full support” of reinstating him, per WIRED.\n\nThe post urges the Board of Directors to “consider employee sentiment” regarding Jensen Huang’s departure from the company.",
+      "id": "2121514973809799294",
+      "text": "BREAKING: An open letter to reinstate Jensen Huang as CEO of Nvidia, $NVDA, now has over 65,000 signatures, alleging that Huang was removed \"without meaningful due process.\"\n\nThe letter has been signed by more than 35,000 shareholders and 4,700 current and former Nvidia employees.\n\nElon Musk has publicly stated that he has signed the petition and fully supports Huang's return to the company.\n\nWe maintain our view that Huang was removed prematurely, without a conclusive investigation.",
       "author": "KobeissiLetter",
       "handle": "KobeissiLetter",
-      "createdAt": "2026-11-13T07:23:00+00:00",
-      "createdAtMs": 1794554580000,
-      "likes": 15253,
-      "retweets": 946,
-      "url": "https://x.com/KobeissiLetter/status/2121141764568314058",
+      "createdAt": "2026-11-14T08:06:00+00:00",
+      "createdAtMs": 1794643560000,
+      "likes": 24736,
+      "retweets": 1825,
+      "url": "https://x.com/KobeissiLetter/status/2121514973809799294",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 16199,
-      "views": 973296,
-      "media_url": "https://pbs.twimg.com/media/HW_aPrFXgAAnV_e.jpg",
+      "engagementScore": 26561,
+      "views": 1550109,
+      "media_url": "https://pbs.twimg.com/media/HXElGY6X0AE65Fg.jpg",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2121364703746429420",
-      "text": "BTW, a reminder that I do not use Microsoft products.",
+      "id": "2121395459528765876",
+      "text": "DIFFUSION OF RESPONSIBILITY\nThe problem of \"nobody gets fired using Microsoft\" brought this interlocking fragility from monoculture, same as in finance nobody gets fired using \"Nobel\" \"portfolio theory/buying \"highly rated\" securities, &, in medicine, precribing statins.",
       "author": "nntaleb",
       "handle": "nntaleb",
-      "createdAt": "2026-11-13T22:08:53+00:00",
-      "createdAtMs": 1794607733000,
-      "likes": 1529,
-      "retweets": 73,
-      "url": "https://x.com/nntaleb/status/2121364703746429420",
+      "createdAt": "2026-11-14T00:11:05+00:00",
+      "createdAtMs": 1794615065000,
+      "likes": 2065,
+      "retweets": 232,
+      "url": "https://x.com/nntaleb/status/2121395459528765876",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 1602,
-      "views": 75842
+      "engagementScore": 2297,
+      "views": 125149
     },
     {
-      "id": "2121362493893452187",
-      "text": "*FAA GROUND STOP DOES NOT APPEAR TO BE CYBER ATTACK: CNN",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-13T22:00:06+00:00",
-      "createdAtMs": 1794607206000,
-      "likes": 1462,
-      "retweets": 111,
-      "url": "https://x.com/zerohedge/status/2121362493893452187",
+      "id": "2121493669123588226",
+      "text": "Decided to cancel my trip to Dubai later this month .. \n\n3rd US aircraft carrier will arrive near Iran later next week",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-11-14T06:41:20+00:00",
+      "createdAtMs": 1794638480000,
+      "likes": 358,
+      "retweets": 36,
+      "url": "https://x.com/wmiddelkoop/status/2121493669123588226",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1573,
-      "views": 185005
+      "engagementScore": 394,
+      "views": 19880
     },
     {
-      "id": "2121238857786224762",
-      "text": "‘If there's a way that I can make sure that #Crypto millionaires can be hit by taxes, I'd love do it.'",
-      "author": "wmiddelkoop",
-      "handle": "wmiddelkoop",
-      "createdAt": "2026-11-13T13:48:49+00:00",
-      "createdAtMs": 1794577729000,
-      "likes": 385,
-      "retweets": 74,
-      "url": "https://x.com/wmiddelkoop/status/2121238857786224762",
+      "id": "2121582264450507140",
+      "text": "I was just told that in China, unlike  in the west, the benefits/gains from economic growth accrue to the people rather than to the government…so today is off to a rather hilarious start.",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-11-14T12:33:23+00:00",
+      "createdAtMs": 1794659603000,
+      "likes": 298,
+      "retweets": 16,
+      "url": "https://x.com/SantiagoAuFund/status/2121582264450507140",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 459,
-      "views": 15369
+      "engagementScore": 314,
+      "views": 18660
     },
     {
-      "id": "2121227447320400160",
-      "text": "The IEA is forecasting an oil super glut. Again. \n\nThey're wrong. Again.",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-11-13T13:03:28+00:00",
-      "createdAtMs": 1794575008000,
-      "likes": 427,
-      "retweets": 20,
-      "url": "https://x.com/JoshYoung/status/2121227447320400160",
+      "id": "2121628635853697072",
+      "text": "Jensen gets fired, and 2 days later, AI has already screwed up my flight to Austin… 😩😩",
+      "author": "hkuppy",
+      "handle": "hkuppy",
+      "createdAt": "2026-11-14T15:37:39+00:00",
+      "createdAtMs": 1794670659000,
+      "likes": 71,
+      "retweets": 0,
+      "url": "https://x.com/hkuppy/status/2121628635853697072",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 447,
-      "views": 21597
+      "engagementScore": 71,
+      "views": 9313
     },
     {
-      "id": "2121284309155995824",
-      "text": "The word Seppuku may eventually find its way into a German dictionary",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-13T16:49:25+00:00",
-      "createdAtMs": 1794588565000,
-      "likes": 259,
-      "retweets": 14,
-      "url": "https://x.com/SantiagoAuFund/status/2121284309155995824",
+      "id": "2121407185947132229",
+      "text": "Perfect time to book a flight",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-11-14T00:57:41+00:00",
+      "createdAtMs": 1794617861000,
+      "likes": 67,
+      "retweets": 0,
+      "url": "https://x.com/JoshYoung/status/2121407185947132229",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 273,
-      "views": 12605,
-      "media_url": "https://pbs.twimg.com/media/HXCEZ1UasAA_-Ae.jpg",
-      "media_alt": "Attached post media"
+      "engagementScore": 67,
+      "views": 7116
     },
     {
-      "id": "2121052477080682525",
-      "text": "BREAKING: Treasuries caught sleeping with a Chinese spy…",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-11-13T01:28:12+00:00",
-      "createdAtMs": 1794533292000,
-      "likes": 128,
+      "id": "2121659770251657633",
+      "text": "Russian army has liberated Tersyanka in the Zaporozhye region..",
+      "author": "colonelhomsi",
+      "handle": "colonelhomsi",
+      "createdAt": "2026-11-14T17:41:22+00:00",
+      "createdAtMs": 1794678082000,
+      "likes": 38,
       "retweets": 5,
-      "url": "https://x.com/hkuppy/status/2121052477080682525",
+      "url": "https://x.com/colonelhomsi/status/2121659770251657633",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 133,
-      "views": 14806
+      "engagementScore": 43,
+      "views": 1443,
+      "media_url": "https://pbs.twimg.com/media/HXGmUJzXYAASZ66.jpg?name=orig",
+      "media_alt": "Attached post media"
     },
     {
-      "id": "2121314546770182373",
-      "text": "🚨Investors are buying up shares of @Sprott Physical #Uranium Trust $U.UN today on strong volume🔉🛢️☢️🛒😊 to take advantage of the opportunity to pick up Spot #U3O8 lbs at the largest discount price on offer since April 2025!🎁🤠🐂",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-11-13T18:49:34+00:00",
-      "createdAtMs": 1794595774000,
-      "likes": 60,
-      "retweets": 7,
-      "url": "https://x.com/quakes99/status/2121314546770182373",
+      "id": "2121681825974120456",
+      "text": "A company's stock usually drops when they miss their quarterly earnings\nBTC misses earnings every day",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-11-14T19:09:00+00:00",
+      "createdAtMs": 1794683340000,
+      "likes": 11,
+      "retweets": 0,
+      "url": "https://x.com/BarbarianCap/status/2121681825974120456",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 67,
-      "views": 3264,
-      "media_url": "https://pbs.twimg.com/media/HXBrbkebcAAHIr_.png?name=orig",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2121076004563140763",
-      "text": "cybersecurity professionals from now on",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-11-13T03:01:41+00:00",
-      "createdAtMs": 1794538901000,
-      "likes": 24,
-      "retweets": 5,
-      "url": "https://x.com/BarbarianCap/status/2121076004563140763",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 29,
-      "views": 2966,
-      "media_url": "https://pbs.twimg.com/media/HW-TU_yWoAEKDfa.png?name=orig",
-      "media_alt": "Attached post media"
+      "engagementScore": 11,
+      "views": 1089
     }
   ]
 }
