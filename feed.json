@@ -2,152 +2,147 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-13T23:00:32.867818+00:00",
+    "attemptedAt": "2026-11-14T00:50:30.830199+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 13,
+    "accountsSucceeded": 14,
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 17,
-        "checkedAt": "2026-11-13T23:00:33.860564+00:00",
+        "posts": 19,
+        "checkedAt": "2026-11-14T00:50:33.128343+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-13T23:00:36.281249+00:00",
+        "checkedAt": "2026-11-14T00:50:34.444639+00:00",
         "error": null
       },
       "BambroughKevin": {
-        "ok": true,
-        "posts": 12,
-        "checkedAt": "2026-11-13T23:00:38.881329+00:00",
-        "error": null
-      },
-      "hkuppy": {
-        "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-13T23:00:40.347806+00:00",
-        "error": null
-      },
-      "quakes99": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-13T23:00:44.533401+00:00",
+        "checkedAt": "2026-11-14T00:50:38.657988+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
       },
+      "hkuppy": {
+        "ok": true,
+        "posts": 10,
+        "checkedAt": "2026-11-14T00:50:40.371693+00:00",
+        "error": null
+      },
+      "quakes99": {
+        "ok": true,
+        "posts": 6,
+        "checkedAt": "2026-11-14T00:50:41.792161+00:00",
+        "error": null
+      },
       "WatcherGuru": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-13T23:00:46.109364+00:00",
+        "checkedAt": "2026-11-14T00:50:44.896941+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-13T23:00:47.747963+00:00",
+        "checkedAt": "2026-11-14T00:50:46.312246+00:00",
         "error": null
       },
       "tferriss": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-13T23:00:51.800504+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 7,
+        "checkedAt": "2026-11-14T00:50:50.062606+00:00",
+        "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 3,
-        "checkedAt": "2026-11-13T23:00:55.556370+00:00",
+        "checkedAt": "2026-11-14T00:50:52.116787+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-13T23:00:56.912137+00:00",
+        "posts": 5,
+        "checkedAt": "2026-11-14T00:50:54.427188+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-13T23:01:00.282583+00:00",
+        "posts": 12,
+        "checkedAt": "2026-11-14T00:50:56.752042+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-13T23:01:02.433631+00:00",
+        "checkedAt": "2026-11-14T00:50:58.885804+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
-        "posts": 7,
-        "checkedAt": "2026-11-13T23:01:04.828564+00:00",
+        "posts": 6,
+        "checkedAt": "2026-11-14T00:51:01.102890+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-13T23:01:06.680235+00:00",
+        "checkedAt": "2026-11-14T00:51:02.257033+00:00",
         "error": null
       },
       "colonelhomsi": {
+        "ok": true,
+        "posts": 14,
+        "checkedAt": "2026-11-14T00:51:03.900699+00:00",
+        "error": null
+      },
+      "HydroGraphInc": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-13T23:01:11.283663+00:00",
+        "checkedAt": "2026-11-14T00:51:08.017496+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
-      },
-      "HydroGraphInc": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-13T23:01:12.389211+00:00",
-        "error": null
       }
     },
     "errors": [
-      "quakes99",
-      "tferriss",
-      "colonelhomsi"
+      "BambroughKevin",
+      "HydroGraphInc"
     ],
     "status": "partial"
   },
   "count": 10,
   "accountsWithPosts": 10,
-  "fetchedAt": "2026-11-13T23:01:14.667567+00:00",
+  "fetchedAt": "2026-11-14T00:51:10.443199+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "quakes99",
-    "tferriss",
-    "colonelhomsi"
+    "BambroughKevin",
+    "HydroGraphInc"
   ],
   "posts": [
     {
-      "id": "2121124292675203140",
-      "text": "JUST IN: Nvidia $NVDA employees petition to bring back Jensen Huang as CEO.",
+      "id": "2121137137064071218",
+      "text": "JUST IN: Billionaire Nvidia $NVDA shareholder Leo KoGuan says he will not invest any more money in the company without Jensen Huang.",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
-      "createdAt": "2026-11-13T06:13:34+00:00",
-      "createdAtMs": 1794550414000,
-      "likes": 56582,
-      "retweets": 4338,
-      "url": "https://x.com/WatcherGuru/status/2121124292675203140",
+      "createdAt": "2026-11-13T07:04:36+00:00",
+      "createdAtMs": 1794553476000,
+      "likes": 43607,
+      "retweets": 3759,
+      "url": "https://x.com/WatcherGuru/status/2121137137064071218",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 60920,
-      "views": 2061596,
-      "media_url": "https://pbs.twimg.com/media/HW-_TVvXwAE0m2f.jpg?name=orig",
+      "engagementScore": 47366,
+      "views": 1606506,
+      "media_url": "https://pbs.twimg.com/media/HW_LwCZWEAAfPDU.jpg",
       "media_alt": "Attached post media"
     },
     {
@@ -157,33 +152,15 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-13T07:23:00+00:00",
       "createdAtMs": 1794554580000,
-      "likes": 15018,
-      "retweets": 933,
+      "likes": 15253,
+      "retweets": 946,
       "url": "https://x.com/KobeissiLetter/status/2121141764568314058",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 15951,
-      "views": 955332,
+      "engagementScore": 16199,
+      "views": 973296,
       "media_url": "https://pbs.twimg.com/media/HW_aPrFXgAAnV_e.jpg",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2121347678978408473",
-      "text": "FAA: INBOUND INTERNATIONAL FLIGHTS WILL BE MANAGED ON A CASE BY CASE BASIS\n\nFAA: ALL DEPARTING TRAFFIC SHOULD REMAIN GROUND STOPPED UNTIL FURTHER NOTICE\n\nATTENTION ALL AIRCRAFT OPERATORS, BY ORDER OF THE FEDERAL AVIATION COMMAND CENTER ALL AIRPORTS ARE GROUND STOPPED. ALL DEPARTING\nTRAFFIC SHOULD REMAIN GROUND STOPPED UNTIL FURTHER NOTICE",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-13T21:01:14+00:00",
-      "createdAtMs": 1794603674000,
-      "likes": 2893,
-      "retweets": 492,
-      "url": "https://x.com/zerohedge/status/2121347678978408473",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 3385,
-      "views": 520280,
-      "media_url": "https://pbs.twimg.com/media/HXCPgRyWIAEASM6.png",
       "media_alt": "Attached post media"
     },
     {
@@ -193,14 +170,30 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-13T22:08:53+00:00",
       "createdAtMs": 1794607733000,
-      "likes": 973,
-      "retweets": 42,
+      "likes": 1529,
+      "retweets": 73,
       "url": "https://x.com/nntaleb/status/2121364703746429420",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 1602,
+      "views": 75842
+    },
+    {
+      "id": "2121362493893452187",
+      "text": "*FAA GROUND STOP DOES NOT APPEAR TO BE CYBER ATTACK: CNN",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-13T22:00:06+00:00",
+      "createdAtMs": 1794607206000,
+      "likes": 1462,
+      "retweets": 111,
+      "url": "https://x.com/zerohedge/status/2121362493893452187",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1015,
-      "views": 44476
+      "engagementScore": 1573,
+      "views": 185005
     },
     {
       "id": "2121238857786224762",
@@ -209,14 +202,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-13T13:48:49+00:00",
       "createdAtMs": 1794577729000,
-      "likes": 373,
-      "retweets": 72,
+      "likes": 385,
+      "retweets": 74,
       "url": "https://x.com/wmiddelkoop/status/2121238857786224762",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 445,
-      "views": 14847
+      "engagementScore": 459,
+      "views": 15369
     },
     {
       "id": "2121227447320400160",
@@ -225,14 +218,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-13T13:03:28+00:00",
       "createdAtMs": 1794575008000,
-      "likes": 412,
+      "likes": 427,
       "retweets": 20,
       "url": "https://x.com/JoshYoung/status/2121227447320400160",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 432,
-      "views": 20485
+      "engagementScore": 447,
+      "views": 21597
     },
     {
       "id": "2121284309155995824",
@@ -241,14 +234,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-13T16:49:25+00:00",
       "createdAtMs": 1794588565000,
-      "likes": 245,
-      "retweets": 13,
+      "likes": 259,
+      "retweets": 14,
       "url": "https://x.com/SantiagoAuFund/status/2121284309155995824",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 258,
-      "views": 11735,
+      "engagementScore": 273,
+      "views": 12605,
       "media_url": "https://pbs.twimg.com/media/HXCEZ1UasAA_-Ae.jpg",
       "media_alt": "Attached post media"
     },
@@ -266,23 +259,25 @@
       "slot": "engagement",
       "slot_order": 8,
       "engagementScore": 133,
-      "views": 14695
+      "views": 14806
     },
     {
-      "id": "2121349854064705922",
-      "text": "HydroGraph ($HG | $HGRAF) has received final court approval for its redomicile transactions, marking another milestone in aligning its corporate structure with growing U.S. operations.\n\nExchangeable share election deadline: 11/15/2026.\n\n📖 https://www.globenewswire.com/news-release/2026/11/12/3401466/0/en/hydrograph-receives-final-court-order-approving-redomicile-transactions.html",
-      "author": "HydroGraphInc",
-      "handle": "HydroGraphInc",
-      "createdAt": "2026-11-13T21:09:52+00:00",
-      "createdAtMs": 1794604192000,
-      "likes": 85,
-      "retweets": 10,
-      "url": "https://x.com/HydroGraphInc/status/2121349854064705922",
+      "id": "2121314546770182373",
+      "text": "🚨Investors are buying up shares of @Sprott Physical #Uranium Trust $U.UN today on strong volume🔉🛢️☢️🛒😊 to take advantage of the opportunity to pick up Spot #U3O8 lbs at the largest discount price on offer since April 2025!🎁🤠🐂",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-11-13T18:49:34+00:00",
+      "createdAtMs": 1794595774000,
+      "likes": 60,
+      "retweets": 7,
+      "url": "https://x.com/quakes99/status/2121314546770182373",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 95,
-      "views": 1479
+      "engagementScore": 67,
+      "views": 3264,
+      "media_url": "https://pbs.twimg.com/media/HXBrbkebcAAHIr_.png?name=orig",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2121076004563140763",
@@ -291,14 +286,14 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-11-13T03:01:41+00:00",
       "createdAtMs": 1794538901000,
-      "likes": 22,
-      "retweets": 4,
+      "likes": 24,
+      "retweets": 5,
       "url": "https://x.com/BarbarianCap/status/2121076004563140763",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 26,
-      "views": 1948,
+      "engagementScore": 29,
+      "views": 2966,
       "media_url": "https://pbs.twimg.com/media/HW-TU_yWoAEKDfa.png?name=orig",
       "media_alt": "Attached post media"
     }
