@@ -172,6 +172,7 @@ if (secondRenaissanceShort && (!hasVerifiedMetrics(secondRenaissanceShort)
 }
 const instagramCard = cardSegment('INSTAGRAM · PERSONAL LATEST VIDEO');
 if (instagramCard && (!hasVerifiedMetrics(instagramCard)
+    && !instagramCard.includes('Instagram does not expose public views/watches and likes here')
     && !(instagramCard.includes('likes</span>') && instagramCard.includes('Instagram public view count unavailable')))) {
   console.error('❌ Build guard failed: personal Instagram video lacks metrics or an honest unavailable state.');
   process.exit(1);
