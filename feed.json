@@ -2,136 +2,144 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-16T00:16:31.339439+00:00",
+    "attemptedAt": "2026-11-16T00:50:28.811190+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 13,
+    "accountsSucceeded": 15,
     "sources": {
       "zerohedge": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-16T00:16:32.203064+00:00",
+        "checkedAt": "2026-11-16T00:50:31.310033+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-16T00:16:35.916956+00:00",
+        "checkedAt": "2026-11-16T00:50:34.015134+00:00",
         "error": null
       },
       "BambroughKevin": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-16T00:16:40.384967+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 12,
+        "checkedAt": "2026-11-16T00:50:36.015319+00:00",
+        "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-16T00:16:41.912936+00:00",
+        "checkedAt": "2026-11-16T00:50:37.269102+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-16T00:16:44.839825+00:00",
+        "checkedAt": "2026-11-16T00:50:39.146427+00:00",
         "error": null
       },
       "WatcherGuru": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-16T00:16:49.071462+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 20,
+        "checkedAt": "2026-11-16T00:50:41.917058+00:00",
+        "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-16T00:16:53.302964+00:00",
+        "checkedAt": "2026-11-16T00:50:46.636918+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-16T00:16:55.716649+00:00",
+        "checkedAt": "2026-11-16T00:50:48.099710+00:00",
         "error": null
       },
       "JohnPolomny": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-16T00:17:00.277417+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 3,
+        "checkedAt": "2026-11-16T00:50:51.522842+00:00",
+        "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 3,
-        "checkedAt": "2026-11-16T00:17:03.701347+00:00",
+        "checkedAt": "2026-11-16T00:50:53.732240+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-16T00:17:05.011561+00:00",
+        "checkedAt": "2026-11-16T00:50:58.073302+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-16T00:17:09.131555+00:00",
+        "checkedAt": "2026-11-16T00:51:00.003324+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-16T00:17:11.220616+00:00",
+        "checkedAt": "2026-11-16T00:51:01.544351+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
-        "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-16T00:17:12.805191+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-16T00:51:06.033110+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-16T00:17:14.921233+00:00",
+        "checkedAt": "2026-11-16T00:51:08.481197+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-16T00:17:19.999811+00:00",
+        "checkedAt": "2026-11-16T00:51:09.655597+00:00",
         "error": null
       }
     },
     "errors": [
-      "BambroughKevin",
-      "WatcherGuru",
-      "JohnPolomny"
+      "White_Rabbit_OG"
     ],
     "status": "partial"
   },
-  "count": 10,
-  "accountsWithPosts": 10,
-  "fetchedAt": "2026-11-16T00:17:22.995071+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-11-16T00:51:12.902269+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "WatcherGuru",
-    "JohnPolomny"
+    "White_Rabbit_OG"
   ],
   "posts": [
+    {
+      "id": "2122043721307025915",
+      "text": "JUST IN: Jensen Huang discusses returning as Nvidia $NVDA CEO with allies.",
+      "author": "WatcherGuru",
+      "handle": "WatcherGuru",
+      "createdAt": "2026-11-15T19:07:03+00:00",
+      "createdAtMs": 1794769623000,
+      "likes": 43096,
+      "retweets": 2711,
+      "url": "https://x.com/WatcherGuru/status/2122043721307025915",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 1,
+      "engagementScore": 45807,
+      "views": 1771486,
+      "media_url": "https://pbs.twimg.com/media/HXMDg2taoAAWeWz.jpg?name=orig",
+      "media_alt": "Attached post media"
+    },
     {
       "id": "2122045918342238337",
       "text": "BREAKING: Jensen Huang is considering returning to Nvidia, $NVDA, as CEO as tech executives pressure the company’s board to reinstate him, per FT.\n\nHuang is reportedly discussing a potential return even as an independent investigation by Nvidia's board is underway.\n\nOne \"ally\" of Jensen Huang is reportedly putting together a \"war room\" of tech executives to lobby for his return.\n\nIt's going to be an interesting week to say the least.",
@@ -139,14 +147,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-15T19:15:47+00:00",
       "createdAtMs": 1794770147000,
-      "likes": 27309,
-      "retweets": 2070,
+      "likes": 28549,
+      "retweets": 2141,
       "url": "https://x.com/KobeissiLetter/status/2122045918342238337",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 1,
-      "engagementScore": 29379,
-      "views": 2127298,
+      "slot_order": 2,
+      "engagementScore": 30690,
+      "views": 2300889,
       "media_url": "https://pbs.twimg.com/media/HXMJa2rWAAABBZL.jpg",
       "media_alt": "Attached post media"
     },
@@ -157,14 +165,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-15T22:55:23+00:00",
       "createdAtMs": 1794783323000,
-      "likes": 7637,
-      "retweets": 781,
+      "likes": 10196,
+      "retweets": 1063,
       "url": "https://x.com/nntaleb/status/2122101182508552670",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 8418,
-      "views": 131151,
+      "slot_order": 3,
+      "engagementScore": 11259,
+      "views": 178538,
       "media_url": "https://pbs.twimg.com/media/HXMDg2taoAAWeWz?format=webp&name=small",
       "media_alt": "Attached post media"
     },
@@ -175,14 +183,14 @@
       "handle": "zerohedge",
       "createdAt": "2026-11-15T21:55:27+00:00",
       "createdAtMs": 1794779727000,
-      "likes": 721,
-      "retweets": 175,
+      "likes": 844,
+      "retweets": 208,
       "url": "https://x.com/zerohedge/status/2122086100646699377",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 896,
-      "views": 76675
+      "slot_order": 4,
+      "engagementScore": 1052,
+      "views": 81736
     },
     {
       "id": "2121942481235501502",
@@ -191,14 +199,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-15T12:24:45+00:00",
       "createdAtMs": 1794745485000,
-      "likes": 472,
-      "retweets": 67,
+      "likes": 481,
+      "retweets": 69,
       "url": "https://x.com/wmiddelkoop/status/2121942481235501502",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 539,
-      "views": 31459
+      "slot_order": 5,
+      "engagementScore": 550,
+      "views": 31862
     },
     {
       "id": "2121792067936592096",
@@ -207,14 +215,14 @@
       "handle": "quakes99",
       "createdAt": "2026-11-15T02:27:04+00:00",
       "createdAtMs": 1794709624000,
-      "likes": 312,
+      "likes": 316,
       "retweets": 44,
       "url": "https://x.com/quakes99/status/2121792067936592096",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 356,
-      "views": 15982,
+      "slot_order": 6,
+      "engagementScore": 360,
+      "views": 16099,
       "media_url": "https://pbs.twimg.com/media/HXIRNnxbEAAccRC.png?name=orig",
       "media_alt": "Attached post media"
     },
@@ -225,14 +233,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-15T18:44:35+00:00",
       "createdAtMs": 1794768275000,
-      "likes": 132,
+      "likes": 137,
       "retweets": 10,
       "url": "https://x.com/hkuppy/status/2122038066164744280",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 142,
-      "views": 15496,
+      "slot_order": 7,
+      "engagementScore": 147,
+      "views": 16041,
       "media_url": "https://pbs.twimg.com/media/HXE60x9XgAAPpA_?format=webp&name=small",
       "media_alt": "Attached post media"
     },
@@ -248,9 +256,9 @@
       "url": "https://x.com/JoshYoung/status/2121982376175665281",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 8,
       "engagementScore": 133,
-      "views": 11345,
+      "views": 11494,
       "media_url": "https://pbs.twimg.com/media/HXKwXByXYAAimBC?format=webp&name=small",
       "media_alt": "Attached post media"
     },
@@ -261,30 +269,30 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-15T04:18:28+00:00",
       "createdAtMs": 1794716308000,
-      "likes": 81,
+      "likes": 82,
       "retweets": 3,
       "url": "https://x.com/SantiagoAuFund/status/2121820104019374440",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 84,
-      "views": 45643
+      "slot_order": 9,
+      "engagementScore": 85,
+      "views": 46219
     },
     {
-      "id": "2121763159849529497",
-      "text": "New series of attacks in Dnipropetrovsk..",
-      "author": "colonelhomsi",
-      "handle": "colonelhomsi",
-      "createdAt": "2026-11-15T00:32:12+00:00",
-      "createdAtMs": 1794702732000,
-      "likes": 30,
-      "retweets": 5,
-      "url": "https://x.com/colonelhomsi/status/2121763159849529497",
+      "id": "2122001834751537177",
+      "text": "@grok tell us more about changing the world with nano-carbon engineering and turbostratic fractal graphene \n\nAtomic-level control of carbon enables the design of materials whose properties are dictated by atomic arrangement rather than bulk chemistry, unlocking performance leaps that cascade across energy, transport, electronics, medicine, and the environment.\n\nCarbon is uniquely versatile because of its ability to form different bonding configurations (sp², sp³) and geometries. The same atom yields diamond (ultra-hard), graphite (soft and lubricating), graphene (a single atomic layer of hexagonal carbon), carbon nanotubes (rolled graphene cylinders), and fullerenes. \n\nNanoengineering at the atomic scale means placing atoms with precision so that defects, chirality, doping, and interfaces can be controlled deliberately. This turns carbon from a versatile element into programmable matter.\n\nExtreme Properties from Atomic Architecture\n\nDefect-free graphene has a Young’s modulus around 1 TPa and an intrinsic tensile strength near 130 GPa. By specific strength (strength per unit mass), it is roughly 100–200 times stronger than structural steel. Carbon nanotubes show measured tensile strengths up to ~63 GPa (theoretical limits higher) at densities of only ~1.3–1.4 g/cm³—about one-sixth that of steel—while offering thermal conductivity up to thousands of W/m·K and, depending on chirality, metallic or semiconducting behavior. Graphene also has exceptional electron mobility (>200,000 cm²/V·s) and current-carrying capacity.\n\nThese are not incremental improvements. They represent order-of-magnitude gains in strength-to-weight, conductivity, surface area, and tunability. Atomic precision is what lets engineers realize more of the theoretical performance by minimizing defects, selecting the right nanotube chirality, or engineering interfaces in composites.\n\nTransformative Applications\n\nEnergy systems. Carbon nanomaterials are already entering lithium-ion batteries as conductive additives. Small loadings of CNTs or graphene create percolating networks that lower resistance, improve rate capability, and help accommodate volume expansion in high-capacity anodes such as silicon. This supports faster charging, longer cycle life, and higher energy density—critical for electric vehicles and grid storage that make intermittent renewables practical. Supercapacitors, fuel cells, and thermal management materials benefit similarly from the combination of high surface area and conductivity.\n\nLightweight structures and transport. CNT- and graphene-reinforced composites and metal/polymer matrices can deliver higher stiffness and strength at lower weight. In aerospace and automotive applications this directly reduces energy consumption. Graphene additives in concrete can improve compressive strength and reduce permeability at very low loadings, potentially lowering cement use (a major CO₂ source). Protective textiles and ballistic materials also gain from aligned nanotube architectures that absorb impact efficiently.\n\nElectronics and computing. Graphene and CNTs offer pathways beyond silicon limits in mobility, flexibility, and transparency. They enable high-performance transistors, flexible/stretchable electronics, sensors, and interconnects. Atomic control of chirality and edge structure is essential for reproducible semiconducting behavior and for quantum or spintronic devices. Integration with molecular layers and AI-guided synthesis is advancing scalable fabrication of such devices.\n\nMedicine and environment. High surface area and biocompatibility (when properly functionalized) support targeted drug delivery, biosensors that detect biomarkers at very low concentrations, and scaffolds that mimic natural extracellular matrices for tissue regeneration. Carbon-based filters and membranes can purify water or capture pollutants more effectively than conventional materials. Lighter structures across the economy reduce overall material and energy intensity.",
+      "author": "BambroughKevin",
+      "handle": "BambroughKevin",
+      "createdAt": "2026-11-15T16:20:36+00:00",
+      "createdAtMs": 1794759636000,
+      "likes": 54,
+      "retweets": 9,
+      "url": "https://x.com/BambroughKevin/status/2122001834751537177",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 35,
-      "views": 3049
+      "slot_order": 10,
+      "engagementScore": 63,
+      "views": 5511
     },
     {
       "id": "2122065409213874590",
@@ -293,14 +301,30 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-11-15T20:33:14+00:00",
       "createdAtMs": 1794774794000,
-      "likes": 20,
+      "likes": 22,
       "retweets": 2,
       "url": "https://x.com/BarbarianCap/status/2122065409213874590",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 22,
-      "views": 2380
+      "slot_order": 11,
+      "engagementScore": 24,
+      "views": 2571
+    },
+    {
+      "id": "2122100978552115536",
+      "text": "A vivid and truly moving collection of daily life of Russian soldiers in the zone of the special military operation.",
+      "author": "colonelhomsi",
+      "handle": "colonelhomsi",
+      "createdAt": "2026-11-15T22:54:34+00:00",
+      "createdAtMs": 1794783274000,
+      "likes": 14,
+      "retweets": 1,
+      "url": "https://x.com/colonelhomsi/status/2122100978552115536",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 12,
+      "engagementScore": 15,
+      "views": 967
     }
   ]
 }
