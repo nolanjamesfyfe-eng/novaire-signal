@@ -62,11 +62,30 @@ async function fetchYahooFx(code) {
   } finally { clearTimeout(timer); }
 }
 
-export default async function handler() {
+export default async function handler(req) {
   const headers = {
     'Content-Type': 'application/json',
     'Cache-Control': 's-maxage=30, stale-while-revalidate=120'
   };
+  // Customize drawer: ?c=GEL,MXN returns live Yahoo rates for just those codes.
+  const asked = (() => { try { return (new URL(req.url).searchParams.get('c') || '').toUpperCase().split(',').filter(c => /^[A-Z]{3}$/.test(c) && c !== 'USD').slice(0, 12); } catch (_) { return []; } })();
+  if (asked.length) {
+    const got = await Promise.allSettled(asked.map(fetchYahooFx));
+    const rates = {}, changes = {};
+    asked.forEach((code, i) => { if (got[i].status === 'fulfilled') { rates[code] = got[i].value.rate; changes[code] = got[i].value.change; } });
+    const missing = asked.filter(code => !(code in rates));
+    if (missing.length) {
+      try {
+        const latest = await fetchSnapshot('latest');
+        const prev = await fetchSnapshot(previousTradingDate(latest.date)).catch(() => null);
+        for (const code of missing) {
+          const r = Number(latest.usd[code.toLowerCase()]), p = Number(prev?.usd?.[code.toLowerCase()]);
+          if (Number.isFinite(r) && r > 0) { rates[code] = r; if (Number.isFinite(p) && p > 0) changes[code] = (r / p - 1) * 100; }
+        }
+      } catch (_) {}
+    }
+    return new Response(JSON.stringify({ok: Object.keys(rates).length > 0, base: 'USD', rates, changes, source: 'Yahoo Finance FX', fetchedAt: new Date().toISOString()}), {status: 200, headers});
+  }
 
   const live = await Promise.allSettled(CURRENCIES.map(fetchYahooFx));
   if (live.every(r => r.status === 'fulfilled')) {

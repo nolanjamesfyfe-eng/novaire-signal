@@ -4200,6 +4200,7 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <meta name="apple-mobile-web-app-title" content="Signal ⚡">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/quote-studio/integrated.css">
+  <link rel="stylesheet" href="/signal-customize.css?v=1">
   <style>
     :root{{
       --bg:#0a0a0c;--surface:#111116;--border:#1e1e26;--text:#f0eef8;--dim:#a8a4ba;--mute:#6e6a85;
@@ -4791,22 +4792,22 @@ def render_html(weather, bangkok_news, zh_news, portfolio_data, catalysts,
   <details class="card signal-accordion countdown-strip daily-signal-card" id="world-tour-card" data-edition="{daily_edition}" data-daily-edition open>
     <summary><span class="card-title">🧭 Flâneur Life</span></summary>
     <div class="signal-accordion-body"><div class="countdown-strip-grid">
-      <a class="countdown-item" href="https://wonderfruit.co" target="_blank" rel="noopener noreferrer" aria-label="Open the Wonderfruit website">
+      <a class="countdown-item" data-date="2026-12-05" href="https://wonderfruit.co" target="_blank" rel="noopener noreferrer" aria-label="Open the Wonderfruit website">
         <div class="countdown-label">WONDERFRUIT 🔮</div>
         <div class="countdown-days">{wonderfruit_countdown_text}</div>
         <div class="countdown-date">Dec 5–7</div>
       </a>
-      <a class="countdown-item" href="https://thailand.edc.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the EDC Thailand website">
+      <a class="countdown-item" data-date="2026-12-18" href="https://thailand.edc.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the EDC Thailand website">
         <div class="countdown-label">EDC PHUKET 🎡</div>
         <div class="countdown-days">{edc_countdown_text}</div>
         <div class="countdown-date">Dec 18</div>
       </a>
-      <a class="countdown-item" href="https://manontherise.com/retreat" target="_blank" rel="noopener noreferrer" aria-label="Open the Man On The Rise Retreat landing page">
+      <a class="countdown-item" data-date="2027-01-19" href="https://manontherise.com/retreat" target="_blank" rel="noopener noreferrer" aria-label="Open the Man On The Rise Retreat landing page">
         <div class="countdown-label">MAN ON THE RISE 🏝️</div>
         <div class="countdown-days">{retreat_countdown_text}</div>
         <div class="countdown-date">Jan 19</div>
       </a>
-      <a class="countdown-item" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Soviet Quest website">
+      <a class="countdown-item" data-date="2027-09-01" href="https://sovietsidequest.com" target="_blank" rel="noopener noreferrer" aria-label="Open the Soviet Quest website">
         <div class="countdown-label">Soviet Quest 🚂</div>
         <div class="countdown-days">{trans_siberian_countdown_text}</div>
         <div class="countdown-date">Sep 2027</div>
@@ -5480,7 +5481,7 @@ function getQuoteForToday(storageKey, quotes, edition) {{
     fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids="+Object.keys(ids).join(","))
       .then(function(r){{return r.json()}})
       .then(function(rows){{
-        var grid=document.querySelector('.crypto-grid');if(!grid)return;
+        var grid=document.querySelector('.crypto-grid');if(!grid||grid.dataset.custom)return;
         rows.sort(function(a,b){{return (b.market_cap||0)-(a.market_cap||0)}}).forEach(function(row){{
           var ticker=ids[row.id],el=ticker&&grid.querySelector('[data-coin="'+ticker+'"]');if(!el)return;
           var pe=el.querySelector('[data-crypto-price]'),ce=el.querySelector('[data-crypto-chg]');
@@ -5571,6 +5572,7 @@ function getQuoteForToday(storageKey, quotes, edition) {{
 }}();
 </script>
 <script src="/quote-studio/integrated.js"></script>
+<script src="/signal-customize.js?v=1" defer></script>
 </body>
 </html>"""
     return html

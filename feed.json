@@ -1,137 +1,147 @@
 {
   "ok": true,
-  "status": "ok",
+  "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-18T03:21:35.104678+00:00",
+    "attemptedAt": "2026-11-18T09:37:43.088871+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 16,
+    "accountsSucceeded": 14,
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 17,
-        "checkedAt": "2026-11-18T03:21:36.871239+00:00",
+        "posts": 19,
+        "checkedAt": "2026-11-18T09:37:46.248487+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-18T03:21:38.939965+00:00",
+        "checkedAt": "2026-11-18T09:37:49.522519+00:00",
         "error": null
       },
       "BambroughKevin": {
-        "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-18T03:21:40.223372+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-18T09:37:54.879568+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "hkuppy": {
-        "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-18T03:21:41.442820+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-18T09:37:59.589147+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "quakes99": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-18T03:21:44.713693+00:00",
+        "checkedAt": "2026-11-18T09:38:03.121135+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 17,
-        "checkedAt": "2026-11-18T03:21:47.000878+00:00",
+        "checkedAt": "2026-11-18T09:38:05.589582+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-18T03:21:48.506934+00:00",
+        "checkedAt": "2026-11-18T09:38:08.812024+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
-        "posts": 5,
-        "checkedAt": "2026-11-18T03:21:49.855562+00:00",
+        "posts": 4,
+        "checkedAt": "2026-11-18T09:38:10.284735+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 3,
-        "checkedAt": "2026-11-18T03:21:51.436822+00:00",
+        "checkedAt": "2026-11-18T09:38:12.070247+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-18T03:21:52.971372+00:00",
+        "checkedAt": "2026-11-18T09:38:14.569565+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 14,
-        "checkedAt": "2026-11-18T03:21:54.597601+00:00",
+        "checkedAt": "2026-11-18T09:38:16.624035+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-18T03:21:55.814632+00:00",
+        "checkedAt": "2026-11-18T09:38:19.555090+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-18T03:21:57.255538+00:00",
+        "posts": 12,
+        "checkedAt": "2026-11-18T09:38:22.190013+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-18T03:22:00.129285+00:00",
+        "checkedAt": "2026-11-18T09:38:24.166695+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 15,
-        "checkedAt": "2026-11-18T03:22:01.440831+00:00",
+        "checkedAt": "2026-11-18T09:38:25.292705+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-18T03:22:03.084223+00:00",
+        "checkedAt": "2026-11-18T09:38:28.922196+00:00",
         "error": null
       }
     },
-    "errors": [],
-    "status": "ok"
+    "errors": [
+      "BambroughKevin",
+      "hkuppy"
+    ],
+    "status": "partial"
   },
-  "count": 12,
-  "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-18T03:22:06.724973+00:00",
+  "count": 11,
+  "accountsWithPosts": 11,
+  "fetchedAt": "2026-11-18T09:38:32.094551+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
-  "errors": [],
+  "errors": [
+    "BambroughKevin",
+    "hkuppy"
+  ],
   "posts": [
     {
-      "id": "2122769775386579250",
-      "text": "JUST IN: 🇪🇺 Europe's largest natural gas supplier 'Equinor' says it is under cyberattack.",
+      "id": "2122758928312193034",
+      "text": "JUST IN: 🇺🇸 Pentagon fails 9th consecutive financial audit, unable to fully verify over $2 trillion in assets.",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
-      "createdAt": "2026-11-17T19:12:08+00:00",
-      "createdAtMs": 1794942728000,
-      "likes": 16344,
-      "retweets": 2326,
-      "url": "https://x.com/WatcherGuru/status/2122769775386579250",
+      "createdAt": "2026-11-17T18:29:02+00:00",
+      "createdAtMs": 1794940142000,
+      "likes": 19341,
+      "retweets": 2242,
+      "url": "https://x.com/WatcherGuru/status/2122758928312193034",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 18670,
-      "views": 963685,
-      "media_url": "https://pbs.twimg.com/media/HXWYVhxXgAEMVRl.jpg",
-      "media_alt": "Attached post media"
+      "engagementScore": 21583,
+      "views": 1350043
     },
     {
       "id": "2122715520281743849",
@@ -140,14 +150,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-17T15:36:32+00:00",
       "createdAtMs": 1794929792000,
-      "likes": 12103,
-      "retweets": 1256,
+      "likes": 12240,
+      "retweets": 1272,
       "url": "https://x.com/KobeissiLetter/status/2122715520281743849",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 13359,
-      "views": 1821303
+      "engagementScore": 13512,
+      "views": 1848975
     },
     {
       "id": "2122697144666882558",
@@ -156,30 +166,32 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-17T14:23:31+00:00",
       "createdAtMs": 1794925411000,
-      "likes": 7699,
-      "retweets": 558,
+      "likes": 8561,
+      "retweets": 636,
       "url": "https://x.com/nntaleb/status/2122697144666882558",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 8257,
-      "views": 238817
+      "engagementScore": 9197,
+      "views": 271160
     },
     {
-      "id": "2122561319509557595",
-      "text": "I absolutely love @Waymo, but I just had a terrifying ride. Their @Jaguar cars are smoother than any human, in my experience, but my maiden trip in an Ojai minivan scared the hell out of me. Jerky steering, constant braking for no discernible reason, acceleration right up to red lights with sudden stops... I was bracing the entire time. Felt like a robot struggling to drive safely. Has anyone else experienced this, or did I just get a bad car?",
-      "author": "tferriss",
-      "handle": "tferriss",
-      "createdAt": "2026-11-17T05:23:48+00:00",
-      "createdAtMs": 1794893028000,
-      "likes": 1666,
-      "retweets": 34,
-      "url": "https://x.com/tferriss/status/2122561319509557595",
+      "id": "2122892049313681451",
+      "text": "This will be so much better than Succession",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-18T03:18:00+00:00",
+      "createdAtMs": 1794971880000,
+      "likes": 4097,
+      "retweets": 234,
+      "url": "https://x.com/zerohedge/status/2122892049313681451",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1700,
-      "views": 294263
+      "engagementScore": 4331,
+      "views": 301918,
+      "media_url": "https://pbs.twimg.com/media/HXYHpSNaAAEq8r-.jpg",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2122652921930174740",
@@ -188,33 +200,15 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-17T11:27:48+00:00",
       "createdAtMs": 1794914868000,
-      "likes": 626,
-      "retweets": 47,
+      "likes": 641,
+      "retweets": 49,
       "url": "https://x.com/JoshYoung/status/2122652921930174740",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 673,
-      "views": 32809,
+      "engagementScore": 690,
+      "views": 34402,
       "media_url": "https://pbs.twimg.com/media/HXUPjzFXwAAqxPk.png",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2122844850504573308",
-      "text": "Reich's Plan To Nationalize SpaceX Is \"A Clear Effort To Destroy The Wealth\" Musk Created https://www.zerohedge.com/political/reichs-plan-nationalize-spacex-clear-effort-destroy-wealth-musk-created",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-18T00:10:27+00:00",
-      "createdAtMs": 1794960627000,
-      "likes": 525,
-      "retweets": 72,
-      "url": "https://x.com/zerohedge/status/2122844850504573308",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 597,
-      "views": 71979,
-      "media_url": "https://pbs.twimg.com/media/HXXdWBXWsAASwk5.png",
       "media_alt": "Attached post media"
     },
     {
@@ -224,30 +218,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-17T11:54:42+00:00",
       "createdAtMs": 1794916482000,
-      "likes": 280,
-      "retweets": 7,
+      "likes": 288,
+      "retweets": 8,
       "url": "https://x.com/SantiagoAuFund/status/2122659691163721893",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 287,
-      "views": 17205
-    },
-    {
-      "id": "2122765981642870990",
-      "text": "Its a metaphor for LA…🤣",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-11-17T18:57:03+00:00",
-      "createdAtMs": 1794941823000,
-      "likes": 175,
-      "retweets": 12,
-      "url": "https://x.com/hkuppy/status/2122765981642870990",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 187,
-      "views": 21414
+      "slot_order": 6,
+      "engagementScore": 296,
+      "views": 17642
     },
     {
       "id": "2122737195765391568",
@@ -256,14 +234,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-17T17:02:40+00:00",
       "createdAtMs": 1794934960000,
-      "likes": 164,
-      "retweets": 23,
+      "likes": 180,
+      "retweets": 28,
       "url": "https://x.com/wmiddelkoop/status/2122737195765391568",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 187,
-      "views": 14174,
+      "slot_order": 7,
+      "engagementScore": 208,
+      "views": 16155,
       "media_url": "https://pbs.twimg.com/media/HXVBq4iawAADV76?format=webp&name=medium",
       "media_alt": "Attached post media"
     },
@@ -274,14 +252,14 @@
       "handle": "quakes99",
       "createdAt": "2026-11-17T16:07:20+00:00",
       "createdAtMs": 1794931640000,
-      "likes": 151,
-      "retweets": 21,
+      "likes": 159,
+      "retweets": 23,
       "url": "https://x.com/quakes99/status/2122723269132603790",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 172,
-      "views": 8230,
+      "slot_order": 8,
+      "engagementScore": 182,
+      "views": 9345,
       "media_url": "https://pbs.twimg.com/media/HXVmyDVboAAYqPN.png?name=orig",
       "media_alt": "Attached post media"
     },
@@ -292,32 +270,52 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-17T12:13:55+00:00",
       "createdAtMs": 1794917635000,
-      "likes": 43,
+      "likes": 44,
       "retweets": 4,
       "url": "https://x.com/colonelhomsi/status/2122664528534032581",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 47,
-      "views": 1253,
+      "slot_order": 9,
+      "engagementScore": 48,
+      "views": 1288,
       "media_url": "https://pbs.twimg.com/media/HXU4IyeWoAA4P2D.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2122737422555377789",
-      "text": "We live for quests…",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-11-17T17:03:34+00:00",
-      "createdAtMs": 1794935014000,
-      "likes": 26,
-      "retweets": 0,
-      "url": "https://x.com/BambroughKevin/status/2122737422555377789",
+      "id": "2122742944184574073",
+      "text": "there are signs...",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-11-17T17:25:31+00:00",
+      "createdAtMs": 1794936331000,
+      "likes": 15,
+      "retweets": 1,
+      "url": "https://x.com/BarbarianCap/status/2122742944184574073",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 12,
-      "engagementScore": 26,
-      "views": 4110
+      "slot_order": 10,
+      "engagementScore": 16,
+      "views": 2206,
+      "media_url": "https://pbs.twimg.com/media/HXV_buCWgAAuNkW.png?name=orig",
+      "media_alt": "Attached post media"
+    },
+    {
+      "id": "2122853608160997631",
+      "text": "LOL! Diversity is our strength!",
+      "author": "JohnPolomny",
+      "handle": "JohnPolomny",
+      "createdAt": "2026-11-18T00:45:15+00:00",
+      "createdAtMs": 1794962715000,
+      "likes": 5,
+      "retweets": 0,
+      "url": "https://x.com/JohnPolomny/status/2122853608160997631",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 11,
+      "engagementScore": 5,
+      "views": 1369,
+      "media_url": "https://pbs.twimg.com/media/HXXObsNXQAAtuqy?format=webp&name=small",
+      "media_alt": "Attached post media"
     }
   ]
 }

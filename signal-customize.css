@@ -1,0 +1,46 @@
+/* Novaire Signal · per-box customize drawer. Trigger = a whisper-quiet chevron, bottom-right. */
+.cz{display:flex;flex-direction:column;align-items:flex-end;margin:6px -8px -12px 0}
+.signal-accordion-body>.cz{margin-bottom:-14px}
+.compact-market-accordion>.signal-accordion-body>.cz{margin-bottom:-4px}
+.google-tasks-card .signal-accordion-body>.cz{margin:0 6px 4px 0}
+#world-tour-card .signal-accordion-body>.cz{margin-right:-8px}
+.cz-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:22px;padding:0;background:none;border:0;border-radius:6px;cursor:pointer;color:#5c5648;opacity:.55;transition:opacity .18s,color .18s,background .18s}
+.cz-btn svg{display:block;transition:transform .22s ease}
+.cz-btn:hover,.cz-btn:focus-visible{opacity:1;color:var(--gold);outline:none}
+.cz-btn:focus-visible{background:rgba(181,150,98,.08)}
+.cz.is-open .cz-btn{opacity:1;color:var(--gold)}
+.cz.is-open .cz-btn svg{transform:rotate(180deg)}
+@media(hover:none){.cz-btn{opacity:.7}}
+.cz-panel{align-self:stretch;margin:4px 8px 14px 0;padding-top:10px;border-top:1px solid rgba(181,150,98,.12);animation:czIn .18s ease}
+@keyframes czIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.cz-panel{animation:none}.cz-btn svg{transition:none}}
+.cz-form{display:grid;gap:8px}
+.cz-head{font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1px}
+.cz-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.cz-box{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cz-box span{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.cz-row{display:grid;grid-template-columns:1fr 140px;gap:6px}
+.cz-box input,.cz-row input{min-width:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font:inherit;font-size:.68rem;padding:6px 8px;color-scheme:dark}
+.cz-box input:focus,.cz-row input:focus{outline:1px solid var(--gold);border-color:var(--gold)}
+.cz-box input.bad{border-color:#d4596b;outline-color:#d4596b}
+.cz-msg{font-size:.6rem;color:var(--mute)}
+.cz-msg:empty{display:none}
+.cz-msg.err{color:#e07d8c}
+.cz-chips{display:flex;flex-wrap:wrap;gap:6px}
+.cz-chip{background:var(--bg);border:1px solid var(--border);border-radius:999px;color:var(--dim);font:inherit;font-size:.62rem;padding:5px 10px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.cz-chip:hover{border-color:rgba(181,150,98,.55);color:var(--text)}
+.cz-chip.on{border-color:var(--gold);background:rgba(181,150,98,.14);color:#f3ead8}
+.cz-freq{display:grid;gap:6px;margin-top:2px;padding-top:8px;border-top:1px solid var(--border)}
+.cz-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.cz-spacer{flex:1}
+.cz-actions button{border:0;border-radius:var(--r);font:inherit;font-size:.58rem;font-weight:600;letter-spacing:.04em;padding:6px 12px;cursor:pointer;background:var(--gold);color:#0b0b0d}
+.cz-actions button:disabled{opacity:.6;cursor:wait}
+.cz-actions .cz-reset{background:transparent;color:var(--dim);border:1px solid var(--border)}
+.cz-actions .cz-delete{background:transparent;color:#c96f7d;border:1px solid rgba(201,111,125,.3)}
+.cz-actions .cz-delete.armed{background:#c0485b;color:#fff;border-color:#c0485b}
+.nv-restore{text-align:center;font-size:.6rem;color:var(--mute);margin:4px 0 14px}
+.nv-restore button{background:none;border:0;color:var(--gold);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
+.nv-resting button{text-decoration:none}
+.nv-resting span{opacity:.7}
+.commodities-grid[data-custom="1"] .commodity-item{order:0!important}
+@media(max-width:600px){.cz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cz-row{grid-template-columns:1fr 128px}}
