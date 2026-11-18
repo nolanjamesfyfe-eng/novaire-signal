@@ -76,8 +76,28 @@ def _all_pages(client, path: str) -> list[dict[str, Any]]:
     return items
 
 
+def order_by_position(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return tasks in the owner's manual app order.
+
+    The API's response order is storage order; `position` is the real ranking
+    (lexicographic, lower = higher). Subtasks follow their parent.
+    """
+    ids = {item.get("id") for item in items if item.get("id")}
+    pos = lambda item: str(item.get("position") or "")
+    top = sorted((i for i in items if not i.get("parent") or i.get("parent") not in ids), key=pos)
+    children: dict[str, list[dict[str, Any]]] = {}
+    for item in items:
+        if item.get("parent") in ids:
+            children.setdefault(item["parent"], []).append(item)
+    ordered: list[dict[str, Any]] = []
+    for item in top:
+        ordered.append(item)
+        ordered.extend(sorted(children.get(item.get("id"), []), key=pos))
+    return ordered
+
+
 def fetch_daily_snapshot(client_dir: Path = TASKS_CLIENT_DIR) -> dict[str, Any]:
-    """Fetch the first five incomplete Daily tasks in Google API list order."""
+    """Fetch the first five incomplete Daily tasks in the owner's manual app order."""
     client = _load_tasks_client(client_dir)
     if hasattr(client, "_req"):
         tasklists = _all_pages(client, "/users/@me/lists?maxResults=100")
@@ -103,7 +123,7 @@ def fetch_daily_snapshot(client_dir: Path = TASKS_CLIENT_DIR) -> dict[str, Any]:
         )
     titles = [
         str(item.get("title") or "").strip()
-        for item in items
+        for item in order_by_position(items)
         if item.get("status") == "needsAction"
         and not item.get("deleted")
         and not item.get("hidden")

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { collectDailyTasks, makeHandler } = require('../lib/google-tasks-live.js');
+const { collectDailyTasks, makeHandler, orderByPosition } = require('../lib/google-tasks-live.js');
 
 const calls = [];
 const fakeFetch = async (url, options = {}) => {
@@ -68,5 +68,14 @@ assert.deepEqual(await response.json(), {
   fetchedAt: null,
   refreshState: 'unavailable',
 });
+
+const shuffled = orderByPosition([
+  { id: 'e', title: 'Fifth', position: '00000000000000000017' },
+  { id: 'c', title: 'Third', position: '00000000000000000003' },
+  { id: 'a', title: 'First', position: '00000000000000000000' },
+  { id: 'a1', title: 'First sub', parent: 'a', position: '00000000000000000000' },
+  { id: 'b', title: 'Second', position: '00000000000000000001' },
+]).map((item) => item.title);
+assert.deepEqual(shuffled, ['First', 'First sub', 'Second', 'Third', 'Fifth']);
 
 console.log('daily tasks API contracts passed');

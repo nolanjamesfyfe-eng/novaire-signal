@@ -105,3 +105,26 @@ def test_refresh_without_cache_fails_closed(tmp_path):
     assert result["tasks"] == []
     assert result["refresh_state"] == "unavailable"
     assert result["fetched_at"] is None
+
+
+def test_fetch_uses_manual_position_order_not_api_update_order():
+    class ShuffledClient:
+        @staticmethod
+        def list_tasklists():
+            return [{"id": "daily-id", "title": "Daily"}]
+
+        @staticmethod
+        def list_tasks(list_id, show_completed=False, show_hidden=False):
+            # Google returns most-recently-updated first; position is the app ranking.
+            return [
+                {"id": "e", "title": "Fifth", "status": "needsAction", "position": "00000000000000000017"},
+                {"id": "c", "title": "Third", "status": "needsAction", "position": "00000000000000000003"},
+                {"id": "a", "title": "First", "status": "needsAction", "position": "00000000000000000000"},
+                {"id": "a1", "title": "First sub", "status": "needsAction", "parent": "a", "position": "00000000000000000000"},
+                {"id": "d", "title": "Fourth", "status": "needsAction", "position": "00000000000000000004"},
+                {"id": "b", "title": "Second", "status": "needsAction", "position": "00000000000000000001"},
+            ]
+
+    with patch.object(google_tasks, "_load_tasks_client", return_value=ShuffledClient):
+        result = google_tasks.fetch_daily_snapshot(Path("unused"))
+    assert result["tasks"] == ["First", "First sub", "Second", "Third", "Fourth"]
