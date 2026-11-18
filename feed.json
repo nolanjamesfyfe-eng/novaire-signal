@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-18T00:50:27.506380+00:00",
+    "attemptedAt": "2026-11-18T03:21:35.104678+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
@@ -10,98 +10,98 @@
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 18,
-        "checkedAt": "2026-11-18T00:50:28.942372+00:00",
+        "posts": 17,
+        "checkedAt": "2026-11-18T03:21:36.871239+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
-        "posts": 20,
-        "checkedAt": "2026-11-18T00:50:30.697883+00:00",
+        "posts": 19,
+        "checkedAt": "2026-11-18T03:21:38.939965+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-18T00:50:33.953504+00:00",
+        "checkedAt": "2026-11-18T03:21:40.223372+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-18T00:50:36.293756+00:00",
+        "checkedAt": "2026-11-18T03:21:41.442820+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-18T00:50:37.552018+00:00",
+        "checkedAt": "2026-11-18T03:21:44.713693+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
-        "posts": 16,
-        "checkedAt": "2026-11-18T00:50:38.719135+00:00",
+        "posts": 17,
+        "checkedAt": "2026-11-18T03:21:47.000878+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-18T00:50:40.250077+00:00",
+        "checkedAt": "2026-11-18T03:21:48.506934+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-18T00:50:42.541287+00:00",
+        "checkedAt": "2026-11-18T03:21:49.855562+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 3,
-        "checkedAt": "2026-11-18T00:50:44.303250+00:00",
+        "checkedAt": "2026-11-18T03:21:51.436822+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-18T00:50:45.605808+00:00",
+        "checkedAt": "2026-11-18T03:21:52.971372+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
-        "posts": 16,
-        "checkedAt": "2026-11-18T00:50:47.457337+00:00",
+        "posts": 14,
+        "checkedAt": "2026-11-18T03:21:54.597601+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-18T00:50:48.635025+00:00",
+        "checkedAt": "2026-11-18T03:21:55.814632+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-18T00:50:50.518600+00:00",
+        "checkedAt": "2026-11-18T03:21:57.255538+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-18T00:50:53.364198+00:00",
+        "checkedAt": "2026-11-18T03:22:00.129285+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 15,
-        "checkedAt": "2026-11-18T00:50:54.699075+00:00",
+        "checkedAt": "2026-11-18T03:22:01.440831+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-18T00:50:57.918433+00:00",
+        "checkedAt": "2026-11-18T03:22:03.084223+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-18T00:51:01.378844+00:00",
+  "fetchedAt": "2026-11-18T03:22:06.724973+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,32 +122,32 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-17T19:12:08+00:00",
       "createdAtMs": 1794942728000,
-      "likes": 15507,
-      "retweets": 2218,
+      "likes": 16344,
+      "retweets": 2326,
       "url": "https://x.com/WatcherGuru/status/2122769775386579250",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 17725,
-      "views": 915019,
+      "engagementScore": 18670,
+      "views": 963685,
       "media_url": "https://pbs.twimg.com/media/HXWYVhxXgAEMVRl.jpg",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2122665555299795264",
-      "text": "BREAKING: Senior Nvidia, $NVDA, employees have sent a letter to the company’s board of directors stating that failure to reinstate Jensen Huang as CEO could lead to the loss of “irreplaceable talent,” per WSJ.\n\nSome employees have discussed holding a \"demonstration\" in support of Huang on the company’s campus in coming days.",
+      "id": "2122715520281743849",
+      "text": "BREAKING: NSA Net, the US National Security Agency's highly classified network, has gone down and is experiencing an ongoing outage, per CNN.\n\nThe network allows employees to communicate classified information internally.\n\nThis follows several other major outages this week.",
       "author": "KobeissiLetter",
       "handle": "KobeissiLetter",
-      "createdAt": "2026-11-17T12:18:00+00:00",
-      "createdAtMs": 1794917880000,
-      "likes": 13890,
-      "retweets": 790,
-      "url": "https://x.com/KobeissiLetter/status/2122665555299795264",
+      "createdAt": "2026-11-17T15:36:32+00:00",
+      "createdAtMs": 1794929792000,
+      "likes": 12103,
+      "retweets": 1256,
+      "url": "https://x.com/KobeissiLetter/status/2122715520281743849",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 14680,
-      "views": 1889718
+      "engagementScore": 13359,
+      "views": 1821303
     },
     {
       "id": "2122697144666882558",
@@ -156,14 +156,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-17T14:23:31+00:00",
       "createdAtMs": 1794925411000,
-      "likes": 7303,
-      "retweets": 534,
+      "likes": 7699,
+      "retweets": 558,
       "url": "https://x.com/nntaleb/status/2122697144666882558",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 7837,
-      "views": 225303
+      "engagementScore": 8257,
+      "views": 238817
     },
     {
       "id": "2122561319509557595",
@@ -172,14 +172,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-17T05:23:48+00:00",
       "createdAtMs": 1794893028000,
-      "likes": 1612,
-      "retweets": 32,
+      "likes": 1666,
+      "retweets": 34,
       "url": "https://x.com/tferriss/status/2122561319509557595",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1644,
-      "views": 281658
+      "engagementScore": 1700,
+      "views": 294263
     },
     {
       "id": "2122652921930174740",
@@ -188,32 +188,34 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-17T11:27:48+00:00",
       "createdAtMs": 1794914868000,
-      "likes": 609,
-      "retweets": 45,
+      "likes": 626,
+      "retweets": 47,
       "url": "https://x.com/JoshYoung/status/2122652921930174740",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 654,
-      "views": 31156,
+      "engagementScore": 673,
+      "views": 32809,
       "media_url": "https://pbs.twimg.com/media/HXUPjzFXwAAqxPk.png",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2122818209284022491",
-      "text": "NVDA call: \"We returned a record $28 billion to shareholders, $22 billion through share repurchases and $6 billion in dividends. We have returned 65% of free cash flow on a year-to-date basis, and going forward, we intend to return all excess FCF to shareholders\"",
+      "id": "2122844850504573308",
+      "text": "Reich's Plan To Nationalize SpaceX Is \"A Clear Effort To Destroy The Wealth\" Musk Created https://www.zerohedge.com/political/reichs-plan-nationalize-spacex-clear-effort-destroy-wealth-musk-created",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-17T22:24:35+00:00",
-      "createdAtMs": 1794954275000,
-      "likes": 450,
-      "retweets": 42,
-      "url": "https://x.com/zerohedge/status/2122818209284022491",
+      "createdAt": "2026-11-18T00:10:27+00:00",
+      "createdAtMs": 1794960627000,
+      "likes": 525,
+      "retweets": 72,
+      "url": "https://x.com/zerohedge/status/2122844850504573308",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 492,
-      "views": 113773
+      "engagementScore": 597,
+      "views": 71979,
+      "media_url": "https://pbs.twimg.com/media/HXXdWBXWsAASwk5.png",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2122659691163721893",
@@ -222,32 +224,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-17T11:54:42+00:00",
       "createdAtMs": 1794916482000,
-      "likes": 271,
+      "likes": 280,
       "retweets": 7,
       "url": "https://x.com/SantiagoAuFund/status/2122659691163721893",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 278,
-      "views": 16690
-    },
-    {
-      "id": "2122737195765391568",
-      "text": "‘A Bridge Too Far’\n\nHe could well be right ..",
-      "author": "wmiddelkoop",
-      "handle": "wmiddelkoop",
-      "createdAt": "2026-11-17T17:02:40+00:00",
-      "createdAtMs": 1794934960000,
-      "likes": 155,
-      "retweets": 22,
-      "url": "https://x.com/wmiddelkoop/status/2122737195765391568",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 177,
-      "views": 13651,
-      "media_url": "https://pbs.twimg.com/media/HXVBq4iawAADV76?format=webp&name=medium",
-      "media_alt": "Attached post media"
+      "engagementScore": 287,
+      "views": 17205
     },
     {
       "id": "2122765981642870990",
@@ -256,14 +240,32 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-17T18:57:03+00:00",
       "createdAtMs": 1794941823000,
-      "likes": 162,
-      "retweets": 11,
+      "likes": 175,
+      "retweets": 12,
       "url": "https://x.com/hkuppy/status/2122765981642870990",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 8,
+      "engagementScore": 187,
+      "views": 21414
+    },
+    {
+      "id": "2122737195765391568",
+      "text": "‘A Bridge Too Far’\n\nHe could well be right ..",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-11-17T17:02:40+00:00",
+      "createdAtMs": 1794934960000,
+      "likes": 164,
+      "retweets": 23,
+      "url": "https://x.com/wmiddelkoop/status/2122737195765391568",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 173,
-      "views": 19546
+      "engagementScore": 187,
+      "views": 14174,
+      "media_url": "https://pbs.twimg.com/media/HXVBq4iawAADV76?format=webp&name=medium",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2122723269132603790",
@@ -272,14 +274,14 @@
       "handle": "quakes99",
       "createdAt": "2026-11-17T16:07:20+00:00",
       "createdAtMs": 1794931640000,
-      "likes": 146,
-      "retweets": 20,
+      "likes": 151,
+      "retweets": 21,
       "url": "https://x.com/quakes99/status/2122723269132603790",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 166,
-      "views": 7591,
+      "engagementScore": 172,
+      "views": 8230,
       "media_url": "https://pbs.twimg.com/media/HXVmyDVboAAYqPN.png?name=orig",
       "media_alt": "Attached post media"
     },
@@ -297,7 +299,7 @@
       "slot": "engagement",
       "slot_order": 11,
       "engagementScore": 47,
-      "views": 1230,
+      "views": 1253,
       "media_url": "https://pbs.twimg.com/media/HXU4IyeWoAA4P2D.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -308,14 +310,14 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-17T17:03:34+00:00",
       "createdAtMs": 1794935014000,
-      "likes": 22,
+      "likes": 26,
       "retweets": 0,
       "url": "https://x.com/BambroughKevin/status/2122737422555377789",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 22,
-      "views": 3614
+      "engagementScore": 26,
+      "views": 4110
     }
   ]
 }
