@@ -1,7 +1,7 @@
 {
   "ath_reference": {
     "cad": 167029.0,
-    "captured_at_utc": "2026-11-19T02:03:24.575298+00:00",
+    "captured_at_utc": "2026-11-19T21:15:21.386712+00:00",
     "scope": "tfsa_ws",
     "source": "Google Sheet \u00b7 TFSA/WS \u00b7 ATH row"
   },
@@ -2199,6 +2199,21 @@
       "captured_at_utc": "2026-11-19T02:03:24.575298+00:00",
       "market_date": "2026-11-18",
       "net_worth_cad": 113342.23,
+      "source": "Google Sheet daily close"
+    },
+    {
+      "accounts": {
+        "rrsp": {
+          "cad": 9559.0
+        },
+        "tfsa_ws": {
+          "cad": 102729.6,
+          "usd": 71609.78
+        }
+      },
+      "captured_at_utc": "2026-11-19T21:15:21.386712+00:00",
+      "market_date": "2026-11-19",
+      "net_worth_cad": 112288.6,
       "source": "Google Sheet daily close"
     }
   ],
