@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-19T21:15:29.243783+00:00",
+    "attemptedAt": "2026-11-19T23:00:36.550735+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
@@ -11,97 +11,97 @@
       "zerohedge": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-19T21:15:30.709213+00:00",
+        "checkedAt": "2026-11-19T23:00:37.809453+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-19T21:15:33.110931+00:00",
+        "checkedAt": "2026-11-19T23:00:38.962482+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-19T21:15:34.809853+00:00",
+        "checkedAt": "2026-11-19T23:00:41.399836+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-19T21:15:36.677090+00:00",
+        "checkedAt": "2026-11-19T23:00:43.324069+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
-        "posts": 4,
-        "checkedAt": "2026-11-19T21:15:38.161060+00:00",
+        "posts": 3,
+        "checkedAt": "2026-11-19T23:00:45.216786+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
-        "posts": 17,
-        "checkedAt": "2026-11-19T21:15:39.422989+00:00",
+        "posts": 16,
+        "checkedAt": "2026-11-19T23:00:47.064784+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-19T21:15:41.224109+00:00",
+        "checkedAt": "2026-11-19T23:00:48.580222+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-19T21:15:43.937020+00:00",
+        "posts": 5,
+        "checkedAt": "2026-11-19T23:00:50.667432+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-19T21:15:45.693863+00:00",
+        "checkedAt": "2026-11-19T23:00:52.842658+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-19T21:15:47.208073+00:00",
+        "checkedAt": "2026-11-19T23:00:54.356749+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 15,
-        "checkedAt": "2026-11-19T21:15:48.726706+00:00",
+        "checkedAt": "2026-11-19T23:00:56.211682+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-19T21:15:51.817499+00:00",
+        "checkedAt": "2026-11-19T23:00:58.025241+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-19T21:15:53.740251+00:00",
+        "checkedAt": "2026-11-19T23:00:59.532428+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-19T21:15:55.964369+00:00",
+        "checkedAt": "2026-11-19T23:01:01.403238+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-19T21:15:57.315752+00:00",
+        "checkedAt": "2026-11-19T23:01:02.957708+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-19T21:16:01.878032+00:00",
+        "checkedAt": "2026-11-19T23:01:04.156597+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-19T21:16:05.225604+00:00",
+  "fetchedAt": "2026-11-19T23:01:07.838296+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,14 +122,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-19T15:59:56+00:00",
       "createdAtMs": 1795103996000,
-      "likes": 16212,
-      "retweets": 2374,
+      "likes": 17699,
+      "retweets": 2619,
       "url": "https://x.com/WatcherGuru/status/2123446182001430653",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 18586,
-      "views": 1342745,
+      "engagementScore": 20318,
+      "views": 1570137,
       "media_url": "https://pbs.twimg.com/media/HXgAJLaXMAA6JVJ.jpg",
       "media_alt": "Attached post media"
     },
@@ -140,14 +140,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-19T16:34:01+00:00",
       "createdAtMs": 1795106041000,
-      "likes": 13898,
-      "retweets": 1226,
+      "likes": 15151,
+      "retweets": 1350,
       "url": "https://x.com/KobeissiLetter/status/2123454759118024840",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 15124,
-      "views": 1980941
+      "engagementScore": 16501,
+      "views": 2310626
     },
     {
       "id": "2123193242703523953",
@@ -156,31 +156,31 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-18T23:14:50+00:00",
       "createdAtMs": 1795043690000,
-      "likes": 1360,
+      "likes": 1381,
       "retweets": 126,
       "url": "https://x.com/nntaleb/status/2123193242703523953",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 1486,
-      "views": 194076
+      "engagementScore": 1507,
+      "views": 196561
     },
     {
-      "id": "2123486353195421824",
-      "text": "*RUBIO IS WEIGHING A 2028 RUN MORE SERIOUSLY, ALLIES SAY: CNN",
+      "id": "2123534465184227433",
+      "text": "by the time OpenAI IPOs, gold and bitcoin will be negative",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-19T18:39:33+00:00",
-      "createdAtMs": 1795113573000,
-      "likes": 722,
-      "retweets": 24,
-      "url": "https://x.com/zerohedge/status/2123486353195421824",
+      "createdAt": "2026-11-19T21:50:44+00:00",
+      "createdAtMs": 1795125044000,
+      "likes": 1347,
+      "retweets": 74,
+      "url": "https://x.com/zerohedge/status/2123534465184227433",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 746,
-      "views": 83820,
-      "media_url": "https://pbs.twimg.com/media/HXgmO3vWkAAZpvW.jpg",
+      "engagementScore": 1421,
+      "views": 86492,
+      "media_url": "https://pbs.twimg.com/media/HVpLIJkXEAA38CX.jpg",
       "media_alt": "Attached post media"
     },
     {
@@ -190,14 +190,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-19T06:40:29+00:00",
       "createdAtMs": 1795070429000,
-      "likes": 410,
-      "retweets": 82,
+      "likes": 440,
+      "retweets": 88,
       "url": "https://x.com/wmiddelkoop/status/2123305394554720341",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 492,
-      "views": 12682
+      "engagementScore": 528,
+      "views": 13266
     },
     {
       "id": "2123467752686199029",
@@ -206,32 +206,16 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-19T17:25:39+00:00",
       "createdAtMs": 1795109139000,
-      "likes": 327,
-      "retweets": 10,
+      "likes": 412,
+      "retweets": 11,
       "url": "https://x.com/SantiagoAuFund/status/2123467752686199029",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 337,
-      "views": 49409,
+      "engagementScore": 423,
+      "views": 59620,
       "media_url": "https://pbs.twimg.com/media/HXgSli0WwAA-08l.jpg?name=orig",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2123399148527378814",
-      "text": "Iran lit a fire in the Strait of Hormuz to celebrate the Anthropic IPO - bearish oil media",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-11-19T12:53:02+00:00",
-      "createdAtMs": 1795092782000,
-      "likes": 266,
-      "retweets": 17,
-      "url": "https://x.com/JoshYoung/status/2123399148527378814",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 283,
-      "views": 9771
     },
     {
       "id": "2123443173037134061",
@@ -240,14 +224,30 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-19T15:47:58+00:00",
       "createdAtMs": 1795103278000,
-      "likes": 253,
+      "likes": 280,
       "retweets": 22,
       "url": "https://x.com/BambroughKevin/status/2123443173037134061",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 7,
+      "engagementScore": 302,
+      "views": 14468
+    },
+    {
+      "id": "2123399148527378814",
+      "text": "Iran lit a fire in the Strait of Hormuz to celebrate the Anthropic IPO - bearish oil media",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-11-19T12:53:02+00:00",
+      "createdAtMs": 1795092782000,
+      "likes": 279,
+      "retweets": 20,
+      "url": "https://x.com/JoshYoung/status/2123399148527378814",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 275,
-      "views": 12286
+      "engagementScore": 299,
+      "views": 10269
     },
     {
       "id": "2123213721027657763",
@@ -256,32 +256,14 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-19T00:36:13+00:00",
       "createdAtMs": 1795048573000,
-      "likes": 115,
+      "likes": 116,
       "retweets": 12,
       "url": "https://x.com/colonelhomsi/status/2123213721027657763",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 127,
-      "views": 2957
-    },
-    {
-      "id": "2123163890834153564",
-      "text": "🎭 #Uranium #stocks rose sharply at today's open📈⚛️⛏️ decoupled from broad markets🔀 but irrational panic selling on fears of more cascading US tech outages😱 relit the Wall & Bay St dumpster fires🔥🇺🇸🇨🇦🚒 sending U stocks plummeting again📉 into the waiting hands of contrarian investors🪂🤲🙃 grabbing the most spectacular bargain prices of the year💎🛒😊 as the accelerating #Nuclear Renaissance further squeezes an already insufficient fuel supply🏎️🔥⬆️⚛️⛽️🗜️ with Spot #U3O8 ticking higher.⏰💣",
-      "author": "quakes99",
-      "handle": "quakes99",
-      "createdAt": "2026-11-18T21:18:12+00:00",
-      "createdAtMs": 1795036692000,
-      "likes": 79,
-      "retweets": 8,
-      "url": "https://x.com/quakes99/status/2123163890834153564",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 87,
-      "views": 6687,
-      "media_url": "https://pbs.twimg.com/media/HXb9pHSagAAdK_E.jpg?name=orig",
-      "media_alt": "Attached post media"
+      "engagementScore": 128,
+      "views": 2999
     },
     {
       "id": "2123456206224372028",
@@ -290,30 +272,46 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-11-19T16:39:46+00:00",
       "createdAtMs": 1795106386000,
-      "likes": 73,
-      "retweets": 3,
+      "likes": 114,
+      "retweets": 4,
       "url": "https://x.com/BarbarianCap/status/2123456206224372028",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 76,
-      "views": 3765
+      "slot_order": 10,
+      "engagementScore": 118,
+      "views": 5492
     },
     {
-      "id": "2123516492411216144",
-      "text": "“To learn which questions are unanswerable, and not to answer them: this skill is most needful in times of stress and darkness.”​\n— Ursula K. Le Guin",
+      "id": "2123521033185501264",
+      "text": "There are rare times when I feel like I’m in the zone. Those are great.\n\nThen there are times when I ask myself, “How in holy hell have I become the janitor of a mountain of bullshit?”\n\nPut another way, sometimes you’re the boxer and sometimes you’re the punching bag. We all get our turn as the punching bag. As far as I can tell, it doesn’t matter how “successful” you become, you have always grabbed a number at the deli counter of getting your ass kicked by the universe.\n\nDuring these periods of fire fighting, I get fidgety and frustrated. I feel like I’m treading water, and patience wears thin, especially with myself.\n\nMy instinct is to try to fix things as quickly as possible. That’s all well and good, but I’ve realized that from a place of “WTF?!,” I often rush and create more problems. This is particularly catastrophic when I try to sprint immediately upon waking up.\n\nThe mantra that saves me is simple:\n\n“Make before you manage.”\n\nEach morning, before plugging holes, fixing things, calling vets, answering text messages, or delegating things, this mantra is a reminder to make something.\n\nEven the most time-sensitive items can usually wait 60 minutes, and by make something, I mean anything.\n\nYou just need to feel like you’ve pushed a millimeter ahead in some creative direction.\n\nFor me, even a 90-second video of calligraphy could set a better emotional tone for the day, helping me to more calmly handle problems. Or maybe I attempt to jumpstart my writing with an Instagram caption. It’s practically nothing, but it’s enough. Even token efforts allow me to reassure myself with “Don’t worry. You did produce something today.”\n\nThe psychological difference between zero acts of creation and one act of creation, no matter how small, is impossible to overstate. If you’re lucky, sometimes that one idea, one sentence, or one shitty first draft can turn into something bigger. \n\nBut the point is to be able to say to yourself, even for five minutes, “Hark! I am a creator, not just a janitor of bullshit! Here is proof that I can—and will!—do more than just manage minutiae… ”\n\nWe all spend time on the struggle bus. At the very least, this mantra has helped me to find a window seat when it’s my turn.\n\nWhen in doubt, try it out: make before you manage.",
       "author": "tferriss",
       "handle": "tferriss",
-      "createdAt": "2026-11-19T20:39:19+00:00",
-      "createdAtMs": 1795120759000,
-      "likes": 31,
-      "retweets": 7,
-      "url": "https://x.com/tferriss/status/2123516492411216144",
+      "createdAt": "2026-11-19T20:57:22+00:00",
+      "createdAtMs": 1795121842000,
+      "likes": 103,
+      "retweets": 6,
+      "url": "https://x.com/tferriss/status/2123521033185501264",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 11,
+      "engagementScore": 109,
+      "views": 13202
+    },
+    {
+      "id": "2123420556175528444",
+      "text": "Boom!💥📰 #China nears a #Nuclear #energy milestone with expected launch in the coming weeks of its Linglong One small modular reactor (SMR) that will connect to the power grid to begin commercial operations by the end of 2026🇨🇳⚛️⚡️🔌🏘️🏭🤠🐂#Uranium 🌊🏄 https://www.ft.com/content/e3135e3a-32f6-408f-9519-4f60d275f485?syn-25a6b1a6=1",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-11-19T14:18:06+00:00",
+      "createdAtMs": 1795097886000,
+      "likes": 75,
+      "retweets": 14,
+      "url": "https://x.com/quakes99/status/2123420556175528444",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 38,
-      "views": 5774
+      "engagementScore": 89,
+      "views": 4476
     }
   ]
 }
