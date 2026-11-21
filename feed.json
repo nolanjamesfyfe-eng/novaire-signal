@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-20T23:00:36.757640+00:00",
+    "attemptedAt": "2026-11-21T00:50:33.222438+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
@@ -10,98 +10,98 @@
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 18,
-        "checkedAt": "2026-11-20T23:00:37.564737+00:00",
+        "posts": 17,
+        "checkedAt": "2026-11-21T00:50:34.442239+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 17,
-        "checkedAt": "2026-11-20T23:00:38.757252+00:00",
+        "checkedAt": "2026-11-21T00:50:36.179919+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 14,
-        "checkedAt": "2026-11-20T23:00:41.468509+00:00",
+        "checkedAt": "2026-11-21T00:50:37.553253+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-20T23:00:42.696271+00:00",
+        "checkedAt": "2026-11-21T00:50:39.093813+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-20T23:00:44.682750+00:00",
+        "checkedAt": "2026-11-21T00:50:40.863913+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-20T23:00:45.967476+00:00",
+        "checkedAt": "2026-11-21T00:50:42.030595+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-20T23:00:47.897002+00:00",
+        "checkedAt": "2026-11-21T00:50:43.299074+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-20T23:00:49.459366+00:00",
+        "checkedAt": "2026-11-21T00:50:44.559983+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-20T23:00:50.868997+00:00",
+        "checkedAt": "2026-11-21T00:50:46.795989+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-20T23:00:54.007832+00:00",
+        "checkedAt": "2026-11-21T00:50:48.732478+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-20T23:00:55.179350+00:00",
+        "checkedAt": "2026-11-21T00:50:49.908896+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-20T23:00:56.626095+00:00",
+        "checkedAt": "2026-11-21T00:50:51.443070+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-20T23:00:58.350597+00:00",
+        "posts": 12,
+        "checkedAt": "2026-11-21T00:50:52.882078+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-20T23:00:59.524285+00:00",
+        "checkedAt": "2026-11-21T00:50:55.226520+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-20T23:01:00.845091+00:00",
+        "checkedAt": "2026-11-21T00:50:57.495085+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-20T23:01:02.016290+00:00",
+        "checkedAt": "2026-11-21T00:50:58.627418+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-20T23:01:05.114558+00:00",
+  "fetchedAt": "2026-11-21T00:51:01.435795+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,14 +122,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-20T18:23:22+00:00",
       "createdAtMs": 1795199002000,
-      "likes": 13190,
-      "retweets": 822,
+      "likes": 14239,
+      "retweets": 882,
       "url": "https://x.com/WatcherGuru/status/2123844669167620488",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 14012,
-      "views": 450369,
+      "engagementScore": 15121,
+      "views": 479505,
       "media_url": "https://pbs.twimg.com/media/HXlpeIXW8AAX_wY.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -140,14 +140,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-20T18:22:03+00:00",
       "createdAtMs": 1795198923000,
-      "likes": 12230,
-      "retweets": 800,
+      "likes": 13361,
+      "retweets": 872,
       "url": "https://x.com/KobeissiLetter/status/2123844337717162044",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 13030,
-      "views": 607603
+      "engagementScore": 14233,
+      "views": 686985
     },
     {
       "id": "2123629785326694557",
@@ -156,14 +156,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-20T04:09:30+00:00",
       "createdAtMs": 1795147770000,
-      "likes": 1894,
-      "retweets": 263,
+      "likes": 1942,
+      "retweets": 268,
       "url": "https://x.com/wmiddelkoop/status/2123629785326694557",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 2157,
-      "views": 87992
+      "engagementScore": 2210,
+      "views": 90850
     },
     {
       "id": "2123884333572231173",
@@ -172,14 +172,14 @@
       "handle": "zerohedge",
       "createdAt": "2026-11-20T21:00:59+00:00",
       "createdAtMs": 1795208459000,
-      "likes": 1325,
-      "retweets": 136,
+      "likes": 1616,
+      "retweets": 164,
       "url": "https://x.com/zerohedge/status/2123884333572231173",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 1461,
-      "views": 92941,
+      "engagementScore": 1780,
+      "views": 109600,
       "media_url": "https://pbs.twimg.com/media/HXmQHT7XgAAnL7l.jpg",
       "media_alt": "Attached post media"
     },
@@ -190,14 +190,14 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-20T02:29:49+00:00",
       "createdAtMs": 1795141789000,
-      "likes": 519,
+      "likes": 524,
       "retweets": 26,
       "url": "https://x.com/BambroughKevin/status/2123604698695356510",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 545,
-      "views": 27585
+      "engagementScore": 550,
+      "views": 27990
     },
     {
       "id": "2123773061430399135",
@@ -206,14 +206,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-20T13:38:50+00:00",
       "createdAtMs": 1795181930000,
-      "likes": 355,
-      "retweets": 19,
+      "likes": 368,
+      "retweets": 20,
       "url": "https://x.com/hkuppy/status/2123773061430399135",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 374,
-      "views": 20376
+      "engagementScore": 388,
+      "views": 21558
     },
     {
       "id": "2123849691368476815",
@@ -222,34 +222,32 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-20T18:43:20+00:00",
       "createdAtMs": 1795200200000,
-      "likes": 190,
-      "retweets": 4,
+      "likes": 215,
+      "retweets": 5,
       "url": "https://x.com/JoshYoung/status/2123849691368476815",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 194,
-      "views": 10427,
+      "engagementScore": 220,
+      "views": 12037,
       "media_url": "https://pbs.twimg.com/media/HXluIuEXsAAAq2V.jpg",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2123802298862186640",
-      "text": "As we discussed a year ago...the debasement trade isn't wrong.  It's just not as easy as advertised. 👇\nhttps://research.santiagocapital.com/p/the-debasement-trade-isnt-wrongits?utm_source=publication-search",
+      "id": "2123869752007467120",
+      "text": "I actually miss the Silver alphas chirping at me every day.\n#MakeSilverGreatAgain",
       "author": "SantiagoAuFund",
       "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-20T15:35:01+00:00",
-      "createdAtMs": 1795188901000,
-      "likes": 154,
-      "retweets": 8,
-      "url": "https://x.com/SantiagoAuFund/status/2123802298862186640",
+      "createdAt": "2026-11-20T20:03:03+00:00",
+      "createdAtMs": 1795204983000,
+      "likes": 177,
+      "retweets": 7,
+      "url": "https://x.com/SantiagoAuFund/status/2123869752007467120",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 162,
-      "views": 10015,
-      "media_url": "https://pbs.twimg.com/media/HXlOopqaAAIfZGV.png",
-      "media_alt": "Attached post media"
+      "engagementScore": 184,
+      "views": 12745
     },
     {
       "id": "2123845650953437444",
@@ -258,33 +256,33 @@
       "handle": "tferriss",
       "createdAt": "2026-11-20T18:27:16+00:00",
       "createdAtMs": 1795199236000,
-      "likes": 90,
-      "retweets": 6,
+      "likes": 105,
+      "retweets": 8,
       "url": "https://x.com/tferriss/status/2123845650953437444",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 96,
-      "views": 16143,
+      "engagementScore": 113,
+      "views": 18330,
       "media_url": "https://pbs.twimg.com/media/HXlpzDhXgAA3OZJ.jpg",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2123827335908753447",
-      "text": "🚨Today @Sprott Physical #Uranium Trust is trading at an over 20% discount to NAV, the deepest discount ever offered since #SPUT began trading in July of 2021.🤯  Investors buying #SPUT shares today are picking up drummed #U3O8 with a street value over $90/lb at just $72/lb🛢️☢️😲",
+      "id": "2123823895237324985",
+      "text": "🚨 #Uranium is the most bullish of all #metals & #mining sectors today🔥⛏️🐂 with #Nuclear fuel demand soaring⏫⚛️⛽️ as constrained supply has pushed Spot #U3O8 Up +18.5% YoY to over $90/lb⏫  and Long-term Up +15.3% YoY to a nominal all-time high🌋😎 sending intrinsic valuations of U #stocks to record highs💰⏫⛏️💎 yet today the U sector is approaching capitulation at extremely oversold levels relative to their true asset values🏳️😭⤵️🚽 caught in an overall AI & metals & mining selloff completely disconnected from the most bullish U sector fundamentals in more than 35 years.💻🤖🪙⛏️🌪️⏬\n\n👴In my over 40 years of investing I have never seen such a massive gap between the strength of a sector's underlying commodity💎💪 and the share prices of its stocks & ETFs.💩  Instead of being set by the extremely bullish U sector fundamentals😊 investor sentiment has attached itself to falling share prices and portfolios.🤬  But here we are... on the cusp of one of the most violent recovery rallies ever gifted to investors🎅🎄🎁🔥🚀 when a torrent of big money eventually comes flowing back into this tiny extremely undervalued sector.💰🌊🏄 Mind-blowing to put it mildly, IMHO.🤯  We can't control the markets, but we can control how we rationally respond to what the markets are giving us.🎁🤔 Good luck to U all!☘️🌈💰🤠🐂",
       "author": "quakes99",
       "handle": "quakes99",
-      "createdAt": "2026-11-20T17:14:30+00:00",
-      "createdAtMs": 1795194870000,
-      "likes": 87,
-      "retweets": 4,
-      "url": "https://x.com/quakes99/status/2123827335908753447",
+      "createdAt": "2026-11-20T17:00:50+00:00",
+      "createdAtMs": 1795194050000,
+      "likes": 86,
+      "retweets": 12,
+      "url": "https://x.com/quakes99/status/2123823895237324985",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 91,
-      "views": 4679,
-      "media_url": "https://pbs.twimg.com/media/HXlYlCgbIAEVBVf.png?name=orig",
+      "engagementScore": 98,
+      "views": 7281,
+      "media_url": "https://pbs.twimg.com/media/HXlWkb4bYAA2aLm.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
@@ -294,14 +292,14 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-20T18:08:08+00:00",
       "createdAtMs": 1795198088000,
-      "likes": 68,
-      "retweets": 8,
+      "likes": 74,
+      "retweets": 9,
       "url": "https://x.com/colonelhomsi/status/2123840831941468302",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 11,
-      "engagementScore": 76,
-      "views": 2688
+      "engagementScore": 83,
+      "views": 2897
     },
     {
       "id": "2123856052248785394",
@@ -310,14 +308,14 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-11-20T19:08:36+00:00",
       "createdAtMs": 1795201716000,
-      "likes": 11,
-      "retweets": 3,
+      "likes": 13,
+      "retweets": 4,
       "url": "https://x.com/BarbarianCap/status/2123856052248785394",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 14,
-      "views": 2299,
+      "engagementScore": 17,
+      "views": 2737,
       "media_url": "https://pbs.twimg.com/media/HXl2vgNW4AAmBTl.png",
       "media_alt": "Attached post media"
     }
