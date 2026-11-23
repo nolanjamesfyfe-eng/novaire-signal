@@ -2,7 +2,7 @@
   "ok": true,
   "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-23T02:01:34.107099+00:00",
+    "attemptedAt": "2026-11-23T02:03:32.133032+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
@@ -11,97 +11,97 @@
       "zerohedge": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-23T02:01:34.940244+00:00",
+        "checkedAt": "2026-11-23T02:03:33.234866+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 17,
-        "checkedAt": "2026-11-23T02:01:36.533265+00:00",
+        "checkedAt": "2026-11-23T02:03:35.262483+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-23T02:01:41.370824+00:00",
+        "checkedAt": "2026-11-23T02:03:37.980629+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-23T02:01:43.830449+00:00",
+        "checkedAt": "2026-11-23T02:03:39.462821+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-23T02:01:45.322489+00:00",
+        "checkedAt": "2026-11-23T02:03:41.193007+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-23T02:01:47.106064+00:00",
+        "checkedAt": "2026-11-23T02:03:43.667020+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-23T02:01:49.007895+00:00",
+        "checkedAt": "2026-11-23T02:03:45.586448+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-23T02:01:52.275589+00:00",
+        "checkedAt": "2026-11-23T02:03:46.884148+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-23T02:01:53.904421+00:00",
+        "checkedAt": "2026-11-23T02:03:48.454381+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 3,
-        "checkedAt": "2026-11-23T02:01:55.355588+00:00",
+        "checkedAt": "2026-11-23T02:03:52.030161+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-23T02:01:57.276533+00:00",
+        "checkedAt": "2026-11-23T02:03:53.171288+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-23T02:02:00.406406+00:00",
+        "checkedAt": "2026-11-23T02:03:54.671760+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 5,
-        "checkedAt": "2026-11-23T02:02:04.818006+00:00",
+        "checkedAt": "2026-11-23T02:03:56.679544+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-23T02:02:07.084978+00:00",
+        "checkedAt": "2026-11-23T02:03:58.396703+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-23T02:02:09.173193+00:00",
+        "checkedAt": "2026-11-23T02:03:59.460438+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-23T02:02:11.409881+00:00",
+        "checkedAt": "2026-11-23T02:04:01.155429+00:00",
         "error": null
       }
     },
@@ -110,7 +110,7 @@
   },
   "count": 10,
   "accountsWithPosts": 10,
-  "fetchedAt": "2026-11-23T02:02:14.266157+00:00",
+  "fetchedAt": "2026-11-23T02:04:03.720090+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [],
@@ -122,14 +122,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-22T17:26:06+00:00",
       "createdAtMs": 1795368366000,
-      "likes": 8766,
+      "likes": 8775,
       "retweets": 1072,
       "url": "https://x.com/KobeissiLetter/status/2124555029885460532",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 9838,
-      "views": 1002060,
+      "engagementScore": 9847,
+      "views": 1003537,
       "media_url": "https://pbs.twimg.com/media/HXvvikoXEAAdBCS.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -140,16 +140,32 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-22T17:47:33+00:00",
       "createdAtMs": 1795369653000,
-      "likes": 7699,
-      "retweets": 867,
+      "likes": 7711,
+      "retweets": 868,
       "url": "https://x.com/WatcherGuru/status/2124560431565971872",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 8566,
-      "views": 577840,
+      "engagementScore": 8579,
+      "views": 578904,
       "media_url": "https://pbs.twimg.com/media/HXv0c6rXEAAcXbl.jpg?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2124666852412370994",
+      "text": "Asian Market Panic Continues As Korea Readies To Unleash Plunge Protectors For First Time Since Lehman https://www.zerohedge.com/markets/south-korea-readies-first-market-rescue-fund-deployment-2008",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-23T00:50:26+00:00",
+      "createdAtMs": 1795395026000,
+      "likes": 900,
+      "retweets": 165,
+      "url": "https://x.com/zerohedge/status/2124666852412370994",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 1065,
+      "views": 84930
     },
     {
       "id": "2124487799231615139",
@@ -163,27 +179,11 @@
       "url": "https://x.com/nntaleb/status/2124487799231615139",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
+      "slot_order": 4,
       "engagementScore": 1053,
-      "views": 137101,
+      "views": 137163,
       "media_url": "https://pbs.twimg.com/media/HXnBtEJW8AAm92Z?format=webp&name=small",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2124666852412370994",
-      "text": "Asian Market Panic Continues As Korea Readies To Unleash Plunge Protectors For First Time Since Lehman https://www.zerohedge.com/markets/south-korea-readies-first-market-rescue-fund-deployment-2008",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-23T00:50:26+00:00",
-      "createdAtMs": 1795395026000,
-      "likes": 871,
-      "retweets": 156,
-      "url": "https://x.com/zerohedge/status/2124666852412370994",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 1027,
-      "views": 83241
     },
     {
       "id": "2124378947815112854",
@@ -192,14 +192,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-22T05:46:24+00:00",
       "createdAtMs": 1795326384000,
-      "likes": 428,
+      "likes": 429,
       "retweets": 31,
       "url": "https://x.com/hkuppy/status/2124378947815112854",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 459,
-      "views": 45706
+      "engagementScore": 460,
+      "views": 45736
     },
     {
       "id": "2124552623290249634",
@@ -215,7 +215,7 @@
       "slot": "engagement",
       "slot_order": 6,
       "engagementScore": 259,
-      "views": 10176
+      "views": 10182
     },
     {
       "id": "2124660631655813396",
@@ -224,14 +224,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-23T00:25:43+00:00",
       "createdAtMs": 1795393543000,
-      "likes": 145,
+      "likes": 146,
       "retweets": 4,
       "url": "https://x.com/JoshYoung/status/2124660631655813396",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 149,
-      "views": 16682,
+      "engagementScore": 150,
+      "views": 16950,
       "media_url": "https://pbs.twimg.com/media/HXxPlcibwAARMbX.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -249,7 +249,7 @@
       "slot": "engagement",
       "slot_order": 8,
       "engagementScore": 91,
-      "views": 4951,
+      "views": 4961,
       "media_url": "https://pbs.twimg.com/media/HXwC686bwAAy0cx.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -267,7 +267,7 @@
       "slot": "engagement",
       "slot_order": 9,
       "engagementScore": 66,
-      "views": 1405,
+      "views": 1406,
       "media_url": "https://pbs.twimg.com/media/HXv2T53XAAAzurg.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -285,7 +285,7 @@
       "slot": "engagement",
       "slot_order": 10,
       "engagementScore": 6,
-      "views": 1863
+      "views": 1900
     }
   ]
 }
