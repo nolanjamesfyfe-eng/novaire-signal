@@ -143,7 +143,7 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         weekly = json.loads((root / "weekly_ideas.json").read_text(encoding="utf-8"))
         ledger = json.loads((root / "weekly_scan_ledger.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(weekly["as_of"], "2026-11-16")
+        self.assertEqual(weekly["as_of"], "2026-11-23")
         self.assertEqual(weekly["scan_status"], "incomplete")
         self.assertIsNone(weekly["scan_completed_at"])
         self.assertIsNone(weekly["evidence"])
@@ -153,10 +153,10 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         self.assertEqual(ledger["universe"], {"total": 20, "tokens": 10, "equities": 10})
         self.assertEqual(ledger["outcomes"], {
             "qualified": 0,
-            "watch": 6,
+            "watch": 5,
             "economic_rejection": 8,
             "portfolio_concentration": 1,
-            "evidence_blocked": 5,
+            "evidence_blocked": 6,
         })
         self.assertEqual(len(ledger["candidates"]), 20)
         for status, expected in ledger["outcomes"].items():
@@ -167,7 +167,7 @@ class WeeklyIdeasFreshnessTests(unittest.TestCase):
         self.assertIn("No trade was placed.", ledger["notes"])
 
         rendered = generate.weekly_scan_presentation(generate.load_weekly_ideas())
-        self.assertEqual(rendered["label"], "Incomplete · Nov 16")
+        self.assertEqual(rendered["label"], "Incomplete · Nov 23")
         self.assertIn("20 candidates were reviewed", rendered["empty_message"])
         self.assertNotEqual(
             rendered["empty_message"],
