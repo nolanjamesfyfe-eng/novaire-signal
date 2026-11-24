@@ -1,144 +1,151 @@
 {
   "ok": true,
-  "status": "partial",
+  "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-24T21:15:31.902503+00:00",
+    "attemptedAt": "2026-11-24T23:00:37.087081+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 15,
+    "accountsSucceeded": 16,
     "sources": {
       "zerohedge": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-24T21:15:35.727288+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 15,
+        "checkedAt": "2026-11-24T23:00:39.720077+00:00",
+        "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-24T21:15:38.323599+00:00",
+        "checkedAt": "2026-11-24T23:00:41.642620+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-24T21:15:39.506146+00:00",
+        "checkedAt": "2026-11-24T23:00:43.622714+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-24T21:15:41.856504+00:00",
+        "checkedAt": "2026-11-24T23:00:44.935535+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-24T21:15:43.194747+00:00",
+        "posts": 4,
+        "checkedAt": "2026-11-24T23:00:46.938981+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 14,
-        "checkedAt": "2026-11-24T21:15:44.345208+00:00",
+        "checkedAt": "2026-11-24T23:00:50.839841+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-24T21:15:45.657901+00:00",
+        "checkedAt": "2026-11-24T23:00:53.017736+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-24T21:15:50.046970+00:00",
+        "checkedAt": "2026-11-24T23:00:56.505368+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-24T21:15:52.146182+00:00",
+        "checkedAt": "2026-11-24T23:00:58.637559+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-24T21:15:58.414550+00:00",
+        "posts": 6,
+        "checkedAt": "2026-11-24T23:00:59.927565+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-24T21:15:59.794523+00:00",
+        "checkedAt": "2026-11-24T23:01:03.811032+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-24T21:16:01.673659+00:00",
+        "checkedAt": "2026-11-24T23:01:05.108931+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-24T21:16:03.105948+00:00",
+        "posts": 8,
+        "checkedAt": "2026-11-24T23:01:06.677706+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-24T21:16:04.627230+00:00",
+        "checkedAt": "2026-11-24T23:01:10.555966+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
-        "posts": 7,
-        "checkedAt": "2026-11-24T21:16:07.173278+00:00",
+        "posts": 10,
+        "checkedAt": "2026-11-24T23:01:12.426159+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-24T21:16:08.709775+00:00",
+        "checkedAt": "2026-11-24T23:01:14.137677+00:00",
         "error": null
       }
     },
-    "errors": [
-      "zerohedge"
-    ],
-    "status": "partial"
+    "errors": [],
+    "status": "ok"
   },
-  "count": 10,
-  "accountsWithPosts": 10,
-  "fetchedAt": "2026-11-24T21:16:10.859104+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-11-24T23:01:17.403644+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
-  "errors": [
-    "zerohedge"
-  ],
+  "errors": [],
   "posts": [
     {
-      "id": "2125238835156271141",
-      "text": "JUST IN: 🇺🇸 Over $1,000,000,000,000 wiped out from the US stock market at open.",
+      "id": "2125316217611432251",
+      "text": "JUST IN: 🇺🇸 Hackers breach CIA and US intelligence systems, exposing unclassified government data in cyberattack, NYT reports.",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
-      "createdAt": "2026-11-24T14:43:17+00:00",
-      "createdAtMs": 1795531397000,
-      "likes": 10413,
-      "retweets": 1385,
-      "url": "https://x.com/WatcherGuru/status/2125238835156271141",
+      "createdAt": "2026-11-24T19:50:47+00:00",
+      "createdAtMs": 1795549847000,
+      "likes": 13395,
+      "retweets": 1937,
+      "url": "https://x.com/WatcherGuru/status/2125316217611432251",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 11798,
-      "views": 1079320,
-      "media_url": "https://pbs.twimg.com/media/HX5dXUGaIAAiGWy.jpg?name=orig",
-      "media_alt": "Attached post media"
+      "engagementScore": 15332,
+      "views": 913812
+    },
+    {
+      "id": "2125318846571524580",
+      "text": "BREAKING: The CIA and the Office of the Director of National Intelligence have been hacked, exposing unclassified intelligence information, per NYT.\n\nThe incident follows reported breaches involving the FBI and USDA.\n\nIt also follows several outages in US government systems.",
+      "author": "KobeissiLetter",
+      "handle": "KobeissiLetter",
+      "createdAt": "2026-11-24T20:01:14+00:00",
+      "createdAtMs": 1795550474000,
+      "likes": 11417,
+      "retweets": 1605,
+      "url": "https://x.com/KobeissiLetter/status/2125318846571524580",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 2,
+      "engagementScore": 13022,
+      "views": 826806
     },
     {
       "id": "2125227008426643606",
@@ -147,49 +154,15 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-24T13:56:18+00:00",
       "createdAtMs": 1795528578000,
-      "likes": 9137,
-      "retweets": 839,
+      "likes": 10222,
+      "retweets": 953,
       "url": "https://x.com/nntaleb/status/2125227008426643606",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 9976,
-      "views": 249225,
-      "media_url": "https://pbs.twimg.com/media/HX5Vc1JXcAEfoCR.jpg",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2125216303875035217",
-      "text": "BREAKING: President Trump is preparing to impose \"sweeping\" new tariffs on China, the European Union and 14 other economies, per WSJ.\n\nThe proposed tariffs will cover most imported products with the EU, Japan and South Korea set to face tariffs of 15% or less.\n\nChina, Vietnam, and India reportedly may face higher tariff rates.\n\nNasdaq 100 futures extend losses to -2.5% on the news.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-11-24T13:13:46+00:00",
-      "createdAtMs": 1795526026000,
-      "likes": 7871,
-      "retweets": 1082,
-      "url": "https://x.com/KobeissiLetter/status/2125216303875035217",
-      "avatar": null,
-      "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 8953,
-      "views": 1356518
-    },
-    {
-      "id": "2125006876886843531",
-      "text": "true story",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-23T23:21:34+00:00",
-      "createdAtMs": 1795476094000,
-      "likes": 474,
-      "retweets": 33,
-      "url": "https://x.com/SantiagoAuFund/status/2125006876886843531",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 507,
-      "views": 17012,
-      "media_url": "https://pbs.twimg.com/media/HX2CFkLWQAA6EpR?format=jpg&name=small",
+      "engagementScore": 11175,
+      "views": 302243,
+      "media_url": "https://pbs.twimg.com/media/HX6zZCRWEAA-9Ua.jpg",
       "media_alt": "Attached post media"
     },
     {
@@ -199,14 +172,30 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-24T14:53:57+00:00",
       "createdAtMs": 1795532037000,
-      "likes": 335,
-      "retweets": 33,
+      "likes": 367,
+      "retweets": 36,
       "url": "https://x.com/BambroughKevin/status/2125241517669228911",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 4,
+      "engagementScore": 403,
+      "views": 19360
+    },
+    {
+      "id": "2125348902987874704",
+      "text": "An unclassified CIA system was breached in a cyberattack: AP",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-24T22:00:40+00:00",
+      "createdAtMs": 1795557640000,
+      "likes": 279,
+      "retweets": 33,
+      "url": "https://x.com/zerohedge/status/2125348902987874704",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 368,
-      "views": 17529
+      "engagementScore": 312,
+      "views": 48990
     },
     {
       "id": "2125254387941732531",
@@ -215,14 +204,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-24T15:45:06+00:00",
       "createdAtMs": 1795535106000,
-      "likes": 248,
+      "likes": 276,
       "retweets": 15,
       "url": "https://x.com/hkuppy/status/2125254387941732531",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 263,
-      "views": 15032,
+      "engagementScore": 291,
+      "views": 16706,
       "media_url": "https://pbs.twimg.com/media/HX5rmVAXMAAVal_.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -240,7 +229,23 @@
       "slot": "engagement",
       "slot_order": 7,
       "engagementScore": 247,
-      "views": 29090
+      "views": 29443
+    },
+    {
+      "id": "2125320531121721770",
+      "text": "Sniper finally catching on...",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-11-24T20:07:55+00:00",
+      "createdAtMs": 1795550875000,
+      "likes": 217,
+      "retweets": 7,
+      "url": "https://x.com/SantiagoAuFund/status/2125320531121721770",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 8,
+      "engagementScore": 224,
+      "views": 34736
     },
     {
       "id": "2125301856478146903",
@@ -249,14 +254,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-24T18:53:43+00:00",
       "createdAtMs": 1795546423000,
-      "likes": 164,
-      "retweets": 7,
+      "likes": 200,
+      "retweets": 8,
       "url": "https://x.com/JoshYoung/status/2125301856478146903",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 171,
-      "views": 5581,
+      "slot_order": 9,
+      "engagementScore": 208,
+      "views": 6880,
       "media_url": "https://pbs.twimg.com/media/HX6WxoXacAA54TC.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -267,14 +272,14 @@
       "handle": "quakes99",
       "createdAt": "2026-11-24T17:36:03+00:00",
       "createdAtMs": 1795541763000,
-      "likes": 57,
-      "retweets": 6,
+      "likes": 64,
+      "retweets": 7,
       "url": "https://x.com/quakes99/status/2125282309788328183",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 63,
-      "views": 3109
+      "slot_order": 10,
+      "engagementScore": 71,
+      "views": 4177
     },
     {
       "id": "2125019184488935428",
@@ -288,11 +293,27 @@
       "url": "https://x.com/BarbarianCap/status/2125019184488935428",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
+      "slot_order": 11,
       "engagementScore": 26,
-      "views": 7086,
+      "views": 7174,
       "media_url": "https://pbs.twimg.com/media/HX2Vg6YXgAA9Bii.png?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125350069423546822",
+      "text": "Large-scale power outage in Dnipro following attacks on the electricity grid..",
+      "author": "colonelhomsi",
+      "handle": "colonelhomsi",
+      "createdAt": "2026-11-24T22:05:18+00:00",
+      "createdAtMs": 1795557918000,
+      "likes": 16,
+      "retweets": 4,
+      "url": "https://x.com/colonelhomsi/status/2125350069423546822",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 12,
+      "engagementScore": 20,
+      "views": 617
     }
   ]
 }
