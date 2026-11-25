@@ -1,119 +1,131 @@
 {
   "ok": true,
-  "status": "ok",
+  "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-24T23:00:37.087081+00:00",
+    "attemptedAt": "2026-11-25T00:50:30.981246+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 16,
+    "accountsSucceeded": 14,
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 15,
-        "checkedAt": "2026-11-24T23:00:39.720077+00:00",
+        "posts": 16,
+        "checkedAt": "2026-11-25T00:50:33.763586+00:00",
         "error": null
       },
       "KobeissiLetter": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-24T23:00:41.642620+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-25T00:50:37.885370+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-24T23:00:43.622714+00:00",
+        "checkedAt": "2026-11-25T00:50:39.423820+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-24T23:00:44.935535+00:00",
+        "checkedAt": "2026-11-25T00:50:40.689401+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 4,
-        "checkedAt": "2026-11-24T23:00:46.938981+00:00",
+        "checkedAt": "2026-11-25T00:50:42.361778+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
-        "posts": 14,
-        "checkedAt": "2026-11-24T23:00:50.839841+00:00",
+        "posts": 13,
+        "checkedAt": "2026-11-25T00:50:45.736441+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-24T23:00:53.017736+00:00",
+        "checkedAt": "2026-11-25T00:50:48.094386+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-24T23:00:56.505368+00:00",
+        "checkedAt": "2026-11-25T00:50:51.328166+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-24T23:00:58.637559+00:00",
+        "checkedAt": "2026-11-25T00:50:55.466810+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-24T23:00:59.927565+00:00",
+        "checkedAt": "2026-11-25T00:50:56.778564+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-24T23:01:03.811032+00:00",
+        "checkedAt": "2026-11-25T00:51:00.526138+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-24T23:01:05.108931+00:00",
+        "posts": 7,
+        "checkedAt": "2026-11-25T00:51:02.199879+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-24T23:01:06.677706+00:00",
+        "checkedAt": "2026-11-25T00:51:06.622216+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-24T23:01:10.555966+00:00",
+        "checkedAt": "2026-11-25T00:51:09.842081+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-24T23:01:12.426159+00:00",
+        "checkedAt": "2026-11-25T00:51:10.946515+00:00",
         "error": null
       },
       "HydroGraphInc": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-24T23:01:14.137677+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-25T00:51:15.012847+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       }
     },
-    "errors": [],
-    "status": "ok"
+    "errors": [
+      "KobeissiLetter",
+      "HydroGraphInc"
+    ],
+    "status": "partial"
   },
-  "count": 12,
-  "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-24T23:01:17.403644+00:00",
+  "count": 11,
+  "accountsWithPosts": 11,
+  "fetchedAt": "2026-11-25T00:51:17.856030+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
-  "errors": [],
+  "errors": [
+    "KobeissiLetter",
+    "HydroGraphInc"
+  ],
   "posts": [
     {
       "id": "2125316217611432251",
@@ -122,30 +134,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-24T19:50:47+00:00",
       "createdAtMs": 1795549847000,
-      "likes": 13395,
-      "retweets": 1937,
+      "likes": 14920,
+      "retweets": 2146,
       "url": "https://x.com/WatcherGuru/status/2125316217611432251",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 15332,
-      "views": 913812
-    },
-    {
-      "id": "2125318846571524580",
-      "text": "BREAKING: The CIA and the Office of the Director of National Intelligence have been hacked, exposing unclassified intelligence information, per NYT.\n\nThe incident follows reported breaches involving the FBI and USDA.\n\nIt also follows several outages in US government systems.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-11-24T20:01:14+00:00",
-      "createdAtMs": 1795550474000,
-      "likes": 11417,
-      "retweets": 1605,
-      "url": "https://x.com/KobeissiLetter/status/2125318846571524580",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 13022,
-      "views": 826806
+      "engagementScore": 17066,
+      "views": 1088894
     },
     {
       "id": "2125227008426643606",
@@ -154,16 +150,32 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-24T13:56:18+00:00",
       "createdAtMs": 1795528578000,
-      "likes": 10222,
-      "retweets": 953,
+      "likes": 11059,
+      "retweets": 1026,
       "url": "https://x.com/nntaleb/status/2125227008426643606",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 11175,
-      "views": 302243,
+      "slot_order": 2,
+      "engagementScore": 12085,
+      "views": 337100,
       "media_url": "https://pbs.twimg.com/media/HX6zZCRWEAA-9Ua.jpg",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125363357062492641",
+      "text": "*TRUMP SAYS WILLING TO PARDON HUANG IF NECESSARY: NY POST\n\n*TRUMP SAYS HUANG IS PROBABLY FINE WITHOUT A PARDON: NY POST",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-24T22:58:06+00:00",
+      "createdAtMs": 1795561086000,
+      "likes": 708,
+      "retweets": 68,
+      "url": "https://x.com/zerohedge/status/2125363357062492641",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 776,
+      "views": 85218
     },
     {
       "id": "2125241517669228911",
@@ -172,30 +184,14 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-24T14:53:57+00:00",
       "createdAtMs": 1795532037000,
-      "likes": 367,
-      "retweets": 36,
+      "likes": 406,
+      "retweets": 39,
       "url": "https://x.com/BambroughKevin/status/2125241517669228911",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 403,
-      "views": 19360
-    },
-    {
-      "id": "2125348902987874704",
-      "text": "An unclassified CIA system was breached in a cyberattack: AP",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-24T22:00:40+00:00",
-      "createdAtMs": 1795557640000,
-      "likes": 279,
-      "retweets": 33,
-      "url": "https://x.com/zerohedge/status/2125348902987874704",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 312,
-      "views": 48990
+      "engagementScore": 445,
+      "views": 20958
     },
     {
       "id": "2125254387941732531",
@@ -204,16 +200,32 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-24T15:45:06+00:00",
       "createdAtMs": 1795535106000,
-      "likes": 276,
-      "retweets": 15,
+      "likes": 295,
+      "retweets": 16,
       "url": "https://x.com/hkuppy/status/2125254387941732531",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 291,
-      "views": 16706,
+      "slot_order": 5,
+      "engagementScore": 311,
+      "views": 20136,
       "media_url": "https://pbs.twimg.com/media/HX5rmVAXMAAVal_.jpg?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125320531121721770",
+      "text": "Sniper finally catching on...",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-11-24T20:07:55+00:00",
+      "createdAtMs": 1795550875000,
+      "likes": 265,
+      "retweets": 11,
+      "url": "https://x.com/SantiagoAuFund/status/2125320531121721770",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 6,
+      "engagementScore": 276,
+      "views": 42832
     },
     {
       "id": "2125119762615406930",
@@ -229,23 +241,7 @@
       "slot": "engagement",
       "slot_order": 7,
       "engagementScore": 247,
-      "views": 29443
-    },
-    {
-      "id": "2125320531121721770",
-      "text": "Sniper finally catching on...",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-24T20:07:55+00:00",
-      "createdAtMs": 1795550875000,
-      "likes": 217,
-      "retweets": 7,
-      "url": "https://x.com/SantiagoAuFund/status/2125320531121721770",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 224,
-      "views": 34736
+      "views": 29617
     },
     {
       "id": "2125301856478146903",
@@ -254,50 +250,32 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-24T18:53:43+00:00",
       "createdAtMs": 1795546423000,
-      "likes": 200,
-      "retweets": 8,
+      "likes": 231,
+      "retweets": 9,
       "url": "https://x.com/JoshYoung/status/2125301856478146903",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 208,
-      "views": 6880,
+      "slot_order": 8,
+      "engagementScore": 240,
+      "views": 8380,
       "media_url": "https://pbs.twimg.com/media/HX6WxoXacAA54TC.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2125282309788328183",
-      "text": "🚨Next Monday a rare brew is on tap🍺 as #Nuclear fuel consultants TradeTech & UxC both peg their November month-end Spot & Long-term #Uranium Prices!👯💲🛢️☢️⛏️ TradeTech's October Long-term jumped +$2 to an all-time $99 high.⬆️🌋😎 Will we see $100+ next week?🤔 Stay tuned!🤠🐂",
+      "id": "2125329930254954888",
+      "text": "🚨With a final decision by #France to commence construction of 6 new gigantic EPR2 #Nuclear reactors now just weeks away, EDF plans a $1.1B forge to make the large reactor parts they need.🇫🇷🔥⚛️🏗️👷🤠🐂  #Uranium #EnergySecurity 🌊🏄  https://www.bloomberg.com/news/articles/2026-11-24/edf-unit-plans-1-billion-forge-as-new-nuclear-push-readied",
       "author": "quakes99",
       "handle": "quakes99",
-      "createdAt": "2026-11-24T17:36:03+00:00",
-      "createdAtMs": 1795541763000,
-      "likes": 64,
-      "retweets": 7,
-      "url": "https://x.com/quakes99/status/2125282309788328183",
+      "createdAt": "2026-11-24T20:45:16+00:00",
+      "createdAtMs": 1795553116000,
+      "likes": 65,
+      "retweets": 12,
+      "url": "https://x.com/quakes99/status/2125329930254954888",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 71,
-      "views": 4177
-    },
-    {
-      "id": "2125019184488935428",
-      "text": "it's literally in the IPO filings",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-11-24T00:10:29+00:00",
-      "createdAtMs": 1795479029000,
-      "likes": 26,
-      "retweets": 0,
-      "url": "https://x.com/BarbarianCap/status/2125019184488935428",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 26,
-      "views": 7174,
-      "media_url": "https://pbs.twimg.com/media/HX2Vg6YXgAA9Bii.png?name=orig",
-      "media_alt": "Attached post media"
+      "slot_order": 9,
+      "engagementScore": 77,
+      "views": 3053
     },
     {
       "id": "2125350069423546822",
@@ -306,14 +284,30 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-24T22:05:18+00:00",
       "createdAtMs": 1795557918000,
-      "likes": 16,
-      "retweets": 4,
+      "likes": 26,
+      "retweets": 6,
       "url": "https://x.com/colonelhomsi/status/2125350069423546822",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 12,
-      "engagementScore": 20,
-      "views": 617
+      "slot_order": 10,
+      "engagementScore": 32,
+      "views": 800
+    },
+    {
+      "id": "2125050504698863999",
+      "text": "At least 1,000 academic economists think that this is a good thing",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-11-24T02:14:56+00:00",
+      "createdAtMs": 1795486496000,
+      "likes": 9,
+      "retweets": 0,
+      "url": "https://x.com/BarbarianCap/status/2125050504698863999",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 11,
+      "engagementScore": 9,
+      "views": 3053
     }
   ]
 }
