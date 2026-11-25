@@ -1,126 +1,119 @@
 {
   "ok": true,
-  "status": "partial",
+  "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-25T21:15:31.984421+00:00",
+    "attemptedAt": "2026-11-25T23:00:34.642832+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 15,
+    "accountsSucceeded": 16,
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 16,
-        "checkedAt": "2026-11-25T21:15:34.121867+00:00",
+        "posts": 15,
+        "checkedAt": "2026-11-25T23:00:35.487223+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-25T21:15:36.361454+00:00",
+        "checkedAt": "2026-11-25T23:00:39.366879+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-25T21:15:37.784888+00:00",
+        "checkedAt": "2026-11-25T23:00:40.895243+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-25T21:15:39.757527+00:00",
+        "checkedAt": "2026-11-25T23:00:42.367368+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
-        "posts": 7,
-        "checkedAt": "2026-11-25T21:15:41.956827+00:00",
+        "posts": 6,
+        "checkedAt": "2026-11-25T23:00:45.080922+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
-        "posts": 15,
-        "checkedAt": "2026-11-25T21:15:43.088707+00:00",
+        "posts": 16,
+        "checkedAt": "2026-11-25T23:00:46.740101+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-25T21:15:44.713441+00:00",
+        "checkedAt": "2026-11-25T23:00:49.143146+00:00",
         "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-25T21:15:49.084013+00:00",
+        "checkedAt": "2026-11-25T23:00:51.216979+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-25T21:15:50.775512+00:00",
+        "checkedAt": "2026-11-25T23:00:52.929816+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-25T21:15:52.432544+00:00",
+        "posts": 8,
+        "checkedAt": "2026-11-25T23:00:55.490160+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-25T21:15:54.083438+00:00",
+        "checkedAt": "2026-11-25T23:00:56.716076+00:00",
         "error": null
       },
       "JoshYoung": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-25T21:15:58.170635+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 11,
+        "checkedAt": "2026-11-25T23:00:58.487665+00:00",
+        "error": null
       },
       "wmiddelkoop": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-25T21:15:59.611941+00:00",
+        "posts": 9,
+        "checkedAt": "2026-11-25T23:01:00.867427+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-25T21:16:00.742203+00:00",
+        "checkedAt": "2026-11-25T23:01:02.053259+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-25T21:16:03.202299+00:00",
+        "checkedAt": "2026-11-25T23:01:04.379759+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-25T21:16:04.358424+00:00",
+        "checkedAt": "2026-11-25T23:01:08.097417+00:00",
         "error": null
       }
     },
-    "errors": [
-      "JoshYoung"
-    ],
-    "status": "partial"
+    "errors": [],
+    "status": "ok"
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-25T21:16:07.350666+00:00",
+  "fetchedAt": "2026-11-25T23:01:10.746750+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
-  "errors": [
-    "JoshYoung"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2125628271337554117",
@@ -129,14 +122,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-25T16:30:46+00:00",
       "createdAtMs": 1795624246000,
-      "likes": 9662,
-      "retweets": 601,
+      "likes": 10622,
+      "retweets": 665,
       "url": "https://x.com/WatcherGuru/status/2125628271337554117",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 10263,
-      "views": 1042713,
+      "engagementScore": 11287,
+      "views": 1228315,
       "media_url": "https://pbs.twimg.com/media/HX-_hGzaQAELwOu.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -147,14 +140,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-24T23:40:19+00:00",
       "createdAtMs": 1795563619000,
-      "likes": 8618,
-      "retweets": 729,
+      "likes": 8659,
+      "retweets": 734,
       "url": "https://x.com/KobeissiLetter/status/2125373983025734076",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 9347,
-      "views": 1197745
+      "engagementScore": 9393,
+      "views": 1212696
     },
     {
       "id": "2125675092642255345",
@@ -163,32 +156,32 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-25T19:36:49+00:00",
       "createdAtMs": 1795635409000,
-      "likes": 598,
-      "retweets": 64,
+      "likes": 854,
+      "retweets": 91,
       "url": "https://x.com/nntaleb/status/2125675092642255345",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 662,
-      "views": 34986,
+      "engagementScore": 945,
+      "views": 46157,
       "media_url": "https://pbs.twimg.com/media/HX_qGImWEAA-ZKt.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2125675837517152746",
-      "text": "Michael Burry Is More Long Than Short After Dumping Nasdaq Puts: BBG\n\nWait, he reopened his hedge fund?",
+      "id": "2125695056548102486",
+      "text": "*NEURALINK: RECEIVED FDA APPROVAL FOR PIVOTAL TRIAL IN US",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-25T19:39:47+00:00",
-      "createdAtMs": 1795635587000,
-      "likes": 427,
-      "retweets": 25,
-      "url": "https://x.com/zerohedge/status/2125675837517152746",
+      "createdAt": "2026-11-25T20:56:09+00:00",
+      "createdAtMs": 1795640169000,
+      "likes": 863,
+      "retweets": 55,
+      "url": "https://x.com/zerohedge/status/2125695056548102486",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 452,
-      "views": 68896
+      "engagementScore": 918,
+      "views": 100014
     },
     {
       "id": "2125647915808874777",
@@ -197,14 +190,14 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-25T17:48:50+00:00",
       "createdAtMs": 1795628930000,
-      "likes": 368,
-      "retweets": 75,
+      "likes": 588,
+      "retweets": 116,
       "url": "https://x.com/colonelhomsi/status/2125647915808874777",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 443,
-      "views": 10061
+      "engagementScore": 704,
+      "views": 16797
     },
     {
       "id": "2125639019358994838",
@@ -213,14 +206,30 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-25T17:13:29+00:00",
       "createdAtMs": 1795626809000,
-      "likes": 339,
+      "likes": 392,
       "retweets": 9,
       "url": "https://x.com/SantiagoAuFund/status/2125639019358994838",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 348,
-      "views": 19999
+      "engagementScore": 401,
+      "views": 24350
+    },
+    {
+      "id": "2125650367274967095",
+      "text": "Everyone is talking about an oil glut when tankers and infrastructure are actively being destroyed",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-11-25T17:58:34+00:00",
+      "createdAtMs": 1795629514000,
+      "likes": 224,
+      "retweets": 11,
+      "url": "https://x.com/JoshYoung/status/2125650367274967095",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 7,
+      "engagementScore": 235,
+      "views": 7825
     },
     {
       "id": "2125588418000302177",
@@ -229,14 +238,32 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-25T13:52:25+00:00",
       "createdAtMs": 1795614745000,
-      "likes": 174,
-      "retweets": 14,
+      "likes": 183,
+      "retweets": 15,
       "url": "https://x.com/BambroughKevin/status/2125588418000302177",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 188,
-      "views": 7462
+      "slot_order": 8,
+      "engagementScore": 198,
+      "views": 7987
+    },
+    {
+      "id": "2125700300678090832",
+      "text": "Nice intraday reversal in the precious metals market \n\nWe often see this pattern, after a long correction, marking a bottom",
+      "author": "wmiddelkoop",
+      "handle": "wmiddelkoop",
+      "createdAt": "2026-11-25T21:16:59+00:00",
+      "createdAtMs": 1795641419000,
+      "likes": 167,
+      "retweets": 14,
+      "url": "https://x.com/wmiddelkoop/status/2125700300678090832",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 9,
+      "engagementScore": 181,
+      "views": 6394,
+      "media_url": "https://pbs.twimg.com/media/HYABJ4SWkAEuGYe.jpg?name=orig",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2125367208172036169",
@@ -250,25 +277,9 @@
       "url": "https://x.com/HydroGraphInc/status/2125367208172036169",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 10,
       "engagementScore": 121,
-      "views": 6304
-    },
-    {
-      "id": "2125631807219552486",
-      "text": "Did the US just detonate a ‘dirty bomb’ themselves!’",
-      "author": "wmiddelkoop",
-      "handle": "wmiddelkoop",
-      "createdAt": "2026-11-25T16:44:49+00:00",
-      "createdAtMs": 1795625089000,
-      "likes": 81,
-      "retweets": 11,
-      "url": "https://x.com/wmiddelkoop/status/2125631807219552486",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 92,
-      "views": 8887
+      "views": 6401
     },
     {
       "id": "2125621437386178693",
@@ -277,48 +288,32 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-25T16:03:37+00:00",
       "createdAtMs": 1795622617000,
-      "likes": 85,
-      "retweets": 5,
+      "likes": 93,
+      "retweets": 6,
       "url": "https://x.com/hkuppy/status/2125621437386178693",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 90,
-      "views": 11311
+      "slot_order": 11,
+      "engagementScore": 99,
+      "views": 12350
     },
     {
-      "id": "2125615843254075583",
-      "text": "🤪Nothing exemplifies the total insanity of today's markets more than seeing the lowest risk play in the #Uranium sector, #SPUT, with zero #mining risk tied to an unwavering $90 Spot price, now selling down harder than high mining risk Cameco to a record -21% discount to NAV.😵‍💫",
+      "id": "2125659626205233186",
+      "text": "Woah!😲 Traders are definitely sensing that today's deep dip and reversal marks the bottom for #Uranium #stocks as they are piling into @enCoreEnergy_EU $EU now which is currently trading up +12% on high volume!🔊📈⚛️⛏️🤠🐂",
       "author": "quakes99",
       "handle": "quakes99",
-      "createdAt": "2026-11-25T15:41:23+00:00",
-      "createdAtMs": 1795621283000,
-      "likes": 78,
-      "retweets": 9,
-      "url": "https://x.com/quakes99/status/2125615843254075583",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 87,
-      "views": 4399,
-      "media_url": "https://pbs.twimg.com/media/HX-z6Oba4AAdjuB.png?name=orig",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2125679428701208757",
-      "text": "We aren't short on health data from wearables. What's missing is the last mile.",
-      "author": "tferriss",
-      "handle": "tferriss",
-      "createdAt": "2026-11-25T19:54:03+00:00",
-      "createdAtMs": 1795636443000,
-      "likes": 39,
-      "retweets": 2,
-      "url": "https://x.com/tferriss/status/2125679428701208757",
+      "createdAt": "2026-11-25T18:35:22+00:00",
+      "createdAtMs": 1795631722000,
+      "likes": 65,
+      "retweets": 6,
+      "url": "https://x.com/quakes99/status/2125659626205233186",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 41,
-      "views": 9741
+      "engagementScore": 71,
+      "views": 3528,
+      "media_url": "https://pbs.twimg.com/media/HX_cKI-bUAAc68q.jpg?name=orig",
+      "media_alt": "Attached post media"
     }
   ]
 }
