@@ -2,7 +2,7 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-26T23:00:35.165903+00:00",
+    "attemptedAt": "2026-11-26T23:20:32.954992+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
@@ -11,115 +11,115 @@
       "zerohedge": {
         "ok": true,
         "posts": 14,
-        "checkedAt": "2026-11-26T23:00:39.337656+00:00",
+        "checkedAt": "2026-11-26T23:20:36.757119+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-26T23:00:41.970202+00:00",
+        "checkedAt": "2026-11-26T23:20:38.286284+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-26T23:00:43.152491+00:00",
+        "checkedAt": "2026-11-26T23:20:41.757045+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-26T23:00:45.675066+00:00",
+        "checkedAt": "2026-11-26T23:20:43.769388+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-26T23:00:47.341994+00:00",
+        "checkedAt": "2026-11-26T23:20:46.811533+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-26T23:00:49.742503+00:00",
+        "checkedAt": "2026-11-26T23:20:48.445328+00:00",
         "error": null
       },
       "nntaleb": {
-        "ok": true,
-        "posts": 12,
-        "checkedAt": "2026-11-26T23:00:52.914913+00:00",
-        "error": null
-      },
-      "tferriss": {
-        "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-26T23:00:54.850212+00:00",
-        "error": null
-      },
-      "JohnPolomny": {
-        "ok": true,
-        "posts": 2,
-        "checkedAt": "2026-11-26T23:00:58.521071+00:00",
-        "error": null
-      },
-      "SantiagoAuFund": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-26T23:01:02.725502+00:00",
+        "checkedAt": "2026-11-26T23:20:52.457165+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
       },
+      "tferriss": {
+        "ok": true,
+        "posts": 6,
+        "checkedAt": "2026-11-26T23:20:54.040574+00:00",
+        "error": null
+      },
+      "JohnPolomny": {
+        "ok": true,
+        "posts": 2,
+        "checkedAt": "2026-11-26T23:20:58.553850+00:00",
+        "error": null
+      },
+      "SantiagoAuFund": {
+        "ok": true,
+        "posts": 11,
+        "checkedAt": "2026-11-26T23:21:00.081164+00:00",
+        "error": null
+      },
       "BarbarianCap": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-26T23:01:05.437962+00:00",
+        "posts": 8,
+        "checkedAt": "2026-11-26T23:21:02.029215+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-26T23:01:08.526045+00:00",
+        "checkedAt": "2026-11-26T23:21:04.760782+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-26T23:01:09.951047+00:00",
+        "checkedAt": "2026-11-26T23:21:06.248945+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-26T23:01:11.488990+00:00",
+        "checkedAt": "2026-11-26T23:21:08.571017+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-26T23:01:12.559202+00:00",
+        "checkedAt": "2026-11-26T23:21:09.879283+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-26T23:01:14.055819+00:00",
+        "checkedAt": "2026-11-26T23:21:11.372526+00:00",
         "error": null
       }
     },
     "errors": [
-      "SantiagoAuFund"
+      "nntaleb"
     ],
     "status": "partial"
   },
   "count": 11,
   "accountsWithPosts": 11,
-  "fetchedAt": "2026-11-26T23:01:16.206275+00:00",
+  "fetchedAt": "2026-11-26T23:21:13.461830+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "SantiagoAuFund"
+    "nntaleb"
   ],
   "posts": [
     {
@@ -129,32 +129,16 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-26T16:05:47+00:00",
       "createdAtMs": 1795709147000,
-      "likes": 9851,
-      "retweets": 950,
+      "likes": 10135,
+      "retweets": 977,
       "url": "https://x.com/WatcherGuru/status/2125984371387605039",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 10801,
-      "views": 1223732,
+      "engagementScore": 11112,
+      "views": 1265885,
       "media_url": "https://pbs.twimg.com/media/HYEDhNBWIAATpvZ.jpg?name=orig",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2125928311868322075",
-      "text": "No, you idiots.\nThe fact that you hate Trump (I do) must have NOTHING to do with your opinion on the reinstatement of Jensen Huang.\nIt was the market that brought back Huang. Trump was just responding.\n\nVictory of the (flawed) innovator against empty suits & journalists losers.",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-11-26T12:23:02+00:00",
-      "createdAtMs": 1795695782000,
-      "likes": 4326,
-      "retweets": 361,
-      "url": "https://x.com/nntaleb/status/2125928311868322075",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 4687,
-      "views": 138911
     },
     {
       "id": "2125935808930582656",
@@ -163,16 +147,32 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-26T12:52:49+00:00",
       "createdAtMs": 1795697569000,
-      "likes": 3804,
+      "likes": 3823,
       "retweets": 248,
       "url": "https://x.com/KobeissiLetter/status/2125935808930582656",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 4052,
-      "views": 353138,
+      "slot_order": 2,
+      "engagementScore": 4071,
+      "views": 355574,
       "media_url": "https://pbs.twimg.com/media/HYDXWe6WkAAQ1yF.jpg?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125940170138779896",
+      "text": "My annual opportunity to say thank you to everyone for another year of interaction, laughs, arguments and the sharing of silly memes.  \nI appreciate you all.  \nEven the Losers and the Haters.  ✌️😉",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-11-26T13:10:09+00:00",
+      "createdAtMs": 1795698609000,
+      "likes": 636,
+      "retweets": 9,
+      "url": "https://x.com/SantiagoAuFund/status/2125940170138779896",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 645,
+      "views": 14460
     },
     {
       "id": "2125997177839419717",
@@ -181,14 +181,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-26T16:56:40+00:00",
       "createdAtMs": 1795712200000,
-      "likes": 337,
+      "likes": 345,
       "retweets": 13,
       "url": "https://x.com/tferriss/status/2125997177839419717",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 350,
-      "views": 25151
+      "engagementScore": 358,
+      "views": 26042
     },
     {
       "id": "2126034252403712137",
@@ -197,14 +197,14 @@
       "handle": "zerohedge",
       "createdAt": "2026-11-26T19:24:00+00:00",
       "createdAtMs": 1795721040000,
-      "likes": 264,
-      "retweets": 29,
+      "likes": 284,
+      "retweets": 31,
       "url": "https://x.com/zerohedge/status/2126034252403712137",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 293,
-      "views": 96730,
+      "engagementScore": 315,
+      "views": 100310,
       "media_url": "https://pbs.twimg.com/media/HYEw4rGXwAEhB9B.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -215,14 +215,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-26T00:52:33+00:00",
       "createdAtMs": 1795654353000,
-      "likes": 119,
+      "likes": 120,
       "retweets": 7,
       "url": "https://x.com/JoshYoung/status/2125754546131767716",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 126,
-      "views": 9326
+      "engagementScore": 127,
+      "views": 9357
     },
     {
       "id": "2125992048788381697",
@@ -231,14 +231,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-26T16:36:18+00:00",
       "createdAtMs": 1795710978000,
-      "likes": 118,
+      "likes": 119,
       "retweets": 5,
       "url": "https://x.com/hkuppy/status/2125992048788381697",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 7,
-      "engagementScore": 123,
-      "views": 12976,
+      "engagementScore": 124,
+      "views": 13161,
       "media_url": "https://pbs.twimg.com/media/HYEKNHSXsAEzRmO.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -256,7 +256,7 @@
       "slot": "engagement",
       "slot_order": 8,
       "engagementScore": 93,
-      "views": 2639
+      "views": 2647
     },
     {
       "id": "2125938467708522857",
@@ -265,14 +265,14 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-26T13:03:23+00:00",
       "createdAtMs": 1795698203000,
-      "likes": 75,
+      "likes": 77,
       "retweets": 6,
       "url": "https://x.com/BambroughKevin/status/2125938467708522857",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 81,
-      "views": 6464,
+      "engagementScore": 83,
+      "views": 6526,
       "media_url": "https://pbs.twimg.com/media/HX_DhFBXIAAX9vR?format=png&name=small",
       "media_alt": "Attached post media"
     },
@@ -283,14 +283,14 @@
       "handle": "quakes99",
       "createdAt": "2026-11-26T17:52:50+00:00",
       "createdAtMs": 1795715570000,
-      "likes": 44,
-      "retweets": 4,
+      "likes": 45,
+      "retweets": 5,
       "url": "https://x.com/quakes99/status/2126011309217190024",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 48,
-      "views": 2862,
+      "engagementScore": 50,
+      "views": 2952,
       "media_url": "https://pbs.twimg.com/media/HYEbviGbYAAKtT_.png?name=orig",
       "media_alt": "Attached post media"
     },
@@ -308,7 +308,7 @@
       "slot": "engagement",
       "slot_order": 11,
       "engagementScore": 8,
-      "views": 1498
+      "views": 1499
     }
   ]
 }
