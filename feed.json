@@ -1,126 +1,119 @@
 {
   "ok": true,
-  "status": "partial",
+  "status": "ok",
   "diagnostics": {
-    "attemptedAt": "2026-11-26T23:20:32.954992+00:00",
+    "attemptedAt": "2026-11-26T23:40:31.087149+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 15,
+    "accountsSucceeded": 16,
     "sources": {
       "zerohedge": {
         "ok": true,
         "posts": 14,
-        "checkedAt": "2026-11-26T23:20:36.757119+00:00",
+        "checkedAt": "2026-11-26T23:40:32.268690+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-26T23:20:38.286284+00:00",
+        "checkedAt": "2026-11-26T23:40:33.385387+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-26T23:20:41.757045+00:00",
+        "checkedAt": "2026-11-26T23:40:36.898246+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-26T23:20:43.769388+00:00",
+        "checkedAt": "2026-11-26T23:40:40.304706+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-26T23:20:46.811533+00:00",
+        "checkedAt": "2026-11-26T23:40:41.604790+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-26T23:20:48.445328+00:00",
+        "checkedAt": "2026-11-26T23:40:42.905862+00:00",
         "error": null
       },
       "nntaleb": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-26T23:20:52.457165+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 12,
+        "checkedAt": "2026-11-26T23:40:45.343273+00:00",
+        "error": null
       },
       "tferriss": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-26T23:20:54.040574+00:00",
+        "posts": 5,
+        "checkedAt": "2026-11-26T23:40:47.289755+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-26T23:20:58.553850+00:00",
+        "checkedAt": "2026-11-26T23:40:49.310478+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-26T23:21:00.081164+00:00",
+        "checkedAt": "2026-11-26T23:40:50.832779+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-26T23:21:02.029215+00:00",
+        "posts": 6,
+        "checkedAt": "2026-11-26T23:40:53.536269+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-26T23:21:04.760782+00:00",
+        "checkedAt": "2026-11-26T23:40:56.417255+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-26T23:21:06.248945+00:00",
+        "checkedAt": "2026-11-26T23:40:57.795350+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-26T23:21:08.571017+00:00",
+        "checkedAt": "2026-11-26T23:40:59.538381+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-26T23:21:09.879283+00:00",
+        "checkedAt": "2026-11-26T23:41:01.906065+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-26T23:21:11.372526+00:00",
+        "checkedAt": "2026-11-26T23:41:03.056383+00:00",
         "error": null
       }
     },
-    "errors": [
-      "nntaleb"
-    ],
-    "status": "partial"
+    "errors": [],
+    "status": "ok"
   },
-  "count": 11,
-  "accountsWithPosts": 11,
-  "fetchedAt": "2026-11-26T23:21:13.461830+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-11-26T23:41:05.564667+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
-  "errors": [
-    "nntaleb"
-  ],
+  "errors": [],
   "posts": [
     {
       "id": "2125984371387605039",
@@ -129,16 +122,32 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-26T16:05:47+00:00",
       "createdAtMs": 1795709147000,
-      "likes": 10135,
-      "retweets": 977,
+      "likes": 10418,
+      "retweets": 1001,
       "url": "https://x.com/WatcherGuru/status/2125984371387605039",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 11112,
-      "views": 1265885,
+      "engagementScore": 11419,
+      "views": 1310986,
       "media_url": "https://pbs.twimg.com/media/HYEDhNBWIAATpvZ.jpg?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125928311868322075",
+      "text": "No, you idiots.\nThe fact that you hate Trump (I do) must have NOTHING to do with your opinion on the reinstatement of Jensen Huang.\nIt was the market that brought back Huang. Trump was just responding.\n\nVictory of the (flawed) innovator against empty suits & journalists losers.",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-11-26T12:23:02+00:00",
+      "createdAtMs": 1795695782000,
+      "likes": 4396,
+      "retweets": 365,
+      "url": "https://x.com/nntaleb/status/2125928311868322075",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 2,
+      "engagementScore": 4761,
+      "views": 141814
     },
     {
       "id": "2125935808930582656",
@@ -147,14 +156,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-26T12:52:49+00:00",
       "createdAtMs": 1795697569000,
-      "likes": 3823,
-      "retweets": 248,
+      "likes": 3843,
+      "retweets": 249,
       "url": "https://x.com/KobeissiLetter/status/2125935808930582656",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 4071,
-      "views": 355574,
+      "slot_order": 3,
+      "engagementScore": 4092,
+      "views": 357710,
       "media_url": "https://pbs.twimg.com/media/HYDXWe6WkAAQ1yF.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -165,14 +174,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-26T13:10:09+00:00",
       "createdAtMs": 1795698609000,
-      "likes": 636,
+      "likes": 638,
       "retweets": 9,
       "url": "https://x.com/SantiagoAuFund/status/2125940170138779896",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 645,
-      "views": 14460
+      "slot_order": 4,
+      "engagementScore": 647,
+      "views": 14577
     },
     {
       "id": "2125997177839419717",
@@ -181,14 +190,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-26T16:56:40+00:00",
       "createdAtMs": 1795712200000,
-      "likes": 345,
+      "likes": 354,
       "retweets": 13,
       "url": "https://x.com/tferriss/status/2125997177839419717",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 358,
-      "views": 26042
+      "slot_order": 5,
+      "engagementScore": 367,
+      "views": 26931
     },
     {
       "id": "2126034252403712137",
@@ -197,14 +206,14 @@
       "handle": "zerohedge",
       "createdAt": "2026-11-26T19:24:00+00:00",
       "createdAtMs": 1795721040000,
-      "likes": 284,
-      "retweets": 31,
+      "likes": 301,
+      "retweets": 35,
       "url": "https://x.com/zerohedge/status/2126034252403712137",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 315,
-      "views": 100310,
+      "slot_order": 6,
+      "engagementScore": 336,
+      "views": 103424,
       "media_url": "https://pbs.twimg.com/media/HYEw4rGXwAEhB9B.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -215,14 +224,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-26T00:52:33+00:00",
       "createdAtMs": 1795654353000,
-      "likes": 120,
+      "likes": 122,
       "retweets": 7,
       "url": "https://x.com/JoshYoung/status/2125754546131767716",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 127,
-      "views": 9357
+      "slot_order": 7,
+      "engagementScore": 129,
+      "views": 9388
     },
     {
       "id": "2125992048788381697",
@@ -236,27 +245,11 @@
       "url": "https://x.com/hkuppy/status/2125992048788381697",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 8,
       "engagementScore": 124,
-      "views": 13161,
+      "views": 13349,
       "media_url": "https://pbs.twimg.com/media/HYEKNHSXsAEzRmO.jpg?name=orig",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2125736310162010148",
-      "text": "Kiev was struck by ballistic missiles!\n\nAccording to sources Russia is prepared to deploy approximately 80 missiles of various types!",
-      "author": "colonelhomsi",
-      "handle": "colonelhomsi",
-      "createdAt": "2026-11-25T23:40:05+00:00",
-      "createdAtMs": 1795650005000,
-      "likes": 84,
-      "retweets": 9,
-      "url": "https://x.com/colonelhomsi/status/2125736310162010148",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 93,
-      "views": 2647
     },
     {
       "id": "2125938467708522857",
@@ -265,14 +258,14 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-26T13:03:23+00:00",
       "createdAtMs": 1795698203000,
-      "likes": 77,
+      "likes": 78,
       "retweets": 6,
       "url": "https://x.com/BambroughKevin/status/2125938467708522857",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 9,
-      "engagementScore": 83,
-      "views": 6526,
+      "engagementScore": 84,
+      "views": 6576,
       "media_url": "https://pbs.twimg.com/media/HX_DhFBXIAAX9vR?format=png&name=small",
       "media_alt": "Attached post media"
     },
@@ -283,32 +276,48 @@
       "handle": "quakes99",
       "createdAt": "2026-11-26T17:52:50+00:00",
       "createdAtMs": 1795715570000,
-      "likes": 45,
+      "likes": 49,
       "retweets": 5,
       "url": "https://x.com/quakes99/status/2126011309217190024",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 10,
-      "engagementScore": 50,
-      "views": 2952,
+      "engagementScore": 54,
+      "views": 3041,
       "media_url": "https://pbs.twimg.com/media/HYEbviGbYAAKtT_.png?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2125757826811253012",
-      "text": "this is how you know egg prices are down bigly \n\nA Man in Denver Has Been Throwing Eggs at Waymo Vehicles https://www.nytimes.com/2026/11/25/us/waymo-denver-egg-throwing.html",
-      "author": "BarbarianCap",
-      "handle": "BarbarianCap",
-      "createdAt": "2026-11-26T01:05:35+00:00",
-      "createdAtMs": 1795655135000,
-      "likes": 7,
-      "retweets": 1,
-      "url": "https://x.com/BarbarianCap/status/2125757826811253012",
+      "id": "2125741357830389760",
+      "text": "A Balkan cyclone blanketed central Russia in snow, followed by temperatures around or below freezing!\n\nSnow blanketed the parks, Red Square, and streets of Moscow, creating a fairytale-like winter scene in the Russian capital in mid-November!",
+      "author": "colonelhomsi",
+      "handle": "colonelhomsi",
+      "createdAt": "2026-11-26T00:00:08+00:00",
+      "createdAtMs": 1795651208000,
+      "likes": 48,
+      "retweets": 5,
+      "url": "https://x.com/colonelhomsi/status/2125741357830389760",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 11,
+      "engagementScore": 53,
+      "views": 1558
+    },
+    {
+      "id": "2125990796578934947",
+      "text": "took a while but the US is finally experiencing deflation",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-11-26T16:31:19+00:00",
+      "createdAtMs": 1795710679000,
+      "likes": 8,
+      "retweets": 0,
+      "url": "https://x.com/BarbarianCap/status/2125990796578934947",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 12,
       "engagementScore": 8,
-      "views": 1499
+      "views": 1158
     }
   ]
 }
