@@ -1,187 +1,149 @@
 {
   "ok": true,
-  "status": "ok",
+  "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-25T23:00:34.642832+00:00",
+    "attemptedAt": "2026-11-26T00:50:35.233889+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 16,
+    "accountsSucceeded": 14,
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 15,
-        "checkedAt": "2026-11-25T23:00:35.487223+00:00",
+        "posts": 13,
+        "checkedAt": "2026-11-26T00:50:38.656560+00:00",
         "error": null
       },
       "KobeissiLetter": {
-        "ok": true,
-        "posts": 18,
-        "checkedAt": "2026-11-25T23:00:39.366879+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-26T00:50:43.450962+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-25T23:00:40.895243+00:00",
+        "checkedAt": "2026-11-26T00:50:44.626439+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-25T23:00:42.367368+00:00",
+        "checkedAt": "2026-11-26T00:50:48.128335+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-25T23:00:45.080922+00:00",
+        "checkedAt": "2026-11-26T00:50:50.674227+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 16,
-        "checkedAt": "2026-11-25T23:00:46.740101+00:00",
+        "checkedAt": "2026-11-26T00:50:53.076994+00:00",
         "error": null
       },
       "nntaleb": {
-        "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-25T23:00:49.143146+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-26T00:50:57.261162+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "tferriss": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-25T23:00:51.216979+00:00",
+        "checkedAt": "2026-11-26T00:50:59.403125+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-25T23:00:52.929816+00:00",
+        "checkedAt": "2026-11-26T00:51:00.947794+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-25T23:00:55.490160+00:00",
+        "checkedAt": "2026-11-26T00:51:02.607836+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-25T23:00:56.716076+00:00",
+        "posts": 8,
+        "checkedAt": "2026-11-26T00:51:03.926565+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-25T23:00:58.487665+00:00",
+        "checkedAt": "2026-11-26T00:51:05.840249+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-25T23:01:00.867427+00:00",
+        "checkedAt": "2026-11-26T00:51:10.578097+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-25T23:01:02.053259+00:00",
+        "checkedAt": "2026-11-26T00:51:13.189002+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-25T23:01:04.379759+00:00",
+        "posts": 11,
+        "checkedAt": "2026-11-26T00:51:15.776424+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-25T23:01:08.097417+00:00",
+        "checkedAt": "2026-11-26T00:51:17.788007+00:00",
         "error": null
       }
     },
-    "errors": [],
-    "status": "ok"
+    "errors": [
+      "KobeissiLetter",
+      "nntaleb"
+    ],
+    "status": "partial"
   },
-  "count": 12,
-  "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-25T23:01:10.746750+00:00",
+  "count": 11,
+  "accountsWithPosts": 11,
+  "fetchedAt": "2026-11-26T00:51:20.295046+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
-  "errors": [],
+  "errors": [
+    "KobeissiLetter",
+    "nntaleb"
+  ],
   "posts": [
     {
-      "id": "2125628271337554117",
-      "text": "JUST IN: Michael Burry says he is now almost entirely long and plans to invest the rest of his cash.",
+      "id": "2125696909985640728",
+      "text": "JUST IN: 🇺🇸 FDA approves Elon Musk's Neuralink brain implant trials.",
       "author": "WatcherGuru",
       "handle": "WatcherGuru",
-      "createdAt": "2026-11-25T16:30:46+00:00",
-      "createdAtMs": 1795624246000,
-      "likes": 10622,
-      "retweets": 665,
-      "url": "https://x.com/WatcherGuru/status/2125628271337554117",
+      "createdAt": "2026-11-25T21:03:31+00:00",
+      "createdAtMs": 1795640611000,
+      "likes": 11842,
+      "retweets": 1315,
+      "url": "https://x.com/WatcherGuru/status/2125696909985640728",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 11287,
-      "views": 1228315,
-      "media_url": "https://pbs.twimg.com/media/HX-_hGzaQAELwOu.jpg?name=orig",
+      "engagementScore": 13157,
+      "views": 553292,
+      "media_url": "https://pbs.twimg.com/media/HX__9bAXoAAVJB4.jpg",
       "media_alt": "Attached post media"
-    },
-    {
-      "id": "2125373983025734076",
-      "text": "BREAKING: President Trump says the US government could take an equity stake in Nvidia, $NVDA.\n\n“It’s probably not too late,” President Trump says.",
-      "author": "KobeissiLetter",
-      "handle": "KobeissiLetter",
-      "createdAt": "2026-11-24T23:40:19+00:00",
-      "createdAtMs": 1795563619000,
-      "likes": 8659,
-      "retweets": 734,
-      "url": "https://x.com/KobeissiLetter/status/2125373983025734076",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 2,
-      "engagementScore": 9393,
-      "views": 1212696
-    },
-    {
-      "id": "2125675092642255345",
-      "text": "The Facts are True, the News is Fake\n(Skin in the Game)",
-      "author": "nntaleb",
-      "handle": "nntaleb",
-      "createdAt": "2026-11-25T19:36:49+00:00",
-      "createdAtMs": 1795635409000,
-      "likes": 854,
-      "retweets": 91,
-      "url": "https://x.com/nntaleb/status/2125675092642255345",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 3,
-      "engagementScore": 945,
-      "views": 46157,
-      "media_url": "https://pbs.twimg.com/media/HX_qGImWEAA-ZKt.jpg?name=orig",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2125695056548102486",
-      "text": "*NEURALINK: RECEIVED FDA APPROVAL FOR PIVOTAL TRIAL IN US",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-25T20:56:09+00:00",
-      "createdAtMs": 1795640169000,
-      "likes": 863,
-      "retweets": 55,
-      "url": "https://x.com/zerohedge/status/2125695056548102486",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 918,
-      "views": 100014
     },
     {
       "id": "2125647915808874777",
@@ -190,14 +152,30 @@
       "handle": "colonelhomsi",
       "createdAt": "2026-11-25T17:48:50+00:00",
       "createdAtMs": 1795628930000,
-      "likes": 588,
-      "retweets": 116,
+      "likes": 744,
+      "retweets": 140,
       "url": "https://x.com/colonelhomsi/status/2125647915808874777",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 704,
-      "views": 16797
+      "slot_order": 2,
+      "engagementScore": 884,
+      "views": 20998
+    },
+    {
+      "id": "2125713030348468233",
+      "text": "*NVIDIA RATING, OUTLOOK UNCHANGED BY MOODY'S",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-25T22:07:34+00:00",
+      "createdAtMs": 1795644454000,
+      "likes": 441,
+      "retweets": 36,
+      "url": "https://x.com/zerohedge/status/2125713030348468233",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 3,
+      "engagementScore": 477,
+      "views": 75617
     },
     {
       "id": "2125639019358994838",
@@ -206,14 +184,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-25T17:13:29+00:00",
       "createdAtMs": 1795626809000,
-      "likes": 392,
-      "retweets": 9,
+      "likes": 428,
+      "retweets": 10,
       "url": "https://x.com/SantiagoAuFund/status/2125639019358994838",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 401,
-      "views": 24350
+      "slot_order": 4,
+      "engagementScore": 438,
+      "views": 27408
     },
     {
       "id": "2125650367274967095",
@@ -222,30 +200,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-25T17:58:34+00:00",
       "createdAtMs": 1795629514000,
-      "likes": 224,
-      "retweets": 11,
+      "likes": 254,
+      "retweets": 12,
       "url": "https://x.com/JoshYoung/status/2125650367274967095",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 235,
-      "views": 7825
-    },
-    {
-      "id": "2125588418000302177",
-      "text": "The thing about $hg $hgraf is you can do research and get extremely excited about their graphene in plastics.  \n\nThen dig into concrete potential and its also a ‘company maker’ application. \n\nThen dig into fuel additives and lubricants and it’s another multi billion dollar potential market vertical.\n\nThen on to coatings and paints etc. \n\nThen electronics, wiring, batteries. Etc.  \n\nThen silicone products… \n\nActuators or anti static or insulation… on and on. \n\nIt just doesn’t stop.",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-11-25T13:52:25+00:00",
-      "createdAtMs": 1795614745000,
-      "likes": 183,
-      "retweets": 15,
-      "url": "https://x.com/BambroughKevin/status/2125588418000302177",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 198,
-      "views": 7987
+      "slot_order": 5,
+      "engagementScore": 266,
+      "views": 8727
     },
     {
       "id": "2125700300678090832",
@@ -254,32 +216,32 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-25T21:16:59+00:00",
       "createdAtMs": 1795641419000,
-      "likes": 167,
-      "retweets": 14,
+      "likes": 207,
+      "retweets": 19,
       "url": "https://x.com/wmiddelkoop/status/2125700300678090832",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 181,
-      "views": 6394,
+      "slot_order": 6,
+      "engagementScore": 226,
+      "views": 7349,
       "media_url": "https://pbs.twimg.com/media/HYABJ4SWkAEuGYe.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2125367208172036169",
-      "text": "At #AdvancedMaterialsShow, HydroGraph’s Tom Eldridge joined GEIC, @bp_plc & @BAESystemsInc on what it really takes to commercialize graphene.\n\nhttps://hydrograph.com/from-discovery-to-deployment-what-does-it-really-take-to-commercialize-advanced-materials/",
-      "author": "HydroGraphInc",
-      "handle": "HydroGraphInc",
-      "createdAt": "2026-11-24T23:13:24+00:00",
-      "createdAtMs": 1795562004000,
-      "likes": 109,
-      "retweets": 12,
-      "url": "https://x.com/HydroGraphInc/status/2125367208172036169",
+      "id": "2125588418000302177",
+      "text": "The thing about $hg $hgraf is you can do research and get extremely excited about their graphene in plastics.  \n\nThen dig into concrete potential and its also a ‘company maker’ application. \n\nThen dig into fuel additives and lubricants and it’s another multi billion dollar potential market vertical.\n\nThen on to coatings and paints etc. \n\nThen electronics, wiring, batteries. Etc.  \n\nThen silicone products… \n\nActuators or anti static or insulation… on and on. \n\nIt just doesn’t stop.",
+      "author": "BambroughKevin",
+      "handle": "BambroughKevin",
+      "createdAt": "2026-11-25T13:52:25+00:00",
+      "createdAtMs": 1795614745000,
+      "likes": 185,
+      "retweets": 15,
+      "url": "https://x.com/BambroughKevin/status/2125588418000302177",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 121,
-      "views": 6401
+      "slot_order": 7,
+      "engagementScore": 200,
+      "views": 8420
     },
     {
       "id": "2125621437386178693",
@@ -288,14 +250,30 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-25T16:03:37+00:00",
       "createdAtMs": 1795622617000,
-      "likes": 93,
+      "likes": 99,
       "retweets": 6,
       "url": "https://x.com/hkuppy/status/2125621437386178693",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 11,
-      "engagementScore": 99,
-      "views": 12350
+      "slot_order": 8,
+      "engagementScore": 105,
+      "views": 13024
+    },
+    {
+      "id": "2125679428701208757",
+      "text": "We aren't short on health data from wearables. What's missing is the last mile.",
+      "author": "tferriss",
+      "handle": "tferriss",
+      "createdAt": "2026-11-25T19:54:03+00:00",
+      "createdAtMs": 1795636443000,
+      "likes": 98,
+      "retweets": 3,
+      "url": "https://x.com/tferriss/status/2125679428701208757",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 9,
+      "engagementScore": 101,
+      "views": 23341
     },
     {
       "id": "2125659626205233186",
@@ -304,15 +282,33 @@
       "handle": "quakes99",
       "createdAt": "2026-11-25T18:35:22+00:00",
       "createdAtMs": 1795631722000,
-      "likes": 65,
-      "retweets": 6,
+      "likes": 72,
+      "retweets": 8,
       "url": "https://x.com/quakes99/status/2125659626205233186",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 12,
-      "engagementScore": 71,
-      "views": 3528,
+      "slot_order": 10,
+      "engagementScore": 80,
+      "views": 3930,
       "media_url": "https://pbs.twimg.com/media/HX_cKI-bUAAc68q.jpg?name=orig",
+      "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125581665993179283",
+      "text": "Some large staples companies are in the top 90s percentile valuation; some smaller non-index names don't need heroic assumptions to \"work\", at least per my Alphasense DCF backsolver dash",
+      "author": "BarbarianCap",
+      "handle": "BarbarianCap",
+      "createdAt": "2026-11-25T13:25:35+00:00",
+      "createdAtMs": 1795613135000,
+      "likes": 15,
+      "retweets": 0,
+      "url": "https://x.com/BarbarianCap/status/2125581665993179283",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 11,
+      "engagementScore": 15,
+      "views": 2194,
+      "media_url": "https://pbs.twimg.com/media/HX-Uy-6WkAApezs.jpg?name=orig",
       "media_alt": "Attached post media"
     }
   ]
