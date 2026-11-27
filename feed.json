@@ -2,134 +2,139 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-27T00:50:35.835517+00:00",
+    "attemptedAt": "2026-11-27T03:13:18.901721+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 13,
+    "accountsSucceeded": 12,
     "sources": {
       "zerohedge": {
         "ok": true,
         "posts": 15,
-        "checkedAt": "2026-11-27T00:50:40.098467+00:00",
+        "checkedAt": "2026-11-27T03:13:21.386654+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-27T00:50:44.181232+00:00",
+        "checkedAt": "2026-11-27T03:13:23.511977+00:00",
         "error": null
       },
       "BambroughKevin": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-27T00:50:48.437170+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
-      },
-      "hkuppy": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-27T00:50:51.313660+00:00",
+        "posts": 11,
+        "checkedAt": "2026-11-27T03:13:24.913660+00:00",
         "error": null
       },
-      "quakes99": {
+      "hkuppy": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-27T00:50:55.373946+00:00",
+        "checkedAt": "2026-11-27T03:13:29.041898+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
+      },
+      "quakes99": {
+        "ok": true,
+        "posts": 11,
+        "checkedAt": "2026-11-27T03:13:32.375812+00:00",
+        "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-27T00:50:57.585594+00:00",
+        "checkedAt": "2026-11-27T03:13:33.513175+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-27T00:50:59.705025+00:00",
+        "checkedAt": "2026-11-27T03:13:35.501449+00:00",
         "error": null
       },
       "tferriss": {
-        "ok": true,
-        "posts": 5,
-        "checkedAt": "2026-11-27T00:51:02.827166+00:00",
-        "error": null
-      },
-      "JohnPolomny": {
-        "ok": true,
-        "posts": 2,
-        "checkedAt": "2026-11-27T00:51:04.691961+00:00",
-        "error": null
-      },
-      "SantiagoAuFund": {
-        "ok": true,
-        "posts": 11,
-        "checkedAt": "2026-11-27T00:51:09.561435+00:00",
-        "error": null
-      },
-      "BarbarianCap": {
-        "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-27T00:51:10.857843+00:00",
-        "error": null
-      },
-      "JoshYoung": {
-        "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-27T00:51:12.078843+00:00",
-        "error": null
-      },
-      "wmiddelkoop": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-27T00:51:16.204853+00:00",
+        "checkedAt": "2026-11-27T03:13:39.689142+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
       },
+      "JohnPolomny": {
+        "ok": true,
+        "posts": 2,
+        "checkedAt": "2026-11-27T03:13:41.966779+00:00",
+        "error": null
+      },
+      "SantiagoAuFund": {
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-27T03:13:46.138581+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
+      },
+      "BarbarianCap": {
+        "ok": true,
+        "posts": 10,
+        "checkedAt": "2026-11-27T03:13:48.017944+00:00",
+        "error": null
+      },
+      "JoshYoung": {
+        "ok": true,
+        "posts": 9,
+        "checkedAt": "2026-11-27T03:13:51.187242+00:00",
+        "error": null
+      },
+      "wmiddelkoop": {
+        "ok": true,
+        "posts": 8,
+        "checkedAt": "2026-11-27T03:13:55.344062+00:00",
+        "error": null
+      },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-27T00:51:18.471848+00:00",
+        "checkedAt": "2026-11-27T03:13:59.320738+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-27T00:51:19.776176+00:00",
+        "checkedAt": "2026-11-27T03:14:03.105932+00:00",
         "error": null
       },
       "HydroGraphInc": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-27T00:51:21.441731+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-27T03:14:07.291849+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       }
     },
     "errors": [
-      "BambroughKevin",
-      "quakes99",
-      "wmiddelkoop"
+      "hkuppy",
+      "tferriss",
+      "SantiagoAuFund",
+      "HydroGraphInc"
     ],
     "status": "partial"
   },
   "count": 9,
   "accountsWithPosts": 9,
-  "fetchedAt": "2026-11-27T00:51:23.566409+00:00",
+  "fetchedAt": "2026-11-27T03:14:09.286910+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "BambroughKevin",
-    "quakes99",
-    "wmiddelkoop"
+    "hkuppy",
+    "tferriss",
+    "SantiagoAuFund",
+    "HydroGraphInc"
   ],
   "posts": [
     {
@@ -139,14 +144,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-26T16:05:47+00:00",
       "createdAtMs": 1795709147000,
-      "likes": 11431,
-      "retweets": 1086,
+      "likes": 13273,
+      "retweets": 1255,
       "url": "https://x.com/WatcherGuru/status/2125984371387605039",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 12517,
-      "views": 1469090,
+      "engagementScore": 14528,
+      "views": 1760047,
       "media_url": "https://pbs.twimg.com/media/HYEDhNBWIAATpvZ.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -157,14 +162,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-26T12:23:02+00:00",
       "createdAtMs": 1795695782000,
-      "likes": 4510,
-      "retweets": 375,
+      "likes": 4690,
+      "retweets": 392,
       "url": "https://x.com/nntaleb/status/2125928311868322075",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 4885,
-      "views": 146689
+      "engagementScore": 5082,
+      "views": 154771
     },
     {
       "id": "2125935808930582656",
@@ -173,98 +178,104 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-26T12:52:49+00:00",
       "createdAtMs": 1795697569000,
-      "likes": 3891,
-      "retweets": 251,
+      "likes": 3974,
+      "retweets": 253,
       "url": "https://x.com/KobeissiLetter/status/2125935808930582656",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 4142,
-      "views": 364189,
+      "engagementScore": 4227,
+      "views": 373736,
       "media_url": "https://pbs.twimg.com/media/HYDXWe6WkAAQ1yF.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2125940170138779896",
-      "text": "My annual opportunity to say thank you to everyone for another year of interaction, laughs, arguments and the sharing of silly memes.  \nI appreciate you all.  \nEven the Losers and the Haters.  ✌️😉",
-      "author": "SantiagoAuFund",
-      "handle": "SantiagoAuFund",
-      "createdAt": "2026-11-26T13:10:09+00:00",
-      "createdAtMs": 1795698609000,
-      "likes": 650,
-      "retweets": 9,
-      "url": "https://x.com/SantiagoAuFund/status/2125940170138779896",
+      "id": "2126137822922850616",
+      "text": "Gold, silver just went vertical",
+      "author": "zerohedge",
+      "handle": "zerohedge",
+      "createdAt": "2026-11-27T02:15:33+00:00",
+      "createdAtMs": 1795745733000,
+      "likes": 2350,
+      "retweets": 231,
+      "url": "https://x.com/zerohedge/status/2126137822922850616",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 659,
-      "views": 14920
-    },
-    {
-      "id": "2125997177839419717",
-      "text": "Happy Thanksgiving, friends. May you and yours be nourished by gratitude, gravy, and goodwill. I'm thankful to be alive and surrounded by so many incredible people. It's no small miracle that we exist at all. Even if just for today, let's try and be kinder than necessary.",
-      "author": "tferriss",
-      "handle": "tferriss",
-      "createdAt": "2026-11-26T16:56:40+00:00",
-      "createdAtMs": 1795712200000,
-      "likes": 395,
-      "retweets": 16,
-      "url": "https://x.com/tferriss/status/2125997177839419717",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 411,
-      "views": 29698
-    },
-    {
-      "id": "2126066070758781436",
-      "text": "Thank You, Capitalism https://www.zerohedge.com/personal-finance/thank-you-capitalism",
-      "author": "zerohedge",
-      "handle": "zerohedge",
-      "createdAt": "2026-11-26T21:30:26+00:00",
-      "createdAtMs": 1795728626000,
-      "likes": 361,
-      "retweets": 32,
-      "url": "https://x.com/zerohedge/status/2126066070758781436",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 393,
-      "views": 61244
-    },
-    {
-      "id": "2125992048788381697",
-      "text": "Somehow in the Thanksgiving story, we always gloss over how the natives took in a bunch of illegal migrants, fed them, kept them alive, and then lost their country because of it.\n\nHere at Finca Kuppy, we aren’t sharing our food with the migrants…",
-      "author": "hkuppy",
-      "handle": "hkuppy",
-      "createdAt": "2026-11-26T16:36:18+00:00",
-      "createdAtMs": 1795710978000,
-      "likes": 124,
-      "retweets": 5,
-      "url": "https://x.com/hkuppy/status/2125992048788381697",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 129,
-      "views": 13931,
-      "media_url": "https://pbs.twimg.com/media/HYEKNHSXsAEzRmO.jpg?name=orig",
+      "engagementScore": 2581,
+      "views": 178623,
+      "media_url": "https://pbs.twimg.com/media/HYGPEzjXUAA0QAH.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2125754546131767716",
-      "text": "California drivers are unphased by $6 gas",
+      "id": "2126095069682061489",
+      "text": "Oil shorts as the Houthis strike Saudi infrastructure and Iran attacks oil tankers",
       "author": "JoshYoung",
       "handle": "JoshYoung",
-      "createdAt": "2026-11-26T00:52:33+00:00",
-      "createdAtMs": 1795654353000,
-      "likes": 122,
-      "retweets": 7,
-      "url": "https://x.com/JoshYoung/status/2125754546131767716",
+      "createdAt": "2026-11-26T23:25:40+00:00",
+      "createdAtMs": 1795735540000,
+      "likes": 167,
+      "retweets": 6,
+      "url": "https://x.com/JoshYoung/status/2126095069682061489",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 5,
+      "engagementScore": 173,
+      "views": 13091
+    },
+    {
+      "id": "2125938467708522857",
+      "text": "Follow the m2",
+      "author": "BambroughKevin",
+      "handle": "BambroughKevin",
+      "createdAt": "2026-11-26T13:03:23+00:00",
+      "createdAtMs": 1795698203000,
+      "likes": 82,
+      "retweets": 6,
+      "url": "https://x.com/BambroughKevin/status/2125938467708522857",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 6,
+      "engagementScore": 88,
+      "views": 7067,
+      "media_url": "https://pbs.twimg.com/media/HX_DhFBXIAAX9vR?format=png&name=small",
+      "media_alt": "Attached post media"
+    },
+    {
+      "id": "2126069535228956696",
+      "text": "🐺\"This [#Uranium] chart is unlike anything in any other commodity. #Oil's not like this. #Gold and #silver aren't like this. #Copper's not like this. There's nothing else on my radar where the actual value proposition is increasing but the share price is decreasing.🕸️🤪 I expect a fast rebound here.\"🏎️🔥📈⚛️⛏️🤠🐂",
+      "author": "quakes99",
+      "handle": "quakes99",
+      "createdAt": "2026-11-26T21:44:12+00:00",
+      "createdAtMs": 1795729452000,
+      "likes": 58,
+      "retweets": 9,
+      "url": "https://x.com/quakes99/status/2126069535228956696",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 7,
+      "engagementScore": 67,
+      "views": 4068,
+      "media_url": "https://pbs.twimg.com/media/HYFQUokbwAAnBEC.jpg?name=orig",
+      "media_alt": "Attached post media"
+    },
+    {
+      "id": "2126116811913806140",
+      "text": "War trophies found at positions held by Saudi-backed mercenaries following their retreat..",
+      "author": "colonelhomsi",
+      "handle": "colonelhomsi",
+      "createdAt": "2026-11-27T00:52:03+00:00",
+      "createdAtMs": 1795740723000,
+      "likes": 18,
+      "retweets": 2,
+      "url": "https://x.com/colonelhomsi/status/2126116811913806140",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 8,
-      "engagementScore": 129,
-      "views": 9454
+      "engagementScore": 20,
+      "views": 985,
+      "media_url": "https://pbs.twimg.com/media/HYGJkQDbkAAOnf2.jpg",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2125990796578934947",
@@ -280,7 +291,7 @@
       "slot": "engagement",
       "slot_order": 9,
       "engagementScore": 8,
-      "views": 1184
+      "views": 1237
     }
   ]
 }
