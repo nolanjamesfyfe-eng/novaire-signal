@@ -26,7 +26,8 @@ function secret(name) {
 
   const browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.CHROMIUM_PATH || '/snap/bin/chromium',
+    // Snap Chromium cannot create its profile lock under non-home TMPDIRs; default to Playwright's bundled build.
+    ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
     args: ['--no-sandbox'],
   });
   const observations = [];
