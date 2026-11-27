@@ -2,115 +2,106 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-27T03:13:18.901721+00:00",
+    "attemptedAt": "2026-11-27T03:16:15.839579+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 12,
+    "accountsSucceeded": 15,
     "sources": {
       "zerohedge": {
         "ok": true,
         "posts": 15,
-        "checkedAt": "2026-11-27T03:13:21.386654+00:00",
+        "checkedAt": "2026-11-27T03:16:16.838945+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-27T03:13:23.511977+00:00",
+        "checkedAt": "2026-11-27T03:16:19.133795+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-27T03:13:24.913660+00:00",
+        "checkedAt": "2026-11-27T03:16:22.306823+00:00",
         "error": null
       },
       "hkuppy": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-27T03:13:29.041898+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 8,
+        "checkedAt": "2026-11-27T03:16:24.317095+00:00",
+        "error": null
       },
       "quakes99": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-27T03:13:32.375812+00:00",
+        "checkedAt": "2026-11-27T03:16:25.951168+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 18,
-        "checkedAt": "2026-11-27T03:13:33.513175+00:00",
+        "checkedAt": "2026-11-27T03:16:27.115162+00:00",
         "error": null
       },
       "nntaleb": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-27T03:13:35.501449+00:00",
+        "checkedAt": "2026-11-27T03:16:28.937549+00:00",
         "error": null
       },
       "tferriss": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-27T03:13:39.689142+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 5,
+        "checkedAt": "2026-11-27T03:16:31.145862+00:00",
+        "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-27T03:13:41.966779+00:00",
+        "checkedAt": "2026-11-27T03:16:32.688919+00:00",
         "error": null
       },
       "SantiagoAuFund": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-27T03:13:46.138581+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 11,
+        "checkedAt": "2026-11-27T03:16:35.558605+00:00",
+        "error": null
       },
       "BarbarianCap": {
         "ok": true,
         "posts": 10,
-        "checkedAt": "2026-11-27T03:13:48.017944+00:00",
+        "checkedAt": "2026-11-27T03:16:42.973398+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 9,
-        "checkedAt": "2026-11-27T03:13:51.187242+00:00",
+        "checkedAt": "2026-11-27T03:16:44.230545+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
         "posts": 8,
-        "checkedAt": "2026-11-27T03:13:55.344062+00:00",
+        "checkedAt": "2026-11-27T03:16:46.100931+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-27T03:13:59.320738+00:00",
+        "checkedAt": "2026-11-27T03:16:48.572624+00:00",
         "error": null
       },
       "colonelhomsi": {
         "ok": true,
         "posts": 11,
-        "checkedAt": "2026-11-27T03:14:03.105932+00:00",
+        "checkedAt": "2026-11-27T03:16:50.191198+00:00",
         "error": null
       },
       "HydroGraphInc": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-27T03:14:07.291849+00:00",
+        "checkedAt": "2026-11-27T03:16:54.638800+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
@@ -118,22 +109,16 @@
       }
     },
     "errors": [
-      "hkuppy",
-      "tferriss",
-      "SantiagoAuFund",
       "HydroGraphInc"
     ],
     "status": "partial"
   },
-  "count": 9,
-  "accountsWithPosts": 9,
-  "fetchedAt": "2026-11-27T03:14:09.286910+00:00",
+  "count": 12,
+  "accountsWithPosts": 12,
+  "fetchedAt": "2026-11-27T03:16:56.970994+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "hkuppy",
-    "tferriss",
-    "SantiagoAuFund",
     "HydroGraphInc"
   ],
   "posts": [
@@ -144,14 +129,14 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-26T16:05:47+00:00",
       "createdAtMs": 1795709147000,
-      "likes": 13273,
-      "retweets": 1255,
+      "likes": 13298,
+      "retweets": 1258,
       "url": "https://x.com/WatcherGuru/status/2125984371387605039",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 14528,
-      "views": 1760047,
+      "engagementScore": 14556,
+      "views": 1767246,
       "media_url": "https://pbs.twimg.com/media/HYEDhNBWIAATpvZ.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -162,14 +147,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-26T12:23:02+00:00",
       "createdAtMs": 1795695782000,
-      "likes": 4690,
+      "likes": 4691,
       "retweets": 392,
       "url": "https://x.com/nntaleb/status/2125928311868322075",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 5082,
-      "views": 154771
+      "engagementScore": 5083,
+      "views": 154924
     },
     {
       "id": "2125935808930582656",
@@ -178,14 +163,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-26T12:52:49+00:00",
       "createdAtMs": 1795697569000,
-      "likes": 3974,
+      "likes": 3975,
       "retweets": 253,
       "url": "https://x.com/KobeissiLetter/status/2125935808930582656",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 4227,
-      "views": 373736,
+      "engagementScore": 4228,
+      "views": 373936,
       "media_url": "https://pbs.twimg.com/media/HYDXWe6WkAAQ1yF.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -196,16 +181,48 @@
       "handle": "zerohedge",
       "createdAt": "2026-11-27T02:15:33+00:00",
       "createdAtMs": 1795745733000,
-      "likes": 2350,
-      "retweets": 231,
+      "likes": 2509,
+      "retweets": 253,
       "url": "https://x.com/zerohedge/status/2126137822922850616",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 2581,
-      "views": 178623,
+      "engagementScore": 2762,
+      "views": 190704,
       "media_url": "https://pbs.twimg.com/media/HYGPEzjXUAA0QAH.jpg?name=orig",
       "media_alt": "Attached post media"
+    },
+    {
+      "id": "2125940170138779896",
+      "text": "My annual opportunity to say thank you to everyone for another year of interaction, laughs, arguments and the sharing of silly memes.  \nI appreciate you all.  \nEven the Losers and the Haters.  ✌️😉",
+      "author": "SantiagoAuFund",
+      "handle": "SantiagoAuFund",
+      "createdAt": "2026-11-26T13:10:09+00:00",
+      "createdAtMs": 1795698609000,
+      "likes": 681,
+      "retweets": 9,
+      "url": "https://x.com/SantiagoAuFund/status/2125940170138779896",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 5,
+      "engagementScore": 690,
+      "views": 15847
+    },
+    {
+      "id": "2125997177839419717",
+      "text": "Happy Thanksgiving, friends. May you and yours be nourished by gratitude, gravy, and goodwill. I'm thankful to be alive and surrounded by so many incredible people. It's no small miracle that we exist at all. Even if just for today, let's try and be kinder than necessary.",
+      "author": "tferriss",
+      "handle": "tferriss",
+      "createdAt": "2026-11-26T16:56:40+00:00",
+      "createdAtMs": 1795712200000,
+      "likes": 472,
+      "retweets": 20,
+      "url": "https://x.com/tferriss/status/2125997177839419717",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 6,
+      "engagementScore": 492,
+      "views": 35246
     },
     {
       "id": "2126095069682061489",
@@ -219,9 +236,27 @@
       "url": "https://x.com/JoshYoung/status/2126095069682061489",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
+      "slot_order": 7,
       "engagementScore": 173,
-      "views": 13091
+      "views": 13176
+    },
+    {
+      "id": "2125992048788381697",
+      "text": "Somehow in the Thanksgiving story, we always gloss over how the natives took in a bunch of illegal migrants, fed them, kept them alive, and then lost their country because of it.\n\nHere at Finca Kuppy, we aren’t sharing our food with the migrants…",
+      "author": "hkuppy",
+      "handle": "hkuppy",
+      "createdAt": "2026-11-26T16:36:18+00:00",
+      "createdAtMs": 1795710978000,
+      "likes": 132,
+      "retweets": 6,
+      "url": "https://x.com/hkuppy/status/2125992048788381697",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 8,
+      "engagementScore": 138,
+      "views": 14906,
+      "media_url": "https://pbs.twimg.com/media/HYEKNHSXsAEzRmO.jpg?name=orig",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2125938467708522857",
@@ -235,9 +270,9 @@
       "url": "https://x.com/BambroughKevin/status/2125938467708522857",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 6,
+      "slot_order": 9,
       "engagementScore": 88,
-      "views": 7067,
+      "views": 7075,
       "media_url": "https://pbs.twimg.com/media/HX_DhFBXIAAX9vR?format=png&name=small",
       "media_alt": "Attached post media"
     },
@@ -253,9 +288,9 @@
       "url": "https://x.com/quakes99/status/2126069535228956696",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
+      "slot_order": 10,
       "engagementScore": 67,
-      "views": 4068,
+      "views": 4076,
       "media_url": "https://pbs.twimg.com/media/HYFQUokbwAAnBEC.jpg?name=orig",
       "media_alt": "Attached post media"
     },
@@ -271,9 +306,9 @@
       "url": "https://x.com/colonelhomsi/status/2126116811913806140",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
+      "slot_order": 11,
       "engagementScore": 20,
-      "views": 985,
+      "views": 989,
       "media_url": "https://pbs.twimg.com/media/HYGJkQDbkAAOnf2.jpg",
       "media_alt": "Attached post media"
     },
@@ -289,7 +324,7 @@
       "url": "https://x.com/BarbarianCap/status/2125990796578934947",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
+      "slot_order": 12,
       "engagementScore": 8,
       "views": 1237
     }
