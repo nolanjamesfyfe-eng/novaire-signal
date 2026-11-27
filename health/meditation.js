@@ -5,4 +5,5 @@ const sync=()=>{const d=isFinite(a.duration)&&a.duration?a.duration:total;fill.s
 const state=p=>{card.classList.toggle('playing',p);b.setAttribute('aria-pressed',String(p));b.setAttribute('aria-label',(p?'Pause ':'Play ')+label)};
 b.addEventListener('click',()=>{if(a.paused){tracks.forEach(o=>{const oa=o.querySelector('audio');if(oa!==a&&!oa.paused)oa.pause()});a.play().catch(()=>state(false))}else a.pause()});
 a.addEventListener('play',()=>state(true));a.addEventListener('pause',()=>state(false));a.addEventListener('ended',()=>{state(false);a.currentTime=0;sync()});a.addEventListener('timeupdate',sync);a.addEventListener('loadedmetadata',sync);
+const rb=card.querySelector('.meditation-restart');if(rb)rb.addEventListener('click',()=>{a.currentTime=0;sync()});
 bar.addEventListener('click',e=>{const r=bar.getBoundingClientRect(),d=isFinite(a.duration)&&a.duration?a.duration:total;a.currentTime=Math.min(d,Math.max(0,(e.clientX-r.left)/r.width*d));sync()});});})();
