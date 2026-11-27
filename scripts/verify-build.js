@@ -151,8 +151,14 @@ function hasVerifiedMetrics(segment) {
 }
 // Video cards archive 30 days after publication (generate.py
 // SOCIAL_VIDEO_MAX_AGE_DAYS), so every guard applies only to cards present.
+// YouTube may hide likes on any upload; views + explicit hidden-likes copy is honest.
+function hasHonestPartialYoutubeMetrics(segment) {
+  return /<b>[0-9][0-9.,KM]*<\/b> views<\/span>/.test(segment)
+    && segment.includes('does not expose public likes');
+}
 for (const label of youtubeCards) {
-  if (mainHtml.includes(label) && !hasVerifiedMetrics(cardSegment(label))) {
+  const seg = cardSegment(label);
+  if (mainHtml.includes(label) && !hasVerifiedMetrics(seg) && !hasHonestPartialYoutubeMetrics(seg)) {
     console.error(`❌ Build guard failed: ${label} is missing verified views or likes.`);
     process.exit(1);
   }
