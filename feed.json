@@ -2,7 +2,7 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-27T21:15:36.636941+00:00",
+    "attemptedAt": "2026-11-27T23:00:38.394213+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
@@ -11,115 +11,115 @@
       "zerohedge": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-27T21:15:37.485204+00:00",
+        "checkedAt": "2026-11-27T23:00:40.402922+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 20,
-        "checkedAt": "2026-11-27T21:15:41.188497+00:00",
+        "checkedAt": "2026-11-27T23:00:43.040446+00:00",
         "error": null
       },
       "BambroughKevin": {
         "ok": true,
         "posts": 12,
-        "checkedAt": "2026-11-27T21:15:42.747512+00:00",
+        "checkedAt": "2026-11-27T23:00:44.245795+00:00",
         "error": null
       },
       "hkuppy": {
         "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-27T21:15:45.664201+00:00",
+        "posts": 9,
+        "checkedAt": "2026-11-27T23:00:47.102807+00:00",
         "error": null
       },
       "quakes99": {
         "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-27T21:15:48.563147+00:00",
+        "posts": 8,
+        "checkedAt": "2026-11-27T23:00:49.615796+00:00",
         "error": null
       },
       "WatcherGuru": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-27T21:15:49.828594+00:00",
+        "checkedAt": "2026-11-27T23:00:53.809286+00:00",
         "error": null
       },
       "nntaleb": {
-        "ok": false,
-        "posts": 0,
-        "checkedAt": "2026-11-27T21:15:53.876952+00:00",
-        "error": {
-          "code": "HTTPError",
-          "detail": "Free provider unavailable"
-        }
+        "ok": true,
+        "posts": 12,
+        "checkedAt": "2026-11-27T23:00:55.579938+00:00",
+        "error": null
       },
       "tferriss": {
         "ok": true,
         "posts": 6,
-        "checkedAt": "2026-11-27T21:15:58.121473+00:00",
+        "checkedAt": "2026-11-27T23:00:58.989164+00:00",
         "error": null
       },
       "JohnPolomny": {
         "ok": true,
         "posts": 2,
-        "checkedAt": "2026-11-27T21:16:02.928406+00:00",
+        "checkedAt": "2026-11-27T23:01:01.987826+00:00",
         "error": null
       },
       "SantiagoAuFund": {
         "ok": true,
-        "posts": 11,
-        "checkedAt": "2026-11-27T21:16:05.587733+00:00",
+        "posts": 10,
+        "checkedAt": "2026-11-27T23:01:03.481966+00:00",
         "error": null
       },
       "BarbarianCap": {
         "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-27T21:16:07.072938+00:00",
+        "posts": 13,
+        "checkedAt": "2026-11-27T23:01:07.597847+00:00",
         "error": null
       },
       "JoshYoung": {
         "ok": true,
         "posts": 7,
-        "checkedAt": "2026-11-27T21:16:08.506427+00:00",
+        "checkedAt": "2026-11-27T23:01:09.443572+00:00",
         "error": null
       },
       "wmiddelkoop": {
         "ok": true,
-        "posts": 14,
-        "checkedAt": "2026-11-27T21:16:11.436754+00:00",
+        "posts": 10,
+        "checkedAt": "2026-11-27T23:01:13.257303+00:00",
         "error": null
       },
       "White_Rabbit_OG": {
         "ok": true,
         "posts": 13,
-        "checkedAt": "2026-11-27T21:16:14.597001+00:00",
+        "checkedAt": "2026-11-27T23:01:15.703662+00:00",
         "error": null
       },
       "colonelhomsi": {
-        "ok": true,
-        "posts": 11,
-        "checkedAt": "2026-11-27T21:16:16.188020+00:00",
-        "error": null
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-27T23:01:19.747072+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
       },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-27T21:16:17.901795+00:00",
+        "checkedAt": "2026-11-27T23:01:22.683799+00:00",
         "error": null
       }
     },
     "errors": [
-      "nntaleb"
+      "colonelhomsi"
     ],
     "status": "partial"
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-27T21:16:20.913564+00:00",
+  "fetchedAt": "2026-11-27T23:01:25.739371+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "nntaleb"
+    "colonelhomsi"
   ],
   "posts": [
     {
@@ -129,14 +129,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-27T14:50:10+00:00",
       "createdAtMs": 1795791010000,
-      "likes": 12515,
-      "retweets": 1599,
+      "likes": 13243,
+      "retweets": 1693,
       "url": "https://x.com/KobeissiLetter/status/2126327729712968167",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 14114,
-      "views": 1181202,
+      "engagementScore": 14936,
+      "views": 1311368,
       "media_url": "https://pbs.twimg.com/media/HYI7YWnXAAEabwE.png?name=orig",
       "media_alt": "Attached post media"
     },
@@ -147,32 +147,34 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-27T16:18:35+00:00",
       "createdAtMs": 1795796315000,
-      "likes": 7741,
-      "retweets": 581,
+      "likes": 9048,
+      "retweets": 662,
       "url": "https://x.com/WatcherGuru/status/2126349978817982594",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 8322,
-      "views": 402166,
+      "engagementScore": 9710,
+      "views": 456597,
       "media_url": "https://pbs.twimg.com/media/HYJQCUZWkAAg_5X.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2126383460075897180",
-      "text": "*OPENAI COUNTERSUES APPLE FOR STEALING TRADE SECRETS: FT\n\nLOL",
+      "id": "2126385425761681534",
+      "text": "11 Of SPLC's Paid Hate-Group Informants Were Working For The FBI Too... And The Feds Won't Say What They Did https://www.zerohedge.com/political/11-splcs-paid-hate-group-informants-were-working-fbi-too-and-feds-wont-say-what-they-did",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-27T18:31:37+00:00",
-      "createdAtMs": 1795804297000,
-      "likes": 674,
-      "retweets": 31,
-      "url": "https://x.com/zerohedge/status/2126383460075897180",
+      "createdAt": "2026-11-27T18:39:26+00:00",
+      "createdAtMs": 1795804766000,
+      "likes": 472,
+      "retweets": 190,
+      "url": "https://x.com/zerohedge/status/2126385425761681534",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 705,
-      "views": 77191
+      "engagementScore": 662,
+      "views": 61871,
+      "media_url": "https://pbs.twimg.com/media/HYEk9b_bsAAroA3.jpg",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2126095069682061489",
@@ -181,14 +183,14 @@
       "handle": "JoshYoung",
       "createdAt": "2026-11-26T23:25:40+00:00",
       "createdAtMs": 1795735540000,
-      "likes": 405,
+      "likes": 411,
       "retweets": 23,
       "url": "https://x.com/JoshYoung/status/2126095069682061489",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 4,
-      "engagementScore": 428,
-      "views": 39328
+      "engagementScore": 434,
+      "views": 40676
     },
     {
       "id": "2126253002751164494",
@@ -197,14 +199,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-27T09:53:14+00:00",
       "createdAtMs": 1795773194000,
-      "likes": 288,
-      "retweets": 41,
+      "likes": 306,
+      "retweets": 43,
       "url": "https://x.com/wmiddelkoop/status/2126253002751164494",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 5,
-      "engagementScore": 329,
-      "views": 14972
+      "engagementScore": 349,
+      "views": 15616
     },
     {
       "id": "2126327792849613293",
@@ -213,14 +215,32 @@
       "handle": "BambroughKevin",
       "createdAt": "2026-11-27T14:50:25+00:00",
       "createdAtMs": 1795791025000,
-      "likes": 256,
+      "likes": 297,
       "retweets": 23,
       "url": "https://x.com/BambroughKevin/status/2126327792849613293",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 6,
-      "engagementScore": 279,
-      "views": 20768
+      "engagementScore": 320,
+      "views": 24697
+    },
+    {
+      "id": "2126286172603256966",
+      "text": "Almost by definition, public figures are self-serving power-fawning, opportunity aware fair weather friends.  But they act \"polite\".\n(Unless they aren't interested in being public figures.)",
+      "author": "nntaleb",
+      "handle": "nntaleb",
+      "createdAt": "2026-11-27T12:05:02+00:00",
+      "createdAtMs": 1795781102000,
+      "likes": 289,
+      "retweets": 28,
+      "url": "https://x.com/nntaleb/status/2126286172603256966",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 7,
+      "engagementScore": 317,
+      "views": 37098,
+      "media_url": "https://pbs.twimg.com/media/HPXev7gWEAA7-u6?format=jpg&name=small",
+      "media_alt": "Attached post media"
     },
     {
       "id": "2126323121196040330",
@@ -229,14 +249,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-27T14:31:51+00:00",
       "createdAtMs": 1795789911000,
-      "likes": 243,
-      "retweets": 23,
+      "likes": 274,
+      "retweets": 27,
       "url": "https://x.com/tferriss/status/2126323121196040330",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 266,
-      "views": 29959
+      "slot_order": 8,
+      "engagementScore": 301,
+      "views": 35142
     },
     {
       "id": "2126280237873008661",
@@ -245,14 +265,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-27T11:41:27+00:00",
       "createdAtMs": 1795779687000,
-      "likes": 200,
-      "retweets": 17,
+      "likes": 204,
+      "retweets": 18,
       "url": "https://x.com/SantiagoAuFund/status/2126280237873008661",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 217,
-      "views": 14725,
+      "slot_order": 9,
+      "engagementScore": 222,
+      "views": 15077,
       "media_url": "https://pbs.twimg.com/media/HYH-UFsXwAAs-Hs?format=jpg&name=small",
       "media_alt": "Attached post media"
     },
@@ -263,14 +283,14 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-27T00:58:24+00:00",
       "createdAtMs": 1795741104000,
-      "likes": 195,
+      "likes": 196,
       "retweets": 9,
       "url": "https://x.com/hkuppy/status/2126118408081330651",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 204,
-      "views": 30225
+      "slot_order": 10,
+      "engagementScore": 205,
+      "views": 30691
     },
     {
       "id": "2126321847776206931",
@@ -279,33 +299,15 @@
       "handle": "quakes99",
       "createdAt": "2026-11-27T14:26:48+00:00",
       "createdAtMs": 1795789608000,
-      "likes": 53,
+      "likes": 55,
       "retweets": 8,
       "url": "https://x.com/quakes99/status/2126321847776206931",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 61,
-      "views": 4195,
-      "media_url": "https://pbs.twimg.com/media/HYI2XDLasAAQG0G.jpg?name=orig",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2126116811913806140",
-      "text": "War trophies found at positions held by Saudi-backed mercenaries following their retreat..",
-      "author": "colonelhomsi",
-      "handle": "colonelhomsi",
-      "createdAt": "2026-11-27T00:52:03+00:00",
-      "createdAtMs": 1795740723000,
-      "likes": 57,
-      "retweets": 3,
-      "url": "https://x.com/colonelhomsi/status/2126116811913806140",
-      "avatar": null,
-      "slot": "engagement",
       "slot_order": 11,
-      "engagementScore": 60,
-      "views": 3208,
-      "media_url": "https://pbs.twimg.com/media/HYGJkQDbkAAOnf2.jpg",
+      "engagementScore": 63,
+      "views": 4520,
+      "media_url": "https://pbs.twimg.com/media/HYI2XDLasAAQG0G.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
@@ -315,14 +317,14 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-11-27T02:40:42+00:00",
       "createdAtMs": 1795747242000,
-      "likes": 38,
+      "likes": 39,
       "retweets": 3,
       "url": "https://x.com/BarbarianCap/status/2126144152739991946",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 41,
-      "views": 6523,
+      "engagementScore": 42,
+      "views": 6622,
       "media_url": "https://pbs.twimg.com/media/HYGPEzjXUAA0QAH?format=jpg&name=small",
       "media_alt": "Attached post media"
     }
