@@ -2,124 +2,129 @@
   "ok": true,
   "status": "partial",
   "diagnostics": {
-    "attemptedAt": "2026-11-27T23:00:38.394213+00:00",
+    "attemptedAt": "2026-11-28T00:50:37.951850+00:00",
     "provider": "FxTwitter public (free)",
     "identity": null,
     "accountsRequested": 16,
-    "accountsSucceeded": 15,
+    "accountsSucceeded": 14,
     "sources": {
       "zerohedge": {
         "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-27T23:00:40.402922+00:00",
+        "posts": 14,
+        "checkedAt": "2026-11-28T00:50:40.105711+00:00",
         "error": null
       },
       "KobeissiLetter": {
         "ok": true,
         "posts": 20,
-        "checkedAt": "2026-11-27T23:00:43.040446+00:00",
+        "checkedAt": "2026-11-28T00:50:41.216154+00:00",
         "error": null
       },
       "BambroughKevin": {
-        "ok": true,
-        "posts": 12,
-        "checkedAt": "2026-11-27T23:00:44.245795+00:00",
-        "error": null
-      },
-      "hkuppy": {
-        "ok": true,
-        "posts": 9,
-        "checkedAt": "2026-11-27T23:00:47.102807+00:00",
-        "error": null
-      },
-      "quakes99": {
-        "ok": true,
-        "posts": 8,
-        "checkedAt": "2026-11-27T23:00:49.615796+00:00",
-        "error": null
-      },
-      "WatcherGuru": {
-        "ok": true,
-        "posts": 19,
-        "checkedAt": "2026-11-27T23:00:53.809286+00:00",
-        "error": null
-      },
-      "nntaleb": {
-        "ok": true,
-        "posts": 12,
-        "checkedAt": "2026-11-27T23:00:55.579938+00:00",
-        "error": null
-      },
-      "tferriss": {
-        "ok": true,
-        "posts": 6,
-        "checkedAt": "2026-11-27T23:00:58.989164+00:00",
-        "error": null
-      },
-      "JohnPolomny": {
-        "ok": true,
-        "posts": 2,
-        "checkedAt": "2026-11-27T23:01:01.987826+00:00",
-        "error": null
-      },
-      "SantiagoAuFund": {
-        "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-27T23:01:03.481966+00:00",
-        "error": null
-      },
-      "BarbarianCap": {
-        "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-27T23:01:07.597847+00:00",
-        "error": null
-      },
-      "JoshYoung": {
-        "ok": true,
-        "posts": 7,
-        "checkedAt": "2026-11-27T23:01:09.443572+00:00",
-        "error": null
-      },
-      "wmiddelkoop": {
-        "ok": true,
-        "posts": 10,
-        "checkedAt": "2026-11-27T23:01:13.257303+00:00",
-        "error": null
-      },
-      "White_Rabbit_OG": {
-        "ok": true,
-        "posts": 13,
-        "checkedAt": "2026-11-27T23:01:15.703662+00:00",
-        "error": null
-      },
-      "colonelhomsi": {
         "ok": false,
         "posts": 0,
-        "checkedAt": "2026-11-27T23:01:19.747072+00:00",
+        "checkedAt": "2026-11-28T00:50:45.271012+00:00",
         "error": {
           "code": "HTTPError",
           "detail": "Free provider unavailable"
         }
       },
+      "hkuppy": {
+        "ok": true,
+        "posts": 9,
+        "checkedAt": "2026-11-28T00:50:46.501689+00:00",
+        "error": null
+      },
+      "quakes99": {
+        "ok": true,
+        "posts": 8,
+        "checkedAt": "2026-11-28T00:50:49.018578+00:00",
+        "error": null
+      },
+      "WatcherGuru": {
+        "ok": true,
+        "posts": 19,
+        "checkedAt": "2026-11-28T00:50:52.069687+00:00",
+        "error": null
+      },
+      "nntaleb": {
+        "ok": true,
+        "posts": 10,
+        "checkedAt": "2026-11-28T00:50:54.077061+00:00",
+        "error": null
+      },
+      "tferriss": {
+        "ok": true,
+        "posts": 6,
+        "checkedAt": "2026-11-28T00:50:55.284470+00:00",
+        "error": null
+      },
+      "JohnPolomny": {
+        "ok": true,
+        "posts": 2,
+        "checkedAt": "2026-11-28T00:50:58.798828+00:00",
+        "error": null
+      },
+      "SantiagoAuFund": {
+        "ok": true,
+        "posts": 11,
+        "checkedAt": "2026-11-28T00:51:00.206282+00:00",
+        "error": null
+      },
+      "BarbarianCap": {
+        "ok": true,
+        "posts": 13,
+        "checkedAt": "2026-11-28T00:51:04.594669+00:00",
+        "error": null
+      },
+      "JoshYoung": {
+        "ok": true,
+        "posts": 7,
+        "checkedAt": "2026-11-28T00:51:06.056078+00:00",
+        "error": null
+      },
+      "wmiddelkoop": {
+        "ok": true,
+        "posts": 10,
+        "checkedAt": "2026-11-28T00:51:08.821713+00:00",
+        "error": null
+      },
+      "White_Rabbit_OG": {
+        "ok": false,
+        "posts": 0,
+        "checkedAt": "2026-11-28T00:51:13.055162+00:00",
+        "error": {
+          "code": "HTTPError",
+          "detail": "Free provider unavailable"
+        }
+      },
+      "colonelhomsi": {
+        "ok": true,
+        "posts": 12,
+        "checkedAt": "2026-11-28T00:51:15.376490+00:00",
+        "error": null
+      },
       "HydroGraphInc": {
         "ok": true,
         "posts": 19,
-        "checkedAt": "2026-11-27T23:01:22.683799+00:00",
+        "checkedAt": "2026-11-28T00:51:18.934364+00:00",
         "error": null
       }
     },
     "errors": [
-      "colonelhomsi"
+      "BambroughKevin",
+      "White_Rabbit_OG"
     ],
     "status": "partial"
   },
   "count": 12,
   "accountsWithPosts": 12,
-  "fetchedAt": "2026-11-27T23:01:25.739371+00:00",
+  "fetchedAt": "2026-11-28T00:51:21.805806+00:00",
   "windowHours": 24,
   "curation": "top12_engagement_no_economist",
   "errors": [
-    "colonelhomsi"
+    "BambroughKevin",
+    "White_Rabbit_OG"
   ],
   "posts": [
     {
@@ -129,14 +134,14 @@
       "handle": "KobeissiLetter",
       "createdAt": "2026-11-27T14:50:10+00:00",
       "createdAtMs": 1795791010000,
-      "likes": 13243,
-      "retweets": 1693,
+      "likes": 13929,
+      "retweets": 1794,
       "url": "https://x.com/KobeissiLetter/status/2126327729712968167",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 1,
-      "engagementScore": 14936,
-      "views": 1311368,
+      "engagementScore": 15723,
+      "views": 1418470,
       "media_url": "https://pbs.twimg.com/media/HYI7YWnXAAEabwE.png?name=orig",
       "media_alt": "Attached post media"
     },
@@ -147,50 +152,32 @@
       "handle": "WatcherGuru",
       "createdAt": "2026-11-27T16:18:35+00:00",
       "createdAtMs": 1795796315000,
-      "likes": 9048,
-      "retweets": 662,
+      "likes": 10007,
+      "retweets": 739,
       "url": "https://x.com/WatcherGuru/status/2126349978817982594",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 2,
-      "engagementScore": 9710,
-      "views": 456597,
+      "engagementScore": 10746,
+      "views": 501062,
       "media_url": "https://pbs.twimg.com/media/HYJQCUZWkAAg_5X.jpg?name=orig",
       "media_alt": "Attached post media"
     },
     {
-      "id": "2126385425761681534",
-      "text": "11 Of SPLC's Paid Hate-Group Informants Were Working For The FBI Too... And The Feds Won't Say What They Did https://www.zerohedge.com/political/11-splcs-paid-hate-group-informants-were-working-fbi-too-and-feds-wont-say-what-they-did",
+      "id": "2126424370142957890",
+      "text": "*FRANCE OUTLOOK TO NEGATIVE FROM STABLE BY S&P",
       "author": "zerohedge",
       "handle": "zerohedge",
-      "createdAt": "2026-11-27T18:39:26+00:00",
-      "createdAtMs": 1795804766000,
-      "likes": 472,
-      "retweets": 190,
-      "url": "https://x.com/zerohedge/status/2126385425761681534",
+      "createdAt": "2026-11-27T21:14:11+00:00",
+      "createdAtMs": 1795814051000,
+      "likes": 668,
+      "retweets": 80,
+      "url": "https://x.com/zerohedge/status/2126424370142957890",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 3,
-      "engagementScore": 662,
-      "views": 61871,
-      "media_url": "https://pbs.twimg.com/media/HYEk9b_bsAAroA3.jpg",
-      "media_alt": "Attached post media"
-    },
-    {
-      "id": "2126095069682061489",
-      "text": "Oil shorts as the Houthis strike Saudi infrastructure and Iran attacks oil tankers",
-      "author": "JoshYoung",
-      "handle": "JoshYoung",
-      "createdAt": "2026-11-26T23:25:40+00:00",
-      "createdAtMs": 1795735540000,
-      "likes": 411,
-      "retweets": 23,
-      "url": "https://x.com/JoshYoung/status/2126095069682061489",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 4,
-      "engagementScore": 434,
-      "views": 40676
+      "engagementScore": 748,
+      "views": 82849
     },
     {
       "id": "2126253002751164494",
@@ -199,30 +186,14 @@
       "handle": "wmiddelkoop",
       "createdAt": "2026-11-27T09:53:14+00:00",
       "createdAtMs": 1795773194000,
-      "likes": 306,
-      "retweets": 43,
+      "likes": 317,
+      "retweets": 46,
       "url": "https://x.com/wmiddelkoop/status/2126253002751164494",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 5,
-      "engagementScore": 349,
-      "views": 15616
-    },
-    {
-      "id": "2126327792849613293",
-      "text": "Druckenmiller has accumulated a ~3.1% position in precious metals.  He’s know for being high conviction big weightings… \n\nOdds are he’s likely adding and isn’t in gold and silver for a small gain. \n\nI think precious metals will go mainstream this next wave.   The DOGE effort to fix gov and cut the deficit unfortunately failed miserably.\n\n$2-2.2 trillion in deficits are locked in still with current spending and interest rates.\n\nGov can’t afford a recession or higher interest rates.  They need to ‘run it hot’ and keep m2 growing. \n\nOnly way out of this mess is to likely see total gross inflation over the years to exceed 75% while the current outstanding debt will need to be purchased by the Fed and cancelled.  \n\nDalio and everyone other macro forecaster sees the writing is on the wall.  They all will be ignoring what is said and buying major dips on the precious metals equities and physical.\n\nIt could still take a year or two perhaps more to take out highs we say over this past run.  But, I think the direction is now up and the squeezes off the lows will be violent (and hopefully profitable for those that like to buy technical washouts) \n\nJust my thoughts.",
-      "author": "BambroughKevin",
-      "handle": "BambroughKevin",
-      "createdAt": "2026-11-27T14:50:25+00:00",
-      "createdAtMs": 1795791025000,
-      "likes": 297,
-      "retweets": 23,
-      "url": "https://x.com/BambroughKevin/status/2126327792849613293",
-      "avatar": null,
-      "slot": "engagement",
-      "slot_order": 6,
-      "engagementScore": 320,
-      "views": 24697
+      "slot_order": 4,
+      "engagementScore": 363,
+      "views": 16088
     },
     {
       "id": "2126286172603256966",
@@ -231,14 +202,14 @@
       "handle": "nntaleb",
       "createdAt": "2026-11-27T12:05:02+00:00",
       "createdAtMs": 1795781102000,
-      "likes": 289,
-      "retweets": 28,
+      "likes": 308,
+      "retweets": 30,
       "url": "https://x.com/nntaleb/status/2126286172603256966",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 7,
-      "engagementScore": 317,
-      "views": 37098,
+      "slot_order": 5,
+      "engagementScore": 338,
+      "views": 38514,
       "media_url": "https://pbs.twimg.com/media/HPXev7gWEAA7-u6?format=jpg&name=small",
       "media_alt": "Attached post media"
     },
@@ -249,14 +220,14 @@
       "handle": "tferriss",
       "createdAt": "2026-11-27T14:31:51+00:00",
       "createdAtMs": 1795789911000,
-      "likes": 274,
+      "likes": 307,
       "retweets": 27,
       "url": "https://x.com/tferriss/status/2126323121196040330",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 8,
-      "engagementScore": 301,
-      "views": 35142
+      "slot_order": 6,
+      "engagementScore": 334,
+      "views": 40077
     },
     {
       "id": "2126280237873008661",
@@ -265,14 +236,14 @@
       "handle": "SantiagoAuFund",
       "createdAt": "2026-11-27T11:41:27+00:00",
       "createdAtMs": 1795779687000,
-      "likes": 204,
+      "likes": 210,
       "retweets": 18,
       "url": "https://x.com/SantiagoAuFund/status/2126280237873008661",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 9,
-      "engagementScore": 222,
-      "views": 15077,
+      "slot_order": 7,
+      "engagementScore": 228,
+      "views": 15347,
       "media_url": "https://pbs.twimg.com/media/HYH-UFsXwAAs-Hs?format=jpg&name=small",
       "media_alt": "Attached post media"
     },
@@ -283,14 +254,30 @@
       "handle": "hkuppy",
       "createdAt": "2026-11-27T00:58:24+00:00",
       "createdAtMs": 1795741104000,
-      "likes": 196,
+      "likes": 198,
       "retweets": 9,
       "url": "https://x.com/hkuppy/status/2126118408081330651",
       "avatar": null,
       "slot": "engagement",
-      "slot_order": 10,
-      "engagementScore": 205,
-      "views": 30691
+      "slot_order": 8,
+      "engagementScore": 207,
+      "views": 31021
+    },
+    {
+      "id": "2126146311485522338",
+      "text": "What's the best Black Friday deal you are seeing right now?",
+      "author": "JoshYoung",
+      "handle": "JoshYoung",
+      "createdAt": "2026-11-27T02:49:17+00:00",
+      "createdAtMs": 1795747757000,
+      "likes": 69,
+      "retweets": 3,
+      "url": "https://x.com/JoshYoung/status/2126146311485522338",
+      "avatar": null,
+      "slot": "engagement",
+      "slot_order": 9,
+      "engagementScore": 72,
+      "views": 75530
     },
     {
       "id": "2126321847776206931",
@@ -299,15 +286,33 @@
       "handle": "quakes99",
       "createdAt": "2026-11-27T14:26:48+00:00",
       "createdAtMs": 1795789608000,
-      "likes": 55,
+      "likes": 57,
       "retweets": 8,
       "url": "https://x.com/quakes99/status/2126321847776206931",
       "avatar": null,
       "slot": "engagement",
+      "slot_order": 10,
+      "engagementScore": 65,
+      "views": 4762,
+      "media_url": "https://pbs.twimg.com/media/HYI2XDLasAAQG0G.jpg?name=orig",
+      "media_alt": "Attached post media"
+    },
+    {
+      "id": "2126116811913806140",
+      "text": "War trophies found at positions held by Saudi-backed mercenaries following their retreat..",
+      "author": "colonelhomsi",
+      "handle": "colonelhomsi",
+      "createdAt": "2026-11-27T00:52:03+00:00",
+      "createdAtMs": 1795740723000,
+      "likes": 60,
+      "retweets": 3,
+      "url": "https://x.com/colonelhomsi/status/2126116811913806140",
+      "avatar": null,
+      "slot": "engagement",
       "slot_order": 11,
       "engagementScore": 63,
-      "views": 4520,
-      "media_url": "https://pbs.twimg.com/media/HYI2XDLasAAQG0G.jpg?name=orig",
+      "views": 3376,
+      "media_url": "https://pbs.twimg.com/media/HYGJkQDbkAAOnf2.jpg",
       "media_alt": "Attached post media"
     },
     {
@@ -317,14 +322,14 @@
       "handle": "BarbarianCap",
       "createdAt": "2026-11-27T02:40:42+00:00",
       "createdAtMs": 1795747242000,
-      "likes": 39,
+      "likes": 40,
       "retweets": 3,
       "url": "https://x.com/BarbarianCap/status/2126144152739991946",
       "avatar": null,
       "slot": "engagement",
       "slot_order": 12,
-      "engagementScore": 42,
-      "views": 6622,
+      "engagementScore": 43,
+      "views": 6699,
       "media_url": "https://pbs.twimg.com/media/HYGPEzjXUAA0QAH?format=jpg&name=small",
       "media_alt": "Attached post media"
     }
